@@ -8,10 +8,13 @@ reexecuted. Optional scheduler accounting is one exact six-parent query, never
 a monitor; its absence cannot erase valid scientific rows.
 """
 import argparse
+import importlib.util
 import json
 import math
 import re
 import subprocess
+import sys
+import types
 from pathlib import Path
 
 from .generation_common import (
@@ -30,11 +33,478 @@ HISTORY_ARMS = ('BASE_ALPHAEDIT', 'CAKE', 'ALPHAEDIT_BLUE')
 SCHEMA = 'counterfact-cake-generation-metrics-v1'
 PROFILE = 'cf-cake-prompt-inclusive-total100-eos-corrected-v1'
 EVAL_SEED = 20261007
+REPAIR_TASK = 'gptj-baselines-generation-cache-repair'
+REPAIR_NONCE = 'USER-GH-SH1-SH2-BASELINE-GENERATION-KV-BATCH-REPAIR-20261008-R1'
 # Closed vocabulary from SH1 metrics.py at 83535c6a; not a new scoring rule.
 REASONS = ('missing_generation_prompts', 'missing_reference', 'zero_generated_vector',
            'zero_reference_vector', 'nonfinite_score', 'length_cap_no_continuation',
            'asset_not_available', 'tokenizer_not_available')
 TABLE_KEYS = ('metrics', 'paired', 'generation', 'counts', 'compute')
+ROUTES = ('UNPADDED_FULL_PREFIX_NO_CACHE', 'UNPADDED_SINGLETON_KV_CACHE', 'EQUAL_TOKEN_LENGTH_KV_BATCH')
+SHARED_ROUTES = ('UNPADDED_FULL_PREFIX_NO_CACHE', 'UNPADDED_KV_SINGLETON', 'EQUAL_LENGTH_KV_BATCH')
+SHARED_ROUTE = dict(zip(ROUTES, SHARED_ROUTES))
+SHARED_ROUTE.update({route: route for route in SHARED_ROUTES})
+EXECUTION_ADAPTER = 'TASK_PRIVATE_SHARED_GENERATE_ROWS_PROOF_CONVERSION_NOT_SHARED_RUN_QUALIFICATION'
+QUALIFICATION_GATES = ('tokens', 'EOS', 'row_mapping', 'seed_stream', 'logits', 'topk_ids',
+                      'topk_probabilities', 'metrics', 'positions', 'coverage')
+QUALIFICATION_COVERAGE = ('forced_prefix', 'full_vocab_logits', 'topk_probabilities', 'tokens',
+                          'EOS', 'row_mapping', 'seed_stream', 'metrics')
+QUALIFICATION_WORK = ('physical_forward_calls', 'prefill_query_tokens', 'decode_query_tokens',
+                      'logical_row_token_decisions')
+QUALIFICATION_COST = ('elapsed_seconds', 'synchronized_GPU_seconds', 'peak_gpu_allocated_bytes',
+                      'peak_gpu_reserved_bytes', 'peak_host_RSS_bytes')
+QUALIFICATION_TOLERANCES = dict(logits=dict(atol=2e-4, rtol=2e-4),
+    topk_probabilities=dict(atol=2e-5, rtol=2e-4), metrics=dict(atol=1e-6, rtol=0),
+    tokens='exact', topk_ids='exact', EOS='exact', row_mapping='exact', seed_stream='exact',
+    validity_counts_and_missing_reasons='exact')
+
+
+class RepairEvidencePending(RuntimeError):
+    """Typed missing technical evidence, not an invented scientific success."""
+
+
+def shared_compatibility_api():
+    """Load exact pure SH1 files, avoiding its model-importing package __init__."""
+    package = __name__ + '._shared_readonly'
+    source = Path(__file__).resolve().parent.parent / 'experiment_generation_eval'
+    if package not in sys.modules:
+        module = types.ModuleType(package)
+        module.__path__ = [str(source)]
+        sys.modules[package] = module
+    for name in ('common', 'compatibility'):
+        key = package + '.' + name
+        if key not in sys.modules:
+            spec = importlib.util.spec_from_file_location(key, source / (name + '.py'))
+            module = importlib.util.module_from_spec(spec)
+            sys.modules[key] = module
+            try:
+                spec.loader.exec_module(module)
+            except Exception:
+                del sys.modules[key]
+                raise
+    return sys.modules[package + '.compatibility']
+
+
+def repair_enabled(config):
+    return config.get('task_id') == REPAIR_TASK or 'repair' in config.get('generation', {})
+
+
+def task_authority(config, lock):
+    """The repair has its own authority; original r1 remains independently valid."""
+    if repair_enabled(config):
+        require(config['task_id'] == REPAIR_TASK
+                and config['instruction_id'] == lock['instruction_id'] == REPAIR_NONCE
+                and config['parent_task_id'] == TASK, 'COLLECT_REPAIR_TASK_AUTHORITY')
+    else:
+        require(config['task_id'] == TASK
+                and config['instruction_id'] == lock['instruction_id'] == NONCE,
+                'COLLECT_TASK_AUTHORITY')
+    require(lock.get('task_id', config['task_id']) == config['task_id'], 'COLLECT_LOCK_TASK_IDENTITY')
+
+
+def qualification_evidence(reader, config, lock, attempt, *, records=None):
+    """PLAN is admissible before tests, but is never actual route qualification."""
+    repair = config['generation']['repair']
+    plan_member = repair['qualification_plan']
+    plan = reader.bound(plan_member)
+    plan_sha = digest(plan)
+    require(plan['schema'] == 'gptj-generation-cache-qualification-plan-v1'
+            and plan['status'] == 'CPU_PLAN_FROZEN_NOT_GPU_PASS'
+            and repair['qualification_plan_sha256'] == plan_sha, 'QUALIFICATION_PLAN_BINDING')
+    require(plan['model'] == 'gptj' and plan['profile'] == PROFILE and plan['eval_seed'] == EVAL_SEED
+            and plan['max_prompts'] == 8 and type(plan['cohort_count']) is int
+            and 1 <= plan['cohort_count'] <= 8 and plan['tolerances'] == QUALIFICATION_TOLERANCES
+            and plan['routes'] == list(ROUTES) and plan['batch_microbatch'] in (4, 8)
+            and plan['admission_reason'] == ('DEFAULT_MB8' if plan['batch_microbatch'] == 8
+                                             else 'PREDECLARED_MEMORY_MB4')
+            and plan['automatic_OOM_retry'] is False and plan['measure_each_route_once'] is True
+            and plan['no_fit'] is True and plan['checkpoint_saved'] is False,
+            'QUALIFICATION_FROZEN_PROFILE_TOLERANCES')
+    cohort = reader.bound(repair['qualification_cohort'])
+    require(cohort['schema'] == plan['schema'] and cohort['raw_local_only'] is True
+            and digest(cohort) == plan['cohort_sha256']
+            and len(cohort['prompts']) == plan['cohort_count'], 'QUALIFICATION_FROZEN_COHORT_BYTES')
+    keys = [(value['occurrence'], value['prompt_index']) for value in cohort['prompts']]
+    require(len(keys) == len(set(keys)), 'QUALIFICATION_COHORT_UNIQUE_PROMPTS')
+    if 'shared_plan' in cohort:
+        shared_plan = cohort['shared_plan']
+        require(keys == [(value['occurrence'], value['prompt_index']) for value in shared_plan['requests']]
+                and plan['shared_plan_sha256'] == digest(shared_plan), 'QUALIFICATION_COHORT_SHARED_PLAN_ORDER')
+        shared_bound = repair['shared_qualification_plan']
+        require(reader.bound(shared_bound) == shared_plan
+                and repair['shared_qualification_plan_sha256'] == digest(shared_plan),
+                'QUALIFICATION_COHORT_FROZEN_SHARED_PLAN_MEMBER')
+    else:
+        require(keys == sorted(keys), 'QUALIFICATION_COHORT_LEGACY_ORDER')
+    for value in cohort['prompts']:
+        require(type(value['occurrence']) is int and 1 <= value['occurrence'] <= 2000
+                and type(value['prompt_index']) is int and value['prompt_index'] >= 0
+                and type(value['input_token_count']) is int and value['input_token_count'] > 0
+                and type(value['prompt']) is str, 'QUALIFICATION_COHORT_LOCAL_SCHEMA')
+        if records is not None:
+            record = records[value['occurrence'] - 1]
+            require(value['case_id'] == record['case_id']
+                    and value['prompt_index'] < len(record.get('generation_prompts', []))
+                    and value['prompt'] == record['generation_prompts'][value['prompt_index']],
+                    'QUALIFICATION_COHORT_FROZEN_INPUT')
+    result = dict(status='BLOCKED_QUALIFICATION_PENDING', plan_status='PLAN_BOUND_NOT_ACTUAL_PASS',
+        plan_sha256=plan_sha, plan_member_sha256=plan_member['sha256'], actual_qualification=False)
+    actual_path = repair.get('qualification_receipt_path')
+    if not actual_path or not Path(actual_path).is_file():
+        return result
+    actual_path = local_path(actual_path, attempt)
+    actual = reader.json(actual_path)
+    result.update(actual_member_sha256=reader.files[str(actual_path)]['sha256'])
+    require(actual['schema'] == 'gptj-generation-cache-qualification-v1'
+            and actual['plan_sha256'] == plan_sha
+            and actual['cohort_sha256'] == plan['cohort_sha256']
+            and actual['model_identity'] == plan['model_identity'] == config['generation']['model_identity']
+            and actual['shared_source_sha'] == plan['shared_source_sha'] == config['generation']['source_sha']
+            and actual['native_source_binding'] == plan['native_source_binding'],
+            'QUALIFICATION_ACTUAL_PLAN_SOURCE')
+    if 'shared_plan' in cohort:
+        route_map = {key: SHARED_ROUTE[key] for key in ROUTES}
+        require(actual['shared_plan_sha256'] == plan['shared_plan_sha256']
+                and actual['shared_route_map'] == plan['shared_route_map'] == route_map,
+                'QUALIFICATION_ACTUAL_SHARED_PLAN_ROUTE_MAP')
+    require(actual['checkpoint_saved'] is False and actual['no_fit'] is True,
+            'QUALIFICATION_NO_FIT_NOCP')
+    if actual['status'] == 'CPU_FIXTURE_NOT_ACTUAL_QUALIFICATION' or actual.get('actual_GPU') is not True:
+        result['status'] = 'BLOCKED_ACTUAL_QUALIFICATION_NOT_GPU'
+        return result
+    if actual['status'] != 'QUALIFIED_ACTUAL_GPU_ROUTE':
+        result['status'] = 'BLOCKED_ACTUAL_QUALIFICATION_FAILED'
+        return result
+    require(plan.get('fixture_only') is False, 'QUALIFICATION_FIXTURE_PLAN_NOT_ACTUAL_PROOF')
+    native = plan['native_source_binding']
+    require(native['versions'] == dict(torch='2.9.1+cu128', transformers='4.57.1')
+            and [value['relative'] for value in native['files']] == [
+                'transformers/models/gptj/modeling_gptj.py', 'transformers/cache_utils.py'],
+            'QUALIFICATION_NATIVE_SOURCE_VERSIONS')
+    for source in native['files']:
+        bound_bytes(reader, source, 'QUALIFICATION_NATIVE_SOURCE_BYTES')
+    route, microbatch = actual['selected_route'], actual['fixed_microbatch']
+    require(route in ROUTES
+            and type(microbatch) is int
+            and microbatch == (plan['batch_microbatch'] if route == ROUTES[2] else 1)
+            and actual['selected_route_passed'] is True and actual['state_unchanged'] is True
+            and actual['RNG_restored'] is True and actual['tolerances'] == plan['tolerances']
+            and actual['error'] is None, 'QUALIFICATION_SELECTED_ROUTE_STATE_RNG')
+    require(set(actual['route_results']) == set(actual['work']) == set(actual['cost']) == set(ROUTES),
+            'QUALIFICATION_ALL_THREE_MEASURED_ROUTES')
+    for measured_route in ROUTES:
+        measured = actual['route_results'][measured_route]
+        require(set(measured['gates']) == set(QUALIFICATION_GATES)
+                and all(type(value) is bool for value in measured['gates'].values())
+                and measured['status'] == ('PASS' if all(measured['gates'].values()) else 'FAILED_GATE'),
+                'QUALIFICATION_ROUTE_GATE_EVIDENCE')
+        for key in ('max_logit_abs_error', 'max_topk_probability_abs_error'):
+            require(finite(measured[key], 'QUALIFICATION_NUMERIC_EVIDENCE') >= 0,
+                    'QUALIFICATION_ERROR_NONNEGATIVE')
+        work = actual['work'][measured_route]
+        require(set(work) == set(QUALIFICATION_WORK), 'QUALIFICATION_WORK_SCALAR_PRIVACY')
+        for key in QUALIFICATION_WORK:
+            integer(work[key], 'QUALIFICATION_MEASURED_WORK_INTEGER')
+        require(work['physical_forward_calls'] > 0 and work['prefill_query_tokens'] > 0,
+                'QUALIFICATION_ACTUAL_PHYSICAL_WORK_REQUIRED')
+        cost = actual['cost'][measured_route]
+        require(set(cost) == set(QUALIFICATION_COST), 'QUALIFICATION_COST_SCALAR_PRIVACY')
+        for key in ('elapsed_seconds', 'synchronized_GPU_seconds'):
+            require(finite(cost[key], 'QUALIFICATION_MEASURED_TIME') >= 0, 'QUALIFICATION_TIME_NONNEGATIVE')
+        for key in ('peak_gpu_allocated_bytes', 'peak_gpu_reserved_bytes', 'peak_host_RSS_bytes'):
+            integer(cost[key], 'QUALIFICATION_MEASURED_MEMORY_INTEGER')
+        require(cost['peak_gpu_allocated_bytes'] > 0 and cost['peak_host_RSS_bytes'] > 0
+                and cost['peak_gpu_reserved_bytes'] >= cost['peak_gpu_allocated_bytes'],
+                'QUALIFICATION_ACTUAL_GPU_MEMORY_REQUIRED')
+    selected = actual['route_results'][route]
+    require(selected['status'] == 'PASS' and all(selected['coverage'].get(key) is True
+                for key in QUALIFICATION_COVERAGE), 'QUALIFICATION_SELECTED_COVERAGE')
+    if route == ROUTES[2]:
+        require(selected['coverage']['actual_max_microbatch'] == microbatch
+                and selected['coverage']['active_row_removal'] is True
+                and plan['coverage']['same_length_width'] >= microbatch,
+                'QUALIFICATION_BATCH_MAPPING_FIXED_MB')
+    chosen = next((key for key in reversed(ROUTES) if actual['route_results'][key]['status'] == 'PASS'), None)
+    require(chosen == route, 'QUALIFICATION_PREDECLARED_FALLBACK_ORDER')
+    result.update(status='QUALIFICATION_ACTUAL_VERIFIED', actual_qualification=True,
+                  selected_route=route, fixed_microbatch=microbatch,
+                  measured_route_work=actual['work'], measured_route_cost=actual['cost'],
+                  qualification_timers_not_production_ETA=True)
+    return result
+
+
+def qualification_link(reader, config, holder, qualification, attempt):
+    require(qualification.get('actual_qualification') is True, 'QUALIFICATION_ACTUAL_REQUIRED')
+    bound = holder['qualification']
+    require(bound['path'] == config['generation']['repair']['qualification_receipt_path']
+            and bound['sha256'] == qualification['actual_member_sha256'], 'QUALIFICATION_MEMBER_LINK')
+    reader.bound(bound)
+    require(holder['qualification_plan_sha256'] == qualification['plan_sha256']
+            and holder['selected_route'] == qualification['selected_route']
+            and holder['fixed_microbatch'] == qualification['fixed_microbatch'],
+            'QUALIFICATION_RUNTIME_SELECTED_ROUTE_LINK')
+
+
+def repair_runtime_holder(reader, out):
+    """Startup runtime is immutable; actual route evidence is an append-only file."""
+    auxiliary = Path(out) / 'generation-repair-runtime.json'
+    original = Path(out) / 'runtime.json'
+    if auxiliary.exists():
+        return reader.json(auxiliary)
+    return reader.json(original) if original.exists() else None
+
+
+def progress_member(reader, holder, records, attempt, *, ready=False, consumer=False):
+    """Only the producer needs a final progress ledger; reuse is explicit."""
+    if consumer:
+        reused = holder.get('reused_complete_READY')
+        progress = holder.get('generation_progress')
+        if type(reused) is dict:
+            require(reused.get('status') == 'REUSED_COMPLETE_READY' and reused.get('completed_cases') == 2000,
+                    'GEN_CONSUMER_EXPLICIT_READY_REUSE')
+            bound = reused['READY']
+        else:
+            require(type(progress) is dict and progress['status'] == 'REUSED_COMPLETE_READY_NO_NEW_GENERATION',
+                    'GEN_CONSUMER_EXPLICIT_READY_REUSE')
+            bound = progress['ready_member']
+        local_path(bound['path'], attempt)
+        ready_value = reader.bound(bound)
+        require(ready_value['status'] == 'READY'
+                and ready_value['identity']['ordered_occurrences'] == list(range(1, 2001)),
+                'GEN_CONSUMER_COMPLETE_READY_MEMBER')
+        if type(progress) is dict and progress.get('status') == 'REUSED_COMPLETE_READY_NO_NEW_GENERATION':
+            require(progress['producer_generation_progress_member'] == ready_value['generation_progress'],
+                    'GEN_CONSUMER_ORIGINAL_PRODUCER_PROGRESS_MEMBER')
+            producer = progress_member(reader, ready_value, records, attempt, ready=True)
+            require(producer['W0_mean_ready'] is True, 'GEN_CONSUMER_PRODUCER_COMPLETE_PROGRESS')
+        if type(reused) is dict and 'producer_generation_progress_member' in reused:
+            require(reused['new_generation'] == 0
+                    and reused['producer_generation_progress_member'] == ready_value['generation_progress'],
+                    'GEN_CONSUMER_ZERO_NEW_ORIGINAL_PROGRESS')
+            producer = progress_member(reader, ready_value, records, attempt, ready=True)
+            require(producer['W0_mean_ready'] is True, 'GEN_CONSUMER_PRODUCER_COMPLETE_PROGRESS')
+        return dict(status='REUSED_COMPLETE_READY', completed_cases=2000, W0_mean_ready=True,
+                    READY_sha256=bound['sha256'])
+    bound = holder.get('generation_progress')
+    if not bound:
+        return dict(status='BLOCKED_GENERATION_PROGRESS_PENDING' if ready else 'PROGRESS_NOT_RECORDED',
+                    W0_mean_ready=False)
+    local_path(bound['path'], attempt)
+    data = reader.bytes(bound['path'])
+    require(len(data) <= 16 * 1024**2 and len(data) == bound['bytes']
+            and reader.files[str(Path(bound['path']))]['sha256'] == bound['sha256'],
+            'GEN_PROGRESS_BOUND_BYTES')
+    values = [json.loads(line) for line in data.decode('utf-8').splitlines() if line.strip()]
+    return validate_generation_progress(values, total_cases=2000,
+        total_prompts=sum(len(record.get('generation_prompts', [])) for record in records), ready=ready)
+
+
+def semantic_inputs(config):
+    """Source/asset identities only, never tensor loading or tokenizer replay."""
+    generation = config['generation']
+    model = digest(dict(model=config['model'], revision=config['model_revision'],
+        model_assets=config['model_assets'], runtime=config['runtime'], scorer=config['observer_identity'],
+        seed=config['seed'], precision='FP32/eager/TF32off/autocastoff'))
+    require(model == generation['model_identity'], 'COMPATIBILITY_MODEL_TOKENIZER_IDENTITY')
+    return dict(model_identity=model, model_assets_sha256=digest(config['model_assets']),
+        model_revision=config['model_revision'], tokenizer_binding_sha256=digest(config['model_assets']),
+        scientific_runtime_sha256=digest(config['runtime']), scoring_versions=generation['scoring_versions'],
+        scorer_identity_sha256=digest(config['observer_identity']),
+        reference_assets_sha256=generation['reference_assets_sha256'],
+        native_inputs_sha256=digest({arm: value['native'] for arm, value in config['arm_configs'].items()}),
+        cold_state_identity=generation['W0_state_identity'], profile=PROFILE, eval_seed=EVAL_SEED, schema=SCHEMA)
+
+
+def bound_bytes(reader, bound, label):
+    data = reader.bytes(bound['path'])
+    require(len(data) == bound['bytes']
+            and reader.files[str(Path(bound['path']))]['sha256'] == bound['sha256'], label)
+
+
+def compatibility_evidence(reader, config, qualification, records, *, compatibility_member=None):
+    """Independently retain original completed W0 row provenance; no relabeling."""
+    require(qualification.get('actual_qualification') is True, 'COMPATIBILITY_ACTUAL_QUALIFICATION_REQUIRED')
+    bound = (config['generation']['repair'].get('compatibility_manifest')
+             if compatibility_member is None else compatibility_member)
+    if bound is None:
+        return dict(status='BLOCKED_COMPATIBILITY_MANIFEST_PENDING', full_W0_READY=False)
+    manifest = reader.bound(bound)
+    require(manifest['schema'] == 'gptj-generation-w0-compatibility-v1'
+            and manifest['status'] == 'ACTUAL_QUALIFIED_REUSE_BINDING'
+            and manifest['identity_sha256'] == digest(manifest['identity'])
+            and manifest['raw_local_only'] is True and manifest['new_source_relabel'] is False
+            and manifest['original_runtime_checks_disabled'] is False and manifest['full_W0_READY'] is False,
+            'COMPATIBILITY_MANIFEST_ACTUAL_IDENTITY')
+    identity = manifest['identity']
+    require(identity['qualification']['sha256'] == qualification['actual_member_sha256']
+            and identity['qualification']['path'] == config['generation']['repair']['qualification_receipt_path'],
+            'COMPATIBILITY_QUALIFICATION_MEMBER')
+    actual = reader.bound(identity['qualification'])
+    expected = identity['qualification_expected']
+    require({'plan_sha256', 'cohort_sha256', 'shared_source_sha', 'native_source_binding',
+             'selected_route', 'fixed_microbatch'} <= set(expected)
+            and all(actual.get(key) == value for key, value in expected.items()),
+            'COMPATIBILITY_EXACT_ACTUAL_FIELDS')
+    inventory = reader.bound(identity['inventory'])
+    old = inventory['identity']
+    require(inventory['schema'] == old['schema'] == 'gptj-generation-old-w0-inventory-v1'
+            and inventory['identity_sha256'] == identity['inventory_identity_sha256'] == digest(old)
+            and inventory['payload_sha256'] == digest({key: value for key, value in inventory.items()
+                                                       if key != 'payload_sha256'})
+            and inventory['raw_local_only'] is True and inventory['new_source_relabel'] is False,
+            'COMPATIBILITY_INVENTORY_SOURCE_IDENTITY')
+    semantics = semantic_inputs(config)
+    require(old['semantic_inputs'] == identity['semantic_inputs'] == semantics
+            and identity['old_runtime_identity'] == old['old_runtime_identity']
+            and identity['old_runtime_sha256'] == old['old_runtime_sha256'] == digest(old['old_runtime_identity']),
+            'COMPATIBILITY_SEMANTIC_INPUTS_UNCHANGED')
+    old_runtime = old['old_runtime_identity']
+    require(old_runtime == dict(schema=SCHEMA, profile=PROFILE, eval_seed=EVAL_SEED,
+                model_identity=semantics['model_identity'],
+                generation_source_sha='83535c6a47c552cc4e5c6385f3a587d752820150',
+                reference_assets_sha256=semantics['reference_assets_sha256'], route=ROUTES[0]),
+            'COMPATIBILITY_ORIGINAL_RUNTIME_ROUTE_SOURCE')
+    new_runtime = identity['new_runtime_identity']
+    require(identity['new_runtime_sha256'] == digest(new_runtime)
+            and new_runtime['schema'] == SCHEMA and new_runtime['profile'] == PROFILE
+            and new_runtime['eval_seed'] == EVAL_SEED and new_runtime['model_identity'] == semantics['model_identity']
+            and new_runtime['reference_assets_sha256'] == semantics['reference_assets_sha256']
+            and new_runtime['generation_source_sha'] == config['generation']['source_sha']
+            and new_runtime['route'] in (qualification['selected_route'],
+                SHARED_ROUTE[qualification['selected_route']]), 'COMPATIBILITY_NEW_RUNTIME_BINDING')
+    private_plan = reader.bound(config['generation']['repair']['qualification_plan'])
+    if 'shared_plan_sha256' in private_plan:
+        require(new_runtime['route'] == SHARED_ROUTE[qualification['selected_route']]
+                and identity['qualification_route_map'] == {key: SHARED_ROUTE[key] for key in ROUTES}
+                and new_runtime['generation_microbatch'] == qualification['fixed_microbatch']
+                and type(new_runtime['qualification_receipt_sha256']) is str
+                and len(new_runtime['qualification_receipt_sha256']) == 64,
+                'COMPATIBILITY_REAL_SHARED_RUNTIME_ROUTE_MAP')
+    old_config, old_lock = reader.bound(old['old_config']), reader.bound(old['old_lock'])
+    old_observer = reader.bound(old['old_observer'])
+    require(old_lock['config_sha256'] == old['old_config']['sha256']
+            and old_lock['source_commit'] == '503081fa9bc6efc4dbdd461324fba522b8f36e8b'
+            and old_lock['shared_generation_source'] == old_runtime['generation_source_sha']
+            and semantic_inputs(old_config) == semantics
+            and old_observer['identity'] == old_runtime
+            and old_observer['identity_sha256'] == digest(old_runtime), 'COMPATIBILITY_OLD_SEALED_SOURCE')
+    require(old['source_members_sha256'] == digest(old_lock['source_members'])
+            and old['runtime_source_members_sha256'] == digest(old_lock['runtime_sources']),
+            'COMPATIBILITY_OLD_SOURCE_CLOSURE')
+    for source in old_lock['source_members'] + old_lock['runtime_sources']:
+        bound_bytes(reader, source, 'COMPATIBILITY_OLD_SOURCE_BYTES')
+    # Reuse previously sealed large assets via stat only, never model/tensor IO.
+    for asset in old_config['model_assets']:
+        path = Path(asset['path'])
+        require(path.is_file() and not path.is_symlink(), 'COMPATIBILITY_ASSET_FILE')
+        value = path.stat()
+        require((value.st_size, value.st_ino, value.st_mtime_ns)
+                == (asset['bytes'], asset['inode'], asset['mtime_ns'])
+                and type(asset['sha256']) is str and len(asset['sha256']) == 64,
+                'COMPATIBILITY_PRIOR_ASSET_STAT_SEAL')
+    expected_records = []
+    for ordinal, record in enumerate(records, 1):
+        rewrite = record['requested_rewrite']
+        expected_records.append(dict(ordered_occurrence=ordinal, case_id=record['case_id'],
+            generation_prompts=record.get('generation_prompts', []), relation_id=rewrite.get('relation_id'),
+            target_new_id=rewrite.get('target_new', {}).get('id')))
+    require(len(records) == inventory['planned_cases'] == manifest['planned_cases'] == 2000
+            and old['ordered_records_sha256'] == identity['ordered_records_sha256'] == digest(expected_records)
+            and [entry['occurrence'] for entry in inventory['entries']] == list(range(1, 2001)),
+            'COMPATIBILITY_ORDERED_FIRST2000')
+    reused, provenance = 0, []
+    old_directory = Path(old['old_config']['path']).parent / 'BASE_MEMIT' / 'generation-raw' / 'observations'
+    for entry, record in zip(inventory['entries'], expected_records):
+        if entry['status'] != 'REUSABLE_COMPLETE_CASE':
+            require(entry['status'] == 'NOT_REUSABLE', 'COMPATIBILITY_CLOSED_ROW_STATUS')
+            continue
+        proof, row = entry['provenance'], entry['row']
+        require(proof['raw']['path'] == str(old_directory / (entry['expected_identity_sha256'] + '.json')),
+                'COMPATIBILITY_EXACT_ORIGINAL_RAW_PATH')
+        raw = reader.bound(proof['raw'])
+        original_identity = dict(runtime=digest(old_runtime), state_identity=semantics['cold_state_identity'],
+                                 record_identity=record)
+        require(raw['identity'] == original_identity
+                and raw['identity_sha256'] == row['identity_sha256'] == proof['original_identity_sha256']
+                    == entry['expected_identity_sha256'] == digest(original_identity)
+                and raw['payload_sha256'] == row['payload_sha256'] == proof['original_payload_sha256']
+                    == digest({key: value for key, value in raw.items() if key != 'payload_sha256'})
+                and raw['occurrence'] == row['occurrence'] == entry['occurrence']
+                and raw['case_id'] == row['case_id'] == record['case_id']
+                and raw['metrics'] == row['metrics'] and raw['raw_local_only'] is True
+                and raw['checkpoint_saved'] is False and row['observation_path'] == proof['raw']['path'],
+                'COMPATIBILITY_ORIGINAL_ROW_PAYLOAD')
+        require(proof['original_runtime_sha256'] == digest(old_runtime)
+                and proof['original_source_sha'] == old_runtime['generation_source_sha']
+                and proof['original_route'] == ROUTES[0]
+                and proof['record_identity_sha256'] == digest(record)
+                and proof['prompt_seed_stream_sha256'] == digest([value['seed'] for value in raw['observations']])
+                and proof['input_token_bindings_sha256'] == digest([value['input_token_ids']
+                                                                   for value in raw['observations']]),
+                'COMPATIBILITY_UNCHANGED_ORIGINAL_PROVENANCE')
+        require(len(raw['observations']) == proof['prompt_count'] == len(record['generation_prompts']),
+                'COMPATIBILITY_COMPLETED_PROMPT_COVERAGE')
+        tokens = capped = 0
+        for index, (observed, prompt) in enumerate(zip(raw['observations'], record['generation_prompts'])):
+            n, _, cap = validate_prompt(observed, prompt, entry['occurrence'], index, semantics['model_identity'])
+            tokens += n
+            capped += cap
+        require(row['metrics']['generation_prompt_count'] == proof['prompt_count']
+                and row['metrics']['generated_token_count'] == tokens
+                and row['metrics']['length_cap_no_continuation_count'] == capped,
+                'COMPATIBILITY_LOGICAL_CASE_COUNTS')
+        reduce_generation([row])  # Independent finite/validity/missingness checks.
+        reused += 1
+        provenance.append(proof)
+    require(reused == inventory['reusable_cases'] == manifest['reusable_cases']
+            and inventory['unknown_cases'] == 2000 - reused
+            and identity['provenance_bindings'] == provenance, 'COMPATIBILITY_ALL_OLD_PROVENANCE_BINDINGS')
+    return dict(status='COMPATIBILITY_ACTUAL_VERIFIED', manifest_sha256=bound['sha256'],
+        inventory_sha256=identity['inventory']['sha256'], eligible_reused_cases=reused,
+        missing_or_unknown_cases=2000 - reused, planned_cases=2000, full_W0_READY=False,
+        original_runtime_sha256=digest(old_runtime), new_runtime_sha256=digest(new_runtime),
+        newly_generated_physical_work=0, source_relabel=False)
+
+
+def validate_generation_progress(rows, *, total_cases, total_prompts, ready=False):
+    """Check scalar W0 progress independently of edit/candidate axes and scores."""
+    counters = ('completed_cases', 'total_cases', 'completed_prompts', 'total_prompts',
+        'generated_tokens', 'new_cases', 'reused_cases', 'physical_forward_calls',
+        'prefill_query_tokens', 'decode_query_tokens', 'step')
+    rates = ('elapsed_sec', 'cases_per_sec', 'prompts_per_sec', 'tokens_per_sec')
+    previous = None
+    for row in rows:
+        allowed = {'phase', 'route', 'model', 'job_id', 'event', 'status', 'edits'}
+        allowed.update('generation_progress/' + key for key in counters + rates)
+        require(type(row) is dict and set(row) <= allowed, 'GEN_PROGRESS_SCALAR_PRIVACY_KEYS')
+        require(row['phase'] == 'W0_generation', 'GEN_PROGRESS_PUBLIC_PHASE')
+        require('edits' not in row or type(row['edits']) is int and row['edits'] == 0,
+                'GEN_PROGRESS_NOT_EDIT_AXIS')
+        values = {key: row['generation_progress/' + key] for key in counters + rates}
+        for key in counters:
+            integer(values[key], 'GEN_PROGRESS_INTEGER')
+        for key in rates:
+            require(finite(values[key], 'GEN_PROGRESS_FINITE') >= 0, 'GEN_PROGRESS_NONNEGATIVE')
+        require(values['total_cases'] == total_cases and values['total_prompts'] == total_prompts
+                and values['completed_cases'] <= total_cases and values['completed_prompts'] <= total_prompts
+                and values['new_cases'] + values['reused_cases'] == values['completed_cases'],
+                'GEN_PROGRESS_DENOMINATORS')
+        if previous is not None:
+            require(values['step'] > previous['step'], 'GEN_PROGRESS_STEP_MONOTONIC')
+            require(all(values[key] >= previous[key] for key in (
+                'completed_cases', 'completed_prompts', 'generated_tokens', 'new_cases', 'reused_cases',
+                'physical_forward_calls', 'prefill_query_tokens', 'decode_query_tokens', 'elapsed_sec')),
+                'GEN_PROGRESS_COUNTER_MONOTONIC')
+        previous = values
+    complete = bool(previous and previous['completed_cases'] == total_cases
+                    and previous['completed_prompts'] == total_prompts)
+    if ready:
+        require(complete and total_cases == 2000, 'GEN_PROGRESS_READY_REQUIRES_FULL2000')
+    return dict(status='PROGRESS_COMPLETE' if complete else 'PROGRESS_PARTIAL',
+        completed_cases=None if previous is None else previous['completed_cases'],
+        total_cases=total_cases, completed_prompts=None if previous is None else previous['completed_prompts'],
+        total_prompts=total_prompts, final_step=None if previous is None else previous['step'],
+        final_counters=previous, W0_mean_ready=bool(ready and complete))
 
 
 def integer(value, label):
@@ -122,11 +592,12 @@ def runtime_identity(config):
         route='UNPADDED_FULL_PREFIX_NO_CACHE')
 
 
-def validate_prompt(observation, prompt, occurrence, index, model_identity):
+def validate_prompt(observation, prompt, occurrence, index, model_identity, *,
+                    route='UNPADDED_FULL_PREFIX_NO_CACHE', microbatch=1):
     """Check recorded exact route/EOS/token/work relations without a tokenizer."""
     require(observation['profile'] == PROFILE and observation['prompt'] == prompt
             and observation['occurrence'] == occurrence and observation['prompt_index'] == index
-            and observation['route'] == 'UNPADDED_FULL_PREFIX_NO_CACHE'
+            and observation['route'] == route
             and observation['RNG_restored'] is True, 'GEN_PROMPT_IDENTITY_ROUTE')
     seed = int(digest(dict(model_identity=model_identity, ordered_occurrence=occurrence,
                           prompt_index=index, eval_seed=EVAL_SEED))[:16], 16) % (2**63 - 1)
@@ -159,10 +630,21 @@ def validate_prompt(observation, prompt, occurrence, index, model_identity):
         else:
             require(stop == 'length_cap' and n + m == 100 and generated[-1] not in eos,
                     'GEN_TOTAL100_CAP')
-    forwards, work = m, n * m + m * (m - 1) // 2
+    forwards = m
+    work = n * m + m * (m - 1) // 2 if route == SHARED_ROUTES[0] else 0
     require(type(observation['model_forwards']) is int and observation['model_forwards'] == forwards
             and type(observation['full_prefix_token_work']) is int
             and observation['full_prefix_token_work'] == work, 'GEN_PROMPT_WORK_RELATION')
+    if route != SHARED_ROUTES[0]:
+        require(route in SHARED_ROUTES and 'qualification_forced_prefix_only' not in observation,
+                'GEN_PRODUCTION_NOT_FORCED_QUALIFICATION')
+        for key in ('physical_forward_calls', 'prefill_query_tokens', 'decode_query_tokens'):
+            integer(observation[key], 'GEN_PHYSICAL_WORK_INTEGER')
+        require(observation['physical_forward_calls'] <= m
+                and observation['prefill_query_tokens'] <= microbatch * n
+                and observation['decode_query_tokens'] <= microbatch * m
+                and (m > 0 or observation['physical_forward_calls'] == observation['prefill_query_tokens']
+                     == observation['decode_query_tokens'] == 0), 'GEN_KV_PHYSICAL_WORK_BOUND')
     return forwards, work, stop == 'length_cap_no_continuation'
 
 
@@ -189,9 +671,286 @@ def validate_work(work, count, total_forwards, total_tokens, *, cached_only=Fals
     return dict(work, work_attribution='EXACT' if not fresh or not cached else 'RECORDED_MIXED_BOUND')
 
 
+def shared_qualification_evidence(reader, config, qualification, bound):
+    """Verify SH1's real receipt and its explicitly projected GPT-J caller proof."""
+    require(qualification.get('actual_qualification') is True, 'SHARED_QUALIFICATION_PRIVATE_PROOF_REQUIRED')
+    actual = reader.bound(bound)
+    require(actual['schema'] == 'gpt2-gptj-kv-fixed8-v1'
+            and actual['identity_sha256'] == digest({key: value for key, value in actual.items()
+                                                    if key != 'identity_sha256'})
+            and actual['actual_qualification'] is True and actual['qualification_pass'] is True
+            and actual['pretrained_GPU_PASS'] is True and actual['profile'] == PROFILE
+            and actual['eval_seed'] == EVAL_SEED and actual['model_identity'] == config['generation']['model_identity']
+            and actual['source_identity'] == config['generation']['source_sha']
+            and all(actual[key] is True for key in ('model_no_mutation', 'RNG_restored', 'native_state_no_mutation'))
+            and all(type(actual[key]) is int and actual[key] == 0
+                    for key in ('fit_calls', 'edit_commits', 'retry_count')),
+            'SHARED_ACTUAL_QUALIFICATION_SOURCE_STATE')
+    require(actual['caller_proof_member']['sha256'] == qualification['actual_member_sha256']
+            and actual['caller_proof_member']['path'] == config['generation']['repair']['qualification_receipt_path']
+            and actual['execution_adapter'] == EXECUTION_ADAPTER,
+            'SHARED_QUALIFICATION_EXPLICIT_CALLER_PROOF')
+    reader.bound(actual['caller_proof_member'])
+    proof = reader.bound(actual['caller_proof_member'])
+    cohort = reader.bound(config['generation']['repair']['qualification_cohort'])
+    plan = cohort['shared_plan']
+    require(plan['schema'] == actual['schema'] and actual['plan_sha256'] == digest(plan)
+            and plan['profile'] == PROFILE and plan['eval_seed'] == EVAL_SEED
+            and plan['model_identity'] == config['generation']['model_identity']
+            and 0 < len(plan['requests']) <= 8 and plan['max_prompts'] == 8
+            and plan['actual_qualification'] is False and plan['fit_calls'] == plan['edit_commits'] == 0
+            and plan['allowed_routes'] == list(SHARED_ROUTES) and plan['no_oom_retry'] is True
+            and actual['tolerances'] == plan['tolerances']
+                == {key: QUALIFICATION_TOLERANCES[key] for key in ('logits', 'topk_probabilities', 'metrics')},
+            'SHARED_QUALIFICATION_FROZEN_PLAN')
+    private_plan = reader.bound(config['generation']['repair']['qualification_plan'])
+    require(private_plan['shared_plan_sha256'] == actual['plan_sha256']
+            and actual['private_plan_sha256'] == qualification['plan_sha256'], 'SHARED_PRIVATE_PLAN_LINK')
+    require(actual['raw_local_only'] is True and actual['native_models_scope'] == ['gptj']
+            and actual['selection_reason'] == 'FIXED_GATE_ORDER_NOT_SCIENTIFIC_QUALITY'
+            and actual['coverage'] == private_plan['coverage']
+            and plan['microbatch'] == private_plan['batch_microbatch'], 'SHARED_GPTJ_CALLER_SCOPE')
+    expected_results, expected_costs = {}, {}
+    for private_route in ROUTES:
+        result = proof['route_results'][private_route]
+        gates, work, cost = result['gates'], proof['work'][private_route], proof['cost'][private_route]
+        mapped = SHARED_ROUTE[private_route]
+        expected_results[mapped] = dict(passed=result['status'] == 'PASS', executed=True,
+            token_sequence_exact=gates['tokens'] and gates['EOS'] and gates['row_mapping'] and gates['seed_stream'],
+            topk_mask_position_exact=gates['topk_ids'] and gates['positions'], logits_close=gates['logits'],
+            topk_probabilities_close=gates['topk_probabilities'],
+            metric_values_close_and_validity_reasons_exact=gates['metrics'],
+            max_abs_logit_error=result['max_logit_abs_error'],
+            max_abs_topk_probability_error=result['max_topk_probability_abs_error'], coverage=result['coverage'])
+        expected_costs[mapped] = dict(elapsed_sec=cost['elapsed_seconds'], GPU_seconds=cost['synchronized_GPU_seconds'],
+            peak_allocated_bytes=cost['peak_gpu_allocated_bytes'], peak_reserved_bytes=cost['peak_gpu_reserved_bytes'],
+            host_max_RSS_bytes=cost['peak_host_RSS_bytes'],
+            logical_row_forward_decisions=work['logical_row_token_decisions'],
+            **{key: work[key] for key in ('physical_forward_calls', 'prefill_query_tokens', 'decode_query_tokens')})
+    compare_value(expected_results, actual['route_results'], 'SHARED_PRIVATE_ROUTE_PROJECTION')
+    compare_value(expected_costs, actual['cost'], 'SHARED_PRIVATE_WORK_COST_PROJECTION')
+    route = actual['selected_route']
+    require(route == SHARED_ROUTE[qualification['selected_route']]
+            and actual['microbatch'] == actual['fixed_microbatch'] == qualification['fixed_microbatch']
+            and actual['route_results'][route]['passed'] is True, 'SHARED_QUALIFIED_ROUTE_MB')
+    if route != SHARED_ROUTES[0]:
+        selected = actual['route_results'][route]
+        require(all(selected[key] is True for key in ('token_sequence_exact', 'topk_mask_position_exact',
+            'logits_close', 'topk_probabilities_close', 'metric_values_close_and_validity_reasons_exact')),
+            'SHARED_QUALIFICATION_NUMERIC_TOKEN_GATES')
+        for key in ('max_abs_logit_error', 'max_abs_topk_probability_error'):
+            require(finite(selected[key], 'SHARED_QUALIFICATION_FINITE_ERROR') >= 0,
+                    'SHARED_QUALIFICATION_ERROR_NONNEGATIVE')
+        if route == SHARED_ROUTES[2]:
+            require(selected['coverage']['actual_max_microbatch'] == actual['fixed_microbatch']
+                    and selected['coverage']['active_row_removal'] is True,
+                    'SHARED_QUALIFICATION_REAL_BATCH_WIDTH')
+    return dict(member_sha256=bound['sha256'], plan_sha256=actual['plan_sha256'],
+                selected_route=route, fixed_microbatch=actual['fixed_microbatch'])
+
+
+def repair_generation_endpoint(reader, receipt, selected, occurrences, expected_state, endpoint,
+                               cohort, config, attempt, *, cached_only=False):
+    qualification = qualification_evidence(reader, config, {}, attempt)
+    if not qualification.get('actual_qualification'):
+        raise RepairEvidencePending(qualification['status'])
+    api = shared_compatibility_api()
+    shared_runtime_identity, verified_endpoint_row = api.runtime_identity, api.verified_endpoint_row
+    qualification_link(reader, config, receipt, qualification, attempt)
+    path = local_path(receipt['rows_path'], attempt)
+    require(receipt['raw_endpoint_member']['path'] == str(path), 'GEN_ENDPOINT_MEMBER_PATH')
+    value = reader.bound(receipt['raw_endpoint_member'])
+    shared = shared_qualification_evidence(reader, config, qualification, value['qualification_receipt_member'])
+    require(receipt['shared_qualification_plan_sha256'] == shared['plan_sha256'],
+            'GEN_SHARED_PLAN_COMPACT_LINK')
+    runtime = shared_runtime_identity(dict(model_identity=config['generation']['model_identity'],
+        generation_source_sha=config['generation']['source_sha'], generation_route=shared['selected_route'],
+        generation_microbatch=shared['fixed_microbatch'],
+        qualification_receipt_member=value['qualification_receipt_member']),
+        config['generation']['reference_assets_sha256'])
+    observer_path = path.parent.parent / 'observer-identity.json'
+    if path == Path(config['generation'].get('W0_cache', '')) / 'W0-endpoint.json':
+        observer_path = Path(attempt) / 'BASE_MEMIT' / 'generation-raw' / 'observer-identity.json'
+    if 'observer_identity_member' in value:
+        require(value['observer_identity_member']['path'] == str(observer_path), 'GEN_SHARED_OBSERVER_MEMBER_PATH')
+        observer = reader.bound(value['observer_identity_member'])
+    else:
+        observer = reader.json(observer_path)
+    identity = value['identity']
+    require(observer['identity'] == runtime and observer['identity_sha256'] == digest(runtime)
+            and observer['raw_local_only'] is True and observer['checkpoint_saved'] is False
+            and identity['runtime'] == digest(runtime) and identity['state_sha256'] == digest(expected_state)
+            and identity['endpoint'] == endpoint and identity['cohort'] == cohort
+            and value['identity_sha256'] == digest(identity)
+            and identity['qualification_receipt_sha256'] == shared['member_sha256']
+            and receipt['identity'] == identity and receipt['identity_sha256'] == value['identity_sha256']
+            and receipt['shared_runtime_identity'] == runtime and receipt['shared_state_identity'] == expected_state,
+            'GEN_REPAIR_RUNTIME_QUALIFICATION_STATE')
+    require(receipt['requests'] == len(selected)
+            and receipt['cohort_identity'] == digest([r['case_id'] for r in selected])
+            and all(holder[key] is True for holder in (value, receipt)
+                    for key in ('RNG_restored', 'observer_no_mutation')) and value['raw_local_only'] is True,
+            'GEN_REPAIR_COHORT_NONMUTATION')
+    rows = value['rows']
+    require(identity['ordered_occurrences'] == occurrences
+            and [row['occurrence'] for row in rows] == occurrences and len(set(occurrences)) == len(occurrences)
+            and all(type(row['occurrence']) is int and type(row['case_id']) is int for row in rows)
+            and [row['case_id'] for row in rows] == [record['case_id'] for record in selected]
+            and identity['observation_identities'] == [row['identity_sha256'] for row in rows]
+            and identity['provenance_sha256'] == digest([row['provenance'] for row in rows]),
+            'GEN_REPAIR_FULLROW_ORDER_PROVENANCE')
+    original_entries = {}
+    if 'compatibility_member' in value:
+        manifest = reader.bound(value['compatibility_member'])
+        compatible = manifest['identity']
+        require(manifest['identity_sha256'] == digest(compatible) == identity['compatibility_sha256']
+                and compatible['schema'] == 'generation-cold-W0-compatibility-v1'
+                and compatible['new_runtime_sha256'] == identity['runtime']
+                and compatible['qualification_receipt_member']['sha256'] == shared['member_sha256']
+                and compatible['physical_state'] == expected_state == config['generation']['W0_state_identity']
+                and compatible['model_identity'] == runtime['model_identity']
+                and compatible['reference_assets_sha256'] == runtime['reference_assets_sha256']
+                and compatible['raw_local_only'] is True and compatible['edited_trajectory_resume'] is False,
+                'GEN_SHARED_COMPATIBILITY_EXPLICIT_COLD_ONLY')
+        require(compatible['actual_qualification_receipt_member']['sha256'] == qualification['actual_member_sha256']
+                and compatible['qualification_plan_member']['sha256']
+                    == config['generation']['repair']['qualification_plan']['sha256'],
+                'GEN_SHARED_COMPATIBILITY_DUAL_PROOF')
+        reader.bound(compatible['actual_qualification_receipt_member'])
+        reader.bound(compatible['qualification_plan_member'])
+        inventory = reader.bound(compatible['inventory_member'])
+        old = inventory['identity']
+        require(inventory['identity_sha256'] == digest(old)
+                and inventory['payload_sha256'] == digest({key: value for key, value in inventory.items()
+                                                           if key != 'payload_sha256'})
+                and old['semantic_inputs'] == semantic_inputs(config)
+                and compatible['old_config_member'] == old['old_config']
+                and compatible['old_observer_member'] == old['old_observer']
+                and compatible['ordered_record_identity_sha256'] == old['ordered_records_sha256']
+                and compatible['planned_cases'] == inventory['planned_cases'] == 2000,
+                'GEN_SHARED_ORIGINAL_INVENTORY_BINDING')
+        frozen_inventory = config['generation']['repair'].get('old_complete_case_inventory')
+        if frozen_inventory is not None:
+            require(compatible['inventory_member']['sha256'] == frozen_inventory['sha256'],
+                    'GEN_SHARED_FROZEN_INVENTORY')
+        for key in ('old_observer_member', 'old_config_member', 'old_reference_member', 'old_cold_guard_member'):
+            reader.bound(compatible[key])
+        old_observer = reader.bound(compatible['old_observer_member'])
+        require(old_observer['identity_sha256'] == digest(old_observer['identity'])
+                and old_observer['identity']['model_identity'] == runtime['model_identity']
+                and old_observer['identity']['reference_assets_sha256'] == runtime['reference_assets_sha256']
+                and old_observer['identity']['profile'] == PROFILE
+                and old_observer['identity']['eval_seed'] == EVAL_SEED
+                and old_observer['identity']['route'] == SHARED_ROUTES[0]
+                and old_observer['identity'] == old['old_runtime_identity'], 'GEN_ORIGINAL_RUNTIME_UNCHANGED')
+        old_config = reader.bound(compatible['old_config_member'])
+        old_reference = reader.bound(compatible['old_reference_member'])
+        require(old_config['generation']['source_sha'] == old_observer['identity']['generation_source_sha']
+                and compatible['old_reference_member'] == old_config['generation']['generation_assets']
+                and old_reference['identity_sha256'] == runtime['reference_assets_sha256']
+                and semantic_inputs(old_config) == semantic_inputs(config), 'GEN_ORIGINAL_CONFIG_REFERENCE')
+        guard = reader.bound(compatible['old_cold_guard_member'])
+        require(guard['source_commit'] == '503081fa9bc6efc4dbdd461324fba522b8f36e8b'
+                and guard['phase'] == 'W0_generation' and guard['commits'] == guard['history_appends'] == 0
+                and guard['old_generation_runtime'] == old_observer['identity_sha256']
+                and guard['original_state_identity'] == expected_state
+                and guard['model_W'] == expected_state.get('selected_physical_W', expected_state.get('W'))
+                and guard['inventory_member'] == compatible['inventory_member']
+                and guard['whole_endpoint_guard_recorded'] is False
+                and guard['proof_basis'] == 'FROZEN_SOURCE_CONTROL_FLOW_COLD_RUNTIME_AND_RPN'
+                and guard['partial_rows_authorized'] is True
+                and guard['measured_final_history_zero'] is False
+                and guard['final_RAM_history'] == 'NOT_RECORDED', 'GEN_OLD_PARTIAL_GUARD_NOT_FABRICATED')
+        for guarded_member in guard['evidence_members'].values():
+            bound_bytes(reader, guarded_member, 'GEN_OLD_SOURCE_PHASE_PROOF')
+        original_entries = {entry['occurrence']: entry for entry in compatible['original_entries']}
+        require(len(original_entries) == len(compatible['original_entries']) == compatible['eligible_cases'],
+                'GEN_ORIGINAL_ROW_DUPLICATE')
+        inventory_entries = {entry['occurrence']: entry for entry in inventory['entries']
+                             if entry['status'] == 'REUSABLE_COMPLETE_CASE'}
+        require(set(original_entries) == set(inventory_entries), 'GEN_SHARED_COMPLETE_ORIGINAL_ENTRY_SET')
+        for ordinal, entry in original_entries.items():
+            proof = inventory_entries[ordinal]['provenance']
+            require(entry == dict(occurrence=ordinal, original_raw_member=proof['raw'],
+                original_identity_sha256=proof['original_identity_sha256'],
+                original_payload_sha256=proof['original_payload_sha256'],
+                original_runtime_sha256=proof['original_runtime_sha256'],
+                original_generation_source_sha=proof['original_source_sha'],
+                original_route=proof['original_route']), 'GEN_SHARED_ORIGINAL_ENTRY_NOT_RELABELLED')
+    physical = {key: 0 for key in ('physical_forward_calls', 'prefill_query_tokens', 'decode_query_tokens')}
+    logical = prefix_work = 0
+    all_prompts = all_tokens = 0
+    fresh = reused = 0
+    for row, record, ordinal in zip(rows, selected, occurrences):
+        rewrite = record['requested_rewrite']
+        ri = dict(ordered_occurrence=ordinal, case_id=record['case_id'], generation_prompts=record.get('generation_prompts', []),
+                  relation_id=rewrite.get('relation_id'), target_new_id=rewrite.get('target_new', {}).get('id'))
+        proof = row['provenance']
+        raw_path = Path(row['observation_path'])
+        if proof['origin'] == 'COMPATIBLE_ORIGINAL_W0':
+            entry = original_entries.get(ordinal)
+            require(entry is not None and entry['original_raw_member'] == proof['raw_member']
+                    and proof['compatibility_sha256'] == identity['compatibility_sha256']
+                    and proof['runtime_sha256'] == old_observer['identity_sha256']
+                    and proof['generation_source_sha'] == old_observer['identity']['generation_source_sha']
+                    and proof['route'] == SHARED_ROUTES[0], 'GEN_OLD_ORIGINAL_PROVENANCE')
+        else:
+            require(proof['origin'] in ('NEW_CURRENT_RUNTIME', 'CURRENT_RUNTIME_CACHE'), 'GEN_CLOSED_ROW_ORIGIN')
+            local_path(raw_path, attempt)
+            require(proof['runtime_sha256'] == identity['runtime']
+                    and proof['generation_source_sha'] == config['generation']['source_sha']
+                    and proof['route'] == shared['selected_route'], 'GEN_NEW_SOURCE_ROUTE_PROVENANCE')
+        require(proof['raw_member']['path'] == str(raw_path), 'GEN_FULLROW_ORIGINAL_PATH')
+        raw = reader.bound(proof['raw_member'])
+        require(raw == verified_endpoint_row(row, value, expected_record_identity=ri, expected_state=expected_state),
+                'GEN_SHARED_VERIFIED_ORIGINAL_DOCUMENT')
+        require(len(raw['observations']) == len(ri['generation_prompts']), 'GEN_FULLPROMPT_COVERAGE')
+        tokens = capped = 0
+        is_fresh = proof['origin'] == 'NEW_CURRENT_RUNTIME' and not cached_only
+        fresh += int(is_fresh)
+        reused += int(not is_fresh)
+        for index, (observed, prompt) in enumerate(zip(raw['observations'], ri['generation_prompts'])):
+            n, work, cap = validate_prompt(observed, prompt, ordinal, index, runtime['model_identity'],
+                route=proof['route'], microbatch=shared['fixed_microbatch'])
+            tokens += n
+            capped += cap
+            if is_fresh:
+                logical += n
+                prefix_work += work
+                for key in physical:
+                    physical[key] += observed.get(key, n if key == 'physical_forward_calls'
+                        else work if key == 'prefill_query_tokens' else 0)
+        require(row['metrics']['generation_prompt_count'] == len(raw['observations'])
+                and row['metrics']['generated_token_count'] == tokens
+                and row['metrics']['length_cap_no_continuation_count'] == capped, 'GEN_FULLROW_LOGICAL_COUNTS')
+        all_prompts += len(raw['observations'])
+        all_tokens += tokens
+    reduced = reduce_generation(rows)
+    for holder in (value, receipt):
+        compare_value(reduced, holder['summary'], 'GEN_REPAIR_INDEPENDENT_SUMMARY')
+    compare_value(reduced, receipt['shared_summary'], 'GEN_REPAIR_SHARED_SUMMARY')
+    work = receipt['work']
+    require(work['new_case_observations'] == fresh and work['cached_case_observations'] == reused
+            and work['generation_forwards'] == logical and work['full_prefix_token_work'] == prefix_work,
+            'GEN_REPAIR_NEW_WORK_NOT_OLD_LOGICAL_COST')
+    for key in physical:
+        require(integer(work.get(key, 0 if cached_only else None), 'GEN_PHYSICAL_WORK_REQUIRED') == physical[key],
+                'GEN_REPAIR_PHYSICAL_WORK_EXACT')
+    for key, expected in (('completed_prompts', all_prompts), ('generated_tokens', all_tokens)):
+        if key in work:
+            require(integer(work[key], 'GEN_REPAIR_LOGICAL_WORK_INTEGER') == expected,
+                    'GEN_REPAIR_LOGICAL_WORK_COUNTS')
+    require(finite(work['seconds'], 'GEN_REPAIR_SECONDS') >= 0, 'GEN_REPAIR_SECONDS_NONNEGATIVE')
+    return dict(rows=rows, summary=reduced, work=dict(work, work_attribution='EXACT_ORIGINAL_PROVENANCE'),
+                identity=identity, identity_sha256=value['identity_sha256'], shared_runtime_identity=runtime)
+
+
 def generation_endpoint(reader, receipt, selected, occurrences, expected_state, endpoint,
                         cohort, config, attempt, *, cached_only=False):
     """Independent read_observed protocol verification, including original bytes."""
+    if repair_enabled(config):
+        return repair_generation_endpoint(reader, receipt, selected, occurrences, expected_state, endpoint,
+            cohort, config, attempt, cached_only=cached_only)
     require(type(receipt) is dict and receipt['requests'] == len(selected)
             and receipt['cohort_identity'] == digest([r['case_id'] for r in selected]),
             'GEN_COMPACT_COHORT')
@@ -355,7 +1114,8 @@ def allocation_once(reader, attempt, lock, *, runner=None):
     queries = 0
     try:
         submission = reader.json(submission_path)
-        require(submission['task_id'] == TASK and submission['instruction_id'] == NONCE
+        require(submission['task_id'] == lock.get('task_id', TASK)
+                and submission['instruction_id'] == lock.get('instruction_id', NONCE)
                 and submission['source_commit'] == lock['source_commit']
                 and submission['lock']['path'] == str(Path(attempt) / 'execution.lock.json'),
                 'ALLOCATION_OWN_SUBMISSION_SOURCE')
@@ -406,7 +1166,8 @@ def allocation_once(reader, attempt, lock, *, runner=None):
             scheduler_success_not_scientific_success=True)
 
 
-def review_arm(reader, attempt, config, lock, arm, identities, records, progress=None):
+def review_arm(reader, attempt, config, lock, arm, identities, records, progress=None,
+               qualification=None):
     out, result = Path(attempt) / arm, progress if progress is not None else {}
     totals = {key: 0 for key in COUNT_KEYS}
     result.update(arm=arm, writer=writer_identity(arm), commits=0, requests=0, state_links=0,
@@ -419,6 +1180,17 @@ def review_arm(reader, attempt, config, lock, arm, identities, records, progress
         result['scientific_status'] = terminal_status(terminal, 0, False, result['issues'])
         return result
     runtime = reader.json(out / 'runtime.json')
+    if repair_enabled(config):
+        qualification = (qualification_evidence(reader, config, lock, attempt)
+                         if qualification is None else qualification)
+        if not qualification.get('actual_qualification'):
+            raise RepairEvidencePending(qualification['status'])
+        route_holder = repair_runtime_holder(reader, out)
+        qualification_link(reader, config, route_holder, qualification, attempt)
+        shared = shared_qualification_evidence(reader, config, qualification,
+            route_holder['shared_qualification_receipt_member'])
+        require(route_holder['shared_qualification_plan_sha256'] == shared['plan_sha256'],
+                'NATIVE_RUNTIME_SHARED_PLAN_LINK')
     require(runtime['source'] == lock['source_commit'] and runtime['config'] == digest(config)
             and runtime['arm'] == arm and runtime['initial_history_zero'] is True
             and runtime['checkpoint_saved'] is False, 'NATIVE_RUNTIME_SOURCE_COLD')
@@ -444,6 +1216,12 @@ def review_arm(reader, attempt, config, lock, arm, identities, records, progress
         w0gen = generation_endpoint(reader, compact, records, list(range(1, 2001)),
             config['generation']['W0_state_identity'], 'W0', 'FIRST2000', config, attempt,
             cached_only=arm != 'BASE_MEMIT')
+        if repair_enabled(config):
+            w0_progress = progress_member(reader, compact, records, attempt, ready=True,
+                                         consumer=arm != 'BASE_MEMIT')
+            if not w0_progress['W0_mean_ready']:
+                raise RepairEvidencePending(w0_progress['status'])
+            result['generation_progress'] = w0_progress
         result['W0_generation_available'] = True
         result['W0_generation_identity'] = w0gen['identity_sha256']
         result['generation'].append(generation_table(arm, 'W0_FIRST2000', 0, w0gen))
@@ -458,7 +1236,7 @@ def review_arm(reader, attempt, config, lock, arm, identities, records, progress
         receipt = reader.json(folder / 'commit.json')
         ids = [record['case_id'] for record in current]
         seen_ids = [record['case_id'] for record in seen]
-        require(receipt['task'] == TASK and receipt['arm'] == arm and receipt['batch'] == number
+        require(receipt['task'] == config['task_id'] and receipt['arm'] == arm and receipt['batch'] == number
                 and receipt['writer'] == writer_identity(arm) and receipt['source'] == lock['source_commit']
                 and receipt['config'] == digest(config) and receipt['case_ids'] == ids,
                 'NATIVE_COMMIT_SOURCE_REQUEST_ORDER')
@@ -575,11 +1353,64 @@ def review_arm(reader, attempt, config, lock, arm, identities, records, progress
     return result
 
 
+def repair_ready_evidence(reader, ready, config, qualification, compatibility, records, attempt):
+    """Complete original/new W0 rows, qualification and progress are separate proofs."""
+    if not qualification.get('actual_qualification'):
+        raise RepairEvidencePending(qualification['status'])
+    qualification_link(reader, config, ready, qualification, attempt)
+    require(compatibility['status'] == 'COMPATIBILITY_ACTUAL_VERIFIED'
+            and ready['compatibility_manifest']['sha256'] == compatibility['manifest_sha256'],
+            'READY_ACTUAL_COMPATIBILITY_LINK')
+    reader.bound(ready['compatibility_manifest'])
+    require(ready['status'] == 'READY' and ready['producer_arm'] == 'BASE_MEMIT'
+            and ready['identity_sha256'] == digest(ready['identity'])
+            and ready['identity']['cold_state_sha256'] == digest(config['generation']['W0_state_identity'])
+            and ready['identity']['ordered_occurrences'] == list(range(1, 2001))
+            and ready['checkpoint_saved'] is False and ready['raw_local_only'] is True,
+            'READY_REPAIR_COMPLETE_COLD_AUTHORITY')
+    expected_identity = dict(model_identity=config['generation']['model_identity'],
+        source_sha=config['generation']['source_sha'],
+        reference_assets_sha256=config['generation']['reference_assets_sha256'],
+        profile=PROFILE, eval_seed=EVAL_SEED,
+        cohort_sha256=digest([dict(record, occurrence_index=ordinal) for ordinal, record in enumerate(records, 1)]),
+        qualification_sha256=qualification['actual_member_sha256'],
+        shared_qualification_sha256=ready['shared_qualification_receipt_member']['sha256'],
+        shared_plan_sha256=ready['shared_qualification_plan_sha256'])
+    require(all(ready['identity'][key] == value for key, value in expected_identity.items()),
+            'READY_FULL_SOURCE_MODEL_QUALIFICATION_COHORT_IDENTITY')
+    raw = reader.bound(ready['endpoint'])
+    require(ready['shared_qualification_receipt_member'] == raw['qualification_receipt_member']
+            and ready['compatibility_member'] == raw['compatibility_member'], 'READY_SHARED_EVIDENCE_MEMBERS')
+    compact = dict(ready, requests=2000, cohort_identity=digest([record['case_id'] for record in records]),
+        rows_path=ready['endpoint']['path'], raw_endpoint_member=ready['endpoint'],
+        identity=raw['identity'], identity_sha256=raw['identity_sha256'],
+        summary=raw['summary'], shared_summary=raw['summary'], work=ready['producer_work'],
+        shared_state_identity=config['generation']['W0_state_identity'],
+        RNG_restored=raw['RNG_restored'], observer_no_mutation=raw['observer_no_mutation'])
+    observed = generation_endpoint(reader, compact, records, list(range(1, 2001)),
+        config['generation']['W0_state_identity'], 'W0', 'FIRST2000', config, attempt)
+    runtime_sha = digest(observed['shared_runtime_identity'])
+    require(ready['identity']['runtime'] == runtime_sha == compatibility['new_runtime_sha256'],
+            'READY_ACTUAL_SHARED_RUNTIME_PRIVATE_COMPATIBILITY')
+    progress = progress_member(reader, ready, records, attempt, ready=True)
+    if not progress['W0_mean_ready']:
+        raise RepairEvidencePending(progress['status'])
+    final, work = progress['final_counters'], observed['work']
+    expected = dict(new_cases=work['new_case_observations'], reused_cases=work['cached_case_observations'],
+        generated_tokens=observed['summary']['generated_token_count'])
+    expected.update({key: work[key] for key in ('physical_forward_calls', 'prefill_query_tokens', 'decode_query_tokens')})
+    require(all(final[key] == value for key, value in expected.items()), 'READY_PROGRESS_EXACT_PRODUCTION_WORK')
+    return dict(status='READY_VERIFIED', producer_arm='BASE_MEMIT',
+        endpoint_identity_sha256=observed['identity_sha256'], producer_work=work,
+        full_cases=2000, qualification_actual=True, original_provenance_verified=True,
+        producer_progress=progress, W0_mean_ready=True)
+
+
 def collect(attempt):
     attempt, reader = Path(attempt).resolve(), Reader()
     config, lock = reader.json(attempt / 'config.json'), reader.json(attempt / 'execution.lock.json')
-    require(config['task_id'] == TASK and config['instruction_id'] == lock['instruction_id'] == NONCE
-            and reader.files[str(attempt / 'config.json')]['sha256'] == lock['config_sha256']
+    task_authority(config, lock)
+    require(reader.files[str(attempt / 'config.json')]['sha256'] == lock['config_sha256']
             and type(lock['source_commit']) is str and len(lock['source_commit']) == 40,
             'COLLECT_TASK_CONFIG_SOURCE')
     generation = config['generation']
@@ -608,11 +1439,47 @@ def collect(attempt):
     out = attempt / 'collector'
     require(not out.exists(), 'COLLECT_CREATE_ONCE_OUTPUT')
     out.mkdir()
+    qualification = None
+    compatibility = None
+    if repair_enabled(config):
+        try:
+            qualification = qualification_evidence(reader, config, lock, attempt, records=records)
+        except Exception as error:
+            qualification = dict(status='BLOCKED_QUALIFICATION_EVIDENCE', actual_qualification=False,
+                                 error_type=type(error).__name__)
+        if qualification.get('actual_qualification'):
+            try:
+                compatibility_bound = generation['repair'].get('compatibility_manifest')
+                runtime_holder = repair_runtime_holder(reader, attempt / 'BASE_MEMIT')
+                if compatibility_bound is None and runtime_holder is not None:
+                    compatibility_bound = runtime_holder.get('compatibility_manifest')
+                compatibility = compatibility_evidence(reader, config, qualification, records,
+                                                       compatibility_member=compatibility_bound)
+            except Exception as error:
+                compatibility = dict(status='BLOCKED_COMPATIBILITY_EVIDENCE', full_W0_READY=False,
+                                     error_type=type(error).__name__)
+        else:
+            compatibility = dict(status='BLOCKED_ACTUAL_QUALIFICATION_REQUIRED', full_W0_READY=False)
     reviews = []
     for arm in ARMS:
         progress = {}
         try:
-            reviews.append(review_arm(reader, attempt, config, lock, arm, identities, records, progress))
+            reviewed = review_arm(reader, attempt, config, lock, arm, identities, records, progress,
+                                  qualification=qualification)
+            if repair_enabled(config) and not qualification.get('actual_qualification'):
+                reviewed['technical_readiness'] = qualification['status']
+                if reviewed['scientific_status'] not in ('FAILED', 'BLOCKED'):
+                    reviewed['scientific_status'] = qualification['status']
+            if repair_enabled(config) and compatibility['status'] != 'COMPATIBILITY_ACTUAL_VERIFIED':
+                reviewed['compatibility_readiness'] = compatibility['status']
+                if reviewed['scientific_status'] == 'COMPLETED_VALIDATED_ROWS_COUNTS':
+                    reviewed['scientific_status'] = compatibility['status']
+            reviews.append(reviewed)
+        except RepairEvidencePending as error:
+            progress.update(arm=arm, scientific_status=str(error),
+                valid_prefix_preserved=True, original_raw_preserved=True)
+            progress.setdefault('issues', []).append(str(error))
+            reviews.append(progress)
         except Exception as error:
             # Do not publish exception text containing a raw case ID or prompt.
             progress.update(arm=arm, scientific_status='TECHNICAL_BLOCKED_REDUCER',
@@ -624,32 +1491,39 @@ def collect(attempt):
     if ready_path.exists():
         try:
             ready = reader.json(ready_path)
-            require(ready['status'] == 'READY' and ready['producer_arm'] == 'BASE_MEMIT'
+            if repair_enabled(config):
+                w0_ready = repair_ready_evidence(reader, ready, config, qualification, compatibility,
+                                                records, attempt)
+                endpoint = reader.bound(ready['endpoint'])
+            else:
+                require(ready['status'] == 'READY' and ready['producer_arm'] == 'BASE_MEMIT'
                     and ready['identity_sha256'] == digest(ready['identity'])
                     and ready['identity']['runtime'] == digest(runtime_identity(config))
                     and ready['identity']['cold_state_sha256'] == digest(generation['W0_state_identity'])
                     and ready['identity']['ordered_occurrences'] == list(range(1, 2001)),
                     'COLLECT_SINGLE_COLD_W0_READY')
-            endpoint = reader.bound(ready['endpoint'])
-            require(endpoint['identity_sha256'] == digest(endpoint['identity'])
+                endpoint = reader.bound(ready['endpoint'])
+                require(endpoint['identity_sha256'] == digest(endpoint['identity'])
                     and endpoint['identity']['runtime'] == digest(runtime_identity(config))
                     and endpoint['identity']['state_sha256'] == digest(generation['W0_state_identity'])
                     and endpoint['identity']['endpoint'] == 'W0'
                     and endpoint['identity']['cohort'] == 'FIRST2000'
                     and endpoint['identity']['ordered_occurrences'] == list(range(1, 2001)),
                     'COLLECT_READY_ENDPOINT_COLD_IDENTITY')
-            producer_work = ready['producer_work']
-            for key in ('new_case_observations', 'cached_case_observations',
+                producer_work = ready['producer_work']
+                for key in ('new_case_observations', 'cached_case_observations',
                         'generation_forwards', 'full_prefix_token_work'):
-                integer(producer_work[key], 'READY_WORK_INTEGER')
-            require(producer_work['new_case_observations'] + producer_work['cached_case_observations'] == 2000
+                    integer(producer_work[key], 'READY_WORK_INTEGER')
+                require(producer_work['new_case_observations'] + producer_work['cached_case_observations'] == 2000
                     and finite(producer_work['seconds'], 'READY_WORK_SECONDS') >= 0,
                     'READY_WORK_COLD_COHORT')
-            w0_ready = dict(status='READY_VERIFIED', producer_arm='BASE_MEMIT',
+                w0_ready = dict(status='READY_VERIFIED', producer_arm='BASE_MEMIT',
                 endpoint_identity_sha256=endpoint['identity_sha256'], producer_work=ready['producer_work'])
             for review in reviews:
                 if review.get('W0_generation_available'):
                     require(review['W0_generation_identity'] == endpoint['identity_sha256'], 'COLLECT_SAME_W0_ALL_ARMS')
+        except RepairEvidencePending as error:
+            w0_ready = dict(status=str(error), W0_mean_ready=False)
         except Exception as error:
             w0_ready = dict(status='TECHNICAL_BLOCKED_READY', error_type=type(error).__name__)
     for key in TABLE_KEYS:
@@ -660,6 +1534,9 @@ def collect(attempt):
     expected = {key: sum(values[key] for values in plan['native_per_arm'].values()) for key in COUNT_KEYS}
     complete = all(review['scientific_status'] == 'COMPLETED_VALIDATED_ROWS_COUNTS' for review in reviews)
     complete = complete and w0_ready is not None and w0_ready['status'] == 'READY_VERIFIED' and actual == expected
+    if repair_enabled(config):
+        complete = complete and qualification.get('actual_qualification') is True \
+            and compatibility['status'] == 'COMPATIBILITY_ACTUAL_VERIFIED'
     accounting = allocation_once(reader, attempt, lock)
     write(out / 'allocation.json', accounting)
     write(out / 'counts-plan-actual.json', dict(plan=plan, expected_native=expected,
@@ -669,6 +1546,8 @@ def collect(attempt):
             if row['phase'] in ('pre_generation', 'post_generation')),
         recorded_cold_W0_producer_work=(w0_ready['producer_work']
             if w0_ready and w0_ready['status'] == 'READY_VERIFIED' else None),
+        generation_qualification=qualification,
+        generation_compatibility=compatibility,
         failed_or_uncommitted_generation_work='LOCAL_RECEIPTS_PRESERVED_NOT_IN_COMMITTED_TOTAL',
         plan_is_not_actual=not complete, scientific_complete=complete))
     lines = ['# GPT-J 6개 native arm 생성·R/P/N 저장 결과 CPU 검산', '',
@@ -691,14 +1570,16 @@ def collect(attempt):
         'Allocation은 자신의 six parent ID만 sacct 1회로 조회하며, 미확보 시 NOT_RECORDED로 남긴다.', '',
         '[R/P/N](metrics.csv) · [paired](paired.csv) · [생성 지표](generation.csv) · [native 계수](counts.csv) · [계산비용](compute.csv)', ''])
     _atomic_text(out / 'report-ko.md', '\n'.join(lines))
-    write(out / 'review.json', dict(task=TASK, instruction_id=NONCE, source=lock['source_commit'],
+    write(out / 'review.json', dict(task=config['task_id'], instruction_id=config['instruction_id'], source=lock['source_commit'],
         generation_source=generation['source_sha'], reference_identity=generation['reference_assets_sha256'],
-        reviews=compact, W0_generation_READY=w0_ready, scientific_complete=complete,
+        reviews=compact, W0_generation_READY=w0_ready, generation_qualification=qualification,
+        generation_compatibility=compatibility,
+        scientific_complete=complete,
         new_model_forwards=0, raw_copied=False, raw_publication=False))
     # This potentially large input listing is local only; the compact manifest
     # binds its bytes rather than embedding paths/row identities in the report.
     write(out / 'raw-input-manifest.json', dict(local_only=True, inputs=list(reader.files.values())))
-    write(out / 'manifest.json', dict(task=TASK, source=lock['source_commit'],
+    write(out / 'manifest.json', dict(task=config['task_id'], source=lock['source_commit'],
         input_files=len(reader.files), input_manifest=member(out / 'raw-input-manifest.json'),
         outputs=[member(path) for path in sorted(out.iterdir())
                  if path.is_file() and path.name != 'raw-input-manifest.json'],

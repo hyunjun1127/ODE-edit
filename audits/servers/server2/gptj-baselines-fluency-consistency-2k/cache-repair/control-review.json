@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "task_id": "gptj-baselines-generation-cache-repair",
+  "reviewer": "separate bounded worker; not a GPU/science reviewer",
+  "scope": ["generation_cache_common.py", "generation_cache_bind.py", "generation_cache_submit.py", "generation_run.py", "generation_submit.py"],
+  "finding": "Old inventory internal digest/ordered counts and immutable member were not checked at bind/admission",
+  "resolution": "Bind checks schema/identity/payload/ordered2000/reusable+unknown counts; repair ready verifies inventory member bytes/SHA",
+  "preserved": ["parent profile", "native math/hparams/dtype", "cap2", "held before release", "afterany two-lane graph", "noCP"],
+  "scope_limit": "No actual model/GPU/Slurm/source-API integration or native mathematical review; SH1 bridge absent is input pending",
+  "actual_GPU_qualification": false,
+  "new_Slurm_jobs": 0,
+  "automatic_retry": false
+}

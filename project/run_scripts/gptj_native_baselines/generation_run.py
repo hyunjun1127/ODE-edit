@@ -1,8 +1,8 @@
 """Six cold native GPT-J chains with explicit observer-only generation hooks.
 
 Editing factories, R/P/N scoring and RAM transactions remain existing native
-implementations. The SH2-owned bridge will adapt SH1's immutable shared
-generation implementation; it is not yet bound. Milestone current results are
+implementations. The SH2-owned bridge adapts SH1's immutable shared
+generation implementation without changing native fitting. Milestone current results are
 subsets of one measured prefix, never
 additional generation. No checkpoint, scientific retry or GPU file polling.
 """
@@ -53,7 +53,9 @@ def arm_configuration(config, arm):
     for field in IDENTITY_FIELDS:
         require(field in config, 'TASK_IDENTITY_FIELD:' + field)
         result[field] = copy.deepcopy(config[field])
-    require(result['task_id'] == TASK and result['instruction_id'] == NONCE,
+    from .generation_cache_common import identity
+    task, nonce = identity(config)
+    require(result['task_id'] == task and result['instruction_id'] == nonce,
             'GENERATION_NATIVE_TASK_IDENTITY')
     require(result['noCP'] and not result['z_disk_cache']
             and result['exact_resume'] == 'NOT_AVAILABLE', 'GENERATION_NATIVE_NOCP')
@@ -101,12 +103,19 @@ def initial_history(engine, arm, view):
 
 
 def locked(attempt):
-    authority()
     config = read(attempt / 'config.json')
     lock = read(attempt / 'execution.lock.json')
-    ready(config)
-    require(config['instruction_id'] == lock['instruction_id'] == NONCE
-            and config['task_id'] == TASK, 'GENERATION_TASK_AUTHORITY')
+    from .generation_cache_common import enabled, identity
+    task, nonce = identity(config)
+    if enabled(config):
+        from .generation_cache_common import ready as repair_ready
+        repair_ready(config)
+    else:
+        authority()
+        ready(config)
+    require(config['instruction_id'] == lock['instruction_id'] == nonce
+            and config['task_id'] == task and lock.get('task_id', task) == task,
+            'GENERATION_TASK_AUTHORITY')
     require(os.environ.get(SOURCE_ENV) == lock['source_commit']
             and sha(attempt / 'config.json') == lock['config_sha256'], 'GENERATION_SOURCE_CONFIG_IDENTITY')
     for row in (lock['source_members'] + lock['runtime_sources'] + lock['launchers']
@@ -206,7 +215,13 @@ def generation_receipt(result, selected, endpoint, physical_state, raw_out, *, s
                 cohort_identity=digest([record['case_id'] for record in selected]),
                 raw_directory=str(raw_out), derived_subset=subset)
     for key in ('rows_path','work','shared_state_identity','identity_sha256',
-                'shared_summary','RNG_restored','observer_no_mutation'):
+                'shared_summary','RNG_restored','observer_no_mutation',
+                'qualification','qualification_receipt_member','shared_qualification_receipt_member',
+                'qualification_plan_sha256',
+                'shared_qualification_plan_sha256','shared_runtime_identity',
+                'selected_route','fixed_microbatch','compatibility_manifest',
+                'compatibility_member','generation_progress','reused_complete_READY',
+                'generation_repair_runtime_member','qualification_link_member'):
         if key in result:receipt[key]=result[key]
     if result.get('rows_path'):
         receipt['raw_endpoint_member']=member(result['rows_path'])
@@ -299,7 +314,7 @@ def execute_chain(config, lock, out, arm, model, tokenizer, view, engine, bench,
             require(isinstance(contexts, list) and len(contexts) == 2 and contexts[0] == ['{}']
                     and len(contexts[1]) == 5, 'GENERATION_NATIVE_CONTEXT_CARRIED_1_PLUS5')
             proposed_cursor = cursor + ids
-            receipt = dict(task=TASK, arm=arm, writer=writer_identity(arm), batch=number,
+            receipt = dict(task=config['task_id'], arm=arm, writer=writer_identity(arm), batch=number,
                 case_ids=ids, source=lock['source_commit'], config=digest(config),
                 before=previous, after=after, native=native, native_counts=counts,
                 pre=pre['summary'], post=post['summary'], post_current=post['current'],
@@ -408,8 +423,13 @@ def main():
             initial_state=state(view, engine.history()),
             native_solve_dtype='FP64' if arm in ('BASE_MEMIT', 'PRUNE', 'RECT') else 'native FP32',
             load_seconds=time.monotonic() - loading))
-        from .generation_bridge import GenerationObserver
-        generation = GenerationObserver(config, lock, view, engine, tokenizer, records, out, arm)
+        from .generation_cache_common import enabled as repair_enabled
+        if repair_enabled(config):
+            from .generation_cache_bridge import GenerationObserver
+        else:
+            from .generation_bridge import GenerationObserver
+        generation = GenerationObserver(config, lock, view, engine, tokenizer, records, out, arm,
+            **({'tracker': tracker} if repair_enabled(config) else {}))
         ops = production_ops()
         original_transaction = ops.transaction
 

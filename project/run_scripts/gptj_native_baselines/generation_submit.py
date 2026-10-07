@@ -45,7 +45,7 @@ def sbatch_argv(attempt,role,c,dep):
     wall=r['collector_wall'] if collector else r['wall']
     argv=['sbatch','--parsable','--hold','--partition=gpu','--qos=lab_gpu_s2','--nodelist=server2',
         '--nodes=1','--ntasks=1','--cpus-per-task='+str(cpu),'--mem='+str(mem)+'M','--time='+wall,
-        '--export=NONE','--no-requeue','--job-name='+TASK+'-'+role,'--chdir='+str(attempt/'source'),
+        '--export=NONE','--no-requeue','--job-name='+c.get('task_id', TASK)+'-'+role,'--chdir='+str(attempt/'source'),
         '--output='+str(attempt/(role+'-%j.out')),'--error='+str(attempt/(role+'-%j.err'))]
     if not collector:argv+=['--gres=gpu:1']
     if dep:argv+=['--dependency=afterany:'+':'.join(dep)]
@@ -57,7 +57,7 @@ def inspect_held(job,role,attempt,argv,deps,c):
     cpu=r['collector_cpu'] if collector else r['cpu']
     mem=r['collector_host_mib'] if collector else r['host_mib']
     wall=r['collector_wall'] if collector else r['wall']
-    required=dict(JobId=job,JobName=TASK+'-'+role,JobState='PENDING',Reason='JobHeldUser',
+    required=dict(JobId=job,JobName=c.get('task_id', TASK)+'-'+role,JobState='PENDING',Reason='JobHeldUser',
         Requeue='0',ReqNodeList='server2',Partition='gpu',QOS='lab_gpu_s2',
         TimeLimit=wall,Command=str(attempt/(role+'.sh')),WorkDir=str(attempt/'source'))
     required['CPUs/Task']=str(cpu)
@@ -76,9 +76,9 @@ def inspect_held(job,role,attempt,argv,deps,c):
         ==(attempt/(role+'.sh')).read_text().strip(),'HELD_SCRIPT_BYTES')
     return dict(role=role,job=job,detail=detail,argv=argv,dependencies=deps)
 
-def admission():
-    before=inventory()
-    require(not any(row['name'].startswith(TASK) for row in before['project']),'DUPLICATE_TASK_QUEUE')
+def admission(task=TASK, inventory_fn=inventory):
+    before=inventory_fn()
+    require(not any(row['name'].startswith(task) for row in before['project']),'DUPLICATE_TASK_QUEUE')
     tracked=int(next(x for x in (ROOT/'control/gpu-concurrency-policy.tsv').read_text().splitlines()
         if x.startswith('server2\t')).split('\t')[1])
     local=next(x for x in LOCAL_CAP.read_text().splitlines() if x.startswith('server2\t')).split('\t')

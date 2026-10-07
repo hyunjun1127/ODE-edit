@@ -37,6 +37,21 @@
   "monitoring_active": false,
   "automatic_retry": false,
   "record_scope": "ORIGINAL_RECEIPT_PRESERVED_WITH_LATEST_OWNER_ACK",
+  "cache_repair_owner_ack": {
+    "nonce": "USER-GH-SH1-SH2-BASELINE-GENERATION-KV-BATCH-REPAIR-20261008-R1",
+    "authority": "66cddb8fa9c09e475f0ae3f423635091c6a71e3d",
+    "owner": "server2",
+    "session": "01a0493a-074c-7f91-9a13-769116326fef",
+    "accepted": true,
+    "stage": "PARTIAL_IMPLEMENTATION_SHARED_SOURCE_API_INPUT_PENDING",
+    "old_jobs_cancelled": ["60915", "60914", "60913", "60912", "60911", "60910", "60909"],
+    "new_job_ids": [],
+    "old_complete_cases_preserved": 396,
+    "actual_qualification": "NOT_RUN",
+    "scientific_complete": false,
+    "monitoring_active": false,
+    "automatic_retry": false
+  },
   "latest_owner_ack": {
     "nonce": "USER-GH-SH1-SH2-SH4-BASELINE-GENERATION-REGISTER-RESUME-20261007-R1",
     "authority": "6d6e2fdb531ecb3d6e5bc98db0f188001c6a7aa0",

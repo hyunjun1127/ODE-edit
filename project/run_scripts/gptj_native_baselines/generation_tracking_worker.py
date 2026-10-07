@@ -1,11 +1,15 @@
 """Private SDK sidecar; stdout/stderr suppressed by parent, control FD JSON only."""
 import json
+import itertools
+import math
 import os
 from pathlib import Path
 import resource
 import sys
 from urllib.parse import urlsplit
-from .generation_tracking_schema import ENTITY, PROJECT, SDK_VERSION, config, metrics, identifier, endpoint, require, job_identity, run_name, PREFIXES
+from .generation_tracking_schema import (ENTITY, PROJECT, SDK_VERSION, config, metrics,
+    identifier, endpoint, require, job_identity, run_name, PREFIXES,
+    GenerationProgressAxis, PROGRESS_KEYS, PROGRESS_METADATA, REPAIR_TASK)
 from project.run_scripts.experiment_tracking.method import define_axes, AxisState
 from project.run_scripts.experiment_tracking.readback import verify_last_rows
 
@@ -18,12 +22,40 @@ def settings(sdk, base_url):
         ignore_globs=['*.log','**/*.log','requirements.txt','wandb-metadata.json','code/**','*.patch','*.diff'])
 
 
+def verify_last_progress(sdk, base_url, run_id, cfg, name, expected):
+    """One finish readback of the last accepted progress row, not completion."""
+    scope='last logged generation progress row and exact phase only; not full history or scientific completion'
+    if expected is None:
+        return dict(status='NOT_MEASURED',scope=scope,rows=0)
+    try:
+        api=sdk.Api(overrides={'base_url':base_url},timeout=10)
+        remote=api.run(ENTITY+'/'+PROJECT+'/'+run_id)
+        require(remote.id==run_id and remote.name==name,'GEN_PROGRESS_READBACK_IDENTITY')
+        require(all(remote.config.get(k)==v for k,v in cfg.items()),'GEN_PROGRESS_READBACK_CONFIG')
+        values=metrics(expected['values'],scientific=True);step=expected['step']
+        rows=list(itertools.islice(remote.scan_history(keys=['_step',*values],
+            min_step=step,max_step=step+1,page_size=2),3))
+        require(len(rows)==1 and rows[0].get('_step')==step,'GEN_PROGRESS_READBACK_ROW')
+        row=rows[0]
+        require(all(type(row.get(k)) is str and row[k]==values[k]
+                    for k in PROGRESS_METADATA),'GEN_PROGRESS_READBACK_METADATA')
+        require(all((type(v) is int and type(row.get(k)) is int and row[k]==v)
+                or (type(v) is float and type(row.get(k)) in (int,float)
+                    and math.isfinite(row[k]) and math.isclose(row[k],v,rel_tol=1e-9,abs_tol=1e-8))
+                for k,v in values.items() if k in PROGRESS_KEYS),'GEN_PROGRESS_READBACK_VALUES')
+        return dict(status='REMOTE_BOUNDED_PROGRESS_VERIFIED',scope=scope,rows=1,
+            transport_step=step,generation_step=values['generation_progress/step'],
+            phase=values['phase'],route=values['route'],model=values['model'],job_id=values['job_id'])
+    except Exception:
+        return dict(status='UNVERIFIED_INCOMPLETE_OR_UNAVAILABLE',scope=scope,rows=None)
+
+
 def session(sdk, request, commands, emit):
     """Same production assembly is exercised with a fake SDK in CPU tests."""
     require(sdk.__version__==SDK_VERSION, 'SDK_VERSION_REVIEW_REQUIRED')
     cfg = config(request['config']); identifier(request['run_id'])
     identity=job_identity(cfg); name=run_name(cfg)
-    scientific='metric_schema' in cfg;axis=AxisState()
+    scientific='metric_schema' in cfg;axis=AxisState();progress_axis=GenerationProgressAxis()
     require(type(request['smoke']) is bool, 'SMOKE_FLAG')
     options = settings(sdk, request['base_url'])
     sdk.setup(settings=options)
@@ -37,6 +69,9 @@ def session(sdk, request, commands, emit):
     if scientific:
         define_axes(run)
         for prefix in PREFIXES:run.define_metric(prefix+'/*',step_metric='edits',step_sync=False)
+        if cfg['task_id']==REPAIR_TASK:
+            run.define_metric('generation_progress/step')
+            run.define_metric('generation_progress/*',step_metric='generation_progress/step',step_sync=False)
     # Remote access verification before declaring startup ready / loading a GPU model.
     api = sdk.Api(overrides={'base_url':request['base_url']}, timeout=15)
     remote = api.run(ENTITY+'/'+PROJECT+'/'+run.id)
@@ -49,13 +84,18 @@ def session(sdk, request, commands, emit):
     require(parsed.scheme=='https' and parsed.hostname and not parsed.username
             and not parsed.password and not parsed.query and not parsed.fragment, 'RUN_URL')
     emit(dict(status='READY_ONLINE',run_id=run.id,url=url,sdk_version=sdk.__version__,run_name=name,job_identity=identity,config=cfg))
-    failures = 0; count = 0;next_step=0;last_rows={}
+    failures = 0; count = 0;next_step=0;last_rows={};last_progress=None
     for message in commands:
         if message['op']=='log':
-            payload=metrics(message['values'],scientific=scientific);step=message['step']
+            payload=metrics(message['values'],scientific=scientific,
+                            canonical=(cfg['task_id']==REPAIR_TASK));step=message['step']
             require(step is None or type(step) is int and step>=0, 'INVALID_STEP')
             if scientific:
+                if PROGRESS_KEYS & payload.keys():
+                    require(cfg['task_id']==REPAIR_TASK and payload['job_id']==cfg.get('job_id'),
+                            'GEN_PROGRESS_CALLER_IDENTITY')
                 axis.accept(payload)
+                progress_axis.accept(payload)
                 require(step is None or step>=next_step,'TRANSPORT_STEP_DECREASE')
             if request['smoke']:
                 require(count<3 and set(payload)=={'setup_ok','step'}, 'SMOKE_THREE_SCALARS_ONLY')
@@ -67,6 +107,7 @@ def session(sdk, request, commands, emit):
                 if scientific:
                     kind='evaluation' if 'edits' in payload else 'fit' if 'fit/global_candidate' in payload else None
                     if kind:last_rows[kind]=dict(step=actual_step,values=payload)
+                    if PROGRESS_KEYS & payload.keys():last_progress=dict(step=actual_step,values=payload)
                 emit(dict(status='LOGGING_ACCEPTED',points=count,delivery='SDK_ASYNC_NOT_REMOTE_ACK'))
             except Exception:
                 failures+=1
@@ -79,6 +120,7 @@ def session(sdk, request, commands, emit):
                 emit(dict(status='LOGGING_DEGRADED_FINISH',points=count,failures=failures+1));return
             status='FINISHED_UNVERIFIED' if failures else 'FINISHED_SDK_FLUSHED'
             readback=verify_last_rows(sdk,request['base_url'],run.id,cfg,name,last_rows) if scientific else None
+            progress_readback=verify_last_progress(sdk,request['base_url'],run.id,cfg,name,last_progress) if scientific else None
             if request['smoke']:
                 require(count==3 and failures==0,'SMOKE_COUNT')
                 api = sdk.Api(overrides={'base_url':request['base_url']}, timeout=15)
@@ -92,7 +134,8 @@ def session(sdk, request, commands, emit):
                 status='READY_ONLINE_VERIFIED'
             emit(dict(status=status,run_id=run.id,url=url,points=count,failures=failures,
                       remote_points=3 if request['smoke'] else None,run_name=name,job_identity=identity,
-                      method_readback=readback,scientific_completion_claim=False));return
+                      method_readback=readback,generation_progress_readback=progress_readback,
+                      scientific_completion_claim=False));return
         else:
             raise ValueError('UNKNOWN_OPERATION')
     emit(dict(status='LOGGING_DEGRADED_PARENT_CLOSED',points=count))

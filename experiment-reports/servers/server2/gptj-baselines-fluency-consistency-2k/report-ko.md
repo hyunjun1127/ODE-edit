@@ -1,6 +1,8 @@
 # GPT-J native six-baseline fluency/consistency 준비·등록 보고
 
-상태: `SUBMISSION_HANDOFF; SIX_GPU_AND_CPU_COLLECTOR_RELEASED`.
+최신 상태(2026-10-08): `CACHE_REPAIR_CPU93_PASS; PLAN_FROZEN; NEW_JOBS_0`.
+이하 기존 등록 보고는 역사 기록이며, 현재 실행 상태로 읽지 않는다.
+원 등록 상태: `SUBMISSION_HANDOFF; SIX_GPU_AND_CPU_COLLECTOR_RELEASED`.
 Instruction/nonce `USER-GH-ALL-SH-BASELINE-FLUENCY-CONSISTENCY-RERUN-20261007-R1`,
 SH2/server2/session `01a0493a-074c-7f91-9a13-769116326fef`.
 원 dirty root와 기존 task/source/raw를 보존한다. 입력 READY·CPU fixture 통과는 실제 GPU/생성/편집 완료가 아니다.
@@ -174,3 +176,73 @@ GH로 실제 IDs를 app-server 전달하려 했으나 target active turn의 same
 미확립되어 `COMMUNICATION_HOLD_UNRELATED_OR_UNRESOLVED_ACTIVE_TURN_NO_STEER`였다.
 메시지 실행/steer0·자동재전송0이며 Git 게시를 GH live 수신으로 주장하지 않는다.
 이 사실은 science 등록 완료와 별도다. 이전 readiness request의 GH final ACK는 그대로 유효하다.
+
+## 2026-10-08 KV/equal-length batching repair 전환
+
+새 instruction/nonce
+`USER-GH-SH1-SH2-BASELINE-GENERATION-KV-BATCH-REPAIR-20261008-R1`,
+authority `66cddb8fa9c09e475f0ae3f423635091c6a71e3d`를 직접 수락했다.
+새 운영 task는 `gptj-baselines-generation-cache-repair`이며 원 parent science는 바꾸지 않는다.
+전용 clean worktree/branch에서만 작업하고 root dirty/source/raw와 OURS/W0-only/FE/타서버 job을 보존했다.
+
+현재 owner/source/Command/node/상태를 각 취소 직전 대조한 뒤
+collector60915 → RECT60914 → PRUNE60913 → BLUE60912 → CAKE60911 →
+AlphaEdit60910 → RUNNING MEMIT60909 순서로 exact 취소했다.
+7개 모두 `CANCELLED by 1025`, exact target queue empty를 확인했다.
+60909 실제 할당25963GPU-sec=7.2119444444GPUh는 **원 실행 비용**으로 보존한다.
+나머지6개는 elapsed0/할당0. 새 실행 비용과 합산하지 않는다.
+취소/계정 증거는 `cache-repair/cancellation.json`이며 과거 RUNNING/PENDING 표를 덮지 않았다.
+
+원 W0 raw는 396 complete case/3960 prompt records/9320143B가 검산됐다.
+2000 planned 중1604는 완료행 없음이며 숫자0이나 completed로 채우지 않는다.
+원 source83535c6a/runtime7bc4cf91/UNPADDED_FULL_PREFIX_NO_CACHE/payload/size/SHA를
+그대로 보존한 ignored inventory는1045582B,
+SHA `a2297ecf824f45d09adbda7cdbef26b88ff99d14d18e04462cc40be2205aee22`.
+새 source로 재라벨하지 않고 actual qualification+compatibility manifest 후에만 새 endpoint에 연결한다.
+현재 저장된 native commit0, complete generation endpoint0, full W0 READY0이다.
+원 terminal/failure receipt와 RAM H/history 값은 `NOT_RECORDED`이며,
+이를 측정된 history0 또는 science 완료로 해석하지 않는다.
+
+SH2 변경은 repair-only identity/bind/held-submit control, source-bound 완료행 reader,
+최대8 prompt token-length-only qualification PLAN/실제 GPU receipt validator,
+collector/progress scalar 경계에 한정한다. 원 native 알고리즘/hparams/dtype/solver/입력은 그대로다.
+SH1 공통 `experiment_generation_eval`은 read-only이고 중복 구현하지 않았다.
+수신된 source에 PLAN/cohort/tolerance/API를 실제 commit으로 결속해 봉인했다.
+**GPU actual receipt는 제출 선행조건이 아니다.** 첫 replacement BASE_MEMIT 내부에서
+reference → singleton KV → equal-length batch를 각1회 측정하고 selected route/고정MB/
+원 tolerance/token·EOS·seed·position·state/RNG/비용을 actual receipt로 저장한다.
+MB8 실제 폭/row 종료 coverage가 부족하면 PASS를 만들지 않고 검증된 singleton을 선택한다.
+OOM production retry/사후 tolerance 완화/추가 fit 또는 B1 pilot0.
+
+원 main89734ff5에서 shared source/API 입력 대기였던 사실과 통신 receipt는 보존한다.
+이후 main380d07ef에서 공유 source `199cfe5664355f6f1c9069c72396ec759bb25cec` /
+package tree `a10d88b555a96962567846dcb34a456c9e0d7c1c` 게시를 확인하고 전체 API를 읽었다.
+Owner bridge/mixed endpoint reader/production PLAN 결속을 완료했고 새 Slurm IDs는 **0**이다.
+원 config aliases와 full-cold state 표현을 조용히 바꾸지 않고 명시 task-local compatibility를 구성한다.
+추가 GH/사용자 승인이나 nonexistent actual qualification을 기다리는 gate는 없다.
+자원 부족/Slurm rejection이라고 주장하지 않으며, 실제 admission/held 등록은 입력 결속 후 수행한다.
+계획 자원은 GPU1/CPU6/59392MiB/48h, collector0GPU/CPU6/24576MiB/4h,
+합산cap2 또는 stricter. 원 canceled IDs를 새 dependency로 재사용하지 않는다.
+
+앱 서버 정책으로 SH1 related turn01a1180b-d980-7291-bd19-58b92b002daf에 API 요청을
+정확 steer한 사실은 확인했지만 bounded final ACK timeout은 그대로 기록한다. 재전송0.
+GH idle turn01a11818-f8a2-7202-b733-c2d9ee634cbb에는 취소/입력 상태를 전달해
+completed+nonce final ACK를 실제 회수했다. GH는 READY 입력이 오면 동일 task로 중계한다고 답했다.
+Git 게시를 live ACK나 source READY로 대신하지 않는다.
+
+Production config SHA `706636712290a8c52c7f9e233f83c2a8c54d778a583bdc191cb7f9457756b362`,
+private PLAN SHA `0cafe3c40cb4772aaa409aac03cf6cdbda10ea935c4c49ead8447d52cab68c83`,
+shared PLAN SHA `bdcac9e9e2a877dc1fa521e393bddb88136fa7caace7a5ab93878846036126b3`.
+8개 고정 prompt에서 같은 길이 폭6, length100 경계 미관측이다. MB8 전체 폭을
+검증한 것으로 주장하지 않으며 actual route 판정에서 미충족 batch는 선택하지 않는다.
+CPU 최종93 fixture PASS(0 failure/0 error), 12.104초, CUDA initialized=false;
+모델/GPU/과학 생성/Slurm0. 이 개수에 기존 중복 component fixture를 합산하지 않는다.
+앞선 CPU r1은 음성 SHA fixture의 RuntimeError/ValueError 기대 차이로 FAILED였고,
+guard를 완화하지 않고 fixture 기대만 수정한 r2로 검산했다. 두 receipt 모두 보존했다.
+배포 metadata torch2.9.1과 실제 runtime2.9.1+cu128의 표기 차이도 별도 기록했다.
+과학 환경 pin/모듈/source를 바꾸지 않았으며 최초 CPU bind 실패는 출력 생성 전이었다.
+
+실제 GPU qualification/새 W&B run/편집/W20는 미실행이다.
+CPU fixture와 좁은 read-only control review만 수행했으며 결과·한계는 cache-repair audit에 분리한다.
+NoCP/old source·raw KEEP/NO_BROADCAST_NOT_REQUIRED,
+추가 다운로드·stats/P 생성·heavy transfer·신규 monitoring/heartbeat/자동 submit retry0.

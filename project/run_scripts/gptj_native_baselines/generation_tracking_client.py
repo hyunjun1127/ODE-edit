@@ -7,7 +7,8 @@ import signal
 import subprocess
 import threading
 import uuid
-from .generation_tracking_schema import bind_job_identity, job_identity, metrics, load_env
+from .generation_tracking_schema import (bind_job_identity, job_identity, metrics, load_env,
+    GenerationProgressAxis, PROGRESS_KEYS, REPAIR_TASK)
 from project.run_scripts.experiment_tracking.identity import create as create_identity
 from project.run_scripts.experiment_tracking.method import AxisState
 
@@ -20,6 +21,7 @@ class Tracker:
     def __init__(self, *, env_file, spool, config_values, smoke=False, startup_timeout=50):
         cfg=bind_job_identity(config_values); settings=load_env(env_file)
         self.config_values=cfg;self.scientific='metric_schema' in cfg;self.axis=AxisState();self.log_lock=threading.Lock()
+        self.progress_axis=GenerationProgressAxis()
         self.job_identity=job_identity(cfg)
         self.spool=Path(spool).resolve();self.spool.mkdir(parents=True,exist_ok=False,mode=0o700)
         self.run_id=uuid.uuid4().hex[:16];self.status='STARTING';self.result={};self.startup={}
@@ -89,13 +91,23 @@ class Tracker:
     def log(self,values,*,step=None):
         try:
             if self.closed or self.done.is_set():raise ValueError('LOGGER_CLOSED')
-            values=metrics(values,scientific=getattr(self,'scientific',False))
+            cfg=getattr(self,'config_values',{})
+            values=metrics(values,scientific=getattr(self,'scientific',False),
+                           canonical=(cfg.get('task_id')==REPAIR_TASK))
             if step is not None and (type(step) is not int or step<0):raise ValueError('INVALID_STEP')
             if getattr(self,'scientific',False):
                 with self.log_lock:
+                    if PROGRESS_KEYS & values.keys():
+                        cfg=self.config_values
+                        if cfg['task_id']!=REPAIR_TASK or values['job_id']!=cfg.get('job_id'):
+                            raise ValueError('GEN_PROGRESS_CALLER_IDENTITY')
+                    if not hasattr(self,'progress_axis'):
+                        self.progress_axis=GenerationProgressAxis()
                     self.axis.check(values)
+                    self.progress_axis.check(values)
                     self.queue.put_nowait(dict(op='log',values=values,step=step))
                     self.axis.accept(values)
+                    self.progress_axis.accept(values)
             else:self.queue.put_nowait(dict(op='log',values=values,step=step))
             return True
         except Exception:
