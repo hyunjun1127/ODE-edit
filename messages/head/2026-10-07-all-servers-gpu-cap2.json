@@ -1,0 +1,69 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-ALL-SH-GPU-CAP2-20261007",
+  "task_id": "all-servers-gpu-cap2",
+  "date_kst": "2026-10-07",
+  "user_quote": "각 서버의 gpu cap은 2이다.",
+  "dispatcher": {
+    "session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "canonical_policy": "control/gpu-concurrency-policy.tsv",
+  "targets": [
+    {
+      "server": "server1",
+      "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+      "host": "remote-ssh-codex-managed:lab120",
+      "cwd": "/mnt/raid5/janghj/ODE-edit"
+    },
+    {
+      "server": "server2",
+      "session": "01a0493a-074c-7f91-9a13-769116326fef",
+      "host": "remote-ssh-codex-managed:lab121",
+      "cwd": "/mnt/raid5/janghj/ODE-edit"
+    },
+    {
+      "server": "server3",
+      "session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+      "host": "remote-ssh-codex-managed:lab123",
+      "cwd": "/data/janghj/ODE-edit"
+    },
+    {
+      "server": "server4",
+      "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+      "host": "remote-ssh-codex-managed:lab163",
+      "cwd": "/data/janghj/ODE-edit"
+    }
+  ],
+  "authority": "각 server-head가 자기 서버의 최신 combined project GPU cap2를 수락하고 현재/향후 admission·실행대기 DAG·local cap config에 적용. 새로운 과학실험 허가나 과거STOP task 재개 권한은 아님.",
+  "effective_caps": {
+    "server1": 2,
+    "server2": 2,
+    "server3": 2,
+    "server4": 2
+  },
+  "scope": "모든 본인 ODE-edit 프로젝트의 GPU 할당 합계: method/ours/nativebaseline/자산준비/검산/pilot/평가/W0 및GPU쓰는 CPU로label된작업까지. Parent/array task/step 중복계상0. 다른사용자/다른repo 작업은 변경0.",
+  "supersession": "서버별 cap3/4 및 server3의 옛 projectcap1을 최신servercombined2로 대체. 기존 task-specific cap1 또는 물리/Slurm 제한은 그대로 더엄격min 적용. 과거 server1 W0-only추가GPU예외는 이후새admission에서 사용0. 이미 할당된W0/기타running은 아래보존규칙.",
+  "local_configuration": "각 own active/admission clone 및 자신이쓰는 전용worktree의 servers/local/gpu-caps.tsv 해당serverrow GPUcap2만 맞추고 node/memory/jobpatterns 및others행은 보존. taskcap1을project2로늘리지말고inactivecap0/STOP을science실행허가로해석0. 로컬enabled등록상태불명확하면 정확constraint보고.",
+  "counts": "RUNNING/COMPLETING/CONFIGURING actual allocation + 이미 released/admitted PENDING DAG·array throttle·독립lane의possibleconcurrency를검사. 현재이름causal-allocation-editing/jlz-*/FE/W0/GPTnative등누락되지않게owner/task/source/jobreceipt로 식별. job-namepattern만의miss를0GPU로허위기록0.",
+  "existing_running": "기존 running job 취소/선점/재시작/requeue/hotpatch0. 이미2초과면 실제할당과legacyovercap보고하고추가GPU실행/새admission을막아 자연종료로2이하되게함. frozen science/config/source/raw/W&B identity 수정0.",
+  "pending_scheduling": "아직할당되지않은exactown projectPENDING/array에만 cap2보장을위한최소 resource-scheduling조정 허용: arraythrottle<=2, 정확 source/owner/state 확인한afterany dependency 또는必要 pending hold/admissionreserve. 기존jobID/source/과학입력·수식·평가변경/중복submit/cancel0. 조정전후 scheduler receipt와 actual concurrency proof 기록; CPUcollectors GPU0은 cap계상0. 상태불명확/다른ownerjob은 변경0.",
+  "normal_pending": "자원부족은정상dependency/PENDING;cap이2라해당task를취소하거나freeGPU가될때까지agentpolling하지않음. 신규과학run/CPUcollector모니터/추가계산0. 기본GPU1 tasks는합계2안에서독립두lane가능.",
+  "allowed_write_paths": [
+    "servers/local/gpu-caps.tsv (ignored owncap row only)",
+    "task-owned ignored local cap/admission config overrides (science/source immutable)",
+    "audits/servers/<ownserver>/gpu-cap2-20261007/**",
+    "experiment-reports/servers/<ownserver>/gpu-cap2-20261007/**",
+    "tasks/status/all-servers-gpu-cap2/<ownserver>.json",
+    "messages/acks/<ownserver>/gpu-cap2-20261007.json",
+    "messages/server-heads/<ownserver>/gpu-cap2-20261007.json",
+    "ignored local/gpu-cap2-20261007/**"
+  ],
+  "publication": "전용clean nonmainWT+ownscope소형receipt/report main비강제게시승인. rootdirty/stash/reset/stageall0. frozen/scientificsharedsource변경0.",
+  "Slurm_permission": "bounded own project admission queue accounting 및정확PENDING resource-only조정위범위허용. RUNNINGmutation/cancel/newjobs/newexperiments0.",
+  "technical_checks": "정본fourrows2/중복행없음/ownlocaleffective2 및tasklimitmin, memorypolicy불변, scopeidentitycount, helper admission과PENDINGlaneconcurrency구별. 기존CPU mockcaptests재사용. 모델/GPU계산0.",
+  "artifacts": "소형metadata/scalarreceipt만Git, raw/model/checkpoint/tensor/privateconnection/credentialsGit0. noCP/기존raw보존. NO_BROADCAST_NOT_REQUIRED 정확samehostpolicy예외; 소형Git policy/receipt공유.",
+  "report": "experiment-reports/servers/<ownserver>/gpu-cap2-20261007/report-ko.md",
+  "delivery": "정확 session/CWD/repo의 directowner nonceACK+현재localpolicy적용/queue조정상태회수. resource cap은현재ODEturn모두에관련되는crosscuttingUSERoverride이므로singlefreshactive exactexpectedTurnId로비중단steer가능. 과학작업대체0. idle이면새CPUpolicyturn시작. user model/effort유지.",
+  "monitoring": "한정admission/queue snapshot과ACK뒤STOP,no recurringmonitor/heartbeat/automaticretry/장기job완료wait0."
+}
