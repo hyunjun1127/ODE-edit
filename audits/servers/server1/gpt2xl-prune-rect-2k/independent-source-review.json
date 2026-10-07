@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "reviewer": "independent bounded source/CPU agent cake_blue_red",
+  "scope": "task source/contract and all five task CPU suites",
+  "tests": 34,
+  "passed": 34,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "seconds": 1.613,
+  "result": "PASS_WITHIN_SOURCE_CPU_SCOPE",
+  "remaining_blockers_found": [],
+  "collector_repair": "exact L13–17 physical names and cold/runtime-W0, dense/native_after, final/after hashes bound",
+  "terminal_hash": "same state shape/dtype header and contiguous bytes",
+  "production_assembly": "terminal suite included; explicit json imports and serializer fixture checked",
+  "preserved": "native expressions, 20 applies, no H/P, terminal once, rollback and observation order",
+  "diff_check": "PASS",
+  "GPU_model_native_fit_validation": "NOT_RUN",
+  "network_Slurm_mutation": false,
+  "owner_71_test_result": "SEPARATE_EVIDENCE_NOT_INDEPENDENT_COUNT"
+}

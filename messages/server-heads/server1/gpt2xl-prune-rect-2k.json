@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH1-GPT2XL-PRUNE-RECT-2K-20261007-R1",
+  "status": "SUBMITTED_RELEASED_RESOURCE_PENDING",
+  "jobs": {
+    "PRUNE": "60757",
+    "RECT": "60758",
+    "collector": "60759"
+  },
+  "dependencies": {
+    "PRUNE": [
+      "60739",
+      "60740"
+    ],
+    "RECT": [
+      "60739",
+      "60740"
+    ],
+    "collector": [
+      "60757",
+      "60758"
+    ]
+  },
+  "execution_source": "2689024d4c4a88cbe95f98b5e8a6191fad437894",
+  "lock_sha256": "979274eba2ac5114d93b0e0a9a0b5ed4c2e31f46590f9b399ac2bc357712e396",
+  "config_sha256": "caf21f441ab150484a7d6f3d769883978cdf2d70aded5122b5a9b3b2b3c46924",
+  "numerical_GPU_qualification": "NOT_OBSERVED",
+  "W_B": "NOT_YET_RUN",
+  "held_inspection": "PASS",
+  "release": "DONE",
+  "cap": 2,
+  "maximum_admitted_GPU_width": 2,
+  "noCP": true,
+  "exact_resume": "NOT_AVAILABLE",
+  "scientific_complete": false,
+  "monitoring": "PAUSED_AFTER_BOUNDED_REGISTRATION_SNAPSHOT"
+}

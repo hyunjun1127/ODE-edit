@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH1-GPT2XL-PRUNE-RECT-2K-20261007-R1",
+  "owner": "SH1",
+  "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+  "app_root_cwd": "/mnt/raid5/janghj/ODE-edit",
+  "dedicated_worktree": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-gpt2xl-prune-rect-2k",
+  "legacy_registry_29e4": "HISTORICAL_NOT_BOUNDARY",
+  "status": "SUBMITTED_RELEASED_RESOURCE_PENDING",
+  "FULL_READ": true,
+  "envelope_sha256": "cd51690322ca7abbf4dd51c1a9c0e56e07e83dab17c45e976d96a17c51ab9b24",
+  "contract_sha256": "1ffdb9a222eedf0a977aee06e174a7b147871f0c1504f91bb7c54f0fcd1592ac",
+  "preceding_task": "gpt2xl-cake-blue-2k; latest direct USER selected ALPHAEDIT_BLUE, not MEMIT_BLUE",
+  "job_ids": ["60757", "60758", "60759"],
+  "existing_jobs_mutated": false,
+  "source_assets_raw_preserved": true,
+  "GPU_cap_file_changed": false
+}

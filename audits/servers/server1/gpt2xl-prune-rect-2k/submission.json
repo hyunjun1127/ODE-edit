@@ -1,0 +1,63 @@
+{
+  "instruction_id": "USER-GH-SH1-GPT2XL-PRUNE-RECT-2K-20261007-R1",
+  "task_id": "gpt2xl-prune-rect-2k",
+  "jobs": {
+    "PRUNE": "60757",
+    "RECT": "60758",
+    "collector": "60759"
+  },
+  "source_commit": "2689024d4c4a88cbe95f98b5e8a6191fad437894",
+  "source_tree": "31f0dc88232a3824549ad70f75c6ad00c3fe7eee",
+  "lock": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/gpt2xl-prune-rect-2k/20261007-v1/attempt-v1/execution.lock.json",
+    "bytes": 102144,
+    "sha256": "979274eba2ac5114d93b0e0a9a0b5ed4c2e31f46590f9b399ac2bc357712e396"
+  },
+  "config": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/gpt2xl-prune-rect-2k/20261007-v1/attempt-v1/config.json",
+    "bytes": 56649,
+    "sha256": "caf21f441ab150484a7d6f3d769883978cdf2d70aded5122b5a9b3b2b3c46924"
+  },
+  "held": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/gpt2xl-prune-rect-2k/20261007-v1/attempt-v1/held-inspection.json",
+    "bytes": 9506,
+    "sha256": "11556708d6ae4312d6f1a1d122997e63bad3bfd33263367f95822c52085686f4"
+  },
+  "release": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/gpt2xl-prune-rect-2k/20261007-v1/attempt-v1/release.json",
+    "bytes": 143,
+    "sha256": "199074fa8f5d38a5a857c986628cd11bf2cbe94a70bdc6f7e1141983fbafa4c3"
+  },
+  "dependencies": {
+    "PRUNE": [
+      "60739",
+      "60740"
+    ],
+    "RECT": [
+      "60739",
+      "60740"
+    ],
+    "collector": [
+      "60757",
+      "60758"
+    ]
+  },
+  "combined_GPU_cap": 2,
+  "projected_GPU_width": 2,
+  "initial": "NOT_OBSERVED",
+  "W_B": "NOT_YET_RUN; startup/readback inside actual jobs",
+  "checkpoint_saved": false,
+  "exact_resume": "NOT_AVAILABLE",
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "status": "SUBMITTED_RELEASED_RESOURCE_PENDING",
+  "snapshot": {
+    "60757": "PENDING Dependency",
+    "60758": "PENDING Dependency",
+    "60759": "PENDING Dependency"
+  },
+  "held_inspection": "PASS",
+  "old_jobs_mutated": false,
+  "new_recurring_monitor": false,
+  "scientific_complete": false,
+  "monitoring": "PAUSED_AFTER_BOUNDED_REGISTRATION_SNAPSHOT"
+}
