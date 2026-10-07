@@ -1,0 +1,384 @@
+{
+  "schema": 1,
+  "source": {
+    "source_commit": "d7284b9466b1913ba3e6a510aca912bbcbf58073",
+    "source_tree": "4e7ac979e0b2b1812ea3a3788effa8cb5b769738",
+    "archive": {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source.tar",
+      "bytes": 327680,
+      "sha256": "c0b1e5e63262f5220b52b71f98205e9816df704f5ab5a4759a16c96636cd2cc3"
+    },
+    "source_members": [
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/control/wandb-method-metric-schema.json",
+        "bytes": 7144,
+        "sha256": "425e50d84adc490e90151aa634bd34a2c55f99ac6c5d278da43b8348f9ab58c3"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/control/wandb-policy.json",
+        "bytes": 6251,
+        "sha256": "02a15a637991320461c5ce8fd560f7001f2219a4c716ba2f8466c7e2f01fbf7d"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/messages/head/2026-10-07-w0-cohort-curves-server1.json",
+        "bytes": 8549,
+        "sha256": "78e0fab99858aa214c34a50c9bca97398cfd2afb80fb44aff30a6cb1a106f8e8"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/plans/global/2026-10-07-w0-cohort-curves-rerun/contract.json",
+        "bytes": 7357,
+        "sha256": "b2f57f86b399ce47ad1c8e5cf777fc99e86aa3bdc812b2b16730c4f19015445c"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/project/run_scripts/base_model_eval/gpt2xl_server1_cohort/__init__.py",
+        "bytes": 81,
+        "sha256": "91dfcc449d55c9f1ef7aaa14ede732d82bf1e2692d75c5a92e115ad5cca76f52"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/project/run_scripts/base_model_eval/gpt2xl_server1_cohort/__main__.py",
+        "bytes": 1682,
+        "sha256": "190c1009123b4c5d04bf3431f1c861d3b791fd6c97c5d13465597072be8f813f"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/project/run_scripts/base_model_eval/gpt2xl_server1_cohort/collect.py",
+        "bytes": 6122,
+        "sha256": "eb192a3ed43ffbcb325cb22cf9a33cfb2702cc1ed34a91b8111d03b295a536da"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/project/run_scripts/base_model_eval/gpt2xl_server1_cohort/common.py",
+        "bytes": 2753,
+        "sha256": "33f926cdec06af99a8e1579d750bcbbc3c0febd8190be833d3c8c85fcbbfe9b5"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/project/run_scripts/base_model_eval/gpt2xl_server1_cohort/curves.py",
+        "bytes": 15981,
+        "sha256": "63cc4716d3f7f5bcf516900409adf3954b0d17e09098ebc7fa6e331ad50a38c6"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/project/run_scripts/base_model_eval/gpt2xl_server1_cohort/prepare.py",
+        "bytes": 8881,
+        "sha256": "bddf36ac85e022bedf7778e28e0f73875a718b16f3e01bf58acdc91d21661efe"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/project/run_scripts/base_model_eval/gpt2xl_server1_cohort/run.py",
+        "bytes": 9971,
+        "sha256": "9daac495c945f8aab3c5e9ec1f9a2692ba5dd0bfe164e1e6e27dc2029ec88a71"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/project/run_scripts/base_model_eval/gpt2xl_server1_cohort/schema.py",
+        "bytes": 6120,
+        "sha256": "4adc097842b459e18181a358dfc53d6e12982e752f7d15b77173284edfac23f5"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/project/run_scripts/base_model_eval/gpt2xl_server1_cohort/submit.py",
+        "bytes": 10113,
+        "sha256": "bf67255e17a0f73550a138f3763001c2bc723945f633d7bcbeb1bcc9557e542f"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/project/run_scripts/base_model_eval/gpt2xl_server1_cohort/test_curves.py",
+        "bytes": 11824,
+        "sha256": "14b1eadd7fc3d5bffbf083b08cca313055d061db968c679a2c3c95933a7ef777"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/project/run_scripts/base_model_eval/gpt2xl_server1_cohort/test_pipeline.py",
+        "bytes": 8144,
+        "sha256": "3f69c8574b71333aaf90896b529da76e7a7f74a070435842eaaa1a7ce0b10d83"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/project/run_scripts/base_model_eval/gpt2xl_server1_cohort/test_tracking.py",
+        "bytes": 10362,
+        "sha256": "d68619c37bc52036de3f9dd788e238f06ede1e89bbf41657d02578bc0e298916"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/project/run_scripts/base_model_eval/gpt2xl_server1_cohort/tracking.py",
+        "bytes": 8425,
+        "sha256": "9f40ea4f64c12c1cbe2e6753f1666191c5799d777d4889bcc429d95b36109b11"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/project/run_scripts/base_model_eval/gpt2xl_server1_cohort/worker.py",
+        "bytes": 7155,
+        "sha256": "8a11fd50e7fbca64a61b946222bbdfe362d09c65f65361eedf56b18512a86cf6"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/project/run_scripts/base_model_eval/gpt2xl_server1_common.py",
+        "bytes": 7766,
+        "sha256": "7142cb4ebf72524f61a160fbf0c0193283e19c643c2a2d5f9a2d6c3de593066f"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/project/run_scripts/experiment_tracking/__init__.py",
+        "bytes": 180,
+        "sha256": "f7481e9203c048e2ff2935aed0cd4ebc8d040355bb7b17f15ddd01bc620da89b"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/project/run_scripts/experiment_tracking/client.py",
+        "bytes": 6966,
+        "sha256": "5a60aa2346944e8ac72d37e8db38829c262a0c8e707443b8aafb53d7f1db3552"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/project/run_scripts/experiment_tracking/identity.py",
+        "bytes": 1049,
+        "sha256": "ba2e33b6036a91919f85378846f7f37825cd5574814277e5ba826818ce188b5b"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/project/run_scripts/experiment_tracking/method.py",
+        "bytes": 5068,
+        "sha256": "482c9b8ea2e945cf9b1dfa15dbf5e30188df453454b5b5114e82106330c19c89"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/project/run_scripts/experiment_tracking/readback.py",
+        "bytes": 1682,
+        "sha256": "0132192b531ec1b8defb2636f755d08959b642e2ea91f401f65d3135402ce842"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/project/run_scripts/experiment_tracking/schema.py",
+        "bytes": 8694,
+        "sha256": "8cf83f309a00d5495f1e2010f55bcb8d8de9f21ce19f3d5581d30431271be327"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/project/run_scripts/experiment_tracking/smoke.py",
+        "bytes": 2158,
+        "sha256": "71cfbfa3f23bb7687177bb2a9357eff82704e4c1c028cdd6945411900809b100"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/project/run_scripts/experiment_tracking/test_job_identity.py",
+        "bytes": 4542,
+        "sha256": "8b4fefb4db21716d78d29c6d2a7b2375658690643d2cc2ed56b1d33734b9a88c"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/project/run_scripts/experiment_tracking/test_method.py",
+        "bytes": 10551,
+        "sha256": "32eeda15a03e8a198463753521f4d6abf1f75d2d59556c9ab63b7325137364ec"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/project/run_scripts/experiment_tracking/test_tracking.py",
+        "bytes": 7672,
+        "sha256": "2c05753b4f1a8c246e1776ad82ed8b933f3e6f714adba9682f506c855726b85e"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/project/run_scripts/experiment_tracking/worker.py",
+        "bytes": 6639,
+        "sha256": "784f2406b11d6e6f5029b5a284c5e050b6d27e6bc66556fd7d0b68e21eb10668"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/project/run_scripts/jlz_interference_l1/__init__.py",
+        "bytes": 3434,
+        "sha256": "3630c181b8a37e810da8cd8802cdbf5687d9c8e1930d20bf1363ab6c62637798"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/project/run_scripts/jlz_interference_l1/comparison_bridge.py",
+        "bytes": 11804,
+        "sha256": "1a3661a7fa84268fe3249dd196136507395e7f84e84144d19be4759f406c5b68"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/project/run_scripts/jlz_pilot/__init__.py",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/project/run_scripts/jlz_pilot/prompts.py",
+        "bytes": 10334,
+        "sha256": "e2883bb96741395c28d87f6534a594734f94bda17ac09a45ba53fd9eab160718"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/project/run_scripts/jlz_price_gpt2xl/__init__.py",
+        "bytes": 81,
+        "sha256": "88503617dd169ac7726ad8626a1aa4a9bd04efeaccbbcf0d38c57711d4d497b5"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/project/run_scripts/jlz_price_gpt2xl/common.py",
+        "bytes": 2419,
+        "sha256": "1b287929e4c75787d120f69e4c615726286fa92187d0f15965d0a1dfa0bf3483"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/project/run_scripts/jlz_price_gpt2xl/scores.py",
+        "bytes": 2286,
+        "sha256": "7cffa1e36a8161afcc4cc4e7dd474c55b4738ab73d7aaa803bc7025af27e3e68"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/project/run_scripts/jlz_realization/__init__.py",
+        "bytes": 78,
+        "sha256": "d42b89432c37642c84af6b0d76b4feb0b4c06bc18b2ecf2f63766b0547c2fc8f"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/project/run_scripts/jlz_realization/common.py",
+        "bytes": 2446,
+        "sha256": "73b43462f8be9482389796b3fcc3623e30fefd9a9cd0edd76619202f2b1a59f2"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/project/run_scripts/jlz_realization/inputs.py",
+        "bytes": 3161,
+        "sha256": "9c283e30cef1900b5e6b4f2b6a751a455166f6152939955a38cf4efb0d8de0ef"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/project/run_scripts/jlz_realization/observe.py",
+        "bytes": 8397,
+        "sha256": "010d08050febc418445308a9a41d5f8b247d0732d585ac15b79974341b6477e1"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/project/run_scripts/jlz_realized_writer_sequential/__init__.py",
+        "bytes": 82,
+        "sha256": "d8e2831cc515b66ef77ef3ed792f7d3046952fcf0e9bfd49147f885f5c2cf706"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/project/run_scripts/jlz_realized_writer_sequential/review_completed.py",
+        "bytes": 27469,
+        "sha256": "9efd6c672fc228738dd240b3be1149b4eead4b7917ae7eb1263f18c197f1dbe2"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/project/run_scripts/jlz_shared_budget/__init__.py",
+        "bytes": 74,
+        "sha256": "b4f8baf898e54272932be6693a37182624fa15231e3d1e0959383190757cc536"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/project/run_scripts/jlz_shared_budget/common.py",
+        "bytes": 1103,
+        "sha256": "6fac1b87fcc72a3b0d0360000fc258cb66f898fe4e78d2bf217d216f05bfc2f8"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/source/scripts/fixed_counterfact.py",
+        "bytes": 6344,
+        "sha256": "8201a570b19a9e4e93ec7528d6a9131d5c7b203ddf333cba83d73f31220f9000"
+      }
+    ],
+    "authority": {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-base-model-gpt2xl-w0-cohort-curves/messages/head/2026-10-07-w0-cohort-curves-server1.json",
+      "bytes": 8549,
+      "sha256": "78e0fab99858aa214c34a50c9bca97398cfd2afb80fb44aff30a6cb1a106f8e8"
+    },
+    "contract": {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-base-model-gpt2xl-w0-cohort-curves/plans/global/2026-10-07-w0-cohort-curves-rerun/contract.json",
+      "bytes": 7357,
+      "sha256": "b2f57f86b399ce47ad1c8e5cf777fc99e86aa3bdc812b2b16730c4f19015445c"
+    }
+  },
+  "inputs": {
+    "runtime": {
+      "python": "/mnt/raid5/janghj/EasyEdit/.venv/bin/python",
+      "torch": "2.9.1+cu128",
+      "transformers": "4.57.1",
+      "FP32": true,
+      "eager": true,
+      "TF32": false,
+      "autocast": false
+    },
+    "model": "/mnt/raid5/janghj/.cache/huggingface/hub/git-checkouts/openai-community--gpt2-xl",
+    "model_revision": "15ea56dee5df4983c59b2538573817e1667135e2",
+    "model_assets": [
+      {
+        "path": "/mnt/raid5/janghj/.cache/huggingface/hub/git-checkouts/openai-community--gpt2-xl/model.safetensors",
+        "bytes": 6431829964,
+        "sha256": "0f8b28eb05a8075f48b61b6f35332978c74fc7763fa9fb4051a1c30511736a6a"
+      },
+      {
+        "path": "/mnt/raid5/janghj/.cache/huggingface/hub/git-checkouts/openai-community--gpt2-xl/config.json",
+        "bytes": 689,
+        "sha256": "be48115d52314bc27327e160bf10197760db02ea689d10adb24db4102edf7a8a"
+      },
+      {
+        "path": "/mnt/raid5/janghj/.cache/huggingface/hub/git-checkouts/openai-community--gpt2-xl/generation_config.json",
+        "bytes": 124,
+        "sha256": "b90eadacf585a743a30ea51e8b5c88b8d282a2a34dc0c7e556d0987cdbd68805"
+      },
+      {
+        "path": "/mnt/raid5/janghj/.cache/huggingface/hub/git-checkouts/openai-community--gpt2-xl/generation_config_for_text_generation.json",
+        "bytes": 165,
+        "sha256": "a69e99c4a690c2015aaaeaef066516f1df9316317b3605869039fa896108efce"
+      },
+      {
+        "path": "/mnt/raid5/janghj/.cache/huggingface/hub/git-checkouts/openai-community--gpt2-xl/merges.txt",
+        "bytes": 456318,
+        "sha256": "1ce1664773c50f3e0cc8842619a93edc4624525b728b188a9e0be33b7726adc5"
+      },
+      {
+        "path": "/mnt/raid5/janghj/.cache/huggingface/hub/git-checkouts/openai-community--gpt2-xl/tokenizer.json",
+        "bytes": 1355256,
+        "sha256": "8414cab924d8b9b33013f0d221c5862f365ee9be39c5c2bfae8a5a9e970478a6"
+      },
+      {
+        "path": "/mnt/raid5/janghj/.cache/huggingface/hub/git-checkouts/openai-community--gpt2-xl/tokenizer_config.json",
+        "bytes": 26,
+        "sha256": "5e04eb606e3a1583530a42e36c2a6b6615c86f34fe77e44d9ddeb43ff940931f"
+      },
+      {
+        "path": "/mnt/raid5/janghj/.cache/huggingface/hub/git-checkouts/openai-community--gpt2-xl/vocab.json",
+        "bytes": 1042301,
+        "sha256": "196139668be63f3b5d6574427317ae82f612a97c5d1cdaf36ed2256dbf636783"
+      }
+    ],
+    "input_members": [
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/jlz-price-gpt2xl-2k/attempt-execution-r1/inputs/ready.json",
+        "bytes": 16875,
+        "sha256": "6160262156c96bb48dd9019691e1d47284d5fb381e65f701d4e4fff8b0cbec5a"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/jlz-price-gpt2xl-2k/attempt-execution-r1/inputs/contexts.json",
+        "bytes": 244,
+        "sha256": "394232472ab1a4b72dcfa7662169fa5195a42c43350676df2e73683636120ed7"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/jlz-price-gpt2xl-2k/attempt-execution-r1/inputs/observer-identity.json",
+        "bytes": 8124634,
+        "sha256": "0975a2eb007bc1f8ac043eae945a89197733c301813c6603a7f8ba3e5294f3c0"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/datasets/counterfact-fixed-10k-v1/counterfact.json",
+        "bytes": 16679956,
+        "sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/observer-identity.json",
+        "bytes": 8474379,
+        "sha256": "abc078d876e51ed6efab0745b2b8665db6afd1b643931451fd77bd6b3afbd1c5"
+      }
+    ],
+    "contexts": {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/jlz-price-gpt2xl-2k/attempt-execution-r1/inputs/contexts.json",
+      "bytes": 244,
+      "sha256": "394232472ab1a4b72dcfa7662169fa5195a42c43350676df2e73683636120ed7"
+    },
+    "observer_identity": {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/observer-identity.json",
+      "bytes": 8474379,
+      "sha256": "abc078d876e51ed6efab0745b2b8665db6afd1b643931451fd77bd6b3afbd1c5"
+    },
+    "ordered_ids_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+    "reference_config": {
+      "actual_applied_edits": 0,
+      "actual_model_edits": 0,
+      "edits_axis_semantics": "reference_cohort_progress",
+      "evaluation_model_state": "W0",
+      "post_state_edits": 0,
+      "pre_state_edits": 0,
+      "reference_only": true,
+      "role": "scientific",
+      "w0_reference_schema": "w0-cohort-reference-v1",
+      "writer": "none"
+    },
+    "resources": {
+      "ETA": "NOT_MEASURED",
+      "collector_cpu": 8,
+      "collector_host_mib": 24576,
+      "collector_wall": "02:00:00",
+      "cpu": 8,
+      "dependency": [],
+      "global_cap_changed": false,
+      "gpu": 1,
+      "host_mib": 65536,
+      "scoped_project_cap_exception": true,
+      "storage": {
+        "exclusive_reservation": false,
+        "free_bytes": 1189784576000,
+        "free_inodes": 335331757,
+        "reserve_bytes": 2147483648
+      },
+      "wall": "04:00:00"
+    }
+  },
+  "large_model_SHA_rehash": false,
+  "protected_payload": "existing exact seal plus unchanged stat, recorded in exact local lock; compact copy intentionally omits inode/mtime_ns",
+  "raw_in_Git": false,
+  "tensor_in_Git": false,
+  "credential_in_Git": false,
+  "source_members_count": 46
+}

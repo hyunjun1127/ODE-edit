@@ -1,0 +1,31 @@
+{
+  "instruction_id": "USER-GH-SH1-SH2-W0-COHORT-CURVES-RERUN-20261007-R1-SERVER1",
+  "task_id": "base-model-gpt2xl-w0-cohort-curves",
+  "server": "server1",
+  "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+  "status": "SUBMITTED_RELEASED_MONITORING_PAUSED",
+  "jobs": {
+    "GPU": "60654",
+    "collector": "60655"
+  },
+  "dependency": {
+    "GPU": [],
+    "collector": [
+      "60654"
+    ]
+  },
+  "source_commit": "d7284b9466b1913ba3e6a510aca912bbcbf58073",
+  "source_tree": "4e7ac979e0b2b1812ea3a3788effa8cb5b769738",
+  "config_sha256": "a675d70fbae850d90e040684c467b66cb12fceddcc0dd168ea3925abd8a7142a",
+  "lock_sha256": "f7a63d4fa605f600345acfe9e735abbd7608ca07092e9b0c238cfe0b3c2ffefb",
+  "run_id": "5f7146a380134da0",
+  "W_B_URL": "NOT_YET_OBSERVED",
+  "W_B_validation": "NEW_ID_SEALED_NOT_ONLINE_VERIFIED",
+  "scientific_result": "NOT_OBSERVED",
+  "actual_model_edits": 0,
+  "checkpoint_saved": false,
+  "exact_resume": "NOT_AVAILABLE",
+  "recurring_monitoring": false,
+  "automatic_retry": false,
+  "publication": "own source and compact handoff committed; final remote exact verification recorded separately in ignored local publication receipt"
+}

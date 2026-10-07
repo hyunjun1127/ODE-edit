@@ -1,0 +1,107 @@
+{
+  "schema": 1,
+  "nonce": "USER-GH-SH1-SH2-W0-COHORT-CURVES-RERUN-20261007-R1-SERVER1",
+  "task_id": "base-model-gpt2xl-w0-cohort-curves",
+  "jobs": {
+    "GPU": "60654",
+    "collector": "60655"
+  },
+  "dependencies": {
+    "GPU": [],
+    "collector": [
+      "60654"
+    ]
+  },
+  "source_commit": "d7284b9466b1913ba3e6a510aca912bbcbf58073",
+  "source_tree": "4e7ac979e0b2b1812ea3a3788effa8cb5b769738",
+  "config": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/config.json",
+    "bytes": 10557,
+    "sha256": "a675d70fbae850d90e040684c467b66cb12fceddcc0dd168ea3925abd8a7142a"
+  },
+  "lock": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/execution.lock.json",
+    "bytes": 15988,
+    "sha256": "f7a63d4fa605f600345acfe9e735abbd7608ca07092e9b0c238cfe0b3c2ffefb"
+  },
+  "held": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/held-inspection.json",
+    "bytes": 6692,
+    "sha256": "1d46adef1cbdce7a51fdfc23aa973fb2746067d5779e4cec4755dca9970535b4"
+  },
+  "release": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/release.json",
+    "bytes": 99,
+    "sha256": "67450062709ae7950a7260b182c4e83d939f26f8631c13912436482d1b8ec7a4"
+  },
+  "prior_binding": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/prior-w0-binding.json",
+    "bytes": 1534,
+    "sha256": "827e21f089f8e8f22f9fb112beb36c87ef8bf121bbe42a1b17d4624ef122cbb0"
+  },
+  "snapshot": "60655|base-model-gpt2xl-w0-cohort-curves-collector|PENDING|(None)\n60654|base-model-gpt2xl-w0-cohort-curves-GPU|PENDING|(None)",
+  "new_W_B_identity": {
+    "URL": "NOT_YET_OBSERVED",
+    "run_id": "5f7146a380134da0",
+    "stage": "NEW_ID_SEALED_NOT_ONLINE_VERIFIED"
+  },
+  "initial": "NOT_OBSERVED",
+  "USER_SCOPED_CAP_EXCEPTION": true,
+  "actual_model_edits": 0,
+  "checkpoint_saved": false,
+  "exact_resume": "NOT_AVAILABLE",
+  "monitoring": false,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "local_submission": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/submission.json",
+    "sha256": "a55d5924d94aa56e28e7599dff45ab7d59483d5705e5afa3d7851648629da798"
+  },
+  "snapshot_semantics": "one registration snapshot only; not current-state or scientific completion claim",
+  "released": true,
+  "held_checks_passed": true,
+  "status": "SUBMITTED_RELEASED_MONITORING_PAUSED",
+  "W_B_online": "NOT_OBSERVED",
+  "old_jobs_preserved": true,
+  "new_measurement_claim": "NOT_YET_OBSERVED",
+  "CPU": {
+    "owner25_passed": true,
+    "independent25_passed": true,
+    "frozen25_passed": true,
+    "not_model_or_online_PASS": true
+  },
+  "resources": {
+    "GPU": 1,
+    "CPU": 8,
+    "host_memory_MiB": 65536,
+    "wall": "04:00:00",
+    "partition": "gpu",
+    "QoS": "lab_gpu_s1",
+    "node": "devbox",
+    "export": "NONE",
+    "requeue": 0,
+    "collector_GPU": 0,
+    "collector_CPU": 8,
+    "collector_memory_MiB": 24576,
+    "collector_wall": "02:00:00"
+  },
+  "physical_preflight": {
+    "node_Gres": "gpu:a6000:8",
+    "node_allocated_GPU_count": 8,
+    "owner_devbox_GPU_jobs_at_pre_submit": 0,
+    "memory_policy": "ALLOW_MEMORY_POLICY requested65536MiB <= ceiling183296MiB",
+    "stricter_policy_preserved": true,
+    "physical_oversubscription": false
+  },
+  "costs": {
+    "new_program_wall": "NOT_OBSERVED",
+    "new_GPU_allocation_seconds": "NOT_OBSERVED",
+    "wall_request_is_ETA": false,
+    "old_W0_GPU60156_seconds": 815,
+    "old_W0_CPU60157_seconds": 3,
+    "old_cost_not_recounted": true
+  },
+  "render": {
+    "actual_renderer": "NOT_RUN: no installed pandoc/cmark/markdown or Python Markdown renderer",
+    "static_validation": "run separately before publication"
+  }
+}
