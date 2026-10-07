@@ -1,0 +1,28 @@
+{
+  "GFM_columns": "PASS",
+  "relative_links": 4,
+  "Korean": "PASS",
+  "actual_renderer": "NOT_RUN",
+  "source_and_input_hashes": "PASS",
+  "own_scope_access": "PASS",
+  "diff_check": "PASS",
+  "raw_free": true,
+  "secret_free_compact_metadata": true,
+  "independent_final_review": {
+    "agent": "/root/w0_cohort_red",
+    "source": "d7284b9466b1913ba3e6a510aca912bbcbf58073",
+    "tests": 25,
+    "passed": 25,
+    "seconds": 4.736,
+    "warning_resolved": true,
+    "Slurm_GPU_network": false
+  },
+  "frozen_CPU_gate": {
+    "tests": 25,
+    "passed": 25,
+    "receipt_path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gpt2xl-w0-cohort-curves/20261007-v1/attempt-v1/frozen-cpu-gate.json",
+    "sha256": "8d6755a5d7fb785f66f3b8030d8fcd224221038c08fc8facf2b4b7cf23c7f2f6"
+  },
+  "cost_or_scientific_result_new_queries": false,
+  "source_bytes_unchanged": true
+}

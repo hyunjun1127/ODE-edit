@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "task_id": "base-model-gpt2xl-w0-cohort-curves",
+  "instruction_id": "USER-GH-SH1-SH2-W0-COHORT-CURVES-RERUN-20261007-R1-SERVER1",
+  "execution_source": "d7284b9466b1913ba3e6a510aca912bbcbf58073",
+  "execution_lock": "f7a63d4fa605f600345acfe9e735abbd7608ca07092e9b0c238cfe0b3c2ffefb",
+  "jobs": {
+    "GPU": "60654",
+    "collector": "60655"
+  },
+  "registered_released": true,
+  "monitoring_paused": true,
+  "scientific_initial": "NOT_OBSERVED",
+  "W_B_online": "NOT_OBSERVED",
+  "members": [
+    {
+      "path": "experiment-reports/servers/server1/base-model-gpt2xl-w0-cohort-curves/report-ko.md",
+      "sha256": "fc8895734847a61ed26bec82cb568b267f705165b87db944db0b969e0e44cf69"
+    },
+    {
+      "path": "audits/servers/server1/base-model-gpt2xl-w0-cohort-curves/preflight.json",
+      "sha256": "a1bd2b10b9fb1797912eb79d2af86b2a2d869b1f4ddf25713f7694f294bde08e"
+    },
+    {
+      "path": "audits/servers/server1/base-model-gpt2xl-w0-cohort-curves/submission.json",
+      "sha256": "5a6a5f8425c1bd5ae87df93c324d411b7205501777514e93f229f782c5447e24"
+    },
+    {
+      "path": "audits/servers/server1/base-model-gpt2xl-w0-cohort-curves/source-input-manifest.json",
+      "sha256": "7050cf6eeb85775f0126e658aa767bbc83a61c1bf38c699938cc6981cf45c70c"
+    },
+    {
+      "path": "audits/servers/server1/base-model-gpt2xl-w0-cohort-curves/publication-checks.json",
+      "sha256": "460e225cfe4250a3eadaeb4c9c5bf06bf4679891e84e3e620eb07ad134688f5f"
+    },
+    {
+      "path": "messages/acks/server1/base-model-gpt2xl-w0-cohort-curves.json",
+      "sha256": "eb0d705a90132cda07d02ed5c698ed12b8aee957848176128ca1d874739583c9"
+    },
+    {
+      "path": "messages/server-heads/server1/base-model-gpt2xl-w0-cohort-curves.json",
+      "sha256": "e3960b9bddd9d81da3ac1bbdc899e3db359c6cc430feb76888ff8c075f913b11"
+    },
+    {
+      "path": "tasks/status/base-model-gpt2xl-w0-cohort-curves/server1.json",
+      "sha256": "d7d36765293ccae24eb3708e3d888e1ef4d4db6150de52eb47568773169c2592"
+    }
+  ],
+  "raw_Git": false,
+  "secret_Git": false,
+  "root_receipt_self_hash": "excluded to avoid self-reference; Git object binds this receipt",
+  "remote_main_proof": "recorded after nonforce push in ignored local publication-final.json; not a scientific completion claim"
+}
