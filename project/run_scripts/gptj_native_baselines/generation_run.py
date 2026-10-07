@@ -26,7 +26,7 @@ import transformers
 
 from .generation_common import (
     ARMS, ARM_LAYERS, MILESTONES, NONCE, SOURCE_ENV, TASK, authority, batches,
-    digest, expected_counts, read, require, sha, stat_seal, verify, write,
+    digest, expected_counts, member, read, require, sha, stat_seal, verify, write,
     writer_identity,
 )
 from .generation_plan import ready
@@ -201,10 +201,16 @@ def generation_receipt(result, selected, endpoint, physical_state, raw_out, *, s
     """Compact identity/summary only: raw text and tokens stay in bridge output."""
     reduced = result['summary'] if summary is None else summary
     require(isinstance(reduced, dict), 'GENERATION_SUBSET_SUMMARY')
-    return dict(summary=reduced, identity=result['identity'], endpoint=endpoint,
+    receipt=dict(summary=reduced, identity=result['identity'], endpoint=endpoint,
                 model_state=physical_state, requests=len(selected),
                 cohort_identity=digest([record['case_id'] for record in selected]),
                 raw_directory=str(raw_out), derived_subset=subset)
+    for key in ('rows_path','work','shared_state_identity','identity_sha256',
+                'shared_summary','RNG_restored','observer_no_mutation'):
+        if key in result:receipt[key]=result[key]
+    if result.get('rows_path'):
+        receipt['raw_endpoint_member']=member(result['rows_path'])
+    return receipt
 
 
 def execute_chain(config, lock, out, arm, model, tokenizer, view, engine, bench,
@@ -280,10 +286,12 @@ def execute_chain(config, lock, out, arm, model, tokenizer, view, engine, bench,
                 endpoint=f'W{number}', model_state=after,
                 cohort_label='ALL_SEEN' if number in MILESTONES else 'CURRENT'),
                 view, engine, arm, bench, ops, len(selected))
-            currentgen = (generation.subset(postgen['cases'], current)
-                          if number in MILESTONES else postgen['summary'])
-            aftergen = generation_receipt(postgen, current, f'W{number}', after,
-                                           post_directory, summary=currentgen,
+            current_observation = (generation.subset_receipt(postgen, current,
+                endpoint=f'W{number}_CURRENT',cohort_label='CURRENT',
+                out=folder/'generation-current') if number in MILESTONES else postgen)
+            currentgen = current_observation['summary']
+            aftergen = generation_receipt(current_observation, current, f'W{number}', after,
+                                           post_directory,
                                            subset=number in MILESTONES)
             prefixgen = (generation_receipt(postgen, seen, f'W{number}', after, post_directory)
                          if number in MILESTONES else None)

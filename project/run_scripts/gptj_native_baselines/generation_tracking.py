@@ -1,11 +1,11 @@
-"""Own producer mapping with a source-identical private transport except scalar extension."""
+"""Task caller of the immutable shared generation payload and scalar logger."""
 import os
 from .generation_common import TASK, require, writer_identity, write
-from . import generation_tracking_schema as schema
+from project.run_scripts.experiment_generation_eval.metrics import generation_payload
+from project.run_scripts.experiment_tracking import init, schema
+from project.run_scripts.experiment_tracking.method import GENERATION_PREFIXES
 from project.run_scripts.jlz_interference_l1.cap_tracking import SCHEMA, log_w0, log_batch, safe_log
 def start_tracking(c,lock,out,arm):
-    # Extra keys are allowed only in this task's source-bound private schema.
-    from .generation_tracking_client import init
     gen=c['generation']
     cfg=dict(server='server2',task_id=TASK,arm=arm,attempt='attempt-r1',
         source_sha=lock['source_commit'],config_sha=lock['config_sha256'],
@@ -19,18 +19,22 @@ def start_tracking(c,lock,out,arm):
         config=tracker.config_values,startup_readback=tracker.startup,scientific_complete=False))
     return tracker
 def generation_values(prefix,summary,edits,pre_edits=None,post_edits=None):
-    require(prefix in schema.PREFIXES,'GEN_PREFIX')
+    require(prefix in GENERATION_PREFIXES,'GEN_PREFIX')
     result={'edits':edits}
     if pre_edits is not None:result['pre_state_edits']=pre_edits
     if post_edits is not None:result['post_state_edits']=post_edits
-    for key in schema.FIELDS:
-        if key in summary:result[prefix+'/'+key]=summary[key]
-    require(prefix+'/generation/planned_count' in result,'GEN_SUMMARY_REQUIRED_COUNTS')
+    if 'planned_count' in summary:
+        # Production consumes reduce_cases() unchanged: raw means/counts and
+        # closed missing reasons. Shared mapping alone owns public key names.
+        result.update(generation_payload(prefix,summary))
+    else:
+        # Prior CPU-only fixtures supplied already flattened scalar fields.
+        # Keep that fixture boundary; it is never the shared observer format.
+        from . import generation_tracking_schema as legacy
+        result.update({prefix+'/'+key:summary[key] for key in legacy.FIELDS if key in summary})
+        require(prefix+'/generation/planned_count' in result,'GEN_SUMMARY_REQUIRED_COUNTS')
+        legacy.metrics(result,scientific=True)
     return schema.metrics(result,scientific=True)
 def log_generation(tracker,prefix,summary,edits,pre_edits=None,post_edits=None):
-    payload=generation_values(prefix,summary,edits,pre_edits,post_edits)
-    accepted=tracker.log(payload)
-    if accepted is False:
-        write(tracker.spool/'generation-log-degraded.json',dict(status='LOGGING_DEGRADED_REJECTED_POINT',
-            prefix=prefix,edits=edits,scientific_rerun=False))
-    return accepted
+    return safe_log(tracker,lambda:generation_values(prefix,summary,edits,pre_edits,post_edits),
+                    'generation_'+prefix)
