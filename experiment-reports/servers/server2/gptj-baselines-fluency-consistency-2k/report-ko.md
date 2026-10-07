@@ -1,6 +1,6 @@
 # GPT-J native six-baseline fluency/consistency 준비·등록 보고
 
-상태: `READY_SOURCE_REFERENCE_CPU; SUBMISSION_NOT_YET_EXECUTED`.
+상태: `SUBMISSION_HANDOFF; SIX_GPU_AND_CPU_COLLECTOR_RELEASED`.
 Instruction/nonce `USER-GH-ALL-SH-BASELINE-FLUENCY-CONSISTENCY-RERUN-20261007-R1`,
 SH2/server2/session `01a0493a-074c-7f91-9a13-769116326fef`.
 원 dirty root와 기존 task/source/raw를 보존한다. 입력 READY·CPU fixture 통과는 실제 GPU/생성/편집 완료가 아니다.
@@ -79,7 +79,7 @@ Private logger/CPU26는 역사 fixture이며 현재 transport가 아니다.
 단위는 fluency bits/consistency cosine; missing mean은 omit, 지표0으로 대체하지 않는다.
 actual Slurm jobID/run.name/config와 immutable runUUID를 봉인한다.
 SDK 접수와 remote readback, 프로그램 종료와 science completion을 구분한다.
-새 online run/GPU 검증은 아직 미관측이다.
+등록 후 bounded 대조에서 새 online startup·첫 actual write는 아직 미관측이다.
 
 기존 CPU44 PASS는 historical preparation이다. 새 coupling tests는
 bridge/shared mapping/runner/launcher/독립 collector에 한정한다.
@@ -87,7 +87,9 @@ bridge/shared mapping/runner/launcher/독립 collector에 한정한다.
 6 subtest failure였고, 실제 공통 API의 distinct endpoint/same physical-state
 계약에 맞게 task fixture를 수정했다. 원 failure receipt 보존;
 수치 tolerance/과학조건 변경0. 새 검산 결과·source hash는 CPU integration receipt에 남긴다.
-최종 새 CPU38 tests PASS(0 failure/0 error), 4.723초, peak RSS849752064B,
+원 integration-r1 CPU38 PASS(4.723초)는 역사 receipt로 보존했다.
+EOF 정리와 final CPU receipt 결속 후 같은 좁은 integration-r2를 수행했다.
+최종 새 CPU38 tests PASS(0 failure/0 error), 3.990초, peak RSS850006016B,
 threads1/CUDA initialized=false. prior bias/plan CPU는 unchanged source SHA로 재사용했다.
 실제 모델/생성/native fit/network/Slurm는 이 검사에서 모두0이다.
 독립 worker fixture/reducer 검토는 사용했으나 actual pretrained/GPU red PASS를 만들지 않았다.
@@ -103,7 +105,7 @@ collector는 six GPU afterany. 더 엄격한 cap1이면 전량 직렬.
 
 각 GPU1/CPU6/59392MiB/48h; collector0GPU/CPU6/24576MiB/4h.
 48h는 요청 wall이며 ETA/완료 보장이 아니다. fresh owner/source/node/dependency와
-현재 물리 VRAM/RAM/disk/QoS를 등록 직전 결속한다. 성능 afterok/gate0.
+현재 물리 VRAM/RAM/disk/QoS를 등록 직전 결속했다. 성능 afterok/gate0.
 예상 raw reserve16GiB/arm, 동시32GiB; reference 약0.903GiB 별도.
 실제 generation/fit/solve/eval/guard/IO/할당시간·peak·유효 분모는 runner/collector가 기록한다.
 
@@ -122,7 +124,53 @@ reference exact 단회 수신만 수행했으며 새 생성 raw를 타 서버로
 Ignored root:
 `/mnt/raid5/janghj/ODE-edit/local/gptj-baselines-fluency-consistency-2k/`.
 reference inputs/reference-r1, preparation-r1 역사, preparation-r2/config.json 및 binding.json.
-execution/source/lock/jobs는 attempt-r1 등록 이후에만 확정한다.
+execution/source/lock/jobs는 아래 attempt-r1 실제 등록 receipt에 결속했다.
 source freeze와 이후 report/main commit을 별도로 기록한다.
 명령은 project/run_scripts/gptj_native_baselines/GENERATION_RERUN_README.md;
 prepare/bind/submit은 create-once이며 같은 nonce를 중복 제출하지 않는다.
+
+## 실제 등록·최신 recall 대조
+
+Execution source `503081fa9bc6efc4dbdd461324fba522b8f36e8b`,
+tree `5610249a31866d1568d1e473288dc5fc68a53d9d`.
+Lock88993B SHA `7e38d6a189521d27b3bc06084c71d28d277628b0a9812856c1ad87c70a334cb1`.
+이후 compact 보고 게시 commit은 execution identity를 대체하지 않는다.
+
+2026-10-07 22:14 KST에 전량 held 등록, exact owner/Command/full argv/source/
+input/W&B/noCP/resources/dependency 검사 후 모두 release했다.
+
+| Arm/역할 | Actual job ID | afterany | 최신 recall 단발 상태 |
+| --- | --- | --- | --- |
+|BASE_MEMIT|60909|없음|RUNNING|
+|BASE_ALPHAEDIT|60910|60909|PENDING/Dependency|
+|CAKE|60911|60909|PENDING/Dependency|
+|ALPHAEDIT_BLUE|60912|60910|PENDING/Dependency|
+|PRUNE|60913|60911|PENDING/Dependency|
+|RECT|60914|60912|PENDING/Dependency|
+|CPU collector|60915|60909–60914 전체|PENDING/Dependency|
+
+최초 release 직후 snapshot은 전부 PENDING/Reason=None이었다.
+추가 USER recall nonce
+`USER-GH-SH1-SH2-SH4-BASELINE-GENERATION-REGISTER-RESUME-20261007-R1`
+수신 뒤 exact 기존7개를 한 번 대조한 결과 위와 같았다.
+Owner janghj/node server2/Command와 lock source 일치, 신규 중복submit0/job변경0.
+새 controller root 여유를 당사자 검증이나 GPU PASS로 대신하지 않았다.
+
+등록 전 own S2 project GPU allocation/frontier0을 actual source/owner/node로 확인했고,
+새 DAG 가능한 최대 동시GPU2다. 다른 owner/server allocation은 이 task 권한 밖으로 보호했다.
+현재 node는 A6000 8개/각49140MiB, CPU64/RealMemory512000MiB이며,
+held 검사 때 전체 owner AllocTRES는 GPU4/CPU22/196GiB였다.
+새 2lane host 요청118784MiB, 당시 free disk471627784192B/inode443349587.
+이는 node 전체 resource 관측이지 science peak나 ETA가 아니다.
+
+Actual W&B startup/readback·첫write/B2연결·W20 completion은 `NOT_OBSERVED`.
+등록 성공은 numerical/model/generation certification이 아니다.
+완료 분모·native calls·generation·비용은 sealed runner/collector의 실제 결과로만 판단한다.
+신규 recurring monitor/automatic retry0, agent는 bounded handoff 뒤 중지한다.
+
+Compact audit: submission.json, registration-resume-reconcile.json,
+cpu-integration-final.json. Original held inspection/full scheduler argv와 원 stdout는 ignored local에 보존한다.
+GH로 실제 IDs를 app-server 전달하려 했으나 target active turn의 same-task identity가
+미확립되어 `COMMUNICATION_HOLD_UNRELATED_OR_UNRESOLVED_ACTIVE_TURN_NO_STEER`였다.
+메시지 실행/steer0·자동재전송0이며 Git 게시를 GH live 수신으로 주장하지 않는다.
+이 사실은 science 등록 완료와 별도다. 이전 readiness request의 GH final ACK는 그대로 유효하다.

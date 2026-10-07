@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "status": "PASS_COMPACT_REPORT_METADATA_CONSISTENCY",
+  "scope": "JSON syntax, actual seven IDs/dependencies/source/config/lock/counts and no falsely claimed science completion; not numerical/model/GPU validation",
+  "jobs": {
+    "ALPHAEDIT_BLUE": "60912",
+    "BASE_ALPHAEDIT": "60910",
+    "BASE_MEMIT": "60909",
+    "CAKE": "60911",
+    "PRUNE": "60913",
+    "RECT": "60914",
+    "collector": "60915"
+  },
+  "execution_source": "503081fa9bc6efc4dbdd461324fba522b8f36e8b",
+  "execution_lock_sha256": "7e38d6a189521d27b3bc06084c71d28d277628b0a9812856c1ad87c70a334cb1",
+  "verified_publication_paths": [
+    "audits/servers/server2/gptj-baselines-fluency-consistency-2k/cpu-integration-final.json",
+    "audits/servers/server2/gptj-baselines-fluency-consistency-2k/submission.json",
+    "audits/servers/server2/gptj-baselines-fluency-consistency-2k/registration-resume-reconcile.json",
+    "audits/servers/server2/gptj-baselines-fluency-consistency-2k/app-server-submission-handoff.json",
+    "tasks/status/gptj-baselines-fluency-consistency-2k/server2.json",
+    "messages/acks/server2/gptj-baselines-fluency-consistency-2k.json",
+    "messages/server-heads/server2/gptj-baselines-fluency-consistency-2k.json"
+  ],
+  "new_model_forward": 0,
+  "new_generation": 0,
+  "new_native_fit": 0,
+  "new_Slurm": 0,
+  "no_raw_Git": true,
+  "noCP": true,
+  "monitoring_active": false,
+  "automatic_retry": false
+}

@@ -35,5 +35,25 @@
   "planned_wall": "2-00:00:00",
   "noCP": true,
   "monitoring_active": false,
-  "automatic_retry": false
+  "automatic_retry": false,
+  "record_scope": "ORIGINAL_RECEIPT_PRESERVED_WITH_LATEST_OWNER_ACK",
+  "latest_owner_ack": {
+    "nonce": "USER-GH-SH1-SH2-SH4-BASELINE-GENERATION-REGISTER-RESUME-20261007-R1",
+    "authority": "6d6e2fdb531ecb3d6e5bc98db0f188001c6a7aa0",
+    "accepted": true,
+    "stage": "ALREADY_REGISTERED_NO_DUPLICATE",
+    "jobs": {
+      "ALPHAEDIT_BLUE": "60912",
+      "BASE_ALPHAEDIT": "60910",
+      "BASE_MEMIT": "60909",
+      "CAKE": "60911",
+      "PRUNE": "60913",
+      "RECT": "60914",
+      "collector": "60915"
+    },
+    "execution_source": "503081fa9bc6efc4dbdd461324fba522b8f36e8b",
+    "scientific_complete": false,
+    "monitoring_active": false,
+    "automatic_retry": false
+  }
 }
