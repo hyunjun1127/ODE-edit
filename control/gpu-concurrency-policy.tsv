@@ -9,13 +9,16 @@ server2	2
 # User override 2026-09-20: server3 project cap1; other servers unchanged.
 # User override 2026-09-20 (latest): RES/GSS_REC two-arm task; server3 project cap2.
 # User override 2026-09-28: MEMIT history baseline; server3 project cap1.
-server3	2
+server3	1
 # User override 2026-10-04: server4 project cap3; existing jobs unchanged, task-specific caps still apply.
 # User override 2026-10-06: server4 combined cap2 for PRICE repair Llama+Qwen; count existing allocations, do not cancel old jobs.
 # User override 2026-10-07: server4 combined cap3 including existing jobs and GPT-J MEMIT/Alpha; no existing job mutation.
-server4	2
+server4	3
 # Latest user override 2026-10-07: EACH server combined project GPU cap2.
 # Counts science, preparation/qualification, evaluation and W0; previous W0-only
 # extra-GPU exception is not valid for new admission. Existing running allocations
 # are preserved (no cancellation); no additional execution while over cap.
 # Stricter task-specific caps and physical resource limits remain unchanged.
+# Latest USER correction 2026-10-07: server3=1, server4=3; server1/2 remain2.
+# This supersedes the previous all-cap2 directive only for server3 and server4.
+# Existing running jobs are preserved; narrower task caps are not expanded.

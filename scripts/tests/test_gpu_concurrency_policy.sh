@@ -27,8 +27,10 @@ check() {
 }
 export MOCK_QUEUE=''
 for server in server1 server2 server3 server4; do
-  check 0 "$server" 2
-  check 4 "$server" 3
+  policy_cap="$(awk -F '\t' -v server="$server" '$1 == server {print $2; exit}' "${repo_root}/control/gpu-concurrency-policy.tsv")"
+  [[ "$policy_cap" =~ ^[1-9][0-9]*$ ]] || exit 1
+  check 0 "$server" "$policy_cap"
+  check 4 "$server" "$((policy_cap + 1))"
 done
 export MOCK_QUEUE=$'10|odeedit_existing|gpu:1\n'
 check 0 server1 1
