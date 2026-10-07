@@ -104,3 +104,12 @@ Generation 진행률은 완료 경계 callback의 `generation_progress/step` 축
 독립 reviewer가 source/installed cache API와 CPU fixture68개를 검토해 old generation identity가 RPN identity에 잘못 연결된 제출 blocker를 찾았다. 정확 원 `BASE_MEMIT/generation/observer-identity.json` 결속으로 수리하고 실제 metadata regression을 추가했다. 수리 후 독립 CPU12개 PASS, 최종 owner CPU177개 검산을 수행했다. 실제 GPU/온라인 검증을 source/CPU PASS로 확대하지 않는다. 장기 완료 polling/heartbeat/자동 retry는 만들지 않는다.
 
 아래 내용은 원 parent attempt의 역사 기록이며 현재 repair의 성공/완료를 뜻하지 않는다.
+## 2026-10-08 직접 사용자 recall — R2 수리/재등록 준비
+
+사용자 원문 `fail 된거 다시 처리해`에 따라 기존 실패 attempt를 보존하고 새 create-once `attempt-cache-repair-r2`를 준비한다. R1 `61148..61153` 여섯 GPU job은 모두 FAILED, GPU0 collector61154는 종료 COMPLETED(과학 성공이 아닌 실패 요약)이며 exact active queue는 비어 있다. 추가 취소0, OURS/W0-only/FE/다른 프로젝트/타서버 작업 변경0. R1 GPU parent allocation 비용은 합계143 GPU-sec(82+12+12+12+13+12); 이전 취소 attempt의25533 GPU-sec와 별도로 보존한다. 모든 R1 native fit/solve/history/commit 건수0.
+
+첫 원인: W0Compatibility가 caller의 `{path,bytes,sha256,inode,mtime_ns}` member를 3필드 content member와 전체 dict 비교하여, 원 file의 SHA/size/path/inode/mtime가 모두 맞아도 `GENERATION_MEMBER_BYTES_IDENTITY`로 거절했다. 전체 member 동등성 대신 필수 core3필드 정확 검산과 선택적 inode/mtime 정확 검산으로 수리했다. Unknown field/잘못된 타입/bool metadata/상대경로/hash·size 변조/stat 경합은 계속 차단한다. 실제 R1 observer/config/runtime/coldguard/reference member를 production consumer로 검산했고 CPU9개 PASS, 독립 source/CPU 재검토 PASS이다. 원 raw/member/asset 덮어쓰기0, identity 검산 해제0.
+
+R1 실제 qualification은 최대8 고정 prompt에서 reference PASS→cached singleton의 logits/probability/token/metric 비교 통과, strict topk/mask/position 비교 FAIL이었다. 따라서 원 고정 fallback에 따라 no-cache reference MB1을 선택했다. Batch는 미실행이며 폭8 미검증이다. 이것이 W0 terminal failure 원인은 아니며 이를 cache/batch PASS로 바꾸거나 tolerance를 완화하지 않는다. NewR2 source에 같은 고정 PLAN/예산/tolerance를 결속해 첫 실제 allocation 내부에서 qualification하고, actual receipt/compatibility SHA 및 complete2000 READY를 다시 검산한다. 추가 과학 fit/pilot/모델·stats·P 다운로드나 재계산0.
+
+이번 직접 수동 recall에만 새 immutable authority/attempt를 결속한다. 원 nonce 중복 방어는 기본 그대로이며, 정확 prior R1 source/config/lock/7terminal IDs와 target R2를 대조한 명시 receipt가 없으면 재등록을 거절한다. 새 primary의 technical READY afterok와 자원 lane afterany를 구별해 head 실패 시 후속이 GPU를 할당받고 연쇄 실패하지 않게 한다. 품질 score/성능 gate/자동 retry가 아니다. 아래 R1 등록 시점의 PENDING 기록은 당시 snapshot으로 보존하며 현재 상태가 아니다.

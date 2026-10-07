@@ -40,12 +40,29 @@ def member(path):
 
 
 def verify_member(row):
-    require(type(row) is dict and type(row.get('bytes')) is int
-            and type(row.get('sha256')) is str and len(row['sha256']) == 64,
+    core = {'path', 'bytes', 'sha256'}
+    metadata = {'inode', 'mtime_ns'}
+    require(type(row) is dict and core <= set(row) <= core | metadata
+            and type(row.get('path')) is str and Path(row['path']).is_absolute()
+            and type(row.get('bytes')) is int and row['bytes'] >= 0
+            and type(row.get('sha256')) is str and len(row['sha256']) == 64
+            and all(char in '0123456789abcdef' for char in row['sha256'])
+            and all(type(row[key]) is int and row[key] >= 0 for key in metadata if key in row),
             'GENERATION_MEMBER_SCHEMA')
-    actual = member(row['path'])
-    require(actual == row, 'GENERATION_MEMBER_BYTES_IDENTITY')
-    return Path(row['path'])
+    path = Path(row['path'])
+    # Native caller members contain the same core plus optional inode/mtime.
+    # These metadata fields strengthen the identity; they are not extra content
+    # keys against which the three-field content member should be compared.
+    require(path.is_file() and not path.is_symlink(), 'GENERATION_MEMBER_REGULAR_FILE')
+    before = path.stat()
+    actual = member(path)
+    after = path.stat()
+    require((before.st_ino, before.st_size, before.st_mtime_ns) ==
+            (after.st_ino, after.st_size, after.st_mtime_ns), 'GENERATION_MEMBER_CHANGED')
+    require(actual == {key: row[key] for key in core}, 'GENERATION_MEMBER_BYTES_IDENTITY')
+    for key, value in (('inode', after.st_ino), ('mtime_ns', after.st_mtime_ns)):
+        require(key not in row or row[key] == value, 'GENERATION_MEMBER_METADATA_IDENTITY')
+    return path
 
 
 def qualification_binding(config):
