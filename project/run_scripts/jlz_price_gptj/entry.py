@@ -45,7 +45,13 @@ def prepare_entry(a,bench,pack,history,stats,requests_per_group=1):
                     for l in capture_sites:
                         h=found[l][j,r['lookup']].detach().clone()
                         require(h.dtype==torch.float32,'NATIVE_ANCHOR_FP32')
-                        hidden[l].append(h.cpu());anchors[l].append(h.norm().cpu())
+                        hidden[l].append(h.cpu())
+                        if a.profile.get('price_m1_anchor_guard', False):
+                            from project.run_scripts.price_ridge_m1_m3.anchor import guarded_anchor
+                            anchor = guarded_anchor(found[l], rowgroup, pack['canonical_rows'], j, True)
+                        else:
+                            anchor = h.norm()
+                        anchors[l].append(anchor.cpu())
                 if r['kind']=='kl':
                     teachers[r['request']]=a.head(final[j,r['lookup']]).log_softmax(-1).cpu()
                     kl_inputs[r['request']]=dict(input_ids=r['tokens']['input_ids'].tolist(),

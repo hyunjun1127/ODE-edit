@@ -1,0 +1,69 @@
+{
+  "status": "PASS_SAVED_PACK_BINDING",
+  "rows": [
+    {
+      "batch": 3,
+      "slot_zero_based": 47,
+      "canonical_row": 329,
+      "lookup": 0,
+      "pack_identity": "86f62f3c3e4956541de4daaf9dac523e6e3eb1292b12a1cd02b8bb7854132fdc",
+      "entry_member": {
+        "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/checkpoint-repair-20261007/MEMIT_CAP075/batch-03/entry.json",
+        "bytes": 3656,
+        "sha256": "d72ec9998abc2c60a6c7cc372368fc68cc3871d906f5bbb646fd12d9fbd9591a"
+      },
+      "subject_is_Spain": true,
+      "relation_is_P463": true,
+      "subject_token_count": 1
+    },
+    {
+      "batch": 5,
+      "slot_zero_based": 36,
+      "canonical_row": 252,
+      "lookup": 0,
+      "pack_identity": "2d0d63641351e4b9b467d07f831bb857d8c10eb7e37fe5139ea5497924a925f6",
+      "entry_member": {
+        "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/checkpoint-repair-20261007/MEMIT_CAP075/batch-05/entry.json",
+        "bytes": 4762,
+        "sha256": "595197e192d66feb9db7d1c8eff5e6f457c8d5b76248aab1bdb09bfbcc6162c6"
+      },
+      "subject_is_Spain": false,
+      "relation_is_P463": false,
+      "subject_token_count": 1
+    },
+    {
+      "batch": 7,
+      "slot_zero_based": 26,
+      "canonical_row": 182,
+      "lookup": 0,
+      "pack_identity": "856bf9495260fd8a9c2ac8d2498af0179efd94aff6763b93b2781b0fc1a866a1",
+      "entry_member": {
+        "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/checkpoint-repair-20261007/MEMIT_CAP075/batch-07/entry.json",
+        "bytes": 5854,
+        "sha256": "df6eabb1d63633803ab778dedd930f8fa02b064918aae46ea7ec29457ee542ea"
+      },
+      "subject_is_Spain": false,
+      "relation_is_P463": false,
+      "subject_token_count": 1
+    },
+    {
+      "batch": 10,
+      "slot_zero_based": 25,
+      "canonical_row": 175,
+      "lookup": 0,
+      "pack_identity": "daadf9d1342420d1c2f234a0f56babfb63b10d0b178f7a5eef13dc1af095bd0c",
+      "entry_member": {
+        "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/checkpoint-repair-20261007/MEMIT_CAP075/batch-10/entry.json",
+        "bytes": 7481,
+        "sha256": "9c1cab560d44114d361ff9900f25efb218f2e0c293b8c92d4522edb1de61b1b5"
+      },
+      "subject_is_Spain": true,
+      "relation_is_P463": false,
+      "subject_token_count": 1
+    }
+  ],
+  "new_model_load": 0,
+  "new_forward": 0,
+  "prefix_hidden_norm_mean": "NOT_RECORDED",
+  "raw_prompt_or_tokens_published": false
+}

@@ -1,0 +1,22 @@
+{
+  "level": "OWNER_SOURCE_REVIEW_NO_INDEPENDENT_REVIEWER",
+  "actual_GPU_confirmation": "NOT_RUN",
+  "checks": {
+    "M1": "canonical lookup==0인 경우만 동일 forward의 rewrite prefix 5개 norm 평균. canonical/KL 제외. hidden/key 정의 유지; anchor_star는 같은 anchors[anchor_layer].",
+    "M2": "모델별 actual max_updates 절반 내림; GPT2XL M3-only는 12 유지; 기본 shared profile은 변경하지 않음.",
+    "M3": "저장 B1 K/C0만 받는 CPU 보정 함수. raw 비대칭 solve/FP64/median middle-pair/0.5±0.01/native no-op. 실제 GPT2 보정은 K 부재로 NOT_RUN.",
+    "W0": "기존 raw 26,000 rows CPU reducer/identity 검산. 실행에서 exact reuse 실패는 중단, W0 observer는 예외. generation은 post-edit만 호출.",
+    "commit": "기존 terminal payload exact-copy/H once/transaction 재사용. Llama B1 W/payload/H hash 불일치면 transaction rollback.",
+    "source": "shared entry.py의 opt-in M1만 변경, default 불변. cap projection의 기존 추가 directed-cast 옵션은 nearest 기본으로 비활성. 현재/과거 frozen source는 수정하지 않음.",
+    "privacy": "shared tracking은 read-only. task config에 실제 job ID/model/arm/schema를 명시; 새 W0·raw 업로드·checkpoint 없음.",
+    "scheduling": "기존 OURS 60106→60107 종료 뒤 신규 두 lane; projectcap2. baseline 60917–60923 hold/기존 dependency 보존."
+  },
+  "warnings": [
+    "CPU 함수 검사 5 PASS는 실제 모델/GPU parity가 아님.",
+    "GPT2XL 세 구성은 저장 K/로컬 C0 또는 입력 binding 부재로 미등록.",
+    "메모리·48h·저장량은 상한 추정이며 실측 ETA가 아님.",
+    "독립 reviewer를 사용하지 않았으므로 독립 PASS로 표기하지 않음."
+  ],
+  "blocking_models": {"gpt2xl": "SAVED_B1_K_NOT_RECORDED; L14-L17_C0_LOCAL_NOT_BOUND"},
+  "eligible_models": ["llama3", "gptj"]
+}

@@ -1,0 +1,23 @@
+{
+  "task_id": "price-ridge-m1-m3-2k-20261008",
+  "instruction_id": "USER-SH4-PRICE-RIDGE-M1-M3-20261008-R1",
+  "server": "server4",
+  "stage": "SOURCE_PREPARED_NOT_SUBMITTED",
+  "job_ids": [],
+  "eligible_cells": ["LLAMA_REPRO", "GPTJ_M1"],
+  "blocked_cells": {
+    "GPT2XL_M1_M2": "L14-L17_C0_AND_NATIVE_INPUT_BINDING_NOT_AVAILABLE_LOCALLY",
+    "GPT2XL_M1_M3": "NOT_RECORDED_SAVED_B1_K",
+    "GPT2XL_M1_M2_M3": "NOT_RECORDED_SAVED_B1_K"
+  },
+  "phase2": "WAITING_FINAL_PROFILE_AND_EXISTING_BASELINE_HOLD",
+  "phase3": "WAITING_SELECTED_PROFILE",
+  "new_W0_allowed": false,
+  "combined_project_GPU_cap": 2,
+  "baseline_holds_unchanged": [60917,60918,60919,60920,60921,60922,60923],
+  "cancelled_GPT2XL_not_restarted": [61121,61122],
+  "monitoring_active": false,
+  "automatic_retry": false,
+  "actual_GPU_qualification": "NOT_RUN",
+  "review_level": "OWNER_SOURCE_REVIEW_NO_INDEPENDENT_REVIEWER"
+}

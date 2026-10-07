@@ -1,0 +1,17 @@
+{
+  "instruction_id": "USER-SH4-PRICE-RIDGE-M1-M3-20261008-R1",
+  "task_id": "price-ridge-m1-m3-2k-20261008",
+  "server": "server4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "accepted": true,
+  "stage": "PHASE0_AND_IMPLEMENTATION_NOT_SUBMITTED",
+  "duplicate_ack_or_submission_found": false,
+  "authority_commit": "be0917136eb46d9840aafecb960d0c9ed897c159",
+  "own_branch": "codex/server4-price-ridge-m1-m3-20261008",
+  "full_read": ["envelope", "handoff-ko.md", "user-spec.txt"],
+  "user_spec_sha256": "ebe63170f6b39e43dfcec0bb5c4db2d742d75a8395cb36b6b2e17338a4b8e13f",
+  "server_gpu_cap": 2,
+  "new_w0_evaluation_allowed": false,
+  "job_ids": [],
+  "preserved": "baseline 60917–60923 사용자 hold 유지; 61121/61122 취소 유지. 원 source/raw/dirty root 불변."
+}
