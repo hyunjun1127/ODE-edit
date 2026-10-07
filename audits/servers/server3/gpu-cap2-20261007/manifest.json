@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "files": [
+    {
+      "path": "audits/servers/server3/gpu-cap2-20261007/application.json",
+      "bytes": 3935,
+      "sha256": "4c043c9079a1827418a07e568f44d6aca0105a73590f517de31a0c91ae8a5780"
+    },
+    {
+      "path": "experiment-reports/servers/server3/gpu-cap2-20261007/report-ko.md",
+      "bytes": 3398,
+      "sha256": "f5bfb6b505ac2dcf7b023411d25b676e01898e96e802b0b3f3df3f4a45535252"
+    },
+    {
+      "path": "tasks/status/all-servers-gpu-cap2/server3.json",
+      "bytes": 1156,
+      "sha256": "358c2d8ee3854fd3effbeefd24add9e2de94ca6d36b3ddadcc47784ded9603d5"
+    },
+    {
+      "path": "messages/acks/server3/gpu-cap2-20261007.json",
+      "bytes": 1156,
+      "sha256": "358c2d8ee3854fd3effbeefd24add9e2de94ca6d36b3ddadcc47784ded9603d5"
+    },
+    {
+      "path": "messages/server-heads/server3/gpu-cap2-20261007.json",
+      "bytes": 1156,
+      "sha256": "358c2d8ee3854fd3effbeefd24add9e2de94ca6d36b3ddadcc47784ded9603d5"
+    }
+  ]
+}

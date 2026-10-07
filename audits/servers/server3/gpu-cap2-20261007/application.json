@@ -1,0 +1,97 @@
+{
+  "schema": 1,
+  "nonce": "USER-GH-ALL-SH-GPU-CAP2-20261007-SERVER3",
+  "task_id": "all-servers-gpu-cap2",
+  "server": "server3",
+  "actual_host": "ubuntu",
+  "owner": "janghj",
+  "session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+  "authority_commit": "6c8d36dec6e1ce4a7e92831b2619807f5c9b38f1",
+  "status": "APPLIED_NO_SCHEDULER_CHANGE_REQUIRED",
+  "effective_project_cap": 2,
+  "task_specific_stricter_caps_preserved": true,
+  "allocated_project_GPUs": 0,
+  "pending_project_GPU_jobs": 0,
+  "pending_maximum_concurrency": 0,
+  "own_queue_job_ids": [],
+  "queue_observed_at": "2026-10-07T09:37:04.826065+00:00",
+  "scheduler_mutations": 0,
+  "new_submissions": 0,
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "report": "experiment-reports/servers/server3/gpu-cap2-20261007/report-ko.md",
+  "authority_files": [
+    {
+      "path": "messages/head/2026-10-07-all-servers-gpu-cap2.json",
+      "sha256": "fff5b0a8ca742b3e70c1269a1738354c4fd460650f2c80919198ffa7abb34068",
+      "bytes": 5645,
+      "read_status": "FULL_READ"
+    },
+    {
+      "path": "control/gpu-concurrency-policy.tsv",
+      "sha256": "fb36c85243cf6e1166a431f366efe4a0229942d880a1211a3c6d6bca0593f3a2",
+      "bytes": 1505,
+      "read_status": "FULL_READ"
+    }
+  ],
+  "local_change": {
+    "at": "2026-10-07T09:37:39.350279+00:00",
+    "root_local": {
+      "path": "/data/janghj/ODE-edit/servers/local/gpu-caps.tsv",
+      "before": "server3\tubuntu\t1\t121856\todeedit_*,bfode_*,motivation_*,session01_*,project_*\n",
+      "after": "server3\tubuntu\t2\t121856\todeedit_*,bfode_*,motivation_*,session01_*,project_*\n",
+      "before_sha256": "f22e7cd42a09b6229492180680318d80985bdeb4f49e455cba36b875d93ba7b6",
+      "after_sha256": "5228d87f9297384e2538a6a6954b20ea8246524f40f0f6d8604ec98889b4a516"
+    },
+    "new_worktree_local": {
+      "path": "/data/janghj/ODE-edit/local/gpu-cap2-20261007/worktree/servers/local/gpu-caps.tsv",
+      "sha256": "5228d87f9297384e2538a6a6954b20ea8246524f40f0f6d8604ec98889b4a516"
+    },
+    "only_changed_field": "server3 max_project_gpus 1->2",
+    "unchanged_fields": [
+      "node",
+      "memory",
+      "job_patterns",
+      "other_server_rows"
+    ],
+    "historical_worktrees": "KEEP; not active admission clones",
+    "root_tracked_policy": "Legacy checkout preserved; future admissions must use current authority worktree, not old root helper policy.",
+    "scheduler_mutation": false
+  },
+  "queue_evidence": {
+    "command": [
+      "squeue",
+      "--user=janghj",
+      "--array",
+      "--noheader",
+      "--format=%i|%u|%j|%T|%N|%n|%b|%E|%a"
+    ],
+    "exit_code": 0,
+    "owner_rows": 14,
+    "own_node_rows": 0,
+    "unbound_pending_rows": 0,
+    "excluded_other_node_rows": 14,
+    "job_name_filter": false,
+    "local_snapshot_sha256": "9b86407a3e1aa7206beab0cae524c3bb173d93f1297d56340366b3fcb35a219b",
+    "scope": "Current owner queue metadata only; all returned rows explicitly belong to other nodes; no other-host details published."
+  },
+  "checks": {
+    "canonical_four_unique_rows_2": "PASS",
+    "boundary": "PASS",
+    "local_node_memory_patterns_unchanged": "PASS",
+    "existing_CPU_mock_checks": 19,
+    "CPU_mock_result": "PASS",
+    "snapshot_replay_current_helper": "ALLOW server=server3 node=ubuntu job_patterns=* active_project_gpus=0 requested_gpus=2 cap=2 decision=submit_now",
+    "snapshot_replay_is_new_admission_authorization": false,
+    "stricter_task1_effective": 1,
+    "STOP_reactivation": false,
+    "pending_DAG_proof": "EMPTY_OWN_QUEUE",
+    "reviewer": "OWNER_ONLY",
+    "independent_reviewer": false
+  },
+  "limitations": [
+    "Pattern-based running helper is not full owner/source identification or released-PENDING concurrency proof; future admissions need both.",
+    "Legacy root tracked policy stays historical; active admission is this current-policy worktree.",
+    "Snapshot is point-in-time, not a reservation or ongoing monitoring."
+  ]
+}
