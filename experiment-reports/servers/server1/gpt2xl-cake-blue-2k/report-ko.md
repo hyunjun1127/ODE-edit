@@ -1,6 +1,7 @@
 # GPT2-XL CAKE / AlphaEdit-BLUE 2k
 
-상태: 구현·CPU 검산 완료, 아직 미제출. GPU/online PASS 아님.
+상태: 실제 held 등록·검사·release 완료. CAKE 초기 cold load/context 및 W&B remote identity 검산 완료;
+AlphaEdit-BLUE는 자원 PENDING. B1 commit/GPU method PASS·전체 완료는 아직 미관측입니다.
 
 직접 사용자 후속 “blue는 alphaedit blue를 사용하자”에 따라 원 MEMIT-BLUE 선택만
 AlphaEdit-BLUE로 대체했습니다. 정본 원 bytes/이전 보고는 보존했습니다.
@@ -17,12 +18,28 @@ Context generator는 각 원 구현의 첫 cold 준비에서 한 번만 사용�
 기존 W0 raw를 무조건 이식하지 않고 각 own native 입력이 결속된 cold W0를 한 번 관측합니다.
 소스/code/config/SHA만 봉인; model/P/H/edited weight/optimizer checkpoint 저장0.
 
-CPU 66개 실행 중64 PASS, SDK 환경용2 skip, 실패0입니다. 실제 GPU·온라인 검증은 NOT_RUN입니다.
+CPU 66개 실행 중64 PASS, SDK 환경용2 skip, 실패0입니다. Frozen archive의 task CPU29개도 PASS입니다.
 독립 bounded source reviewer가 original parser/import 및 조립을 검토했고, asset/revision/P mapping/closure 경계를 보완했습니다.
 원/수리 fixture와 로컬 CPU stdout은 별도 보존합니다.
 
 최신 combined cap2는 W0·준비·과학을 모두 포함합니다. 기존 root dirty/다른 source/job/raw는 보존합니다.
 등록 이후 GPU runner20batch 및 독립 CPU collector가 자연 진행하며 장기 agent polling/자동 retry는 없습니다.
-벽시간48h는 요청 상한이지 ETA가 아닙니다. 실제 제출 ID/source/config/lock/held/release는 등록 후 별도 기록합니다.
+벽시간48h는 요청 상한이지 ETA가 아닙니다.
+
+| Arm | 실제 job | Dependency | bounded 상태 |
+| --- | ---: | --- | --- |
+| CAKE | 60739 | 없음 | RUNNING; cold load/context 확인, B1 commit 미관측 |
+| ALPHAEDIT_BLUE | 60740 | 없음 | PENDING Resources |
+| CPU collector | 60741 | afterany:60739:60740 | PENDING Dependency |
+
+실행 source `d88e51c0138f3504214faea7a566b7493b763cce`, config SHA `aae8d3931c77d0a8726a0f91feecad259faef6800171e18088d5a1d55a66507b`,
+lock SHA `b9ceb7fcb7613d11e7b986be095c1022ea43b52d0d447c7949c3f7d259a21c73`.
+Owner/full argv/Slurm source bytes/closure/resources/dependency를 held 상태에서 검산한 뒤 release했습니다.
+CAKE [실시간 run](https://wandb.ai/wkdguswns2256/layer%20allocation/runs/5bdcffd677dc40e2)은 실제 remote ID/name/config(job60739 포함) startup 대조를 통과했습니다.
+이는 metric history readback 또는 science 완료 인증과 다릅니다. AlphaEdit-BLUE 온라인 startup은 아직 미관측입니다.
+실제 local receipt: `/mnt/raid5/janghj/ODE-edit/local/gpt2xl-cake-blue-2k/20261007-v1/attempt-v1/`.
+
+Generic access helper가 명시 허용 plans/servers 경로를 거절한 사실을 audit에 별도 기록했고,
+공유 policy를 바꾸지 않고 사용자 exact own-scope 승인으로 게시했습니다. Helper PASS로 표시하지 않습니다.
 
 Raw는 local KEEP, Git/W&B에는 scalar·소형 manifest만. `NO_BROADCAST_NOT_REQUIRED`는 same-host 자료보존 예외입니다.
