@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "task_id": "all-servers-gpu-cap2",
+  "read_only_review": "delegated current origin/main policy+helper/TSVmechanics read-only review",
+  "before": {
+    "server1": 2,
+    "server2": 2,
+    "server3": 1,
+    "server4": 3
+  },
+  "after": {
+    "server1": 2,
+    "server2": 2,
+    "server3": 2,
+    "server4": 2
+  },
+  "test": {
+    "script": "scripts/tests/test_gpu_concurrency_policy.sh",
+    "status": "PASS",
+    "checks": 19,
+    "real_Slurm_calls": 0,
+    "model_GPU": 0
+  },
+  "unchanged": [
+    "scientific/source/params/assets/raw",
+    "memory/node/QoS ceilings",
+    "existingrunning jobs",
+    "stricter taskGPUlimits",
+    "STOPauthorization"
+  ],
+  "source_edit_paths": [
+    "control/gpu-concurrency-policy.tsv",
+    "messages/head/2026-10-07-all-servers-gpu-cap2.json"
+  ],
+  "no_new_GPU": true
+}
