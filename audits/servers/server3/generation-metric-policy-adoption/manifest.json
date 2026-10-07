@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "files": [
+    {
+      "path": "audits/servers/server3/generation-metric-policy-adoption/acceptance.json",
+      "bytes": 3215,
+      "sha256": "187daf989e3d7545924f72f319081436765befbe33af2e4cf2d67cb124ccf48a"
+    },
+    {
+      "path": "experiment-reports/servers/server3/generation-metric-policy-adoption/report-ko.md",
+      "bytes": 3501,
+      "sha256": "aa51288f5a04971b8249b368d9f763c339345e9649f644ba0493db0c2816e477"
+    },
+    {
+      "path": "tasks/status/generation-metric-policy-adoption/server3.json",
+      "bytes": 1236,
+      "sha256": "fa32749ab5c149091f4f8d545a4809c05846e8c20bd7919300ba79c8f78d7fc3"
+    },
+    {
+      "path": "messages/acks/server3/generation-metric-policy-adoption.json",
+      "bytes": 1236,
+      "sha256": "fa32749ab5c149091f4f8d545a4809c05846e8c20bd7919300ba79c8f78d7fc3"
+    },
+    {
+      "path": "messages/server-heads/server3/generation-metric-policy-adoption.json",
+      "bytes": 1236,
+      "sha256": "fa32749ab5c149091f4f8d545a4809c05846e8c20bd7919300ba79c8f78d7fc3"
+    }
+  ]
+}
