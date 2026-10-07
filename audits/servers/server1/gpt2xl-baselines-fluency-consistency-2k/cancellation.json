@@ -1,0 +1,112 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-ALL-SH-BASELINE-FLUENCY-CONSISTENCY-RERUN-20261007-R1",
+  "at": "2026-10-07 11:51:35 UTC",
+  "status": "EXACT_BASELINE_SCOPE_CANCELLED",
+  "order": "dedicated collectors -> furthest pending successors -> active parent",
+  "events": [
+    {
+      "job": "60759",
+      "task": "gpt2xl-prune-rect-2k",
+      "role": "collector",
+      "owner": "janghj",
+      "node": "devbox",
+      "state_before": "PENDING",
+      "command": "/mnt/raid5/janghj/ODE-edit/local/gpt2xl-prune-rect-2k/20261007-v1/attempt-v1/collector.sh",
+      "workdir": "/mnt/raid5/janghj/ODE-edit/local/gpt2xl-prune-rect-2k/20261007-v1/attempt-v1/source",
+      "verified_launcher_sha256": "9d1884ff1106dd0643bdf60f7718e8d2e6a741eb9f6e3e226b51ca11e921bc9a",
+      "source": "2689024d4c4a88cbe95f98b5e8a6191fad437894",
+      "cancel_exit_code": 0
+    },
+    {
+      "job": "60741",
+      "task": "gpt2xl-cake-blue-2k",
+      "role": "collector",
+      "owner": "janghj",
+      "node": "devbox",
+      "state_before": "PENDING",
+      "command": "/mnt/raid5/janghj/ODE-edit/local/gpt2xl-cake-blue-2k/20261007-v1/attempt-v1/collector.sh",
+      "workdir": "/mnt/raid5/janghj/ODE-edit/local/gpt2xl-cake-blue-2k/20261007-v1/attempt-v1/source",
+      "verified_launcher_sha256": "82b7ca221d0b7eef3e114c8a4e2f617549d94f16e109f1fbfa5899bdfbf13d9f",
+      "source": "d88e51c0138f3504214faea7a566b7493b763cce",
+      "cancel_exit_code": 0
+    },
+    {
+      "job": "60758",
+      "task": "gpt2xl-prune-rect-2k",
+      "role": "RECT",
+      "owner": "janghj",
+      "node": "devbox",
+      "state_before": "PENDING",
+      "command": "/mnt/raid5/janghj/ODE-edit/local/gpt2xl-prune-rect-2k/20261007-v1/attempt-v1/RECT.sh",
+      "workdir": "/mnt/raid5/janghj/ODE-edit/local/gpt2xl-prune-rect-2k/20261007-v1/attempt-v1/source",
+      "verified_launcher_sha256": "ca830f4bca15e2c5a98639060c047f1575dbc027b83acdc28b65e6b90d29236e",
+      "source": "2689024d4c4a88cbe95f98b5e8a6191fad437894",
+      "cancel_exit_code": 0
+    },
+    {
+      "job": "60757",
+      "task": "gpt2xl-prune-rect-2k",
+      "role": "PRUNE",
+      "owner": "janghj",
+      "node": "devbox",
+      "state_before": "PENDING",
+      "command": "/mnt/raid5/janghj/ODE-edit/local/gpt2xl-prune-rect-2k/20261007-v1/attempt-v1/PRUNE.sh",
+      "workdir": "/mnt/raid5/janghj/ODE-edit/local/gpt2xl-prune-rect-2k/20261007-v1/attempt-v1/source",
+      "verified_launcher_sha256": "cb552bfa6ab2e927b888e351938b90c492ff4b3eceaad74fc8ecc71707d849be",
+      "source": "2689024d4c4a88cbe95f98b5e8a6191fad437894",
+      "cancel_exit_code": 0
+    },
+    {
+      "job": "60740",
+      "task": "gpt2xl-cake-blue-2k",
+      "role": "ALPHAEDIT_BLUE",
+      "owner": "janghj",
+      "node": "devbox",
+      "state_before": "RUNNING",
+      "command": "/mnt/raid5/janghj/ODE-edit/local/gpt2xl-cake-blue-2k/20261007-v1/attempt-v1/ALPHAEDIT_BLUE.sh",
+      "workdir": "/mnt/raid5/janghj/ODE-edit/local/gpt2xl-cake-blue-2k/20261007-v1/attempt-v1/source",
+      "verified_launcher_sha256": "5381a62ae8f36ba1c85507c509e98e5b6c822128a6cdd30c0c15c34f3d91b622",
+      "source": "d88e51c0138f3504214faea7a566b7493b763cce",
+      "cancel_exit_code": 0
+    }
+  ],
+  "terminal_retained": [
+    {
+      "job": "60150",
+      "arm": "BASE_MEMIT",
+      "state": "COMPLETED",
+      "allocated_GPU_seconds": 5663
+    },
+    {
+      "job": "60151",
+      "arm": "BASE_ALPHAEDIT",
+      "state": "COMPLETED",
+      "allocated_GPU_seconds": 6483
+    },
+    {
+      "job": "60152",
+      "role": "collector",
+      "state": "COMPLETED",
+      "allocated_GPUs": 0,
+      "parent_elapsed_seconds": 21
+    },
+    {
+      "job": "60739",
+      "arm": "CAKE",
+      "state": "COMPLETED",
+      "allocated_GPU_seconds": 7173
+    }
+  ],
+  "cancelled_parent_cost": {
+    "job": "60740",
+    "state": "CANCELLED",
+    "allocated_GPU_seconds": 4703
+  },
+  "pending_cancelled_allocated_GPU_seconds": 0,
+  "transition_note": "initial squeue displayed60740COMPLETING cleanup; sacctCANCELLED. Final exact nine-ID squeue postcheck observed empty.",
+  "exact_target_active_queue_after": [],
+  "raw_source_logs_unchanged": true,
+  "no_checkpoint_created": true,
+  "protected_jobs_mutated": false
+}
