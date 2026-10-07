@@ -17,7 +17,8 @@ SLURM_ENV = {'job_id':'SLURM_JOB_ID','array_job_id':'SLURM_ARRAY_JOB_ID',
 CONFIG_KEYS = {'server', 'task_id', 'arm', 'attempt', 'source_sha', 'config_sha', 'parent_run_id',
                'source_run_id','source_run_url','observation_identity','baseline',
                'generation_metric_schema','generation_profile','generation_eval_seed',
-               'reference_assets_sha256','generation_source_sha'} | JOB_FIELDS | METHOD_CONFIG
+               'reference_assets_sha256','generation_source_sha',
+               'generation_qualification_plan_sha256','generation_repair_instruction'} | JOB_FIELDS | METHOD_CONFIG
 METRICS = {
     'setup_ok','step','batch','edits','candidate','phase_id','status_code',
     'fit/loss','fit/nll','fit/kl','fit/norm','fit/gradient_norm',
@@ -35,6 +36,11 @@ METRICS = {
 ENV_KEYS = {'WANDB_ENTITY','WANDB_PROJECT','WANDB_MODE','WANDB_CONSOLE','WANDB_SAVE_CODE',
             'WANDB_BASE_URL','ODEEDIT_WANDB_PYTHON'}
 METRICS |= METHOD_METRICS
+GENERATION_PROGRESS_FIELDS=('completed_cases','total_cases','completed_prompts','total_prompts',
+    'generated_tokens','new_cases','reused_cases','elapsed_sec','cases_per_sec','prompts_per_sec',
+    'tokens_per_sec','physical_forward_calls','prefill_query_tokens','decode_query_tokens','step')
+GENERATION_PROGRESS_METRICS={'generation_progress/'+key for key in GENERATION_PROGRESS_FIELDS}
+METRICS |= GENERATION_PROGRESS_METRICS | {'phase'}
 
 
 def require(ok, code):
@@ -52,10 +58,14 @@ def config(values):
     require({'server','task_id','arm','attempt','source_sha'} <= set(values), 'MISSING_CONFIG')
     result = {}
     for key,value in values.items():
-        if key in ('source_sha','config_sha','observation_identity','reference_assets_sha256','generation_source_sha'):
+        if key in ('source_sha','config_sha','observation_identity','reference_assets_sha256','generation_source_sha',
+                   'generation_qualification_plan_sha256'):
             require(type(value) is str and re.fullmatch(r'[a-f0-9]{40}|[a-f0-9]{64}',value), 'INVALID_SHA')
         elif key=='generation_eval_seed':
             require(type(value) is int and value==20261007,'GENERATION_EVAL_SEED')
+        elif key=='generation_repair_instruction':
+            require(type(value) is str and value=='USER-GH-SH1-SH2-BASELINE-GENERATION-KV-BATCH-REPAIR-20261008-R1',
+                'GENERATION_REPAIR_INSTRUCTION')
         elif key == 'step_id':
             step_identifier(value)
         elif key == 'source_run_url':
@@ -137,7 +147,23 @@ def metrics(values,*,scientific=False):
     require(type(values) is dict and 0 < len(values) <= len(METRICS), 'METRIC_MAPPING')
     require(set(values) <= METRICS, 'METRIC_NOT_ALLOWLISTED')
     # No float(tensor), .item(), .cpu(), arbitrary __float__, or GPU sync.
-    require(all(type(x) in (int,float,bool) and math.isfinite(x) for x in values.values()), 'BUILTIN_FINITE_SCALARS_ONLY')
+    require(all((key=='phase' and type(x) is str and x in ('W0_generation','generation_evaluation')) or
+                (key!='phase' and type(x) in (int,float,bool) and math.isfinite(x))
+                for key,x in values.items()), 'BUILTIN_FINITE_SCALARS_ONLY')
+    if GENERATION_PROGRESS_METRICS & values.keys():
+        require(type(values.get('phase')) is str and values['phase'] in ('W0_generation','generation_evaluation')
+            and 'generation_progress/step' in values,'GENERATION_PROGRESS_PHASE_AXIS_REQUIRED')
+        require(not any(k.startswith(('W0_first2000/','current/','all_seen/','w0/','fit/','optimizer/'))
+            for k in values),'GENERATION_PROGRESS_NOT_ENDPOINT_OR_FIT')
+        for key in GENERATION_PROGRESS_METRICS & values.keys():
+            value=values[key]
+            require(type(value) in (int,float) and value>=0,'GENERATION_PROGRESS_NONNEGATIVE')
+            if key.rsplit('/',1)[1] not in ('elapsed_sec','cases_per_sec','prompts_per_sec','tokens_per_sec'):
+                require(type(value) is int,'GENERATION_PROGRESS_INTEGER')
+        for completed,total in (('completed_cases','total_cases'),('completed_prompts','total_prompts')):
+            if {'generation_progress/'+completed,'generation_progress/'+total}<=values.keys():
+                require(values['generation_progress/'+completed]<=values['generation_progress/'+total],
+                    'GENERATION_PROGRESS_COVERAGE')
     return validate_method(dict(values),scientific=scientific)
 
 

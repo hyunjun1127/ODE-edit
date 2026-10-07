@@ -35,10 +35,28 @@ def dependency_members(configs):
             add(c['native']['context_reuse']['contexts']);add(c['native']['context_reuse']['ready'])
     return list(found.values())
 
-def prepare(out,attempt,assets_manifest,shared_W0_root):
+
+def old_w0_reuse_binding(old_attempt,old_config,cold_W,old_cold_guard):
+    """Bind generation identity, never the similarly named RPN row identity."""
+    old_attempt=Path(old_attempt)
+    observer_member=member(old_attempt/'BASE_MEMIT/generation/observer-identity.json')
+    observer=read(verify(observer_member))
+    require(observer.get('identity_sha256')==digest(observer.get('identity'))
+        and observer['identity'].get('route')=='UNPADDED_FULL_PREFIX_NO_CACHE'
+        and observer['identity'].get('generation_source_sha')==old_config['generation']['generation_source_sha']
+        and observer['identity'].get('model_identity')==old_config['generation']['model_identity'],
+        'OLD_GENERATION_OBSERVER_IDENTITY_REQUIRED')
+    require(old_cold_guard is not None,'EXPLICIT_OLD_W0_COLD_GUARD_REQUIRED')
+    return dict(observations_root=str(old_attempt/'BASE_MEMIT/generation/observations'),
+        config_member=member(old_attempt/'config.json'),runtime_member=member(old_attempt/'BASE_MEMIT/runtime.json'),
+        observer_identity_member=observer_member,
+        source_commit=read(old_attempt/'execution.lock.json')['source_commit'],allowed_only_state_W=cold_W,
+        cold_observation_guard_member=member(old_cold_guard))
+
+def prepare(out,attempt,assets_manifest,shared_W0_root,old_attempt=None,max_microbatch=8,cancellation_receipt=None,old_cold_guard=None):
     contract,policy=authority()
     require(not out.exists() and not attempt.exists(),'CREATE_ONCE_NEW_ATTEMPT')
-    require(not list(LOCAL.glob('*/submission.json')),'NONCE_NOT_REGISTERED')
+    require(not registered_repair_attempts(),'NONCE_NOT_REGISTERED')
     old={key:read(path) for key,path in OLD.items()}
     c=copy.deepcopy(old['stock'])
     configs={arm:copy.deepcopy(old['stock' if arm.startswith('BASE_') else 'cake' if arm in ('CAKE','ALPHAEDIT_BLUE') else 'prune']) for arm in ARMS}
@@ -70,8 +88,25 @@ def prepare(out,attempt,assets_manifest,shared_W0_root):
         runtime=dict(torch=rt['torch'],transformers=rt['transformers'],python=platform.python_version()),
         tokenizer=dict(loader='AutoTokenizer',local_model_path=str(model),asset_identity=c['model_asset_identity']),
         precision='FP32_EAGER_AUTOCAST_OFF_TF32_OFF')
+    from transformers import AutoTokenizer
+    from project.run_scripts.experiment_generation_eval.kv_qualification import build_qualification_plan
+    require(max_microbatch in (4,8),'FIXED_PREAPPROVED_MICROBATCH')
+    tokenizer=AutoTokenizer.from_pretrained(str(model),local_files_only=True)
+    qualification_plan=build_qualification_plan(tokenizer,
+        [dict(record,occurrence_index=i+1) for i,record in enumerate(records)],
+        model_identity=model_identity,microbatch=max_microbatch,memory_alternative=max_microbatch==4)
+    write(out/'qualification-plan.json',qualification_plan)
+    plan_member=member(out/'qualification-plan.json')
+    old_attempt=LOCAL/'attempt-register-r1' if old_attempt is None else Path(old_attempt)
+    oldconfig=read(old_attempt/'config.json')
+    require(oldconfig['task_id']==PARENT_TASK and oldconfig['instruction_id']==PARENT_NONCE
+        and oldconfig['generation']['model_identity']==model_identity,'OLD_W0_REUSE_CONFIG_IDENTITY')
+    old_reuse=old_w0_reuse_binding(old_attempt,oldconfig,c['cold_W'],old_cold_guard)
+    cancellation_receipt=Path(cancellation_receipt or ROOT/'audits/servers/server1/gpt2xl-baselines-fluency-consistency-2k/cache-repair-cancellation.json')
+    verify(member(cancellation_receipt))
     require(shutil.disk_usage(LOCAL.parent).free>=16*1024**3,'NEW_OUTPUT_AND_REFERENCE_RESERVE')
     c.update(schema=1,instruction_id=NONCE,task_id=TASK,attempt=str(attempt),seed=20261002,
+        parent_task_id=PARENT_TASK,parent_instruction_id=PARENT_NONCE,
         source_configs=configs,source_config_members=[member(p) for p in OLD.values()],
         dependency_sources=native,runtime=rt,model_revision=revision,run_instance=dict(attempt=attempt.name),
         packs=[dict(batch=n,ids=[r['case_id'] for r in current]) for n,current,_ in chunks],
@@ -81,26 +116,36 @@ def prepare(out,attempt,assets_manifest,shared_W0_root):
             shared_W0_root=str(shared_W0_root),primary_arm='BASE_MEMIT',model_identity=model_identity,
             source_identity=dict(generation_sources=gen_sources,policy_sha256=GENERATION_POLICY_SHA),
             generation_source_sha=digest(gen_sources),source_members=gen_sources,
-            declared_route='UNPADDED_FULL_PREFIX_NO_CACHE',
+            declared_route='QUALIFICATION_REQUIRED',generation_route='QUALIFICATION_REQUIRED',
+            generation_microbatch=max_microbatch,qualification_plan_member=plan_member,
+            qualification_plan_sha256=digest(qualification_plan),
+            qualification_receipt=str(attempt/'generation-qualification/qualification-actual.json'),
+            old_w0_reuse=old_reuse,
             plan=dict(new_generation_case_observations_per_arm_max=8500,shared_W0_cases=2000,
-                six_arm_case_observations_max=53000,quality_gate=False,ETA='NOT_MEASURED; reference route higher cost')),
-        authority=member(ROOT/ENVELOPE),contract=member(ROOT/CONTRACT),generation_policy=member(ROOT/GENERATION_POLICY),
+                six_arm_case_observations_max=53000,quality_gate=False,ETA='NOT_MEASURED; runtime route qualification required')),
+        authority=member(ROOT/REPAIR_ENVELOPE),parent_authority=member(ROOT/ENVELOPE),contract=member(ROOT/CONTRACT),generation_policy=member(ROOT/GENERATION_POLICY),
         noCP=True,exact_resume='NOT_AVAILABLE',z_disk_cache=False,ordered_ids_sha256=ORDERED_SHA,
         resources=dict(project_cap=2,task_cap=2,gpu=1,cpu=8,host_mib=65536,hard_host_mib=183296,
             wall='2-00:00:00',collector_cpu=8,collector_host_mib=24576,collector_wall='04:00:00',
             reserve_bytes=16*1024**3,ETA='NOT_MEASURED; wall request only'),
-        cancellation_receipt=member(ROOT/'audits/servers/server1/gpt2xl-baselines-fluency-consistency-2k/cancellation.json'),
+        cancellation_receipt=member(cancellation_receipt),
         broadcast='NO_BROADCAST_NOT_REQUIRED; same-host originals/raw KEEP; compact reference manifest shared')
     c.pop('cpu_preflight',None)
     write(out/'config.json',c)
     write(out/'preparation.json',dict(status='CPU_ASSET_BOUND_NOT_GPU_PASS',source_config_members=c['source_config_members'],
         generation_reference=member(assets_manifest),model_loads=0,native_apply=0,stats_P_recomputed=False,
         scientific_runtime_upgraded=False,large_asset_validation='prior SHA + unchanged size/inode/mtime',
-        W0_generation='NEW_ONCE_IN_PRIMARY_ACTUAL_COLD_BASELINE_NOT_YET_MEASURED'))
+        W0_generation='QUALIFICATION_THEN_EXACT_COMPLETED_OLD_CASE_REUSE_AND_MISSING_NEW_OBSERVATIONS',
+        qualification_plan=plan_member,qualification_actual='NOT_RUN; first replacement GPU job',
+        old_W0_reuse=old_reuse))
     return out/'config.json'
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--out',type=Path,required=True);p.add_argument('--attempt',type=Path,required=True)
     p.add_argument('--assets-manifest',type=Path,required=True);p.add_argument('--shared-W0-root',type=Path,required=True)
-    a=p.parse_args();print(prepare(a.out.resolve(),a.attempt.resolve(),a.assets_manifest.resolve(),a.shared_W0_root.resolve()))
+    p.add_argument('--old-attempt',type=Path);p.add_argument('--max-microbatch',type=int,choices=(4,8),default=8)
+    p.add_argument('--cancellation-receipt',type=Path)
+    p.add_argument('--old-cold-guard',type=Path,required=True)
+    a=p.parse_args();print(prepare(a.out.resolve(),a.attempt.resolve(),a.assets_manifest.resolve(),a.shared_W0_root.resolve(),
+        a.old_attempt,a.max_microbatch,a.cancellation_receipt,a.old_cold_guard))
 if __name__=='__main__':main()

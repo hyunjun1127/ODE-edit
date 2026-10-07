@@ -63,7 +63,7 @@ def session(sdk, request, commands, emit):
                 actual_step=next_step if step is None else step
                 next_step=actual_step+1
                 if scientific:
-                    kind='evaluation' if 'edits' in payload else 'fit' if 'fit/global_candidate' in payload else None
+                    kind='evaluation' if 'edits' in payload else 'fit' if 'fit/global_candidate' in payload else 'generation_progress' if 'generation_progress/step' in payload else None
                     if kind:last_rows[kind]=dict(step=actual_step,values=payload)
                 emit(dict(status='LOGGING_ACCEPTED',points=count,delivery='SDK_ASYNC_NOT_REMOTE_ACK'))
             except Exception:

@@ -1,4 +1,7 @@
-"""Independent scalar/raw CPU reducer; no torch, native apply or W&B upload.
+"""Independent scalar/raw CPU reducer; no model/GPU/native apply or W&B upload.
+
+The qualification receipt verifier imports torch's Python package, but this
+collector does not initialize CUDA, instantiate a model or run tensor inference.
 
 Source-preserving partial reports are written before collector terminal. Stored
 generation texts/tokens remain local and are never included in compact reports.
@@ -64,11 +67,29 @@ def reduce_generation(rows):
     return result
 
 
+def qualified_generation(c):
+    generation=dict(c['generation'])
+    if 'qualification_plan_sha256' in generation:
+        from project.run_scripts.experiment_generation_eval.kv_qualification import verify_actual_receipt
+        from project.run_scripts.experiment_generation_eval.compatibility import member as generation_member
+        actual_member=generation.get('qualification_receipt_member') or generation_member(Path(generation['qualification_receipt']))
+        actual=verify_actual_receipt(actual_member,expected_plan_sha256=generation['qualification_plan_sha256'],
+            expected_model_identity=generation['model_identity'])
+        require(actual['qualification_pass'] is True,'COLLECT_ACTUAL_QUALIFICATION_REQUIRED')
+        generation.update(generation_route=actual['selected_route'],generation_microbatch=actual['fixed_microbatch'],
+            qualification_receipt_member=actual_member)
+    return generation
+
+
 def runtime_identity(c):
-    generation=c['generation']
-    return dict(schema=generation['schema'],profile=generation['profile'],eval_seed=generation['eval_seed'],
+    generation=qualified_generation(c)
+    value=dict(schema=generation['schema'],profile=generation['profile'],eval_seed=generation['eval_seed'],
         model_identity=generation['model_identity'],generation_source_sha=generation['generation_source_sha'],
-        reference_assets_sha256=generation['reference_assets_sha256'],route='UNPADDED_FULL_PREFIX_NO_CACHE')
+        reference_assets_sha256=generation['reference_assets_sha256'],route=generation.get('generation_route','UNPADDED_FULL_PREFIX_NO_CACHE'))
+    if 'qualification_receipt_member' in generation:
+        value.update(generation_microbatch=generation['generation_microbatch'],
+            qualification_receipt_sha256=generation['qualification_receipt_member']['sha256'])
+    return value
 
 
 def generation_endpoint(reader,receipt,c,records,endpoint_name,cohort,physical_state,ordinal_start=1):
@@ -87,12 +108,45 @@ def generation_endpoint(reader,receipt,c,records,endpoint_name,cohort,physical_s
     require(len(rows)==len(records) and [r['occurrence'] for r in rows]==expected_occurrences
         and identity['observation_identities']==[r['identity_sha256'] for r in rows],
         'COLLECT_GENERATION_OCCURRENCE_ORDER')
+    compatibility={};qualified=qualified_generation(c)
+    if 'qualification_receipt_member' in qualified:
+        actual_member=qualified['qualification_receipt_member']
+        require(saved['qualification_receipt_member']==receipt['qualification_receipt_member']==actual_member
+            and identity['qualification_receipt_sha256']==actual_member['sha256'],
+            'COLLECT_ENDPOINT_ACTUAL_QUALIFICATION_SHA')
+        reader.bound(actual_member)
+    if 'compatibility_member' in saved:
+        from project.run_scripts.experiment_generation_eval.compatibility import load_compatibility
+        compat=load_compatibility(saved['compatibility_member'],expected_runtime=identity['runtime'],
+            expected_qualification=identity['qualification_receipt_sha256'])
+        require(saved['compatibility_member']==receipt['compatibility_member']
+            and identity['compatibility_sha256']==compat['identity_sha256'],'COLLECT_COMPATIBILITY_IDENTITY')
+        reader.bound(saved['compatibility_member'])
+        compatibility={r['occurrence']:r for r in compat['identity']['original_entries']}
+    if 'provenance_sha256' in identity:
+        require(identity['provenance_sha256']==digest([r['provenance'] for r in rows]),'COLLECT_PROVENANCE_IDENTITY')
     for row,record,ordinal in zip(rows,records,expected_occurrences):
         path=Path(row['observation_path']);require(path.is_file() and not path.is_symlink(),'COLLECT_RAW_SAFE_PATH')
         raw=reader.json(path);rewrite=record['requested_rewrite'];prompts=record.get('generation_prompts',[])
         record_identity=dict(ordered_occurrence=ordinal,case_id=record['case_id'],generation_prompts=prompts,
             relation_id=rewrite.get('relation_id'),target_new_id=rewrite['target_new'].get('id'))
-        require(raw['identity']==dict(runtime=identity['runtime'],state_identity=state_identity,record_identity=record_identity)
+        raw_runtime=raw['identity']['runtime'];route=qualified.get('generation_route','UNPADDED_FULL_PREFIX_NO_CACHE')
+        if raw_runtime!=identity['runtime']:
+            entry=compatibility.get(ordinal)
+            require(entry is not None and entry['original_raw_member']['path']==str(path)
+                and entry['original_identity_sha256']==row['identity_sha256']
+                and entry['original_payload_sha256']==row['payload_sha256']
+                and entry['original_runtime_sha256']==raw_runtime,'COLLECT_OLD_PROVENANCE_REQUIRED')
+            reader.bound(entry['original_raw_member']);route=entry['original_route']
+        if 'provenance' in row:
+            provenance=row['provenance'];reader.bound(provenance['raw_member'])
+            require(provenance['raw_member']['path']==str(path) and provenance['runtime_sha256']==raw_runtime
+                and provenance['route']==route,'COLLECT_RAW_PROVENANCE')
+            if raw_runtime!=identity['runtime']:
+                require(provenance['origin']=='COMPATIBLE_ORIGINAL_W0'
+                    and provenance['generation_source_sha']==entry['original_generation_source_sha'],
+                    'COLLECT_OLD_SOURCE_PROVENANCE')
+        require(raw['identity']==dict(runtime=raw_runtime,state_identity=state_identity,record_identity=record_identity)
             and raw['identity_sha256']==row['identity_sha256']==digest(raw['identity'])
             and raw['payload_sha256']==row['payload_sha256']==digest({k:v for k,v in raw.items() if k!='payload_sha256'})
             and raw['occurrence']==row['occurrence']==ordinal and raw['case_id']==row['case_id']==record['case_id']
@@ -104,7 +158,7 @@ def generation_endpoint(reader,receipt,c,records,endpoint_name,cohort,physical_s
             require(observation['prompt']==prompt and observation['occurrence']==ordinal
                 and observation['prompt_index']==index and observation['profile']==c['generation']['profile']
                 and sampling==dict(top_k=5,temperature=1,top_p=1,max_total_tokens=100)
-                and observation['RNG_restored'] is True and observation['route']=='UNPADDED_FULL_PREFIX_NO_CACHE'
+                and observation['RNG_restored'] is True and observation['route']==route
                 and observation['full_token_ids']==inp+continuation and len(inp)>0
                 and observation['input_token_count']==len(inp)
                 and observation['continuation_token_count']==len(continuation),
@@ -220,9 +274,18 @@ def review_arm(reader,attempt,c,lock,arm,identities,records,progress=None):
     if (out/'generation-W0.json').exists():
         value=reader.json(out/'generation-W0.json');ready=reader.bound(value['shared_ready'])
         require(value['model_weights_only'] and value['method_state_reused'] is False
-            and ready['fresh_actual_W0'] and ready['raw_local_only'] and ready['no_checkpoint']
+            and (ready.get('cold_W0_completed_observation') is True if 'qualification_plan_sha256' in c['generation'] else ready['fresh_actual_W0'])
+            and ready['raw_local_only'] and ready['no_checkpoint']
             and ready['identity']==dict(runtime=digest(runtime_identity(c)),model_W=cold['W'],
                 occurrences=list(range(1,2001)),case_ids=all_ids),'COLLECT_SHARED_GENERATION_W0_READY')
+        if 'qualification_plan_sha256' in c['generation']:
+            actual_member=qualified_generation(c)['qualification_receipt_member']
+            require(ready['completion_verified'] is True and ready['generation_repair_nonce']==NONCE
+                and ready['qualification_receipt']==actual_member
+                and ready['qualification_receipt_sha256']==actual_member['sha256']
+                and ready['compatibility_sha256']==ready['compatibility']['sha256'],
+                'COLLECT_SHARED_W0_ACTUAL_QUALIFICATION_COMPATIBILITY')
+            reader.bound(ready['qualification_receipt']);reader.bound(ready['compatibility'])
         wg=generation_endpoint(reader,value['observation'],c,records,'W0','FIRST2000',cold)
         require(value['reused'] is (arm!=c['generation']['primary_arm']),'COLLECT_W0_GENERATED_ONCE_PRIMARY')
         if value['reused']:require(wg['work']['generation_forwards']==0,'COLLECT_SHARED_W0_NO_SECOND_FORWARD')
@@ -315,6 +378,9 @@ def review_arm(reader,attempt,c,lock,arm,identities,records,progress=None):
             and cfg['generation_metric_schema']==g['schema'] and cfg['generation_profile']==g['profile']
             and cfg['generation_eval_seed']==g['eval_seed'] and cfg['reference_assets_sha256']==g['reference_assets_sha256']
             and cfg['generation_source_sha']==g['generation_source_sha'] and cfg['baseline']==arm
+            and ('qualification_plan_sha256' not in g or
+                (cfg['generation_qualification_plan_sha256']==g['qualification_plan_sha256']
+                 and cfg['generation_repair_instruction']==NONCE))
             and tracking['source_sha']==lock['source_commit'] and tracking['config_sha']==lock['config_sha256'],
             'COLLECT_TRACKING_GENERATION_IDENTITY')
         finish=reader.json(out/'tracking-finish.json') if (out/'tracking-finish.json').exists() else {}
@@ -389,7 +455,8 @@ def collect(attempt):
     for review in compact:report.append('| %s | %s | %s | %s | %s |'%(review['arm'],review['scientific_status'],review.get('commits','NA'),review.get('requests','NA'),review.get('state_links','NA')))
     report.extend(['','Fluency는 prompt-inclusive text의 ngram entropy(bits), consistency는 고정 reference TF-IDF cosine입니다.',
         'Occurrence별 valid count/sum을 집계하고 missing을 0점으로 채우지 않았습니다. 낮은 결과는 기술 failure gate가 아닙니다.',
-        'W0 generation은 primary cold baseline에서 한 번 관측하고 다른 arm은 exact identity subset을 재사용합니다.',
+        'W0 generation은 원 source/runtime를 보존한 검증된 완료 행을 재사용하고, 미완료·미검증 행만 새 cold W0 route로 관측합니다.',
+        'Primary의 전체2k 완료 READY는 new/reused mixed provenance와 실제 qualification receipt를 결속하며, 다른 arm은 그 exact subset을 공유합니다.',
         'Current는 항상100, all-seen은 W5/W10/W15/W20 prefix입니다. overlap/원 W0 subset은 추가 forward가 없습니다.',
         'PRUNE W20은 명시적 PRUNE_TERMINAL_BASE_FIX 이후이고, RECT actual support/ties는 별도 표입니다.',
         'Native 수식/계수/fit은 기존 source를 재사용했습니다. R/P desired=new, N desired=true; TF와 자유생성 지표는 별개입니다.',

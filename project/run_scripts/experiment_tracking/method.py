@@ -102,15 +102,17 @@ def define_axes(run):
         run.define_metric(prefix+'/*',step_metric='edits',step_sync=False)
     run.define_metric('fit/*',step_metric='fit/global_candidate',step_sync=False)
     run.define_metric('optimizer/*',step_metric='fit/global_candidate',step_sync=False)
+    run.define_metric('generation_progress/step')
+    run.define_metric('generation_progress/*',step_metric='generation_progress/step',step_sync=False)
 
 class AxisState:
-    def __init__(self):self.edits=None;self.fit=None
+    def __init__(self):self.edits=None;self.fit=None;self.generation=None
     def check(self,values):
-        for key,attr in [('edits','edits'),('fit/global_candidate','fit')]:
+        for key,attr in [('edits','edits'),('fit/global_candidate','fit'),('generation_progress/step','generation')]:
             if key in values:
                 previous=getattr(self,attr)
                 check(previous is None or values[key]>=previous,'AXIS_DECREASE:'+key)
     def accept(self,values):
         self.check(values)
-        for key,attr in [('edits','edits'),('fit/global_candidate','fit')]:
+        for key,attr in [('edits','edits'),('fit/global_candidate','fit'),('generation_progress/step','generation')]:
             if key in values:setattr(self,attr,values[key])

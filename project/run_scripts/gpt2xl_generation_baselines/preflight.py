@@ -9,10 +9,14 @@ from .common import *
 
 TESTS=(
  'project.run_scripts.experiment_generation_eval.test_generator',
+ 'project.run_scripts.experiment_generation_eval.test_kv_generator',
+ 'project.run_scripts.experiment_generation_eval.test_compatibility',
+ 'project.run_scripts.experiment_generation_eval.test_progress',
  'project.run_scripts.experiment_generation_eval.test_metrics',
  'project.run_scripts.experiment_generation_eval.test_observer',
  'project.run_scripts.experiment_generation_eval.test_assets',
  'project.run_scripts.gpt2xl_generation_baselines.test_run',
+ 'project.run_scripts.gpt2xl_generation_baselines.test_cache_repair',
  'project.run_scripts.gpt2xl_generation_baselines.test_collect',
  'project.run_scripts.gpt2xl_generation_baselines.test_submit',
  'project.run_scripts.gpt2xl_native_baselines.test_native',

@@ -29,6 +29,7 @@ from project.run_scripts.gpt2xl_cake_blue import native as cake_native
 from project.run_scripts.gpt2xl_prune_rect import native as prune_native
 from project.run_scripts.gpt2xl_prune_rect.run import finish_native_batch as prune_finish
 from project.run_scripts.experiment_generation_eval.observer import GenerationObserver
+from project.run_scripts.experiment_generation_eval.kv_qualification import run_qualification,verify_actual_receipt
 from project.run_scripts.experiment_generation_eval.assets import load_assets
 from project.run_scripts.experiment_tracking import init
 from project.run_scripts.jlz_price_gpt2xl.tracking import SCHEMA, log_w0, log_batch
@@ -65,6 +66,9 @@ def locked(attempt):
     for key in ('authority','contract','observer_identity','generation_policy'):
         if key in c:verify(c[key])
     verify(c['generation']['assets_manifest_member'])
+    verify(c['generation']['qualification_plan_member'])
+    require(digest(json.loads(verify(c['generation']['qualification_plan_member']).read_text()))
+        ==c['generation']['qualification_plan_sha256'],'QUALIFICATION_PLAN_IMMUTABLE')
     for item in c['generation'].get('source_members',[]):verify(item)
     require(subprocess.check_output(['git','-C',c['model'],'rev-parse','HEAD'],text=True).strip()
         ==c['model_revision'],'RUNTIME_MODEL_CHECKOUT_REVISION')
@@ -197,9 +201,12 @@ def generation_records(records):
 
 
 def generation_receipt(observed):
-    return dict(rows=member(Path(observed['rows_path'])),identity=observed['identity'],
+    result=dict(rows=member(Path(observed['rows_path'])),identity=observed['identity'],
         identity_sha256=observed['identity_sha256'],summary=observed['summary'],work=observed['work'],
         RNG_restored=observed['RNG_restored'],observer_no_mutation=observed['observer_no_mutation'])
+    for key in ('compatibility_member','qualification_receipt_member','provenance'):
+        if key in observed:result[key]=observed[key]
+    return result
 
 
 def generation_phase(out,phase,observed,batch=0):
@@ -229,16 +236,33 @@ def install_generation_W0(c,arm,observer,records,cold,out):
     if arm==c['generation'].get('primary_arm','BASE_MEMIT'):
         require(not ready.exists(),'FRESH_GENERATION_W0_PRIMARY_CREATE_ONCE')
         observed=generation_phase(out,'W0',observer.observe(records,'W0',cohort='FIRST2000',state_identity=state_identity))
+        qualification=c['generation']['qualification_receipt_member']
+        require(observed['summary']['planned_count']==2000
+            and len(observed['rows'])==2000,'COMPLETE_W0_REQUIRED_BEFORE_READY')
+        compatibility=observed.get('compatibility_member')
+        require(compatibility is not None,'W0_COMPATIBILITY_REQUIRED')
+        reused_old=sum(row.get('provenance',{}).get('origin')=='COMPATIBLE_ORIGINAL_W0' for row in observed['rows'])
         write(ready,dict(identity=expected,observation=member(Path(observed['rows_path'])),
-            generation_receipt=generation_receipt(observed),fresh_actual_W0=True,
-            raw_local_only=True,no_checkpoint=True))
+            generation_receipt=generation_receipt(observed),fresh_actual_W0=reused_old==0,
+            cold_W0_completed_observation=True,mixed_provenance=reused_old>0,
+            raw_local_only=True,no_checkpoint=True,qualification_receipt=qualification,
+            qualification_receipt_sha256=qualification['sha256'],compatibility=compatibility,
+            compatibility_sha256=compatibility['sha256'],completion_verified=True,
+            generation_repair_nonce=NONCE,old_provenance_preserved=True))
         reused=False
     else:
         require(ready.is_file() and not ready.is_symlink(),'INPUT_GENERATION_W0_READY_MISSING')
         value=json.loads(ready.read_text())
-        require(value['identity']==expected and value['fresh_actual_W0'] is True
+        require(value['identity']==expected and value.get('cold_W0_completed_observation') is True
             and value['raw_local_only'] is True and value['no_checkpoint'] is True,
             'GENERATION_SHARED_W0_IDENTITY')
+        qualification=c['generation']['qualification_receipt_member']
+        require(value.get('completion_verified') is True and value.get('generation_repair_nonce')==NONCE
+            and value['qualification_receipt_sha256']==qualification['sha256']
+            and value['qualification_receipt']==qualification
+            and value['compatibility_sha256']==value['compatibility']['sha256'],
+            'GENERATION_W0_ACTUAL_QUALIFICATION_COMPATIBILITY_REQUIRED')
+        verify(value['qualification_receipt']);verify(value['compatibility'])
         observed=observer.read_observed(verify(value['observation']))
         require(observed['identity']['state_sha256']==digest(state_identity),'GENERATION_SHARED_W0_STATE')
         observed=observer.subset(observed,records,'W0',cohort='FIRST2000')
@@ -257,7 +281,9 @@ def start_tracking(c,lock,out,arm):
         model='gpt2xl',model_family='gpt2',writer=WRITERS[arm],role='scientific',metric_schema=SCHEMA,
         generation_metric_schema=generation['schema'],generation_profile=generation['profile'],
         generation_eval_seed=generation['eval_seed'],reference_assets_sha256=generation['reference_assets_sha256'],
-        generation_source_sha=generation['generation_source_sha'],baseline=arm)
+        generation_source_sha=generation['generation_source_sha'],baseline=arm,
+        generation_qualification_plan_sha256=generation['qualification_plan_sha256'],
+        generation_repair_instruction=NONCE)
     tracker=init(env_file=c['tracking']['env_file'],spool=out/'tracking',config=cfg)
     write(out/'tracking-identity.json',dict(run_id=tracker.run_id,url=tracker.startup.get('url'),
         config=tracker.config_values,source_sha=lock['source_commit'],config_sha=lock['config_sha256'],
@@ -280,6 +306,63 @@ def generation_assets(c):
     assets=load_assets(path)
     require(assets.sha==c['generation']['reference_assets_sha256'],'GENERATION_REFERENCE_ASSET_IDENTITY')
     return assets
+
+
+def bind_runtime_generation(c,arm,model,tok,assets,view,engine,bench,attempt,out):
+    """Actual GPU qualification belongs to the first cold replacement only.
+
+    An afterany dependency is not success. Other arms verify both the immutable
+    actual qualification and complete compatible W0 READY before proceeding.
+    """
+    generation=copy.deepcopy(c['generation'])
+    plan=json.loads(verify(generation['qualification_plan_member']).read_text())
+    require(digest(plan)==generation['qualification_plan_sha256'],'QUALIFICATION_PLAN_HASH')
+    receipt_path=Path(generation['qualification_receipt'])
+    if arm==generation['primary_arm']:
+        require(not receipt_path.exists(),'CREATE_ONCE_ACTUAL_QUALIFICATION')
+        actual=run_qualification(model,tok,assets,plan,out=receipt_path.parent,
+            state_callback=lambda:generation_guard(view,engine,bench),
+            source_identity=generation['source_identity'])
+        actual_member=actual['member']
+    else:
+        ready_path=Path(generation['shared_W0_root'])/'READY.json'
+        require(ready_path.is_file() and not ready_path.is_symlink(),'INPUT_GENERATION_W0_READY_MISSING')
+        ready=json.loads(ready_path.read_text())
+        require(ready.get('completion_verified') is True and ready.get('generation_repair_nonce')==NONCE,
+            'INPUT_GENERATION_W0_FAILED_OR_INCOMPLETE')
+        actual_member=ready['qualification_receipt']
+        require(actual_member['path']==str(receipt_path) and ready['qualification_receipt_sha256']==actual_member['sha256'],
+            'INPUT_W0_QUALIFICATION_POINTER')
+        verify(ready['compatibility'])
+    actual=verify_actual_receipt(actual_member,expected_plan_sha256=generation['qualification_plan_sha256'],
+        expected_model_identity=generation['model_identity'])
+    require(actual.get('qualification_pass') is True,'SELECTED_GENERATION_ROUTE_NOT_QUALIFIED')
+    generation.update(generation_route=actual['selected_route'],declared_route=actual['selected_route'],
+        generation_microbatch=actual['fixed_microbatch'],qualification_receipt_member=actual_member)
+    write(out/'generation-qualification-binding.json',dict(plan=generation['qualification_plan_member'],
+        actual=actual_member,selected_route=actual['selected_route'],fixed_microbatch=actual['fixed_microbatch'],
+        qualification_reused=arm!=generation['primary_arm'],qualification_plan_not_actual_GPU_PASS=True,
+        scientific_source_unchanged=True,native_extra_fits=0))
+    return dict(c,generation=generation)
+
+
+def log_generation_progress(tracker,payload,out=None):
+    """Strict public progress only, never an incomplete endpoint score."""
+    require(payload.get('phase') in ('W0_generation','generation_evaluation'),'PUBLIC_GENERATION_PHASE')
+    keys={'phase'}|{'generation_progress/'+k for k in
+        ('completed_cases','total_cases','completed_prompts','total_prompts','generated_tokens','new_cases',
+         'reused_cases','elapsed_sec','cases_per_sec','prompts_per_sec','tokens_per_sec',
+         'physical_forward_calls','prefill_query_tokens','decode_query_tokens','step')}
+    require(set(payload)<=keys and 'generation_progress/step' in payload,'GENERATION_PROGRESS_ONLY')
+    from project.run_scripts.experiment_tracking.schema import metrics as validate_metrics
+    validate_metrics(payload,scientific=True) # schema failures are not silent transport loss
+    accepted=tracker.log(payload)
+    if out is not None:
+        write(Path(out)/'generation-progress-transport'/
+            ('step-'+str(payload['generation_progress/step'])+'.json'),dict(accepted=accepted,
+            status='SDK_QUEUE_ACCEPTED_NOT_REMOTE_ACK' if accepted else 'LOGGING_DEGRADED',
+            payload=payload,scientific_result_not_restarted=True))
+    return accepted
 
 
 def native_loop(c,lock,out,arm,records,model,view,engine,bench,tracker,commits,generation,w0generation):
@@ -355,6 +438,17 @@ def run(attempt,arm):
         torch.set_num_threads(c['resources']['cpu']);torch.backends.cuda.matmul.allow_tf32=False;torch.backends.cudnn.allow_tf32=False
         random.seed(c['seed']);np.random.seed(c['seed']);torch.manual_seed(c['seed'])
         stage='ONLINE_STARTUP';tracker=start_tracking(c,lock,out,arm)
+        if arm!=c['generation']['primary_arm']:
+            stage='INPUT_GENERATION_W0_READY_VERIFY'
+            ready_path=Path(c['generation']['shared_W0_root'])/'READY.json'
+            require(ready_path.is_file() and not ready_path.is_symlink(),'INPUT_GENERATION_W0_READY_MISSING')
+            ready=json.loads(ready_path.read_text())
+            require(ready.get('completion_verified') is True and ready.get('generation_repair_nonce')==NONCE
+                and ready.get('cold_W0_completed_observation') is True,'INPUT_GENERATION_W0_FAILED_OR_INCOMPLETE')
+            verify_actual_receipt(ready['qualification_receipt'],
+                expected_plan_sha256=c['generation']['qualification_plan_sha256'],
+                expected_model_identity=c['generation']['model_identity'])
+            verify(ready['compatibility']);verify(ready['observation'])
         stage='LOAD_W0';loaded=time.monotonic()
         model=AutoModelForCausalLM.from_pretrained(c['model'],local_files_only=True,dtype=torch.float32,
             attn_implementation='eager',low_cpu_mem_usage=True,use_safetensors=True).to('cuda').eval()
@@ -383,10 +477,22 @@ def run(attempt,arm):
         observation_config=dict(c,W0_reuse=c['source_configs'][arm].get('W0_reuse'),
             observation_identity=c['source_configs'][arm].get('observation_identity',c['observation_identity']))
         w0=install_W0(observation_config,view,engine.history(),out,bench,records)
-        stage='W0_GENERATION_OBSERVER';assets=generation_assets(c)
-        generation=GenerationObserver(model,tok,assets,c['generation'],out/'generation',
-            state_callback=lambda:generation_guard(view,engine,bench))
-        wg=install_generation_W0(c,arm,generation,generation_records(records),cold,out)
+        stage='GENERATION_ROUTE_QUALIFICATION';assets=generation_assets(c)
+        observer_c=bind_runtime_generation(c,arm,model,tok,assets,view,engine,bench,attempt,out)
+        write(out/'runtime-generation-identity.json',dict(run_id=tracker.run_id,url=tracker.startup.get('url'),
+            job_id=os.environ['SLURM_JOB_ID'],source_commit=lock['source_commit'],config_sha256=lock['config_sha256'],
+            qualification_plan=observer_c['generation']['qualification_plan_member'],
+            qualification_plan_sha256=observer_c['generation']['qualification_plan_sha256'],
+            qualification_actual=observer_c['generation']['qualification_receipt_member'],
+            selected_route=observer_c['generation']['generation_route'],
+            fixed_microbatch=observer_c['generation']['generation_microbatch'],
+            source_native_hparams_unchanged=True,immutable=True,
+            remote_startup_evidence='PLAN identity verified; actual qualification evidence local, not remotely asserted'))
+        stage='W0_GENERATION_OBSERVER'
+        generation=GenerationObserver(model,tok,assets,observer_c['generation'],out/'generation',
+            state_callback=lambda:generation_guard(view,engine,bench),
+            progress_callback=lambda payload:log_generation_progress(tracker,payload,out))
+        wg=install_generation_W0(observer_c,arm,generation,generation_records(records),cold,out)
         write(out/'W0/logging.json',dict(RPN_accepted=log_w0(tracker,w0['summary']),
             generation_accepted=log_generation(tracker,[('W0_first2000',wg['summary'])],0,0),
             SDK_acceptance_is_not_remote_readback=True))
