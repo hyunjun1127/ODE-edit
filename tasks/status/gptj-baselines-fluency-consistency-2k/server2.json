@@ -10,7 +10,109 @@
   "origin": "hyunjun1127/ODE-edit",
   "authority": "b0cee1a302c10d48e206a31c7c5cf318ac36d8c3",
   "accepted": true,
-  "status": "SUBMISSION_HANDOFF",
+  "status": "CACHE_REPAIR_SUBMISSION_HANDOFF_SIX_GPU_AND_COLLECTOR_RELEASED",
+  "historical_submission_status": "SUBMISSION_HANDOFF",
+  "cache_repair": {
+    "instruction_id": "USER-GH-SH1-SH2-BASELINE-GENERATION-KV-BATCH-REPAIR-20261008-R1",
+    "task_id": "gptj-baselines-generation-cache-repair",
+    "authority": "66cddb8fa9c09e475f0ae3f423635091c6a71e3d",
+    "accepted": true,
+    "stage": "SUBMISSION_HANDOFF",
+    "shared_source": "199cfe5664355f6f1c9069c72396ec759bb25cec",
+    "shared_tree": "a10d88b555a96962567846dcb34a456c9e0d7c1c",
+    "old_jobs_terminal": "60909..60915_ALL_CANCELLED",
+    "old_target_queue_empty": true,
+    "old_allocated_GPU_seconds": 25963,
+    "old_complete_cases": 396,
+    "old_missing_cases": 1604,
+    "observed_native_commit_files": 0,
+    "old_history_RAM": "NOT_RECORDED_NOCP",
+    "new_job_ids": [
+      "61163",
+      "61161",
+      "61160",
+      "61162",
+      "61164",
+      "61165",
+      "61166"
+    ],
+    "new_source_freeze": "2e6f6f553ac16cf82a171bcdaa7fb2ace87b4e1b",
+    "production_PLAN_freeze": "FROZEN_BEFORE_ACTUAL_GPU",
+    "actual_GPU_qualification": "NOT_OBSERVED_AT_POSTRELEASE_HANDOFF",
+    "actual_receipt_required_before_submission": false,
+    "GH_input_status_direct_ACK": "VERIFIED_COMPLETED_NONCE_FINAL_ECHO",
+    "scientific_complete": false,
+    "monitoring_active": false,
+    "automatic_retry": false,
+    "production_PLAN": "FROZEN_BEFORE_ACTUAL_GPU",
+    "production_config_sha256": "706636712290a8c52c7f9e233f83c2a8c54d778a583bdc191cb7f9457756b362",
+    "qualification_plan_sha256": "0cafe3c40cb4772aaa409aac03cf6cdbda10ea935c4c49ead8447d52cab68c83",
+    "shared_qualification_plan_sha256": "bdcac9e9e2a877dc1fa521e393bddb88136fa7caace7a5ab93878846036126b3",
+    "plan_coverage": {
+      "max_prompts": 8,
+      "same_length_width": 6,
+      "MB8_full_width_not_covered": true,
+      "length100_boundary": false,
+      "unverified_batch_not_production": true,
+      "actual_route_chosen_first_job": true
+    },
+    "CPU_tests": 93,
+    "CPU_status": "PASS_CPU_INTEGRATION_NOT_GPU",
+    "previous_CPU_failure_preserved": true,
+    "new_jobs": {
+      "ALPHAEDIT_BLUE": "61163",
+      "BASE_ALPHAEDIT": "61161",
+      "BASE_MEMIT": "61160",
+      "CAKE": "61162",
+      "PRUNE": "61164",
+      "RECT": "61165",
+      "collector": "61166"
+    },
+    "new_execution_lock": {
+      "bytes": 102251,
+      "inode": 122309044,
+      "mtime_ns": 1791408178738891500,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-baselines-fluency-consistency-2k/cache-repair-r1/attempt-r1/execution.lock.json",
+      "sha256": "ef6ae0ae74018ac0d66233e164cd13eac02c4f7f44ea5a9065a42357e4301684"
+    },
+    "new_source_tree": "8d1d197b3fea2bf5baaa043852d0f98f0e6a3dc6",
+    "new_dependencies": {
+      "ALPHAEDIT_BLUE": [
+        "61161"
+      ],
+      "BASE_ALPHAEDIT": [
+        "61160"
+      ],
+      "BASE_MEMIT": [],
+      "CAKE": [
+        "61160"
+      ],
+      "PRUNE": [
+        "61162"
+      ],
+      "RECT": [
+        "61163"
+      ],
+      "collector": [
+        "61160",
+        "61161",
+        "61162",
+        "61163",
+        "61164",
+        "61165"
+      ]
+    },
+    "new_source_frozen": true,
+    "actual_W_B_startup": "ACTUAL_ONLINE_STARTUP_IN_SEALED_RUNNER_NOT_OBSERVED",
+    "initial_snapshot": "61166|gptj-baselines-generation-cache-repair-collector|PENDING|N/A||None\n61165|gptj-baselines-generation-cache-repair-RECT|PENDING|gres/gpu:1||None\n61164|gptj-baselines-generation-cache-repair-PRUNE|PENDING|gres/gpu:1||None\n61163|gptj-baselines-generation-cache-repair-ALPHAEDIT_BLUE|PENDING|gres/gpu:1||None\n61162|gptj-baselines-generation-cache-repair-CAKE|PENDING|gres/gpu:1||None\n61161|gptj-baselines-generation-cache-repair-BASE_ALPHAEDIT|PENDING|gres/gpu:1||None\n61160|gptj-baselines-generation-cache-repair-BASE_MEMIT|PENDING|gres/gpu:1||None",
+    "source_frontier": [],
+    "handoff_direct_nonce": "SH2-GH-GENERATION-CACHE-SUBMISSION-HANDOFF-20261008-R1",
+    "GH_handoff_direct": "DIRECT_ACK_VERIFIED_COMPLETED_NONCE_FINAL_ECHO",
+    "GH_handoff_accepted_turn": "01a11840-23c5-7351-8ae7-d411b37c9061",
+    "compact_main_publication": "NONFORCE_MAIN_VERIFIED",
+    "first_verified_publication_commit": "de80205f70f1a500cdd99622e36d649597cfa848",
+    "future_observation": "USER_RECALL_ONLY_NO_NEW_AGENT_MONITOR"
+  },
   "newly_cancelled": [],
   "previous_terminal": {
     "60656": "COMPLETED",
@@ -115,5 +217,6 @@
   "submission_handoff_direct_delivery": "COMMUNICATION_HOLD",
   "submission_handoff_reason": "UNRELATED_OR_UNRESOLVED_ACTIVE_TURN_NO_STEER",
   "checkpoint_saved": false,
-  "exact_resume": "NOT_AVAILABLE"
+  "exact_resume": "NOT_AVAILABLE",
+  "historical_fields": "Parent execution/jobs/message/old source below are historical; current repair is cache_repair only"
 }

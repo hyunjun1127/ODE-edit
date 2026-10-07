@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "status": "FAILED_CPU_BIND_BEFORE_PRODUCTION_OUTPUT",
+  "stage": "installed_native_binding",
+  "reason": "QUALIFICATION_NATIVE_RUNTIME_PIN",
+  "distribution_versions": {"torch": "2.9.1", "transformers": "4.57.1"},
+  "actual_module_versions": {"torch": "2.9.1+cu128", "transformers": "4.57.1"},
+  "CUDA_initialized": false,
+  "new_config_or_PLAN_created": false,
+  "GPU_cost": 0,
+  "new_Slurm_jobs": [],
+  "environment_modified": false,
+  "repair_scope": "Module runtime version and distribution metadata separated; actual runtime pins unchanged, no tolerance waiver",
+  "original_receipt": "/mnt/raid5/janghj/ODE-edit/local/gptj-baselines-fluency-consistency-2k/cache-repair-r1/binding-error-r1.json",
+  "automatic_retry": false
+}

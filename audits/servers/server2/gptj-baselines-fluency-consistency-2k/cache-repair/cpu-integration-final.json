@@ -1,0 +1,345 @@
+{
+  "schema": 1,
+  "task_id": "gptj-baselines-generation-cache-repair",
+  "instruction_id": "USER-GH-SH1-SH2-BASELINE-GENERATION-KV-BATCH-REPAIR-20261008-R1",
+  "status": "PASS_CPU_INTEGRATION",
+  "tests": 93,
+  "failures": 0,
+  "errors": 0,
+  "seconds": 12.104270272888243,
+  "peak_RSS_bytes": 867561472,
+  "CPU_threads": 1,
+  "CUDA_initialized": false,
+  "config_sha256": "706636712290a8c52c7f9e233f83c2a8c54d778a583bdc191cb7f9457756b362",
+  "source": [
+    {
+      "bytes": 4196,
+      "inode": 122305331,
+      "mtime_ns": 1791404828109255700,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/gptj_native_baselines/generation_bind.py",
+      "sha256": "ea8f748b1704b3c8a0604f74a372a448b7dff2c076830c3639bc5f45163bfeef"
+    },
+    {
+      "bytes": 10519,
+      "inode": 122305332,
+      "mtime_ns": 1791404828109255700,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/gptj_native_baselines/generation_bridge.py",
+      "sha256": "71bb8b9c969a538ae1a87ac1831ebc4bfb39d0536ac74590979019cb1b228895"
+    },
+    {
+      "bytes": 7947,
+      "inode": 122308598,
+      "mtime_ns": 1791407216330487300,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/gptj_native_baselines/generation_cache_bind.py",
+      "sha256": "e2cddd5e4b480f958493b2055379aeeae737cd80d3d666497146f9c8e36ced11"
+    },
+    {
+      "bytes": 32280,
+      "inode": 122308675,
+      "mtime_ns": 1791407951666482200,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/gptj_native_baselines/generation_cache_bridge.py",
+      "sha256": "48329b148457cd224ea7d8346251f44c860a509686a57bb28bbcf7cdd7b901d4"
+    },
+    {
+      "bytes": 4049,
+      "inode": 122308582,
+      "mtime_ns": 1791407204778488300,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/gptj_native_baselines/generation_cache_common.py",
+      "sha256": "74d5c5b51ef9fade4357c727e504eea6fb00df95d4f8fa1417b500f22f6fe031"
+    },
+    {
+      "bytes": 3226,
+      "inode": 122308585,
+      "mtime_ns": 1791407650385241000,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/gptj_native_baselines/generation_cache_cpu_checks.py",
+      "sha256": "43910fe436a34037129ab27c8a2477cceb5750afe961d34671ae1ca8cea93fe4"
+    },
+    {
+      "bytes": 25046,
+      "inode": 122308575,
+      "mtime_ns": 1791407772162157600,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/gptj_native_baselines/generation_cache_qualification.py",
+      "sha256": "9d038b31ead86e069e6ab81dd2fc115b6afa100b7b33685381495b5ccb6deba6"
+    },
+    {
+      "bytes": 37804,
+      "inode": 122308577,
+      "mtime_ns": 1791407542592488700,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/gptj_native_baselines/generation_cache_reuse.py",
+      "sha256": "49fb9a9010e524fa14d45b5d643c4e585287da27722d930d706ec46ccd944910"
+    },
+    {
+      "bytes": 11027,
+      "inode": 122308579,
+      "mtime_ns": 1791408032709087200,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/gptj_native_baselines/generation_cache_submit.py",
+      "sha256": "f9868014ad1051d268f901a716b3e0dcab71c475b933cc64e22b417d7652070c"
+    },
+    {
+      "bytes": 107129,
+      "inode": 122305333,
+      "mtime_ns": 1791407982457935400,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/gptj_native_baselines/generation_collect.py",
+      "sha256": "5b766092da70315371b631cd472ca61472f8c81ca32ca3a99524da667177e453"
+    },
+    {
+      "bytes": 3334,
+      "inode": 122305334,
+      "mtime_ns": 1791404828109255700,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/gptj_native_baselines/generation_common.py",
+      "sha256": "7c0b007ceb5144c0c331511c19a78d6776d7c86ed4c069a44fcf137849e5bd13"
+    },
+    {
+      "bytes": 2492,
+      "inode": 122305335,
+      "mtime_ns": 1791404828109255700,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/gptj_native_baselines/generation_cpu_checks.py",
+      "sha256": "680b9d71f01686bbcea7709087b1a85e135c4ddc457bddf93efc9c64b0efb183"
+    },
+    {
+      "bytes": 3159,
+      "inode": 122305336,
+      "mtime_ns": 1791404828109255700,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/gptj_native_baselines/generation_integration_checks.py",
+      "sha256": "61c096b07378e6f1547cba16e1137208d3358e72fa8292f58d813f34c6036c23"
+    },
+    {
+      "bytes": 2920,
+      "inode": 122305337,
+      "mtime_ns": 1791404828109255700,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/gptj_native_baselines/generation_plan.py",
+      "sha256": "32552441f0184901086c857241b7fb1b6cce828c38c9b2e307775c9ce6e92fcf"
+    },
+    {
+      "bytes": 5937,
+      "inode": 122305338,
+      "mtime_ns": 1791404828109255700,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/gptj_native_baselines/generation_prepare.py",
+      "sha256": "33e43c62059b601d6780a360b14dd04f305195007139353b2d6902f06b733abb"
+    },
+    {
+      "bytes": 25255,
+      "inode": 122305339,
+      "mtime_ns": 1791407626197923300,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/gptj_native_baselines/generation_run.py",
+      "sha256": "3c2da8ef744798c001f9c73b714ee50d177369308deab182402df48064ad4ad6"
+    },
+    {
+      "bytes": 13119,
+      "inode": 122305340,
+      "mtime_ns": 1791406444046014200,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/gptj_native_baselines/generation_submit.py",
+      "sha256": "5c2856533aee6b49d6c55110cccd32c693d1cb6ebf7ceb3a335e282d83d459aa"
+    },
+    {
+      "bytes": 3557,
+      "inode": 122305341,
+      "mtime_ns": 1791405818147489000,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/gptj_native_baselines/generation_tracking.py",
+      "sha256": "ed1c746f4a274eca9ea0a787bb42d1c1c21f2ce19dfa2f15e28aa94935e72893"
+    },
+    {
+      "bytes": 7823,
+      "inode": 122305342,
+      "mtime_ns": 1791406295337696000,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/gptj_native_baselines/generation_tracking_client.py",
+      "sha256": "5adff22b920647820544669fd06bd5d6666f54f90422574e269841bdb210d314"
+    },
+    {
+      "bytes": 8679,
+      "inode": 122305343,
+      "mtime_ns": 1791407060618486800,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/gptj_native_baselines/generation_tracking_schema.py",
+      "sha256": "b94b5d7ef0cc3584d398955a20c149aaa9e8a6b1c16201d6a470061377bf2277"
+    },
+    {
+      "bytes": 9734,
+      "inode": 122305344,
+      "mtime_ns": 1791407171790490000,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/gptj_native_baselines/generation_tracking_worker.py",
+      "sha256": "d4ad111542bdbf2b3e0221dc806c8b055ccf045325d18235d4b49b54aa155a7e"
+    },
+    {
+      "bytes": 12359,
+      "inode": 122308678,
+      "mtime_ns": 1791407951674482000,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/gptj_native_baselines/test_generation_cache_bridge.py",
+      "sha256": "014011bfc70fcdc8d95253c513b2bf27eeda0fae499e78fc7dc1b65007da4f72"
+    },
+    {
+      "bytes": 3939,
+      "inode": 122308632,
+      "mtime_ns": 1791406485910083800,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/gptj_native_baselines/test_generation_cache_profile.py",
+      "sha256": "11568368fbff40ccc0e4eb1ccad1622e4fd9daad1f5ab88c63c0ffb42ff11396"
+    },
+    {
+      "bytes": 12781,
+      "inode": 122308576,
+      "mtime_ns": 1791407286074478800,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/gptj_native_baselines/test_generation_cache_qualification.py",
+      "sha256": "7d49ea2247b86d7c0f93e0de4e3c3561554ea1223e7b9f4ccf36213b78f273ec"
+    },
+    {
+      "bytes": 25379,
+      "inode": 122308583,
+      "mtime_ns": 1791407542604488400,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/gptj_native_baselines/test_generation_cache_reuse.py",
+      "sha256": "7a264a314ef7fdd6938642c3f5bb9216c341e2273cd252fd9352247d8560cfd0"
+    },
+    {
+      "bytes": 11203,
+      "inode": 122308584,
+      "mtime_ns": 1791407078574488600,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/gptj_native_baselines/test_generation_cache_tracking.py",
+      "sha256": "347755b5e4c2e4186b85869d61e2fd2332385bf6a2ce93a3ebb2343363f3ec9b"
+    },
+    {
+      "bytes": 59840,
+      "inode": 122305353,
+      "mtime_ns": 1791407982481934800,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/gptj_native_baselines/test_generation_collect.py",
+      "sha256": "16a493d8ffcbcb2661fe21add139af8c5b045bf62c34a0792777272a5b38979f"
+    },
+    {
+      "bytes": 16438,
+      "inode": 122305355,
+      "mtime_ns": 1791404828113255700,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/gptj_native_baselines/test_generation_run.py",
+      "sha256": "f297d5fc5615aed463da4b770c5dae7a4c28564c412c3c8aa6e8d74886eee845"
+    },
+    {
+      "bytes": 7597,
+      "inode": 122305358,
+      "mtime_ns": 1791404828113255700,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/gptj_native_baselines/test_generation_tracking_shared.py",
+      "sha256": "9e72155a0b6d17b0fe16af4af2ae6fca2864f0be24b5587c6870cbc32209b4d5"
+    }
+  ],
+  "shared_source": [
+    {
+      "bytes": 614,
+      "inode": 122305080,
+      "mtime_ns": 1791404828085255700,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/experiment_generation_eval/__init__.py",
+      "sha256": "f908f130d72f052b918f6467bbe31f81378ac5ab2156a7aef6e6fbee9cd136e2"
+    },
+    {
+      "bytes": 18830,
+      "inode": 122305081,
+      "mtime_ns": 1791404828085255700,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/experiment_generation_eval/assets.py",
+      "sha256": "0648c9c6dfb05cf753c35fa6c2dc86d31fe1c6190e16703a0b5fd0a14689f11a"
+    },
+    {
+      "bytes": 2617,
+      "inode": 122305082,
+      "mtime_ns": 1791404828085255700,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/experiment_generation_eval/common.py",
+      "sha256": "b09cb5b30f45150a7c042353a41c6b28ca31b4695884fd27135e0e2a69f9282c"
+    },
+    {
+      "bytes": 17782,
+      "inode": 122308659,
+      "mtime_ns": 1791406853710432000,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/experiment_generation_eval/compatibility.py",
+      "sha256": "dc7213338b661b57e99862c84c8e6c976cab355b45d27c58b4747c92a6900dd8"
+    },
+    {
+      "bytes": 20487,
+      "inode": 122305083,
+      "mtime_ns": 1791406853710432000,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/experiment_generation_eval/generator.py",
+      "sha256": "0b151a0546e2b16ca46276ed9feebc08fc719f024b45f945d5a18d5d5147dacf"
+    },
+    {
+      "bytes": 18218,
+      "inode": 122308660,
+      "mtime_ns": 1791406853714432000,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/experiment_generation_eval/kv_qualification.py",
+      "sha256": "17b282daf9a531eeed4c980afa44a78db30891bd110d5ecae8ecfd552bdc15b8"
+    },
+    {
+      "bytes": 6235,
+      "inode": 122305084,
+      "mtime_ns": 1791404828085255700,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/experiment_generation_eval/metrics.py",
+      "sha256": "c9152f5889bf42ca5761d9dd974ec6676f974eff006b8c38b0c934dccb6dfce9"
+    },
+    {
+      "bytes": 28473,
+      "inode": 122305085,
+      "mtime_ns": 1791406853714432000,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/experiment_generation_eval/observer.py",
+      "sha256": "1adde9d1c89a2cc631a265171bb5572382996cd9a1149d8f687163d1c6550239"
+    },
+    {
+      "bytes": 4202,
+      "inode": 122308661,
+      "mtime_ns": 1791406853714432000,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/experiment_generation_eval/progress.py",
+      "sha256": "59e33e185a36d70fa4e9bb37e29484334b2a7b99c3359adc6d5841aec42c7027"
+    },
+    {
+      "bytes": 8347,
+      "inode": 122305086,
+      "mtime_ns": 1791404828085255700,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/experiment_generation_eval/test_assets.py",
+      "sha256": "7283fac4cce6dd82cb3147fae05c677532ba7c1d54f3ada2ed910ab081b47230"
+    },
+    {
+      "bytes": 7984,
+      "inode": 122308662,
+      "mtime_ns": 1791406853714432000,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/experiment_generation_eval/test_compatibility.py",
+      "sha256": "7274afe805590223baf137292b4fbff1a52acbbd3ba011ee4d4c6dc08753a185"
+    },
+    {
+      "bytes": 8511,
+      "inode": 122305087,
+      "mtime_ns": 1791404828085255700,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/experiment_generation_eval/test_generator.py",
+      "sha256": "933508383f4a58e56219ca25ac5eb038954d1b32a9742dab7c3ae688329863b3"
+    },
+    {
+      "bytes": 10918,
+      "inode": 122308663,
+      "mtime_ns": 1791406853714432000,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/experiment_generation_eval/test_kv_generator.py",
+      "sha256": "131feebceb42d5db63f075f7dbad150805d8fe69acdc583341e6e7a2e14c64c4"
+    },
+    {
+      "bytes": 6539,
+      "inode": 122305088,
+      "mtime_ns": 1791404828085255700,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/experiment_generation_eval/test_metrics.py",
+      "sha256": "b9dc0b03331c7296c8dde6d09c5bc45ce111fd2eb7896f7c84a228f57ff9320f"
+    },
+    {
+      "bytes": 8734,
+      "inode": 122305089,
+      "mtime_ns": 1791404828089255700,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/experiment_generation_eval/test_observer.py",
+      "sha256": "250d24cd57e6c1f86e42b89b50f8dc4cd826dd3c25dc827634457813d877c53a"
+    },
+    {
+      "bytes": 2204,
+      "inode": 122308664,
+      "mtime_ns": 1791406853714432000,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-baselines-generation-cache-repair/project/run_scripts/experiment_generation_eval/test_progress.py",
+      "sha256": "5822c08bdf80845151b62e8063be90e1cf03b17c85200889d20200ab613cfff7"
+    }
+  ],
+  "actual_GPU_qualification": false,
+  "pretrained_model_loads": 0,
+  "synthetic_CPU_fixtures_only": true,
+  "scientific_complete": false,
+  "prior_failed_cpu_receipt": "local/gptj-baselines-fluency-consistency-2k/cache-repair-r1/cpu-integration-r1.json",
+  "prior_failure": {
+    "tests": 93,
+    "errors": 1,
+    "first_error": "Negative fixture expected RuntimeError; unchanged original raw SHA guard raised ValueError",
+    "repair": "Fixture only accepts actual guard exception classes; source guard and numerical/science definitions unchanged"
+  },
+  "owner_review": "Focused assigned-seam workers and root; no independent pretrained/GPU certification"
+}
