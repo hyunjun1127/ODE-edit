@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH2-GPTJ-CAKE-ALPHAEDIT-BLUE-PRUNE-RECT-2K-20261007-R1",
+  "task_id": "gptj-cake-blue-prune-rect-2k",
+  "owner": {
+    "server": "server2",
+    "session": "01a0493a-074c-7f91-9a13-769116326fef",
+    "host": "remote-ssh-codex-managed:lab121",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit",
+    "branch": "codex/server2-gptj-cake-blue-prune-rect-2k"
+  },
+  "contract": "plans/global/2026-10-07-gptj-cake-blue-prune-rect-2k/contract.json",
+  "envelope": "messages/head/2026-10-07-gptj-cake-blue-prune-rect-sh2.json",
+  "status": "AUTHORIZED_AWAITING_DIRECT_OWNER_ACCEPTANCE",
+  "implemented": false,
+  "Slurm_submitted": false,
+  "job_ids": [],
+  "after_existing_tasks": [
+    "gptj-easyedit-native-baselines-2k"
+  ],
+  "duplicate_submission": false
+}

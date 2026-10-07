@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH2-GPTJ-CAKE-ALPHAEDIT-BLUE-PRUNE-RECT-2K-20261007-R1",
+  "task_id": "gptj-cake-blue-prune-rect-2k",
+  "dispatcher": {
+    "session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "owner": {
+    "server": "server2",
+    "session": "01a0493a-074c-7f91-9a13-769116326fef",
+    "host": "remote-ssh-codex-managed:lab121",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit",
+    "branch": "codex/server2-gptj-cake-blue-prune-rect-2k"
+  },
+  "user_quote": "server2에도 gpt-j 에 cake, alphaedit-blue. prune, rect 적용실험 진행시키자. /mnt/raid5/janghj/BLUE, /mnt/raid5/janghj/CAKE 이 경로 사용하면 되고, gpt2-xl과 동일하게 easyedit 경로의 자산을 사용하면 된다고 전달하자",
+  "contract": "plans/global/2026-10-07-gptj-cake-blue-prune-rect-2k/contract.json",
+  "authority": "SH2 owns implementation, minimum checks, frozen source/assets/runtime/config, actual held Slurm submission+release, four independent2k runs, CPU collector, online W&B and nonforce compact main publication without renewed approval. This new task only is scoped STOP exception.",
+  "read_scope": [
+    "/mnt/raid5/janghj/CAKE/**",
+    "/mnt/raid5/janghj/BLUE/**",
+    "/mnt/raid5/janghj/EasyEdit/**",
+    "existing GPTJ model/C0/P/input/context/evaluator/tracking/provenance read-only"
+  ],
+  "write_scope": [
+    "project/run_scripts/gptj_cake_blue_prune_rect/**",
+    "tests inside the new namespace",
+    "plans/servers/server2/gptj-cake-blue-prune-rect-2k/**",
+    "audits/servers/server2/gptj-cake-blue-prune-rect-2k/**",
+    "experiment-reports/servers/server2/gptj-cake-blue-prune-rect-2k/**",
+    "runs/gptj-cake-blue-prune-rect-2k/**",
+    "tasks/status/gptj-cake-blue-prune-rect-2k/server2.json",
+    "messages/acks/server2/gptj-cake-blue-prune-rect-2k.json",
+    "messages/server-heads/server2/gptj-cake-blue-prune-rect-2k.json",
+    "ignored local/gptj-cake-blue-prune-rect-2k/**"
+  ],
+  "Slurm_allowed": true,
+  "resources": {
+    "server_GPU_cap": 2,
+    "task_GPU_cap": 2,
+    "per_arm_GPU": 1,
+    "CPU_default": 6,
+    "host_memory_MiB_default": 59392,
+    "wall_hours_request_default": 48,
+    "collector": {
+      "GPUs": 0,
+      "CPUs": 6,
+      "host_memory_MiB": 24576,
+      "wall_hours_default": 4,
+      "dependency": "afterany all four own GPU jobs"
+    },
+    "fresh": "Actual server2 node/QoS/VRAM/RAM/disk/inodes and stricter current policy. Existing RUNNING/COMPLETING/CONFIGURING plus admitted/released PENDING DAG counted, including FE, W0, stock/ours. Historic registrycap4 invalid. Node observed6CPU/58G perGPU; defaults are admission precedent, not fresh certification or ETA.",
+    "schedule": "Preserve all existing jobs/source/raw including 60656/60657/60658 and W0 60652/60653. Fresh owner/task/source/state frontier, up to two lanes: CAKE -> PRUNE, ALPHAEDIT_BLUE -> RECT afterany; first jobs after actual surviving existing science frontier. Shared input READY only technical dependency; no performance afterok gate or GPU file polling. If resources occupied, register valid dependency/PENDING rather than agent wait. Do not cancel/requeue/hold existing jobs or increase cap.",
+    "submit": "All four GPU jobs plus own CPU collector registered held; inspect exact owner/fullargv/source/config/script/assets/input/W&B/noCP/resources/deps, release all. Job IDs only after actual sbatch; task pending distinct from scheduler PENDING."
+  },
+  "technical_gate": "Minimal static/parser/hparams/assets/layerPslots/input20packs/nativeGPTJ/metricaxes/jobID/dependency tests. First actualB1 integrates finite/operator/materialization/commit/nonselectedguard/observernonmutation/Honce and B2 ownstate checks. CPU evidence not actualGPU PASS. No standalonetoy/small-Bpilot/B1refit/sweep; lowquality recorded, technical mismatch typedstop without tolerance relaxation/automaticretry.",
+  "artifact_policy": "NoCP and exactresumeNOT_AVAILABLE. Nativeweights/H/RNG/optimizer/reconstruction-equivalent durablepayload0,PRUNEoriginalW0+SVDRAMonly. RawlocalKEEP,compact source/config/mapping/manifests/report nonforceGit. No unrelateddelete/assetclone; ordinarycompactbroadcast or precise NO_BROADCAST_NOT_REQUIRED receipt,not blanketlargecopy.",
+  "report": "experiment-reports/servers/server2/gptj-cake-blue-prune-rect-2k/report-ko.md",
+  "source_freeze": "Nativeclosure/hparams/parser/diffs/PRUNEbasefix/actualmodelstatsPcontextinputtokenruntimeevaluatorW&BreducerCLI+Slurmscript fullSHAandconfig newfreeze. Existingarchivesuntouched.",
+  "Git": "Dedicated clean non-mainWT; source+compactreports nonforce main permitted. Preserve dirtyroot/othersedits;reset/stash/stageall0. Grant exact task run/plan/status paths even if generic legacy helper DENY,record explicitexception notfalsePASS.",
+  "delivery": "ExactSH2session/CWD/repo and duplicate nonce check; idleturn/start,relatedactiveexactexpectedTurnIdsteer,unrelatedactiveturn don'tsteer. ExplicitnonceownerACK/currentstage. GHtransportclosure isn'tstop/newapprovalgate.",
+  "monitoring": "No recurringmonitor/heartbeat/longterminalwait/autoretry. Resourcepending is valid actual registration handoff.",
+  "stop": "Newtaskonly scopedexception. All old jobs/source/raw preserved. No new methods/arms/sweep/extraGPUfit/noCP;only minimal causal runtimefixes and explicitPRUNEbasefix."
+}

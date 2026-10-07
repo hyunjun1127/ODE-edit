@@ -1,0 +1,272 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH2-GPTJ-CAKE-ALPHAEDIT-BLUE-PRUNE-RECT-2K-20261007-R1",
+  "task_id": "gptj-cake-blue-prune-rect-2k",
+  "date_kst": "2026-10-07",
+  "user_quote": "server2에도 gpt-j 에 cake, alphaedit-blue. prune, rect 적용실험 진행시키자. /mnt/raid5/janghj/BLUE, /mnt/raid5/janghj/CAKE 이 경로 사용하면 되고, gpt2-xl과 동일하게 easyedit 경로의 자산을 사용하면 된다고 전달하자",
+  "authority": "SH2 owns implementation, minimum checks, frozen source/assets/runtime/config, actual held Slurm submission+release, four independent2k runs, CPU collector, online W&B and nonforce compact main publication without renewed approval. This new task only is scoped STOP exception.",
+  "owner": {
+    "server": "server2",
+    "session": "01a0493a-074c-7f91-9a13-769116326fef",
+    "host": "remote-ssh-codex-managed:lab121",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit",
+    "branch": "codex/server2-gptj-cake-blue-prune-rect-2k"
+  },
+  "scope": {
+    "arms": [
+      "CAKE",
+      "ALPHAEDIT_BLUE",
+      "PRUNE",
+      "RECT"
+    ],
+    "model": "EleutherAI/gpt-j-6B",
+    "revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+    "cold_independent": true,
+    "fresh_history_when_native": true,
+    "stream": "counterfact-fixed-10k-v1 same ordered first2000 occurrences",
+    "seed": 20261002,
+    "batch_size": 100,
+    "batches": 20,
+    "edits_per_arm": 2000,
+    "total_edit_applications": 8000,
+    "no_batch21": true,
+    "extra_baselines_sweeps_fits": 0
+  },
+  "resources": {
+    "server_GPU_cap": 2,
+    "task_GPU_cap": 2,
+    "per_arm_GPU": 1,
+    "CPU_default": 6,
+    "host_memory_MiB_default": 59392,
+    "wall_hours_request_default": 48,
+    "collector": {
+      "GPUs": 0,
+      "CPUs": 6,
+      "host_memory_MiB": 24576,
+      "wall_hours_default": 4,
+      "dependency": "afterany all four own GPU jobs"
+    },
+    "fresh": "Actual server2 node/QoS/VRAM/RAM/disk/inodes and stricter current policy. Existing RUNNING/COMPLETING/CONFIGURING plus admitted/released PENDING DAG counted, including FE, W0, stock/ours. Historic registrycap4 invalid. Node observed6CPU/58G perGPU; defaults are admission precedent, not fresh certification or ETA.",
+    "schedule": "Preserve all existing jobs/source/raw including 60656/60657/60658 and W0 60652/60653. Fresh owner/task/source/state frontier, up to two lanes: CAKE -> PRUNE, ALPHAEDIT_BLUE -> RECT afterany; first jobs after actual surviving existing science frontier. Shared input READY only technical dependency; no performance afterok gate or GPU file polling. If resources occupied, register valid dependency/PENDING rather than agent wait. Do not cancel/requeue/hold existing jobs or increase cap.",
+    "submit": "All four GPU jobs plus own CPU collector registered held; inspect exact owner/fullargv/source/config/script/assets/input/W&B/noCP/resources/deps, release all. Job IDs only after actual sbatch; task pending distinct from scheduler PENDING."
+  },
+  "input": {
+    "schedule": "plans/global/2026-10-04-jlz-v12-marginal-allocation/experiment-2k/case-schedule-first2000.csv",
+    "schedule_sha256": "dccb4da4896aa7c3f653f7192bd01ab5d8799a0b439101417d02ee287d3fd2e2",
+    "ordered_case_ID_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+    "dataset": "/mnt/raid5/janghj/ODE-edit/local/datasets/counterfact-fixed-10k-v1/counterfact.json",
+    "dataset_sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1"
+  },
+  "native_common": {
+    "readout": 27,
+    "lr": 0.5,
+    "max_evaluations": 25,
+    "max_updates": 24,
+    "clamp": 0.75,
+    "norm": 0.5,
+    "KL": 0.0625,
+    "fact_token": "subject_last",
+    "rewrite_module": "transformer.h.{}.mlp.fc_out",
+    "request_schema": "Native CounterFact requested_rewrite with target_new={'str':...}; preserve leading space, subject_last, native context/key/target reductions and actual parser. Do not inject ours planner/price/allocation/EfficiencyAdam or GPT2 hparams."
+  },
+  "native": [
+    {
+      "arm": "CAKE",
+      "root": "/mnt/raid5/janghj/CAKE",
+      "commit": "0b378234862bd76c69f58404ef84c27d5f4bf9ef",
+      "entrypoint": "Cake.Cake_main.apply_Cake_to_model(...,cache_c=H,P=P)",
+      "main_sha256": "d1ae01c7f1d5f6f8af899a589b8e407171c1a5dbb69b8ad6ff08e39f02823e20",
+      "hparams": "hparams/Cake/EleutherAI_gpt-j-6B.json",
+      "hparams_sha256": "a37d65b4f7b8c9a8ce439abadb4548010777ec0b6547d00d64cea8e12adc22d0",
+      "layers": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "L2": 30,
+      "causal_scores": [
+        0.3301409185,
+        0.3326811492,
+        0.3301301003,
+        0.3262162805,
+        0.3117056787,
+        0.3029971123
+      ],
+      "temperature": 0.1,
+      "P_slots": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "state": "Use native CAKE scores/parser/operator, explicit independent H, carry returned(model,H) through20calls. Six final layer H appends per batch,120 total if all completed. Do not substitute ordinary AlphaEdit L2=10 or GPT2 CAKE L2=40."
+    },
+    {
+      "arm": "ALPHAEDIT_BLUE",
+      "root": "/mnt/raid5/janghj/BLUE",
+      "commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+      "entrypoint": "AlphaEdit.AlphaEdit_main.apply_AlphaEdit_to_model(...,cache_c=H,P=P)",
+      "main_sha256": "79da927aad5ab817fd008c5958768adcd00556989a8efbaa2c4bdc80d8fc842e",
+      "hparams": "hparams/AlphaEdit/EleutherAI_gpt-j-6B-blue.json",
+      "hparams_sha256": "afc9ae1ffd7a6f9d1d6aa04bc2d19b11684bea69ebd51ef0d515d2b073d066e2",
+      "layers": [
+        3,
+        8
+      ],
+      "blue": true,
+      "L2": 95,
+      "nullspace_threshold": 0.02,
+      "P_slots": [
+        0,
+        5
+      ],
+      "state": "Native BLUE target fitting at each of the two sites,100 targets/site/batch, no remaining-layer divisor. Carry returned(model,H),2 history appends/batch40 total. Bind physical L3/L8 to full six-layer P indices0/5 and a separate two-slot H. Not MEMIT-BLUE, ordinary six-layerAlphaEdit, GPT2L2=80 or oursAlpha writer."
+    },
+    {
+      "arm": "PRUNE",
+      "root": "/mnt/raid5/janghj/BLUE",
+      "commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+      "entrypoint": "memit.memit_main.apply_memit_to_model + native experiments/evaluate.py terminal MEMIT_prune transform",
+      "main_sha256": "943a0da1a758692fc4b38c5d1203650795f441a3952df7a4814ffe40ee2567be",
+      "hparams": "hparams/MEMIT/EleutherAI_gpt-j-6B.json",
+      "hparams_sha256": "e2430efa658a26f11ae9a5836951e0453fcee34fc0d952a5d05057b5e796e86f",
+      "layers": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "blue": false,
+      "mom2_update_weight": 15000,
+      "H_required": false,
+      "P_required": false,
+      "sequence": "20 ordinary native MEMIT fits/writes, same cumulative W. Save selected W0 RAM onB1, once AFTER B20 form D=W20_dense-W0 and native spectral compression; not per-batch pruning or request removal.",
+      "spectral": "Native torch.svd: smax=max singular value(W0); only singular values(D)>smax become log(s)-log(smax)+smax. Preserve native dtype/operator/formula. No rank tuning.",
+      "explicit_repair": {
+        "name": "PRUNE_TERMINAL_BASE_FIX",
+        "scope": "Same explicit GPT2 task repair: finalW=saved_coldW0+compressedD; original adds compressedD to already-editedW20 and doublesD when compression inactive. Task-owned exactdiff/flag/source/config/W&B label; not upstream byte-equivalent. Original spectral formula/native fit unchanged. Minimal CPU no-compression and zero-D controls, no extra GPU fit."
+      },
+      "milestones": "W5/10/15 dense native MEMIT (prune_applied=false). W20 current and allseen measured after one terminal transform (prune_applied=true)."
+    },
+    {
+      "arm": "RECT",
+      "root": "/mnt/raid5/janghj/BLUE",
+      "commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+      "entrypoint": "memit.memit_rect_main.apply_memit_rect_to_model",
+      "main_sha256": "8e199fd49e744f6c08f0edd7933ab683df1970a5dcc9da41570e4368073ec597",
+      "hparams": "hparams/MEMIT/EleutherAI_gpt-j-6B.json",
+      "hparams_sha256": "e2430efa658a26f11ae9a5836951e0453fcee34fc0d952a5d05057b5e796e86f",
+      "layers": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "blue": false,
+      "mom2_update_weight": 15000,
+      "H_required": false,
+      "P_required": false,
+      "mask": "Native abs(delta/(W+1e-8)); k_percent40, kthvalue(floor(.6*numel)),score>=threshold retained. Ties can retain>40%; log actual counts/ties. Preserve epsilon/threshold/native shape matcher.",
+      "planning": "Upper factors computed using provisional DENSE lower writes, restore then MASKED public commit. Do not change to masked upper planning, add H/P or ours builder."
+    }
+  ],
+  "assets": {
+    "root": "/mnt/raid5/janghj/EasyEdit",
+    "python": "/mnt/raid5/janghj/EasyEdit/.venv/bin/python",
+    "model_snapshot": "/mnt/raid5/janghj/.cache/huggingface/hub/models--EleutherAI--gpt-j-6b/snapshots/47e169305d2e8376be1d31e765533382721b2cc1",
+    "model_payload_SHA": "0e183edc2025ecfdba4429ba43c960224103b3c3dc26616503cdc2158a3d6c93",
+    "stats_root": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/gpt-j-6b/wikipedia_stats",
+    "stats": "ExistingL3..8 transformer.h.<L>.mlp.fc_out_float32_mom2_100000.npz,FP32 raw mom2/count54924275 not100000. Map logical basename gpt-j-6b and STATS_DIR so no collection/cache miss.",
+    "projector": "/mnt/raid5/janghj/EasyEdit/examples/null_space_project_gpt-j-6b.pt",
+    "P_shape": [
+      6,
+      16384,
+      16384
+    ],
+    "P_slot_layers": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "provenance": "audits/servers/server2/gptj-easyedit-native-baselines-2k/asset-checks.json and exact local preparation-r1/config-submission.json SHAa9ff4078e0839adcee07ce3ece0c26ed1d6f0d9ff71fadfd69dc203f1866decf; owner confirms current actual asset SHA/stat and threshold provenance. No new model/C0/P generation/download; incompatible/missing asset report exact blocker, no layer deletion.",
+    "runtime": "Existing torch2.9.1+cu128/transformers4.57.1/eager/FP32 model/TF32off/autocastoff; preserve native target/solve/cast order. Fresh actual binding, not historical CPU PASS=GPU PASS.",
+    "GPTJ": "28blocks,4096hidden/16384intermediate/50400vocab,RoPE/parallelattentionMLP,nn.Linear fc_out stored[4096,16384]. Native logits/head/ln_f exactly once; no GPT2Conv1D,learnedposition,tiedhead or Llama dimensions copied."
+  },
+  "port": {
+    "scaffold": "Read existing project/run_scripts/gptj_native_baselines/**,gpt2xl_cake_blue/**,gpt2xl_prune_rect/** if available and PRICE GPTJ evaluation/upload. Native GPTJ implementations are primary; source namespace project/run_scripts/gptj_cake_blue_prune_rect/**,not replacing existingruntime.",
+    "originals": "CAKE/BLUE/EasyEdit read-only. Copy only required small closure task-local with fullSHA; shared globals.yml/imports/source never hotpatch. If server2 lacks those small native files, exact allowlisted one-time source/config transfer from provided server1 roots authorized, no models/stats/raw/secrets transfer.",
+    "compatibility": "Minimal task-owned import/API/absolute-path/tuple/mapping fixes allowed with exact diff and regression; no scientific hparam/solver/context/precision reduction. Separate native packages/processes avoid colliding util/memit/AlphaEdit cache modules. CAKE unused notebooks.util import may be removed only in private copy with import-only exactdiff. GPTJ block8 ln_1 extra capture forward in native repr_tools must be preserved and counted; preserve positional hooks, tuple outputs and lm_head bias.",
+    "contexts": "Preserve each native get_context_templates/reduction and generator provenance. Verify model/runtime/nativegenerator/coldseed before cache reuse; EasyEdit/GPT2 contexts not automatically interchangeable. If absent, generate once as input prep in own first cold actual call, bind/hash and restore appropriate RNG. cache_template=None: no z diskcache or reuse stale targets after W changes.",
+    "memory": "P six FP32 planes6GiB,CAKE H6GiB/BLUEH2GiB are planned components,not peak. Use read-only mmap/per-layer load and RAM rollback as supported, measure reserve; do not quietly reduce layers/dtype or dump P/H. Isolated model process per arm."
+  },
+  "evaluation": {
+    "current": "Each batch pre/postR100/P200/N1000; milestone current100 never replaced by allseen.",
+    "cumulative": "Only actual W5/W10/W15/W20 seenprefix; finalR2000/P4000/N20000. Fixedfirst500/birthcohort/atwrite->later pairedretention.",
+    "W0": "Reuse complete same-model/runtime/input/evaluator/token coldfirst2k raw after identity validation; existing local/base-model-gptj-w0-cohort-curves/attempt-r1. If unavailable do approved neededW0 once, no GPU file polling/full10k. Training context identity recorded separately; never reuse editedstate.",
+    "metrics": "Strict NLL preference RS/PS/NS,TF tokenmicro/promptmacro/strict,true/newNLLnats/margin,harmonicpct and measured denominators; Ndesiredtrue,R/Pdesirednew. OfficialP/N observer-only/no tuning.",
+    "mechanism": "Native fit/calls/write/historycounts,delta/update/mask/terminalSVD stats,layer/H state continuity,exclusive fit/solve/eval/telemetrytime,peakRAM/VRAM,actualGPUaccounting. No performance sweep/causal-equivalence claims."
+  },
+  "tracking": {
+    "policies": [
+      "control/wandb-policy.json",
+      "control/wandb-method-metric-schema.json"
+    ],
+    "entity": "wkdguswns2256",
+    "project": "layer allocation",
+    "mode": "online",
+    "metric_schema": "price-first2k-scalar-v1",
+    "route": "Existing validated PRICE/nativebaseline mapping/upload allowed; no mandatory central-helper migration prerequisite.",
+    "identity": "model=gptj/model_family=gptj/role=scientific,actual algorithm+writer+arm,source/config/runUUID/actualSLURMjobID(arrayindex0valid),run.nameincludesjobID. Newimmutableattemptperarm.",
+    "prefixes": [
+      "current/pre/{R,P,N}/*",
+      "current/post/{R,P,N}/*",
+      "all_seen/post/{R,P,N}/*",
+      "W0_first2000/{R,P,N}/*",
+      "w0/current/N/*",
+      "w0/all_seen/N/*"
+    ],
+    "fields": [
+      "count",
+      "success_count",
+      "success_pct",
+      "token_acc_pct",
+      "prompt_acc_pct",
+      "strict_acc_pct",
+      "true_nll",
+      "new_nll",
+      "margin_true_minus_new"
+    ],
+    "axes": "Performanceedits,pre_state_edits/post_state_editsseparate,fit monotoneglobalcandidate separate. pct0..100/nats,missingomit notzero,harmonic fromsameR/P/N.",
+    "privacy": "Scalar-only/consoleoff/save_codefalse/watchfalse/no automaticartifacts. Rawprompt/token/caseIDs/tensors/fullstdout/secret never Git/W&B. Existing user auth,don't print/copykey.",
+    "finish": "Boundedfinish/readback;SDKaccepted≠remotePASS;loggingchecks noadditionalGPUforward/fit/pilot. Networkdegraded preserveslocalspool,not scientificrerun."
+  },
+  "checks": "Minimal static/parser/hparams/assets/layerPslots/input20packs/nativeGPTJ/metricaxes/jobID/dependency tests. First actualB1 integrates finite/operator/materialization/commit/nonselectedguard/observernonmutation/Honce and B2 ownstate checks. CPU evidence not actualGPU PASS. No standalonetoy/small-Bpilot/B1refit/sweep; lowquality recorded, technical mismatch typedstop without tolerance relaxation/automaticretry.",
+  "artifacts": "NoCP and exactresumeNOT_AVAILABLE. Nativeweights/H/RNG/optimizer/reconstruction-equivalent durablepayload0,PRUNEoriginalW0+SVDRAMonly. RawlocalKEEP,compact source/config/mapping/manifests/report nonforceGit. No unrelateddelete/assetclone; ordinarycompactbroadcast or precise NO_BROADCAST_NOT_REQUIRED receipt,not blanketlargecopy.",
+  "write_scope": [
+    "project/run_scripts/gptj_cake_blue_prune_rect/**",
+    "tests inside the new namespace",
+    "plans/servers/server2/gptj-cake-blue-prune-rect-2k/**",
+    "audits/servers/server2/gptj-cake-blue-prune-rect-2k/**",
+    "experiment-reports/servers/server2/gptj-cake-blue-prune-rect-2k/**",
+    "runs/gptj-cake-blue-prune-rect-2k/**",
+    "tasks/status/gptj-cake-blue-prune-rect-2k/server2.json",
+    "messages/acks/server2/gptj-cake-blue-prune-rect-2k.json",
+    "messages/server-heads/server2/gptj-cake-blue-prune-rect-2k.json",
+    "ignored local/gptj-cake-blue-prune-rect-2k/**"
+  ],
+  "report": "experiment-reports/servers/server2/gptj-cake-blue-prune-rect-2k/report-ko.md",
+  "completion": "GH ends after canonicalpublication+officialdirectownerACK; SH2 continuesimplementation->checks->actual4GPU+CPUcollectorregistration/releasewithoutapprovalwait. Return factual source/config/jobs/deps/W&Bstage or exactblocker. Boundedpostrelease snapshot/representativefirstcommitnextentryonly,thenmonitorpause;sealedrunner20batchcontinues,no recurringmonitor/heartbeat/automaticretry."
+}
