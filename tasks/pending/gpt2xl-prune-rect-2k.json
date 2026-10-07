@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH1-GPT2XL-PRUNE-RECT-2K-20261007-R1",
+  "task_id": "gpt2xl-prune-rect-2k",
+  "owner": "SH1/server1",
+  "owner_session": "01a04939-f93a-7b50-bca0-65438eab2062",
+  "accepted_turn": "01a115a9-a38b-7643-bc28-e83647babece",
+  "authority_commit": "bd1abb0c133d24350e3ca8ff0bc4821012067e1b",
+  "contract": "plans/global/2026-10-07-gpt2xl-prune-rect-2k/contract.json",
+  "status": "OWNER_ACCEPTED_TASK_PENDING_FOLLOWUP_NOT_SUBMITTED",
+  "submitted_job_ids": [],
+  "implementation_complete": false,
+  "submission_authorized": true,
+  "additional_user_approval_required": false,
+  "queue_intent": "CAKE/BLUEactualGPUfrontier후cap2의twoindependentGPUlane및CPUcollector;actualjobIDs는SH1submit후봉인",
+  "report": "experiment-reports/servers/server1/gpt2xl-prune-rect-2k/report-ko.md"
+}

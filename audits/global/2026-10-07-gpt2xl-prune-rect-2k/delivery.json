@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH1-GPT2XL-PRUNE-RECT-2K-20261007-R1",
+  "task_id": "gpt2xl-prune-rect-2k",
+  "authority_commit": "bd1abb0c133d24350e3ca8ff0bc4821012067e1b",
+  "contract": "plans/global/2026-10-07-gpt2xl-prune-rect-2k/contract.json",
+  "contract_sha256": "1ffdb9a222eedf0a977aee06e174a7b147871f0c1504f91bb7c54f0fcd1592ac",
+  "envelope": "messages/head/2026-10-07-gpt2xl-prune-rect-sh1.json",
+  "envelope_sha256": "cd51690322ca7abbf4dd51c1a9c0e56e07e83dab17c45e976d96a17c51ab9b24",
+  "transport": "OFFICIAL_APP_SERVER_DIRECT_THREAD_RESUME_TURN_STEER_EXACT_RELATED_TURN",
+  "owner_session": "01a04939-f93a-7b50-bca0-65438eab2062",
+  "owner_host": "remote-ssh-codex-managed:lab120",
+  "owner_cwd": "/mnt/raid5/janghj/ODE-edit",
+  "expected_related_turn": "01a115a9-a38b-7643-bc28-e83647babece",
+  "accepted_turn": "01a115a9-a38b-7643-bc28-e83647babece",
+  "explicit_owner_ACK": true,
+  "owner_ACK_text": "USER-GH-SH1-GPT2XL-PRUNE-RECT-2K-20261007-R1 SH1 담당 수락했습니다. PRUNE/RECT는 TASK_PENDING_FOLLOWUP / NOT_SUBMITTED로 이어서 진행합니다. 앞선 직접 지시에 따라 BLUE는 AlphaEdit-BLUE로 변경하고, CAKE/BLUE 등록 후 PRUNE/RECT를 cap2 내 후속 DAG에 등록하겠습니다. 기존 job과 원자료는 유지합니다.",
+  "status": "OWNER_ACCEPTED_TASK_PENDING_FOLLOWUP_NOT_SUBMITTED",
+  "actual_job_ids": [],
+  "implementation_complete": false,
+  "Slurm_pending": false,
+  "preceding_task_update": "SH1은 현재 CAKE/BLUE task에 별도의 직접 사용자 지시로 BLUE를 AlphaEdit-BLUE로 변경했다고 회신함(USER_REPORTED_BY_OWNER). 이 전달의 PRUNE/RECT blue=false·noH/noP 계약과는 별도이며 기존 task를 이 신규명령으로 취소하지 않음. actual source/queue는 SH1 fresh binding 대상.",
+  "scope": {
+    "arms": [
+      "PRUNE",
+      "RECT"
+    ],
+    "edits_per_arm": 2000,
+    "B": 100,
+    "batches": 20,
+    "combined_server1_scientific_GPU_cap": 2,
+    "EasyEdit_assets_reused": true,
+    "algorithm_source": "BLUE311b076",
+    "explicit_PRUNE_repair": "PRUNE_TERMINAL_BASE_FIX; not upstream-bitwise"
+  },
+  "continuation": "SH1 앞선relatedtask등록후추가승인없이구현/heldsubmit/release계속,GHturn종료는task중단0. actualschedulerpending은미등록단계에서표기0.",
+  "monitoring_active": false,
+  "recurring_monitor_created": false,
+  "GPU_by_GH": 0,
+  "Slurm_write_by_GH": 0,
+  "scientific_completion": "NOT_OBSERVED"
+}
