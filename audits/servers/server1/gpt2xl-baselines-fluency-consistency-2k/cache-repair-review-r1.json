@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH1-SH2-BASELINE-GENERATION-KV-BATCH-REPAIR-20261008-R1",
+  "server": "server1",
+  "reviewer": "independent cache_repair_red, not implementation author",
+  "scope": "공통 generator/qualification/compatibility/GPT2 caller/collector/submit/tracking source, 실제 설치된 Transformers cache API, 한정 CPU fixtures",
+  "CPU_fixture_tests": 68,
+  "CPU_fixture_result": "PASS",
+  "blocker_found": "prepare old observer member was RPN identity; bind original BASE_MEMIT/generation/observer-identity.json and verify generation identity schema",
+  "blocker_resolution": "수리 완료. 독립 재검토의 실제 원 metadata 경로 및 node-filter/implicit-PENDING 회귀 포함 12개 CPU 검사 PASS. Owner 최종 전체 177개 중175 PASS/2 SDK 의존 skip/실패0. 실제 GPU qualification은 first replacement job 내부",
+  "native_GPU_qualification": "NOT_RUN",
+  "actual_MB8_PASS": false,
+  "route_speed_certification": "NOT_MEASURED",
+  "no_scientific_math_hparams_change_observed": true,
+  "model_loads": 0,
+  "Slurm_mutations_by_reviewer": 0,
+  "network_calls_by_reviewer": 0
+}

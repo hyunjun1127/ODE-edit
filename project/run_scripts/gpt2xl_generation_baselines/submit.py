@@ -14,8 +14,9 @@ from project.run_scripts.jlz_price_gpt2xl.admission import width
 ROLES=(*ARMS,'collector')
 SOURCES=list(dict.fromkeys(OLD_SOURCES+[
  'project/run_scripts/gpt2xl_generation_baselines','project/run_scripts/experiment_generation_eval',
- ENVELOPE,CONTRACT,GENERATION_POLICY,
- 'audits/servers/server1/gpt2xl-baselines-fluency-consistency-2k/cancellation.json']))
+ ENVELOPE,REPAIR_ENVELOPE,CONTRACT,GENERATION_POLICY,
+ 'audits/servers/server1/gpt2xl-baselines-fluency-consistency-2k/cancellation.json',
+ 'audits/servers/server1/gpt2xl-baselines-fluency-consistency-2k/cache-repair-cancellation-r1.json']))
 
 def order(cap):
     require(cap in (1,2),'TASK_CAP_SUPPORTED')
@@ -44,6 +45,13 @@ def freeze(configpath,attempt):
     for row in tests['source']+tests['helper_source']+c['dependency_sources']+c['source_config_members']:verify(row)
     for row in c['generation']['source_members']:verify(row)
     verify(c['generation']['assets_manifest_member'])
+    verify(c['cancellation_receipt'])
+    plan=read(verify(c['generation']['qualification_plan_member']))
+    require(digest(plan)==c['generation']['qualification_plan_sha256']
+        and not Path(c['generation']['qualification_receipt']).exists(),
+        'PREFROZEN_PLAN_ACTUAL_QUALIFICATION_NOT_YET_RUN')
+    for key in ('config_member','runtime_member','observer_identity_member','cold_observation_guard_member'):
+        verify(c['generation']['old_w0_reuse'][key])
     commit=command(['git','rev-parse','HEAD'],ROOT);tree=command(['git','rev-parse','HEAD^{tree}'],ROOT)
     attempt.mkdir();source=attempt/'source';source.mkdir();archive=attempt/'source.tar'
     command(['git','archive','--format=tar','--output='+str(archive),commit,*SOURCES],ROOT)
@@ -65,7 +73,12 @@ def freeze(configpath,attempt):
         launchers=[member(attempt/(r+'.sh')) for r in ROLES],tracking_env=member(c['tracking']['env_file']),
         owner=getpass.getuser(),session=SESSION,host='server1',resources=c['resources'],
         noCP=True,checkpoint_saved=False,z_disk_cache=False,exact_resume='NOT_AVAILABLE',
-        old_protected_jobs_mutated=False,generator_route='UNPADDED_FULL_PREFIX_NO_CACHE',
+        old_protected_jobs_mutated=False,generator_route='QUALIFICATION_REQUIRED',
+        qualification_plan=c['generation']['qualification_plan_member'],
+        qualification_plan_sha256=c['generation']['qualification_plan_sha256'],
+        qualification_actual='NOT_RUN; runtime first replacement only',
+        qualification_actual_path=c['generation']['qualification_receipt'],
+        actual_qualification_PASS_claim=False,parent_task_id=PARENT_TASK,
         baseline_cancel_receipt=c['cancellation_receipt'])
     write(attempt/'execution.lock.json',lock);return c,lock
 
@@ -104,15 +117,63 @@ def inspect(job,role,dep,argv,attempt,r):
     path=attempt/(role+'.sh');require(command(['scontrol','write','batch_script',job,'-']).strip()==path.read_text().strip(),'HELD_SCRIPT_BYTES')
     return dict(job=job,role=role,argv=argv,dependency=dep,resource_detail=detail,launcher=member(path))
 
+
+def resource_inventory(exclude=(),runner=command,owner=None):
+    """Server1-only detail queries, with conservative implicit PENDING accounting.
+
+    Local squeue(1) documents %n as requested nodes and %N as allocated nodes.
+    Coarse own-user admission metadata is filtered before any scontrol detail
+    query; explicitly other-node jobs never receive an individual query here.
+    Job-name patterns are deliberately not used to hide unknown GPU requests.
+    """
+    owner=getpass.getuser() if owner is None else owner
+    raw=runner(['squeue','-h','-r','-u',owner,'-o','%i|%u|%j|%T|%b|%R|%N|%n'])
+    jobs=[];skipped_other_node=0
+    empty={'','(null)','N/A','None','ALL'}
+    def has_devbox(nodes):return 'devbox' in nodes.split(',')
+    for line in raw.splitlines():
+        fields=line.split('|')
+        require(len(fields)==8,'RESOURCE_QUEUE_COLUMNS')
+        job,user,name,state,gres,reason,allocated,requested=fields
+        if user!=owner or job in exclude:continue
+        explicitly_elsewhere=requested not in empty and not has_devbox(requested)
+        allocated_elsewhere=allocated not in empty and not has_devbox(allocated)
+        if explicitly_elsewhere or allocated_elsewhere:
+            skipped_other_node+=1;continue
+        candidate=(has_devbox(requested) or has_devbox(allocated)
+            or (state=='PENDING' and requested in empty and allocated in empty))
+        if not candidate:continue
+        # Empty coarse TRES fields are retained for detail resolution, avoiding
+        # false 0-GPU admission when scheduler versions omit the summary value.
+        if gres not in empty and 'gpu' not in gres:continue
+        detail=runner(['scontrol','show','job',job,'--oneliner'])
+        req=re.search(r'\bReqTRES=([^ ]+)',detail)
+        require(req is not None,'RESOURCE_GPU_REQUEST_UNOBSERVED')
+        generic=re.search(r'(?:^|,)gres/gpu=(\d+)(?:,|$)',req[1])
+        typed=re.findall(r'(?:^|,)gres/gpu:[^=,]+=(\d+)(?=,|$)',req[1])
+        gpus=int(generic[1]) if generic else sum(int(v) for v in typed)
+        if not gpus:continue
+        reqnode=re.search(r'\bReqNodeList=([^ ]+)',detail)
+        allocation=re.search(r'\bNodeList=([^ ]+)',detail)
+        require(reqnode is not None and allocation is not None,'RESOURCE_NODE_BINDING_UNOBSERVED')
+        require(reqnode[1] in empty or has_devbox(reqnode[1]),'RESOURCE_NODE_BINDING_CHANGED')
+        require(allocation[1] in empty or has_devbox(allocation[1]),'RESOURCE_NODE_ALLOCATION_CHANGED')
+        jobs.append(dict(job=job,user=user,name=name,state=state,gpus=gpus,reason=reason,
+            resource_detail=detail,node_binding=reqnode[1],allocated_nodes=allocation[1],
+            implicit_pending_counted=(state=='PENDING' and requested in empty)))
+    return dict(jobs=jobs,skipped_explicit_other_node_jobs=skipped_other_node,
+        scope='own coarse admission metadata; devbox or implicit PENDING only individual details; no other-server job/result queries')
+
 def submit(configpath,attempt):
-    authority();require(not list(LOCAL.glob('*/submission.json')) and not list(LOCAL.glob('*/submitted-*.json')),'NO_DUPLICATE_NONCE')
+    authority();require(not registered_repair_attempts(),'NO_DUPLICATE_NONCE')
     require(not command(['squeue','-h','-u',getpass.getuser(),'--name='+','.join(TASK+'-'+r for r in ROLES),'-o','%i|%j']),'DUPLICATE_JOB_NAME')
-    from project.run_scripts.jlz_price_gpt2xl.submit import resource_inventory
     before=resource_inventory();existing=list(before['jobs'])
     row=next(x for x in (ROOT/'servers/local/gpu-caps.tsv').read_text().splitlines() if x.startswith('server1\t')).split('\t')
     tracked=int(next(x for x in (ROOT/'control/gpu-concurrency-policy.tsv').read_text().splitlines() if x.startswith('server1\t')).split('\t')[1])
     cap=min(2,int(row[2]),tracked);require(cap>=1 and width(existing)<=cap,'EXISTING_COMBINED_CAP')
     frontier=dependencies(existing);roles=order(cap);virtual=list(existing);virtual_ids={}
+    old_ids={str(x) for x in read(ROOT/REPAIR_ENVELOPE)['owners']['server1']['known_jobs_not_current_state'].values()}
+    require(not (set(frontier)&old_ids),'CANCELLED_OLD_ID_NOT_RESOURCE_FRONTIER')
     for i,role in enumerate(ARMS):
         fake=str(999999990+i);virtual_ids[role]=fake
         dep=frontier+[virtual_ids[x] for x in roles[role]]
@@ -146,6 +207,8 @@ def submit(configpath,attempt):
         lock=member(attempt/'execution.lock.json'),config=member(attempt/'config.json'),held=member(attempt/'held-inspection.json'),release=member(attempt/'release.json'),
         dependencies={x['role']:x['dependency'] for x in held},snapshot=snapshot,initial='NOT_OBSERVED',
         W_B='NOT_YET_RUN; startup/readback inside actual jobs',checkpoint_saved=False,exact_resume='NOT_AVAILABLE',
+        qualification_plan=c['generation']['qualification_plan_member'],
+        qualification_actual='NOT_RUN; locked plan only, not GPU PASS',
         combined_GPU_cap=cap,projected_GPU_width=projected,broadcast='NO_BROADCAST_NOT_REQUIRED',monitoring=False)
     write(attempt/'submission.json',receipt);print(json.dumps(receipt,ensure_ascii=False));return receipt
 

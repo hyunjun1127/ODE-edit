@@ -17,8 +17,9 @@ def verify_last_rows(sdk,base_url,run_id,cfg,name,expected):
             rows=list(itertools.islice(remote.scan_history(keys=['_step',*values],
                 min_step=step,max_step=step+1,page_size=2),3))
             require(len(rows)==1 and rows[0].get('_step')==step,'ROW_MISSING_OR_DUPLICATE')
-            require(all(type(rows[0].get(k)) in (int,float,bool) and
-                math.isclose(rows[0][k],v,rel_tol=1e-9,abs_tol=1e-8) for k,v in values.items()),'VALUE_MISMATCH')
+            require(all((k=='phase' and rows[0].get(k)==v and v in ('W0_generation','generation_evaluation')) or
+                (k!='phase' and type(rows[0].get(k)) in (int,float,bool) and
+                 math.isclose(rows[0][k],v,rel_tol=1e-9,abs_tol=1e-8)) for k,v in values.items()),'VALUE_MISMATCH')
             checked.append(dict(kind=kind,transport_step=step,edits=values.get('edits'),
                 global_candidate=values.get('fit/global_candidate'),keys=sorted(values)))
         return dict(status='REMOTE_BOUNDED_ROWS_VERIFIED',scope=scope,checked=checked,rows=len(checked))
