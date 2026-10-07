@@ -3,6 +3,12 @@
 상태: 실제 held 등록·검사·release 완료. CAKE 초기 cold load/context 및 W&B remote identity 검산 완료;
 AlphaEdit-BLUE는 자원 PENDING. B1 commit/GPU method PASS·전체 완료는 아직 미관측입니다.
 
+등록後 단발 초기 snapshot에서 CAKE W0 first2000 26000 prompt-pair(R2000/P4000/N20000) 및
+B1 PRE 1300 prompt-pair(R100/P200/N1000)의 observer 비변이·feedback0 summary를 확인했습니다.
+해당 관측은 W0 771.19초, B1 PRE 40.19초이며 전체 native fit ETA가 아닙니다.
+첫 write commit→다음 entry는 아직 미관측으로 남기고 bounded initial partial/resource PENDING 인계 뒤 monitoring을 pause합니다.
+봉인 runner·collector는 계속 자연 진행하며 새 recurring monitor/자동 재시도는 없습니다.
+
 직접 사용자 후속 “blue는 alphaedit blue를 사용하자”에 따라 원 MEMIT-BLUE 선택만
 AlphaEdit-BLUE로 대체했습니다. 정본 원 bytes/이전 보고는 보존했습니다.
 두 arm은 독립 cold W0, 같은 ordered first2000, BS100×20입니다.

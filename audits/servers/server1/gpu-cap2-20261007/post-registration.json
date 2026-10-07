@@ -1,0 +1,58 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-ALL-SH-GPU-CAP2-20261007-SERVER1",
+  "observed_at": "2026-10-07 10:00:12 UTC",
+  "server": "server1",
+  "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+  "actual_CWD": "/mnt/raid5/janghj/ODE-edit",
+  "status": "APPLIED_EFFECTIVE_COMBINED2",
+  "own_local_cap": 2,
+  "root_local_row_changed": false,
+  "node_memory_other_rows_preserved": true,
+  "canonical_authority": "6c8d36dec6e1ce4a7e92831b2619807f5c9b38f1",
+  "historical_W0_exception_used": false,
+  "currently_allocated_GPUs": 1,
+  "current_project_GPU_jobs": [
+    {
+      "id": "60739",
+      "state": "RUNNING",
+      "GPU": 1,
+      "dependency": [],
+      "source": "d88e51c0"
+    },
+    {
+      "id": "60740",
+      "state": "PENDING Resources",
+      "GPU": 1,
+      "dependency": [],
+      "source": "d88e51c0"
+    },
+    {
+      "id": "60757",
+      "state": "PENDING Dependency",
+      "GPU": 1,
+      "dependency": [
+        "60739",
+        "60740"
+      ],
+      "source": "2689024d"
+    },
+    {
+      "id": "60758",
+      "state": "PENDING Dependency",
+      "GPU": 1,
+      "dependency": [
+        "60739",
+        "60740"
+      ],
+      "source": "2689024d"
+    }
+  ],
+  "maximum_admitted_GPU_DAG_width": 2,
+  "pending_existing_job_resource_adjustments": [],
+  "GPU0_collectors_counted": 0,
+  "existing_job_cancel_restart_requeue_hotpatch": false,
+  "no_new_experiment_from_policy": true,
+  "new_recurring_monitor": false,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED"
+}
