@@ -1,0 +1,70 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH1-SH2-SH4-BASELINE-GENERATION-REGISTER-RESUME-20261007-R1",
+  "parent_instruction": "USER-GH-ALL-SH-BASELINE-FLUENCY-CONSISTENCY-RERUN-20261007-R1",
+  "date_kst": "2026-10-07",
+  "user_quote": "여유 생겼으니 진행해",
+  "authority_commit": "6d6e2fdb531ecb3d6e5bc98db0f188001c6a7aa0",
+  "envelope": "messages/head/2026-10-07-baseline-generation-register-resume.json",
+  "envelope_sha256": "43099367d76e1f8a2b57b539c4a18aa17351e2194885db70e3516af19464fc16",
+  "transport": "Official app-server exact session/CWD initialize/read/resume; idle turn/start or related active exact expectedTurnId steer; explicit owner ACK received. No model or effort override.",
+  "status": "DIRECT_OWNER_ACCEPTED_3_OF_3",
+  "local_transport_receipt": {
+    "path": "local/baseline-fluency-consistency-dispatch/resume-dispatch-6d6e2fdb.json",
+    "sha256": "cf26d4ede8457a37330af1f3cc85617f53d4686c9a151711e800d93cecdc5bf1",
+    "elapsed_seconds": 118.397,
+    "raw_local_only": true
+  },
+  "owners": [
+    {
+      "server": "server1",
+      "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+      "cwd": "/mnt/raid5/janghj/ODE-edit",
+      "task": "gpt2xl-baselines-fluency-consistency-2k",
+      "operation": "turn/start",
+      "accepted_turn": "01a11682-06c8-7452-ba12-ec600bdfe513",
+      "explicit_owner_ACK": "OWNER_ACK nonce=USER-GH-SH1-SH2-SH4-BASELINE-GENERATION-REGISTER-RESUME-20261007-R1 server=server1 session=01a04939-f93a-7b50-bca0-65438eab2062 accepted=true authority=6d6e2fdb531ecb3d6e5bc98db0f188001c6a7aa0",
+      "owner_reported_stage": "REGISTRATION_RECONCILING_NEW_ATTEMPT",
+      "owner_report": "기존 등록 여부와 현재 저장공간·자원을 확인한 뒤, 원 봉인 source를 보존하여 새 등록 attempt로 진행합니다.",
+      "new_job_ids_observed": [],
+      "meaning": "Owner accepted and continues registration workflow. No new job ID received at bounded handoff; not a submission or completion claim."
+    },
+    {
+      "server": "server2",
+      "session": "01a0493a-074c-7f91-9a13-769116326fef",
+      "cwd": "/mnt/raid5/janghj/ODE-edit",
+      "task": "gptj-baselines-fluency-consistency-2k",
+      "operation": "turn/steer",
+      "accepted_turn": "01a11655-aec9-7813-a8d8-a88f6ca3b964",
+      "explicit_owner_ACK": "OWNER_ACK nonce=USER-GH-SH1-SH2-SH4-BASELINE-GENERATION-REGISTER-RESUME-20261007-R1 server=server2 session=01a0493a-074c-7f91-9a13-769116326fef accepted=true authority=6d6e2fdb531ecb3d6e5bc98db0f188001c6a7aa0",
+      "owner_reported_stage": "REGISTERED_INSPECTED_RELEASED",
+      "GPU_job_ids_owner_reported": [60909, 60910, 60911, 60912, 60913, 60914],
+      "CPU_collector_job_id_owner_reported": 60915,
+      "owner_report": "이미 GPU 60909–60914와 collector 60915를 등록·검사·release했습니다. 중복 제출 없이 기존 receipt와 현재 exact job 상태를 한 번 대조하고 보고·게시를 마무리하겠습니다.",
+      "evidence_level": "Direct exact owner ACK with registration report; GH did not independently query scheduler or certify model/GPU/terminal outcomes.",
+      "method_job_mapping": "AWAITING_OWNER_SUBMISSION_RECEIPT",
+      "final_source_lock_and_dependencies": "AWAITING_OWNER_PUBLICATION"
+    },
+    {
+      "server": "server4",
+      "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+      "cwd": "/data/janghj/ODE-edit",
+      "task": "llama3-baselines-fluency-consistency-2k",
+      "operation": "turn/start",
+      "idle_guard": "thread/read includeTurns=false reported idle before start; no guessed active turn",
+      "accepted_turn": "01a11682-3edf-7e11-bfbb-6d9eb89fef98",
+      "explicit_owner_ACK": "OWNER_ACK nonce=USER-GH-SH1-SH2-SH4-BASELINE-GENERATION-REGISTER-RESUME-20261007-R1 server=server4 session=01a04939-b5c7-7a03-ba2d-ef3343d62cfd accepted=true authority=6d6e2fdb531ecb3d6e5bc98db0f188001c6a7aa0",
+      "owner_reported_stage": "REGISTRATION_RECONCILING_NOT_SUBMITTED",
+      "owner_report": "동일 nonce·기등록 baseline과 현재 자원을 확인한 뒤, 기존 실패 attempt를 보존하고 새 등록 attempt로 진행합니다. OURS는 변경하지 않습니다.",
+      "new_job_ids_observed": [],
+      "meaning": "Direct owner acceptance and registration preparation, explicitly not yet submitted at ACK."
+    }
+  ],
+  "task_GPU_caps": {"server1": 2, "server2": 2, "server4": 3},
+  "scope": "Each owner resumes already approved six native baselines: MEMIT, PRUNE, RECT, AlphaEdit, AlphaEdit-BLUE, CAKE, independent cold fixedfirst2000 BS100x20 with common fluency/consistency and RPN/W&B. No extra science fit or pilot.",
+  "server3_contacted": false,
+  "GH_actions": "Recall envelope publication and exact direct delegation/ACK audit only. No GPU/model/Slurm writes, job cancellation, controller repair, file deletion, source hotpatch or old W&B mutation by GH.",
+  "protected": "OURS/PRICE including60001, W0, FE, preparation assets, unrelated jobs/tasks and all prior source/raw/failed-registration receipts.",
+  "handoff": "Owner ACK proves receipt/acceptance, not GPU qualification/W20 completion. Owners continue approved registration and sealed runner autonomously after bounded connection closes; no recurring monitor/heartbeat/automatic retry.",
+  "scientific_or_online_PASS_claimed": false
+}
