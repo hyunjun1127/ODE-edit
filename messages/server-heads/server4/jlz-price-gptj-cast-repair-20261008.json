@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "nonce": "USER-SH4-GPTJ-ALPHA-CAP075-CAST-REPAIR-20261008",
+  "server": "server4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "status": "RELEASED_RESOURCE_DEPENDENCY_PENDING_BOUNDED_HANDOFF",
+  "actual_new_jobs": {
+    "ALPHA_CAP075": 61003,
+    "collector": 61004
+  },
+  "source": "e16a1014dee40d9fd44df9d549dc74a051792610",
+  "resource_priority": "cap2; retry61003 after60618; pending OURS60621/60106 and baseline60917 union61003; RUNNING60618/60620KEEP",
+  "repair": "only ALPHA_CAP075 explicit first-store CAP endpoint rounding; tolerances/hparams unchanged",
+  "old_prefix": "60619 failed after1100, noCP cold restart; no exact resume",
+  "W0_reuse": "qualified exact old first2000 raw; new forward0",
+  "actual_model_validation": "NOT_OBSERVED; integrated approved main B1",
+  "WandB_remote": "NOT_OBSERVED startup pending; new run/actualjobidentity mandatory",
+  "report": "experiment-reports/servers/server4/jlz-price-gptj-2k/cast-repair-20261008/report-ko.md",
+  "source_publication_distinct_from_execution": true,
+  "monitoring_active": false,
+  "automatic_retry": false
+}

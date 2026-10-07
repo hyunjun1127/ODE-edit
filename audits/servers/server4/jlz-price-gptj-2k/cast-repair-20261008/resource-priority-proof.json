@@ -1,0 +1,191 @@
+{
+  "schema": 1,
+  "phase": "ACTUAL_REBOUND_SCHEDULER_GRAPH_HELD_RETRY_BEFORE_RELEASE",
+  "retry_job": "61003",
+  "collector_job": "61004",
+  "effective_project_GPU_cap": 2,
+  "task_GPU_cap": 1,
+  "maximum_possible_GPU_concurrency": 2,
+  "maximum_antichain_example": [
+    "60922",
+    "60921"
+  ],
+  "running_allocation_GPUs": 2,
+  "running_mutations": 0,
+  "baseline_after_ours": true,
+  "cyclic": false,
+  "graph": [
+    {
+      "job": "60922",
+      "state": "PENDING",
+      "parents": [
+        "60919"
+      ],
+      "name": "llama3-baselines-fluency-consistency-2k-CAKE",
+      "gpus": 1,
+      "command": "/data/janghj/ODE-edit/local/llama3-baselines-fluency-consistency-2k/attempt-r2/CAKE.sh",
+      "workdir": "/data/janghj/ODE-edit/local/llama3-baselines-fluency-consistency-2k/attempt-r2/source",
+      "owner": "janghj",
+      "node": "server4"
+    },
+    {
+      "job": "60921",
+      "state": "PENDING",
+      "parents": [
+        "60918"
+      ],
+      "name": "llama3-baselines-fluency-consistency-2k-ALPHAEDIT_BLUE",
+      "gpus": 1,
+      "command": "/data/janghj/ODE-edit/local/llama3-baselines-fluency-consistency-2k/attempt-r2/ALPHAEDIT_BLUE.sh",
+      "workdir": "/data/janghj/ODE-edit/local/llama3-baselines-fluency-consistency-2k/attempt-r2/source",
+      "owner": "janghj",
+      "node": "server4"
+    },
+    {
+      "job": "60920",
+      "state": "PENDING",
+      "parents": [
+        "60917",
+        "60921"
+      ],
+      "name": "llama3-baselines-fluency-consistency-2k-ALPHAEDIT",
+      "gpus": 1,
+      "command": "/data/janghj/ODE-edit/local/llama3-baselines-fluency-consistency-2k/attempt-r2/ALPHAEDIT.sh",
+      "workdir": "/data/janghj/ODE-edit/local/llama3-baselines-fluency-consistency-2k/attempt-r2/source",
+      "owner": "janghj",
+      "node": "server4"
+    },
+    {
+      "job": "60919",
+      "state": "PENDING",
+      "parents": [
+        "60917"
+      ],
+      "name": "llama3-baselines-fluency-consistency-2k-RECT",
+      "gpus": 1,
+      "command": "/data/janghj/ODE-edit/local/llama3-baselines-fluency-consistency-2k/attempt-r2/RECT.sh",
+      "workdir": "/data/janghj/ODE-edit/local/llama3-baselines-fluency-consistency-2k/attempt-r2/source",
+      "owner": "janghj",
+      "node": "server4"
+    },
+    {
+      "job": "60918",
+      "state": "PENDING",
+      "parents": [
+        "60917"
+      ],
+      "name": "llama3-baselines-fluency-consistency-2k-PRUNE",
+      "gpus": 1,
+      "command": "/data/janghj/ODE-edit/local/llama3-baselines-fluency-consistency-2k/attempt-r2/PRUNE.sh",
+      "workdir": "/data/janghj/ODE-edit/local/llama3-baselines-fluency-consistency-2k/attempt-r2/source",
+      "owner": "janghj",
+      "node": "server4"
+    },
+    {
+      "job": "60917",
+      "state": "PENDING",
+      "parents": [
+        "60106",
+        "60107",
+        "60618",
+        "60620",
+        "60621",
+        "61003"
+      ],
+      "name": "llama3-baselines-fluency-consistency-2k-MEMIT",
+      "gpus": 1,
+      "command": "/data/janghj/ODE-edit/local/llama3-baselines-fluency-consistency-2k/attempt-r2/MEMIT.sh",
+      "workdir": "/data/janghj/ODE-edit/local/llama3-baselines-fluency-consistency-2k/attempt-r2/source",
+      "owner": "janghj",
+      "node": "server4"
+    },
+    {
+      "job": "60621",
+      "state": "PENDING",
+      "parents": [
+        "60620",
+        "61003"
+      ],
+      "name": "jlz-price-gptj-2k-ALPHA_FREE100",
+      "gpus": 1,
+      "command": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/checkpoint-repair-20261007/ALPHA_FREE100.sh",
+      "workdir": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/checkpoint-repair-20261007/source",
+      "owner": "janghj",
+      "node": "server4"
+    },
+    {
+      "job": "60107",
+      "state": "PENDING",
+      "parents": [
+        "60106"
+      ],
+      "name": "jlz-price-alpha-writer-2k-LLAMA_AE_FREE100",
+      "gpus": 1,
+      "command": "/data/janghj/ODE-edit/local/jlz-price-alpha-writer-2k/method-metrics-20261007/LLAMA_AE_FREE100.sh",
+      "workdir": "/data/janghj/ODE-edit/local/jlz-price-alpha-writer-2k/method-metrics-20261007/source",
+      "owner": "janghj",
+      "node": "server4"
+    },
+    {
+      "job": "60106",
+      "state": "PENDING",
+      "parents": [
+        "60618",
+        "61003"
+      ],
+      "name": "jlz-price-alpha-writer-2k-LLAMA_AE_CAP100",
+      "gpus": 1,
+      "command": "/data/janghj/ODE-edit/local/jlz-price-alpha-writer-2k/method-metrics-20261007/LLAMA_AE_CAP100.sh",
+      "workdir": "/data/janghj/ODE-edit/local/jlz-price-alpha-writer-2k/method-metrics-20261007/source",
+      "owner": "janghj",
+      "node": "server4"
+    },
+    {
+      "job": "61003",
+      "state": "PENDING",
+      "parents": [
+        "60618"
+      ],
+      "name": "jlz-price-gptj-2k-ALPHA_CAP075",
+      "gpus": 1,
+      "command": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/cap075-cast-repair-20261008/ALPHA_CAP075.sh",
+      "workdir": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/cap075-cast-repair-20261008/source",
+      "owner": "janghj",
+      "node": "server4"
+    },
+    {
+      "job": "60618",
+      "state": "RUNNING",
+      "parents": [],
+      "name": "jlz-price-gptj-2k-MEMIT_FREE100",
+      "gpus": 1,
+      "command": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/checkpoint-repair-20261007/MEMIT_FREE100.sh",
+      "workdir": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/checkpoint-repair-20261007/source",
+      "owner": "janghj",
+      "node": "server4"
+    },
+    {
+      "job": "60620",
+      "state": "RUNNING",
+      "parents": [],
+      "name": "jlz-price-gptj-2k-ALPHA_CAP100",
+      "gpus": 1,
+      "command": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/checkpoint-repair-20261007/ALPHA_CAP100.sh",
+      "workdir": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/checkpoint-repair-20261007/source",
+      "owner": "janghj",
+      "node": "server4"
+    }
+  ],
+  "pending_rebind_targets": [
+    "60621",
+    "60106",
+    "60917"
+  ],
+  "old_job_ids_preserved": true,
+  "cancelled": [],
+  "reviewer_provenance": "Owner exact scheduler binding + collaborating worker focused logical DAG review; no external reviewer or scientific completion claim",
+  "monitoring_active": false,
+  "automatic_retry": false,
+  "pending_original_jobs_released_after_exact_dependency_binding": true,
+  "raw_receipts_local_only": true
+}

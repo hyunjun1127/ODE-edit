@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "nonce": "USER-SH4-GPTJ-ALPHA-CAP075-CAST-REPAIR-20261008",
+  "scope": "Single approved GPT-J OURS ALPHA_CAP075 repair/retry61003 and CPUcollector61004; owned compact publication only",
+  "executed_source": "e16a1014dee40d9fd44df9d549dc74a051792610",
+  "publication_control_only_change": "Use separate release.json rather than overwrite immutable held submission.json; frozen execution archive unchanged",
+  "CPU_tests": {"single_scope": 4, "mock_release_immutable_receipts": 1, "cast_cached_native_scalar_values": 600, "target_model_GPU": "NOT_OBSERVED"},
+  "generic_access_helper": {
+    "exit_code": 7,
+    "result": "NOT_PASS_SCOPE_PATTERN",
+    "exact_path": "runs/jlz-price-gptj-2k/cast-repair-20261008/submission.json",
+    "reason": "Generic server-head prefix excludes approved task-specific runs/jlz-price-gptj-2k; same exact task-prefix exception documented in prior checkpoint-repair publication",
+    "scope_authority": "Current explicit user60619 repair/resubmit + parent PRICE model-runs task own run/status/report publication delegation",
+    "shared_helper_modified": false,
+    "exception": "Publish this compact exact task-owned receipt only; never label generic helper PASS"
+  },
+  "raw_and_privacy": "No model/R/H/optimizer/RNG/prompt/tensor/fullstdout/credential publication; raw original KEEP",
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED: same-host native assets/W0 reuse; compact Git publication only",
+  "diff_check": "PASS",
+  "source_report_checks": "Owner source/identity/table/link/cost review; collaborating worker scoped source/DAG review; not external full audit",
+  "monitoring_active": false,
+  "automatic_retry": false
+}

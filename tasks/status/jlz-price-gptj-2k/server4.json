@@ -2,20 +2,15 @@
   "task_id": "jlz-price-gptj-2k",
   "server": "server4",
   "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
-  "branch": "codex/server4-price-gptj-2k",
-  "instruction_id": "USER-SH4-GPTJ-CHECKPOINT-REPAIR-20261007",
-  "status": "CHECKPOINT_REPAIR_RELEASED_BOUNDED_HANDOFF",
-  "execution_source": "298be5da189c3a5f4ffb212e4954ac73583e2be7",
-  "config_sha256": "d9256bc2e62e17177c3eef2e241035f68b1fe8dfc5a48d6761ee37c9ad03b688",
-  "lock_sha256": "568502ab6c774ce4adf5aa8c9a0b4d499edcd2a882ec801ce91b90e628ea6d37",
+  "branch": "codex/server4-gptj-alpha-cap075-cast-repair-20261008",
+  "instruction_id": "USER-SH4-GPTJ-ALPHA-CAP075-CAST-REPAIR-20261008",
+  "status": "RELEASED_RESOURCE_DEPENDENCY_PENDING_BOUNDED_HANDOFF",
+  "execution_source": "e16a1014dee40d9fd44df9d549dc74a051792610",
+  "config_sha256": "bab92540da015aa7e286f3887af3848a95427c15e5a0731373cbf0c73904ae46",
+  "lock_sha256": "cff0b4b48c5015d89874e27e9c6ba4a99ed89e5a8727c944f53a68b69283f914",
   "job_ids": [
-    60616,
-    60617,
-    60618,
-    60619,
-    60620,
-    60621,
-    60622
+    61003,
+    61004
   ],
   "failed_job_ids": [
     60134,
@@ -23,11 +18,12 @@
     60136,
     60137,
     60138,
-    60139
+    60139,
+    60619
   ],
   "old_collector_completed": 60140,
   "old_allocated_GPU_seconds": 2654,
-  "CPU_regression_tests": 4,
+  "CPU_regression_tests": 5,
   "hparams": {
     "Alpha_lambda": 10,
     "layers": [
@@ -40,19 +36,54 @@
     ],
     "lr": 0.5
   },
-  "server4_combined_GPU_cap": 3,
+  "server4_combined_GPU_cap": 2,
   "task_GPU_cap": 2,
   "noCP": true,
   "W0_reuse": "EXACT_PRIOR_RAW_26000_ROWS_RUNTIME_GUARDED",
   "input_generation": "EXACT_NATIVE_READY_METADATA_REUSE",
   "actual_new_model_backward": "NOT_OBSERVED",
-  "actual_new_WandB_identity": "NOT_OBSERVED",
+  "actual_new_WandB_identity": "NOT_OBSERVED_STARTUP_PENDING",
   "W20": "NOT_OBSERVED",
   "report": "experiment-reports/servers/server4/jlz-price-gptj-2k/report-ko.md",
-  "submission": "runs/jlz-price-gptj-2k/checkpoint-repair-20261007/submission.json",
+  "submission": "runs/jlz-price-gptj-2k/cast-repair-20261008/submission.json",
   "protected60001_and_Llama_modified": false,
   "old_source_raw_KEEP": true,
   "monitoring_active": false,
   "automatic_resume": false,
-  "automatic_retry": false
+  "automatic_retry": false,
+  "previous_checkpoint_attempt": {
+    "source": "298be5da189c3a5f4ffb212e4954ac73583e2be7",
+    "config_sha256": "d9256bc2e62e17177c3eef2e241035f68b1fe8dfc5a48d6761ee37c9ad03b688",
+    "lock_sha256": "568502ab6c774ce4adf5aa8c9a0b4d499edcd2a882ec801ce91b90e628ea6d37",
+    "job_ids": [
+      60616,
+      60617,
+      60618,
+      60619,
+      60620,
+      60621,
+      60622
+    ],
+    "registration_snapshot": "HISTORICAL; preserved receipts unchanged"
+  },
+  "failed60619": {
+    "commits": 11,
+    "requests": 1100,
+    "error": "POSTCAST_PRICED_FEASIBILITY",
+    "rollback": "VERIFIED_B12_NO_LOGICAL_COMMIT",
+    "old_attempt_kept": true
+  },
+  "preserved_running_resource_jobs": [
+    60618,
+    60620
+  ],
+  "pending_resource_rebound_jobs": [
+    60621,
+    60106,
+    60917
+  ],
+  "endpoint_cast_mode": "cap_endpoint_toward_zero_v1",
+  "new_retry_GPU_count": 1,
+  "cast_component_CPU_values": 600,
+  "detailed_report": "experiment-reports/servers/server4/jlz-price-gptj-2k/cast-repair-20261008/report-ko.md"
 }

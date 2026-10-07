@@ -1,4 +1,10 @@
-# GPT-J PRICE 6-arm — checkpoint 오류 교정·재제출
+# GPT-J PRICE — 최신 단일 OURS 우선 수리 제출
+
+2026-10-08 사용자 recall로 실패 60619(Alpha CAP075, 기존 1100 edits)을 수리하여 **61003**, CPU collector **61004**로 새 cold2k 제출·release했다. 초기 상태는 Dependency PENDING이며 현재 cap2/OURS 우선이다. RUNNING 60618·60620과 원 raw/source는 그대로 보존했다. [최신 실패 원인·명시 endpoint cast 수리·source/job/DAG·한계](cast-repair-20261008/report-ko.md). 실제 새 B1/W20 및 W&B startup은 NOT_OBSERVED다.
+
+## 이전 GPT-J PRICE 6-arm checkpoint 오류 교정·재제출 (역사)
+
+아래 PENDING/미관측/cap3 설명은 이전 등록 시점의 역사 snapshot이다. 최신 단일 retry/current resource 상태와 혼동하지 않는다.
 
 최신 사용자 지시 “gpt-j 모두 실패했는데 repair해서 다시 올려라”에 따라 공통 checkpoint 결함을 최소 수정하고 여섯 arm을 새 immutable source로 제출·held 검사·release했다. **새 초기 snapshot은 모두 PENDING**이다. 새 실제 GPU backward/B1/W20 및 W&B 원격 identity는 NOT_OBSERVED이며 CPU 회귀 통과를 모델 검증으로 주장하지 않는다.
 

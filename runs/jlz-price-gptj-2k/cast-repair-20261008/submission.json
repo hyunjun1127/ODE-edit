@@ -1,0 +1,81 @@
+{
+  "schema": 1,
+  "nonce": "USER-SH4-GPTJ-ALPHA-CAP075-CAST-REPAIR-20261008",
+  "task_id": "jlz-price-gptj-2k",
+  "server": "server4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "status": "RELEASED_RESOURCE_DEPENDENCY_PENDING_BOUNDED_HANDOFF",
+  "failed_job": 60619,
+  "old_verified_commits": 11,
+  "old_verified_requests": 1100,
+  "new_selected_cells": [
+    "ALPHA_CAP075"
+  ],
+  "jobs": {
+    "ALPHA_CAP075": 61003,
+    "collector": 61004
+  },
+  "dependencies": {
+    "ALPHA_CAP075": "afterany:60618",
+    "collector": "afterany:61003"
+  },
+  "execution_source": "e16a1014dee40d9fd44df9d549dc74a051792610",
+  "config_sha256": "bab92540da015aa7e286f3887af3848a95427c15e5a0731373cbf0c73904ae46",
+  "lock_sha256": "cff0b4b48c5015d89874e27e9c6ba4a99ed89e5a8727c944f53a68b69283f914",
+  "archive_sha256": "31220b891fdf9c387ef6491a341420b1222451cd955427f9cd11fdf51bc6227e",
+  "endpoint_cast_mode": "cap_endpoint_toward_zero_v1",
+  "feasibility_tolerances_changed": false,
+  "parent_WandB_run_id": "e4a3d16d7145461d",
+  "new_WandB_run_identity": "NOT_OBSERVED_STARTUP_PENDING",
+  "actual_GPU_B1": "NOT_OBSERVED",
+  "W20": "NOT_OBSERVED",
+  "new_attempt_max_GPU_concurrency": 1,
+  "server4_combined_GPU_cap": 2,
+  "whole_pending_DAG_maximum_concurrency": 2,
+  "preserved_RUNNING_jobs": [
+    60618,
+    60620
+  ],
+  "pending_same_ID_rebindings": [
+    {
+      "job": 60917,
+      "dependency": "afterany:60106:60107:60618:60620:60621:61003",
+      "source_and_jobID_unchanged": true
+    },
+    {
+      "job": 60621,
+      "dependency": "afterany:60620:61003",
+      "source_and_jobID_unchanged": true
+    },
+    {
+      "job": 60106,
+      "dependency": "afterany:60618:61003",
+      "source_and_jobID_unchanged": true
+    }
+  ],
+  "cancelled_jobs": [],
+  "baseline_after_ours": true,
+  "expected": {
+    "commits": 20,
+    "requests": 2000,
+    "own_state_joins": 19,
+    "history_appends": 120
+  },
+  "noCP": true,
+  "exact_resume": "NOT_AVAILABLE",
+  "W0_and_native_input": "QUALIFIED_EXACT_REUSE; new forward/context generation0",
+  "registration_receipt_exception": {
+    "held_submission_immutable_KEEP": true,
+    "postrelease_snapshot": "PENDING Dependency; both scheduler releases succeeded",
+    "local_release_receipt": "release-reconciled.json",
+    "later_control_receipt_fix": true,
+    "frozen_execution_archive_unchanged": true
+  },
+  "bounded_initial_snapshot": "61004|jlz-price-gptj-2k-collector|PENDING|N/A|afterany:61003(unfulfilled)|Dependency\n61003|jlz-price-gptj-2k-ALPHA_CAP075|PENDING|gres/gpu:1|afterany:60618(unfulfilled)|Dependency",
+  "report": "experiment-reports/servers/server4/jlz-price-gptj-2k/cast-repair-20261008/report-ko.md",
+  "raw_originals": "KEEP",
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "automatic_retry": false
+}

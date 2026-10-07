@@ -180,7 +180,9 @@ def release(resource_proof):
         write(NEW/('released-'+role+'.json'),dict(job=ids[role],command_succeeded=True,result=result))
     snapshot=command(['squeue','-h','-j',','.join(ids.values()),'-o','%i|%j|%T|%b|%N|%r'])
     sub.update(status='RELEASED',bounded_initial_snapshot=snapshot,resource_priority_proof=proof_member)
-    write(NEW/'submission.json',sub)
+    # The held submission is immutable provenance, not a mutable status file.
+    # This separate receipt must not conflict after successful scheduler release.
+    write(NEW/'release.json',sub)
     return dict(status='RELEASED',jobs=ids,initial_snapshot=snapshot)
 
 
