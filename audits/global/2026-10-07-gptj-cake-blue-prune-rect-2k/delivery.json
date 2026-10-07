@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH2-GPTJ-CAKE-ALPHAEDIT-BLUE-PRUNE-RECT-2K-20261007-R1",
+  "task_id": "gptj-cake-blue-prune-rect-2k",
+  "authority_commit": "0c5763837605980e1876fd50836913bbd01f47a1",
+  "envelope": {
+    "path": "messages/head/2026-10-07-gptj-cake-blue-prune-rect-sh2.json",
+    "sha256": "c7d2d2c4932a2cc4a40b3eec9771d75628c1c94190db93b5de6890f2a7d90791"
+  },
+  "contract": {
+    "path": "plans/global/2026-10-07-gptj-cake-blue-prune-rect-2k/contract.json",
+    "sha256": "6fb4690971e92f5a90b3175ff8c4e95608a7b0596671381f34b230977696b395"
+  },
+  "transport": "OFFICIAL_APP_SERVER_DIRECT",
+  "recipient": {
+    "server": "server2",
+    "session": "01a0493a-074c-7f91-9a13-769116326fef",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "host": "remote-ssh-codex-managed:lab121"
+  },
+  "mode": "FRESH_IDLE_TURN_START",
+  "accepted_turn": "01a115c9-3f94-7c61-a7af-2c9104bb3db8",
+  "explicit_owner_ACK": true,
+  "ACK_text": "ACK `USER-GH-SH2-GPTJ-CAKE-ALPHAEDIT-BLUE-PRUNE-RECT-2K-20261007-R1`. SH2가 담당 수락했습니다. 현재 신규 4arm은 미제출이며, 중복 접수와 입력·native source를 확인한 뒤 cap2의 두 lane으로 구현·검산·등록을 진행하겠습니다. 기존 job과 봉인 source는 유지합니다.",
+  "status": "OWNER_ACCEPTED_PREPARING_NOT_SUBMITTED",
+  "actual_new_job_ids": [],
+  "GPU_qualification": "NOT_OBSERVED",
+  "WandB_startup": "NOT_OBSERVED",
+  "submission": "NOT_SUBMITTED_AT_ACK",
+  "checks": {
+    "GH_session_boundary": "PASS",
+    "source_review": "Two delegated independent read-only source/asset investigations; no imports, tensors, model, GPU or Slurm execution",
+    "JSON_contract_checks": "PASS:3JSON/nonce+owner/four2k/nativeGPTJ layers-hparams-Pslots/cap2/empty pre-submit jobIDs",
+    "access_and_diff": "PASS",
+    "not_claimed": "Production/GPU qualification or physical admission not established by GH static review"
+  },
+  "retained": "All existing stock/ours/FE/W0 jobs, original CAKE/BLUE/EasyEdit, frozen archives and raw retained. No cancel/retry/cap increase.",
+  "GH_actions": {
+    "GPU": 0,
+    "model_loads": 0,
+    "Slurm_calls": 0,
+    "new_jobs": 0,
+    "recurring_monitor_created": false
+  },
+  "continuation": "SH2 implements, validates, submits/releases four2k GPU jobs and own CPUcollector without renewed approval; GH handoff ends at direct ACK, not scientific completion.",
+  "report": "experiment-reports/servers/server2/gptj-cake-blue-prune-rect-2k/report-ko.md"
+}
