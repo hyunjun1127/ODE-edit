@@ -16,7 +16,7 @@ import re
 import subprocess
 from pathlib import Path
 
-from .common import TASK, NONCE, ARMS, MILESTONES, digest, member, require, sha, write
+from .common import TASK, NONCE, ARMS, MILESTONES, digest, member, require, sha, write,bound_manual_authority
 from project.run_scripts.jlz_realized_writer_sequential.review_completed import (
     Reader, active_flags, compare_summary, reduce_rows)
 from project.run_scripts.gpt2xl_native_baselines.collect import _metric_rows, _paired_rows, _csv, _atomic_text
@@ -429,6 +429,11 @@ def allocation_once(reader,attempt,lock,runner=None,owner=None):
 def collect(attempt):
     attempt=Path(attempt);reader=Reader();c=reader.json(attempt/'config.json');lock=reader.json(attempt/'execution.lock.json')
     require(c['task_id']==TASK and c['instruction_id']==lock['instruction_id']==NONCE and sha(attempt/'config.json')==lock['config_sha256'],'COLLECT_CONFIG_SOURCE')
+    manual=bound_manual_authority(attempt,c,lock)
+    if manual:
+        reader.bound(c['manual_retry_authority_member'])
+        for field in ('prior_config_member','prior_lock_member','prior_submission_member','terminal_reconciliation_member'):
+            reader.bound(manual[field])
     for field in ('source_members','runtime_sources','launchers','native_closure','source_config_members'):
         for item in lock.get(field,[]):
             data=reader.bytes(item['path'])
@@ -462,9 +467,11 @@ def collect(attempt):
         'Native 수식/계수/fit은 기존 source를 재사용했습니다. R/P desired=new, N desired=true; TF와 자유생성 지표는 별개입니다.',
         'SDK 접수·원격 readback·과학 완료는 분리합니다. Agent 반복 monitoring은 만들지 않았습니다.',
         'Program/nested stages/parent GPU allocation 비용을 중복 합산하지 않았습니다. Accounting: '+allocation['status']+'.',''])
+    if manual:report.extend(['이번 attempt는 명시적인 사용자 재제출 승인 '+manual['manual_recall_id']+'에 결속됩니다. 이전 실패 source/raw/cost는 보존했고 자동 retry는 없습니다.',''])
     _atomic_text(out/'report-ko.md','\n'.join(report));write(out/'review.json',dict(task=TASK,source=lock['source_commit'],reviews=compact,scientific_complete=complete,new_model_forwards=0,GPU_validation_by_collector=False))
     outputs=[member(p) for p in sorted(out.iterdir()) if p.is_file()]
-    write(out/'manifest.json',dict(task=TASK,source=lock['source_commit'],inputs=list(reader.files.values()),outputs=outputs,raw_copied=False,raw_free_report=True,no_checkpoints=True))
+    write(out/'manifest.json',dict(task=TASK,source=lock['source_commit'],inputs=list(reader.files.values()),outputs=outputs,raw_copied=False,raw_free_report=True,no_checkpoints=True,
+        manual_retry_authority_member=c.get('manual_retry_authority_member'),manual_recall_id=c.get('manual_recall_id'),automatic_retry=False))
     write(out/'terminal.json',dict(status='COMPLETED',scientific_complete=complete,
         scientific_status='COMPLETED_VALIDATED' if complete else 'PARTIAL_OR_TECHNICAL_BLOCKED',source=lock['source_commit'],
         report=member(out/'report-ko.md'),manifest=member(out/'manifest.json'),new_model_forwards=0))
