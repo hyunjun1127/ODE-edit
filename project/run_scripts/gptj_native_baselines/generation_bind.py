@@ -67,4 +67,3 @@ def bind():
     print(json.dumps({k:v for k,v in receipt.items() if k not in ('reference_receive',)}))
     return c
 if __name__=='__main__': bind()
-

@@ -33,4 +33,3 @@ class SubmissionTests(unittest.TestCase):
             jobs[role]=str(100+i)
         self.assertEqual(dependencies('collector',['9','10'],jobs,2),list(jobs.values()))
 if __name__=='__main__':unittest.main()
-

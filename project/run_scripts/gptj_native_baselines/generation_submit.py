@@ -114,7 +114,7 @@ def submit():
     require(c['resources']['cpu']==6 and c['resources']['host_mib']==59392
         and c['resources']['gpu']==1 and c['noCP'] and not c['z_disk_cache'],'RESOURCE_SCIENCE_NOCP')
     require(not command(['git','status','--porcelain','--',*SOURCES]),'SOURCE_COMMITTED')
-    checks=read(LOCAL/'cpu-integration-r1.json')
+    checks=read(LOCAL/'cpu-integration-r2.json')
     require(checks['status']=='PASS_CPU_INTEGRATION' and not checks['CUDA_initialized'],'NARROW_CPU_INTEGRATION')
     for row in checks['source']:verify(row)
     require(checks['config']['sha256']==sha(config_path),'CPU_CONFIG_BOUND')
