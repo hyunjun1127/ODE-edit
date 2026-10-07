@@ -8,6 +8,10 @@ Instruction/nonce: `USER-GH-ALL-SH-BASELINE-FLUENCY-CONSISTENCY-RERUN-20261007-R
 
 ## GH 입력 요청 전달
 
+최신 통신 정정: 사용자 지시에 따라 repo `PROTOCOL.md`의 SSH→Unix socket WebSocket `initialize/initialized → thread/resume → turn/start` 직접 경로를 사용했다. GH idle/session/CWD를 확인했고 accepted turn `01a1165b-2002-7783-8df5-b48abda9086c`를 받았다. GH가 nonce `SH2-GH-GENERATION-READY-REQUEST-20261007-R1`를 포함한 수신 commentary ACK를 반환했다. **요청 수신은 확인됐지만 최종 source/API/reference identity와 terminal 완료는 아직 미수신**이다. 원 연결은 bounded90초 후 terminal timeout이었고, exact accepted turn 한정 read-only recovery에서 inProgress 및 nonce ACK를 확인했다. 중복 전송·기존 GH task interrupt·모델/effort 변경은 0이다. 상세 receipt는 `audits/servers/server2/gptj-baselines-fluency-consistency-2k/app-server-direct-receipt.json`.
+
+아래 초기 dynamic wrapper unavailable/Git 게시 이력은 역사 관측이다. 앱 wrapper 부재를 공식 socket 경로 부재로 판단하거나 Git을 live 전달 fallback으로 취급한 앞선 처리는 owner 오류로 정정한다. 과거 파일/게시 bytes는 보존하며 향후 실시간 전달은 app-server 정책을 따른다.
+
 사용자 “GH에게 이걸 전달해”에 따라 SH1 evaluator publication/source commit·API와 reference bundle READY·exact path/SHA/size 요청을 공식 server-head에 게시했다. 요청 게시 main `43b5ff84b26b279a48c9d72f52d65b8e86a8c6b1`의 원격 exact를 확인했다. 앱 직접 전송 도구는 unavailable을 반환했고 codex_app MCP도 사용 불가였다. **직접 전달·GH 열람/ACK는 확인되지 않았다.** Git 게시를 live 전달 성공으로 표시하지 않는다.
 
 요청은 추가 실행 승인 요청이 아니다. SH1 소유 `experiment_generation_eval` actual API/source와 `attribute_snippets.json`, `idf.npy`, `tfidf_vocab.json`, tokenizer provenance의 정확한 READY가 필요하다. 확인한 origin/main에는 공통 source namespace가 없었고 승인된 로컬 입력 경로에서 reference 3종도 확보되지 않았다. SH2가 공통 구현/TF-IDF를 별도 생성하거나 대체하지 않았다.
