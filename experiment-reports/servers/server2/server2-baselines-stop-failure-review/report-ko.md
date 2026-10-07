@@ -1,7 +1,9 @@
 # Server2 baseline-only STOP 및 CAKE/BLUE 실패 진단
 
-Nonce: `USER-GH-SH2-BASELINES-STOP-FAILURE-REVIEW-20261007`  
-상태: **STOPPED_USER**. baseline 실행 권한 중지, 수리·재제출 없음.  
+Nonce: `USER-GH-SH2-BASELINES-STOP-FAILURE-REVIEW-20261007`
+
+상태: **STOPPED_USER**. baseline 실행 권한 중지, 수리·재제출 없음.
+
 관측: 2026-10-07T11:24:04.362292+00:00 (UTC; scheduler 시작/종료 표기는 서버2 KST).
 
 ## 중단 결과
