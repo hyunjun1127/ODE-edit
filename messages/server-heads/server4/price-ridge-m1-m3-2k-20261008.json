@@ -1,0 +1,23 @@
+{
+  "instruction_id":"USER-SH4-PRICE-RIDGE-M1-M3-20261008-R1",
+  "server":"server4",
+  "session":"01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "accepted":true,
+  "stage":"PARTIAL_MATRIX_RELEASED_DEPENDENCY_PENDING",
+  "source":"8f39b226f93c027880ec0b941d3f2630ee298b0d",
+  "branch":"codex/server4-price-ridge-m1-m3-20261008",
+  "jobs":{"GPTJ_M1":61207,"LLAMA_REPRO":61208,"CPU_collector":61209},
+  "GPU_dependency":"afterany:60107",
+  "collector_dependency":"afterany:61207:61208",
+  "phase0":"LLAMA/GPTJ_NATIVE_LAMBDA15000; GPT2XL_M3_SAVED_K_NOT_RECORDED",
+  "GPT2XL":"Three cells unsubmitted: saved K absent for M3; server4 full-window C0/input binding missing for M2-only. No new model/stat/W0 generation.",
+  "new_W0_jobs":0,
+  "GPU_cap":2,
+  "baseline_holds":"60917-60923_UNCHANGED",
+  "cancelled_runs":"61121/61122_NOT_RESTARTED",
+  "actual_GPU_verification":"NOT_OBSERVED",
+  "WandB":"Run ID/URL created by real job startup only; no online PASS claimed.",
+  "monitoring_active":false,
+  "automatic_retry":false,
+  "report":"experiment-reports/servers/server4/price-ridge-m1-m3-2k-20261008/report-ko.md"
+}

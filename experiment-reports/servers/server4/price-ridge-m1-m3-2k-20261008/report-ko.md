@@ -1,7 +1,7 @@
 # PRICE ridge M1–M3 실행 준비
 
 권한: `USER-SH4-PRICE-RIDGE-M1-M3-20261008-R1`, 정본 `be0917136eb46d9840aafecb960d0c9ed897c159`.
-현재는 source 준비 단계이며 새 job은 아직 제출하지 않았다. 실제 GPU 확인이나 새 2K 완료를 주장하지 않는다.
+Llama/GPT-J와 CPU collector의 실제 held 등록·검사·release를 완료했다. 단발 초기 snapshot은 모두 dependency PENDING이었다. 실제 GPU 확인이나 새 2K 완료를 주장하지 않는다.
 
 ## 0단계와 구현
 
@@ -11,8 +11,8 @@ M1은 canonical lookup 0일 때만 같은 forward의 prefix rewrite 5개 norm �
 
 | 구성 | 현재 상태 | grace | lambda |
 |---|---|---:|---:|
-| LLAMA_REPRO | 제출 준비 | 12 | 15000 |
-| GPTJ_M1 | 제출 준비 | 12 | 15000 |
+| LLAMA_REPRO | 61208, RELEASED/PENDING | 12 | 15000 |
+| GPTJ_M1 | 61207, RELEASED/PENDING | 12 | 15000 |
 | GPT2XL_M1_M2 | L14–L17 C0/전체 native input 미결속 | 9 | 20000 |
 | GPT2XL_M1_M3 | 저장 B1 K 부재 | 12 | 미확정 |
 | GPT2XL_M1_M2_M3 | 저장 B1 K 부재 | 9 | 미확정 |
@@ -23,7 +23,7 @@ Llama B1은 기존 payload/W/H hash와 실제 비교하여 다르면 transaction
 
 신규 W0 forward/evaluation/generation/job은 0. 저장 26,000행/model의 identity와 reducer를 CPU로 확인하고 참조만 재사용한다. 실제 runtime identity가 다르면 새 평가로 fallback하지 않고 중단한다. generation은 post-edit만 수행하며 state/RNG 비변이를 확인한다. 원모델 cold initialization은 유지한다.
 
-기존 OURS 60107 종료 후 두 신규 GPU1 lane을 시작하는 보수적 `afterany:60107` 계획이다. 전체 cap2, 각 CPU8/59392MiB, hard60416MiB, 최대48h; CPU collector는 GPU0/CPU8/24576MiB/4h. 48h는 요청 상한이지 실측 ETA가 아니다. 기존 baseline60917–60923 hold와 취소61121/61122는 변경하지 않는다.
+기존 OURS 60107 종료 후 두 신규 GPU1 lane을 시작하는 `afterany:60107`로 등록했다. CPU collector61209는 `afterany:61207:61208`이다. 전체 cap2, 각 CPU8/59392MiB, hard60416MiB, 최대48h; CPU collector는 GPU0/CPU8/24576MiB/4h. 48h는 요청 상한이지 실측 ETA가 아니다. 기존 baseline60917–60923 hold와 취소61121/61122는 변경하지 않았다. 다른 job 변경도 0이다.
 
 기존 메모리 계획에 generation reference 2.5GiB를 더한 host 추정은 Llama40.415GiB/GPTJ56.862GiB다. 실제 GPU/host peak는 아직 미측정이다. 두 run 보존 여유 계획은 33,126,350,848 bytes이며 준비 시 free78,756,012,032 bytes였다. 실행 batch 경계에서 기존 로그 예산과 generation reserve를 재검사한다. 부족하면 축소·삭제 대신 typed block한다.
 
@@ -34,4 +34,7 @@ Llama B1은 기존 payload/W/H hash와 실제 비교하여 다르면 transaction
 Owner source audit이며 별도 독립 reviewer는 사용하지 않았다. 공통 tracking/generation 구현은 읽기전용 재사용했다. 원 source/raw는 KEEP, NoCP/exact resume NOT_AVAILABLE. `NO_BROADCAST_NOT_REQUIRED`: 같은 서버의 기존 자산/원자료를 참조하며 작은 source/report만 own branch에 게시한다. main 통합은 기존 GH 절차다.
 
 로컬 시도: `/data/janghj/ODE-edit/local/price-ridge-m1-m3-2k-20261008/attempt-r1`.
-실행 source와 실제 job/dependency는 등록 후 별도 receipt에 기록한다.
+실행 source: `8f39b226f93c027880ec0b941d3f2630ee298b0d`.
+Config SHA256: `107662dc6c1483b1870dd8966cedc58147d750c1bcd650c13035f89907078ad6`.
+Lock SHA256: `2c1b662770bdbcf6e18c4545ecd0855e3901613f74d681d10590d5e30c67117d`.
+[실제 등록 receipt](../../../../../runs/price-ridge-m1-m3-2k-20261008/submission.json)에 job/source/dependency와 원 receipt SHA를 기록했다. W&B run ID/URL/원격 검산은 실제 job startup 전이므로 NOT_OBSERVED다. 새 recurring monitor/heartbeat/자동 retry는 없다. 실행 source와 이후 보고 commit을 구분하며 own branch만 게시한다.

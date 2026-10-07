@@ -1,0 +1,29 @@
+{
+  "task_id": "price-ridge-m1-m3-2k-20261008",
+  "instruction_id": "USER-SH4-PRICE-RIDGE-M1-M3-20261008-R1",
+  "server": "server4",
+  "attempt": "/data/janghj/ODE-edit/local/price-ridge-m1-m3-2k-20261008/attempt-r1",
+  "source_commit": "8f39b226f93c027880ec0b941d3f2630ee298b0d",
+  "source_archive_sha256": "ca373eeaf5c8423f6b5dc38bebf33b3ce1155f7a3aeeae6e7814b65ce208b7ce",
+  "config_sha256": "107662dc6c1483b1870dd8966cedc58147d750c1bcd650c13035f89907078ad6",
+  "execution_lock_sha256": "2c1b662770bdbcf6e18c4545ecd0855e3901613f74d681d10590d5e30c67117d",
+  "local_submission_sha256": "723d322dc5a75f9b21563d30a98802a6ba2566e0ac5b4499b232dd452460dd2e",
+  "stage": "RELEASED",
+  "jobs": [
+    {"cell":"GPTJ_M1","job_id":61207,"dependency":"afterany:60107","initial_state":"PENDING","GPU":1,"CPUs":8,"memory_MiB":59392,"wall":"2-00:00:00"},
+    {"cell":"LLAMA_REPRO","job_id":61208,"dependency":"afterany:60107","initial_state":"PENDING","GPU":1,"CPUs":8,"memory_MiB":59392,"wall":"2-00:00:00"},
+    {"cell":"collector","job_id":61209,"dependency":"afterany:61207:61208","initial_state":"PENDING","GPU":0,"CPUs":8,"memory_MiB":24576,"wall":"04:00:00"}
+  ],
+  "held_inspection": "OWNER_NAME_COMMAND_FULLARGV_SOURCE_INPUT_RESOURCES_EXPORT_NONE_REQUEUE0_DEPENDENCIES_PASS",
+  "initial_snapshot_count": 1,
+  "new_W0_jobs": 0,
+  "WandB_run_id_url": "NOT_CREATED_PENDING_STARTUP",
+  "WandB_remote_validation": "NOT_OBSERVED",
+  "actual_B1_verification": "NOT_OBSERVED",
+  "combined_GPU_cap": 2,
+  "cap_proof": "Preserved own server4 GPU60107 precedes both new GPU1 lanes; maximum new graph width2. Existing baseline60917-60923 held unchanged. CPU collectors GPU0.",
+  "existing_job_mutations": [],
+  "automatic_retry": false,
+  "monitoring_active": false,
+  "save_checkpoint": false
+}

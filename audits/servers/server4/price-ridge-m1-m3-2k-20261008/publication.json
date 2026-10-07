@@ -1,0 +1,17 @@
+{
+  "review_level": "OWNER_ONLY",
+  "source_tests": "5_CPU_CHECKS_PASS; AST_IMPORT_CONFIG_WHITELIST_PASS; TOKEN_PACK_HASH_PASS",
+  "actual_GPU_PASS": false,
+  "no_new_W0": true,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "reason": "Same-host existing assets/raw referenced read-only; only compact source and metadata on own Git branch. No model/stat/raw/spool transfer.",
+  "generic_agent_access_helper_exception": {
+    "path": "runs/price-ridge-m1-m3-2k-20261008/submission.json",
+    "generic_helper_status": "NOT_PASS_SCOPE_PREFIX_UNSUPPORTED",
+    "authority": "be0917136eb46d9840aafecb960d0c9ed897c159 messages/head/2026-10-08-price-ridge-m1-m3-2k-20261008-sh4.json allowed_write_paths",
+    "shared_helper_modified": false,
+    "exception_scope": "This exact compact task submission receipt only"
+  },
+  "frozen_source_untouched_after_submit": true,
+  "main_merge": "NOT_PERFORMED_GH_INTEGRATION_REQUIRED"
+}
