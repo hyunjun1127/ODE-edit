@@ -1,4 +1,8 @@
-# GPT-J PRICE — 최신 단일 OURS 우선 수리 제출
+# GPT-J PRICE — 사용자 전체 OURS 중단
+
+2026-10-08 최신 사용자 지시로 GPT-J OURS GPU **60618·60620·60621·61003**, 전용 CPU collector **60622·61004**를 모두 취소했다. 6개 모두 CANCELLED이며 현재 해당 OURS queue는 비어 있다. **Llama OURS와 native baseline은 유지**, 원 source/raw KEEP, 자동 재개·retry 없음. [현재 중단 사실·범위·accounting](user-stop-20261008/report-ko.md). 아래 제출/PENDING 설명은 중단 이전 역사 기록이다.
+
+## 이전 단일 OURS 우선 수리 제출 (역사)
 
 2026-10-08 사용자 recall로 실패 60619(Alpha CAP075, 기존 1100 edits)을 수리하여 **61003**, CPU collector **61004**로 새 cold2k 제출·release했다. 초기 상태는 Dependency PENDING이며 현재 cap2/OURS 우선이다. RUNNING 60618·60620과 원 raw/source는 그대로 보존했다. [최신 실패 원인·명시 endpoint cast 수리·source/job/DAG·한계](cast-repair-20261008/report-ko.md). 실제 새 B1/W20 및 W&B startup은 NOT_OBSERVED다.
 

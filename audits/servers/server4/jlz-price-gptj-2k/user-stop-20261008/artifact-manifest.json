@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-SH4-GPTJ-OURS-STOP-20261008",
+  "report_language": "ko",
+  "scope": "GPT-J OURS cancellation metadata only; frozen scientific source unchanged",
+  "members": [
+    {
+      "path": "audits/servers/server4/jlz-price-gptj-2k/user-stop-20261008/cancellation.json",
+      "sha256": "e192bdf7dde0f485ccd490165ed4a2457dd96e69d8a9d51e41982da87b99c18e",
+      "bytes": 3339
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-price-gptj-2k/user-stop-20261008/report-ko.md",
+      "sha256": "d0d8d865e4b8322b72641fab201e9bbe79e0b913c50eb2e853c4b7e98b3ce439",
+      "bytes": 3561
+    },
+    {
+      "path": "experiment-reports/servers/server4/jlz-price-gptj-2k/report-ko.md",
+      "sha256": "5085a1118ed642b725446383cabcd8a18252698a8ceb0380da3a0e96f7c33bae",
+      "bytes": 14647
+    },
+    {
+      "path": "tasks/status/jlz-price-gptj-2k/server4.json",
+      "sha256": "bc188eb6fe8e906b5bcae0365bb5032df9fe2efb4f0936f68e5ed85e68748156",
+      "bytes": 3371
+    },
+    {
+      "path": "messages/server-heads/server4/gptj-ours-user-stop-20261008.json",
+      "sha256": "a08a3d0fdbaf63f869ba206cca26efc0f97be7c4182003b4bb6c7cd84cfc72f9",
+      "bytes": 753
+    }
+  ],
+  "count": 5,
+  "raw_checkpoint_credentials_or_fullstdout": false,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "manifest_excludes_itself": true
+}

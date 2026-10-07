@@ -1,0 +1,25 @@
+{
+  "instruction_id": "USER-SH4-GPTJ-OURS-STOP-20261008",
+  "server": "server4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "status": "USER_STOPPED_ALL_GPTJ_OURS",
+  "user_quote": "gpt-j 계열 ours 실험들 모두 종료시키자",
+  "cancelled_GPU_jobs": [
+    60618,
+    60620,
+    60621,
+    61003
+  ],
+  "cancelled_CPU_collectors": [
+    60622,
+    61004
+  ],
+  "all_six_accounting": "CANCELLED",
+  "matching_active_jobs": 0,
+  "protected": "Llama OURS/native baseline/source/raw unchanged",
+  "report": "experiment-reports/servers/server4/jlz-price-gptj-2k/user-stop-20261008/report-ko.md",
+  "resume_requires_new_explicit_user_authority": true,
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "automatic_retry": false
+}

@@ -1,0 +1,113 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-SH4-GPTJ-OURS-STOP-20261008",
+  "user_quote": "gpt-j 계열 ours 실험들 모두 종료시키자",
+  "server": "server4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "task_id": "jlz-price-gptj-2k",
+  "status": "USER_STOPPED_ALL_GPTJ_OURS",
+  "observed_at_kst": "2026-10-08T01:56:54+09:00",
+  "cancelled_GPU_jobs": [
+    60618,
+    60620,
+    60621,
+    61003
+  ],
+  "cancelled_CPU_collectors": [
+    60622,
+    61004
+  ],
+  "accounting_all_six": "CANCELLED by 1025",
+  "terminal_rows": [
+    {
+      "job": 60618,
+      "role": "MEMIT_FREE100",
+      "before": "RUNNING",
+      "state": "CANCELLED",
+      "elapsed_raw": 4484,
+      "allocated_GPUs": 1
+    },
+    {
+      "job": 60620,
+      "role": "ALPHA_CAP100",
+      "before": "RUNNING",
+      "state": "CANCELLED",
+      "elapsed_raw": 4484,
+      "allocated_GPUs": 1
+    },
+    {
+      "job": 60621,
+      "role": "ALPHA_FREE100",
+      "before": "PENDING",
+      "state": "CANCELLED",
+      "elapsed_raw": 0,
+      "allocated_GPUs": 0
+    },
+    {
+      "job": 61003,
+      "role": "ALPHA_CAP075",
+      "before": "PENDING",
+      "state": "CANCELLED",
+      "elapsed_raw": 0,
+      "allocated_GPUs": 0
+    },
+    {
+      "job": 60622,
+      "role": "collector",
+      "before": "PENDING",
+      "state": "CANCELLED",
+      "elapsed_raw": 0,
+      "allocated_GPUs": 0
+    },
+    {
+      "job": 61004,
+      "role": "collector",
+      "before": "PENDING",
+      "state": "CANCELLED",
+      "elapsed_raw": 0,
+      "allocated_GPUs": 0
+    }
+  ],
+  "verified_attempts": [
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/checkpoint-repair-20261007",
+      "source": "298be5da189c3a5f4ffb212e4954ac73583e2be7",
+      "lock_sha256": "568502ab6c774ce4adf5aa8c9a0b4d499edcd2a882ec801ce91b90e628ea6d37"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-gptj-2k/cap075-cast-repair-20261008",
+      "source": "e16a1014dee40d9fd44df9d549dc74a051792610",
+      "lock_sha256": "cff0b4b48c5015d89874e27e9c6ba4a99ed89e5a8727c944f53a68b69283f914"
+    }
+  ],
+  "cancel_order": [
+    61004,
+    60622,
+    60621,
+    61003,
+    60620,
+    60618
+  ],
+  "fresh_owner_source_node_role_checks": true,
+  "final_matching_active_GPTJ_OURS_queue": [],
+  "running_process_allocation_drain": "FINAL_MATCHING_QUEUE_EMPTY",
+  "unrelated_job_mutations": 0,
+  "protected": [
+    "Llama OURS",
+    "all native baselines including server2 GPT-J",
+    "model/C0/projector/W0/source/config/archive/raw"
+  ],
+  "dependency_afterany_behavior": "Slurm naturally removed terminal GPT-J barriers; no outside dependency update: Llama60106 RUNNING,60107 follows60106,baseline60917 waits60106+60107",
+  "no_new_jobs": true,
+  "noCP": true,
+  "exact_resume": "NOT_AVAILABLE",
+  "scientific_completion": "NOT_REVIEWED; USER_CANCELLED is not W20 complete",
+  "WandB_remote_finish": "NOT_VERIFIED; no run rename/backfill/newupload",
+  "source_review": "Collaborating worker limited current launcher/control/status review: no auto scientific restart path; external cron/process absence NOT_VERIFIED",
+  "file_deletion": false,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED; compact Git metadata only",
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "automatic_retry": false,
+  "resume_requires_new_explicit_user_authority": true
+}
