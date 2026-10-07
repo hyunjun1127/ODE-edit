@@ -12,8 +12,29 @@
       "instruction_id": "USER-GH-SH1-SH2-W0-COHORT-CURVES-RERUN-20261007-R1-SERVER1",
       "owner_ack": "SH1 담당 수락. RECEIVED/PREPARING/NOT_SUBMITTED. fresh W0 raw20current4allseen구현검산후등록",
       "envelope_sha": "78e0fab99858aa214c34a50c9bca97398cfd2afb80fb44aff30a6cb1a106f8e8",
-      "new_job_ids": [],
-      "stage": "IMPLEMENTING_NOT_SUBMITTED"
+      "new_job_ids": [
+        60654,
+        60655
+      ],
+      "stage": "W0_SUBMITTED_RELEASED",
+      "W0_submission": {
+        "GPU": 60654,
+        "CPU_collector": 60655,
+        "GPU_dependency": null,
+        "collector_dependency": "afterany:60654",
+        "source_ref": "d7284b94",
+        "source_ref_is_observed_prefix": true,
+        "lock_ref": "f7a63d4f",
+        "lock_ref_is_observed_prefix": true,
+        "held_inspection": "OWNER_PASS",
+        "release": "OWNER_CONFIRMED",
+        "bounded_postrelease_state": "PENDING",
+        "actual_start": "NOT_OBSERVED",
+        "WandB_UUID": "5f7146a380134da0",
+        "WandB_online_start": "NOT_OBSERVED",
+        "receipt_evidence": "SH1 direct agentMessage in accepted turn01a11538-015f-72d3-9dc5-93d0aea78b67",
+        "CPU_tests": 25
+      }
     },
     {
       "server": "server2",
@@ -54,7 +75,8 @@
           60147,
           60148
         ],
-        "old_W0_status": "Owner bounded exact accounting reports both COMPLETED"
+        "old_W0_status": "Owner bounded exact accounting reports both COMPLETED",
+        "CPU_stage": "Owner native assets FP32shape/count/finite/P sixslots and native call/history tests PASS; actualGPU NOT_OBSERVED"
       }
     }
   ],
@@ -66,5 +88,5 @@
     "WandB_readback": "NOT_OBSERVED",
     "experiment_completion": "NOT_OBSERVED"
   },
-  "continuation": "SH2 W0 실제 registered/held-inspected/released60652/60653, terminal 미관측. native2arm는 같은turn 구현 계속하며 추가 승인 대기 없음. SH1은 구현중, 등록 주장 없음. GH는 queue 등록만 bounded 회수하고 과학결과 모니터링0."
+  "continuation": "SH1/SH2 W0 actual GPU+CPUcollector 등록·held검사·release 완료. terminal/online평가 미관측. SH2 native2arm는 CPUpreflight후별도승인없이freeze/정식등록계속. GH는 queue receipt만bounded회수하고과학monitor0."
 }
