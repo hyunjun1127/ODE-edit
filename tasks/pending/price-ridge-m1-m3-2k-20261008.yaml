@@ -1,0 +1,11 @@
+id: price-ridge-m1-m3-2k-20261008
+type: global_head_command
+status: pending
+owner: server4-server-head
+target_servers:
+  - server4
+instruction_id: USER-SH4-PRICE-RIDGE-M1-M3-20261008-R1
+instruction: messages/head/2026-10-08-price-ridge-m1-m3-2k-20261008-sh4.json
+contract: project/proposals/price-ridge-m1-m3-2k-20261008/handoff-ko.md
+user_source_session: 01a1187c-d019-73d0-815e-da6004838054
+closure_owner: global-head

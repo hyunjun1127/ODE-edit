@@ -1,0 +1,68 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-SH4-PRICE-RIDGE-M1-M3-20261008-R1",
+  "task_id": "price-ridge-m1-m3-2k-20261008",
+  "user_authority": {
+    "request": "이거 빠르게 파악해서 server4에게 task 맡기자.",
+    "source_session": "01a1187c-d019-73d0-815e-da6004838054",
+    "role": "사용자가 명시적으로 위임한 연구 task coordinator; 기존 GH 세션을 사칭하지 않음",
+    "latest_constraints": [
+      "w0 실험은 하지말라고 해",
+      "server4의 gpu cap은 2이다"
+    ]
+  },
+  "owner": {
+    "server": "server4",
+    "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "cwd": "/data/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit",
+    "branch": "codex/server4-price-ridge-m1-m3-20261008",
+    "model_effort": "사용자 설정 유지"
+  },
+  "source_spec": {
+    "path": "project/proposals/price-ridge-m1-m3-2k-20261008/user-spec.txt",
+    "sha256": "ebe63170f6b39e43dfcec0bb5c4db2d742d75a8395cb36b6b2e17338a4b8e13f",
+    "status": "사용자 제공 원문 그대로. 예상 수치는 아직 실측 검증되지 않음."
+  },
+  "execution_contract": "project/proposals/price-ridge-m1-m3-2k-20261008/handoff-ko.md",
+  "allowed_write_paths": [
+    "project/run_scripts/price_ridge_m1_m3/**",
+    "project/run_scripts/jlz_price_gptj/**",
+    "project/run_scripts/jlz_price_gpt2xl/**",
+    "project/run_scripts/jlz_interference_l1/**",
+    "project/run_scripts/jlz_realized_subject/profile.py",
+    "plans/updates/server4/price-ridge-m1-m3-2k-20261008/**",
+    "audits/servers/server4/price-ridge-m1-m3-2k-20261008/**",
+    "experiment-reports/servers/server4/price-ridge-m1-m3-2k-20261008/**",
+    "runs/price-ridge-m1-m3-2k-20261008/**",
+    "local/price-ridge-m1-m3-2k-20261008/**",
+    "tasks/status/price-ridge-m1-m3-2k-20261008/server4.json",
+    "messages/acks/server4/price-ridge-m1-m3-2k-20261008.json",
+    "messages/server-heads/server4/price-ridge-m1-m3-2k-20261008.json",
+    "전용 worktree의 ignored servers/local/session-boundary.env 및 task-local runtime 설정"
+  ],
+  "shared_ownership": "다른 작업자와 공유 저장소다. 다른 사람 변경을 되돌리지 말고 기존 변경에 맞춰 구현. experiment_tracking/**는 SH1 소유 read-only, 기존 source archive 불변. 명시 경로 밖 필수 수정은 정확한 경로와 이유를 보고.",
+  "slurm": {
+    "permission": "0단계 및 CPU/source preflight PASS 뒤 새 task의 post-edit 2K 실행 allowed. 별도 W0 실험/재평가/generation/calibration GPU job 금지. M3는 저장 B1 key/C0로만 보정; 데이터 부재는 보고하고 관련 의존 실행 보류.",
+    "server4_total_gpu_cap": 2,
+    "per_job_gpus": 1,
+    "host_memory_hard_ceiling_mib_per_gpu": 60416,
+    "count_existing_allocations": true,
+    "overflow": "dependency/array throttle 정상 pending, 기존 작업 취소나 강제 선점 없음",
+    "existing_jobs": "60917–60923 JobHeldUser와 dependency 유지. 취소된 61121/61122 재시작 금지. 별도 사용자 해제 지시 없이 release/동일 실행 복제 금지."
+  },
+  "preflight": "session/repo/source/config/data order/seed/runtime/evaluator/stat identity; M1 평균 norm과 조건; M2 update-count 경계; M3 이분탐색과 native 유지; no-op Llama 경로; 마지막 평가 R commit 및 post-commit H; 독립 audit의 block은 중지, warn은 명시 범위와 영향 기록.",
+  "git": "전용 non-main worktree/branch에서 task 소유 source 및 소형 report commit과 non-force task branch push 허용. 공유 main merge는 기존 GH 통합 절차. dirty root reset/stash/일괄 stage 금지.",
+  "artifacts": "소형 source/manifest/report만 Git. raw는 local task namespace, 기존 raw read-only. 필요한 일반 project artifact만 기존 승인 helper의 exact allowlist/no-delete 사용, 불필요하면 NO_BROADCAST_NOT_REQUIRED 기록. model/stat 재다운로드·재계산·무관 대형 전송은 이 task에 포함하지 않음.",
+  "reports": {
+    "phase0": "experiment-reports/servers/server4/price-ridge-m1-m3-2k-20261008/phase0-ko.md",
+    "final": "experiment-reports/servers/server4/price-ridge-m1-m3-2k-20261008/report-ko.md",
+    "audit": "audits/servers/server4/price-ridge-m1-m3-2k-20261008/",
+    "runs": "runs/price-ridge-m1-m3-2k-20261008/",
+    "status": "tasks/status/price-ridge-m1-m3-2k-20261008/server4.json",
+    "ack": "messages/acks/server4/price-ridge-m1-m3-2k-20261008.json",
+    "message": "messages/server-heads/server4/price-ridge-m1-m3-2k-20261008.json"
+  },
+  "delivery": "명시 instruction ID를 먼저 commentary로 ACK하고 즉시 0단계와 구현 착수. 수신/구현/제출/완료를 구분. 발신 연결 종료는 작업 중단 지시 아님. 새 recurring monitor는 만들지 않음.",
+  "w0_policy": "신규 W0 실험·평가·generation·calibration job 0. 기존 W0 raw와 저장 key/stat만 identity 확인 후 재사용. main launcher 자동 W0 평가 skip. 각 편집 trajectory의 기존 원모델 초기화는 정상 cold start이며 별도 W0 실험 아님."
+}
