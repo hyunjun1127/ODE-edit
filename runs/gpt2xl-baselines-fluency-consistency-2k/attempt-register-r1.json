@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "task_id": "gpt2xl-baselines-fluency-consistency-2k",
+  "registration_nonce": "USER-GH-SH1-SH2-SH4-BASELINE-GENERATION-REGISTER-RESUME-20261007-R1",
+  "status": "SUBMITTED_RELEASED_INITIAL_HANDOFF",
+  "source": "6bc51602632b5a2dfb4c832479002b30b604b8eb",
+  "registration_control_source": "4f068a938a5cce16ac999bb6daa4b583fb5a71ab",
+  "lock_sha256": "ec7fa67067edaff39586dab674f72bf393ccb77e9dce54e9f11ea86c81fbe62f",
+  "config_sha256": "9738bb2a05f28cff347f260789d32db667d6bcb542142a5e9c4528f8e13cb4f2",
+  "jobs": {"BASE_MEMIT": "60928", "BASE_ALPHAEDIT": "60929", "CAKE": "60930", "ALPHAEDIT_BLUE": "60931", "PRUNE": "60932", "RECT": "60933", "collector": "60934"},
+  "held": "PASS_ALL7",
+  "released": true,
+  "initial": "60928 RUNNING; others Dependency PENDING",
+  "W_B": "60928 REMOTE_STARTUP_IDENTITY_CONFIG_VERIFIED; metric finish/science completion NOT_OBSERVED",
+  "audit": "audits/servers/server1/gpt2xl-baselines-fluency-consistency-2k/registration-resume-r1.json",
+  "previous_attempt": "runs/gpt2xl-baselines-fluency-consistency-2k/attempt-v1.json",
+  "checkpoint_saved": false,
+  "monitoring": false,
+  "automatic_retry": false
+}
