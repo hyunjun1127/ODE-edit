@@ -13,6 +13,12 @@
   "duplicate_submission_found": false,
   "accepted_at": "2026-10-07 11:51:35 UTC",
   "stage": "BASELINE_STOP_RECONCILED_IMPLEMENTING_NOT_SUBMITTED",
+  "latest_stage": "REGISTRATION_BLOCKED_SCHEDULER_STORAGE",
+  "source_commit": "6bc51602632b5a2dfb4c832479002b30b604b8eb",
+  "shared_source_commit": "83535c6a47c552cc4e5c6385f3a587d752820150",
+  "submission_attempts": 1,
+  "job_id_returned": false,
+  "automatic_retry": false,
   "new_job_ids": [],
   "cancelled_exact_jobs": [
     "60759",
