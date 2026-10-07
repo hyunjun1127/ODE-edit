@@ -24,6 +24,10 @@ MILESTONES=(5,10,15,20)
 SOURCE_ENV='GPT2_GENERATION_BASELINE_SOURCE_COMMIT'
 PYTHON='/mnt/raid5/janghj/EasyEdit/.venv/bin/python'
 ORDERED_SHA='0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4'
+MANUAL_RECALL='USER-DIRECT-SH1-GPT2XL-GENERATION-CACHE-REPAIR-20261008-R2'
+MANUAL_USER_QUOTE='fail 된거 다시 처리해'
+TERMINAL_STATES=frozenset(('COMPLETED','FAILED','CANCELLED','TIMEOUT','OUT_OF_MEMORY',
+    'NODE_FAIL','PREEMPTED','BOOT_FAIL','DEADLINE'))
 
 def authority():
     require(sha(ROOT/ENVELOPE)==ENVELOPE_SHA and sha(ROOT/CONTRACT)==CONTRACT_SHA
@@ -48,6 +52,80 @@ def registered_repair_attempts():
         if value.get('instruction_id')==NONCE and ((path.parent/'submission.json').exists()
             or list(path.parent.glob('submitted-*.json'))):found.append(path.parent)
     return found
+
+def manual_retry_authority(attempt,row):
+    """Verify this one explicit USER recall; never waive the original nonce.
+
+    The prior immutable submission and a root's bounded terminal reconciliation
+    are evidence, not a scientific resume or an automatic transport retry.
+    Runtime/collector may verify the same receipt without querying Slurm.
+    """
+    attempt=Path(attempt)
+    value=read(verify(row))
+    require(value.get('schema')==1 and value.get('instruction_id')==NONCE
+        and value.get('task_id')==TASK and value.get('manual_recall_id')==MANUAL_RECALL
+        and value.get('authority_type')=='USER_EXPLICIT_MANUAL_REPAIR'
+        and value.get('user_quote')==MANUAL_USER_QUOTE
+        and value.get('automatic_retry') is False
+        and value.get('owner')==dict(server='server1',session=SESSION),
+        'MANUAL_RETRY_EXPLICIT_USER_AUTHORITY')
+    prior=Path(value['prior_attempt'])
+    require(attempt==LOCAL/'attempt-cache-repair-r2'
+        and value['target_attempt']==str(attempt)
+        and prior==LOCAL/'attempt-cache-repair-r1' and prior!=attempt,
+        'MANUAL_RETRY_EXACT_ATTEMPT')
+    bound={}
+    for key,name in (('prior_config_member','config.json'),
+        ('prior_lock_member','execution.lock.json'),('prior_submission_member','submission.json')):
+        require(value[key]['path']==str(prior/name),'MANUAL_RETRY_PRIOR_MEMBER_PATH')
+        bound[key]=read(verify(value[key]))
+    config,lock,submission=(bound[key] for key in
+        ('prior_config_member','prior_lock_member','prior_submission_member'))
+    require(config['instruction_id']==lock['instruction_id']==submission['instruction_id']==NONCE
+        and config['task_id']==lock['task_id']==submission['task_id']==TASK
+        and config['attempt']==str(prior)
+        and lock['source_commit']==submission['source_commit']==value['prior_source_commit']
+        and lock['config_sha256']==value['prior_config_member']['sha256'],
+        'MANUAL_RETRY_PRIOR_SOURCE_CONFIG')
+    for key,row_key in (('config','prior_config_member'),('lock','prior_lock_member')):
+        require(all(submission[key][field]==value[row_key][field]
+            for field in ('path','bytes','sha256')),'MANUAL_RETRY_PRIOR_SUBMISSION_BINDING')
+    jobs=value['prior_jobs'];roles=set(ARMS)|{'collector'}
+    require(set(jobs)==roles and jobs==submission['jobs']
+        and all(type(job) is str and job.isdigit() and int(job)>0 for job in jobs.values())
+        and len(set(jobs.values()))==7,'MANUAL_RETRY_PRIOR_SEVEN_IDS')
+    terminal=read(verify(value['terminal_reconciliation_member']))
+    require(terminal['status']=='TERMINAL_RECONCILED'
+        and terminal['prior_attempt']==str(prior)
+        and terminal['source_commit']==value['prior_source_commit']
+        and terminal['owner']==value['owner']
+        and type(terminal['snapshot_at']) is str and bool(terminal['snapshot_at'])
+        and set(terminal['jobs'])==roles,'MANUAL_RETRY_TERMINAL_RECONCILIATION')
+    require(all(terminal['jobs'][role]['job']==jobs[role]
+        and terminal['jobs'][role]['state'] in TERMINAL_STATES for role in roles),
+        'MANUAL_RETRY_PRIOR_NOT_TERMINAL')
+    return value
+
+def registration_authority(attempt,row=None):
+    """Only the specifically reconciled prior r1 may coexist with a new r2."""
+    registered=set(registered_repair_attempts())
+    if row is None:
+        require(not registered,'NO_DUPLICATE_NONCE')
+        return None
+    value=manual_retry_authority(attempt,row)
+    require(registered=={Path(value['prior_attempt'])},'MANUAL_RETRY_NO_OTHER_REGISTERED_ATTEMPT')
+    return value
+
+def bound_manual_authority(attempt,config,lock):
+    row=config.get('manual_retry_authority_member')
+    require(row==lock.get('manual_retry_authority_member')
+        and config.get('manual_recall_id')==lock.get('manual_recall_id'),
+        'MANUAL_RETRY_CONFIG_LOCK_BINDING')
+    if row is None:return None
+    value=manual_retry_authority(attempt,row)
+    require(config['manual_recall_id']==value['manual_recall_id']
+        and lock.get('automatic_retry') is False,'MANUAL_RETRY_RUNTIME_BINDING')
+    return value
 
 def batches(records):
     require(len(records)==2000 and digest([r['case_id'] for r in records])==ORDERED_SHA,'EXACT_ORDERED_FIRST2K')

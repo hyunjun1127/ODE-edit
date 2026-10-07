@@ -53,10 +53,11 @@ def old_w0_reuse_binding(old_attempt,old_config,cold_W,old_cold_guard):
         source_commit=read(old_attempt/'execution.lock.json')['source_commit'],allowed_only_state_W=cold_W,
         cold_observation_guard_member=member(old_cold_guard))
 
-def prepare(out,attempt,assets_manifest,shared_W0_root,old_attempt=None,max_microbatch=8,cancellation_receipt=None,old_cold_guard=None):
+def prepare(out,attempt,assets_manifest,shared_W0_root,old_attempt=None,max_microbatch=8,cancellation_receipt=None,old_cold_guard=None,manual_retry=None):
     contract,policy=authority()
     require(not out.exists() and not attempt.exists(),'CREATE_ONCE_NEW_ATTEMPT')
-    require(not registered_repair_attempts(),'NONCE_NOT_REGISTERED')
+    manual_member=member(manual_retry) if manual_retry is not None else None
+    registration_authority(attempt,manual_member)
     old={key:read(path) for key,path in OLD.items()}
     c=copy.deepcopy(old['stock'])
     configs={arm:copy.deepcopy(old['stock' if arm.startswith('BASE_') else 'cake' if arm in ('CAKE','ALPHAEDIT_BLUE') else 'prune']) for arm in ARMS}
@@ -131,13 +132,18 @@ def prepare(out,attempt,assets_manifest,shared_W0_root,old_attempt=None,max_micr
         cancellation_receipt=member(cancellation_receipt),
         broadcast='NO_BROADCAST_NOT_REQUIRED; same-host originals/raw KEEP; compact reference manifest shared')
     c.pop('cpu_preflight',None)
+    if manual_member is not None:
+        c['manual_retry_authority_member']=manual_member
+        c['manual_recall_id']=MANUAL_RECALL
     write(out/'config.json',c)
     write(out/'preparation.json',dict(status='CPU_ASSET_BOUND_NOT_GPU_PASS',source_config_members=c['source_config_members'],
         generation_reference=member(assets_manifest),model_loads=0,native_apply=0,stats_P_recomputed=False,
         scientific_runtime_upgraded=False,large_asset_validation='prior SHA + unchanged size/inode/mtime',
         W0_generation='QUALIFICATION_THEN_EXACT_COMPLETED_OLD_CASE_REUSE_AND_MISSING_NEW_OBSERVATIONS',
         qualification_plan=plan_member,qualification_actual='NOT_RUN; first replacement GPU job',
-        old_W0_reuse=old_reuse))
+        old_W0_reuse=old_reuse,manual_retry_authority=manual_member,
+        manual_recall_id=MANUAL_RECALL if manual_member is not None else None,
+        automatic_retry=False))
     return out/'config.json'
 
 def main():
@@ -146,6 +152,7 @@ def main():
     p.add_argument('--old-attempt',type=Path);p.add_argument('--max-microbatch',type=int,choices=(4,8),default=8)
     p.add_argument('--cancellation-receipt',type=Path)
     p.add_argument('--old-cold-guard',type=Path,required=True)
+    p.add_argument('--manual-retry-authority',type=Path)
     a=p.parse_args();print(prepare(a.out.resolve(),a.attempt.resolve(),a.assets_manifest.resolve(),a.shared_W0_root.resolve(),
-        a.old_attempt,a.max_microbatch,a.cancellation_receipt,a.old_cold_guard))
+        a.old_attempt,a.max_microbatch,a.cancellation_receipt,a.old_cold_guard,a.manual_retry_authority))
 if __name__=='__main__':main()

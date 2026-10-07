@@ -21,7 +21,7 @@ import torch
 import transformers
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
-from .common import TASK, NONCE, ARMS, MILESTONES, SOURCE_ENV, digest, require, sha, verify, write, batches, member
+from .common import TASK, NONCE, ARMS, MILESTONES, SOURCE_ENV, digest, require, sha, verify, write, batches, member,bound_manual_authority
 from project.run_scripts.gpt2xl_cake_blue.common import stat_seal
 from .metrics import ObservationView, state, observe, rows, install_W0, generation_payload
 from project.run_scripts.gpt2xl_native_baselines import native as stock_native
@@ -56,6 +56,7 @@ def locked(attempt):
     require(c['instruction_id']==lock['instruction_id']==NONCE and c['task_id']==TASK,'TASK_AUTHORITY')
     require(os.environ.get(SOURCE_ENV)==lock['source_commit']
         and sha(attempt/'config.json')==lock['config_sha256'],'SOURCE_CONFIG_IDENTITY')
+    bound_manual_authority(attempt,c,lock)
     for field in ('source_members','runtime_sources','launchers','native_closure','source_config_members'):
         for item in lock.get(field,[]):verify(item)
     require(lock.get('native_closure') and set(c['source_configs'])==set(ARMS),'NATIVE_SOURCE_CLOSURE_REQUIRED')

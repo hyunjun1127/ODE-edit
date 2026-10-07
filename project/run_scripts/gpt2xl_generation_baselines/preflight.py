@@ -17,6 +17,7 @@ TESTS=(
  'project.run_scripts.experiment_generation_eval.test_assets',
  'project.run_scripts.gpt2xl_generation_baselines.test_run',
  'project.run_scripts.gpt2xl_generation_baselines.test_cache_repair',
+ 'project.run_scripts.gpt2xl_generation_baselines.test_registration',
  'project.run_scripts.gpt2xl_generation_baselines.test_collect',
  'project.run_scripts.gpt2xl_generation_baselines.test_submit',
  'project.run_scripts.gpt2xl_native_baselines.test_native',

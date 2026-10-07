@@ -104,7 +104,21 @@ Generation 진행률은 완료 경계 callback의 `generation_progress/step` 축
 독립 reviewer가 source/installed cache API와 CPU fixture68개를 검토해 old generation identity가 RPN identity에 잘못 연결된 제출 blocker를 찾았다. 정확 원 `BASE_MEMIT/generation/observer-identity.json` 결속으로 수리하고 실제 metadata regression을 추가했다. 수리 후 독립 CPU12개 PASS, 최종 owner CPU177개 검산을 수행했다. 실제 GPU/온라인 검증을 source/CPU PASS로 확대하지 않는다. 장기 완료 polling/heartbeat/자동 retry는 만들지 않는다.
 
 아래 내용은 원 parent attempt의 역사 기록이며 현재 repair의 성공/완료를 뜻하지 않는다.
-## 2026-10-08 직접 사용자 recall — R2 수리/재등록 준비
+## 2026-10-08 직접 사용자 recall — R2 수리/실제 재등록 완료
+
+R2 실행 source `bb86a6ca514a47bbad372efd9032f9a5962f0140`, config SHA `9fd213430f000ce86b7a7eb4b674eb97695f75ca5c616d8a03d48a4533c976c1`, lock SHA `cdd6bc672e33c13a71e3c2527b4cf9b5c53a3b87162a7c42c95b5bf0f17f6d35`. 전용 create-once attempt `/mnt/raid5/janghj/ODE-edit/local/gpt2xl-baselines-fluency-consistency-2k/20261007-v1/attempt-cache-repair-r2`. Original manual recall receipt SHA `f323e1a67f758a648dcf8fdc7313f203bcb068f5dfcb7f701d957d3cf1f2edf3`와 terminal reconciliation SHA를 source/config/lock/runtime/collector에 결속했다.
+
+| 역할 | 실제 R2 ID | 기술 afterok | 자원 afterany | bounded 상태 |
+|---|---|---|---|---|
+| MEMIT | 61167 | 없음 | 없음 | PENDING / ReqNodeNotAvail |
+| AlphaEdit | 61168 | 61167 | 없음 | PENDING / Dependency |
+| CAKE | 61169 | 61167 | 없음 | PENDING / Dependency |
+| AlphaEdit-BLUE | 61170 | 61167 | 61168 | PENDING / Dependency |
+| PRUNE | 61171 | 61167 | 61169 | PENDING / Dependency |
+| RECT | 61172 | 61167 | 61170 | PENDING / Dependency |
+| GPU0 collector | 61173 | 없음 | 새 여섯 GPU ID | PENDING / Dependency |
+
+전체7 exact owner/argv/script bytes/source/config/inputs/reference/resource/dependency-type held 검사 PASS 뒤 release 완료. Effective cap2/projected DAG width2, memory policy PASS, 기존 frozen archive/source/raw/실패비용 유지. 새 successor5개만 invalid-dependency terminalization flag를 결속했다. Primary/collector에는 적용0; 기존job 수정·취소0. GPU1/CPU8/65536MiB/48h 요청 및 CPUcollectorGPU0/8CPU/24576MiB/4h, ExportNONE/Requeue0이며 wall은 ETA가 아니다. 현재 실제 node 자원/예약 unavailable PENDING이므로 새 GPU qualification/비변이/W0 READY/성공한 실패지점 통과/W&B startup·metric·finish 및 W20은 아직 미관측이다. 별도 fit/pilot/모니터/자동retry0.
 
 사용자 원문 `fail 된거 다시 처리해`에 따라 기존 실패 attempt를 보존하고 새 create-once `attempt-cache-repair-r2`를 준비한다. R1 `61148..61153` 여섯 GPU job은 모두 FAILED, GPU0 collector61154는 종료 COMPLETED(과학 성공이 아닌 실패 요약)이며 exact active queue는 비어 있다. 추가 취소0, OURS/W0-only/FE/다른 프로젝트/타서버 작업 변경0. R1 GPU parent allocation 비용은 합계143 GPU-sec(82+12+12+12+13+12); 이전 취소 attempt의25533 GPU-sec와 별도로 보존한다. 모든 R1 native fit/solve/history/commit 건수0.
 
@@ -113,3 +127,5 @@ Generation 진행률은 완료 경계 callback의 `generation_progress/step` 축
 R1 실제 qualification은 최대8 고정 prompt에서 reference PASS→cached singleton의 logits/probability/token/metric 비교 통과, strict topk/mask/position 비교 FAIL이었다. 따라서 원 고정 fallback에 따라 no-cache reference MB1을 선택했다. Batch는 미실행이며 폭8 미검증이다. 이것이 W0 terminal failure 원인은 아니며 이를 cache/batch PASS로 바꾸거나 tolerance를 완화하지 않는다. NewR2 source에 같은 고정 PLAN/예산/tolerance를 결속해 첫 실제 allocation 내부에서 qualification하고, actual receipt/compatibility SHA 및 complete2000 READY를 다시 검산한다. 추가 과학 fit/pilot/모델·stats·P 다운로드나 재계산0.
 
 이번 직접 수동 recall에만 새 immutable authority/attempt를 결속한다. 원 nonce 중복 방어는 기본 그대로이며, 정확 prior R1 source/config/lock/7terminal IDs와 target R2를 대조한 명시 receipt가 없으면 재등록을 거절한다. 새 primary의 technical READY afterok와 자원 lane afterany를 구별해 head 실패 시 후속이 GPU를 할당받고 연쇄 실패하지 않게 한다. 품질 score/성능 gate/자동 retry가 아니다. 아래 R1 등록 시점의 PENDING 기록은 당시 snapshot으로 보존하며 현재 상태가 아니다.
+
+R2 최종 owner CPU192개 중190 PASS/2 SDK 의존 skip/실패0, 모델/GPU 초기화0. 독립 member9개 및 수동 재등록/DAG17개 검산 PASS, 별도 실제 GPU qualification은 아직 미수행이다. 새 후속5개에만 `--kill-on-invalid-dep=yes`를 요청하여 technical prerequisite가 실패해 영구 불가능하면 GPU 없이 terminal CANCELLED가 되며, collector는 새6개 afterany로 실패·부분 관측을 회수한다. Primary/collector/기존job에는 이 flag를 적용하지 않는다. 실제 설치된 sbatch parser/man과 CPU argv 검사로 옵션/AND dependency 의미를 확인했고 별도 Slurm smoke/GPU pilot은 만들지 않았다.
