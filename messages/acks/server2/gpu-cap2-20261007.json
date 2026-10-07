@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-ALL-SH-GPU-CAP2-20261007",
+  "nonce": "USER-GH-ALL-SH-GPU-CAP2-20261007-SERVER2",
+  "server": "server2",
+  "session": "01a0493a-074c-7f91-9a13-769116326fef",
+  "authority_commit": "6c8d36dec6e1ce4a7e92831b2619807f5c9b38f1",
+  "envelope_sha256": "fff5b0a8ca742b3e70c1269a1738354c4fd460650f2c80919198ffa7abb34068",
+  "canonical_policy_sha256": "fb36c85243cf6e1166a431f366efe4a0229942d880a1211a3c6d6bca0593f3a2",
+  "status": "FULL_READ_APPLIED",
+  "stage": "LOCAL_CAP2_CONFIRMED_AND_QUEUE_BOUND",
+  "effective_local_cap": 2,
+  "allocated_project_gpus_at_snapshot": 2,
+  "running_jobs": [
+    "60656",
+    "60657"
+  ],
+  "collector": "60658",
+  "pending_adjustments": [],
+  "note": "사용자 공통 cap2 적용 완료. 신규 admission에는 actual owner/source 합산 및 더 엄격한 task/물리 제한을 유지."
+}

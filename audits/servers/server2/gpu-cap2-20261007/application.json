@@ -1,0 +1,148 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-ALL-SH-GPU-CAP2-20261007",
+  "nonce": "USER-GH-ALL-SH-GPU-CAP2-20261007-SERVER2",
+  "server": "server2",
+  "session": "01a0493a-074c-7f91-9a13-769116326fef",
+  "authority_commit": "6c8d36dec6e1ce4a7e92831b2619807f5c9b38f1",
+  "envelope_sha256": "fff5b0a8ca742b3e70c1269a1738354c4fd460650f2c80919198ffa7abb34068",
+  "canonical_policy_sha256": "fb36c85243cf6e1166a431f366efe4a0229942d880a1211a3c6d6bca0593f3a2",
+  "boundary": {
+    "hostname": "server2",
+    "original_cwd": "/mnt/raid5/janghj/ODE-edit",
+    "worktree": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gpu-cap2-20261007",
+    "repository": "hyunjun1127/ODE-edit",
+    "origin": "https://github.com/hyunjun1127/ODE-edit.git",
+    "session_boundary": "PASS",
+    "owner": "janghj",
+    "duplicate_ack_found": false,
+    "protocol_sha256": "27639d190c7ac676c987f590e692bdad5e73c4eeb1f0091d02196686b27e93c4"
+  },
+  "snapshot": {
+    "date_kst": "2026-10-07",
+    "detail_time_kst_approx": "18:38:55",
+    "time_precision": "scheduler StartTime+RunTime에서 계산한 초 단위 근사값",
+    "resource_metadata_only": true,
+    "allocated_project_gpus": 2,
+    "project_cap": 2,
+    "legacy_overcap": false,
+    "server2_pending_gpu_jobs": 0,
+    "server2_pending_cpu_jobs": 1,
+    "max_existing_dag_gpu_width": 2,
+    "ownership": "UserId=janghj(1025), ReqNodeList/NodeList=server2, project Command/WorkDir 및 봉인 submission/lock 대조",
+    "jobs": [
+      {
+        "job_id": "60656",
+        "name": "gptj-easyedit-native-baselines-2k-BASE_MEMIT",
+        "state": "RUNNING",
+        "node": "server2",
+        "requested_gpus": 1,
+        "allocated_gpus": 1,
+        "cpu": 6,
+        "host_mib": 59392,
+        "current_dependency": null,
+        "original_dependency": "afterany:60652",
+        "command": "/mnt/raid5/janghj/ODE-edit/local/gptj-easyedit-native-baselines-2k/attempt-r1/BASE_MEMIT.sh",
+        "submission_sha256": "915f3d01e36b9c5e8a975776030216ca18bca320260bcfe1ad366a2d564d58ad",
+        "launcher_sha256": "a8a271c19b225509613550642c314c92199386451dddce9c487d5d7515f7ca70"
+      },
+      {
+        "job_id": "60657",
+        "name": "gptj-easyedit-native-baselines-2k-BASE_ALPHAEDIT",
+        "state": "RUNNING",
+        "node": "server2",
+        "requested_gpus": 1,
+        "allocated_gpus": 1,
+        "cpu": 6,
+        "host_mib": 59392,
+        "current_dependency": null,
+        "original_dependency": "afterany:60652",
+        "command": "/mnt/raid5/janghj/ODE-edit/local/gptj-easyedit-native-baselines-2k/attempt-r1/BASE_ALPHAEDIT.sh",
+        "submission_sha256": "fb8e6fa81a7d162d09e9f62a786e0468286d60dfae7f8774f0121d7c2f133d1b",
+        "launcher_sha256": "a323d9327aded922514b395665caf04cd134589645695e7ec6cfc752279fb353"
+      },
+      {
+        "job_id": "60658",
+        "name": "gptj-easyedit-native-baselines-2k-collector",
+        "state": "PENDING",
+        "reason": "Dependency",
+        "requested_node": "server2",
+        "requested_gpus": 0,
+        "allocated_gpus": 0,
+        "cpu": 6,
+        "host_mib": 24576,
+        "dependency": "afterany:60656:60657",
+        "command": "/mnt/raid5/janghj/ODE-edit/local/gptj-easyedit-native-baselines-2k/attempt-r1/collector.sh",
+        "submission_sha256": "70acefc471e18258757291a3a471c3dcdea93ddf245463e9f44702d06f23b862",
+        "launcher_sha256": "d9403471687ec2bcba8a0f29cbf2f762d9a994c34c8b87289436c355938abcee"
+      }
+    ],
+    "excluded_other_node_pending_records": 9,
+    "exclusion_evidence": "동일 owner의 나머지 PENDING 9건은 ReqNodeList=server4. Server2 합산에서 제외했고 변경하지 않았다.",
+    "scheduler_mutations": [],
+    "science_or_progress_read": false
+  },
+  "source_binding": {
+    "root": "/mnt/raid5/janghj/ODE-edit/local/gptj-easyedit-native-baselines-2k/attempt-r1",
+    "execution_source": "56d3a445553b60bf1a5e33f0e820e0699364ba0b",
+    "source_tree": "ad8b798ae8a282aaa30b14711a72547a6fe37406",
+    "config_sha256": "a9ff4078e0839adcee07ce3ece0c26ed1d6f0d9ff71fadfd69dc203f1866decf",
+    "lock_sha256": "9c5bc040deb42f0e6dc66136edf49c5ab37e576cc25ca4feb71e2a36da7d8839",
+    "old_lock_project_cap": 2,
+    "native_combined_task_cap": 2,
+    "per_job_gpu_limit": 1,
+    "frozen_source_changed": false
+  },
+  "local_caps": {
+    "row": "server2\tserver2\t2\t60416\todeedit_*,odealloc_*",
+    "sha256": "c3f8721feb735f601afca890b13155a2889537319032b084f82b96438eeabdd2",
+    "root_action": "ALREADY_2_UNCHANGED",
+    "created_ignored_configs": [
+      "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gpu-cap2-20261007/servers/local/gpu-caps.tsv",
+      "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-base-model-gptj-w0-cohort-curves/servers/local/gpu-caps.tsv",
+      "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-easyedit-native-baselines-2k/servers/local/gpu-caps.tsv"
+    ],
+    "node": "server2",
+    "memory_ceiling_mib_per_gpu": 60416,
+    "patterns_preserved": true,
+    "other_rows_changed": false,
+    "scope": "원 root와 현재 W0/native admission 전용 WT만. 과거 STOP/봉인 runtime는 변경하지 않았다."
+  },
+  "admission": {
+    "effective_project_cap": 2,
+    "stricter_task_limits_preserved": true,
+    "additional_immediate_gpu_headroom_at_snapshot": 0,
+    "pending_adjustment": "NOT_REQUIRED",
+    "job_name_pattern_miss": [
+      "60656",
+      "60657"
+    ],
+    "pattern_only_helper_sufficient": false,
+    "counting_override": "실제 owner/source/submission으로 2GPU 합산. pattern-only helper의 0을 채택하지 않으며 다음 admission도 fresh owner/source binding 필요.",
+    "generic_helper_changed": false
+  },
+  "checks": {
+    "cpu_mock_source": "scripts/tests/test_gpu_concurrency_policy.sh",
+    "source_sha256": "00051f76b2a40e3e365f20c771e78c3a3d7fa72eeba6fc025a0bba96393ea998",
+    "execution": "bash scripts/tests/test_gpu_concurrency_policy.sh",
+    "result": "PASS",
+    "checks": 19,
+    "real_scheduler_calls_in_mock": false,
+    "review": "OWNER_SCOPED_AUDIT",
+    "explorer_role": "READ_ONLY_SOURCE_EVIDENCE_LOOKUP",
+    "independent_red": false
+  },
+  "preservation": {
+    "new_jobs": 0,
+    "cancelled_jobs": 0,
+    "requeue": 0,
+    "model_or_gpu_compute": 0,
+    "new_wandb_runs": 0,
+    "checkpoint_saved": false,
+    "scientific_source_config_raw_unchanged": true,
+    "root_dirty_preserved": true,
+    "artifact_broadcast": "NO_BROADCAST_NOT_REQUIRED",
+    "monitoring_active": false,
+    "automatic_resume": false
+  }
+}

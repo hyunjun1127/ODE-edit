@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "parent_instruction": "USER-GH-SH1-GPT2XL-CAKE-BLUE-2K-20261007-R1",
+  "authority": "Latest direct USER in owner thread before any source freeze or submission",
+  "user_exact": "blue는 alphaedit blue를 사용하자",
+  "effective_arms": ["CAKE", "ALPHAEDIT_BLUE"],
+  "superseded_selection": "MEMIT_BLUE only; no third arm",
+  "native": "BLUE AlphaEdit/AlphaEdit_main.py apply_AlphaEdit_to_model; hparams/AlphaEdit/gpt2-xl-blue.json",
+  "P": "Read-only prepared L13..17 stack, RAM select physical slots [0,4] for native local L13/L17 indexing",
+  "H": "Native two-layer RAM H carry; no extra history append",
+  "original_contract_preserved": true,
+  "existing_jobs_mutated": false,
+  "scientific_budget_and_resource_scope_unchanged": true
+}
