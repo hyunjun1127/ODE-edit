@@ -1,0 +1,24 @@
+{
+  "nonce": "USER-GH-SH2-GPTJ-EASYEDIT-NATIVE-BASELINES-2K-20261007-R1",
+  "task_id": "gptj-easyedit-native-baselines-2k",
+  "owner": "server2",
+  "session": "01a0493a-074c-7f91-9a13-769116326fef",
+  "actual_host": "server2",
+  "cwd": "/mnt/raid5/janghj/ODE-edit",
+  "origin": "hyunjun1127/ODE-edit",
+  "status": "SUBMISSION_HANDOFF_MONITORING_PAUSED",
+  "jobs": {
+    "MEMIT": "60656",
+    "AlphaEdit": "60657",
+    "collector": "60658"
+  },
+  "source": "56d3a445553b60bf1a5e33f0e820e0699364ba0b",
+  "initial_snapshot": "PENDING after held inspection and release; not a later scheduler observation",
+  "WandB": "NEW_ID_AT_RUNTIME_STARTUP_NOT_OBSERVED",
+  "actual_GPU_validation": "NOT_OBSERVED",
+  "monitoring_active": false,
+  "automatic_retry": false,
+  "save_checkpoints": false,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "root_dirty_preserved": true
+}
