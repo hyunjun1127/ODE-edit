@@ -6,6 +6,10 @@
   "owner_server": "server1",
   "worker_claimable": false,
   "authority_envelope": "messages/head/2026-10-07-baseline-fluency-consistency-rerun-server1.json",
-  "status": "AUTHORIZED_AWAITING_DIRECT_OWNER_ACK",
+  "status": "ASSIGNED_DIRECT_OWNER_ACCEPTED",
+  "owner_accepted_turn": "01a11630-4200-72f3-89b8-6ddc96cbe801",
+  "actual_stage_at_handoff": "PREPARING_NOT_SUBMITTED",
+  "authority_commit": "b0cee1a302c10d48e206a31c7c5cf318ac36d8c3",
+  "delivery_receipt": "audits/global/2026-10-07-baseline-fluency-consistency-rerun/delivery.json",
   "completion": "Own factual source/config/cancel+submission+W20 report or policy-only adoption, per envelope. GPU completion not required for GH handoff."
 }
