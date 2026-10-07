@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "task_id": "gpt2xl-baselines-fluency-consistency-2k",
+  "nonce": "USER-GH-SH1-SH2-SH4-BASELINE-GENERATION-REGISTER-RESUME-20261007-R1",
+  "reviewer": "cake_blue_red",
+  "status": "PASS_NO_PUBLICATION_BLOCKER",
+  "scope": "Six changed compact audit/run/ack/status/server-head/report deliverables versus immutable own local registration/submission/held/release/lock/config/resource/tracking identity receipts",
+  "reviewed_compact_bytes": 30181,
+  "actual_ID_and_DAG_binding": "60928..60934 exact PASS",
+  "held_resources_and_release": "ALL7_PASS; each GPU1/collectorGPU0/CPU8/64GiB or24GiB/exportNONE/Requeue0",
+  "cap_DAG": "cap2/width2 PASS",
+  "science_control_and_config_lock": "science6bc516/control4f068/config9738bb/lockec7fa exact PASS",
+  "remote_startup": "Supported by own identity receipt and frozen worker sdk.Api.run remote name/job/fullconfig check before READY_ONLINE",
+  "not_claimed": ["metric_finish_readback", "B1_commit_next_entry", "science_completion"],
+  "privacy": "No credential/raw prompt/token/per-case ID/large tensor assets in compact publication",
+  "historical_failure_preserved": true,
+  "snapshot_semantics": "Owner timestamped bounded snapshot, not re-observed by reviewer",
+  "reviewer_scheduler_network_GPU_newlog_queries": 0,
+  "reviewer_file_edits": 0,
+  "diffcheck": "PASS"
+}

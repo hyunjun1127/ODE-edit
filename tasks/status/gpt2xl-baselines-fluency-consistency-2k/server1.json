@@ -1,1 +1,98 @@
-{"schema":1,"instruction_id":"USER-GH-ALL-SH-BASELINE-FLUENCY-CONSISTENCY-RERUN-20261007-R1","task_id":"gpt2xl-baselines-fluency-consistency-2k","server":"server1","session":"01a04939-f93a-7b50-bca0-65438eab2062","status":"REGISTRATION_BLOCKED_SCHEDULER_STORAGE","accepted":true,"actual_cwd":"/mnt/raid5/janghj/ODE-edit","dedicated_worktree":"/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-gpt2xl-baselines-fluency-consistency-2k","source_commit":"6bc51602632b5a2dfb4c832479002b30b604b8eb","shared_source_commit":"83535c6a47c552cc4e5c6385f3a587d752820150","jobs":{},"source_frozen":true,"CPU":{"tests":154,"passed":152,"skipped":2,"failed":0},"GPU_method_generation":"NOT_RUN","W_B":"NOT_STARTED","cancelled_jobs":["60759","60741","60758","60757","60740"],"terminal_retained":["60150","60151","60152","60739"],"OURS_W0_assets_other_tasks_mutated":false,"blocker":"/ available0; Slurm controller cannot persist submitted script/env","automatic_retry":false,"monitoring":false,"checkpoint_saved":false,"raw_preserved":true,"receipt":"audits/servers/server1/gpt2xl-baselines-fluency-consistency-2k/registration-block.json"}
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-ALL-SH-BASELINE-FLUENCY-CONSISTENCY-RERUN-20261007-R1",
+  "task_id": "gpt2xl-baselines-fluency-consistency-2k",
+  "server": "server1",
+  "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+  "status": "SUBMITTED_RELEASED_INITIAL_HANDOFF",
+  "accepted": true,
+  "actual_cwd": "/mnt/raid5/janghj/ODE-edit",
+  "dedicated_worktree": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-gpt2xl-baselines-fluency-consistency-2k",
+  "source_commit": "6bc51602632b5a2dfb4c832479002b30b604b8eb",
+  "shared_source_commit": "83535c6a47c552cc4e5c6385f3a587d752820150",
+  "jobs": {
+    "BASE_MEMIT": "60928",
+    "BASE_ALPHAEDIT": "60929",
+    "CAKE": "60930",
+    "ALPHAEDIT_BLUE": "60931",
+    "PRUNE": "60932",
+    "RECT": "60933",
+    "collector": "60934"
+  },
+  "source_frozen": true,
+  "CPU": {
+    "tests": 154,
+    "passed": 152,
+    "skipped": 2,
+    "failed": 0
+  },
+  "GPU_method_generation": "60928 RUNNING; B1/generation/science completion NOT_OBSERVED",
+  "W_B": "60928 REMOTE_STARTUP_IDENTITY_CONFIG_VERIFIED; remaining runs/metric finish NOT_OBSERVED",
+  "cancelled_jobs": [
+    "60759",
+    "60741",
+    "60758",
+    "60757",
+    "60740"
+  ],
+  "terminal_retained": [
+    "60150",
+    "60151",
+    "60152",
+    "60739"
+  ],
+  "OURS_W0_assets_other_tasks_mutated": false,
+  "blocker": null,
+  "automatic_retry": false,
+  "monitoring": false,
+  "checkpoint_saved": false,
+  "raw_preserved": true,
+  "receipt": "audits/servers/server1/gpt2xl-baselines-fluency-consistency-2k/registration-resume-r1.json",
+  "registration_recall": "USER-GH-SH1-SH2-SH4-BASELINE-GENERATION-REGISTER-RESUME-20261007-R1",
+  "registration_control_commit": "4f068a938a5cce16ac999bb6daa4b583fb5a71ab",
+  "held": "PASS_ALL7",
+  "released": true,
+  "previous_status": {
+    "schema": 1,
+    "instruction_id": "USER-GH-ALL-SH-BASELINE-FLUENCY-CONSISTENCY-RERUN-20261007-R1",
+    "task_id": "gpt2xl-baselines-fluency-consistency-2k",
+    "server": "server1",
+    "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+    "status": "REGISTRATION_BLOCKED_SCHEDULER_STORAGE",
+    "accepted": true,
+    "actual_cwd": "/mnt/raid5/janghj/ODE-edit",
+    "dedicated_worktree": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-gpt2xl-baselines-fluency-consistency-2k",
+    "source_commit": "6bc51602632b5a2dfb4c832479002b30b604b8eb",
+    "shared_source_commit": "83535c6a47c552cc4e5c6385f3a587d752820150",
+    "jobs": {},
+    "source_frozen": true,
+    "CPU": {
+      "tests": 154,
+      "passed": 152,
+      "skipped": 2,
+      "failed": 0
+    },
+    "GPU_method_generation": "NOT_RUN",
+    "W_B": "NOT_STARTED",
+    "cancelled_jobs": [
+      "60759",
+      "60741",
+      "60758",
+      "60757",
+      "60740"
+    ],
+    "terminal_retained": [
+      "60150",
+      "60151",
+      "60152",
+      "60739"
+    ],
+    "OURS_W0_assets_other_tasks_mutated": false,
+    "blocker": "/ available0; Slurm controller cannot persist submitted script/env",
+    "automatic_retry": false,
+    "monitoring": false,
+    "checkpoint_saved": false,
+    "raw_preserved": true,
+    "receipt": "audits/servers/server1/gpt2xl-baselines-fluency-consistency-2k/registration-block.json"
+  }
+}

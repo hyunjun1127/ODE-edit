@@ -1,6 +1,32 @@
 # GPT2-XL native baseline generation rerun 사실보고
 
-상태: **구현/CPU 검산/immutable source freeze 완료, 실제 Slurm 등록은 저장공간 오류로 차단**. 신규 job ID 없음, held 검사·release 미실행, 새 GPU 관측·W&B run·generation W0 미실행. ACK/CPU PASS를 실행 완료로 쓰지 않는다.
+현재 상태: **USER recall 후 실제 여섯 baseline + CPU collector 등록·held 검산·release 완료**. Bounded snapshot에서 MEMIT60928 RUNNING, 나머지 정상 Dependency PENDING이다. 실험 완료·B1 commit/다음 entry·metric 전체 전송은 아직 미관측이며 기다리지 않았다.
+
+## 등록 재개 실제 근거
+
+Recall nonce `USER-GH-SH1-SH2-SH4-BASELINE-GENERATION-REGISTER-RESUME-20261007-R1`, authority `6d6e2fdb531ecb3d6e5bc98db0f188001c6a7aa0`, envelope SHA `43099367d76e1f8a2b57b539c4a18aa17351e2194885db70e3516af19464fc16`. Direct owner ACK 후 현재 queue/accounting/로컬 제출 receipt를 exact task로 대조했고 이전 등록 없음이 확인됐다. 이번 recall에서 등록 pass1회만 수행했다. 새 attempt `local/gpt2xl-baselines-fluency-consistency-2k/20261007-v1/attempt-register-r1`; 원 attempt-v1/source/raw/error는 그대로 보존했다.
+
+과학 source `6bc51602632b5a2dfb4c832479002b30b604b8eb`와 archive SHA `e502cb6a9e2e259aa074944dc834047a49a730750b7f404e90553ad5190f3fa9`, source332개는 bytes/SHA 동일하다. 등록-control source `4f068a938a5cce16ac999bb6daa4b583fb5a71ab`를 별도 결속했다. Config 변경은 attempt/run_instance/registration_recall뿐이다. 새 lock SHA `ec7fa67067edaff39586dab674f72bf393ccb77e9dce54e9f11ea86c81fbe62f`, config SHA `9738bb2a05f28cff347f260789d32db667d6bcb542142a5e9c4528f8e13cb4f2`. Shared reference READY/manifest/API도 원 SHA 그대로이다.
+
+| Baseline | 실제 job | afterany dependency | bounded 초기 상태 |
+|---|---|---|---|
+| MEMIT | 60928 | 없음 | RUNNING/devbox |
+| AlphaEdit | 60929 | 60928 | PENDING/Dependency |
+| CAKE | 60930 | 60928 | PENDING/Dependency |
+| AlphaEdit-BLUE | 60931 | 60929 | PENDING/Dependency |
+| PRUNE | 60932 | 60930 | PENDING/Dependency |
+| RECT | 60933 | 60931 | PENDING/Dependency |
+| GPU0 CPU collector | 60934 | 신규60928–60933 모두 | PENDING/Dependency |
+
+등록 직전 own GPU allocation/admitted queue0, 실제 신규 DAG width2/cap2 및 prerelease width2를 검산했다. Fresh root available1214976000B/RAID1438857592832B/inodes335305128. Node devbox/partition gpu/QoS lab_gpu_s1, 각GPU1/CPU8/65536MiB/48h request, collectorGPU0/CPU8/24576MiB/4h, exportNONE/Requeue0. 전체7 owner/fullargv/script bytes/source/input/resource/dependency held 검사 PASS 후 역순 release 모두 성공. 이전 취소 ID는 새 dependency에 없다. OURS/W0/타task 신규 취소·변경0.
+
+기존 CPU154개 증거를 재사용했고, 등록-only CPU10개 PASS 및 실제 frozen production `run.locked` PASS(모델 load/native fit0). 독립 reviewer는 adapter/source332/archive/READY/configdiff/one-pass/cap/privacy 검토와 추가 metadata CPU5개 PASS를 수행했으며 scheduler/network/model 조회는 하지 않았다. Scientific source/GPU qualification을 새로 실행하거나 기존 method 계수를 바꾸지 않았다.
+
+MEMIT [W&B run](https://wandb.ai/wkdguswns2256/layer%20allocation/runs/83b85657a45c4673)의 startup remote API에서 run ID/name=`server1-BASE_MEMIT-attempt-register-r1-job60928`, Config.job_id60928/step_id=-5 및 source/config/model/schema identity 일치를 검증한 own receipt가 생성됐다. 상태 READY_ONLINE은 여기서는 원 worker의 bounded remote identity/config 검산을 포함한다. Metric 전체/finish readback과 scientific completion은 **미관측**이며 다른 arm W&B는 아직 미시작이다. No recurring monitor/heartbeat/auto retry, sealed runner/collector는 원20batch를 자연 진행한다. Compact 상세 근거는 `audits/servers/server1/gpt2xl-baselines-fluency-consistency-2k/registration-resume-r1.json`.
+
+## 이전 parent 수행 기록 — 역사 보존
+
+아래의 미등록/저장공간 차단은 **이전 attempt-v1 당시 상태**이며 현재 등록 상태가 아니다. 원 실패/원 source/비용/receipt를 보존한다.
 
 ## 권한과 경계
 
