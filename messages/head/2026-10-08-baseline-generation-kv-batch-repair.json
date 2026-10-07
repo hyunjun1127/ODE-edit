@@ -47,7 +47,7 @@
     "rebuild": "취소된 옛 IDs를 새 afterany에 남기지 않는다. 새 immutable attempt/source/config/lock과 새 여섯 IDs/collector를 봉인한다. 무관한 기존 OURS 등 실제 현재 resource frontier는 필요한 정확한 dependency로 보존한다. old archive hotpatch0.",
     "scope": "MEMIT/PRUNE/RECT/AlphaEdit/AlphaEdit-BLUE/CAKE 각 fixedfirst2000 BS100x20. 과학 방법·계수·native 입력·FP32/FP64·편집 예산·RPN/TF/NLL 정의 변경0. 추가 fit/작은B 편집 pilot/성능 tuning0."
   },
-  "implementation_order": ["cached unpadded singleton qualification", "equal-token-length KV batch qualification", "기존 W0 호환 reader·progress·caller·collector 연결", "새 모델별 qualification/source/config/input/reducer 봉인", "six GPU+CPU collector 전량 held 검사/release"],
+  "implementation_order": ["cached singleton→equal-token-length batch 구현 및 CPU 검산", "기존 W0 호환 reader·progress·caller·collector 연결", "새 source/config/input/reducer 및 실제 qualification PLAN 봉인", "six GPU+CPU collector 전량 held 검사/release", "cap 내 첫 replacement job에서 singleton→batch 실제 qualification·불변 receipt 생성 뒤 W0/main 진행"],
   "generation": {
     "cache": "full prompt prefill 한 번, 이후 새 token 한 개/query. 누적 cache+query attention mask와 native position_ids/cache_position을 모델별로 맞춘다. KV는 call 안 임시 RAM 상태이며 model config/hook/buffer를 영구 수정하지 않는다.",
     "batch": "같은 unpadded input token 길이만 bucket. 기본 maxMB8, memory admission 부족이면 사전 qualification한 고정 MB4. tail은 작은 MB 허용. production 중 OOM 자동 retry/score 기반 route 선택 없음.",
@@ -58,6 +58,7 @@
     "metrics": "CAKE entropy/TF-IDF/참조 선택/분모/결측 이유 및 cohort를 유지. bitwise 동일성·가속률·ETA를 검증 전에 주장하지 않는다."
   },
   "qualification": {
+    "plan_vs_actual_receipt": "제출 전에는 plan SHA/cohort/tolerance/allowed route/MB8·MB4 fallback 규칙을 봉인한다. 아직 없는 actual receipt를 config에 넣거나 held 검사에서 실제 PASS를 주장하지 않는다. runtime의 불변 actual qualification receipt가 selected route/fixedMB/결과/실측비용을 기록하고, W0 READY·compatibility manifest가 그 SHA를 결속하며 후속 reader/collector가 verify한다. source/config hotpatch0. 이 구분은 원 direct 전달문에도 명시했다.",
     "lock_before_test": "아래 cohort와 허용값을 실제 측정 전에 config/hash로 고정한다. 결과를 보고 허용값을 완화하지 않는다.",
     "cohort": "model별 최대8 고정 prompt. fixedfirst2000 generation_prompts의 token 길이만으로 같은 길이 group/짧은·긴 입력/100 경계를 결정적으로 선택한다. 선택 ID는 local만. actual coverage가 부족하면 CPU fixture 검사와 미검증 범위를 구별하고 그 route를 미검증으로 생산 사용하지 않는다.",
     "work": "동일 최대8 prompt에서 reference/cached singleton/chosen batch 경로 각1회 측정. fit/편집 commit0. trace로 동일 forced prefix full-vocab logits/topk 확률/mask/position을 비교한다. 별도 대규모 benchmark·pilot 없음.",

@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH1-SH2-BASELINE-GENERATION-KV-BATCH-REPAIR-20261008-R1",
+  "date_kst": "2026-10-08",
+  "initial_dispatch_authority": "66cddb8fa9c09e475f0ae3f423635091c6a71e3d",
+  "initial_envelope_sha256": "6902af1cb866fde3e6e01a0cd21cac7642db9c20de1bbdb86d18d72646371546",
+  "GH_boundary": "PASS exact GH session/CWD/origin; dirty root preserved, dedicated clean WT only",
+  "existing_source_inspection": {
+    "shared_generation": "83535c6a; unpadded singleton full-prefix no-cache, row seed and score definitions read",
+    "reuse_constraint": "source/route-bound runtime and single-runtime reader/collector require explicit provenance compatibility, not use_cache-only mutation",
+    "progress_constraint": "observer exposes no progress; fit callback is distinct; update caller and route-aware work counters together"
+  },
+  "delegated_readonly_reviews": {
+    "generation_API_scope": "generator/observer/readers/collector/seed/accounting exact files and old partial-row constraints inspected; no remote calls or code changes",
+    "baseline_DAG_scope": "published SH1 60928..60934 and SH2 60909..60915 exact methods/deps/source inspected; published historical facts only, not current state",
+    "focused_envelope_review": "No BLOCK. WARN resolved by distinguishing frozen pre-submit qualification PLAN from immutable runtime ACTUAL receipt; clarification included original direct delivery prompt and canonical envelope."
+  },
+  "predeclared_technical_bounds": {
+    "actual_prompts_max_per_model": 8,
+    "logits_atol_rtol": [0.0002, 0.0002],
+    "topk_probability_atol_rtol": [0.00002, 0.0002],
+    "metric_atol": 0.000001,
+    "tokens_counts_mapping_state_rng": "exact qualification gates; failure recorded, no posthoc tolerance relaxation",
+    "measured_GPU_or_speedup_PASS": false
+  },
+  "policy_caps": {"server1": 2, "server2": 2, "server3": 1, "server4": 2},
+  "scope": "SH1/GPT2 and SH2/GPTJ existing generation-enabled six baselines only. Parent science/hparams/RPN inputs unchanged. Exact cancellation downstream-first, fresh IDs/source and noCP.",
+  "GH_scheduler_calls_or_mutations": 0,
+  "SH3_SH4_contact": false,
+  "monitoring_or_automatic_retry_created": false,
+  "dispatch_precondition": "Published exact authority/SHA attested by GH; one bounded official direct transport per owner. Parent verifies owner ACK separately from code/submission/qualification/W20."
+}

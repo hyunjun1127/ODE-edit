@@ -7,7 +7,11 @@
   "owner_server": "server1",
   "worker_claimable": false,
   "authority_envelope": "messages/head/2026-10-08-baseline-generation-kv-batch-repair.json",
-  "status": "AUTHORIZED_AWAITING_DIRECT_OWNER_ACK",
+  "status": "ASSIGNED_DIRECT_OWNER_ACCEPTED",
+  "owner_accepted_turn": "01a1180b-d980-7291-bd19-58b92b002daf",
+  "authority_commit": "66cddb8fa9c09e475f0ae3f423635091c6a71e3d",
+  "delivery_receipt": "audits/global/2026-10-08-baseline-generation-kv-batch-repair/delivery.json",
+  "actual_stage_at_handoff": "수락/현재 exact 상태·source 확인 착수. 취소·구현·새등록 증거 아직 미수신.",
   "scope": "공통 cached/batched generator·호환성/progress 및 GPT2 caller/collector 최소 repair, 정확 old baseline DAG 처리 후 승인 six2k 재등록",
   "job_ids": [],
   "completion": "actual cancellation/source/qualification/new DAG 및 bounded handoff. GH owner ACK 회수는 GPU/W20 완료가 아니다."

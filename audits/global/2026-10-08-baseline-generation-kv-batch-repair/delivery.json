@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH1-SH2-BASELINE-GENERATION-KV-BATCH-REPAIR-20261008-R1",
+  "date_kst": "2026-10-08",
+  "authority_commit": "66cddb8fa9c09e475f0ae3f423635091c6a71e3d",
+  "initial_envelope_sha256": "6902af1cb866fde3e6e01a0cd21cac7642db9c20de1bbdb86d18d72646371546",
+  "clarified_envelope_sha256": "32f52ab0b884ef3b4bb83141d5a20fe3e6883db25f6235399bda202ddaac75ce",
+  "clarification": "qualification PLAN 사전봉인과 실제 runtime 불변 receipt를 분리한다는 해석을 원래 direct prompt에 포함했고, 동일 해석을 정본에 명문화했다. source/config hotpatch나 actual PASS 선주장0.",
+  "status": "DIRECT_OWNER_ACCEPTED_2_OF_2",
+  "transport": "공식 app-server exact session/CWD read/resume→idle turn/start→명시 owner ACK. parent가 게시 commit/SHA를 확인했고 transport는 동일 canonical bytes를 검산했다. model/effort override0.",
+  "local_receipt": {
+    "path": "local/baseline-fluency-consistency-dispatch/cache-repair-dispatch-66cddb8f.json",
+    "sha256": "454adbc19eb86a372e26b238926c58506be8704050b240634eed8e58829a44ea",
+    "elapsed_seconds": 71.043,
+    "raw_local_only": true
+  },
+  "owners": [
+    {
+      "server": "server1",
+      "model": "gpt2xl",
+      "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+      "cwd": "/mnt/raid5/janghj/ODE-edit",
+      "accepted_turn": "01a1180b-d980-7291-bd19-58b92b002daf",
+      "task_id": "gpt2xl-baselines-generation-cache-repair",
+      "explicit_ACK": "OWNER_ACK nonce=USER-GH-SH1-SH2-BASELINE-GENERATION-KV-BATCH-REPAIR-20261008-R1 server=server1 session=01a04939-f93a-7b50-bca0-65438eab2062 accepted=true authority=66cddb8fa9c09e475f0ae3f423635091c6a71e3d",
+      "owner_report": "동일 repair 등록 여부와 기존 baseline의 현재 소유·source·상태를 먼저 확인하겠습니다. 정확히 영향받은 후속부터 중단한 뒤, cached singleton 검증 계획과 batching 수리를 봉인해 교체 등록까지 진행하겠습니다.",
+      "stage_at_bounded_handoff": "ACCEPTED_CURRENT_STATE_SOURCE_RECONCILIATION",
+      "actual_cancellation_receipt_received": false,
+      "replacement_job_ids_received": [],
+      "turn_completed_observed": false
+    },
+    {
+      "server": "server2",
+      "model": "gptj",
+      "session": "01a0493a-074c-7f91-9a13-769116326fef",
+      "cwd": "/mnt/raid5/janghj/ODE-edit",
+      "accepted_turn": "01a1180b-78f1-7012-b59b-38b542b16632",
+      "task_id": "gptj-baselines-generation-cache-repair",
+      "explicit_ACK": "OWNER_ACK nonce=USER-GH-SH1-SH2-BASELINE-GENERATION-KV-BATCH-REPAIR-20261008-R1 server=server2 session=01a0493a-074c-7f91-9a13-769116326fef accepted=true authority=66cddb8fa9c09e475f0ae3f423635091c6a71e3d",
+      "owner_report": "기존 여섯 baseline과 collector의 현재 소유·source·상태를 확인한 뒤 후속부터 중단하겠습니다. 원 관측·비용은 보존하고, SH1 공통 수리 source와 GPT-J qualification 계획을 결속해 replacement DAG 등록까지 진행하겠습니다.",
+      "stage_at_bounded_handoff": "ACCEPTED_CURRENT_STATE_SOURCE_RECONCILIATION",
+      "actual_cancellation_receipt_received": false,
+      "replacement_job_ids_received": [],
+      "turn_completed_observed": false
+    }
+  ],
+  "execution_meaning": "수락 ACK는 실제 직접 담당 배정의 증거다. 아직 현재 W0/commit 상태·취소 완료·구현 완료·새 Slurm등록·actual GPUqualification·W20 완료를 증명하지 않는다. owner는 추가 승인 대기 없이 원 scope대로 계속 진행한다.",
+  "approved_work": "cached singleton→동장 bucket KV MB8/사전 MB4, 기존 row RNG 및 점수 유지, 명시 W0 provenance 호환성, 부분 progress 분리, caller/collector/source lock과 후속 dependency까지 교체",
+  "caps": {"server1": 2, "server2": 2},
+  "SH3_SH4_contacted": false,
+  "GH_scheduler_or_scientific_writes": 0,
+  "duplicate_direct_dispatch": 0,
+  "protected": "OURS/PRICE/W0-only/FE/setup/model/stats/P/다른 서버·task 및 이전 source/raw/비용/W&B run",
+  "monitoring": "bounded owner ACK 인계 종료. 새 recurring monitor/heartbeat/autoretry 및 GPU완료 대기0."
+}
