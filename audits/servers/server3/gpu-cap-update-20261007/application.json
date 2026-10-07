@@ -1,0 +1,111 @@
+{
+  "schema": 1,
+  "nonce": "USER-GH-SH3-SH4-GPU-CAPS-1-3-20261007-R1-SERVER3",
+  "task_id": "server3-cap1-server4-cap3",
+  "server": "server3",
+  "host": "ubuntu",
+  "owner": "janghj",
+  "session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+  "authority_commit": "f0cd42a2821228b470a735386e08ae0340b0e0a1",
+  "status": "APPLIED_CAP1_NO_QUEUE_ADJUSTMENT",
+  "effective_project_cap": 1,
+  "supersedes": "USER-GH-ALL-SH-GPU-CAP2-20261007-SERVER3",
+  "historical_cap2_publication": "b77927d3350310d546ae4223641ecb5a7acdb136",
+  "allocated_project_GPUs": 0,
+  "own_pending_jobs": 0,
+  "pending_maximum_concurrency": 0,
+  "own_job_ids": [],
+  "snapshot_time": "2026-10-07T09:42:02.278954+00:00",
+  "scheduler_mutations": 0,
+  "new_submissions": 0,
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "task_caps": "min(project1, task limit, physical/Slurm limit); STOP unchanged",
+  "report": "experiment-reports/servers/server3/gpu-cap-update-20261007/report-ko.md",
+  "local_changes": [
+    {
+      "path": "/data/janghj/ODE-edit/servers/local/gpu-caps.tsv",
+      "before": "server3\tubuntu\t2\t121856\todeedit_*,bfode_*,motivation_*,session01_*,project_*\n",
+      "after": "server3\tubuntu\t1\t121856\todeedit_*,bfode_*,motivation_*,session01_*,project_*\n",
+      "before_sha256": "5228d87f9297384e2538a6a6954b20ea8246524f40f0f6d8604ec98889b4a516",
+      "after_sha256": "f22e7cd42a09b6229492180680318d80985bdeb4f49e455cba36b875d93ba7b6"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/gpu-cap2-20261007/worktree/servers/local/gpu-caps.tsv",
+      "before": "server3\tubuntu\t2\t121856\todeedit_*,bfode_*,motivation_*,session01_*,project_*\n",
+      "after": "server3\tubuntu\t1\t121856\todeedit_*,bfode_*,motivation_*,session01_*,project_*\n",
+      "before_sha256": "5228d87f9297384e2538a6a6954b20ea8246524f40f0f6d8604ec98889b4a516",
+      "after_sha256": "f22e7cd42a09b6229492180680318d80985bdeb4f49e455cba36b875d93ba7b6"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/gpu-cap-update-20261007/worktree/servers/local/gpu-caps.tsv",
+      "created": true,
+      "after": "server3\tubuntu\t1\t121856\todeedit_*,bfode_*,motivation_*,session01_*,project_*\n",
+      "after_sha256": "f22e7cd42a09b6229492180680318d80985bdeb4f49e455cba36b875d93ba7b6"
+    }
+  ],
+  "authorities": [
+    {
+      "path": "messages/head/2026-10-07-server3-cap1-server4-cap3.json",
+      "bytes": 4951,
+      "sha256": "84253cae5486034f3a3c412cfe373d691ce74f48ba24a8c76b3514205c791728",
+      "read_status": "FULL_READ"
+    },
+    {
+      "path": "control/gpu-concurrency-policy.tsv",
+      "bytes": 1739,
+      "sha256": "d7e10c0a743df6dda934fee16883c769364e6b5b0394c113cd422e79c66c71b3",
+      "read_status": "FULL_READ"
+    }
+  ],
+  "checks": {
+    "boundary": "PASS",
+    "canonical_unique_rows": "PASS",
+    "CPU_mock_checks": 19,
+    "CPU_mock_result": "PASS",
+    "helper_snapshot_replay": [
+      {
+        "requested": 1,
+        "exit_code": 0,
+        "stdout": "ALLOW server=server3 node=ubuntu job_patterns=* active_project_gpus=0 requested_gpus=1 cap=1 decision=submit_now",
+        "mode": "CPU_REPLAY_OF_EMPTY_OWN_NODE_SNAPSHOT"
+      },
+      {
+        "requested": 2,
+        "exit_code": 4,
+        "stdout": "DENY server=server3 requested_gpus=2 cap=1 reason=single_job_exceeds_cap",
+        "mode": "CPU_REPLAY_OF_EMPTY_OWN_NODE_SNAPSHOT"
+      }
+    ],
+    "independent_reviewer": false,
+    "owner_audit": true
+  },
+  "queue": {
+    "command": [
+      "squeue",
+      "--user=janghj",
+      "--array",
+      "--noheader",
+      "--format=%i|%u|%j|%T|%N|%n|%b|%E|%a"
+    ],
+    "returncode": 0,
+    "owner_rows": 17,
+    "own_node_rows": 0,
+    "unbound_pending_rows": 0,
+    "job_name_filter": false,
+    "other_node_details_published": false,
+    "local_receipt_sha256": "17b281c7596e09c0ef56f8b7de06fc88e7b2f473efd8e101fe5c07c9b4515870"
+  },
+  "preserved": [
+    "node",
+    "memory",
+    "job_patterns",
+    "other_server_rows",
+    "frozen sources",
+    "historical cap2 reports",
+    "old task worktrees",
+    "root dirty"
+  ],
+  "new_admission_worktree": "/data/janghj/ODE-edit/local/gpu-cap-update-20261007/worktree",
+  "root_checkout": "Historical tracked bytes unchanged; latest clean worktree required for new admission."
+}

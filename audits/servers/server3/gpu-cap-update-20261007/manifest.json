@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "files": [
+    {
+      "path": "audits/servers/server3/gpu-cap-update-20261007/application.json",
+      "bytes": 4254,
+      "sha256": "043c239d088aec3eebafbcd12a2db530117e93aa6e2eb090fde4c5d6409d0b08"
+    },
+    {
+      "path": "experiment-reports/servers/server3/gpu-cap-update-20261007/report-ko.md",
+      "bytes": 2694,
+      "sha256": "94f9292de3eed2f90d425178ee4f804c9c498ccb990ab72cd53ccefaf5cd14c3"
+    },
+    {
+      "path": "tasks/status/server3-cap1-server4-cap3/server3.json",
+      "bytes": 1252,
+      "sha256": "7ae3ffe051e1926c7bbb5cb6077b784d30d3ad14a47a450718f9b6506eea1701"
+    },
+    {
+      "path": "messages/acks/server3/gpu-cap-update-20261007.json",
+      "bytes": 1252,
+      "sha256": "7ae3ffe051e1926c7bbb5cb6077b784d30d3ad14a47a450718f9b6506eea1701"
+    },
+    {
+      "path": "messages/server-heads/server3/gpu-cap-update-20261007.json",
+      "bytes": 1252,
+      "sha256": "7ae3ffe051e1926c7bbb5cb6077b784d30d3ad14a47a450718f9b6506eea1701"
+    }
+  ]
+}
