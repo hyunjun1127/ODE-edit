@@ -4,9 +4,10 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from unittest import mock
 
 from .common import GenerationError, digest, immutable_write
-from .compatibility import member, verified_endpoint_row
+from .compatibility import member, verify_member, verified_endpoint_row
 from .generator import rng_snapshot, rng_equal, SINGLETON_ROUTE
 from .kv_qualification import build_qualification_plan, run_qualification
 from .observer import GenerationObserver, runtime_identity
@@ -17,6 +18,57 @@ from .test_observer import FakeAssets
 def record(i):
     return dict(ordered_occurrence=i,case_id=100+i,generation_prompts=['1 2'],
         requested_rewrite=dict(relation_id='r',target_new=dict(id='t',str='new')))
+
+
+class MemberIdentityTests(unittest.TestCase):
+    """Exact production five-field member regressions, without model loading."""
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.path = Path(self.temp.name)/'observer-identity.json'
+        immutable_write(self.path, dict(identity='local-scalar-fixture'))
+        # Same constructor used by the production GPT2 prepare/common layer.
+        from project.run_scripts.jlz_realization.common import member as production_member
+        self.production = production_member(self.path)
+
+    def test_production_five_field_member_and_legacy_core_are_both_exact(self):
+        self.assertEqual(set(self.production), {'path', 'bytes', 'sha256', 'inode', 'mtime_ns'})
+        self.assertEqual(verify_member(self.production), self.path)
+        self.assertEqual(verify_member(member(self.path)), self.path)
+        for optional in ('inode', 'mtime_ns'):
+            selected = dict(member(self.path), **{optional:self.production[optional]})
+            self.assertEqual(verify_member(selected), self.path)
+
+    def test_hash_size_and_present_metadata_mismatch_stay_blocking(self):
+        for key in ('bytes', 'sha256', 'inode', 'mtime_ns'):
+            wrong = dict(self.production)
+            wrong[key] = '0'*64 if key == 'sha256' else wrong[key]+1
+            reason = 'BYTES_IDENTITY' if key in ('bytes', 'sha256') else 'METADATA_IDENTITY'
+            with self.subTest(key=key), self.assertRaisesRegex(GenerationError, reason):
+                verify_member(wrong)
+        with self.assertRaisesRegex(GenerationError, 'REGULAR_FILE'):
+            verify_member(dict(self.production, path=str(self.path.parent/'absent.json')))
+
+    def test_unknown_fields_and_invalid_metadata_types_are_not_ignored(self):
+        for wrong in (dict(self.production, ignored=True), dict(self.production, inode=True),
+                      dict(self.production, mtime_ns='unknown'),
+                      dict(self.production, sha256='z'*64),
+                      dict(self.production, path='relative-observer.json')):
+            with self.assertRaisesRegex(GenerationError, 'MEMBER_SCHEMA'):
+                verify_member(wrong)
+
+    def test_stat_change_during_verification_is_not_accepted(self):
+        import os
+        expected = dict(self.production)
+        original = member
+        def changed(path):
+            actual = original(path)
+            info = Path(path).stat()
+            os.utime(path, ns=(info.st_atime_ns, info.st_mtime_ns+1))
+            return actual
+        with mock.patch('project.run_scripts.experiment_generation_eval.compatibility.member', side_effect=changed):
+            with self.assertRaisesRegex(GenerationError, 'MEMBER_CHANGED'):
+                verify_member(expected)
 
 
 class CompatibilityTests(unittest.TestCase):
