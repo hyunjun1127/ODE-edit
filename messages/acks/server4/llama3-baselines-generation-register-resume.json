@@ -1,0 +1,23 @@
+{
+  "nonce": "USER-GH-SH1-SH2-SH4-BASELINE-GENERATION-REGISTER-RESUME-20261007-R1",
+  "parent_nonce": "USER-GH-ALL-SH-BASELINE-FLUENCY-CONSISTENCY-RERUN-20261007-R1",
+  "task_id": "llama3-baselines-fluency-consistency-2k",
+  "server": "server4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "accepted": true,
+  "authority_main": "6d6e2fdb531ecb3d6e5bc98db0f188001c6a7aa0",
+  "envelope_SHA256": "43099367d76e1f8a2b57b539c4a18aa17351e2194885db70e3516af19464fc16",
+  "actual_app_cwd": "/data/janghj/ODE-edit",
+  "dedicated_worktree": "/data/janghj/ODE-edit/local/llama3-baselines-fluency-consistency-2k/worktree",
+  "branch": "codex/server4-llama3-baselines-fluency-consistency-2k",
+  "duplicate_nonce_found": false,
+  "exact_task_queue_or_accounting_duplicate_found": false,
+  "stage": "REGISTRATION_RECALL_ACCEPTED_PREPARING_NOT_SUBMITTED",
+  "job_ids": [],
+  "frozen_scientific_source": "e3019677e5b17edf98401e381972c272a711ecc7",
+  "parent_attempt_KEEP": true,
+  "cancelled_ids": [],
+  "OURS_mutations": 0,
+  "monitoring_active": false,
+  "automatic_retry": false
+}
