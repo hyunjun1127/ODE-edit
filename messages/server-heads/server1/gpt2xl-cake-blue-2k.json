@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH1-GPT2XL-CAKE-BLUE-2K-20261007-R1",
+  "status": "SUBMITTED_RELEASED_INITIAL_PARTIAL_OBSERVED",
+  "jobs": {
+    "ALPHAEDIT_BLUE": "60740",
+    "CAKE": "60739",
+    "collector": "60741"
+  },
+  "execution_source": "d88e51c0138f3504214faea7a566b7493b763cce",
+  "config_sha256": "aae8d3931c77d0a8726a0f91feecad259faef6800171e18088d5a1d55a66507b",
+  "lock_sha256": "b9ceb7fcb7613d11e7b986be095c1022ea43b52d0d447c7949c3f7d259a21c73",
+  "noCP": true,
+  "exact_resume": "NOT_AVAILABLE",
+  "scientific_complete": false,
+  "monitoring": "BOUNDED_INITIAL_ONLY; NO_RECURRING_MONITOR",
+  "effective_arms": [
+    "CAKE",
+    "ALPHAEDIT_BLUE"
+  ]
+}

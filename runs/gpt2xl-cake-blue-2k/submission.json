@@ -1,0 +1,78 @@
+{
+  "W_B": "NOT_YET_RUN; startup/readback inside actual jobs",
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "checkpoint_saved": false,
+  "combined_GPU_cap": 2,
+  "dependencies": {
+    "ALPHAEDIT_BLUE": [],
+    "CAKE": [],
+    "collector": [
+      "60739",
+      "60740"
+    ]
+  },
+  "exact_resume": "NOT_AVAILABLE",
+  "initial": "NOT_OBSERVED",
+  "instruction_id": "USER-GH-SH1-GPT2XL-CAKE-BLUE-2K-20261007-R1",
+  "jobs": {
+    "ALPHAEDIT_BLUE": "60740",
+    "CAKE": "60739",
+    "collector": "60741"
+  },
+  "monitoring": false,
+  "projected_GPU_width": 2,
+  "snapshot": "60741|gpt2xl-cake-blue-2k-collector|PENDING|(None)\n60740|gpt2xl-cake-blue-2k-ALPHAEDIT_BLUE|PENDING|(None)\n60739|gpt2xl-cake-blue-2k-CAKE|PENDING|(None)",
+  "source_commit": "d88e51c0138f3504214faea7a566b7493b763cce",
+  "source_tree": "28edb557a43aec03c6e57b2c2eb9ac6524fad5cf",
+  "task_id": "gpt2xl-cake-blue-2k",
+  "tracking": {
+    "run_id": "5bdcffd677dc40e2",
+    "url": "https://wandb.ai/wkdguswns2256/layer%20allocation/runs/5bdcffd677dc40e2",
+    "config_job_id": "60739",
+    "startup_readback": {
+      "config": {
+        "arm": "CAKE",
+        "attempt": "attempt-v1",
+        "config_sha": "aae8d3931c77d0a8726a0f91feecad259faef6800171e18088d5a1d55a66507b",
+        "execution_backend": "slurm",
+        "identity_source": "SLURM_ENV",
+        "job_display_id": "60739",
+        "job_id": "60739",
+        "metric_schema": "price-first2k-scalar-v1",
+        "model": "gpt2xl",
+        "model_family": "gpt2",
+        "role": "scientific",
+        "server": "server1",
+        "source_sha": "d88e51c0138f3504214faea7a566b7493b763cce",
+        "step_id": "-5",
+        "task_id": "gpt2xl-cake-blue-2k",
+        "writer": "cake"
+      },
+      "job_identity": {
+        "execution_backend": "slurm",
+        "identity_source": "SLURM_ENV",
+        "job_display_id": "60739",
+        "job_id": "60739",
+        "step_id": "-5"
+      },
+      "run_id": "5bdcffd677dc40e2",
+      "run_name": "server1-CAKE-attempt-v1-job60739",
+      "sdk_version": "0.30.0",
+      "status": "READY_ONLINE",
+      "url": "https://wandb.ai/wkdguswns2256/layer%20allocation/runs/5bdcffd677dc40e2"
+    },
+    "scientific_complete": false
+  },
+  "lock_sha256": "b9ceb7fcb7613d11e7b986be095c1022ea43b52d0d447c7949c3f7d259a21c73",
+  "config_sha256": "aae8d3931c77d0a8726a0f91feecad259faef6800171e18088d5a1d55a66507b",
+  "held_pass": true,
+  "released": true,
+  "postrelease_snapshot": [
+    "60739 CAKE RUNNING devbox",
+    "60740 ALPHAEDIT_BLUE PENDING Resources",
+    "60741 collector PENDING Dependency"
+  ],
+  "bounded_initial": "CAKE_COLD_LOAD_CONTEXT_AND_ONLINE_IDENTITY_VERIFIED; B1_COMMIT_NOT_YET_OBSERVED",
+  "metric_readback": "NOT_YET_OBSERVED",
+  "recurring_monitor": false
+}

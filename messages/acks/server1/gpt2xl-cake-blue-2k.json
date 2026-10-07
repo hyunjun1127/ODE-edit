@@ -1,0 +1,21 @@
+{
+  "instruction_id": "USER-GH-SH1-GPT2XL-CAKE-BLUE-2K-20261007-R1",
+  "owner": "SH1",
+  "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+  "stage": "OWNER_ACCEPTED_IMPLEMENTING_NOT_SUBMITTED",
+  "actual_app_root": "/mnt/raid5/janghj/ODE-edit",
+  "worktree": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-gpt2xl-cake-blue-2k",
+  "branch": "codex/server1-gpt2xl-cake-blue-2k",
+  "legacy_registry_cwd": "29e4 historical; not current boundary",
+  "FULL_READ": {
+    "envelope_sha256": "6f1b3dce01edf722bde2aed74c18d75e754b7435d2d94f1e1d02d06d409ead96",
+    "contract_sha256": "1b8bd1d5d056b6bab9df58ac84afd3f64de9fbedaf7ae45689747b1e4c6e8f60"
+  },
+  "native_originals": {
+    "CAKE": "0b378234862bd76c69f58404ef84c27d5f4bf9ef; observed clean",
+    "BLUE": "311b076a92e4ed0f14f5c8b4909732da781bc5f7; observed clean"
+  },
+  "root_dirty": "930 entries preserved, no stage/reset/stash/revert",
+  "actual_new_job_ids": [],
+  "record": "New independent cold CAKE/MEMIT_BLUE first2k BS100x20 only; actual native apply, private import/path compatibility, original source/jobs/assets KEEP. Continue minimum CPU qualification/source freeze/held register/release without further approval. NoCP; no scientific extra pilot/sweep; cap2 unchanged."
+}
