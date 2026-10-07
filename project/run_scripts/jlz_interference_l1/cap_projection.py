@@ -50,8 +50,35 @@ def lengths(norms,weights,caps,beta):
         dict(proposal_norm=norms,weights=weights,caps=caps,beta=beta,tagged_knots=tagged))
 
 
+def first_store(ideal, cap_columns, mode):
+    """Predeclared first conversion, never selected from a feasibility result.
+
+    The default is the historical nearest FP32 conversion. The opt-in repair
+    uses toward-zero component rounding ONLY for ideal cap endpoint columns.
+    Interior columns, the ideal Euclidean solution and Adam state are unchanged.
+    """
+    if mode not in ('nearest', 'cap_endpoint_toward_zero_v1'):
+        raise RuntimeError('ENDPOINT_CAST_MODE')
+    nearest = ideal.float()
+    if mode == 'nearest':
+        return nearest, None
+    outward = (nearest.double().abs() > ideal.abs()) & cap_columns[None, :]
+    stored = torch.where(outward, torch.nextafter(nearest, torch.zeros_like(nearest)), nearest)
+    if bool((stored[:, cap_columns].double().abs() > ideal[:, cap_columns].abs()).any()):
+        raise RuntimeError('CAP_ENDPOINT_DIRECTED_CAST')
+    correction = (stored.double() - nearest.double()).abs()
+    evidence = dict(rounding_rule=mode, selected_cap_columns=cap_columns.cpu().tolist(),
+        changed_component_count=outward.sum(0).cpu().tolist(),
+        max_component_correction=correction.amax(0).cpu().tolist(),
+        nearest_norm=nearest.double().norm(dim=0).cpu().tolist(),
+        stored_norm=stored.double().norm(dim=0).cpu().tolist(),
+        decision_depends_on_postcast_feasibility=False, scalar_rescale=False,
+        positive_interior_nearest_unchanged=True)
+    return stored, evidence
+
+
 @torch.no_grad()
-def project_capped_weighted_l1(R,caps,weights,beta):
+def project_capped_weighted_l1(R,caps,weights,beta,endpoint_cast_mode='nearest'):
     started=time.monotonic();layers=tuple(R);B=R[layers[0]].shape[1];L=len(layers)
     cap=None if caps is None else torch.as_tensor(caps,device='cpu',dtype=torch.float64)
     weight=torch.as_tensor(weights,device='cpu',dtype=torch.float64)
@@ -74,16 +101,22 @@ def project_capped_weighted_l1(R,caps,weights,beta):
         if excess>1e-10*max(1,br) or comp>limit:raise ProjectionFailure('PROJECTION_SHARED_KKT',dict(**operands,spend=spend,complementarity=comp))
         length[:,r]=torch.tensor(ts,dtype=torch.float64);taus.append(tau);active.append(on);conventions.append(convention)
         endpoints.append(dict(owner=r,**meta));kkt.append(dict(owner=r,length_error_max=max(errors),shared_excess=excess,complementarity=comp,complementarity_limit=limit))
-    stored={}
+    stored={};cast_evidence=[]
     for i,l in enumerate(layers):
         n=norm[i].to(R[l].device);t=length[i].to(R[l].device);scale=torch.zeros_like(n);nz=n>0
-        scale[nz]=t[nz]/n[nz];stored[l]=(R[l].double()*scale[None,:]).float()
+        scale[nz]=t[nz]/n[nz]
+        capped_columns=torch.zeros_like(nz) if cap is None else (t==cap[i].to(R[l].device))&(t>0)
+        stored[l],evidence=first_store(R[l].double()*scale[None,:],capped_columns,endpoint_cast_mode)
+        if evidence is not None:cast_evidence.append(dict(layer=l,**evidence))
         stored[l][:,t==0]=0.
     storednorm=torch.stack([stored[l].double().norm(dim=0).cpu() for l in layers])
     local_excess=None if cap is None else torch.clamp(storednorm-cap,min=0)
     spend=(weight*storednorm).sum(0);excess=torch.clamp(spend-budget,min=0);limit=1e-6*torch.maximum(torch.ones_like(budget),budget)
     if not bool(torch.isfinite(storednorm).all() and (excess<=limit).all()) or (cap is not None and not bool((local_excess<=1e-6).all())):
-        raise ProjectionFailure('POSTCAST_PRICED_FEASIBILITY',dict(stored_norm=storednorm.tolist(),beta=budget.tolist(),weighted_spend=spend.tolist(),local_excess=None if cap is None else local_excess.tolist(),shared_excess=excess.tolist()))
+        raise ProjectionFailure('POSTCAST_PRICED_FEASIBILITY',dict(stored_norm=storednorm.tolist(),beta=budget.tolist(),weighted_spend=spend.tolist(),local_excess=None if cap is None else local_excess.tolist(),shared_excess=excess.tolist(),
+            proposal_norm=norm.tolist(),weights=weight.tolist(),caps=None if cap is None else cap.tolist(),
+            tau=taus,fp64_projected_norm=length.tolist(),endpoint_corrections=endpoints,
+            endpoint_cast_mode=endpoint_cast_mode,cast_realization=cast_evidence))
     zero=length==0;capped=torch.zeros_like(zero) if cap is None else (length==cap)&~zero;free=~(zero|capped)
     if not torch.equal(zero,storednorm==0):raise RuntimeError('EXACT_ENDPOINT_ZERO_STORAGE')
     return stored,dict(schema='PRICE_CAP_BASE_PROJECTION_V1',cap_mode='none' if cap is None else 'native',
@@ -91,4 +124,6 @@ def project_capped_weighted_l1(R,caps,weights,beta):
         pre_norm=norm.tolist(),post_norm=storednorm.tolist(),fp64_projected_norm=length.tolist(),
         weighted_spend=spend.tolist(),beta=budget.tolist(),zero_mask=zero.tolist(),capped_mask=None if cap is None else capped.tolist(),free_mask=free.tolist(),
         local_excess=None if cap is None else local_excess.tolist(),shared_excess=excess.tolist(),shared_limit=limit.tolist(),
-        local_limit=None if cap is None else 1e-6,fp64_kkt=kkt,postcast_repair=False,coordinate='absolute_R_Euclidean',seconds=time.monotonic()-started)
+        local_limit=None if cap is None else 1e-6,fp64_kkt=kkt,postcast_repair=False,
+        endpoint_cast_mode=endpoint_cast_mode,cast_realization=cast_evidence,
+        coordinate='absolute_R_Euclidean',seconds=time.monotonic()-started)

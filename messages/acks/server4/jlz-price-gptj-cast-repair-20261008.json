@@ -1,0 +1,16 @@
+{
+  "instruction_id": "USER-SH4-GPTJ-ALPHA-CAP075-CAST-REPAIR-20261008",
+  "task_id": "jlz-price-gptj-2k",
+  "server": "server4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "user_quotes": ["60619 FAIL 되었으니 RUN 다시 올려", "저거 OURS니깐 우선순위 높여서 올려"],
+  "failed_job": "60619",
+  "accepted": true,
+  "selected_cells": ["ALPHA_CAP075"],
+  "fresh_cold_2k": true,
+  "checkpoint_resume": false,
+  "scope": "single OURS arm technical cast-realization repair, minimum CPU source checks, held GPU1+CPUcollector inspection/release; scheduling before pending Alpha successors and baselines",
+  "effective_project_gpu_cap": 2,
+  "old_source_raw_config_KEEP": true,
+  "automatic_retry": false
+}

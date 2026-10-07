@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-SH4-GPTJ-ALPHA-CAP075-CAST-REPAIR-20261008",
+  "scope": "Explicit first-store numerical realization for new single ALPHA_CAP075 attempt only; old frozen archives unchanged",
+  "endpoint_cast_mode": "cap_endpoint_toward_zero_v1",
+  "fp64_projection": "Unchanged absolute-R Euclidean weighted capped group-L1 exact tagged lengths, tau, FP64 KKT and requested .75 caps/beta",
+  "first_store": "Only strictly cap-classified nonzero lengths==cap: choose the FP32 component toward zero from its ideal FP64 value. Nearest FP32 value is retained if it is not farther from zero than ideal; otherwise choose the adjacent FP32 toward zero. Classification and rounding mode are fixed before feasibility is observed.",
+  "interior": "Original nearest FP32 conversion unchanged; no threshold pruning or moment reset",
+  "zero": "Original exact zero construction unchanged; no smallest-positive-block pruning",
+  "not_a_postcast_rescue": "No norm-driven scalar shrink, repeated projection/cast, epsilon, cap/budget change, feasibility-dependent alternate path or tolerance change",
+  "local_tolerance": 0.000001,
+  "shared_tolerance": "1e-6*max(1,beta), unchanged",
+  "failure_60619": "B12 owner29 L3 cap35.888365745544434 storednorm35.8883670137107, excess1.2681662653e-6; shared excess2.65023e-8 within original gate; B11 prefix1100 RAM rollback verified",
+  "limits": "Old projected payload not saved by noCP; no tensor replay/full GPU parity claim. Numerically different realization can change later trajectory, not bitwise old run or matched all-arm implementation.",
+  "telemetry": "Record rounding rule, changed component count/max magnitude and scalar norm loss per owner; complete FP64 operands in technical error, no durable R/H/weight/optimizer checkpoint.",
+  "comparison": "Historical old attempts retained and labeled distinct source/realization; other arms/jobs not silently repaired or rerun",
+  "model_hparams": "GPT-J L3..L8, native lr.5, Alpha lambda10, norm/KL/C0/controller all unchanged"
+}

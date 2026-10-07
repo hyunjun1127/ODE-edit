@@ -6,9 +6,10 @@ from .cap_projection import project_capped_weighted_l1
 
 
 class EfficiencyAdamAbs:
-    def __init__(self,template,lr=.1,eps=1e-8,betas=(.9,.999)):
+    def __init__(self,template,lr=.1,eps=1e-8,betas=(.9,.999),endpoint_cast_mode='nearest'):
         self.layers=tuple(template);first=template[self.layers[0]];self.B=first.shape[1]
         self.lr,self.eps,self.betas=float(lr),float(eps),tuple(betas)
+        self.endpoint_cast_mode=endpoint_cast_mode
         self.m={l:torch.zeros_like(template[l],dtype=torch.float32) for l in self.layers}
         self.v={l:torch.zeros_like(template[l],dtype=torch.float32) for l in self.layers}
         self.s=torch.zeros((len(self.layers),self.B),dtype=torch.float32,device=first.device)
@@ -35,7 +36,7 @@ class EfficiencyAdamAbs:
             mhat=self.m[l][:,active]/bc1[None,:];vhat=self.v[l][:,active]/bc2[None,:]
             proposed[l][:,active]-=self.lr*gamma_active[i][None,:]*mhat/(vhat.sqrt()+self.eps)
         adam_seconds=time.monotonic()-started
-        projected,receipt=project_capped_weighted_l1(proposed,caps,weights,beta)
+        projected,receipt=project_capped_weighted_l1(proposed,caps,weights,beta,endpoint_cast_mode=self.endpoint_cast_mode)
         for l in self.layers:
             if not torch.equal(projected[l][:,~active],R[l][:,~active]):raise RuntimeError('INACTIVE_REQUEST_CHANGED')
         receipt.update(gamma=gamma.cpu().tolist(),adam_updates=self.t.cpu().tolist(),lr=self.lr,eps=self.eps,

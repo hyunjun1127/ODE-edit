@@ -130,6 +130,29 @@ def validate_projection(p,caps,weights,beta,B,profile):
     require(p['coordinate']=='absolute_R_Euclidean' and not p['postcast_repair'] and not p['moment_reset']
         and p['lr']==profile['lr'] and p['eps']==profile['eps'],'NATIVE_ADAM_NO_RESCUE')
     require((p['capped_mask'] is None)==(caps is None) and (p['local_excess'] is None)==(caps is None),'UNCAPPED_NULL_FIELDS')
+    mode=profile.get('endpoint_cast_mode','nearest')
+    require(p.get('endpoint_cast_mode','nearest')==mode,'FROZEN_ENDPOINT_CAST_MODE')
+    cast=p.get('cast_realization',[])
+    if mode=='cap_endpoint_toward_zero_v1':
+        require(caps is not None and len(cast)==L
+            and [row['layer'] for row in cast]==profile['eligible_layers'],'CAST_REALIZATION_LAYER_COVERAGE')
+        for l,row in enumerate(cast):
+            require(row['rounding_rule']==mode and row['decision_depends_on_postcast_feasibility'] is False
+                and row['scalar_rescale'] is False and row['positive_interior_nearest_unchanged'] is True,'FIRST_STORE_NOT_POSTFAIL_RESCUE')
+            for field in ('selected_cap_columns','changed_component_count','max_component_correction','nearest_norm','stored_norm'):
+                require(isinstance(row[field],list) and len(row[field])==B,'CAST_REALIZATION_OWNER_COVERAGE')
+            require(row['stored_norm']==stored[l],'CAST_REALIZATION_SAME_STORED_PAYLOAD_NORMS')
+            for r in range(B):
+                capped=target[l][r]==caps[l][r] and target[l][r]>0
+                require(row['selected_cap_columns'][r]==capped,'CAST_ONLY_IDEAL_LOCAL_CAP_ENDPOINT')
+                count=row['changed_component_count'][r];correction=row['max_component_correction'][r]
+                require(isinstance(count,int) and count>=0 and correction>=0,'CAST_ROUNDING_COUNTERS')
+                if capped:
+                    require(row['stored_norm'][r]<=row['nearest_norm'][r],'TOWARD_ZERO_ENDPOINT_NORM_NOT_INCREASED')
+                else:
+                    require(count==0 and correction==0 and row['stored_norm'][r]==row['nearest_norm'][r],'POSITIVE_INTERIOR_NEAREST_UNCHANGED')
+    else:
+        require(mode=='nearest' and not cast,'LEGACY_NEAREST_CAST_EVIDENCE')
     for r in range(B):
         tau=p['tau'][r];require(tau>=0,'DUAL_NONNEGATIVE');close(p['beta'][r],beta[r],'SAME_BETA')
         ends=p['endpoint_corrections'][r];require(ends['owner']==r,'ENDPOINT_OWNER')
@@ -470,13 +493,18 @@ def _collect(attempt,out,accounting):
         and sha(attempt/'config.json')==lock['config_sha256'],'COLLECTOR_SOURCE_CONFIG_AUTHORITY')
     require(c['storage']==storage_plan(),'COLLECTOR_SEALED_STORAGE_BOUND')
     records=load_prefix(Path(c['stream']).parent,2000);require(digest([r['case_id'] for r in records])==ORDERED_SHA,'ORDERED_FIXED_COHORT')
-    arms={};prefix={};selected=CELLS
+    from .submit import selected_cells
+    selected=selected_cells(c)
+    require(tuple(lock.get('selected_cells',CELLS))==selected,'COLLECTOR_SELECTED_CELL_IDENTITY')
+    arms={};prefix={}
     for cell in selected:
         cc=cell_config(c,cell)
         ready=attempt/'inputs/ready.json'
         if not ready.exists():
             arms[cell]=dict(arm=cell,status='NOT_READY_INPUTS',commits=0,requests=0,
+                expected=dict(commits=20,requests=2000,joins=19,history_appends=120),
                 actual=dict(joins=0,history_appends=0),metrics=[],cost=[],
+                counters=dict(builds=0,subject_forwards=0,subject_backwards=0,request_updates=0),
                 first_error=optional_receipt(reader,attempt/cell/'first-error.json'))
             prefix[cell]={}
             continue
@@ -488,6 +516,7 @@ def _collect(attempt,out,accounting):
     for model in MODELS:
         ref=model+'_CAP075'
         for cell in (model+'_CAP100',model+'_FREE100'):
+            if ref not in prefix or cell not in prefix:continue
             for k in MILESTONES:
                 if k in prefix[ref] and k in prefix[cell]:
                     cross.append(dict(reference=ref,arm=cell,endpoint=f'W{k}',cohort='ALL_SEEN',
@@ -497,9 +526,11 @@ def _collect(attempt,out,accounting):
                         paired=paired([r for r in prefix[ref][k] if r['case_id'] in fixed],
                                       [r for r in prefix[cell][k] if r['case_id'] in fixed])))
     complete=all(v['status']=='W20_COMPLETE' for v in arms.values());parents=accounting_snapshot(attempt) if accounting else dict(status='NOT_REQUESTED')
-    completion_status='SIX_CELLS_W20_COMPLETE'
+    completion_status='SIX_CELLS_W20_COMPLETE' if selected==CELLS else 'SINGLE_CELL_W20_COMPLETE'
     result=dict(task=TASK,status=completion_status if complete else 'PARTIAL_OR_TECHNICAL_BLOCKED',source=lock['source_commit'],config_sha256=lock['config_sha256'],
         execution_arms=list(selected),excluded_arms=['FREE075','FLAT','REVERSE'],
+        unrequested_cells=[cell for cell in CELLS if cell not in selected],
+        cross_arm_pairing_status='AVAILABLE_WHEN_MATCHED_ENDPOINTS_MEASURED' if selected==CELLS else 'NOT_REQUESTED_SINGLE_ARM_RETRY',
         arms=arms,standalone_qualification=False,toy_runs=0,cross_arm_paired=cross,actual=dict(commits=sum(v['commits'] for v in arms.values()),
         history_appends=sum(v['actual']['history_appends'] for v in arms.values()),joins=sum(v['actual']['joins'] for v in arms.values())),
         expected=dict(commits=20*len(selected),joins=19*len(selected),history_appends=120*len(selected)),accounting=parents,
@@ -521,9 +552,10 @@ def _collect(attempt,out,accounting):
     names=list(rows[0]) if rows else ['arm','endpoint','kind','numerator','denominator']
     w=csv.DictWriter(buffer,fieldnames=names);w.writeheader();w.writerows(rows)
     text_file(out/'comparison.csv',buffer.getvalue())
-    lines=['# GPT-J MEMIT/AlphaEdit 6-cell 2k 사실 보고','',f'- 상태: {result["status"]}',f'- 실행 source: `{lock["source_commit"]}`',
+    lines=[f'# GPT-J MEMIT/AlphaEdit {len(selected)}-cell 2k 사실 보고','',f'- 상태: {result["status"]}',f'- 실행 source: `{lock["source_commit"]}`',
         f'- Commit {result["actual"]["commits"]}/{result["expected"]["commits"]}, own join {result["actual"]["joins"]}/{result["expected"]["joins"]}, H append {result["actual"]["history_appends"]}/{result["expected"]["history_appends"]}.',
         '- 실제 요청 arm: '+', '.join(selected)+'. 각 요청 arm은 cold W0/H0에서 자기 2000 occurrence의 W/H trajectory를 따른다. 제외 arm은 NOT_REQUESTED이며 missing/실패로 집계하지 않는다.',
+        '- 이 시도의 교차 arm paired 상태: '+result['cross_arm_pairing_status']+'. 미요청 cell: '+(', '.join(result['unrequested_cells']) or '없음')+'.',
         '- 별도 qualification/toy/small fit/full-builder-gradient 진단 0. 실제 B1 c0의 cached LOO 및 정상 proposal KKT/assertion을 trajectory 안에서 검산한다.',
         '- 계산가격·적용가격·정규화 anchor/local cap은 entry-price.json에 batch당1회, 후보는 authoritative events.jsonl에1회 저장한다. fit.json은 SHA/line count 참조만 저장한다.',
         '', '| Model/arm/endpoint | RS | PS | NS | Harmonic |', '|---|---:|---:|---:|---:|']
@@ -544,7 +576,7 @@ def _collect(attempt,out,accounting):
         '- Price proxy 또는 같은 budget/norm은 같은 semantic strength가 아니다. NS 개선과 R/P 획득 감소가 함께 있으면 tradeoff이며 단일 seed에서 보편적 우위를 주장하지 않는다.',
         f'- 부모 allocated GPU seconds(단일계상): {parents.get("allocated_GPU_seconds","NOT_AVAILABLE")}. Pending·jobsteps 중복 가산 없음.',
         '- Fit exclusive price/LOO/BUILD/subject/pullback/Adam/projection/scalar time과 inclusive fit/writer/batch time을 구분했다. Candidate I/O·실제 alltoken gap·observer/history 비용을 별도 보존한다.',
-        '- Serializer의 전체6cell 상한과 atomic/error reserve를 source/config에 봉인했다. 매 batch fit 전에 fresh free/inode guard를 실시한다. 공유 filesystem 예약·향후 quota 여유를 보장한 것은 아니다.',
+        '- Serializer는 기존 전체6cell 보수적 상한과 atomic/error reserve를 유지했다. 실제 실행 scope는 위 요청 arm만이다. 매 batch fit 전에 fresh free/inode guard를 실시한다. 공유 filesystem 예약·향후 quota 여유를 보장한 것은 아니다.',
         '- prior ENOSPC 소비 주체는 NOT_IDENTIFIED다. 유효 commit prefix만 인정하며 empty/torn rollback/terminal은 NOT_VERIFIED다. 원자료 삭제·로그 누락·평가 축소·자동 retry는 없다.',
         '- 새 baseline fit 0; 조건 검산 없는 기존 baseline은 HISTORICAL_REFERENCE/NOT_AVAILABLE. noCP, exact resume NOT_AVAILABLE.',
         '- 원 source/raw/log KEEP. Source·compact report/countCSV/manifest만 Git; NO_BROADCAST_NOT_REQUIRED.'])

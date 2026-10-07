@@ -28,6 +28,17 @@ SOURCES=['messages/acks/server4/jlz-price-gptj-easyedit-hparams.json','messages/
     'project/proposals/wandb-method-metric-schema/user-handoff.txt']
 SOURCES += ['messages/acks/server4/jlz-price-gptj-checkpoint-repair.json']
 ROLES=(*CELLS,'collector')
+def selected_cells(config):
+    """Legacy six-cell default; the new explicit retry is one failed arm only."""
+    selected=tuple(config.get('selected_cells',CELLS))
+    require(selected==CELLS or selected==('ALPHA_CAP075',),'AUTHORIZED_SELECTED_CELLS')
+    if selected!=CELLS:
+        override=config.get('execution_override',{})
+        require(override.get('instruction_id')=='USER-SH4-GPTJ-ALPHA-CAP075-CAST-REPAIR-20261008'
+            and override.get('failed_job')=='60619' and override.get('selected_cells')==list(selected)
+            and override.get('same_hparams_and_method') is True,'EXPLICIT_SINGLE_FAILED_ARM_RETRY')
+    return selected
+
 def resource_order(parallel):
     if parallel==1:return {r:([] if i==0 else [CELLS[i-1]]) for i,r in enumerate(CELLS)} | {'collector':list(CELLS)}
     return {r:([CELLS[0]] if r=='ALPHA_CAP075' else [] if r=='MEMIT_CAP075' else [r.rsplit('_',1)[0]+('_CAP075' if r.endswith('CAP100') else '_CAP100')]) for r in CELLS} | {'collector':list(CELLS)}
@@ -60,14 +71,22 @@ def launcher(source, commit, role, attempt,cpu=8):
     return script
 
 
-def freeze(configpath, attempt, roles=ROLES):
+def freeze(configpath, attempt, roles=None):
     from .tracking import contract_ready
     contract_ready()  # fail before creating an archive or registering any job
     require(attempt.parent == LOCAL and not attempt.exists(), 'CREATE_ONCE_ATTEMPT')
     c = json.loads(configpath.read_text())
     require(c['instruction_id'] == NONCE and c['task_id'] == TASK, 'AUTHORITY')
+    selected=selected_cells(c);expected_roles=(*selected,'collector')
+    roles=expected_roles if roles is None else tuple(roles)
+    require(roles==expected_roles,'AUTHORIZED_FROZEN_ROLES')
     require(Path(c['attempt']) == attempt, 'PREPARATION_ATTEMPT')
-    require(not command(['git', 'status', '--porcelain', '--', *SOURCES], ROOT), 'COMMIT_BEFORE_FREEZE')
+    sources=list(SOURCES)
+    for row in c['authority_members']:
+        try:relative=str(Path(row['path']).relative_to(ROOT))
+        except ValueError:continue
+        if relative not in sources:sources.append(relative)
+    require(not command(['git', 'status', '--porcelain', '--', *sources], ROOT), 'COMMIT_BEFORE_FREEZE')
     tested = json.loads(verify(c['cpu_preflight']).read_text())
     require(tested.get('passed') is True or tested.get('status') == 'PASS', 'CPU_PREFLIGHT_REQUIRED')
     require(tested.get('tracking_ready') is True,'TRACKING_PREFLIGHT_REQUIRED')
@@ -90,7 +109,7 @@ def freeze(configpath, attempt, roles=ROLES):
         input_refs=[c['native_input_reuse'],member(folder/'ready.json')]
     source = attempt / 'source'; source.mkdir()
     archive = attempt / 'source.tar'
-    command(['git', 'archive', '--format=tar', '--output=' + str(archive), commit, *SOURCES], ROOT)
+    command(['git', 'archive', '--format=tar', '--output=' + str(archive), commit, *sources], ROOT)
     with tarfile.open(archive) as tf:
         rows = tf.getmembers()
         require(len(rows) == len({r.name for r in rows}), 'ARCHIVE_DUPLICATE')
@@ -101,12 +120,12 @@ def freeze(configpath, attempt, roles=ROLES):
         rel = Path(row['path']).relative_to(ROOT)
         require(sha(source / rel) == row['sha256'], 'TESTED_ARCHIVE_CLOSURE')
     write(attempt / 'config.json', c)
-    require(tuple(roles)==ROLES,'AUTHORIZED_SIX_CELLS')
     for role in roles:
         script = attempt / (role + '.sh')
         script.write_text(launcher(source, commit, role, attempt,c['resources']['collector_cpu'] if role=='collector' else c['resources']['cpu'])); script.chmod(0o755)
     write(attempt / 'execution.lock.json', dict(
         instruction_id=NONCE, task_id=TASK, source_commit=commit, source_tree=tree,
+        selected_cells=list(selected), execution_override=c.get('execution_override'),
         archive=member(archive), source_members=[member(p) for p in sorted(source.rglob('*')) if p.is_file()],
         config_sha256=sha(attempt / 'config.json'), runtime_sources=c['runtime']['source_members'],tracking_env=member(c['tracking']['env_file']),
         dependency_sources=c.get('dependency_sources', []), native_reference=c['native_reference'],native_input_metadata=input_refs,
@@ -114,13 +133,15 @@ def freeze(configpath, attempt, roles=ROLES):
         owner=getpass.getuser(), host='server4', session=SESSION, resources=c['resources'],
         noCP=True, exact_resume='NOT_AVAILABLE', run_instance=c['run_instance'],
         profiles_sha256=__import__('project.run_scripts.jlz_interference_l1',fromlist=['digest']).digest({m:c['models'][m]['profiles'] for m in c['models']}),
-        flow='MEMIT_CAP075 native context/W0 preparation; remaining MEMIT and ALPHA lanes independent cold; task2/project3; CPU afterany6'))
+        flow=('explicit single failed ALPHA_CAP075 cold retry; exact native input/W0 reuse; GPU1 and CPU afterany1; project2'
+            if selected!=CELLS else 'MEMIT_CAP075 native context/W0 preparation; remaining MEMIT and ALPHA lanes independent cold; task2/project3; CPU afterany6')))
     return verify_frozen(attempt)
 
 
 def verify_frozen(attempt):
     lock = json.loads((attempt / 'execution.lock.json').read_text())
     c = json.loads((attempt / 'config.json').read_text())
+    require(tuple(lock.get('selected_cells',CELLS))==selected_cells(c),'LOCK_SELECTED_CELL_IDENTITY')
     require(lock['owner'] == getpass.getuser() and lock['host'] == 'server4'
             and lock['instruction_id'] == c['instruction_id'] == NONCE, 'FROZEN_OWNER_AUTHORITY')
     require(sha(attempt / 'config.json') == lock['config_sha256'], 'CONFIG_SHA')

@@ -58,6 +58,9 @@ def locked(attempt,cell):
     c=json.loads((attempt/'config.json').read_text());lock=json.loads((attempt/'execution.lock.json').read_text())
     require(c['instruction_id']==lock['instruction_id']==NONCE and c['task_id']==lock['task_id']==TASK,'AUTHORITY')
     require(os.environ.get(SOURCE_ENV)==lock['source_commit'] and sha(attempt/'config.json')==lock['config_sha256'],'SOURCE_CONFIG')
+    from .submit import selected_cells
+    selected=selected_cells(c)
+    require(cell in selected and tuple(lock.get('selected_cells',CELLS))==selected,'CELL_NOT_IN_FROZEN_EXECUTION_SCOPE')
     for key in ('source_members','runtime_sources','native_reference','dependency_sources','launchers'):
         for row in lock[key]:verify(row)
     for row in lock.get('native_input_metadata',[]):verify(row)
