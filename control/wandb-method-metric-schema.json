@@ -1,5 +1,13 @@
 {
   "schema": 1,
+  "generation_extension": {
+    "instruction_id": "USER-GH-ALL-SH-BASELINE-FLUENCY-CONSISTENCY-RERUN-20261007-R1",
+    "contract": "control/generation-metric-policy.json",
+    "scope": "다음 승인 ours/baseline scientific source에는 CAKE 기반 fluency/consistency를 동일 생성 profile과 reference binding으로 추가한다. 현재 ours/W0는 hotpatch/취소하지 않는다. 새 six-baseline rerun만 이 USER 명령의 cancellation/submission 예외를 적용한다.",
+    "units": "ngram_entropy=raw bits, reference_score=raw cosine; R/P/N percentage와 혼합하지 않으며 harmonic은 기존3component 유지.",
+    "transport": "검증된 PRICE/native upload 경로의 최소 scalar 확장 허용. 중앙 helper 이관/배포 자체는 새 baseline 제출 선행조건이 아니다.",
+    "precedence": "기존 immutable/no-new-forward 문구는 이 새 USER-authorized baseline generation evaluation/cancel/rerun 범위를 막지 않는다. 다른 작업의 기존 보존/noCP/privacy 정책은 유지한다."
+  },
   "instruction_id": "USER-GH-ALL-SH-WANDB-METHOD-METRICS-20261007",
   "scope": "All future ours and baseline scientific method experiments; asset preparation (including SH1 GPT2-XL stats/projector initial setup), setup smoke and storage audits excluded from scientific metric requirements. Existing job identity/privacy policies still apply.",
   "user_quote": "그리고 method 관련 실험에선 (sh1이 진행중인 gpt2-xl 초기 구성 실험 등은 제외) wandb에 들어갈 metric을 맞춰야 하니 첨부문을 확인하고 ours나 baseline 실험 돌릴때 해당 지표로 돌리는 것으로 하자.",

@@ -1,0 +1,61 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-ALL-SH-BASELINE-FLUENCY-CONSISTENCY-RERUN-20261007-R1",
+  "recipient_nonce": "USER-GH-ALL-SH-BASELINE-FLUENCY-CONSISTENCY-RERUN-20261007-R1-SERVER3",
+  "task_id": "generation-metric-policy-adoption",
+  "owner": {
+    "server": "server3",
+    "session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+    "host": "remote-ssh-codex-managed:lab123",
+    "cwd": "/data/janghj/ODE-edit",
+    "repository": "hyunjun1127/ODE-edit"
+  },
+  "authority": "Latest USER instruction permits this exact task, including baseline-only STOP transition; no additional phase approval required.",
+  "contract": "plans/global/2026-10-07-baseline-fluency-consistency-rerun/contract.json",
+  "generation_policy": "control/generation-metric-policy.json",
+  "priority": "Explicit owner nonce ACK immediately. Only exact own six-stock-baseline active inventory/cancellation if present, then generation-policy acceptance for next authorized unfrozen caller. No new model experiment, implementation DAG, collector or GPU submission in this policy-only SH3 task.",
+  "model": null,
+  "baseline_methods": [],
+  "known_historical_candidates": [],
+  "current_state_verified_by_GH": false,
+  "protected": [
+    "oursV1458786/58787",
+    "oursV12Alpha58201/58202/58203",
+    "MEMIT-H54007/MEMIT-HJ not stock six methods",
+    "all W0/setup and other tasks"
+  ],
+  "owner_notes": "Policy acceptance+exact own active native-six-baseline inventory only. If there truly are exact owned active six baseline jobs, cancel baseline-only and report; no new model duplication, no GPU run/online smoke/current ours hotpatch. Bind common evaluator/profile to next authorized unfrozen caller. No active caller exists -> POLICY_ACCEPTED_FUTURE_CALLER_ADOPTION_REQUIRED.",
+  "allowed_write_paths": [
+    "plans/updates/server3/generation-metric-policy-adoption/**",
+    "audits/servers/server3/generation-metric-policy-adoption/**",
+    "experiment-reports/servers/server3/generation-metric-policy-adoption/**",
+    "tasks/status/generation-metric-policy-adoption/server3.json",
+    "messages/acks/server3/generation-metric-policy-adoption.json",
+    "messages/server-heads/server3/generation-metric-policy-adoption.json",
+    "runs/generation-metric-policy-adoption/**",
+    "ignored local/generation-metric-policy-adoption/**"
+  ],
+  "existing_task_records": "Own old task status may add factual USER_CANCELLED_FOR_GENERATION_METRICS/SUPERSEDED attempts without erasing receipts; preserve terminal/source/raw.",
+  "Slurm_allowed": "Bounded own baseline inventory and exact baseline-only cancellation if actually present; no newGPU/model experiment or collector submission.",
+  "resource_envelope": {
+    "project_gpu_cap": 1,
+    "task_gpu_cap": 0,
+    "per_job_GPU": 0,
+    "CPUs": "Fresh admitted defaults; S2 may use existing6, others8 default.",
+    "RAM_wall_QoS": "Explicit fresh check-slurm-resource-cap and node/QoS ceiling, old baseline defaults may be reused; no cap increase. Include admitted queue/ours dependencies."
+  },
+  "gates": {
+    "pre": "Source/data/reference/token/native mapping; generation/math/missing/RNG/state nonmutation; W&B strictscalar/job/axes; cap/noCP/privacy/dependency. Owner audit plus focused independent reviewer where available; accurately label no separate reviewer. Scientific quality not a technical gate.",
+    "post": "CPU independent reducer counts/raw-to-W&B sums/cohort/source; all endpoint immutable identity; actual allocated cost and valid coverage; bounded remote finish/readback; distinguish terminal state/completion.",
+    "blocking": "Technical identity/nonfinite/generator input overwrite/state/RNG/commit/resource violation fix then re-check; no tolerance relaxing to fit performance.",
+    "records": "Owner audit receipts and factual Korean reports, separate runtime source and publication commit."
+  },
+  "artifacts": {
+    "Git": "Compact source/contracts/manifests/counts/reports only; raw generation text/token and per-case IDs remain ignored local.",
+    "broadcast": "Use approved ordinary helper for compact verified artifacts where useful; exact evaluation-reference bundle single pull allowed. Large generated raw kept local; explicit NO_BROADCAST_NOT_REQUIRED or storage/privacy reason recorded, not blind large-copy. No --delete.",
+    "monitoring": "Bounded own baseline inventory/cancellation postcheck and policy acceptance only. No new runner/collector or B1/W20 work. No recurring polling/heartbeat/auto retry."
+  },
+  "report": "experiment-reports/servers/server3/generation-metric-policy-adoption/report-ko.md",
+  "ACK": "Official direct explicit owner ACK with nonce and policy-only task, accepted turn, exact own baseline inventory/cancellation result if any. If no current unfrozen scientific caller, POLICY_ACCEPTED_FUTURE_CALLER_ADOPTION_REQUIRED. No new GPU/model/collector submission and no existing ours/W0 hotpatch. Publish compact policy acceptance receipt; no GPU completion wait.",
+  "tracking": "Policy plus existing RPN schema. SH1 metric-owner not new W&B-helper-deployment gate; preserve privacy/job identity. No historical fake backfill."
+}

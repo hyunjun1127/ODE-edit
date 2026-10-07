@@ -1,0 +1,88 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-ALL-SH-BASELINE-FLUENCY-CONSISTENCY-RERUN-20261007-R1",
+  "task_id": "baseline-fluency-consistency-rerun",
+  "date_kst": "2026-10-07",
+  "user_quote": "Rewrite, rephrase, locality만 보지 말고 fluency와 consistency도 함께 기록하자. CAKE repo에 있는 것들을 활용하자. baseline run들을 다시 실행해야 하고, wandb에도 해당 지표들이 올라갈 수 있게 각 SH들에게 명령 내려라. 이미 돌아가고 있는 baseline run들도 취소해야 한다. server1 GPT2-xl 이미 종료된 run들도 이에 맞춰서 baseline run들 다시 올리라고 전해.",
+  "policy": "control/generation-metric-policy.json",
+  "baseline_methods": [
+    "MEMIT",
+    "PRUNE",
+    "RECT",
+    "AlphaEdit",
+    "AlphaEdit-BLUE",
+    "CAKE"
+  ],
+  "assignments": {
+    "server1": "SH1: GPT2-XL six independent baseline2k; owns common generation evaluator+reference assets.",
+    "server2": "SH2: GPT-J six independent baseline2k.",
+    "server3": "SH3: common policy adoption and exact own baseline inventory only; no new/duplicate GPU model experiment.",
+    "server4": "SH4: Llama3 six independent baseline2k in existing model-comparison scope; no Qwen or GPT-J duplicate."
+  },
+  "cancellation": {
+    "priority": "Immediately exact-check and cancel active/held/PENDING six-baseline jobs and their dedicated collectors/descendants before metric implementation. New request expressly supersedes baseline-only prior RUNNING-preservation for these six; not ours.",
+    "identify": "Fresh owner/target node/Command/task role/source/manifest/state; name/writer/username alone insufficient. Known IDs are historical candidates, not proof of current state.",
+    "order": "Dedicated collector/farthest downstream first, then successor baseline jobs, then active parents. Cancel exact IDs only; no scancel -u/node/wildcard.",
+    "afterany": "Canceling a parent releases afterany children. Rebuild all replacement collector/successor resource dependencies using new IDs, not old canceled IDs. Verify exact target queue cleared.",
+    "terminal": "Already completed/failed/canceled facts preserved and not re-canceled; completed GPT2-XL six methods must still be included in fresh new-evaluation reruns.",
+    "protected": "All ours/PRICE (including60001), W0/base-model evaluation, FE, setup/stats/P and unrelated tasks/servers. Old source/raw/partial/CP/log/accounting retained. No unrelated file deletion."
+  },
+  "science": {
+    "models": {
+      "server1": "openai-community/gpt2-xl revision15ea56dee5df4983c59b2538573817e1667135e2",
+      "server2": "EleutherAI/gpt-j-6b revision47e169305d2e8376be1d31e765533382721b2cc1",
+      "server4": "meta-llama/Meta-Llama-3-8B-Instruct revision8afb486c1db24fe5011ec46dfbe5b5dccdb575c2"
+    },
+    "stream": "counterfact-fixed-10k-v1 ordered first2000, native case occurrences preserved",
+    "dataset_sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1",
+    "order_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+    "schedule": "plans/global/2026-10-04-jlz-v12-marginal-allocation/experiment-2k/case-schedule-first2000.csv",
+    "schedule_sha256": "dccb4da4896aa7c3f653f7192bd01ab5d8799a0b439101417d02ee287d3fd2e2",
+    "BS": 100,
+    "batches": 20,
+    "edits_per_baseline": 2000,
+    "seed": 20261002,
+    "cold": "Each baseline independent fresh W0/native empty history; no partial resume. This task changes generation evaluation/transport only, not native editing method.",
+    "inputs": "Reuse existing exact model/C0/P/context/hparams/runtime and token/row mapping; no model/stats/projector re-generation. Common generation_prompts/reference assets separate from editing contexts.",
+    "native_sources": "MEMIT/AlphaEdit EasyEdit; CAKE/AlphaEdit-BLUE/PRUNE/RECT authorized CAKE/BLUE native implementations with existing model-specific hparams. Stock native methods, not ours writer variants. Resolve exact source bytes and parser values into lock.",
+    "repairs": "Necessary implementation compatibility fixes allowed in fresh task source with narrow diff/CPU checks. Specifically GPT-J fc_out native bias must be preserved (old bias=None guard is wrong). Retain approved PRUNE_TERMINAL_BASE_FIX: final=savedW0+compressed cumulative delta, no double add. Do not silently substitute science or old frozen-source hotpatch.",
+    "stop": "No B21; no sweep/additional baseline/arm, no new strength tuning. Low RS/PS/NS/fluency/consistency is record-only, not promotion/early-cancel gate.",
+    "RPN": "Existing source-bound preference/NLL/TF metrics and denominator retained: percurrentR100/P200/N1000; W20R2000/P4000/N20000; N desired=true; true/new labels preserved.",
+    "noCP": true
+  },
+  "implementation": {
+    "common_owner": "SH1",
+    "namespace": "project/run_scripts/experiment_generation_eval/**",
+    "other_owners": "SH2/SH4 own model-specific baseline caller/adapters/pre/endpoint collector/W&B scalar extension only. Do not concurrently modify SH1 common namespace.",
+    "parallel": "All SHs cancel baseline scope and prepare adapters/locks immediately. SH1 publishes shared evaluator/asset READY without waiting for a new W&B-helper migration. Exact common evaluator/profile/reference binding needed before new frozen science runs, not central helper capability approval.",
+    "source_isolation": "Dedicated clean non-main worktree/new attempt; preserve dirty root and old frozen archives. Exact source/config/runtime/native hparams/model/C0/P/input/evaluator/reference/gen/helper/reducer SHA closure.",
+    "minimal_checks": "Reuse existing RPN raw CPU validation and user's diagnostic. Add only changed formula/missing/reference/cache/padding/length/EOS/RNG/fakeSDK keys/denominators/axis/job identity tests; native 20/19 etc unchanged. No separate toy science/small-B fit/GPU pilot. Actual technical observer checks inside first real baseline B1.",
+    "stage_reporting": "RECEIVED -> BASELINE_STOP_RECONCILED -> IMPLEMENTING/ASSET_READY -> SOURCE_FROZEN -> ACTUAL_SLURM_REGISTERED -> B1 -> W20. Do not call task pending scheduler PENDING; no IDs before submit."
+  },
+  "resources": {
+    "project_GPU_caps": {
+      "server1": 2,
+      "server2": 2,
+      "server3": 1,
+      "server4": 3
+    },
+    "per_job_GPUs": 1,
+    "admission": "Fresh exact node/QoS/current owned RUNNING and admitted pending count; stricter local/task/physical cap governs. Baseline lanes afterany withincap, preserving live ours frontier. No preemption/cap increase.",
+    "CPU_RAM_wall": "Owner fresh explicit resource check; reuse existing accepted baseline per-server profile or lower. DefaultCPU8; S2 existingCPU6/59392MiB permitted; never copy incompatible host ceilings. GPU0 collector explicitCPU/RAM; exportNONE/Requeue0.",
+    "dependency": "Prepare metric/input READY and held source/fullargv/resource/job identity/dependency checks before release. Depend on exact current resource frontiers/own lane tails only; afterany not performance gates.",
+    "storage": "Pre-submit bounded free disk/inode and output reserve. Keep one authoritative local generation text/token stream plus compact sums/manifest. No durable model/weight/M/P/K/H/activation/restore-equivalent tensors.",
+    "Slurm": "Allowed exact baseline-only cancellation, new six-model-baseline DAG registration/held-inspection/release. SH3 no newGPU submission authorized."
+  },
+  "audit": {
+    "pre": "Source/data/reference/token/native mapping; generation/math/missing/RNG/state nonmutation; W&B strictscalar/job/axes; cap/noCP/privacy/dependency. Owner audit plus focused independent reviewer where available; accurately label no separate reviewer. Scientific quality not a technical gate.",
+    "post": "CPU independent reducer counts/raw-to-W&B sums/cohort/source; all endpoint immutable identity; actual allocated cost and valid coverage; bounded remote finish/readback; distinguish terminal state/completion.",
+    "blocking": "Technical identity/nonfinite/generator input overwrite/state/RNG/commit/resource violation fix then re-check; no tolerance relaxing to fit performance.",
+    "records": "Owner audit receipts and factual Korean reports, separate runtime source and publication commit."
+  },
+  "artifacts": {
+    "Git": "Compact source/contracts/manifests/counts/reports only; raw generation text/token and per-case IDs remain ignored local.",
+    "broadcast": "Use approved ordinary helper for compact verified artifacts where useful; exact evaluation-reference bundle single pull allowed. Large generated raw kept local; explicit NO_BROADCAST_NOT_REQUIRED or storage/privacy reason recorded, not blind large-copy. No --delete.",
+    "monitoring": "Bounded cancellation/postcheck and initial registration/B1 or genuine RESOURCE_PENDING handoff only. Sealed runner/collector continue W20. No recurring agent polling/heartbeat/new auto retry."
+  },
+  "completion": "GH publishes canonical task and directly obtains all SH owner nonce ACKs/accepted turns and current stage. GH does not wait full GPU completion. SH owners autonomously implement and register approved six runs without additional stage approval."
+}

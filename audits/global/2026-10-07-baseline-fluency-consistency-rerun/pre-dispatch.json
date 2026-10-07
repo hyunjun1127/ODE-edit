@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "independent_contract_review": {
+    "reviewer": "/root/gptj_w20_result_lookup",
+    "scope": "Policy/contract/four envelopes read-only; no production/GPU/model qualification.",
+    "finding": "SH3 generic submission/monitoring boilerplate contradicted policy-only scope.",
+    "resolution": "SH3 priority/ACK/monitoring changed to inventory/cancel-if-present and future-policy acceptance only; no new DAG/GPU/collector.",
+    "remaining_contract_blockers": 0,
+    "CPU_checks": "12 JSON parse/link/caps/method assignments and5 source/diagnostic/schedule SHA checks PASS; git diff whitespace PASS."
+  },
+  "instruction_id": "USER-GH-ALL-SH-BASELINE-FLUENCY-CONSISTENCY-RERUN-20261007-R1",
+  "status": "OWNER_SOURCE_REVIEW_WITH_DELEGATED_READONLY_INVENTORY",
+  "scope": "Canonical contract and transport assignment only; not production evaluator implementation or model PASS.",
+  "checks": {
+    "CAKE_formula_reference_FULL_READ": true,
+    "user_CPU_diagnostic_FULL_READ": true,
+    "source_SHA_verified": true,
+    "baseline_inventories": "Delegated repository manifests/source; fresh owner Slurm state required",
+    "cap": "current control/gpu-concurrency-policy.tsv2/2/1/3",
+    "root_preserved": true,
+    "dirty_root_stage": false,
+    "GPU": false,
+    "Slurm_queries": false,
+    "cancellation": false,
+    "new_submission": false,
+    "online_WB": false
+  },
+  "declarations": [
+    "Native EOS stopping and special-token cleanup are explicit corrected evaluation profile, not unchanged paper generation.",
+    "Generator assets are currently NOT_FOUND in inspected roots; SH1 canonical prep allowed, no false READY.",
+    "Completed source metrics not backfilled; all six per assigned model fresh attempts.",
+    "SH3 not assigned new experiment; FE excluded; all ours/W0 protected."
+  ],
+  "protocol_gate": "Focused contract/source/identity review; owner implementation pre/post gates required. No claim of separate production red-team/GPU certification."
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-ALL-SH-BASELINE-FLUENCY-CONSISTENCY-RERUN-20261007-R1",
+  "task_id": "gpt2xl-baselines-fluency-consistency-2k",
+  "type": "global-head-command",
+  "owner_server": "server1",
+  "worker_claimable": false,
+  "authority_envelope": "messages/head/2026-10-07-baseline-fluency-consistency-rerun-server1.json",
+  "status": "AUTHORIZED_AWAITING_DIRECT_OWNER_ACK",
+  "completion": "Own factual source/config/cancel+submission+W20 report or policy-only adoption, per envelope. GPU completion not required for GH handoff."
+}

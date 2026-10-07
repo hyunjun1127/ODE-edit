@@ -1,0 +1,160 @@
+{
+  "schema": "counterfact-cake-generation-metrics-v1",
+  "instruction_id": "USER-GH-ALL-SH-BASELINE-FLUENCY-CONSISTENCY-RERUN-20261007-R1",
+  "date_kst": "2026-10-07",
+  "authority": "USER 명시: fluency/consistency 및 W&B 기록 추가, 이미 실행/종료된 6 baseline의 새로운 평가 포함 재실행. 일반 ours에는 다음 승인 source부터 동일 평가를 적용하며 현재 ours/W0 job은 변경하지 않는다.",
+  "applies_to": "Future authorized ours and baseline editing experiments; setup/stats/P/storage smoke excluded. This task authorizes generation evaluation forwards inside six-baseline reruns, not additional fits or scientific pilots.",
+  "inherits": [
+    "control/wandb-policy.json",
+    "control/wandb-method-metric-schema.json"
+  ],
+  "source": {
+    "repository": "/mnt/raid5/janghj/CAKE",
+    "commit": "0b378234862bd76c69f58404ef84c27d5f4bf9ef",
+    "metric_file": "experiments/py/eval_utils_counterfact.py",
+    "metric_sha256": "ee00ee9cfb1be1cb1e5d1495fd15b2d1bfef9426af2b159095b924e6bdd0da26",
+    "generator_file": "util/generate.py",
+    "generator_sha256": "43d219ecc1955a4e4f82ea22edc286b4774e52e917d4b375021b8d7329b0adf3",
+    "audit_source": {
+      "path": "local/diagnostics/generation-code-audit-20261007-r1/reproduce.py",
+      "sha256": "6914955432e1c4cc19c7543e260ee5e7c82cb9766a28792d9201028d6fd04e28"
+    },
+    "audit_results": {
+      "path": "local/diagnostics/generation-code-audit-20261007-r1/results.json",
+      "sha256": "00dcfc6b085f71e9cf116785635ae7fcb0babff697af94855c24b9e3f10f936f",
+      "scope": "Random tiny CPU models / implementation diagnosis only; not pretrained/GPU qualification."
+    }
+  },
+  "reference_assets": {
+    "owner": "SH1",
+    "ignored_root": "local/baseline-generation-eval-assets/20261007/",
+    "required": [
+      "attribute_snippets.json",
+      "idf.npy",
+      "tfidf_vocab.json"
+    ],
+    "reuse": "Find an existing verified cache first. If absent, this envelope allows one-time download of these three native CounterFact evaluation assets only; bind URL/size/SHA/schema and ordered case coverage. No model/C0/P downloads, no silent TF-IDF refit/recomputation.",
+    "URLs": {
+      "attribute_snippets.json": "https://memit.baulab.info/data/dsets/attribute_snippets.json",
+      "idf.npy": "https://memit.baulab.info/data/dsets/idf.npy",
+      "tfidf_vocab.json": "https://memit.baulab.info/data/dsets/tfidf_vocab.json"
+    },
+    "schema": "snippets list relation_id/target_id/samples[].text; fixed token->dense-index vocabulary, finite 1D idf length |vocab|. Same saved vocab/idf for all models/methods; no fitting to generated outputs.",
+    "tokenizer": "Bind NLTK version and exact required punkt/punkt_tab language resources; explicitly prepare missing tokenizer resource once. No silent regex substitution. Use isolated CPU scoring environment if necessary; do not upgrade a scientific runtime.",
+    "transfer": "SH1 publishes compact manifest/READY and generation source; exact evaluation asset bundle may be pulled once by SH2/SH3/SH4 to ignored namespace with full size/SHA verification, no destructive sync. Models/data/checkpoints/secrets/raw experiment outputs are not part of this bundle.",
+    "unavailable": "Typed ASSET_NOT_AVAILABLE/coverage reasons, no fabricated scores. Missing snippet for a case is metric unavailability, not zero; report planned and valid counts."
+  },
+  "generation": {
+    "profile": "cf-cake-prompt-inclusive-total100-eos-corrected-v1",
+    "distinction": "CAKE score formulas and references retained. Generator repairs and native-EOS stopping are a declared evaluation revision, not upstream byte parity or unchanged published-paper numbers. No continuation-only or max_new_tokens=100 metric is substituted.",
+    "prompts": "Exactly fixed CounterFact generation_prompts at each request occurrence, all cases interval=1. Not rewrite prompt, paraphrase or model-generated editing contexts. No chat template injection.",
+    "sampling": {
+      "samples_per_prompt": 1,
+      "top_k": 5,
+      "temperature": 1,
+      "top_p": 1,
+      "max_total_tokens": 100,
+      "length_unit": "unpadded model input tokens + generated tokens"
+    },
+    "length": "Each row independently stops at its total-token limit. Preserve input tokens exactly; no truncation/drop. A prompt already >=100 gets zero continuation and a length-cap reason; it never suppresses shorter rows. Record continuation length/coverage separately.",
+    "eos": "Stop that row on its model/tokenizer's native EOS IDs, including multi-EOS model configs; pad tokens are not continuation. Record actual binding. This differs from CAKE legacy no-EOS-stop, and profile declares it.",
+    "decode": "Full prompt+continuation, skip_special_tokens=True, CAKE NFKD and double-newline-to-space normalization. Remove special token IDs via tokenizer, not a GPT2-only string replacement; retain raw token/text locally for reproducibility.",
+    "attention": "Correct accumulated cache attention mask (cache+query), model-specific causal/position mapping and per-row termination. Padding must not overwrite prompt. Qualified cached/batched route or explicit unpadded per-row full-prefix reference route is allowed; no silent generic fallback.",
+    "reference_route": "An unpadded single-row full-prefix reference is an allowed safe implementation route. Qualify chosen generator route against its logits/token coordinate reference at unchanged RNG, fixed cases; CPU software checks and B1-integrated actual forward checks only, no extra fit/GPU scientific pilot.",
+    "randomness": {
+      "eval_seed": 20261007,
+      "key": "model identity + ordered request occurrence + generation-prompt index",
+      "exclude_from_key": [
+        "baseline/arm",
+        "Slurm job id"
+      ],
+      "isolate": "Save and finally restore Python/NumPy/Torch CPU/all relevant CUDA RNG states. Generation cannot change subsequent native edit RNG/context/state. Capture W/H/nonselected parameter/observer guard; no persistent hooks/caches after evaluation."
+    },
+    "cache": "Use one endpoint/case/profile/seed generated observation for both metrics. Reuse already measured overlap and identity-matched W0 scores; no second generation per metric. Cache raw generated text/tokens only locally, no tensors/checkpoints."
+  },
+  "metrics": {
+    "fluency": {
+      "key": "ngram_entropy",
+      "unit": "bits",
+      "formula": "NLTK word-token H2/3 + 2*H3/3, Hn=-sum p_n log2 p_n. Equivalent native weights [2/3,4/3] and mean over n=2,3.",
+      "per_case": "Arithmetic mean of entropy across that occurrence's full generated texts.",
+      "aggregate": "Equal request-occurrence macro over valid cases; also raw sum/count. Do not length-weight or deduplicate occurrences.",
+      "semantics": "Repetition/diversity proxy, not grammatical fluency. Native empty ngram distribution yields valid entropy 0; missing generated observation is not invented0. Never label entropy*100 as a percentage."
+    },
+    "consistency": {
+      "key": "reference_score",
+      "unit": "cosine_0_to_1",
+      "formula": "cosine(vec.transform([\" \".join(full_generated_texts)]), vec.transform([\" \".join(all snips[relation_id][target_new.id].text)])) using fixed vocabulary/idf and .toarray().",
+      "reference_selection": "All relation_id/target_new.id snippets; not subject-name filtered essence subset. No essence perplexity evaluation requested.",
+      "invalid": "No reference, no generation_prompts, empty/nonfinite vector or zero vector norm => typed missing reason; no NaN/Inf uploaded and no 0 fill. A genuinely measured orthogonal cosine0 is valid0.",
+      "aggregate": "Equal request-occurrence macro of valid scores; raw sum/count plus planned denominator and reason counts. No successful-edit-only subset.",
+      "semantics": "Lexical reference similarity, not factual consistency certification."
+    },
+    "coverage": {
+      "planned_count": "All request occurrences in declared cohort, independent of metric validity.",
+      "fluency_count": "Cases with valid computed entropy.",
+      "consistency_count": "Cases with valid computed cosine.",
+      "generation_prompt_count": "Actual prompt observations with declared per-case aggregation.",
+      "reasons": [
+        "missing_generation_prompts",
+        "missing_reference",
+        "zero_generated_vector",
+        "zero_reference_vector",
+        "nonfinite_score",
+        "length_cap_no_continuation"
+      ],
+      "no_silent_filter": "Keep every ordered case in local per-case records and denominator. Reasons may be descriptive nonexclusive; validity rules and counted unit explicit."
+    },
+    "combined": "Keep existing 3-way R/P/N success_harmonic_pct unchanged. Do not add fluency/consistency to that harmonic."
+  },
+  "evaluation": {
+    "prefixes": [
+      "current/pre",
+      "current/post",
+      "all_seen/post",
+      "W0_first2000"
+    ],
+    "current": "Incoming100 on real pre-write and post-write model. EasyEdit sequential pre returned after edited self.model is not a valid pre; use explicit before-write observer.",
+    "cumulative": "Actually measure W5/W10/W15/W20 prefixes only; current/post at milestones still incoming100. No invented endpoint.",
+    "W0": "Same-model/runtime/input/evaluator/gen-profile cold state. Inside first cold baseline measure first2000 generation once per model, atomically bind raw/READY; reuse exact subset/case observation in other cells. Existing R/P/N-only W0 is not generation evidence. Do not rerun unrelated standalone W0 jobs.",
+    "w0_subsets": "w0/current and w0/all_seen generation subsets may be emitted from same exact first2000 generation observations, with denominator and same immutable source identity.",
+    "existing_endpoint_reuse": "Reuse endpoint observation when state/cohort/profile/seed identity exact; no duplicate R/P/N forwarding through CAKE's whole editing evaluator."
+  },
+  "wandb": {
+    "entity": "wkdguswns2256",
+    "project": "layer allocation",
+    "mode": "online",
+    "transport": "Reuse validated PRICE/native mapping and upload route; centralized helper migration/capability deployment is not a prerequisite. Minimal backward-compatible allowlist extension for these scalar keys is allowed.",
+    "keys": {
+      "<prefix>/fluency/ngram_entropy": "raw bits macro mean",
+      "<prefix>/consistency/reference_score": "raw cosine macro mean",
+      "<prefix>/generation/planned_count": "request occurrences",
+      "<prefix>/generation/fluency_count": "valid request occurrences",
+      "<prefix>/generation/consistency_count": "valid request occurrences",
+      "<prefix>/generation/generation_prompt_count": "observed generation prompts",
+      "<prefix>/generation/generated_token_count": "continuation token count",
+      "<prefix>/generation/missing_<reason>_count": "fixed typed reason counts only"
+    },
+    "axis": "Same edits evaluation axis, explicit pre_state_edits/post_state_edits, W0 x=0. Fit uses separate monotonically increasing candidate axis.",
+    "config": [
+      "generation_metric_schema",
+      "generation_profile",
+      "generation_eval_seed",
+      "reference_assets_sha256",
+      "generation_source_sha",
+      "model",
+      "model_family",
+      "baseline",
+      "writer",
+      "role",
+      "metric_schema",
+      "job_id",
+      "job_display_id",
+      "source_sha",
+      "config_sha"
+    ],
+    "privacy": "Scalar metrics and whitelisted public metadata only. No generated text/tokens/case IDs/reference snippets/prompts/raw stdout/secret/model tensors in W&B or Git; no watch/artifact/code autosave. Actual job ID including arrays/index0/name job<id>, immutable UUID/group preserved.",
+    "missing": "Omit unavailable mean; upload valid/planned counts and reasons. No NaN/Inf and no fabricated0.",
+    "verification": "SDK acceptance != remote readback. Bounded startup/finish verification only, record precise state; network failure is not permission to refit/restart science."
+  }
+}
