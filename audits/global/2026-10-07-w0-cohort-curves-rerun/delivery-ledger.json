@@ -25,8 +25,37 @@
       ],
       "owner_ack": "SH2 두 작업 수락, 정본입력 확인/별도nativeMEMITAlpha준비. 기존W0FE유지 cap2 dependency등록",
       "envelope_sha": "341763e8ec6b9d21e355458b2393f0634e87f1b7aca0111d017b2776ae51e8e7",
-      "new_job_ids": [],
-      "stage": "IMPLEMENTING_NOT_SUBMITTED"
+      "new_job_ids": [
+        60652,
+        60653
+      ],
+      "stage": "W0_SUBMITTED_NATIVE_IMPLEMENTING",
+      "W0_submission": {
+        "GPU": 60652,
+        "CPU_collector": 60653,
+        "collector_dependency": "afterany:60652",
+        "source_ref": "b717cc0d",
+        "source_ref_is_observed_prefix": true,
+        "lock_ref": "85a725d8",
+        "lock_ref_is_observed_prefix": true,
+        "per_job": "1GPU/6CPU/59392MiB/4h",
+        "held_inspection": "OWNER_PASS",
+        "release": "OWNER_CONFIRMED",
+        "bounded_postrelease_state": "PENDING",
+        "actual_start": "NOT_OBSERVED",
+        "WandB_identity": "NOT_OBSERVED",
+        "receipt_evidence": "SH2 direct agentMessage in accepted turn01a11537-dd88-7870-8b63-4b0f2deb171b"
+      },
+      "native_submission": {
+        "new_job_ids": [],
+        "stage": "IMPLEMENTING_NOT_SUBMITTED",
+        "assets": "Owner reports L3..8 C0/P present, shape/layer mapping validation pending",
+        "preserved_jobs": [
+          60147,
+          60148
+        ],
+        "old_W0_status": "Owner bounded exact accounting reports both COMPLETED"
+      }
     }
   ],
   "audit": {
@@ -37,5 +66,5 @@
     "WandB_readback": "NOT_OBSERVED",
     "experiment_completion": "NOT_OBSERVED"
   },
-  "continuation": "각 owner는 이미 구현부터실제Slurm등록까지명시위임받음. GH회신이나별도승인대기없음. 아직등록주장없음. 이번ledger는수락증거이며제출완료아님."
+  "continuation": "SH2 W0 실제 registered/held-inspected/released60652/60653, terminal 미관측. native2arm는 같은turn 구현 계속하며 추가 승인 대기 없음. SH1은 구현중, 등록 주장 없음. GH는 queue 등록만 bounded 회수하고 과학결과 모니터링0."
 }
