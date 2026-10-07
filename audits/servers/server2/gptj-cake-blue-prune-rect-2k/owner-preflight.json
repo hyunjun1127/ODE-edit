@@ -1,0 +1,375 @@
+{
+  "instruction_id": "USER-GH-SH2-GPTJ-CAKE-ALPHAEDIT-BLUE-PRUNE-RECT-2K-20261007-R1",
+  "review": "OWNER_SCOPED_WITH_BOUNDED_IMPLEMENTATION_WORKERS",
+  "independent_red_reviewer": 0,
+  "actual_GPU_PASS": false,
+  "full_read": {
+    "envelope": "messages/head/2026-10-07-gptj-cake-blue-prune-rect-sh2.json",
+    "envelope_sha256": "c7d2d2c4932a2cc4a40b3eec9771d75628c1c94190db93b5de6890f2a7d90791",
+    "contract": "plans/global/2026-10-07-gptj-cake-blue-prune-rect-2k/contract.json",
+    "contract_sha256": "6fb4690971e92f5a90b3175ff8c4e95608a7b0596671381f34b230977696b395",
+    "authority_commit": "0c5763837605980e1876fd50836913bbd01f47a1"
+  },
+  "boundary": {
+    "actual_hostname": "server2",
+    "app_host": "remote-ssh-codex-managed:lab121",
+    "session": "01a0493a-074c-7f91-9a13-769116326fef",
+    "original_cwd": "/mnt/raid5/janghj/ODE-edit",
+    "actual_worktree": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-gptj-cake-blue-prune-rect-2k",
+    "origin": "https://github.com/hyunjun1127/ODE-edit.git",
+    "branch": "codex/server2-gptj-cake-blue-prune-rect-2k",
+    "session_helper": "PASS_AFTER_CREATE_OWN_IGNORED_NONSECRET_WORKTREE_BOUNDARY",
+    "original_dirty_preserved": true
+  },
+  "CPU": {
+    "initial": {
+      "passed": true,
+      "tests": 72,
+      "seconds": 1.6695496924221516,
+      "config": {
+        "bytes": 114302,
+        "inode": 122169520,
+        "mtime_ns": 1791367991247686400,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-cake-blue-prune-rect-2k/preparation-r1/config.json",
+        "sha256": "4cddaf03c88a7364e2622d1f8e3c7e0dd0d796cc545e73177f6f9951dd933790"
+      },
+      "source_sha256": {
+        "project/run_scripts/gptj_cake_blue_prune_rect/__init__.py": "07380df4681d2bf7be6211a45c48cd69dd5e342758c851e2b68cfaa3237d8d97",
+        "project/run_scripts/gptj_cake_blue_prune_rect/collect.py": "613fae227de92233bc1446bb080b1f0513a9bb3f675022ad0d49c4e3c496f199",
+        "project/run_scripts/gptj_cake_blue_prune_rect/common.py": "653bd04e692b8df41aeff16b5aaccc4111248372ba47367b2b6b62ac776a1159",
+        "project/run_scripts/gptj_cake_blue_prune_rect/logic.py": "d0e81dd7c1bb2ed33dd86ef27bbbf8e128e66a0955dd9000a8c1ec3ae24eae1c",
+        "project/run_scripts/gptj_cake_blue_prune_rect/metrics.py": "898226d667bf8938638a5c982edc0acd53e1472a5c7a68400392a898e757c410",
+        "project/run_scripts/gptj_cake_blue_prune_rect/native_cake_blue.py": "31246adca7e0b5510237f6da763c565da9d2a0fd68a6b4e382923ca6255f61f8",
+        "project/run_scripts/gptj_cake_blue_prune_rect/native_prune_rect.py": "88f9121ef55ecf7088aef1b918b3817585c4505f87553240c6990aaec1a584d3",
+        "project/run_scripts/gptj_cake_blue_prune_rect/preflight.py": "eec0bacca60423633d4e9f0483ccaa653496ab6dc987c848dce1777b5e6da1b3",
+        "project/run_scripts/gptj_cake_blue_prune_rect/prepare.py": "c37812a07efd5b1698bb934a6f4573f4a30a98c53fa8bed3a47aa8efa0ff0be6",
+        "project/run_scripts/gptj_cake_blue_prune_rect/run.py": "43b8948bf0796fb5a9fe4dede4ba55dd293d5ca452dbd3a5f08150528c5ea3df",
+        "project/run_scripts/gptj_cake_blue_prune_rect/submit.py": "daaf2f32f23e449091943628c746a376a0c9da9674eb5826d153ef141b235017",
+        "project/run_scripts/gptj_cake_blue_prune_rect/test_cake_blue.py": "f92e34d99956a5848fe6e5e9fda3c9b0d3c63a63987757e52b8fd7787f418f45",
+        "project/run_scripts/gptj_cake_blue_prune_rect/test_prepare.py": "46abe86f4bb1870186ae10b58446e4d5213527bca5274d087ae8535d2a4b6069",
+        "project/run_scripts/gptj_cake_blue_prune_rect/test_prune_rect.py": "02fcc3f783685b04947c5e922dfca4985ab689c854b26d64f760764229ca6ed7",
+        "project/run_scripts/gptj_cake_blue_prune_rect/test_runner.py": "4154b26e0b1a42096b882faf46b4352194806622bac3e1a914aa8e2013e6e2b9"
+      }
+    },
+    "metadata_r2": {
+      "passed": true,
+      "tests": 34,
+      "seconds": 0.040170024149119854,
+      "config": {
+        "bytes": 114302,
+        "inode": 122169520,
+        "mtime_ns": 1791367991247686400,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-cake-blue-prune-rect-2k/preparation-r1/config.json",
+        "sha256": "4cddaf03c88a7364e2622d1f8e3c7e0dd0d796cc545e73177f6f9951dd933790"
+      },
+      "source_sha256": {
+        "project/run_scripts/gptj_cake_blue_prune_rect/__init__.py": "07380df4681d2bf7be6211a45c48cd69dd5e342758c851e2b68cfaa3237d8d97",
+        "project/run_scripts/gptj_cake_blue_prune_rect/collect.py": "613fae227de92233bc1446bb080b1f0513a9bb3f675022ad0d49c4e3c496f199",
+        "project/run_scripts/gptj_cake_blue_prune_rect/common.py": "653bd04e692b8df41aeff16b5aaccc4111248372ba47367b2b6b62ac776a1159",
+        "project/run_scripts/gptj_cake_blue_prune_rect/logic.py": "a33375fd92f32eb62b566633bee0814cb5308893c981120faff20f55361793a5",
+        "project/run_scripts/gptj_cake_blue_prune_rect/metrics.py": "898226d667bf8938638a5c982edc0acd53e1472a5c7a68400392a898e757c410",
+        "project/run_scripts/gptj_cake_blue_prune_rect/native_cake_blue.py": "31246adca7e0b5510237f6da763c565da9d2a0fd68a6b4e382923ca6255f61f8",
+        "project/run_scripts/gptj_cake_blue_prune_rect/native_prune_rect.py": "88f9121ef55ecf7088aef1b918b3817585c4505f87553240c6990aaec1a584d3",
+        "project/run_scripts/gptj_cake_blue_prune_rect/preflight.py": "f235ee6447864ed5850a3a3f90df610ab9b31e18a1935a9d72491f759cf5a149",
+        "project/run_scripts/gptj_cake_blue_prune_rect/prepare.py": "c37812a07efd5b1698bb934a6f4573f4a30a98c53fa8bed3a47aa8efa0ff0be6",
+        "project/run_scripts/gptj_cake_blue_prune_rect/run.py": "f6986406825dc5e50d8e3521db67f9bcc150806b600dc9f39a7468ce72ff2672",
+        "project/run_scripts/gptj_cake_blue_prune_rect/submit.py": "5b12a94a6e92460c2f34b105837e06389646cefb93f49d002645de224ac73584",
+        "project/run_scripts/gptj_cake_blue_prune_rect/test_cake_blue.py": "f92e34d99956a5848fe6e5e9fda3c9b0d3c63a63987757e52b8fd7787f418f45",
+        "project/run_scripts/gptj_cake_blue_prune_rect/test_prepare.py": "46abe86f4bb1870186ae10b58446e4d5213527bca5274d087ae8535d2a4b6069",
+        "project/run_scripts/gptj_cake_blue_prune_rect/test_prune_rect.py": "02fcc3f783685b04947c5e922dfca4985ab689c854b26d64f760764229ca6ed7",
+        "project/run_scripts/gptj_cake_blue_prune_rect/test_runner.py": "cebe8372f26c38603f92c560dff1db20e6371a4c4431a4319dd1eff41adfa42d"
+      },
+      "prior_unchanged_native_input_tests": {
+        "bytes": 2759,
+        "inode": 122169581,
+        "mtime_ns": 1791368328103415300,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-cake-blue-prune-rect-2k/cpu-tests-r1.json",
+        "sha256": "9cd852ea41ef1e4fa16b62fff7b2f67aa2e3969b95b9a4282b98053e859c028a"
+      }
+    },
+    "receipts": [
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-cake-blue-prune-rect-2k/cpu-tests-r1.json",
+        "bytes": 2759,
+        "sha256": "9cd852ea41ef1e4fa16b62fff7b2f67aa2e3969b95b9a4282b98053e859c028a",
+        "inode": 122169581,
+        "mtime_ns": 1791368328103415300
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-cake-blue-prune-rect-2k/cpu-tests-r2.json",
+        "bytes": 3037,
+        "sha256": "9eb4a51505de1f773649ffbec16ec2fc938d7f911bd3f05f97afd89fc2f075b3",
+        "inode": 122169588,
+        "mtime_ns": 1791368455575306500
+      }
+    ],
+    "note_ko": "72개 원 CPU 회귀는 보존했고 마지막 telemetry/launcher 34개만 좁게 다시 검사했다. 두 suite 합계를 독립 106개 검사로 쓰지 않는다."
+  },
+  "source_commit": "3a4a107b7ae4c66f2f7a7f0cb441d26c5a639f68",
+  "source_tree": "60f2be99325236e8f197f51fdd57c3d0e8760579",
+  "config_sha256": "4cddaf03c88a7364e2622d1f8e3c7e0dd0d796cc545e73177f6f9951dd933790",
+  "preparation": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-cake-blue-prune-rect-2k/preparation-r1/preparation.json",
+    "bytes": 18895,
+    "sha256": "8edbc2818cea090f5b46830af8d282f97dea70fc41852583f192279ded01f0d4",
+    "inode": 122169521,
+    "mtime_ns": 1791367991247686400
+  },
+  "native_source": [
+    {
+      "arm": "CAKE",
+      "root": "/mnt/raid5/janghj/CAKE",
+      "commit": "0b378234862bd76c69f58404ef84c27d5f4bf9ef",
+      "entrypoint": "Cake.Cake_main.apply_Cake_to_model(...,cache_c=H,P=P)",
+      "main_sha256": "d1ae01c7f1d5f6f8af899a589b8e407171c1a5dbb69b8ad6ff08e39f02823e20",
+      "hparams": "hparams/Cake/EleutherAI_gpt-j-6B.json",
+      "hparams_sha256": "a37d65b4f7b8c9a8ce439abadb4548010777ec0b6547d00d64cea8e12adc22d0",
+      "layers": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "L2": 30,
+      "temperature": 0.1,
+      "P_slots": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "arm": "ALPHAEDIT_BLUE",
+      "root": "/mnt/raid5/janghj/BLUE",
+      "commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+      "entrypoint": "AlphaEdit.AlphaEdit_main.apply_AlphaEdit_to_model(...,cache_c=H,P=P)",
+      "main_sha256": "79da927aad5ab817fd008c5958768adcd00556989a8efbaa2c4bdc80d8fc842e",
+      "hparams": "hparams/AlphaEdit/EleutherAI_gpt-j-6B-blue.json",
+      "hparams_sha256": "afc9ae1ffd7a6f9d1d6aa04bc2d19b11684bea69ebd51ef0d515d2b073d066e2",
+      "layers": [
+        3,
+        8
+      ],
+      "blue": true,
+      "L2": 95,
+      "P_slots": [
+        0,
+        5
+      ]
+    },
+    {
+      "arm": "PRUNE",
+      "root": "/mnt/raid5/janghj/BLUE",
+      "commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+      "entrypoint": "memit.memit_main.apply_memit_to_model + native experiments/evaluate.py terminal MEMIT_prune transform",
+      "main_sha256": "943a0da1a758692fc4b38c5d1203650795f441a3952df7a4814ffe40ee2567be",
+      "hparams": "hparams/MEMIT/EleutherAI_gpt-j-6B.json",
+      "hparams_sha256": "e2430efa658a26f11ae9a5836951e0453fcee34fc0d952a5d05057b5e796e86f",
+      "layers": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "blue": false,
+      "mom2_update_weight": 15000
+    },
+    {
+      "arm": "RECT",
+      "root": "/mnt/raid5/janghj/BLUE",
+      "commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+      "entrypoint": "memit.memit_rect_main.apply_memit_rect_to_model",
+      "main_sha256": "8e199fd49e744f6c08f0edd7933ab683df1970a5dcc9da41570e4368073ec597",
+      "hparams": "hparams/MEMIT/EleutherAI_gpt-j-6B.json",
+      "hparams_sha256": "e2430efa658a26f11ae9a5836951e0453fcee34fc0d952a5d05057b5e796e86f",
+      "layers": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "blue": false,
+      "mom2_update_weight": 15000
+    }
+  ],
+  "imported_closure_counts": {
+    "ALPHAEDIT_BLUE": 13,
+    "CAKE": 13,
+    "PRUNE": 13,
+    "RECT": 13
+  },
+  "assets": {
+    "prior_config_sha256": "a9ff4078e0839adcee07ce3ece0c26ed1d6f0d9ff71fadfd69dc203f1866decf",
+    "binding": "PRIOR_FULL_SHA_FINITE_SCHEMA_PLUS_CURRENT_STAT",
+    "model": "EleutherAI/gpt-j-6B",
+    "revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+    "stats_layers": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "mom2_count": 54924275,
+    "P_shape": [
+      6,
+      16384,
+      16384
+    ],
+    "P_slot_layers": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "BLUE_P_slots": [
+      0,
+      5
+    ],
+    "BLUE_H_layers": [
+      3,
+      8
+    ],
+    "new_model_C0_P_generation": 0,
+    "large_asset_copies": 0,
+    "large_fullSHA_rescans": 0,
+    "W0": {
+      "source": "/mnt/raid5/janghj/ODE-edit/local/base-model-gptj-w0-cohort-curves/attempt-r1",
+      "config": {
+        "bytes": 8855,
+        "inode": 122042819,
+        "mtime_ns": 1791357927212576800,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gptj-w0-cohort-curves/attempt-r1/config.json",
+        "sha256": "1723f3eea5c28f59c516a021bafb6faf68fbe46a55296a6cf4ee12c405220b48"
+      },
+      "result": {
+        "bytes": 13320,
+        "inode": 122031270,
+        "mtime_ns": 1791359181528511700,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gptj-w0-cohort-curves/attempt-r1/result.json",
+        "sha256": "de3ee0d4c3a8e67f32760a7938922f3f1e59ac200a6f2276cb15392602367db9"
+      },
+      "terminal": {
+        "bytes": 840,
+        "inode": 122047963,
+        "mtime_ns": 1791359185364491300,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/base-model-gptj-w0-cohort-curves/attempt-r1/terminal.json",
+        "sha256": "b43ee072d7fb1e66197b6c154e26748d2d8d7dca5268a01cac976d6cbe14a8a1"
+      },
+      "status": "COMPLETE_REFERENCE_IDENTITY_NOT_NEW_SCIENCE",
+      "raw_validation": "PRIOR_SHA_PLUS_CURRENT_STAT; RUNNER_VALIDATES_ROWS_TOKENS_ONCE"
+    }
+  },
+  "runtime": {
+    "python": "/mnt/raid5/janghj/EasyEdit/.venv/bin/python",
+    "torch": "2.9.1+cu128",
+    "transformers": "4.57.1"
+  },
+  "method_guards": {
+    "PRUNE": "PRUNE_TERMINAL_BASE_FIX; W5/10/15 dense; W20 terminal only",
+    "RECT": "native dense planning -> restore -> masked public commit; threshold/ties logged",
+    "contexts": "OWN_NATIVE_COLD_GENERATOR_ONCE; source differences preserved; NOT_YET_GENERATED",
+    "native_25_eval_24_updates": true,
+    "B1_check": "IN_TRAJECTORY_NOT_STANDALONE_PILOT",
+    "noCP": true,
+    "z_disk_cache": false
+  },
+  "resources": {
+    "server_cap": 2,
+    "task_cap": 2,
+    "GPU_job": {
+      "GPUs": 1,
+      "CPUs": 6,
+      "host_MiB": 59392,
+      "wall": "2-00:00:00",
+      "export": "NONE",
+      "Requeue": 0
+    },
+    "collector": {
+      "GPUs": 0,
+      "CPUs": 6,
+      "host_MiB": 24576,
+      "wall": "04:00:00"
+    },
+    "fresh_snapshot": {
+      "node": "NodeName=server2 Arch=x86_64 CoresPerSocket=32 \n   CPUAlloc=46 CPUEfctv=64 CPUTot=64 CPULoad=16.11\n   AvailableFeatures=(null)\n   ActiveFeatures=(null)\n   Gres=gpu:a6000:8\n   NodeAddr=server2 NodeHostName=server2 Version=26.05.0\n   OS=Linux 5.15.0-179-generic #189-Ubuntu SMP Tue May 5 18:20:56 UTC 2026 \n   RealMemory=512000 AllocMem=434176 FreeMem=21305 Sockets=2 Boards=1\n   State=MIXED+PLANNED ThreadsPerCore=1 TmpDisk=0 Weight=1 Owner=N/A MCS_label=N/A\n   Partitions=gpu \n   BootTime=2026-07-21T01:32:02 SlurmdStartTime=2026-09-30T14:45:24\n   LastBusyTime=2026-09-30T13:35:38 ResumeAfterTime=None SuspendTime=INFINITE\n   CfgTRES=cpu=64,mem=500G,billing=8,gres/gpu=8\n   AllocTRES=cpu=46,mem=424G,gres/gpu=8\n   CurrentWatts=0 AveWatts=0",
+      "hardware": "NVIDIA RTX A6000, 49140 MiB\nNVIDIA RTX A6000, 49140 MiB\nNVIDIA RTX A6000, 49140 MiB\nNVIDIA RTX A6000, 49140 MiB\nNVIDIA RTX A6000, 49140 MiB\nNVIDIA RTX A6000, 49140 MiB\nNVIDIA RTX A6000, 49140 MiB\nNVIDIA RTX A6000, 49140 MiB",
+      "qos": "lab_gpu_s2||gres/gpu=4|",
+      "storage": {
+        "free_bytes": 551801937920,
+        "total_bytes": 15240493973504
+      },
+      "allocated_GPUs": 2,
+      "simultaneous_requested_host_mib": 118784
+    },
+    "host_request_per_GPU_ceiling_MiB": 60416,
+    "wall_is_ETA": false,
+    "actual_peak_RAM_VRAM": "NOT_MEASURED",
+    "resource_frontier": [
+      "60656",
+      "60657"
+    ],
+    "DAG": {
+      "ALPHAEDIT_BLUE": [
+        "60656",
+        "60657"
+      ],
+      "CAKE": [
+        "60656",
+        "60657"
+      ],
+      "PRUNE": [
+        "60769"
+      ],
+      "RECT": [
+        "60770"
+      ],
+      "collector": [
+        "60769",
+        "60770",
+        "60771",
+        "60772"
+      ]
+    },
+    "held_receipt": {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-cake-blue-prune-rect-2k/attempt-r1/held-inspection.json",
+      "bytes": 29320,
+      "sha256": "2710ec76c31d0f2ad0040d896542c91f954e3763d6722b877fa3afa2942ecd02",
+      "inode": 122169860,
+      "mtime_ns": 1791368504211264500
+    }
+  },
+  "tracking": {
+    "entity": "wkdguswns2256",
+    "project": "layer allocation",
+    "mode": "online",
+    "stage": "STARTUP_IN_SEALED_RUNNER_NOT_OBSERVED",
+    "route": "READONLY_SHARED_HELPER_PLUS_EXISTING_PRICE_MAPPING",
+    "new_setup_smoke": 0,
+    "actual_job_id_and_name": "REQUIRED_AT_SEALED_RUNNER_INIT",
+    "privacy": "SCALAR_ONLY_NO_SECRET_PROMPT_TOKEN_TENSOR_CODE_STDOUT",
+    "remote_delivery": "NOT_OBSERVED"
+  },
+  "safety": {
+    "existing_jobs_modified": 0,
+    "shared_source_env_modified": false,
+    "new_science_extra_arms": 0,
+    "new_fit_pilot": 0,
+    "checkpoint_saved": false,
+    "raw_git": false,
+    "raw_broadcast": false
+  },
+  "note_ko": "owner 범위의 구현·fixture·identity/admission 검산이며 actual GPU/operator/metric 완료 인증이 아니다. 원 실패/원자료/dirty worktree는 보존한다."
+}

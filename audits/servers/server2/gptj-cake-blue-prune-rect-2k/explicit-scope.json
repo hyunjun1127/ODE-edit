@@ -1,0 +1,16 @@
+{
+  "instruction_id": "USER-GH-SH2-GPTJ-CAKE-ALPHAEDIT-BLUE-PRUNE-RECT-2K-20261007-R1",
+  "policy": "EXACT_USER_ENVELOPE_OVERRIDES_GENERIC_PATH_GUARD_ONLY",
+  "paths": [
+    "runs/gptj-cake-blue-prune-rect-2k/attempt-r1.json",
+    "plans/servers/server2/gptj-cake-blue-prune-rect-2k/execution.md"
+  ],
+  "shared_helper_modified": false,
+  "generic_guard_observed_exit": 7,
+  "generic_guard_denied_only": [
+    "plans/servers/server2/gptj-cake-blue-prune-rect-2k/execution.md",
+    "runs/gptj-cake-blue-prune-rect-2k/attempt-r1.json"
+  ],
+  "authorization_resolution": "EXACT_CURRENT_USER_ENVELOPE_WRITE_SCOPE; NOT_GENERIC_GUARD_PASS",
+  "note_ko": "일반 guard는 runs/plans 경로를 알지 못할 수 있다. 사용자 exact write envelope에만 근거하며 일반 helper를 전역 완화하지 않는다. own ignored worktree session-boundary/cap 파일은 정식 구현 경계 결속용이며 root/다른 행은 보존했다."
+}

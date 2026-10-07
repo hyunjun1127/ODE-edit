@@ -1,0 +1,17 @@
+{
+  "instruction_id": "USER-GH-SH2-GPTJ-CAKE-ALPHAEDIT-BLUE-PRUNE-RECT-2K-20261007-R1",
+  "nonce": "USER-GH-SH2-GPTJ-CAKE-ALPHAEDIT-BLUE-PRUNE-RECT-2K-20261007-R1",
+  "accepted": true,
+  "full_read": true,
+  "session": "01a0493a-074c-7f91-9a13-769116326fef",
+  "server": "server2",
+  "stage": "ALL_FIVE_REGISTERED_HELD_INSPECTED_RELEASED",
+  "jobs": {
+    "ALPHAEDIT_BLUE": "60770",
+    "CAKE": "60769",
+    "PRUNE": "60771",
+    "RECT": "60772",
+    "collector": "60773"
+  },
+  "note_ko": "직접 commentary로 수락 ACK를 회신했고 구현/등록을 계속하여 전량 release했다. Git 게시를 최초 live 수신 성공으로 대체하지 않았다."
+}

@@ -1,0 +1,78 @@
+{
+  "WandB": "STARTUP_IN_SEALED_RUNNER_NOT_OBSERVED",
+  "actual_first_write": "NOT_OBSERVED",
+  "automatic_retry": false,
+  "cap": 2,
+  "config_sha256": "4cddaf03c88a7364e2622d1f8e3c7e0dd0d796cc545e73177f6f9951dd933790",
+  "dependencies": {
+    "ALPHAEDIT_BLUE": [
+      "60656",
+      "60657"
+    ],
+    "CAKE": [
+      "60656",
+      "60657"
+    ],
+    "PRUNE": [
+      "60769"
+    ],
+    "RECT": [
+      "60770"
+    ],
+    "collector": [
+      "60769",
+      "60770",
+      "60771",
+      "60772"
+    ]
+  },
+  "frontier": [
+    "60656",
+    "60657"
+  ],
+  "initial_snapshot": "60773|gptj-cake-blue-prune-rect-2k-collector|PENDING|N/A||None\n60772|gptj-cake-blue-prune-rect-2k-RECT|PENDING|gres/gpu:1||None\n60771|gptj-cake-blue-prune-rect-2k-PRUNE|PENDING|gres/gpu:1||None\n60770|gptj-cake-blue-prune-rect-2k-ALPHAEDIT_BLUE|PENDING|gres/gpu:1||None\n60769|gptj-cake-blue-prune-rect-2k-CAKE|PENDING|gres/gpu:1||None",
+  "instruction_id": "USER-GH-SH2-GPTJ-CAKE-ALPHAEDIT-BLUE-PRUNE-RECT-2K-20261007-R1",
+  "jobs": {
+    "ALPHAEDIT_BLUE": "60770",
+    "CAKE": "60769",
+    "PRUNE": "60771",
+    "RECT": "60772",
+    "collector": "60773"
+  },
+  "lock": {
+    "bytes": 72314,
+    "inode": 122169854,
+    "mtime_ns": 1791368504003264500,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-cake-blue-prune-rect-2k/attempt-r1/execution.lock.json",
+    "sha256": "e08af8a5febe136b727eb8e8c0e01a0dfb6afecad9c23aaccaaf00a959e0d87d"
+  },
+  "monitoring_active": false,
+  "resources": {
+    "collector_cpu": 6,
+    "collector_host_mib": 24576,
+    "collector_wall": "04:00:00",
+    "cpu": 6,
+    "fresh_admission_required": true,
+    "gpu": 1,
+    "gpu_budget": "FP32 native model/fit/solve/cast order; no scientific dtype/layer reduction",
+    "host_budget": "FP32 model + native per-layer C0/P + independent H/rollback RAM; actual peak measured",
+    "host_mib": 59392,
+    "project_cap": 2,
+    "reserve_bytes": 8589934592,
+    "task_cap": 2,
+    "wall": "2-00:00:00",
+    "wall_is_eta": false
+  },
+  "scientific_complete": false,
+  "source_commit": "3a4a107b7ae4c66f2f7a7f0cb441d26c5a639f68",
+  "status": "SUBMISSION_HANDOFF",
+  "task_id": "gptj-cake-blue-prune-rect-2k",
+  "held_inspection": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-cake-blue-prune-rect-2k/attempt-r1/held-inspection.json",
+    "bytes": 29320,
+    "sha256": "2710ec76c31d0f2ad0040d896542c91f954e3763d6722b877fa3afa2942ecd02",
+    "inode": 122169860,
+    "mtime_ns": 1791368504211264500
+  },
+  "note_ko": "실제 sbatch ID만 기록했다. 모든 job release 후 최초 snapshot이며 반복 모니터링은 없다."
+}
