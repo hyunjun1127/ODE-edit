@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "scope": "CPU report arithmetic/denominator/source/receipt consistency only",
+  "model_GPU_validation": false,
+  "scheduler_repoll": false,
+  "new_submission": false,
+  "checks": [
+    "10 unique registered IDs",
+    "exact three cancellation order",
+    "post receipt empty scoped queue",
+    "parent-only allocation arithmetic708",
+    "failure source hashes/zero-commit limits",
+    "unchanged historical fields",
+    "local raw-only manifest/privacy"
+  ],
+  "owner_audit": true,
+  "independent_red": false,
+  "local_receipt_sha256": "5a6f84a26824fea35040c42c1a74e9230c4fd395b2e6a11b09739cc2b8b5c240",
+  "command": "/usr/bin/python3 /mnt/raid5/janghj/ODE-edit/local/server2-baselines-stop-failure-review/verify.py",
+  "verify_source_sha256": "d2bbae1ac2fffe866ba52d3fbeeb9bf9d37ea6d967ce0070bdae7316719eb61a",
+  "capture_command": "/usr/bin/python3 /mnt/raid5/janghj/ODE-edit/local/server2-baselines-stop-failure-review/capture.py",
+  "capture_source_sha256": "d1cc6307f40d7a36689df25b5ee01fb748994c616d4e7eb380eca70e85e78712",
+  "capture_NOT_FOR_REPOLL": "Do not repeat; recorded once after cancellation",
+  "report_script_note": "Initial verifier compared normalized empty row list to raw empty output string; local report verifier only was corrected, and historical status comparison was pinned to authority commit877e9320. Two Markdown trailing spaces found by staged diff-check were removed before publication. Scheduler/science/source unchanged.",
+  "diff_check": "PASS",
+  "session_boundary": "PASS",
+  "agent_access_own_scope": "PASS",
+  "original_source_frozen": "UNCHANGED",
+  "new_own_report_only": true
+}

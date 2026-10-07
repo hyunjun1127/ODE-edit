@@ -1,0 +1,322 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH2-BASELINES-STOP-FAILURE-REVIEW-20261007",
+  "identity": {
+    "owner": "server2",
+    "session": "01a0493a-074c-7f91-9a13-769116326fef",
+    "actual_host": "server2",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "origin": "hyunjun1127/ODE-edit",
+    "worktree": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-baselines-stop-failure-review-20261007",
+    "branch": "codex/server2-baselines-stop-failure-review-20261007"
+  },
+  "captured_UTC": "2026-10-07T11:24:04.362292+00:00",
+  "receipt": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/server2-baselines-stop-failure-review/receipt.json",
+    "sha256": "5a6f84a26824fea35040c42c1a74e9230c4fd395b2e6a11b09739cc2b8b5c240",
+    "captured_UTC": "2026-10-07T11:24:04.362292+00:00",
+    "full_raw_in_Git": false
+  },
+  "before_validation": "Exact owner janghj(1025), ReqNodeList server2, Command task root, lock/source/launcher hashes matched before scancel; not job-name-only",
+  "before": [
+    {
+      "job_id": "60773",
+      "state": "PENDING",
+      "reason": "Dependency"
+    },
+    {
+      "job_id": "60771",
+      "state": "RUNNING",
+      "node": "server2"
+    },
+    {
+      "job_id": "60772",
+      "state": "RUNNING",
+      "node": "server2"
+    }
+  ],
+  "commands": [
+    {
+      "argv": [
+        "scancel",
+        "60773"
+      ],
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "scancel",
+        "60771"
+      ],
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "scancel",
+        "60772"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "execution_order": [
+    "60773",
+    "60771",
+    "60772"
+  ],
+  "exact_target_post_queue": [],
+  "active_baseline_target_count": 0,
+  "server2_or_unclassified_owner_queue_count": 0,
+  "accounting": [
+    {
+      "job_id": "59878",
+      "job_name": "fe-sequential-10k",
+      "owner": "janghj",
+      "state": "CANCELLED by 1025",
+      "exit_code": "0:0",
+      "elapsed_seconds": 66722,
+      "allocated_GPUs": 1,
+      "allocated_GPU_seconds": 66722,
+      "node": "server2",
+      "start": "2026-10-06T21:38:08",
+      "end": "2026-10-07T16:10:10",
+      "child_steps_excluded": true
+    },
+    {
+      "job_id": "59879",
+      "job_name": "fe-sequential-10k",
+      "owner": "janghj",
+      "state": "CANCELLED by 1025",
+      "exit_code": "0:0",
+      "elapsed_seconds": 0,
+      "allocated_GPUs": 0,
+      "allocated_GPU_seconds": 0,
+      "node": "None assigned",
+      "start": "None",
+      "end": "2026-10-07T16:10:10",
+      "child_steps_excluded": true
+    },
+    {
+      "job_id": "60656",
+      "job_name": "gptj-easyedit-native-baselines-2k-BASE_MEMIT",
+      "owner": "janghj",
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "elapsed_seconds": 10412,
+      "allocated_GPUs": 1,
+      "allocated_GPU_seconds": 10412,
+      "node": "server2",
+      "start": "2026-10-07T16:46:28",
+      "end": "2026-10-07T19:40:00",
+      "child_steps_excluded": true
+    },
+    {
+      "job_id": "60657",
+      "job_name": "gptj-easyedit-native-baselines-2k-BASE_ALPHAEDIT",
+      "owner": "janghj",
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "elapsed_seconds": 12318,
+      "allocated_GPUs": 1,
+      "allocated_GPU_seconds": 12318,
+      "node": "server2",
+      "start": "2026-10-07T16:46:28",
+      "end": "2026-10-07T20:11:46",
+      "child_steps_excluded": true
+    },
+    {
+      "job_id": "60658",
+      "job_name": "gptj-easyedit-native-baselines-2k-collector",
+      "owner": "janghj",
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "elapsed_seconds": 14,
+      "allocated_GPUs": 0,
+      "allocated_GPU_seconds": 0,
+      "node": "server2",
+      "start": "2026-10-07T20:12:07",
+      "end": "2026-10-07T20:12:21",
+      "child_steps_excluded": true
+    },
+    {
+      "job_id": "60769",
+      "job_name": "gptj-cake-blue-prune-rect-2k-CAKE",
+      "owner": "janghj",
+      "state": "FAILED",
+      "exit_code": "1:0",
+      "elapsed_seconds": 61,
+      "allocated_GPUs": 1,
+      "allocated_GPU_seconds": 61,
+      "node": "server2",
+      "start": "2026-10-07T20:12:07",
+      "end": "2026-10-07T20:13:08",
+      "child_steps_excluded": true
+    },
+    {
+      "job_id": "60770",
+      "job_name": "gptj-cake-blue-prune-rect-2k-ALPHAEDIT_BLUE",
+      "owner": "janghj",
+      "state": "FAILED",
+      "exit_code": "1:0",
+      "elapsed_seconds": 61,
+      "allocated_GPUs": 1,
+      "allocated_GPU_seconds": 61,
+      "node": "server2",
+      "start": "2026-10-07T20:12:07",
+      "end": "2026-10-07T20:13:08",
+      "child_steps_excluded": true
+    },
+    {
+      "job_id": "60771",
+      "job_name": "gptj-cake-blue-prune-rect-2k-PRUNE",
+      "owner": "janghj",
+      "state": "CANCELLED by 1025",
+      "exit_code": "0:0",
+      "elapsed_seconds": 293,
+      "allocated_GPUs": 1,
+      "allocated_GPU_seconds": 293,
+      "node": "server2",
+      "start": "2026-10-07T20:13:28",
+      "end": "2026-10-07T20:18:21",
+      "child_steps_excluded": true
+    },
+    {
+      "job_id": "60772",
+      "job_name": "gptj-cake-blue-prune-rect-2k-RECT",
+      "owner": "janghj",
+      "state": "CANCELLED by 1025",
+      "exit_code": "0:0",
+      "elapsed_seconds": 293,
+      "allocated_GPUs": 1,
+      "allocated_GPU_seconds": 293,
+      "node": "server2",
+      "start": "2026-10-07T20:13:28",
+      "end": "2026-10-07T20:18:21",
+      "child_steps_excluded": true
+    },
+    {
+      "job_id": "60773",
+      "job_name": "gptj-cake-blue-prune-rect-2k-collector",
+      "owner": "janghj",
+      "state": "CANCELLED by 1025",
+      "exit_code": "0:0",
+      "elapsed_seconds": 0,
+      "allocated_GPUs": 0,
+      "allocated_GPU_seconds": 0,
+      "node": "None assigned",
+      "start": "None",
+      "end": "2026-10-07T20:18:21",
+      "child_steps_excluded": true
+    }
+  ],
+  "allocation_time_zone": "Slurm start/end strings as displayed on server2 (KST); capture timestamp UTC",
+  "child_steps_excluded": true,
+  "allocated_GPU_seconds_new_four_arm": 708,
+  "allocated_GPU_hours_new_four_arm": 0.19666666666666666,
+  "failed_parent_GPU_seconds": 122,
+  "cancelled_successor_GPU_seconds": 586,
+  "old_stock_and_FE_costs": "Historical separate rows; not new stop/diagnosis computation charges",
+  "registration": {
+    "gptj-cake-blue-prune-rect-2k": {
+      "source": "3a4a107b7ae4c66f2f7a7f0cb441d26c5a639f68",
+      "lock": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-cake-blue-prune-rect-2k/attempt-r1/execution.lock.json",
+        "bytes": 72314,
+        "inode": 122169854,
+        "mtime_ns_string": "1791368504003264629",
+        "sha256": "e08af8a5febe136b727eb8e8c0e01a0dfb6afecad9c23aaccaaf00a959e0d87d"
+      },
+      "submission": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-cake-blue-prune-rect-2k/attempt-r1/submission.json",
+        "bytes": 1897,
+        "inode": 122169866,
+        "mtime_ns_string": "1791368504247264417",
+        "sha256": "05a16630a98eebeeea7f965ce0f9a6380e11b3863a6f0f577e66ddaf14275321"
+      },
+      "jobs": {
+        "ALPHAEDIT_BLUE": "60770",
+        "CAKE": "60769",
+        "PRUNE": "60771",
+        "RECT": "60772",
+        "collector": "60773"
+      },
+      "profile": "gptj-cake-blue-prune-rect-2k",
+      "source_archive": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-cake-blue-prune-rect-2k/attempt-r1/source.tar",
+        "bytes": 2007040,
+        "inode": 122169596,
+        "mtime_ns_string": "1791368503875264741",
+        "sha256": "fe65da305b948a6a53d272589e329ccb319f3145dbab826b3f87133cfad576b0"
+      }
+    },
+    "gptj-easyedit-native-baselines-2k": {
+      "source": "56d3a445553b60bf1a5e33f0e820e0699364ba0b",
+      "lock": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-easyedit-native-baselines-2k/attempt-r1/execution.lock.json",
+        "bytes": 63009,
+        "inode": 122100093,
+        "mtime_ns_string": "1791358568633156272",
+        "sha256": "9c5bc040deb42f0e6dc66136edf49c5ab37e576cc25ca4feb71e2a36da7d8839"
+      },
+      "submission": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-easyedit-native-baselines-2k/attempt-r1/submission.json",
+        "bytes": 1527,
+        "inode": 122100101,
+        "mtime_ns_string": "1791358568733155183",
+        "sha256": "95593bad2ed56ada12e561683f4fafecca9733a4c8769ac68c391b063bf0d86b"
+      },
+      "jobs": {
+        "BASE_ALPHAEDIT": "60657",
+        "BASE_MEMIT": "60656",
+        "collector": "60658"
+      },
+      "profile": "gptj-easyedit-native-baselines-2k",
+      "source_archive": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-easyedit-native-baselines-2k/attempt-r1/source.tar",
+        "bytes": 1638400,
+        "inode": 122099874,
+        "mtime_ns_string": "1791358568533157362",
+        "sha256": "b3434d7c73c2b4fdedc5885091ab3c901059b1058f62a69c8e01c32e769c9c16"
+      }
+    },
+    "fe-sequential-2k": {
+      "source": "3645b40832b3da08d9c3ee3264b3d500fbbd6434",
+      "lock": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-sequential-2k/attempt-online-10k-r1/execution.lock.json",
+        "bytes": 14687,
+        "inode": 121782468,
+        "mtime_ns_string": "1791290288465287734",
+        "sha256": "91d6113fca6ae76c92bc4b03abb8465937ff0bb58b0c164661e4d37ce3a3e937"
+      },
+      "submission": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-sequential-2k/attempt-online-10k-r1/submission.json",
+        "bytes": 2953,
+        "inode": 121782474,
+        "mtime_ns_string": "1791290288525287658",
+        "sha256": "8443654841fb72785f32a58db978dc93b4da35f5d006e8c3173b929da0741f76"
+      },
+      "jobs": {
+        "collector": "59879",
+        "main": "59878"
+      },
+      "profile": "fe-sequential-10k",
+      "source_archive": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-sequential-2k/attempt-online-10k-r1/source.tar",
+        "bytes": 225280,
+        "inode": 121782404,
+        "mtime_ns_string": "1791290288429287778",
+        "sha256": "8af71dd45c5deed83889fe55affe12265dcc4b2380bae5940ce347cf3854f832"
+      }
+    }
+  },
+  "protected": [
+    "60652",
+    "60653",
+    "60147",
+    "60148"
+  ],
+  "ours": "UNCHANGED",
+  "other_servers": "UNCHANGED",
+  "node_zero_allocation_claim": false,
+  "science_COMPLETED_review": "NOT_REVIEWED",
+  "monitoring_active": false
+}

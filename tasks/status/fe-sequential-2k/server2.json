@@ -2,7 +2,24 @@
   "nonce": "USER-GH-SH2-FE-WANDB-LOGIN-RESUME-20261006",
   "parent": "USER-GH-SH2-FE-SEQUENTIAL-2K-20261006",
   "user_override": "10k까지 진행하는 걸로 하자.",
-  "status": "SUBMISSION_HANDOFF",
+  "status": "STOPPED_USER",
+  "stop_override": {
+    "instruction_id": "USER-GH-SH2-BASELINES-STOP-FAILURE-REVIEW-20261007",
+    "effective_execution_authority": "STOPPED_USER",
+    "captured_UTC": "2026-10-07T11:24:04.362292+00:00",
+    "historical_status": "SUBMISSION_HANDOFF",
+    "scheduler_states": {
+      "59878": "CANCELLED",
+      "59879": "CANCELLED"
+    },
+    "newly_cancelled_job_ids": [],
+    "active_target_count": 0,
+    "scientific_result_review": "NOT_REVIEWED",
+    "original_source_config_raw_preserved": true,
+    "automatic_resume": false,
+    "automatic_retry": false,
+    "report": "experiment-reports/servers/server2/server2-baselines-stop-failure-review/report-ko.md"
+  },
   "host": "server2",
   "session": "01a0493a-074c-7f91-9a13-769116326fef",
   "task_namespace": "fe-sequential-2k",

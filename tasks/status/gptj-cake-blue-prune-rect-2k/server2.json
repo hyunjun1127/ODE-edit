@@ -3,8 +3,33 @@
   "task_id": "gptj-cake-blue-prune-rect-2k",
   "owner": "server2",
   "session": "01a0493a-074c-7f91-9a13-769116326fef",
-  "status": "SUBMISSION_HANDOFF",
-  "stage": "ALL_FIVE_REGISTERED_HELD_INSPECTED_RELEASED",
+  "status": "STOPPED_USER",
+  "stop_override": {
+    "instruction_id": "USER-GH-SH2-BASELINES-STOP-FAILURE-REVIEW-20261007",
+    "effective_execution_authority": "STOPPED_USER",
+    "captured_UTC": "2026-10-07T11:24:04.362292+00:00",
+    "historical_status": "SUBMISSION_HANDOFF",
+    "historical_stage": "ALL_FIVE_REGISTERED_HELD_INSPECTED_RELEASED",
+    "scheduler_states": {
+      "60769": "FAILED",
+      "60770": "FAILED",
+      "60771": "CANCELLED",
+      "60772": "CANCELLED",
+      "60773": "CANCELLED"
+    },
+    "newly_cancelled_job_ids": [
+      "60773",
+      "60771",
+      "60772"
+    ],
+    "active_target_count": 0,
+    "scientific_result_review": "READONLY_FAILURE_RCA_ONLY",
+    "original_source_config_raw_preserved": true,
+    "automatic_resume": false,
+    "automatic_retry": false,
+    "report": "experiment-reports/servers/server2/server2-baselines-stop-failure-review/report-ko.md"
+  },
+  "stage": "USER_STOPPED_POST_CANCEL_READONLY_RCA",
   "jobs": {
     "ALPHAEDIT_BLUE": "60770",
     "CAKE": "60769",

@@ -1,0 +1,232 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH2-BASELINES-STOP-FAILURE-REVIEW-20261007",
+  "local_receipt": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/server2-baselines-stop-failure-review/receipt.json",
+    "sha256": "5a6f84a26824fea35040c42c1a74e9230c4fd395b2e6a11b09739cc2b8b5c240",
+    "captured_UTC": "2026-10-07T11:24:04.362292+00:00",
+    "full_raw_in_Git": false
+  },
+  "registration": {
+    "gptj-cake-blue-prune-rect-2k": {
+      "source": "3a4a107b7ae4c66f2f7a7f0cb441d26c5a639f68",
+      "lock": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-cake-blue-prune-rect-2k/attempt-r1/execution.lock.json",
+        "bytes": 72314,
+        "inode": 122169854,
+        "mtime_ns_string": "1791368504003264629",
+        "sha256": "e08af8a5febe136b727eb8e8c0e01a0dfb6afecad9c23aaccaaf00a959e0d87d"
+      },
+      "submission": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-cake-blue-prune-rect-2k/attempt-r1/submission.json",
+        "bytes": 1897,
+        "inode": 122169866,
+        "mtime_ns_string": "1791368504247264417",
+        "sha256": "05a16630a98eebeeea7f965ce0f9a6380e11b3863a6f0f577e66ddaf14275321"
+      },
+      "jobs": {
+        "ALPHAEDIT_BLUE": "60770",
+        "CAKE": "60769",
+        "PRUNE": "60771",
+        "RECT": "60772",
+        "collector": "60773"
+      },
+      "profile": "gptj-cake-blue-prune-rect-2k",
+      "source_archive": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-cake-blue-prune-rect-2k/attempt-r1/source.tar",
+        "bytes": 2007040,
+        "inode": 122169596,
+        "mtime_ns_string": "1791368503875264741",
+        "sha256": "fe65da305b948a6a53d272589e329ccb319f3145dbab826b3f87133cfad576b0"
+      }
+    },
+    "gptj-easyedit-native-baselines-2k": {
+      "source": "56d3a445553b60bf1a5e33f0e820e0699364ba0b",
+      "lock": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-easyedit-native-baselines-2k/attempt-r1/execution.lock.json",
+        "bytes": 63009,
+        "inode": 122100093,
+        "mtime_ns_string": "1791358568633156272",
+        "sha256": "9c5bc040deb42f0e6dc66136edf49c5ab37e576cc25ca4feb71e2a36da7d8839"
+      },
+      "submission": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-easyedit-native-baselines-2k/attempt-r1/submission.json",
+        "bytes": 1527,
+        "inode": 122100101,
+        "mtime_ns_string": "1791358568733155183",
+        "sha256": "95593bad2ed56ada12e561683f4fafecca9733a4c8769ac68c391b063bf0d86b"
+      },
+      "jobs": {
+        "BASE_ALPHAEDIT": "60657",
+        "BASE_MEMIT": "60656",
+        "collector": "60658"
+      },
+      "profile": "gptj-easyedit-native-baselines-2k",
+      "source_archive": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-easyedit-native-baselines-2k/attempt-r1/source.tar",
+        "bytes": 1638400,
+        "inode": 122099874,
+        "mtime_ns_string": "1791358568533157362",
+        "sha256": "b3434d7c73c2b4fdedc5885091ab3c901059b1058f62a69c8e01c32e769c9c16"
+      }
+    },
+    "fe-sequential-2k": {
+      "source": "3645b40832b3da08d9c3ee3264b3d500fbbd6434",
+      "lock": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-sequential-2k/attempt-online-10k-r1/execution.lock.json",
+        "bytes": 14687,
+        "inode": 121782468,
+        "mtime_ns_string": "1791290288465287734",
+        "sha256": "91d6113fca6ae76c92bc4b03abb8465937ff0bb58b0c164661e4d37ce3a3e937"
+      },
+      "submission": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-sequential-2k/attempt-online-10k-r1/submission.json",
+        "bytes": 2953,
+        "inode": 121782474,
+        "mtime_ns_string": "1791290288525287658",
+        "sha256": "8443654841fb72785f32a58db978dc93b4da35f5d006e8c3173b929da0741f76"
+      },
+      "jobs": {
+        "collector": "59879",
+        "main": "59878"
+      },
+      "profile": "fe-sequential-10k",
+      "source_archive": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-sequential-2k/attempt-online-10k-r1/source.tar",
+        "bytes": 225280,
+        "inode": 121782404,
+        "mtime_ns_string": "1791290288429287778",
+        "sha256": "8af71dd45c5deed83889fe55affe12265dcc4b2380bae5940ce347cf3854f832"
+      }
+    }
+  },
+  "failure_members": {
+    "CAKE": [
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-cake-blue-prune-rect-2k/attempt-r1/CAKE/failure.json",
+        "bytes": 479,
+        "inode": 122170060,
+        "mtime_ns_string": "1791371585540671498",
+        "sha256": "5dd9c6c7011baa9dfba6358dc456825a05a898c44d15f69cfea93cfe5e430d61"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-cake-blue-prune-rect-2k/attempt-r1/CAKE/terminal.json",
+        "bytes": 634,
+        "inode": 122170067,
+        "mtime_ns_string": "1791371586856672097",
+        "sha256": "0a3151cc65e1f4daab297954b40ea5c2c21366cda190e8d57b9b126566b261fc"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-cake-blue-prune-rect-2k/attempt-r1/CAKE/runtime.json",
+        "status": "NOT_RECORDED"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-cake-blue-prune-rect-2k/attempt-r1/CAKE/tracking-identity.json",
+        "bytes": 1671,
+        "inode": 122170044,
+        "mtime_ns_string": "1791371535332645669",
+        "sha256": "038c8e5d28b2dcf27c249ad2b42e496764da484b9a9f40d4b5d92ea2a2632465"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-cake-blue-prune-rect-2k/attempt-r1/CAKE/tracking-finish.json",
+        "bytes": 646,
+        "inode": 122170066,
+        "mtime_ns_string": "1791371586852672096",
+        "sha256": "f2456c80b51b7c3a1dfa8124e481a3d5e551090db12167f5becc4b2f0f245eb5"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-cake-blue-prune-rect-2k/attempt-r1/CAKE-60769.err",
+        "bytes": 3625,
+        "inode": 122170005,
+        "mtime_ns_string": "1791371585544671500",
+        "sha256": "4afdd3e84ac159fe25b850a3cb460258081d4140e9fad11f7019bda012c3d48c"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-cake-blue-prune-rect-2k/attempt-r1/CAKE-60769.out",
+        "bytes": 0,
+        "inode": 122170004,
+        "mtime_ns_string": "1791371527820641281",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "ALPHAEDIT_BLUE": [
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-cake-blue-prune-rect-2k/attempt-r1/ALPHAEDIT_BLUE/failure.json",
+        "bytes": 479,
+        "inode": 122170058,
+        "mtime_ns_string": "1791371584984671245",
+        "sha256": "5dd9c6c7011baa9dfba6358dc456825a05a898c44d15f69cfea93cfe5e430d61"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-cake-blue-prune-rect-2k/attempt-r1/ALPHAEDIT_BLUE/terminal.json",
+        "bytes": 634,
+        "inode": 122170065,
+        "mtime_ns_string": "1791371586652672005",
+        "sha256": "5563a1d6dbc4bfc39288f38f6c23312b271f4ee3be22524439522d6e9f238bb0"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-cake-blue-prune-rect-2k/attempt-r1/ALPHAEDIT_BLUE/runtime.json",
+        "status": "NOT_RECORDED"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-cake-blue-prune-rect-2k/attempt-r1/ALPHAEDIT_BLUE/tracking-identity.json",
+        "bytes": 1721,
+        "inode": 122170048,
+        "mtime_ns_string": "1791371535456645740",
+        "sha256": "e25c74b5ed39c344de977cf34f31d0aa2db04980f64523ba0ec0db2a1896ad0d"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-cake-blue-prune-rect-2k/attempt-r1/ALPHAEDIT_BLUE/tracking-finish.json",
+        "bytes": 656,
+        "inode": 122170064,
+        "mtime_ns_string": "1791371586644672001",
+        "sha256": "ffbd2b403cb1d46a2e44967ce6daa5b0de3d582e320d92796e7bd6751602b143"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-cake-blue-prune-rect-2k/attempt-r1/ALPHAEDIT_BLUE-60770.err",
+        "bytes": 3625,
+        "inode": 122170007,
+        "mtime_ns_string": "1791371584988671247",
+        "sha256": "4afdd3e84ac159fe25b850a3cb460258081d4140e9fad11f7019bda012c3d48c"
+      },
+      {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-cake-blue-prune-rect-2k/attempt-r1/ALPHAEDIT_BLUE-60770.out",
+        "bytes": 0,
+        "inode": 122170006,
+        "mtime_ns_string": "1791371527828641285",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  "source_evidence": [
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-cake-blue-prune-rect-2k/attempt-r1/source/project/run_scripts/gptj_cake_blue_prune_rect/native_cake_blue.py",
+      "bytes": 36546,
+      "inode": 122169669,
+      "mtime_ns_string": "1791368496000000000",
+      "sha256": "31246adca7e0b5510237f6da763c565da9d2a0fd68a6b4e382923ca6255f61f8"
+    },
+    {
+      "path": "/mnt/raid5/janghj/EasyEdit/.venv/lib/python3.12/site-packages/transformers/models/gptj/modeling_gptj.py",
+      "bytes": 53912,
+      "inode": 120464865,
+      "mtime_ns_string": "1772524697565907934",
+      "sha256": "2fea54b39fba964e2c7516bbd66e20eff3296c06fe540405d0020dd8e5b8264b"
+    },
+    {
+      "path": "/mnt/raid5/janghj/EasyEdit/.venv/lib/python3.12/site-packages/torch/nn/modules/linear.py",
+      "bytes": 12000,
+      "inode": 120462027,
+      "mtime_ns_string": "1772524790897499924",
+      "sha256": "63fb3cae2a1561fec5e183e45c171d177080113a3996f1046eea35530cd33247"
+    }
+  ],
+  "raw_disposition": "LOCAL_KEEP",
+  "raw_body_copied_to_Git": false,
+  "authority": {
+    "commit": "877e93201d424b8a3b503b905e2ab4b4e3057465",
+    "path": "messages/head/2026-10-07-server2-baselines-stop-failure-review.json",
+    "sha256": "2540fe5e47e250afb84042b2ba03efb1adf31518d24dbe72e5184597ae36a669"
+  },
+  "execution_source_distinct_from_report_publication": true
+}

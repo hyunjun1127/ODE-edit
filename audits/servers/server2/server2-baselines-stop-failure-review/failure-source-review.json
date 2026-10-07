@@ -1,0 +1,174 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH2-BASELINES-STOP-FAILURE-REVIEW-20261007",
+  "execution_source": "3a4a107b7ae4c66f2f7a7f0cb441d26c5a639f68",
+  "execution_tree": "60f2be99325236e8f197f51fdd57c3d0e8760579",
+  "execution_lock_sha256": "e08af8a5febe136b727eb8e8c0e01a0dfb6afecad9c23aaccaaf00a959e0d87d",
+  "config_file_sha256": "4cddaf03c88a7364e2622d1f8e3c7e0dd0d796cc545e73177f6f9951dd933790",
+  "config_canonical_digest": "172d7f204de97ed64ab75bde9e2338bf9532fc55164cd966eb08ef9b8017a3e1",
+  "first_exception": "RuntimeError: NATIVE_GPTJ_LINEAR_FC_OUT_LAYOUT",
+  "first_stage": "LOAD_W0 (includes native adapter binding)",
+  "stack": [
+    "run.py:103",
+    "native_cake_blue.py:704",
+    "native_cake_blue.py:56 require"
+  ],
+  "source_backed_RCA": "The task adapter requires fc_out.bias is None; pinned stock GPTJ constructor creates nn.Linear(intermediate_size, embed_dim) with Torch default bias=True. Guard is incompatible with this stock model layout before native apply.",
+  "guard_expression": "isinstance(module, torch.nn.Linear) and module.bias is None and tuple(module.weight.shape)==(4096,16384) and module.weight.dtype==torch.float32",
+  "constructor_reference": {
+    "transformers_version": "4.57.1",
+    "gptj_line": 415,
+    "torch_version": "2.9.1+cu128",
+    "torch_default_bias_line": 100,
+    "torch_bias_parameter_line": 112
+  },
+  "observed_limitations": [
+    "No per-field dump of actual GPU module type/bias/shape/dtype; failure directly establishes the combined guard failed, constructor source explains incompatible bias predicate.",
+    "Both runtime.json NOT_RECORDED.",
+    "native_counts zeros are engine-None fallback counters, not a successful native-work measurement.",
+    "rollback_verified=false was tx=None before transaction, not evidence of failed rollback.",
+    "Scheduler COMPLETED of other native arms is not this task's scientific result certification.",
+    "W&B stored startup/flush receipt is not fresh remote readback or scientific completion."
+  ],
+  "diagnosis": [
+    {
+      "arm": "CAKE",
+      "job_id": "60769",
+      "failure": {
+        "status": "FAILED",
+        "stage": "LOAD_W0",
+        "error_type": "RuntimeError",
+        "error": "NATIVE_GPTJ_LINEAR_FC_OUT_LAYOUT",
+        "completed_batches": 0,
+        "commits": 0,
+        "native_counts": {
+          "history_appends": 0,
+          "history_keys": 0,
+          "native_z": 0,
+          "solves": 0,
+          "write_keys": 0
+        },
+        "rollback_verified": false,
+        "source": "3a4a107b7ae4c66f2f7a7f0cb441d26c5a639f68",
+        "config": "172d7f204de97ed64ab75bde9e2338bf9532fc55164cd966eb08ef9b8017a3e1",
+        "checkpoint_saved": false,
+        "exact_resume": "NOT_AVAILABLE"
+      },
+      "terminal": {
+        "status": "FAILED",
+        "stage": "LOAD_W0",
+        "error_type": "RuntimeError",
+        "error": "NATIVE_GPTJ_LINEAR_FC_OUT_LAYOUT",
+        "completed_batches": 0,
+        "commits": 0,
+        "native_counts": {
+          "history_appends": 0,
+          "history_keys": 0,
+          "native_z": 0,
+          "solves": 0,
+          "write_keys": 0
+        },
+        "rollback_verified": false,
+        "source": "3a4a107b7ae4c66f2f7a7f0cb441d26c5a639f68",
+        "config": "172d7f204de97ed64ab75bde9e2338bf9532fc55164cd966eb08ef9b8017a3e1",
+        "program_seconds": 54.39521962311119,
+        "peak_host_RSS_bytes": 48570257408,
+        "peak_gpu_allocated_bytes": 24204579840,
+        "peak_gpu_reserved_bytes": 24205328384,
+        "checkpoint_saved": false,
+        "exact_resume": "NOT_AVAILABLE"
+      },
+      "tracking": {
+        "run_id": "2fbeae86b9804af8",
+        "url": "https://wandb.ai/wkdguswns2256/layer%20allocation/runs/2fbeae86b9804af8",
+        "startup_status": "READY_ONLINE",
+        "finish_status": "FINISHED_SDK_FLUSHED",
+        "scientific_completion_not_implied": true
+      },
+      "completed_commit_files": []
+    },
+    {
+      "arm": "ALPHAEDIT_BLUE",
+      "job_id": "60770",
+      "failure": {
+        "status": "FAILED",
+        "stage": "LOAD_W0",
+        "error_type": "RuntimeError",
+        "error": "NATIVE_GPTJ_LINEAR_FC_OUT_LAYOUT",
+        "completed_batches": 0,
+        "commits": 0,
+        "native_counts": {
+          "history_appends": 0,
+          "history_keys": 0,
+          "native_z": 0,
+          "solves": 0,
+          "write_keys": 0
+        },
+        "rollback_verified": false,
+        "source": "3a4a107b7ae4c66f2f7a7f0cb441d26c5a639f68",
+        "config": "172d7f204de97ed64ab75bde9e2338bf9532fc55164cd966eb08ef9b8017a3e1",
+        "checkpoint_saved": false,
+        "exact_resume": "NOT_AVAILABLE"
+      },
+      "terminal": {
+        "status": "FAILED",
+        "stage": "LOAD_W0",
+        "error_type": "RuntimeError",
+        "error": "NATIVE_GPTJ_LINEAR_FC_OUT_LAYOUT",
+        "completed_batches": 0,
+        "commits": 0,
+        "native_counts": {
+          "history_appends": 0,
+          "history_keys": 0,
+          "native_z": 0,
+          "solves": 0,
+          "write_keys": 0
+        },
+        "rollback_verified": false,
+        "source": "3a4a107b7ae4c66f2f7a7f0cb441d26c5a639f68",
+        "config": "172d7f204de97ed64ab75bde9e2338bf9532fc55164cd966eb08ef9b8017a3e1",
+        "program_seconds": 54.19066845718771,
+        "peak_host_RSS_bytes": 48572526592,
+        "peak_gpu_allocated_bytes": 24204579840,
+        "peak_gpu_reserved_bytes": 24205328384,
+        "checkpoint_saved": false,
+        "exact_resume": "NOT_AVAILABLE"
+      },
+      "tracking": {
+        "run_id": "bff481b2e9574927",
+        "url": "https://wandb.ai/wkdguswns2256/layer%20allocation/runs/bff481b2e9574927",
+        "startup_status": "READY_ONLINE",
+        "finish_status": "FINISHED_SDK_FLUSHED",
+        "scientific_completion_not_implied": true
+      },
+      "completed_commit_files": []
+    }
+  ],
+  "source_evidence": [
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-cake-blue-prune-rect-2k/attempt-r1/source/project/run_scripts/gptj_cake_blue_prune_rect/native_cake_blue.py",
+      "bytes": 36546,
+      "inode": 122169669,
+      "mtime_ns_string": "1791368496000000000",
+      "sha256": "31246adca7e0b5510237f6da763c565da9d2a0fd68a6b4e382923ca6255f61f8"
+    },
+    {
+      "path": "/mnt/raid5/janghj/EasyEdit/.venv/lib/python3.12/site-packages/transformers/models/gptj/modeling_gptj.py",
+      "bytes": 53912,
+      "inode": 120464865,
+      "mtime_ns_string": "1772524697565907934",
+      "sha256": "2fea54b39fba964e2c7516bbd66e20eff3296c06fe540405d0020dd8e5b8264b"
+    },
+    {
+      "path": "/mnt/raid5/janghj/EasyEdit/.venv/lib/python3.12/site-packages/torch/nn/modules/linear.py",
+      "bytes": 12000,
+      "inode": 120462027,
+      "mtime_ns_string": "1772524790897499924",
+      "sha256": "63fb3cae2a1561fec5e183e45c171d177080113a3996f1046eea35530cd33247"
+    }
+  ],
+  "review_type": "Owner cancellation audit plus bounded read-only source explorer; no independent red/GPU reviewer",
+  "repair": "NOT_AUTHORIZED_NOT_RUN",
+  "new_GPU": "NOT_RUN",
+  "firststep_completed": false
+}

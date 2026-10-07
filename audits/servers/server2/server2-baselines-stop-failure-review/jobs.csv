@@ -1,0 +1,11 @@
+job_id,job_name,owner,state,exit_code,elapsed_seconds,allocated_GPUs,allocated_GPU_seconds,node,start,end,action
+"59878","fe-sequential-10k","janghj","CANCELLED by 1025","0:0","66722","1","66722","server2","2026-10-06T21:38:08","2026-10-07T16:10:10","TERMINAL_RECORDED_NO_SCANCEL"
+"59879","fe-sequential-10k","janghj","CANCELLED by 1025","0:0","0","0","0","None assigned","None","2026-10-07T16:10:10","TERMINAL_RECORDED_NO_SCANCEL"
+"60656","gptj-easyedit-native-baselines-2k-BASE_MEMIT","janghj","COMPLETED","0:0","10412","1","10412","server2","2026-10-07T16:46:28","2026-10-07T19:40:00","TERMINAL_RECORDED_NO_SCANCEL"
+"60657","gptj-easyedit-native-baselines-2k-BASE_ALPHAEDIT","janghj","COMPLETED","0:0","12318","1","12318","server2","2026-10-07T16:46:28","2026-10-07T20:11:46","TERMINAL_RECORDED_NO_SCANCEL"
+"60658","gptj-easyedit-native-baselines-2k-collector","janghj","COMPLETED","0:0","14","0","0","server2","2026-10-07T20:12:07","2026-10-07T20:12:21","TERMINAL_RECORDED_NO_SCANCEL"
+"60769","gptj-cake-blue-prune-rect-2k-CAKE","janghj","FAILED","1:0","61","1","61","server2","2026-10-07T20:12:07","2026-10-07T20:13:08","TERMINAL_RECORDED_NO_SCANCEL"
+"60770","gptj-cake-blue-prune-rect-2k-ALPHAEDIT_BLUE","janghj","FAILED","1:0","61","1","61","server2","2026-10-07T20:12:07","2026-10-07T20:13:08","TERMINAL_RECORDED_NO_SCANCEL"
+"60771","gptj-cake-blue-prune-rect-2k-PRUNE","janghj","CANCELLED by 1025","0:0","293","1","293","server2","2026-10-07T20:13:28","2026-10-07T20:18:21","CANCELLED_THIS_TASK"
+"60772","gptj-cake-blue-prune-rect-2k-RECT","janghj","CANCELLED by 1025","0:0","293","1","293","server2","2026-10-07T20:13:28","2026-10-07T20:18:21","CANCELLED_THIS_TASK"
+"60773","gptj-cake-blue-prune-rect-2k-collector","janghj","CANCELLED by 1025","0:0","0","0","0","None assigned","None","2026-10-07T20:18:21","CANCELLED_THIS_TASK"
