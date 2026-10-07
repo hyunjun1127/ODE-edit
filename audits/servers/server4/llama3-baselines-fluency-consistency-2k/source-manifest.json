@@ -1,0 +1,109 @@
+{
+  "execution_source": "e3019677e5b17edf98401e381972c272a711ecc7",
+  "config_SHA256": "bd07c80a94ae978c3ab071d0ed5f54d0a5a945f9350ad6141ff4e1173e7fb676",
+  "cpu_receipt_SHA256": "7ef1d7ecd00afe8bf18458c4094108f8f4dd035d6eef1fbf4526b69f9d966dd6",
+  "files": [
+    {
+      "relative": "project/run_scripts/llama3_native_baselines/__init__.py",
+      "bytes": 74,
+      "SHA256": "7707fe87ec710a95d03a3781f036e3413bedcb1f472ad7dab88423b5a95abad8"
+    },
+    {
+      "relative": "project/run_scripts/llama3_native_baselines/collect.py",
+      "bytes": 48363,
+      "SHA256": "a2972965fdebc00c9092d574bda31104e53208acf07e07a0b13898824c115ee6"
+    },
+    {
+      "relative": "project/run_scripts/llama3_native_baselines/common.py",
+      "bytes": 2311,
+      "SHA256": "0767d35e85f7d2871fdba65ed1f4e1ccae51aa140505f0e854e671e74e1af6a2"
+    },
+    {
+      "relative": "project/run_scripts/llama3_native_baselines/generation.py",
+      "bytes": 9852,
+      "SHA256": "107b572ecb5b3e8f52f907064815c86d941d474d1bddb137c36d9fc2d417d108"
+    },
+    {
+      "relative": "project/run_scripts/llama3_native_baselines/metrics.py",
+      "bytes": 11816,
+      "SHA256": "f4a36057b9b3be15d78635b2ad078cec477b78eacde0a988aad499ac2171f565"
+    },
+    {
+      "relative": "project/run_scripts/llama3_native_baselines/native.py",
+      "bytes": 36343,
+      "SHA256": "bc7cd15dc6797c3c6dcbb36499cd9b8c28f11dcbeca7f097f7c7802be4690793"
+    },
+    {
+      "relative": "project/run_scripts/llama3_native_baselines/native_binding.py",
+      "bytes": 11966,
+      "SHA256": "e9c59843aebaeb851dd0c421066eee2fde3abe7da5901d5ecff91069219f6e0a"
+    },
+    {
+      "relative": "project/run_scripts/llama3_native_baselines/preflight.py",
+      "bytes": 3009,
+      "SHA256": "9f516bcf526f120e5e2bf3f91189fed9aefb10a0a8862ad5e005ba4ca58501e1"
+    },
+    {
+      "relative": "project/run_scripts/llama3_native_baselines/prepare.py",
+      "bytes": 14117,
+      "SHA256": "cb076202569073c3d9f69f92a9ea0f6fee65a78d466e669d1504f8a051146200"
+    },
+    {
+      "relative": "project/run_scripts/llama3_native_baselines/producer.py",
+      "bytes": 5950,
+      "SHA256": "3cfe4abf714c4adac961adeb0bc4a48a936b1615714f34bbe773fef76895b9f9"
+    },
+    {
+      "relative": "project/run_scripts/llama3_native_baselines/run.py",
+      "bytes": 23394,
+      "SHA256": "cc14441a8cbd48ffafabbad76b7260d329aa0b1e2bae0d5a69f908923feaf019"
+    },
+    {
+      "relative": "project/run_scripts/llama3_native_baselines/submit.py",
+      "bytes": 14406,
+      "SHA256": "adc8447dcf179edc16890c254467967ee7f862d144b6663ec41b7b3578b16c19"
+    },
+    {
+      "relative": "project/run_scripts/llama3_native_baselines/test_collect.py",
+      "bytes": 15740,
+      "SHA256": "b8ba1bec0898c34b91280c018b7d118e0b7f2665e4123ad872e64391f1bc25d7"
+    },
+    {
+      "relative": "project/run_scripts/llama3_native_baselines/test_native_binding.py",
+      "bytes": 9813,
+      "SHA256": "f65386f7bf6520241417c7517b17a2506a3ee515de917a7a9b2323ec02965983"
+    },
+    {
+      "relative": "project/run_scripts/llama3_native_baselines/test_observer.py",
+      "bytes": 16863,
+      "SHA256": "facbb6bdea8383a127dae9386a9c1d75ccf8b1104af39e6f7d10f66a90fe1bc7"
+    },
+    {
+      "relative": "project/run_scripts/llama3_native_baselines/test_producer.py",
+      "bytes": 2955,
+      "SHA256": "fe56566a85f4538f4505fed927de3f4b518b3f96b4c5d857a785beba174ddb61"
+    },
+    {
+      "relative": "project/run_scripts/llama3_native_baselines/test_run.py",
+      "bytes": 6466,
+      "SHA256": "19e2258f55a632a893c8dc5b492c6e2f23bd28fb04c9415c25364cc0e918968c"
+    },
+    {
+      "relative": "project/run_scripts/llama3_native_baselines/test_submit.py",
+      "bytes": 2516,
+      "SHA256": "67dc9fa611564a33018ffcf37a10f9b05eb28bd750b0954050304b616a08041b"
+    },
+    {
+      "relative": "project/run_scripts/llama3_native_baselines/test_tracking.py",
+      "bytes": 3022,
+      "SHA256": "16eb5c56dc6d46be6c591db33b573eccd1c9599d1b7438b628eb51bd4e98973b"
+    },
+    {
+      "relative": "project/run_scripts/llama3_native_baselines/transaction.py",
+      "bytes": 6213,
+      "SHA256": "2bd3bd4b73d04eba0992f9d619eaa89e553c8b8100806149f24f24df2ee3d3ec"
+    }
+  ],
+  "contains_raw": false,
+  "noCP": true
+}

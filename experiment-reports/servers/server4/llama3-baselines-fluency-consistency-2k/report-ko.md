@@ -2,9 +2,29 @@
 
 ## 현재 단계
 
-`CPU_SOURCE_READY_NOT_SUBMITTED`. 수락 nonce는 `USER-GH-ALL-SH-BASELINE-FLUENCY-CONSISTENCY-RERUN-20261007-R1`이다. 실제 GPU qualification, B1, W20, W&B remote delivery는 아직 `NOT_OBSERVED`; 접수나 CPU 검사를 실험 완료로 표기하지 않는다. 후속 제출 receipt에서 실제 job/source/의존성을 별도 갱신한다.
+`RESOURCE_BLOCKED_SLURM_CONTROLLER_IO_NOT_SUBMITTED`. 수락 nonce는 `USER-GH-ALL-SH-BASELINE-FLUENCY-CONSISTENCY-RERUN-20261007-R1`이다. 소스 구현/CPU61검사/실행 archive 봉인은 완료했지만 **첫 held 제출이 Slurm controller I/O 오류로 거부되어 실제 job IDs는 `[]`**이다. actual GPU qualification/B1/W20/W&B remote delivery 모두 `NOT_OBSERVED`. 이는 Slurm PENDING으로 등록된 상태가 아니다.
 
 정확 소유 baseline 여섯 종의 활성 실행은 초기 한정 inventory에서 없었다. 취소 IDs는 `[]` / 취소 0. PRICE OURS, 명시 KEEP 60001, 기존 GPT-J 및 W0/자산 준비는 변경하지 않았다.
+
+## 실제 제출 시도와 blocker
+
+실행 source `e3019677e5b17edf98401e381972c272a711ecc7`, tree `54cdbb68c41a6fb7502e86d9375501db0c58b52c`, config SHA `bd07c80a94ae978c3ab071d0ed5f54d0a5a945f9350ad6141ff4e1173e7fb676`, archive SHA `f0339e37f0dfa5672347fd1cd286fe69787d25aa7add1fd7c0920ec7ddaa8034`를 frozen `attempt-r1`에 보존했다. runtime source와 후속 보고서 publication commit은 구별한다.
+
+첫 MEMIT `sbatch --hold` 1회가 `Batch job submission failed: I/O error writing script/environment to file`로 실패했다. 성공 등록/held inspection/release 모두 0, 나머지 다섯 arm/collector의 제출 호출도 0이다. 실패 뒤 한정 exact own queue에 신규 task는 없었고 기존 OURS 세 allocation은 그대로였다. resource barrier는 기존 admitted GPU IDs `60621,60620,60618,60107,60106,60619,60617,60105`의 afterany로 계획했다. 이 ID들에 취소/hold/dependency 수정은 하지 않았다.
+
+읽기전용 확인: controller `devbox` UP, `StateSaveLocation=/var/spool/slurmctld`. 승인된 서버 연결의 `df`에서 controller state/log filesystem `/dev/nvme0n1p2` available 0 / use100%, inode use5%; server4 `/data`는 약47GiB, root/tmp는 약130GiB available였다. controller 저장공간 부족은 관측 사실이며 제출 오류와 부합하는 원인 **추론**이다. 정확 errno와 controller log는 읽기 권한이 없어 `NOT_VERIFIED`. Slurm의 해당 오류는 controller에서 job script/environment 파일 저장이 실패했을 때 반환되는 코드이므로, server4 입력 파일 오류나 과학 실패로 단정하지 않는다. [SchedMD 원 소스](https://raw.githubusercontent.com/SchedMD/slurm/slurm-24.05/src/slurmctld/job_mgr.c)
+
+| 방법/role | 실제 새 ID | 단계 |
+| --- | --- | --- |
+| MEMIT | 없음 | 첫 held-submit 거부 |
+| PRUNE | 없음 | NOT_SUBMITTED |
+| RECT | 없음 | NOT_SUBMITTED |
+| AlphaEdit | 없음 | NOT_SUBMITTED |
+| AlphaEdit-BLUE | 없음 | NOT_SUBMITTED |
+| CAKE | 없음 | NOT_SUBMITTED |
+| CPU collector | 없음 | NOT_SUBMITTED |
+
+관리 디스크 삭제/이동/권한 변경/daemon restart는 현재 승인 scope 밖이라 0이다. controller 가용공간 복구 필요를 GH에 직접 전달했고, GH는 exact accepted turn `01a11666-fe5c-7d82-9eea-fe76c57b6d28`에서 장애 보고 수신을 회신했다. 이후 GH 작업 완료는 기다리지 않는다. 자동 retry/반복 sbatch/agent polling 없이 blocked 인계한다. 옛 source/raw/frozen 실패 attempt는 KEEP한다.
 
 ## 실험과 원 구현
 
@@ -52,5 +72,7 @@ server4 combined project cap 3, task cap 3. GPU job별 1GPU/8CPU/59392MiB, hard6
 W&B `wkdguswns2256` / `layer allocation`: 새 실제 startup에서 online init, 실제 job 번호/name/config, source/config/model/method/profile/immutable run ID를 기록한다. current/pre,current/post,all_seen/post,W0_first2000,w0 subsets의 scalar만 허용하고 edits/state axes와 fit/global_candidate를 분리한다. SDK 접수는 remote ACK가 아니다. 기존 startup/finish의 bounded readback 외 새 monitor는 없다.
 
 현재 원자료/참조는 local KEEP; 소형 source/report/SHA만 Git 게시하므로 `NO_BROADCAST_NOT_REQUIRED` (대형 생성 raw/W&B spool/credential은 전송 금지). 자동 생성될 CPU collector 결과는 `local/llama3-baselines-fluency-consistency-2k/attempt-r1/collector/`에 report/compact CSV/manifest로 남는다. 파일명이나 Slurm COMPLETED만으로 W20를 추정하지 않고 exact rows/20commit/19join/각 native H 수를 reducer가 검산한다. 등록 뒤 단 1회 initial resource snapshot을 인계하고 agent monitoring/automatic resume/retry를 끈다. 봉인 runner/collector는 자연 진행한다.
+
+일반 agent access helper는 `runs/llama3-baselines-fluency-consistency-2k/submission.json` 패턴을 지원하지 않아 그 검사만 `NOT_PASS_SCOPE_PATTERN`이다. 현재 envelope의 exact 허용 prefix를 게시 예외 근거로 기록했다. 다른 staged 파일은 ownscope이고 공용 helper는 수정하지 않았다. 현재는 실제 runner 미등록이므로 자연 진행 중이라는 주장은 없다.
 
 Codex app-server 경로 조정은 OpenAI Docs 및 로컬 client를 참고한 전달 경로 보완이며 과학 method 변경이 아니다.
