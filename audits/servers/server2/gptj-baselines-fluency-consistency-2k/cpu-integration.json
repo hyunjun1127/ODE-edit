@@ -1,0 +1,75 @@
+{
+  "CPU_threads": 1,
+  "CUDA_initialized": false,
+  "actual_generation": false,
+  "actual_native_fit": false,
+  "actual_online_validation": false,
+  "config": {
+    "bytes": 661338,
+    "inode": 122295917,
+    "mtime_ns": 1791377372983543300,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-baselines-fluency-consistency-2k/preparation-r2/config.json",
+    "sha256": "51d822e131bcc096e43438dd699e87205fa4ecbcccd44388e673f16eae9af4c7"
+  },
+  "errors": 0,
+  "failures": 0,
+  "independent_reducer": "Separate worker-owned CPU reducer; no actual GPU red PASS",
+  "model_loaded": false,
+  "modules": [
+    "project.run_scripts.gptj_native_baselines.test_generation_bridge",
+    "project.run_scripts.gptj_native_baselines.test_generation_tracking_shared",
+    "project.run_scripts.gptj_native_baselines.test_generation_run",
+    "project.run_scripts.gptj_native_baselines.test_generation_submit",
+    "project.run_scripts.gptj_native_baselines.test_generation_collect"
+  ],
+  "new_Slurm": 0,
+  "peak_RSS_bytes": 849752064,
+  "reference_binding": {
+    "bytes": 3977,
+    "inode": 122295918,
+    "mtime_ns": 1791377372991543300,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-baselines-fluency-consistency-2k/preparation-r2/binding.json",
+    "sha256": "95c98815e0a49e18148421c861cbbd5913bbd9d742c8e4940dacb52c920644c3"
+  },
+  "reused_unchanged_prior_CPU": {
+    "bytes": 5069,
+    "inode": 122244604,
+    "mtime_ns": 1791375169565558000,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-baselines-fluency-consistency-2k/cpu-checks-preparation-r2.json",
+    "sha256": "340f6b22ece83c3458ccd166851bb5c60b0ec5bd0f449dbced8989adae547016"
+  },
+  "seconds": 4.723162782378495,
+  "shared_generation_source": "83535c6a47c552cc4e5c6385f3a587d752820150",
+  "source_not_frozen_until_committed": true,
+  "status": "PASS_CPU_INTEGRATION",
+  "tests": 38,
+  "receipt": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-baselines-fluency-consistency-2k/cpu-integration-r1.json"
+  },
+  "source_sha256": {
+    "project/run_scripts/gptj_native_baselines/generation_bind.py": "080648233cb501547df4425157b18b1d7183205aec2e2fd3609c705515034b75",
+    "project/run_scripts/gptj_native_baselines/generation_bridge.py": "71bb8b9c969a538ae1a87ac1831ebc4bfb39d0536ac74590979019cb1b228895",
+    "project/run_scripts/gptj_native_baselines/generation_collect.py": "5882aadbc06cc7b72fa00bffef3818095a97467d2819ddcba5a10971342e3bc6",
+    "project/run_scripts/gptj_native_baselines/generation_common.py": "7c0b007ceb5144c0c331511c19a78d6776d7c86ed4c069a44fcf137849e5bd13",
+    "project/run_scripts/gptj_native_baselines/generation_cpu_checks.py": "680b9d71f01686bbcea7709087b1a85e135c4ddc457bddf93efc9c64b0efb183",
+    "project/run_scripts/gptj_native_baselines/generation_integration_checks.py": "00f16f27ccacb6a0a9386dc3db35186fb23747b3f2a6222cdb73dfd1223b3123",
+    "project/run_scripts/gptj_native_baselines/generation_plan.py": "32552441f0184901086c857241b7fb1b6cce828c38c9b2e307775c9ce6e92fcf",
+    "project/run_scripts/gptj_native_baselines/generation_prepare.py": "33e43c62059b601d6780a360b14dd04f305195007139353b2d6902f06b733abb",
+    "project/run_scripts/gptj_native_baselines/generation_run.py": "98f954d3c9f33f788087ee0fdfb65bf19eced33106d8a579c520327a12c0c259",
+    "project/run_scripts/gptj_native_baselines/generation_submit.py": "6dc2ed55a4e262431b527895703a96fa3927292794fbc312c096afd7a89d69f9",
+    "project/run_scripts/gptj_native_baselines/generation_tracking.py": "8932e678daaf7d393924fd4db295161420ed555880603af1c30af88afc15707e",
+    "project/run_scripts/gptj_native_baselines/generation_tracking_client.py": "acb41e537678e0b11ad38f9c29a0133119bb0874e2e77b65cf88812f7f578c94",
+    "project/run_scripts/gptj_native_baselines/generation_tracking_schema.py": "1ef34048a45345be4fd16a134e2ad16b19c78ce03f88be424d6b04d0d9306fd9",
+    "project/run_scripts/gptj_native_baselines/generation_tracking_worker.py": "4e58c9b0b574ca1731cdadade5efc16116d0c4f01a566a73a415a85732aa1b28",
+    "project/run_scripts/gptj_native_baselines/test_generation_bridge.py": "481e8fff95bfdae168bd6fa70f36098ed10887198884d456e7f3c143607d3109",
+    "project/run_scripts/gptj_native_baselines/test_generation_collect.py": "a700af94215529ebbbf7dc0b785544bda15b9660b640d23cd4269e6ceda323ce",
+    "project/run_scripts/gptj_native_baselines/test_generation_plan.py": "6f469e1234329a6174b66265bad38960fe3140e71d0e2bf5dfd7d1f3f891f95c",
+    "project/run_scripts/gptj_native_baselines/test_generation_run.py": "f297d5fc5615aed463da4b770c5dae7a4c28564c412c3c8aa6e8d74886eee845",
+    "project/run_scripts/gptj_native_baselines/test_generation_submit.py": "31f8976c4640dc9b23e9f0ac75ac6c4fcab2ab18b27c505fc33468e4499ec3f0",
+    "project/run_scripts/gptj_native_baselines/test_generation_tracking.py": "648b1ad402682f88df007579bd3ab6ad32ac527896972b73d23e047f51239654",
+    "project/run_scripts/gptj_native_baselines/test_generation_tracking_shared.py": "9e72155a0b6d17b0fe16af4af2ae6fca2864f0be24b5587c6870cbc32209b4d5",
+    "project/run_scripts/gptj_cake_blue_prune_rect/native_cake_blue.py": "fc3a8228a1b5a6c2be674720652ae14e74889e988ab7a19a06645e37e902f796"
+  },
+  "shared_logger_tree": "c1cd442a954031078788498c5a9880d4ef9f5395",
+  "prior_failure_receipt": "local/gptj-baselines-fluency-consistency-2k/cpu-integration-initial-failure.json"
+}
