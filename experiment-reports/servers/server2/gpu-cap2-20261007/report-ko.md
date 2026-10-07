@@ -29,3 +29,5 @@ Nonce: `USER-GH-ALL-SH-GPU-CAP2-20261007-SERVER2`. 사용자 “각 서버의 gp
 실행 source 56d3a445553b60bf1a5e33f0e820e0699364ba0b, config SHA a9ff4078e0839adcee07ce3ece0c26ed1d6f0d9ff71fadfd69dc203f1866decf, lock SHA 9c5bc040deb42f0e6dc66136edf49c5ab37e576cc25ca4feb71e2a36da7d8839는 기존 값 그대로다. 과학 source/config/W&B identity/raw와 RUNNING job을 수정·취소·재시작하지 않았다. 새 job/model/GPU/W&B run/checkpoint는 0이다.
 
 상세 경로·SHA·scheduler 요약은 `audits/servers/server2/gpu-cap2-20261007/application.json`에 기록했다. 새 cap row 세 개는 ignored local 설정이며 Git에는 소형 보고/receipt만 게시한다. `NO_BROADCAST_NOT_REQUIRED`; 원 자료 KEEP. 정책 작업 종료 후 monitoring_active=false, automatic_resume=false, TASK_COMPLETE_STOP.
+
+게시 직전 최신 main c1fc2879f5cf71d00935c5b59e7d87d8678f5389을 충돌 없이 보존·병합했다. 그 main의 별도 USER 정정은 server3=1/server4=3이며 **server2=2는 그대로**다. 최초 all-cap2 검산 receipt는 당시 authority/SHA에 결속된 역사 기록으로 보존하고, 최신 정본의 mock 19 checks도 PASS를 확인했다. 다른 서버 정책·source를 되돌리지 않았다. 새 통합 근거는 같은 audit 폴더의 `integration.json`에 기록한다.
