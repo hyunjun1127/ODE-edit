@@ -15,7 +15,9 @@ JOB_FIELDS = {'job_id','array_job_id','array_task_id','step_id','job_display_id'
 SLURM_ENV = {'job_id':'SLURM_JOB_ID','array_job_id':'SLURM_ARRAY_JOB_ID',
              'array_task_id':'SLURM_ARRAY_TASK_ID','step_id':'SLURM_STEP_ID'}
 CONFIG_KEYS = {'server', 'task_id', 'arm', 'attempt', 'source_sha', 'config_sha', 'parent_run_id',
-               'source_run_id','source_run_url','observation_identity'} | JOB_FIELDS | METHOD_CONFIG
+               'source_run_id','source_run_url','observation_identity','baseline',
+               'generation_metric_schema','generation_profile','generation_eval_seed',
+               'reference_assets_sha256','generation_source_sha'} | JOB_FIELDS | METHOD_CONFIG
 METRICS = {
     'setup_ok','step','batch','edits','candidate','phase_id','status_code',
     'fit/loss','fit/nll','fit/kl','fit/norm','fit/gradient_norm',
@@ -50,8 +52,10 @@ def config(values):
     require({'server','task_id','arm','attempt','source_sha'} <= set(values), 'MISSING_CONFIG')
     result = {}
     for key,value in values.items():
-        if key in ('source_sha','config_sha','observation_identity'):
+        if key in ('source_sha','config_sha','observation_identity','reference_assets_sha256','generation_source_sha'):
             require(type(value) is str and re.fullmatch(r'[a-f0-9]{40}|[a-f0-9]{64}',value), 'INVALID_SHA')
+        elif key=='generation_eval_seed':
+            require(type(value) is int and value==20261007,'GENERATION_EVAL_SEED')
         elif key == 'step_id':
             step_identifier(value)
         elif key == 'source_run_url':
@@ -68,6 +72,13 @@ def config(values):
         require(result['metric_schema']==COMPARISON_SCHEMA,'METHOD_SCHEMA_UNREGISTERED')
         require(result['model'] in ('llama3','gptj','qwen','gpt2xl'),'MODEL_ALIAS_UNREGISTERED')
         require(result['role'] in ('scientific','derived_comparison_snapshot'),'METHOD_ROLE')
+    generation={'generation_metric_schema','generation_profile','generation_eval_seed',
+                'reference_assets_sha256','generation_source_sha'}
+    if generation & result.keys():
+        require(generation|METHOD_CONFIG|{'baseline'}<=result.keys(),'GENERATION_CONFIG_REQUIRED')
+        require(result['generation_metric_schema']=='counterfact-cake-generation-metrics-v1'
+                and result['generation_profile']=='cf-cake-prompt-inclusive-total100-eos-corrected-v1',
+                'GENERATION_SCHEMA_PROFILE')
     return result
 
 

@@ -26,7 +26,7 @@ class Tracker:
         self.ready=threading.Event();self.done=threading.Event();self.queue=queue.Queue(maxsize=1024)
         self.dropped=0;self.closed=False
         # Do not forward the full experiment environment or secret-rich argv to SDK.
-        keys=('PATH','HOME','USER','LANG','LC_ALL','SSL_CERT_FILE','REQUESTS_CA_BUNDLE',
+        keys=('PATH','HOME','USER','LANG','LC_ALL','TMPDIR','SSL_CERT_FILE','REQUESTS_CA_BUNDLE',
               'NETRC','WANDB_API_KEY','WANDB_IDENTITY_TOKEN_FILE','WANDB_CREDENTIALS_FILE','WANDB_CONFIG_DIR')
         env={k:os.environ[k] for k in keys if k in os.environ}
         env.update(WANDB_ENTITY=settings['WANDB_ENTITY'],WANDB_PROJECT=settings['WANDB_PROJECT'],
