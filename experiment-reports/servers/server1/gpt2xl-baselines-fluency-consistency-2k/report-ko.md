@@ -73,7 +73,23 @@ Fresh own server1 GPU allocation/admitted queue0, prospective DAG width2/cap2. O
 실제 제출1회에서 `sbatch: Batch job submission failed: I/O error writing script/environment to file`. 신규 ID 반환 없음, submitted receipt0, exact new task squeue empty. Slurmctld는 UP이나 StateSaveLocation `/var/spool/slurmctld`, SlurmdSpoolDir `/var/spool/slurmd`가 있는 `/dev/nvme0n1p2`의 일반 사용자 available bytes0/100%이다. Inodes는 소진되지 않았고 RAID에는 약1.2TB가 있다. `sacct`도 No space left on device로 실패하므로 내부 ID 소비 여부까지 인증하지 않는다. 이는 수치/방법/모델/C0/P failure나 GPU cap 부족이 아니다.
 
 허가 없는 root/spool 삭제·이동·권한·서비스/config 변경은 하지 않았다. Sealed source/config/failure receipt 보존, 자동 재제출/monitor/heartbeat 없음. 관리자 권한으로 scheduler root 저장공간을 복구한 뒤 exact duplicate/immutable-attempt 검산을 거친 수동 owner recall이 필요하다. 기존 source/raw, 승인된새 C0/P와 W&B spool 보존. 새 실험을 완료 또는 Slurm PENDING이라고 쓰지 않는다.
-## 2026-10-08 KV/cache repair — 최신 attempt 준비
+## 2026-10-08 KV/cache repair — 실제 등록/release 완료
+
+새 scientific source `199cfe5664355f6f1c9069c72396ec759bb25cec`, 공통 package tree `a10d88b555a96962567846dcb34a456c9e0d7c1c`. Own branch `codex/server1-gpt2xl-generation-cache-repair-20261008` 게시 확인. Config SHA `862daa74bd57a6afac756c52f31f963d60975d2123bee86fc8ce72dab50c9700`, lock SHA `c90853982ab07d685fa735b505128a370ee239b22e8614b49a65f2b5936b3589`. 전용 immutable attempt는 `/mnt/raid5/janghj/ODE-edit/local/gpt2xl-baselines-fluency-consistency-2k/20261007-v1/attempt-cache-repair-r1`이다.
+
+| 역할 | 실제 신규 ID | afterany dependency | bounded 현재 상태 |
+|---|---|---|---|
+| MEMIT | 61148 | 없음 | PENDING / Resources |
+| AlphaEdit | 61149 | 61148 | PENDING / Dependency |
+| CAKE | 61150 | 61148 | PENDING / Dependency |
+| AlphaEdit-BLUE | 61151 | 61149 | PENDING / Dependency |
+| PRUNE | 61152 | 61150 | PENDING / Dependency |
+| RECT | 61153 | 61151 | PENDING / Dependency |
+| GPU0 CPU collector | 61154 | 새 GPU 여섯 ID 전체 | PENDING / Dependency |
+
+최종 owner CPU177개 중175 PASS/2 SDK 의존 skip/실패0. 독립 blocker 수리 재검토12개 PASS. 실제 새 allocation/GPU qualification/W0 READY/W&B startup·finish·W20은 미관측이다. 사전 PLAN digest `83cee93d1b462f8e0b503f4692dd537430ee9084971aaa3a9150bcf4a2a4590b`는 actual receipt가 아니다. 새 source만 봉인했고 실행 중 archive hotpatch0.
+
+전체7 held owner/원 argv/script bytes/source/config/native input/reference/자원/dependency 검사 뒤 역순 release했고, combined width2/effective cap2 및 memory policy PASS를 검산했다. GPU job1GPU/8CPU/65536MiB/48h, collectorGPU0/8CPU/24576MiB/4h, ExportNONE/Requeue0. Source archive/launchers/runtime/native closure/기존 config/reference SHA를 release 직전에 재검산했다. 취소된 old ID는 새 dependency에 없다. 물리 자원 부족은 정상 PENDING이며 기존 타job 강탈/취소/정책 cap 증액0. 단발 postrelease resource snapshot 뒤 agent monitoring을 종료하고 봉인 runner/collector가 자연 진행한다.
 
 Nonce `USER-GH-SH1-SH2-BASELINE-GENERATION-KV-BATCH-REPAIR-20261008-R1`, authority `66cddb8fa9c09e475f0ae3f423635091c6a71e3d`. 새 task는 `gpt2xl-baselines-generation-cache-repair`이며 원 scientific parent/history를 보존한다. 실제 app CWD는 `/mnt/raid5/janghj/ODE-edit`, 전용 WT는 `/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-gpt2xl-generation-cache-repair-20261008`이다.
 
@@ -85,6 +101,6 @@ Nonce `USER-GH-SH1-SH2-BASELINE-GENERATION-KV-BATCH-REPAIR-20261008-R1`, authori
 
 Generation 진행률은 완료 경계 callback의 `generation_progress/step` 축이며 edits/fit 축과 분리한다. 원문/token/IDs/tensor/API key/전체 env 업로드0. SDK 접수와 bounded remote readback은 구별하며, logging 실패가 과학 재fit 승인이나 offline PASS가 되지 않는다. Native 여섯 방법의 수식/hparams/dtype/solver/BS100×20와 RPN 의미는 변경하지 않는다.
 
-독립 reviewer가 source/installed cache API와 CPU fixture68개를 검토해 old generation identity가 RPN identity에 잘못 연결된 제출 blocker를 찾았다. 정확 원 `BASE_MEMIT/generation/observer-identity.json` 결속으로 수리하고 metadata regression을 추가한다. 실제 GPU/온라인 검증을 source/CPU PASS로 확대하지 않는다. 신규 등록은 최종 CPU 검산과 source freeze 뒤 cap2 DAG, held exact 검사 및 release로 수행하며 장기 완료 polling/heartbeat/자동 retry는 만들지 않는다.
+독립 reviewer가 source/installed cache API와 CPU fixture68개를 검토해 old generation identity가 RPN identity에 잘못 연결된 제출 blocker를 찾았다. 정확 원 `BASE_MEMIT/generation/observer-identity.json` 결속으로 수리하고 실제 metadata regression을 추가했다. 수리 후 독립 CPU12개 PASS, 최종 owner CPU177개 검산을 수행했다. 실제 GPU/온라인 검증을 source/CPU PASS로 확대하지 않는다. 장기 완료 polling/heartbeat/자동 retry는 만들지 않는다.
 
 아래 내용은 원 parent attempt의 역사 기록이며 현재 repair의 성공/완료를 뜻하지 않는다.
