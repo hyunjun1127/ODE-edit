@@ -1,0 +1,87 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-ALL-SH-BASELINE-FLUENCY-CONSISTENCY-RERUN-20261007-R1",
+  "recipient_nonce": "USER-GH-ALL-SH-BASELINE-FLUENCY-CONSISTENCY-RERUN-20261007-R1-SERVER3",
+  "task_id": "generation-metric-policy-adoption",
+  "server": "server3",
+  "session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+  "authority_commit": "b0cee1a302c10d48e206a31c7c5cf318ac36d8c3",
+  "status": "POLICY_ACCEPTED_FUTURE_CALLER_ADOPTION_REQUIRED",
+  "baseline_stop_status": "NO_EXACT_OWN_ACTIVE_SIX_BASELINE_JOBS",
+  "own_active_baseline_job_ids": [],
+  "cancelled_job_ids": [],
+  "new_submissions": [],
+  "current_unfrozen_caller": null,
+  "common_evaluator_owner": "server1",
+  "common_evaluator_implemented_by_server3": false,
+  "gpu_model_eval": false,
+  "online_validation": false,
+  "monitoring_active": false,
+  "report": "experiment-reports/servers/server3/generation-metric-policy-adoption/report-ko.md",
+  "authority_files": [
+    {
+      "path": "messages/head/2026-10-07-baseline-fluency-consistency-rerun-server3.json",
+      "bytes": 5128,
+      "sha256": "6c866efdb5bf24a32dbbf94a873346a176302042560bafa76f97e6dc154efc7e",
+      "read_status": "FULL_READ"
+    },
+    {
+      "path": "plans/global/2026-10-07-baseline-fluency-consistency-rerun/contract.json",
+      "bytes": 9167,
+      "sha256": "663c3c596613d413fbfb3d409d7eb24faaaf97e4ebd68b57b046f94f7947f357",
+      "read_status": "FULL_READ"
+    },
+    {
+      "path": "control/generation-metric-policy.json",
+      "bytes": 11972,
+      "sha256": "a0f7b8ac864f9d5f0cfa41a0d76d6441583972607c8b9327c893dd827be66b62",
+      "read_status": "FULL_READ"
+    },
+    {
+      "path": "control/wandb-method-metric-schema.json",
+      "bytes": 8179,
+      "sha256": "122320e9e9e1f10cb72bf540f22b3b34c60435f3144155a699882f5fc24fb11a",
+      "read_status": "FULL_READ"
+    },
+    {
+      "path": "control/wandb-policy.json",
+      "bytes": 6251,
+      "sha256": "02a15a637991320461c5ce8fd560f7001f2219a4c716ba2f8466c7e2f01fbf7d",
+      "read_status": "FULL_READ"
+    }
+  ],
+  "queue_snapshot": {
+    "observed_at": "2026-10-07T11:47:06.691543+00:00",
+    "owner_rows": 15,
+    "server3_rows": 0,
+    "unbound_pending_rows": 0,
+    "cancel_candidates": [],
+    "local_ignored_receipt": "/data/janghj/ODE-edit/local/generation-metric-policy-adoption/20261007/queue-snapshot.json",
+    "stdout_sha256": "89d6ba33892c06446e45a701b1083a898f90e529fa57492e8c4709bdbfaf2140",
+    "identity_rule": "Owner+node+Command+task role+source/manifest+state required before cancellation; no own candidate row meant no per-job scontrol needed."
+  },
+  "checks": {
+    "envelope_sha_matches": true,
+    "boundary": "PASS",
+    "duplicate_nonce_existing_receipt": false,
+    "independent_reviewer": "READ_ONLY_SCOPE_REVIEW",
+    "review_scope": "Authority/contract/policy only; no scheduler or science raw accessed by reviewer.",
+    "science_ready": false,
+    "source_frozen": false
+  },
+  "protected": [
+    "ours/PRICE",
+    "W0/setup/stats",
+    "FE",
+    "MEMIT-H/MEMIT-HJ",
+    "other servers and tasks"
+  ],
+  "operations": {
+    "scancel": 0,
+    "slurm_submit": 0,
+    "new_gpu": 0,
+    "model_forward": 0,
+    "shared_helper_edit": 0,
+    "raw_transfer": 0
+  }
+}
