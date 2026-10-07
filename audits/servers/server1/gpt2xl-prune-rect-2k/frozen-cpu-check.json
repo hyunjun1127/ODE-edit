@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "execution_source": "2689024d4c4a88cbe95f98b5e8a6191fad437894",
+  "source_root": "/mnt/raid5/janghj/ODE-edit/local/gpt2xl-prune-rect-2k/20261007-v1/attempt-v1/source",
+  "tests": 34,
+  "passed": 34,
+  "skipped": 0,
+  "failures": 0,
+  "errors": 0,
+  "seconds": 1.805,
+  "suite": "native, terminal, run, collect, submit",
+  "scope": "CPU fixtures from actual immutable source archive",
+  "GPU_model_native_fit": "NOT_RUN",
+  "online_validation": "NOT_RUN",
+  "scheduler_test_submissions": 0
+}
