@@ -2,11 +2,31 @@
 
 ## 현재 단계
 
-`RESOURCE_BLOCKED_SLURM_CONTROLLER_IO_NOT_SUBMITTED`. 수락 nonce는 `USER-GH-ALL-SH-BASELINE-FLUENCY-CONSISTENCY-RERUN-20261007-R1`이다. 소스 구현/CPU61검사/실행 archive 봉인은 완료했지만 **첫 held 제출이 Slurm controller I/O 오류로 거부되어 실제 job IDs는 `[]`**이다. actual GPU qualification/B1/W20/W&B remote delivery 모두 `NOT_OBSERVED`. 이는 Slurm PENDING으로 등록된 상태가 아니다.
+`RELEASED_INITIAL_PENDING`. 재개 nonce `USER-GH-SH1-SH2-SH4-BASELINE-GENERATION-REGISTER-RESUME-20261007-R1` / authority main `6d6e2fdb531ecb3d6e5bc98db0f188001c6a7aa0`에 따라 새 `attempt-r2`의 **실제 GPU6개 + GPU0 collector 등록/held 검사/release**를 완료했다. 최초 한정 snapshot은 모두 `PENDING`이다. actual GPU qualification/B1/W20/W&B remote delivery는 아직 `NOT_OBSERVED`; 등록을 완료 실험으로 부르지 않는다. 원 parent nonce는 runtime 계약상 그대로 유지하고 resume nonce는 별도 registration provenance에 결속했다.
 
 정확 소유 baseline 여섯 종의 활성 실행은 초기 한정 inventory에서 없었다. 취소 IDs는 `[]` / 취소 0. PRICE OURS, 명시 KEEP 60001, 기존 GPT-J 및 W0/자산 준비는 변경하지 않았다.
 
-## 실제 제출 시도와 blocker
+## 현재 실제 등록과 의존성
+
+| native 방법/role | 실제 ID | 검산된 afterany 의존성 |
+| --- | ---: | --- |
+| MEMIT | 60917 | 기존 own GPU frontier 60621:60620:60618:60107:60106:60619:60617:60105 |
+| PRUNE | 60918 | 60917 |
+| RECT | 60919 | 60917 |
+| AlphaEdit | 60920 | 60917 |
+| AlphaEdit-BLUE | 60921 | 60918 |
+| CAKE | 60922 | 60919 |
+| GPU0 CPU collector | 60923 | 60917:60918:60919:60920:60921:60922 |
+
+재개 시 exact task queue/accounting/등록 receipt 중복은 0이었다. Controller available는 새 읽기전용 snapshot에서 1,218,543,616B, server4 data free는 49,171,968,000B이었다. 가용공간 수치만으로 scheduler 수리 PASS를 주장하지 않고 실제 sbatch 성공과 일곱 held 검사/release를 증거로 기록했다. 최초 snapshot의 reason은 아직 `None`, 상태는 `PENDING`이었다. 최종 완료/과학성적/실제 online run 생성은 아직 관측하지 않았다.
+
+Runtime source는 `e3019677e5b17edf98401e381972c272a711ecc7` / 동일 source archive SHA `f0339e37f0dfa5672347fd1cd286fe69787d25aa7add1fd7c0920ec7ddaa8034`를 **byte 그대로** 재사용했다. 등록 control commit은 `b01bb87b5f3bb9bdf5e9bcb83bcd30b5c1ff0c8e`; 기존 editor/evaluator/runner/shared helper는 수정하지 않았다. config 변경은 `attempt`, `generation.W0_ready_path`, `run_instance.attempt` 세 개뿐이다. 원 CPU61 proof를 재사용하고 새 경로/identity wrapper CPU 검사4개만 수행했다. 별도 model/GPU/fit/pilot/online smoke는 0.
+
+새 config SHA `f088d192913c5568bc7e6ed0d7a939cbe9d035f70ca3db289e67427162b4e672`, execution lock SHA `ae3ba441e710b6035145d144b85302eebf249e5ad26f373859cf50234c533f50`, registration lock SHA `878ec1dd85ff1f8854d770fa454a883d5b856e4e6d5dadceed7b0e3b47dae724`, held inspection SHA `d117c24700380be1a006abcf97d6e611dd7a01a3c7d3f42764157caee1281bc0`이다.
+
+Exact owner/name/command/full argv/exportNONE/Requeue0/source/config/reference/launcher bytes/CPU/RAM/GPU/wall/QoS/dependency와 prerelease cap을 검산했다. 새 DAG 최대 width3, 기존 own admitted DAG width3이며 새 첫 job을 기존 frontier 전체 이후로 연결했으므로 combined cap3을 보장한다. 기존 jobs에 취소/hold/의존성 변경은 0. 먼저 모든 job을 held로 검사하고 후속/collector부터 release, 마지막 MEMIT을 release했다. release 뒤 agent snapshot은 단1회로 끝내고 recurring monitor/자동 retry는 만들지 않았다.
+
+## attempt-r1 역사: 실제 제출 실패와 blocker
 
 실행 source `e3019677e5b17edf98401e381972c272a711ecc7`, tree `54cdbb68c41a6fb7502e86d9375501db0c58b52c`, config SHA `bd07c80a94ae978c3ab071d0ed5f54d0a5a945f9350ad6141ff4e1173e7fb676`, archive SHA `f0339e37f0dfa5672347fd1cd286fe69787d25aa7add1fd7c0920ec7ddaa8034`를 frozen `attempt-r1`에 보존했다. runtime source와 후속 보고서 publication commit은 구별한다.
 
@@ -24,7 +44,7 @@
 | CAKE | 없음 | NOT_SUBMITTED |
 | CPU collector | 없음 | NOT_SUBMITTED |
 
-관리 디스크 삭제/이동/권한 변경/daemon restart는 현재 승인 scope 밖이라 0이다. controller 가용공간 복구 필요를 GH에 직접 전달했고, GH는 exact accepted turn `01a11666-fe5c-7d82-9eea-fe76c57b6d28`에서 장애 보고 수신을 회신했다. 이후 GH 작업 완료는 기다리지 않는다. 자동 retry/반복 sbatch/agent polling 없이 blocked 인계한다. 옛 source/raw/frozen 실패 attempt는 KEEP한다.
+당시 관리 디스크 삭제/이동/권한 변경/daemon restart는 승인 scope 밖이라 0이었다. controller 가용공간 복구 필요를 GH에 직접 전달했고, GH는 exact accepted turn `01a11666-fe5c-7d82-9eea-fe76c57b6d28`에서 장애 보고 수신을 회신했다. 이번 명시 USER recall 이전에는 자동 retry/반복 sbatch/agent polling을 하지 않았다. 옛 source/raw/frozen 실패 `attempt-r1`은 현재도 KEEP/불변이며 새 attempt-r2를 별도로 만들었다.
 
 ## 실험과 원 구현
 
@@ -71,8 +91,8 @@ server4 combined project cap 3, task cap 3. GPU job별 1GPU/8CPU/59392MiB, hard6
 
 W&B `wkdguswns2256` / `layer allocation`: 새 실제 startup에서 online init, 실제 job 번호/name/config, source/config/model/method/profile/immutable run ID를 기록한다. current/pre,current/post,all_seen/post,W0_first2000,w0 subsets의 scalar만 허용하고 edits/state axes와 fit/global_candidate를 분리한다. SDK 접수는 remote ACK가 아니다. 기존 startup/finish의 bounded readback 외 새 monitor는 없다.
 
-현재 원자료/참조는 local KEEP; 소형 source/report/SHA만 Git 게시하므로 `NO_BROADCAST_NOT_REQUIRED` (대형 생성 raw/W&B spool/credential은 전송 금지). 자동 생성될 CPU collector 결과는 `local/llama3-baselines-fluency-consistency-2k/attempt-r1/collector/`에 report/compact CSV/manifest로 남는다. 파일명이나 Slurm COMPLETED만으로 W20를 추정하지 않고 exact rows/20commit/19join/각 native H 수를 reducer가 검산한다. 등록 뒤 단 1회 initial resource snapshot을 인계하고 agent monitoring/automatic resume/retry를 끈다. 봉인 runner/collector는 자연 진행한다.
+현재 원자료/참조는 local KEEP; 소형 source/report/SHA만 Git 게시하므로 `NO_BROADCAST_NOT_REQUIRED` (대형 생성 raw/W&B spool/credential은 전송 금지). 자동 생성될 CPU collector 결과는 `local/llama3-baselines-fluency-consistency-2k/attempt-r2/collector/`에 report/compact CSV/manifest로 남는다. 파일명이나 Slurm COMPLETED만으로 W20를 추정하지 않고 exact rows/20commit/19join/각 native H 수를 reducer가 검산한다. 등록 뒤 단 1회 initial resource snapshot을 인계하고 agent monitoring/automatic resume/retry를 끈다. 봉인 runner/collector는 자연 진행한다.
 
-일반 agent access helper는 `runs/llama3-baselines-fluency-consistency-2k/submission.json` 패턴을 지원하지 않아 그 검사만 `NOT_PASS_SCOPE_PATTERN`이다. 현재 envelope의 exact 허용 prefix를 게시 예외 근거로 기록했다. 다른 staged 파일은 ownscope이고 공용 helper는 수정하지 않았다. 현재는 실제 runner 미등록이므로 자연 진행 중이라는 주장은 없다.
+일반 agent access helper는 `runs/llama3-baselines-fluency-consistency-2k/**` 패턴을 지원하지 않아 그 검사만 `NOT_PASS_SCOPE_PATTERN`이다. 현재 envelope의 exact 허용 prefix를 게시 예외 근거로 기록했다. 다른 staged 파일은 ownscope이고 공용 helper는 수정하지 않았다. 현재는 실제 등록/release된 runner가 scheduler 의존성에 따라 진행하며 GPU 실행/완료는 아직 미관측이다.
 
 Codex app-server 경로 조정은 OpenAI Docs 및 로컬 client를 참고한 전달 경로 보완이며 과학 method 변경이 아니다.
