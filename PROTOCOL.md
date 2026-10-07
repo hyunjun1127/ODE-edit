@@ -446,16 +446,21 @@ this project on that server, not the physical GPU count of the machine.
 
 Configure the active caps in ignored local config or environment variables:
 
-User override effective 2026-09-07: future runs on **every server are limited
-to 2 project GPUs per server**, as recorded in
-`control/gpu-concurrency-policy.tsv`. Admission uses the smaller of that
-tracked ceiling and the local/task cap. This does not grant server registration,
-GPU-hour budget, or permission to start a previously disabled deployment.
-Already submitted runs are grandfathered: do not cancel, restart, preempt,
-change resources or lower their existing array throttle. Before admitting any
-new run, count their still-allocated GPUs too; if existing plus new exceeds 2,
-wait for capacity. A retry/replacement or follow-up submission is a new run.
-This override does not change the explicit-memory policy or scientific locks.
+최신 사용자 자원 지시는 `control/gpu-concurrency-policy.tsv`가 정본이다.
+2026-10-07 현재 합산 project GPU cap은 **server1=2, server2=2,
+server3=1, server4=2**다. Admission은 정본과 local/task cap 중 더 작은 값을
+사용하며, 서버 등록·GPU-hour 예산·중단 task 재개 권한을 추가하지 않는다.
+이미 RUNNING인 작업은 취소·재시작·선점·자원 변경하지 않고 실제 할당을 합산한다.
+기존 할당이 cap을 초과하면 새 GPU 실행을 허용하지 않는다. 재제출·교체·후속
+실행도 새 admission 대상이며, dependency/PENDING 등록은 cap을 강제해야 한다.
+
+최신 server4 사용자 예외는 RUNNING 60105/60617/60619의 기존 3GPU 할당을
+그대로 보존한다. 세 작업 모두 종료 후 pending OURS를 폭2로 먼저 실행하고,
+모든 OURS 종료 뒤 baseline을 폭2로 실행하는 resource-only `afterany`를 따른다.
+실제 scheduler 변경은 SH4 receipt에 기록됐으며 GH 정책 반영은 추가 scheduler
+변경·재제출 지시가 아니다. 다른 서버 cap, 과학 source/config, 과거 제출 receipt,
+명시 memory 정책은 그대로 유지한다. 정본 결속은
+`messages/head/2026-10-07-server4-cap2-ours-first-policy.json`을 참조한다.
 
 - preferred local config: `servers/local/gpu-caps.tsv`
 - template/example format: `servers/templates/gpu-caps.tsv`

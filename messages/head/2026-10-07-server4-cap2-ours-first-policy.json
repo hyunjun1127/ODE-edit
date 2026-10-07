@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "record_id": "GH-SERVER4-CAP2-OURS-FIRST-POLICY-20261007",
+  "kind": "INFORMATIONAL_CANONICAL_POLICY_RECORD_NO_NEW_DISPATCH",
+  "date_kst": "2026-10-07",
+  "user_exact_quote": "gpu cap 2로 줄이자. 지금 돌아가는건 놔두고 dependency 걸어놓은것들 ours 먼저 돌리고 그다음 baseline들 올려",
+  "authority": "현재 USER 지시를 전달한 SH4 실제 적용 보고와 게시 receipt에 따라 GH 소유 중앙 cap 정본만 반영한다. 동일 scheduling 조치를 다시 수행하라는 지시가 아니다.",
+  "policy": "control/gpu-concurrency-policy.tsv",
+  "policy_sha256": "00736e8bbdb649e1ec5fd2e8913b9a1db80aeab9e71dcf845509a749505084a4",
+  "current_combined_project_GPU_caps": {"server1": 2, "server2": 2, "server3": 1, "server4": 2},
+  "changed_server": "server4",
+  "supersedes": "server4 이전 cap3. server1/2/3 cap 및 더 엄격한 task/memory/physical 제한은 변경하지 않는다.",
+  "owner_evidence": {
+    "server": "server4",
+    "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "publication": "da8ff89ba09ee1876b927ae4b7d7232d2d6d359f",
+    "receipt": "audits/servers/server4/gpu-cap2-ours-first-20261007/scheduling-receipt.json",
+    "receipt_sha256": "393a3d4eaaa7875c04e7e8ad7172eebd6892018a35c8af97fe218a71f15f6096",
+    "report": "experiment-reports/servers/server4/gpu-cap2-ours-first-20261007/report-ko.md",
+    "report_sha256": "91946efed041532d5237ae3b3862a86ff0b79981be49e1d92e048bcea4840ef0",
+    "status": "APPLIED_RELEASED_RESOURCE_ONLY",
+    "evidence_level": "SH4 실제 scheduler/29파일 SHA 검산의 게시 근거를 GH가 읽어 결속했다. GH는 추가 scheduler 조회·변경을 수행하지 않았다."
+  },
+  "legacy_running_exception": {
+    "jobs": [60105, 60617, 60619],
+    "allocated_GPUs_at_owner_snapshot": 3,
+    "preserve_RUNNING_unchanged": true,
+    "not_falsely_counted_as_2": true,
+    "new_GPU_execution_before_all_three_terminate": false
+  },
+  "resource_order": {
+    "semantics": "종료 afterany 의존성만 사용한다. 성능 afterok 또는 scientific promotion gate가 아니다.",
+    "OURS_lanes": [[60618, 60106, 60107], [60620, 60621]],
+    "OURS_heads_afterany": [60105, 60617, 60619],
+    "baseline_head": 60917,
+    "baseline_head_preserved_all_OURS_frontier": [60621, 60620, 60618, 60107, 60106, 60619, 60617, 60105],
+    "baseline_lanes": [[60918, 60921, 60920], [60919, 60922]],
+    "baseline_extra_union_edge": {"job": 60920, "afterany": [60917, 60921]},
+    "future_GPU_DAG_width": 2,
+    "cycle": false,
+    "OURS_wait_for_baselines": false,
+    "CPU_collectors_unchanged": [60108, 60622, 60923],
+    "owner_changed_only_PENDING_jobs": [60618, 60620, 60106, 60920]
+  },
+  "preservation": "SH4 신규job0/취소0/RUNNING변경0/영구hold0, 과학 source/config/archive/launcher/submission 29파일 불변. 기존 raw/W&B 및 cap3 과거 기록을 보존한다.",
+  "GH_write_scope": ["control/gpu-concurrency-policy.tsv", "PROTOCOL.md의 최신 cap 설명", "이 GH 정책 결속 기록"],
+  "GH_new_dispatch_or_scheduler_action": false,
+  "GH_checks": {
+    "session_boundary": "PASS: GH exact session/CWD/origin",
+    "canonical_rows": "PASS: server1=2/server2=2/server3=1/server4=2, each one row",
+    "admission_CPU_regression": "PASS 19 prospective cap / unresolved-allocation / stricter-local / disabled-server checks; mock squeue/scontrol only",
+    "stale_local_cap3_request3": "DENY cap2 / expected exit4 before any scheduler query",
+    "scoped_readonly_explorer": "중앙 TSV와 consumer의 최소 변경 범위를 읽기 전용으로 확인. scheduler/GPU/source 변경0."
+  },
+  "additional_owner_ACK_required": false,
+  "monitoring_active": false,
+  "automatic_retry_or_resume": false,
+  "scientific_completion_or_online_PASS_claimed": false
+}

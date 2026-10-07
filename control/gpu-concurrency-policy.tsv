@@ -13,7 +13,7 @@ server3	1
 # User override 2026-10-04: server4 project cap3; existing jobs unchanged, task-specific caps still apply.
 # User override 2026-10-06: server4 combined cap2 for PRICE repair Llama+Qwen; count existing allocations, do not cancel old jobs.
 # User override 2026-10-07: server4 combined cap3 including existing jobs and GPT-J MEMIT/Alpha; no existing job mutation.
-server4	3
+server4	2
 # Latest user override 2026-10-07: EACH server combined project GPU cap2.
 # Counts science, preparation/qualification, evaluation and W0; previous W0-only
 # extra-GPU exception is not valid for new admission. Existing running allocations
@@ -22,3 +22,12 @@ server4	3
 # Latest USER correction 2026-10-07: server3=1, server4=3; server1/2 remain2.
 # This supersedes the previous all-cap2 directive only for server3 and server4.
 # Existing running jobs are preserved; narrower task caps are not expanded.
+# Latest USER server4-only override 2026-10-07: server4 combined cap2 supersedes cap3.
+# server1=2/server2=2/server3=1 remain unchanged. Preserve legacy RUNNING
+# 60105/60617/60619 (3 allocated GPUs at SH4 snapshot, not reported as2).
+# Existing pending OURS heads wait for all three legacy jobs via afterany;
+# future OURS DAG width2, then all OURS finish before baseline DAG width2.
+# SH4 already updated only resource dependencies and released the same job IDs;
+# no cancellation/restart/new submission or scientific source/config mutation.
+# Stricter task, memory and physical limits remain. Canonical override receipt:
+# messages/head/2026-10-07-server4-cap2-ours-first-policy.json
