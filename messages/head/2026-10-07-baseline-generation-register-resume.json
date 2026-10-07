@@ -1,0 +1,95 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH1-SH2-SH4-BASELINE-GENERATION-REGISTER-RESUME-20261007-R1",
+  "parent_instruction": "USER-GH-ALL-SH-BASELINE-FLUENCY-CONSISTENCY-RERUN-20261007-R1",
+  "date_kst": "2026-10-07",
+  "user_quote": "여유 생겼으니 진행해",
+  "authority": "USER explicit recall permits the existing generation-enabled six-baseline tasks to finish input/source binding and actually register/inspect/release. This revokes waiting for another recall for these tasks only; not an automatic retry loop or controller administration authority.",
+  "targets": {
+    "server1": {
+      "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+      "cwd": "/mnt/raid5/janghj/ODE-edit",
+      "task_id": "gpt2xl-baselines-fluency-consistency-2k",
+      "model": "gpt2xl",
+      "project_GPU_cap": 2,
+      "source": "6bc51602632b5a2dfb4c832479002b30b604b8eb",
+      "prior": "REGISTRATION_BLOCKED_SCHEDULER_STORAGE"
+    },
+    "server2": {
+      "session": "01a0493a-074c-7f91-9a13-769116326fef",
+      "cwd": "/mnt/raid5/janghj/ODE-edit",
+      "task_id": "gptj-baselines-fluency-consistency-2k",
+      "model": "gptj",
+      "project_GPU_cap": 2,
+      "source": "27b181627ee282853e6fa9d1321752ac3b991077 PROVISIONAL; bind actual shared API/reference then fresh freeze",
+      "prior": "INPUT_PENDING; READY/API now delivered to owner and receipt confirmed"
+    },
+    "server4": {
+      "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+      "cwd": "/data/janghj/ODE-edit",
+      "task_id": "llama3-baselines-fluency-consistency-2k",
+      "model": "llama3",
+      "project_GPU_cap": 3,
+      "source": "e3019677e5b17edf98401e381972c272a711ecc7",
+      "prior": "REGISTRATION_BLOCKED_SLURM_CONTROLLER_IO"
+    }
+  },
+  "repository": "hyunjun1127/ODE-edit",
+  "inherited_envelopes": [
+    "messages/head/2026-10-07-baseline-fluency-consistency-rerun-server1.json",
+    "messages/head/2026-10-07-baseline-fluency-consistency-rerun-server2.json",
+    "messages/head/2026-10-07-baseline-fluency-consistency-rerun-server4.json"
+  ],
+  "generation_policy": "control/generation-metric-policy.json",
+  "method_contract": "plans/global/2026-10-07-baseline-fluency-consistency-rerun/contract.json",
+  "observation": {
+    "host": "devbox",
+    "controller": "StateSaveLocation /var/spool/slurmctld on /dev/nvme0n1p2",
+    "available_bytes": 1221763072,
+    "RAID_available_bytes": 1438988947456,
+    "read_only_df": true,
+    "meaning": "Fresh GH snapshot positive versus prior0B; not proof of scheduler filesystem repair or permission to mutate root/spool. Owner fresh admission and actual sbatch response are required."
+  },
+  "shared_inputs": {
+    "source_commit": "83535c6a47c552cc4e5c6385f3a587d752820150",
+    "publication": "2828ab0938184ae863831c6e5e93fcf7a021eca4",
+    "identity_sha256": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+    "manifest": {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-generation-eval-assets/20261007/reference-ready-r1/manifest.json",
+      "bytes": 6769,
+      "sha256": "6d9a713ab7eaa10871f277e10a3974e0bd5b140c265be80052c279f258876ca8"
+    },
+    "READY": {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-generation-eval-assets/20261007/reference-ready-r1/READY.json",
+      "bytes": 999,
+      "sha256": "634ca5c70f54f7af5346849b3594ed92280cfbc3853d0def16a7eef86ae64203"
+    },
+    "SH2": "Actual common API returns summary/rows/identity/work; adapt provisional endpoint/cases wrapper properly, generation_payload maps raw summary to scalar keys. No shared load_W0 helper. Exact reference file/NLTK/versions path overrides and local subset checks remain required. Prior authorised one-time reference pull permitted; no new model/stats/P downloads."
+  },
+  "execution": {
+    "methods": [
+      "MEMIT",
+      "PRUNE",
+      "RECT",
+      "AlphaEdit",
+      "AlphaEdit-BLUE",
+      "CAKE"
+    ],
+    "same_scope": "Each own six independent fresh cold fixedfirst2000 BS100x20/W20, generation fluency/consistency and old RPN/W&B; no new science/pilot/extra fit/tuning/sweep/new model.",
+    "priority": "Owner explicit immediate ACK then execute preparation and actual registration without additional user approval. Free GPU not required: valid dependency/resource PENDING is normal.",
+    "duplicates": "Reconcile exact own task/source/Command/owner/node/state via current queue/accounting/receipts first. Existing matching registered or completed new-evaluation run is retained and not duplicated. Previous rejected sbatch no returnedID is not enough to assert no registration without exact task check.",
+    "immutable": "Keep old failed-registration attempt/source/archive/lock/config/error/raw intact. Use fresh immutable registration attempt/receipts and new W&B identities when needed. S1/S4 reuse verified frozen scientific source; only registration/control path re-binding permitted with exact diff and new lock. No old archive hotpatch. SH2 final adapter/source freeze first.",
+    "gates": "Existing CPU/source/ref/generator/scalar/native evidence reused; only changed source/API/path/job/axis/dependency narrow CPU checks. No extra GPU qualification campaign/fitting. Integrate original technical model/generation checks in B1.",
+    "Slurm": "Allowed held submit of all own six GPU1 paths and own CPUcollectorGPU0, exact owner/fullargv/source/input/W&B/resources/dependencies inspection then release. Rebuild actual new IDs in graph; no stale canceled IDs. ExportNONE/Requeue0; no persistent/manual holds after valid release.",
+    "failure": "This USER recall authorizes one deliberate registration pass, not periodic/repeated sbatch. If same controller I/O fails, preserve exact stdout/stderr/no-ID facts and report current blocker; no root cleanup/service restart/permission changes or blind retry.",
+    "handoff": "Actual registered jobID/dependency/source/lock/W&B-currentstage or precise still-unsubmitted reason. Bounded postrelease snapshot (resource/dependency pending allowed); no wait GPU/W20. Sealed runner/collector continue approved trajectory.",
+    "protected": "OURS/PRICE incl60001; W0/FE/setup/stats/P; all other tasks/jobs/servers. This recall does not grant unrelated cancellation or cap increase.",
+    "resources": "S1cap2/S2cap2/S4cap3 including own running/admitted queue, perjobGPU1 and strictertask/physical node/QoS/memory bound. AllCPU/RAM/wall explicit per previous approved profile/freshcheck. No free-GPU polling. NoCP preserved."
+  },
+  "allowed_write_paths": "Exactly inherited own namespace/task/status/run/audit/report/ignored local scopes, plus own immutable registration attempt/provenance. GH owns this recall envelope and delivery audit only.",
+  "artifacts": "Old source/raw preserved; raw/tokens/text/weights/tensors/secret notGit or W&B. Compact own source/manifest/status/reports nonforce main. Exact reference transfer and ordinary compact broadcast/exception as parent envelope; no delete.",
+  "exclusions": "SH3 remains policy-only; no task/GPU registration recall. No Qwen, ours run restart, benchmark/asset rebuild or administrator repair.",
+  "communication": "Official app-server direct exact idle turn/start or same-task active expectedTurnId steer; no model/effort override. Return nonce owner ACK, current stage and actual submitted IDs; owner keeps working after GH bounded connection ends.",
+  "monitoring_active": false,
+  "automatic_retry": false
+}
