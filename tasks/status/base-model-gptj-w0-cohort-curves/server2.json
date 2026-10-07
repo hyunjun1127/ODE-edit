@@ -1,0 +1,23 @@
+{
+  "nonce": "USER-GH-SH1-SH2-W0-COHORT-CURVES-RERUN-20261007-R1-SERVER2",
+  "task_id": "base-model-gptj-w0-cohort-curves",
+  "owner": "server2",
+  "session": "01a0493a-074c-7f91-9a13-769116326fef",
+  "actual_host": "server2",
+  "cwd": "/mnt/raid5/janghj/ODE-edit",
+  "origin": "hyunjun1127/ODE-edit",
+  "status": "SUBMISSION_HANDOFF_MONITORING_PAUSED",
+  "jobs": {
+    "GPU": "60652",
+    "collector": "60653"
+  },
+  "source": "b717cc0daabfc44fa9714cbb88ab86bfd9aaea23",
+  "initial_snapshot": "PENDING after held inspection and release; not a later scheduler observation",
+  "WandB": "NEW_ID_AT_RUNTIME_STARTUP_NOT_OBSERVED",
+  "actual_GPU_validation": "NOT_OBSERVED",
+  "monitoring_active": false,
+  "automatic_retry": false,
+  "save_checkpoints": false,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "root_dirty_preserved": true
+}
