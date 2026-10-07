@@ -1,0 +1,66 @@
+{
+  "instruction_id": "USER-GH-SH1-SH2-W0-COHORT-CURVES-RERUN-20261007-R1-SERVER1",
+  "status": "CPU_SOURCE_QUALIFIED_NOT_MODEL_OR_ONLINE_PASS",
+  "owner": "SH1",
+  "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+  "actual_root": "/mnt/raid5/janghj/ODE-edit",
+  "worktree": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-base-model-gpt2xl-w0-cohort-curves",
+  "branch": "codex/server1-base-model-gpt2xl-w0-cohort-curves",
+  "legacy_registry_cwd": "historical29e4; not current boundary",
+  "full_read": {
+    "envelope_sha256": "78e0fab99858aa214c34a50c9bca97398cfd2afb80fb44aff30a6cb1a106f8e8",
+    "contract_sha256": "b2f57f86b399ce47ad1c8e5cf777fc99e86aa3bdc812b2b16730c4f19015445c"
+  },
+  "cpu": {
+    "tests_run": 25,
+    "passed": 25,
+    "skipped": 0,
+    "fixture_only": true,
+    "production_assembly": true,
+    "receipt_path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-base-model-gpt2xl-w0-cohort-curves/local/cohort-cpu-receipt-r1.json",
+    "receipt_sha256": "f5eb552eb99d3d17b74acac68edbb7ddd266c654d85c4e74cb417b17a0d1a8a0",
+    "prior_receipt_kept": "4842a58206d78f7d15df753374b609f26b081db0e29aa555c1de8d2720be81c3",
+    "prior_fixture_error": "25 tests: 2 expected RuntimeError branches were incorrectly asserted as ValueError. Fixed fixture exception types only; scientific threshold/method unchanged."
+  },
+  "independent_bounded_review": {
+    "reviewer": "/root/w0_cohort_red",
+    "actual_source_review": true,
+    "actual_existing_cpu_tests": 20,
+    "passed": 20,
+    "warning": "Partial/empty raw collector report must not claim actual W0 measurement completed.",
+    "owner_resolution": "collect.py now distinguishes complete versus partial/not-observed; production partial fixture passed.",
+    "GPU_Slurm_network_old_science_queries": false
+  },
+  "inputs": {
+    "config_sha256": "a675d70fbae850d90e040684c467b66cb12fceddcc0dd168ea3925abd8a7142a",
+    "observer_ordinal_identity_sha256": "abc078d876e51ed6efab0745b2b8665db6afd1b643931451fd77bd6b3afbd1c5",
+    "cpu_input_preflight_sha256": "3483f23394b43a64ea01d672feac309ea3bddcd358c0febdaf571537e52348b8",
+    "model_revision": "15ea56dee5df4983c59b2538573817e1667135e2",
+    "payload_sha256_reused_with_unchanged_stat": "0f8b28eb05a8075f48b61b6f35332978c74fc7763fa9fb4051a1c30511736a6a",
+    "fresh_tokenizer_rows": 26000,
+    "candidate_rows": 52000,
+    "case_selection": "occurrence ordinal0..1999, no numeric case threshold/dedup"
+  },
+  "prior_exact_accounting": {
+    "60156": {"state": "COMPLETED", "exit": "0:0", "elapsed_seconds": 815},
+    "60157": {"state": "COMPLETED", "exit": "0:0", "elapsed_seconds": 3},
+    "calls": 1,
+    "old_source": "de31540487643b3c4187ffad5c09554d18c69e94",
+    "active_ids": [],
+    "new_gpu_dependency": null,
+    "old_raw_read_or_reused_as_measurement": false,
+    "old_jobs_mutated": false
+  },
+  "boundaries": {
+    "method_cap_changed": false,
+    "USER_W0_ONLY_CAP_EXCEPTION": true,
+    "checkpoint_saved": false,
+    "exact_resume": "NOT_AVAILABLE",
+    "shared_tracking_or_other_SH_profile_edits": false,
+    "new_model_forward_by_curve_reducer": 0,
+    "edit_fit_solve_history_C0_P": 0,
+    "scientific_GPU_PASS": "NOT_RUN",
+    "W_B_online": "NOT_OBSERVED",
+    "raw_broadcast": "NO_BROADCAST_NOT_REQUIRED; same-host local raw KEEP"
+  }
+}
