@@ -57,6 +57,8 @@
     "Focused CPU checks for lookup0 rewrite/key/KL, unchanged rows, multi-token subjects, target mask, GPT-J prefix==pad native attention mask, entry/fit dispatch and M1 switch; CPU != actual GPU.",
     "Publish official source/tests/config provenance nonforce main, send exact main/tree/API to registered SH1..4 and collect actual preparation-worktree update receipts. Existing running/pending frozen jobs never hotpatch/cancel/restart."
   ],
-  "delivery_status": "DIRECT_SEND_PENDING",
-  "created_at": "2026-10-08T23:20:15.013609+00:00"
+  "delivery_status": "DIRECT_OWNER_ACK_RECEIVED",
+  "created_at": "2026-10-08T23:20:15.013609+00:00",
+  "accepted_turn": "01a11dd3-66d5-7351-94e9-ccb53b0192b2",
+  "GH_implementation_status": "ASSIGNED_NOT_YET_OBSERVED_COMPLETE"
 }
