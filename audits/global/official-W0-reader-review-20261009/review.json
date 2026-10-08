@@ -38,8 +38,16 @@
       "line": 508,
       "related_file": "official/runners/server1/native_parity.py",
       "independent_reviewer": "portable_w0_native_validation_review",
-      "reproduction": "canonical *_observations 모든 row를 제거한 뒤 payload hash만 갱신해도 native_parity.validate_report와 shared _native_parity_proof가 PASS. probability 배열만 일치한 것으로 실제 token/NLL native 증거를 대체함.",
-      "required": "CF 실제 canonical observation token/query signature와 NLL·strict bit·work·분모를 기존 factual contract로 재검산해 보고된 probability와 일치해야 함. row 삭제/불일치/CPU work를 actual proof로 인정하지 않는 CPU 회귀."
+      "reproduction": "canonical *_observations 모든 row를 제거한 뒤 payload hash만 갱신해도 native_parity.validate_report와 shared _native_parity_proof가 PASS. 실제 signature가 input3600/target1800을 뜻하는데 두 endpoint counter를 모두123456으로 재봉인해도 PASS. probability 배열/같은counter만으로 실제 token/NLL/work 증거를 대체함.",
+      "required": "CF 실제 canonical observation token/query signature와 NLL·strict bit를 기존 factual contract로 재검산해 보고된 probability와 일치해야 함. retained token plan에서 candidate/input/target/padded work와 분모를 유도해 검증. row 삭제/불일치/변조된동일work를 actual proof로 인정하지 않는 CPU 회귀."
+    },
+    {
+      "id": "W0_FACTUAL_WORK_MISSING",
+      "file": "official/evaluation/w0_reference.py",
+      "line": 271,
+      "independent_reviewer": "portable_w0_shared_review",
+      "reproduction": "_cold_component가 work 레코드 자체가 없는 cold endpoint 및 forward/candidate/input/target count 모두0인 endpoint를 수락. 정확commit 함수의 CPU in-memory 확인이며 모델/GPU0.",
+      "required": "verified query/observation으로 candidate/input/target/padded count를 검산하고 실제positiveforward 및 finite elapsed를 확인. missing/zero work를 완성READY로 노출하지 않는 CPU 회귀. 이는 receipt일관성검사이며 GPU실행의 독립증명이 아님."
     }
   ],
   "additional_source_findings": [
