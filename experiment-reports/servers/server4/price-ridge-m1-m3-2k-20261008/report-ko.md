@@ -1,5 +1,9 @@
 # PRICE ridge M1–M3 실행 준비
 
+**최신 2026-10-08 generation 수리:** 이전61207/61208/61209는 사용자 지시로 취소·보존했다. 수리 source `e310c38b`의 Llama61356/GPTJ61357/GPT2XL M1+M2 61358/collector61359를 release했다. 실제 KV 확인은 본 B1 이후이며 아직 NOT_OBSERVED다. [최신 수리 보고](generation-repair-ko.md)와 [현재 status](../../../../../tasks/status/price-ridge-m1-m3-2k-20261008/server4.json)가 아래 최초 제출 기록보다 우선한다. GPT2XL 통계·W0 결속은 수리됐고 M3의 저장 K 문제만 남았다.
+
+아래는 최초 source8f39b226/attempt-r1의 보존 기록이다.
+
 권한: `USER-SH4-PRICE-RIDGE-M1-M3-20261008-R1`, 정본 `be0917136eb46d9840aafecb960d0c9ed897c159`.
 Llama/GPT-J와 CPU collector의 실제 held 등록·검사·release를 완료했다. 단발 초기 snapshot은 모두 dependency PENDING이었다. 실제 GPU 확인이나 새 2K 완료를 주장하지 않는다.
 

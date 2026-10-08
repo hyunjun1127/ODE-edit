@@ -1,0 +1,28 @@
+{
+  "task_id":"price-ridge-m1-m3-2k-20261008",
+  "authority":"USER 2026-10-08 generation repair/re-register and GPT2XL repair",
+  "attempt":"/data/janghj/ODE-edit/local/price-ridge-m1-m3-2k-20261008/attempt-generation-repair-r1",
+  "source_commit":"e310c38b76204acbae56c3a30f00a7c8444f0a4c",
+  "archive_sha256":"97893b78cce6a607fb04192ee71ae05c3e44aecdf07cd213b77e984ab1aa83e9",
+  "config_sha256":"62a5dca6120fbda00829a9185f64c0e0b76b4e153c5d3e2887ced5797b6b0f42",
+  "execution_lock_sha256":"e77fc3ce275c2edcd7157dfbf5d812e68a7743ba25026b56c802faaf17de7f6d",
+  "local_submission_sha256":"30a6dd19e725fa3fd8acb163fbc1509c587ec1a024e20dc0a8e3facafeac597c",
+  "cancel_receipt_sha256":"46bf72cd621e702cb7a85a268151ead57fbf4b744fa0a20c7a63c25501f6536c",
+  "superseded_jobs":[61207,61208,61209],
+  "stage":"RELEASED",
+  "jobs":[
+    {"cell":"LLAMA_REPRO","job_id":61356,"GPU":1,"dependency":null,"initial_state":"PENDING"},
+    {"cell":"GPTJ_M1","job_id":61357,"GPU":1,"dependency":null,"initial_state":"PENDING"},
+    {"cell":"GPT2XL_M1_M2","job_id":61358,"GPU":1,"dependency":"afterany:61356","initial_state":"PENDING"},
+    {"cell":"collector","job_id":61359,"GPU":0,"dependency":"afterany:61356:61357:61358","initial_state":"PENDING"}
+  ],
+  "held_inspection":"EXACT_OWNER_NAME_ARGV_SOURCE_CONFIG_RESOURCES_DEPENDENCIES_EXPORT_NONE_REQUEUE0_PASS",
+  "resources":{"combined_cap":2,"GPU_per_main":1,"CPU_per_job":8,"main_memory_MiB":59392,"hard_memory_MiB":60416,"main_wall_hours":48,"collector_memory_MiB":24576,"collector_wall_hours":4},
+  "actual_generation_qualification":"NOT_OBSERVED; post-edit B1 only",
+  "WandB_identity":"NOT_CREATED_AT_INITIAL_PENDING_SNAPSHOT",
+  "new_W0_jobs":0,
+  "new_stat_generation":0,
+  "initial_snapshot_count":1,
+  "monitoring_active":false,
+  "automatic_retry":false
+}

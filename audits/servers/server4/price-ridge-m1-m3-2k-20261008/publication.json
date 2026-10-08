@@ -12,6 +12,12 @@
     "shared_helper_modified": false,
     "exception_scope": "This exact compact task submission receipt only"
   },
+  "generation_repair_publication_exception": {
+    "path":"runs/price-ridge-m1-m3-2k-20261008/generation-repair-submission.json",
+    "generic_helper_status":"NOT_PASS_SCOPE_PREFIX_UNSUPPORTED",
+    "authority":"Original task exact allowed runs prefix plus latest USER repair/re-register instruction",
+    "shared_helper_modified":false
+  },
   "frozen_source_untouched_after_submit": true,
   "main_merge": "NOT_PERFORMED_GH_INTEGRATION_REQUIRED"
 }

@@ -1,5 +1,7 @@
 # Generation 수리 및 GPT2XL 입력 보완
 
+최신 자원 override(2026-10-08 15:48 KST): 사용자 cap3/별도 lane 지시에 따라 local project cap을3으로 변경하고 미할당 PENDING GPT2XL61358의 afterany61356만 제거했다. Llama61356 RUNNING, GPTJ61357 Resources 대기, GPT2XL61358 노드 가용성 대기이며 독립 GPU1 세 lane의 최대폭3이다. baseline60917–60923 hold와 collector61359 의존성은 그대로다. 새 제출/취소/source hotpatch는 없고 아래 최초 cap2 등록은 역사로 보존한다. [변경 receipt](../../../../../audits/servers/server4/price-ridge-m1-m3-2k-20261008/cap3-override.json).
+
 사용자의 2026-10-08 수리·재등록 지시에 따른 기록이다. 이전 frozen source/raw는 보존하고 새 attempt로 cold2k를 시작한다. NoCP이므로 이전 prefix에서 재개하지 않는다.
 
 ## 확인과 변경
@@ -26,4 +28,6 @@ M1+M2는 L13–L17/anchor17/lr.5/native ridgeλ20000/grace9로 준비했다. M3 
 
 좁은 CPU 검사8개, AST/import, 세 모델 MB4 token coverage, GPT2 raw reducer가 PASS다. 실제 모델/GPU parity·속도·W&B remote 전달 PASS는 아니다. 사전 고정3셀의 저장량 계획41,716,285,440 bytes, 준비 시 free69,280,104,448 bytes다. 동시 GPU cap2, job당59392MiB/hard60416MiB, CPU8, wall48h 상한. 신규 W0/qualification job0, post-B1 검산은 각 main 안에 포함한다.
 
-실행·source·job IDs는 제출 후 별도 receipt로 추가한다. 기존 source8f39b226와 이후 수리 source를 구분한다. own branch 게시만 허용하며 main 통합은 GH 절차다.
+실제 source `e310c38b76204acbae56c3a30f00a7c8444f0a4c`로 held검사/release했다. Llama61356·GPTJ61357 두 lane, GPT2XL M1+M2 61358은 afterany61356, CPUcollector61359는 세GPU afterany다. 단발 초기 snapshot은 모두 PENDING이고 수동 hold는 없다. 당시 old61207/61208 allocations는 이미 없어 새로운 graph 최대폭2를 확인했다. [등록 receipt](../../../../../runs/price-ridge-m1-m3-2k-20261008/generation-repair-submission.json).
+
+Config SHA `62a5dca6120fbda00829a9185f64c0e0b76b4e153c5d3e2887ced5797b6b0f42`, lock SHA `e77fc3ce275c2edcd7157dfbf5d812e68a7743ba25026b56c802faaf17de7f6d`. 기존 source8f39b226/attempt-r1은 보존했다. 실제 KV GPU검산·W&B remote identity·W20은 아직 NOT_OBSERVED. own branch 게시만 허용하며 main 통합은 GH 절차다.

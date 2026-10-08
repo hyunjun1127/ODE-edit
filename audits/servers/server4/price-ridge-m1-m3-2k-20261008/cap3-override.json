@@ -1,0 +1,27 @@
+{
+  "user_quote": "gpt2-xl꺼 그냥 cap 3개로 다른 lane에 올려",
+  "time_kst": "2026-10-08T15:48:10+09:00",
+  "server": "server4",
+  "combined_project_GPU_cap": 3,
+  "local_cap_path": "/data/janghj/ODE-edit/servers/local/gpu-caps.tsv",
+  "local_change": "server4 GPU column 2 to 3 only; node/memory/patterns preserved",
+  "target": {
+    "job_id": 61358,
+    "owner": "janghj(1025)",
+    "name": "price-ridge-m1-m3-2k-20261008-GPT2XL_M1_M2",
+    "command": "/data/janghj/ODE-edit/local/price-ridge-m1-m3-2k-20261008/attempt-generation-repair-r1/GPT2XL_M1_M2.sh",
+    "source": "e310c38b76204acbae56c3a30f00a7c8444f0a4c",
+    "before": {"state":"PENDING","reason":"Dependency","dependency":"afterany:61356(unfulfilled)","elapsed":"00:00:00","start":"Unknown","allocation":null},
+    "operation": "scontrol update JobId=61358 Dependency=",
+    "exit_code": 0,
+    "after": {"state":"PENDING","reason":"ReqNodeNotAvail, May be reserved for other job","dependency":null,"elapsed":"00:00:00","start":"Unknown","allocation":null}
+  },
+  "concurrency": {"allocated_GPU":1,"released_GPU_lanes":[61356,61357,61358],"maximum_possible_project_GPU":3},
+  "collector": {"job_id":61359,"dependency":"afterany:61356:61357:61358","mutation":false},
+  "baseline_held_unchanged":[60917,60918,60919,60920,60921,60922,60923],
+  "new_submission":false,
+  "cancellation":false,
+  "frozen_source_config_and_original_submission_receipt_unchanged":true,
+  "M3_authorization_unchanged":true,
+  "monitoring_active":false
+}
