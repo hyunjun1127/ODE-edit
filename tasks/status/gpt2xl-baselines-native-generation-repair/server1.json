@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-DIRECT-NATIVE-FLUCON-REPAIR-20261008-R1",
+  "task_id": "gpt2xl-baselines-native-generation-repair",
+  "server": "server1",
+  "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+  "status": "REGISTERED_RELEASED_MONITORING_PAUSED",
+  "runtime_source": "adb244e6f9c86b54f73bd6d8fb833b338f470ded",
+  "jobs": {"BASE_MEMIT": "61519", "BASE_ALPHAEDIT": "61520", "ALPHAEDIT_BLUE": "61521", "collector": "61522"},
+  "CPU_tests": 178,
+  "W_B": "MEMIT_ALPHA_REMOTE_STARTUP_IDENTITY_VERIFIED; BLUE_NOT_YET_STARTED; metric_row_readback_not_claimed",
+  "generation": "W20_ONLY_FIRST2000_NATIVE_CASE_PADDED_KV_GLOBAL_RNG",
+  "scientific_completion": "NOT_OBSERVED",
+  "generation_speedup": "NOT_MEASURED",
+  "server2": "NEW_SOURCE_REPORT_ACK; NOT_STARTED_DESCENDANTS_CANCELLED; RUNNING61428_PRESERVED; NO_NEW_SUBMISSION",
+  "project_GPU_cap": 2,
+  "raw_source_old_cost": "KEEP",
+  "NoCP": true,
+  "automatic_retry": false,
+  "monitoring": false
+}
