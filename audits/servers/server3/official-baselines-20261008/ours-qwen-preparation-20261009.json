@@ -1,0 +1,87 @@
+{
+  "status": "PREPARATION_COMPLETE_AWAITING_USER_RUN_SETTINGS",
+  "observed_at": "2026-10-08T22:41:34.729929+00:00",
+  "user_scope": "준비만; 실행 설정은 사용자가 추후 지정",
+  "source_parent": "8202d6a4c7472c33eb270fe666cc966afc5dab14",
+  "model_verification": "FULL_SHARD_SHA_VERIFIED",
+  "model_verification_receipt": "/data/janghj/ODE-edit/local/qwen-model-download-20261009/verified.json",
+  "WandB": {
+    "status": "READY_ONLINE_VERIFIED",
+    "run_id": "d4d0993f0d9d4f10",
+    "url": "https://wandb.ai/wkdguswns2256/layer%20allocation/runs/d4d0993f0d9d4f10",
+    "points": 3,
+    "failures": 0,
+    "remote_points": 3,
+    "run_name": "server3-SETUP-r1-local",
+    "job_identity": {
+      "execution_backend": "local",
+      "identity_source": "NOT_APPLICABLE"
+    },
+    "method_readback": null,
+    "scientific_completion_claim": false,
+    "local_status": "READY_ONLINE_VERIFIED",
+    "dropped_points": 0
+  },
+  "wandb_env": "/data/janghj/ODE-edit/local/ours-qwen-readiness-20261009/wandb.env",
+  "C0_fullSHA_verified_layers": [
+    "4",
+    "5",
+    "6",
+    "7",
+    "8"
+  ],
+  "token_pack_checks": {
+    "provisional_profile": "official qwen25 CAP075 default",
+    "batches": 20,
+    "requests": 2000,
+    "all_key_prefix_exact": true,
+    "not_final_run_configuration": true
+  },
+  "runtime": {
+    "python": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/venv/bin/python",
+    "torch": "2.9.1+cu128",
+    "transformers": "4.44.2",
+    "core_imports": "PASS"
+  },
+  "context_transfer": {
+    "source_host": "rke-server4",
+    "source": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/preparation/QWEN/contexts.json",
+    "destination": "/data/janghj/ODE-edit/local/ours-qwen-readiness-20261009/contexts.json",
+    "bytes": 276,
+    "sha256": "792d32b503fa04b9180caa5281a8869e42e9bb2f12a322585ebc9a0cfd9f34e6",
+    "semantic_sha256": "6688fe84115305610c00b328df931b0f0f4bc6c8eced70386ef975c58d85a9c3",
+    "source_keep": true,
+    "overwrite": false,
+    "payload": "native context templates only"
+  },
+  "storage": {
+    "available_bytes": 134349025280,
+    "single_run_noCP_reserved_bytes": 8589934592,
+    "measured_run_bytes": null
+  },
+  "GPU_qualification": "NOT_RUN",
+  "new_jobs": [],
+  "CP_saved": false,
+  "runtime_or_existing_jobs_modified": false,
+  "owner_audit": true,
+  "independent_reviewer": false,
+  "CPU_tracking_tests": 39,
+  "source_verify": {
+    "source_files": 157,
+    "integrity": "PASS",
+    "external_task_imports": 0
+  },
+  "local_preparation": "/data/janghj/ODE-edit/local/ours-qwen-readiness-20261009/cpu-r1/preparation.json",
+  "next_step": "Bind separately supplied user run settings, then new scientific runner/source/qualification/admission. No automatic submission.",
+  "preparation_source_files": [
+    {
+      "path": "official/runners/server3/ours_prepare.py",
+      "sha256": "a9a3005a200064d2e192490bdbfa7df4c54745443eaabd631c50e81840ed7924"
+    },
+    {
+      "path": "official/runners/server3/test_ours_prepare.py",
+      "sha256": "23e0354e12ff522f02d03b4666261b764253fb1993fab2230c1fcc5d99b8b2f4"
+    }
+  ],
+  "official_CPU_tests": 113
+}
