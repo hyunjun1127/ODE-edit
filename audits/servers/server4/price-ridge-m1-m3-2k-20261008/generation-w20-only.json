@@ -1,0 +1,28 @@
+{
+  "authority":"2026-10-08 USER: FLUENCY/CONSISTENCY는 W20 전체평가로 제한; 세 run 취소 후 W20-only로 재제출",
+  "replaces_source":"10fa1f6a77243312e8d6e0770262f7016931a36c",
+  "replaces_jobs":{"LLAMA_REPRO":61398,"GPTJ_M1":61399,"GPT2XL_M1_M2":61400,"collector":61401},
+  "schedule":"W20_ONLY",
+  "generated_request_endpoints_per_run":2000,
+  "previous_request_endpoints_per_run":6600,
+  "new_W0":0,
+  "changes":[
+    "R/P/N current pre/post 및 W5/10/15/20 누적 관측은 원 runner 그대로 호출",
+    "B1-B19 generation 미실행; NOT_SCHEDULED receipt, 미측정 지표 업로드/0대치 없음",
+    "W20 실제 전체2000 generation 한 번; current100/first500은 동일 raw CPU subset",
+    "qualification은 첫 생성 시점 W20 편집 후에만 원 고정8prompt/MB4 검산; 별도 GPU job/W0 없음",
+    "collector는 W20-only 설정에서 B1-B19 generation raw를 요구하지 않고 명시 생략 receipt 확인; W20은 원 raw 독립 재집계",
+    "구식 config는 기존 일정 보존. 신규 config에 schedule 명시. shared source 수정0"
+  ],
+  "preserved":["편집 수식/profile/cap/lr/seed/입력순서", "KV MB4/기존 허용오차", "NoCP", "원 raw/frozen source", "baseline60917-60923 hold", "server4 합산cap3/독립3lane"],
+  "tests":{
+    "CPU_total":7,"result":"PASS",
+    "controller_mock":"20batch RPN pre/post40회 및 기존 log20회 보존; W20 generation1회, qualification1회, CPU subset2회; 이전19회 generation호출0/scalar발행0",
+    "stored_rows":"기존 W1/W2 파일명 충돌 회귀 및 GPT2 기존W0 26000행 reader 재검산 PASS",
+    "scope":"모델 load/실제 forward 없음. 새 GPU 및 실속도 PASS 주장 없음"
+  },
+  "cancellation_order":"61401 collector 먼저; 이어61400/61399/61398 exactowner/name/command 검증 취소. cancel후 첫 기록 GPU COMPLETING; 새 admission은 이 allocation 미존재 확인 후 진행",
+  "review_level":"소유자 CPU/source 검산; 독립 reviewer 없음",
+  "broadcast":"NO_BROADCAST_NOT_REQUIRED: 동일서버 raw KEEP, Git 소형 source/receipt만",
+  "monitoring_active":false,"automatic_retry":false
+}

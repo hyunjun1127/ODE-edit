@@ -11,6 +11,7 @@ from pathlib import Path
 import time
 
 from .profile import forbid_w0
+from .generation_schedule import generation_due,first_generation_batch
 
 TASK='price-ridge-m1-m3-2k-20261008'
 NONCE='USER-SH4-PRICE-RIDGE-M1-M3-20261008-R1'
@@ -59,9 +60,16 @@ def attach_post_generation(parent,a,bench,records,H,c,out,tracker,lock):
             raise RuntimeError('NEW_W0_FORWARD_FORBIDDEN')
         result=original(a,bench,seen,selected,H,name,folder,config,identities,current)
         if name.startswith('W'):
-            b=int(name[1:]);state=parent.state(a,H);rng=parent.rng_snapshot()
+            b=int(name[1:])
+            if not generation_due(c,b):
+                parent.write(folder/'generation-skipped.json',dict(schedule=g['schedule'],batch=b,
+                    status='NOT_SCHEDULED',new_generation_forwards=0,metric_values_omitted=True))
+                return result
+            if g.get('schedule')=='W20_ONLY':
+                parent.require(b==20 and len(selected)==2000,'GENERATION_W20_FULL_COHORT')
+            state=parent.state(a,H);rng=parent.rng_snapshot()
             if gen is None:
-                parent.require(b==1,'GENERATION_POST_B1_ONLY_QUALIFICATION')
+                parent.require(b==first_generation_batch(c),'GENERATION_FIRST_SCHEDULED_POST_ONLY_QUALIFICATION')
                 plan=json.loads(parent.verify(g['qualification_plan']).read_text())
                 parent.require(plan['model_identity']==identity,'GENERATION_PLAN_MODEL_IDENTITY')
                 actual=run_qualification(a.model,bench.tokenizer,assets,plan,
@@ -101,8 +109,9 @@ def attach_post_generation(parent,a,bench,records,H,c,out,tracker,lock):
     old_log=tracking.log_batch
     def log_batch(tracker,receipt,*args,**kwargs):
         old_log(tracker,receipt,*args,**kwargs)
-        values=pending.pop(receipt['batch'])
-        safe_log(tracker,lambda:values,'committed_post_generation')
+        values=pending.pop(receipt['batch'],None)
+        if values is not None:
+            safe_log(tracker,lambda:values,'committed_post_generation')
     tracking.log_batch=log_batch
 
 

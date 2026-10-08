@@ -31,7 +31,7 @@ class GenerationRepairTests(unittest.TestCase):
     def test_post_only_qualification_and_memory_bound(self):
         from . import run
         source=inspect.getsource(run.attach_post_generation)
-        self.assertIn("b==1",source)
+        self.assertIn("b==first_generation_batch(c)",source)
         self.assertIn("name.startswith('W0')",source)
         self.assertIn('NO_SILENT_SLOW_FALLBACK',source)
         self.assertIn('progress_callback',source)
