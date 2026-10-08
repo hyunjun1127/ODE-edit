@@ -1,0 +1,85 @@
+{
+  "instruction_id": "USER-GH-SH1-SH2-BASELINE-GENERATION-KV-BATCH-REPAIR-20261008-R1",
+  "task_id": "gptj-baselines-generation-cache-repair",
+  "status": "SUBMISSION_HANDOFF",
+  "jobs": {
+    "ALPHAEDIT_BLUE": "61367",
+    "BASE_ALPHAEDIT": "61365",
+    "BASE_MEMIT": "61364",
+    "CAKE": "61366",
+    "PRUNE": "61368",
+    "RECT": "61369",
+    "collector": "61370"
+  },
+  "dependencies": {
+    "ALPHAEDIT_BLUE": [
+      "61365"
+    ],
+    "BASE_ALPHAEDIT": [
+      "61364"
+    ],
+    "BASE_MEMIT": [],
+    "CAKE": [
+      "61364"
+    ],
+    "PRUNE": [
+      "61366"
+    ],
+    "RECT": [
+      "61367"
+    ],
+    "collector": [
+      "61364",
+      "61365",
+      "61366",
+      "61367",
+      "61368",
+      "61369"
+    ]
+  },
+  "source_commit": "f979efa69ce76a00b3e35c295452d01e14d1f13c",
+  "source_tree": "ad51c8384277eb17aedb76632fc8b967657a0366",
+  "lock": {
+    "bytes": 103380,
+    "inode": 122367007,
+    "mtime_ns": 1791443530372855300,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-baselines-fluency-consistency-2k/cache-repair-r2/attempt-r1/execution.lock.json",
+    "sha256": "da68b2c1402d2c5badbde3250ff6601496e0dca956d97f1eb1ea28c9f22b08fb"
+  },
+  "config_sha256": "1924773f0bbb60addc0a9d1ace8281691a625da96a2099053a4c44e8a920411c",
+  "cap": 2,
+  "frontier": [],
+  "initial_snapshot": "61370|gptj-baselines-generation-cache-repair-collector|PENDING|N/A||None\n61369|gptj-baselines-generation-cache-repair-RECT|PENDING|gres/gpu:1||None\n61368|gptj-baselines-generation-cache-repair-PRUNE|PENDING|gres/gpu:1||None\n61367|gptj-baselines-generation-cache-repair-ALPHAEDIT_BLUE|PENDING|gres/gpu:1||None\n61366|gptj-baselines-generation-cache-repair-CAKE|PENDING|gres/gpu:1||None\n61365|gptj-baselines-generation-cache-repair-BASE_ALPHAEDIT|PENDING|gres/gpu:1||None\n61364|gptj-baselines-generation-cache-repair-BASE_MEMIT|PENDING|gres/gpu:1||None",
+  "resources": {
+    "collector_cpu": 6,
+    "collector_host_mib": 24576,
+    "collector_wall": "04:00:00",
+    "cpu": 6,
+    "fresh_admission_required": true,
+    "generation_peak_not_yet_measured": true,
+    "gpu": 1,
+    "host_mib": 59392,
+    "project_cap": 2,
+    "reserve_bytes": 17179869184,
+    "simultaneous_host_requested_mib": 118784,
+    "source_old_defaults_reused": true,
+    "task_cap": 2,
+    "wall": "2-00:00:00",
+    "wall_is_eta": false
+  },
+  "shared_generation_source": "1413ac0ff550f2132feda355e44519506fc0eb84",
+  "qualification_status": "PLAN_BOUND_NOT_ACTUAL_PASS",
+  "actual_qualification": "NOT_OBSERVED",
+  "reference_identity": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+  "W_B": "ACTUAL_ONLINE_STARTUP_IN_SEALED_RUNNER_NOT_OBSERVED",
+  "scientific_complete": false,
+  "monitoring_active": false,
+  "automatic_retry": false,
+  "registration_profile": "r2",
+  "user_authority": "DIRECT_USER_MANUAL_RECALL; plans/updates/server2/gptj-baselines-fluency-consistency-2k/cache-repair-r2-user-recall.json",
+  "tracking_config_key": "generation_qualification_plan_sha256",
+  "new_run_UUIDs_required": true,
+  "old_runs_renamed_or_backfilled": false,
+  "current_realtime_startup": "NOT_OBSERVED_AT_BOUNDED_INITIAL_LOCAL_RECEIPT_CHECK",
+  "prior_failures": "preserved; 61160..61165 FAILED before model; priorallocated53GPU-sec"
+}

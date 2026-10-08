@@ -1,6 +1,6 @@
 # GPT-J native six-baseline fluency/consistency 준비·등록 보고
 
-최신 상태(2026-10-08): `MANUAL_R2_SOURCE_BOUND; SUBMISSION_NOT_YET_PERFORMED`.
+최신 상태(2026-10-08): `MANUAL_R2_SUBMISSION_HANDOFF; SIX_GPU_AND_COLLECTOR_RELEASED; RESOURCE_PENDING`.
 이하 기존 등록 보고는 역사 기록이며, 현재 실행 상태로 읽지 않는다.
 원 등록 상태: `SUBMISSION_HANDOFF; SIX_GPU_AND_CPU_COLLECTOR_RELEASED`.
 Instruction/nonce `USER-GH-ALL-SH-BASELINE-FLUENCY-CONSISTENCY-RERUN-20261007-R1`,
@@ -340,3 +340,42 @@ W&B scalar-only online, 실제job번호 name/config, separate fit/progress/perfo
 bounded finish/readback을 유지한다. CPU PASS/SDK 접수/실제 online 검증/실험완료를 별도로 기록한다.
 NoCP/raw local KEEP/NO_BROADCAST_NOT_REQUIRED. 실제 등록 ID/새 online 상태는 등록 후 추가한다.
 이번 source/RCA receipt: `cache-repair-r2/failure-and-source-review.json`.
+
+### r2 실제 등록·자원 pending 인계
+
+Execution source `f979efa69ce76a00b3e35c295452d01e14d1f13c`,
+tree `ad51c8384277eb17aedb76632fc8b967657a0366`.
+Lock103380B SHA `da68b2c1402d2c5badbde3250ff6601496e0dca956d97f1eb1ea28c9f22b08fb`.
+이후 report/main commit은 이 실행 source를 대체하지 않는다.
+6GPU+GPU0 collector 전량 held 검사 후 후속부터 모두 release 완료했다.
+
+| Arm/역할 | 실제 job | afterany | bounded 현재 상태 |
+| --- | --- | --- | --- |
+|MEMIT|61364|없음|PENDING/ReqNodeNotAvail, May be reserved for other job|
+|AlphaEdit|61365|61364|PENDING/Dependency|
+|CAKE|61366|61364|PENDING/Dependency|
+|AlphaEdit-BLUE|61367|61365|PENDING/Dependency|
+|PRUNE|61368|61366|PENDING/Dependency|
+|RECT|61369|61367|PENDING/Dependency|
+|GPU0 collector|61370|61364–61369 전체|PENDING/Dependency|
+
+실제 janghj/server2 source/Command/fullargv/owner/script/자원/입력/PLAN/추가USER authority/
+W&B/noCP/dependency를 검사했다. 전부 새 실제 ID이며 stale611xx/609xx dependency0,
+기존 job 변경·취소0. 등록 전 source-based own Server2 allocation0/frontier0이며
+새 DAG 가능한 최대2GPU다. node RTX A6000 8개/각49140MiB를 현재 확인했다.
+Disk free374937300992B/inode443276424; 각59392MiB/host ceiling60416MiB.
+이 값은 실제 과학 peak나 ETA가 아니다.
+
+최초 release snapshot의 Reason=None은 scheduler 초기값이다. 이후 한정 actual resource snapshot은
+위처럼 node unavailable/dependency로 확인됐으며 임의로 빈 GPU나 ready로 해석하지 않는다.
+새 online startup/immutable run URL/actual qualification/첫write/W20는 `NOT_OBSERVED`다.
+첫 새 job의 bounded local startup receipt 검사에서도 아직 receipt가 생성되지 않았다.
+로그인 실패를 새로 주장하지 않으며 actual SDK/auth 검산은 실행 안의 cheap startup에서 수행한다.
+각 arm은 새UUID/attempt=cache-repair-r2와 실제job번호 run.name/config를 쓰고 scalar를 실시간 전송한다.
+SDK accepted와 실제 remote readback, uploader finish와 science completion은 계속 분리한다.
+
+Compact 등록 audit `cache-repair-r2/submission.json`, 전체 immutable source/config/lock/held/currentresource
+receipts는 ignored 새attempt 아래 보존한다. 이번 direct USER recall에 대한 접수·제출 사실은
+own status/server-head receipt에 기록했다. GH가 직접 수신했다는 주장은 새 app-server ACK 없이는 하지 않는다.
+등록된 sealed 프로그램은 W0 qualification/관측·각2k 편집·평가·collector를 자연 진행한다.
+Agent는 resourcepending 인계 후 멈추며 새 recurring monitor/heartbeat/automatic retry0.
