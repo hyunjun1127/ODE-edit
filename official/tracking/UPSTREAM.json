@@ -6,6 +6,13 @@
   "source_root": "project/run_scripts/experiment_tracking",
   "distribution_root": "official/tracking",
   "source_preserved": true,
+  "zsre_metric_extension": {
+    "instruction_id": "SH2-GH-ZSRE-WANDB-METRICS-20261009-R1",
+    "changes": ["dataset=zsre 전용 namespace와 edits 축", "official_zsre_metrics 공통 summary mapper", "official alias 충돌 방지 및 기존 scalar/분모/score 검산 재사용"],
+    "evaluator_or_scientific_math_changed": false,
+    "old_frozen_runs_changed": false,
+    "online_verification": "NOT_RUN"
+  },
   "files": [
     {"path": "__init__.py", "upstream_sha256": "f7481e9203c048e2ff2935aed0cd4ebc8d040355bb7b17f15ddd01bc620da89b", "changes": ["export shared official generation-progress phase adapter"]},
     {"path": "schema.py", "upstream_sha256": "b63cd41816f4022ff85c83130f16fff4380e7e039d0c37f6618c7d008b7aa659", "changes": ["official instruction/dataset/schema and native W0+W20 authority pair", "zsRE rejects CF generation", "official request-macro namespace and actual native denominators", "shared native W20 progress phase-only callback adapter", "explicit deferred CF checkpoint evaluation; no generation metadata or measurements"]},
