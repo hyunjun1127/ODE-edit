@@ -1,0 +1,62 @@
+{
+  "nonce": "USER-SH3-GH-OFFICIAL-M1-POS0-QWEN-GPTJ-20261009-R1",
+  "from": "server3",
+  "to": "GH",
+  "target_session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+  "user_exact": "이전의 M1 부분 수정에 더해 subject가 first token에 존재할 시 발생하는 오류 때문에 수정을 진행했다. 이 부분을 GH에게 전달해서 GH가 직접 repo의 실행 부분을 run 올린 부분을 이용해서 official code를 수정하고(qwen과 gpt-j 부분 run에만) main에 반영해서 다른 서버들에게 최신화 진행하도록 user의 명령 전달해.",
+  "scope": "GH directly adopts actual execution changes into official OURS Qwen/GPT-J only; main nonforce publication and direct server code sync. Llama and stock baselines unchanged. Existing frozen source/jobs/raw KEEP. No new GPU campaign/resubmit implied.",
+  "execution_source": "93341767ccb41a4237e8a762421340622d3580f1",
+  "execution_source_currently_in_origin_main": false,
+  "execution_lock": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/execution.lock.json",
+  "files": [
+    {
+      "path": "audits/servers/server3/official-baselines-20261008/pos0-gh-handoff-20261009/eot.py",
+      "execution_path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/source/project/run_scripts/qwen_price_q3_2k/eot.py",
+      "bytes": 2614,
+      "sha256": "12f5522c0d30201714746c2432dc7684df2ec2e8c6d0b2ad3b9b5ec6dfb8e276"
+    },
+    {
+      "path": "audits/servers/server3/official-baselines-20261008/pos0-gh-handoff-20261009/prepare.py",
+      "execution_path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/source/project/run_scripts/qwen_price_q3_2k/prepare.py",
+      "bytes": 7752,
+      "sha256": "25d6dfaffb881b15212f8e82eb0709b14a36c3417e1d3b81a25bac21f2f9253f"
+    },
+    {
+      "path": "audits/servers/server3/official-baselines-20261008/pos0-gh-handoff-20261009/run.py",
+      "execution_path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/source/project/run_scripts/qwen_price_q3_2k/run.py",
+      "bytes": 11093,
+      "sha256": "d931f73114303f132897644967ff424a7e943f98e5d15cb1606cc23afb85a7e8"
+    }
+  ],
+  "verified_source_semantics": {
+    "M1": "runtime_profile sets price_m1_anchor_guard=False; actual entry requires guard diagnostics empty",
+    "trigger": "subject_last lookup == 0; not every multi-token subject starting at first token",
+    "action": "prepend model document-boundary token to affected native rewrite/key and KL rows; lookup0->1 and target ignore slot; unaffected rows identical",
+    "Qwen_prefix": "<|endoftext|>",
+    "Qwen_prefix_id": 151643,
+    "eval_prompts": "unchanged",
+    "sample_order": "same fixedfirst2000 / B100x20 / ordered IDs SHA 0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+    "CPU_preparation_counts": {
+      "affected_rewrite_or_KL_rows": 21,
+      "distinct_batch_owner_pairs": 14,
+      "rewrite_rows": 7,
+      "KL_rows": 14,
+      "key_rows_checked_separately": true
+    }
+  },
+  "GPTJ_CPU_caveat": {
+    "prefix_id": 50256,
+    "eos_id": 50256,
+    "pad_id_after_native_pad_eos": 50256,
+    "Qwen_helper_check_prefix_not_pad": "FAIL if copied literally",
+    "action": "GH must resolve native GPT-J prefix/mask compatibility with focused CPU tests; do not relabel Qwen evidence as GPT-J GPU PASS"
+  },
+  "implementation_requests": [
+    "Read exact frozen run/prepare/eot and prior M1 lineage, bind source SHA. Port into proper official code instead of importing project run modules or string exec monkeypatch.",
+    "Model-gate Qwen/GPT-J only; keep Llama and baseline paths unchanged. Preserve final sample/order/target/evaluation and scientific knobs; do not apply Q3 beta/lr/norm tuning to every model while porting input fix.",
+    "Focused CPU checks for lookup0 rewrite/key/KL, unchanged rows, multi-token subjects, target mask, GPT-J prefix==pad native attention mask, entry/fit dispatch and M1 switch; CPU != actual GPU.",
+    "Publish official source/tests/config provenance nonforce main, send exact main/tree/API to registered SH1..4 and collect actual preparation-worktree update receipts. Existing running/pending frozen jobs never hotpatch/cancel/restart."
+  ],
+  "delivery_status": "DIRECT_SEND_PENDING",
+  "created_at": "2026-10-08T23:20:15.013609+00:00"
+}
