@@ -1,0 +1,26 @@
+{
+  "nonce": "GH-SH3-ZSRE-WANDB-METRICS-READY-20261009-R1",
+  "server": "server3",
+  "checkout": "/data/janghj/ODE-edit/local/official-baselines-20261008/worktree",
+  "branch": "codex/server3-official-baselines-20261008",
+  "fetched_main": "a0408faada5d493f562331609b9d19d987bee3f4",
+  "source_commit": "993f691703f2f5a71205bf739cc70839a35a07dd",
+  "source_API_ancestor": true,
+  "recorded_at": "2026-10-08T18:17:33.886942+00:00",
+  "caller": "official/runners/server3/run.py::_log_scalar_receipt",
+  "caller_sha256": "7dc5fc8647a3759216a085e1e8a3fb043ff0b2f5fb932b2590438069a16a1f13",
+  "status": "CALLER_ADOPTED_NOT_SUBMITTED",
+  "cpu_tests": 55,
+  "source_verify": {
+    "status": "PASS",
+    "source_files": 157,
+    "python_files": 257,
+    "external_task_imports": 0
+  },
+  "new_forward": 0,
+  "new_jobs": 0,
+  "frozen_jobs_changed": false,
+  "online_validation": "NOT_RUN",
+  "saved_views": "SH2_REPORTED_NOT_INDEPENDENTLY_QUERIED",
+  "execution_archive": "NOT_CREATED"
+}
