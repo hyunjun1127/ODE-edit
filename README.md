@@ -25,6 +25,50 @@ python3 -m official.tools.verify
 python3 -m official.experiments.prepare matrix --output local/official-baselines/configuration
 ```
 
+## Main results
+
+모델별로 CF와 zsRE의 최종 성능을 기록합니다. 각 실험은 2,000건을 100건씩 순차 편집한
+최종 checkpoint(W20)를 기준으로 하며, 지표 정의는 [공통 실험 계약](official/hparams/contract.json)을 따릅니다.
+빈칸은 아직 결과가 등록되지 않았음을 뜻합니다. 실험과 평가가 완료되면 해당 method의 dataset별
+칸을 채우고, method 이름에 결과 보고서 링크를 연결합니다. 보고서에는 실행 commit과 설정 SHA를 기록합니다.
+Ours 행은 결과 기록용으로 포함합니다.
+
+### Llama3-8B-Instruct
+
+| Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con | zsRE Eff | zsRE Gen | zsRE Loc |
+| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| FT |  |  |  |  |  |  |  |  |  |
+| MEMIT |  |  |  |  |  |  |  |  |  |
+| AlphaEdit |  |  |  |  |  |  |  |  |  |
+| AlphaEdit-BLUE |  |  |  |  |  |  |  |  |  |
+| MEMIT-FE |  |  |  |  |  |  |  |  |  |
+| AlphaEdit+SPHERE |  |  |  |  |  |  |  |  |  |
+| PRICE (Ours) |  |  |  |  |  |  |  |  |  |
+
+### Qwen2.5-7B-Instruct
+
+| Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con | zsRE Eff | zsRE Gen | zsRE Loc |
+| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| FT |  |  |  |  |  |  |  |  |  |
+| MEMIT |  |  |  |  |  |  |  |  |  |
+| AlphaEdit |  |  |  |  |  |  |  |  |  |
+| AlphaEdit-BLUE |  |  |  |  |  |  |  |  |  |
+| MEMIT-FE |  |  |  |  |  |  |  |  |  |
+| AlphaEdit+SPHERE |  |  |  |  |  |  |  |  |  |
+| PRICE (Ours) |  |  |  |  |  |  |  |  |  |
+
+### GPT-J-6B
+
+| Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con | zsRE Eff | zsRE Gen | zsRE Loc |
+| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| FT |  |  |  |  |  |  |  |  |  |
+| MEMIT |  |  |  |  |  |  |  |  |  |
+| AlphaEdit |  |  |  |  |  |  |  |  |  |
+| AlphaEdit-BLUE |  |  |  |  |  |  |  |  |  |
+| MEMIT-FE |  |  |  |  |  |  |  |  |  |
+| AlphaEdit+SPHERE |  |  |  |  |  |  |  |  |  |
+| PRICE (Ours) |  |  |  |  |  |  |  |  |  |
+
 기존 연구 문서와 실험 이력은 아래에 보존합니다. 새 실험의 설정 근거는 `official/`입니다.
 
 <details>
