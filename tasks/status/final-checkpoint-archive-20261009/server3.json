@@ -2,7 +2,12 @@
   "instruction_id": "USER-GH-ALL-SH-FINAL-CHECKPOINT-ARCHIVE-SERVER1-20261009-R1",
   "recipient_nonce": "USER-GH-ALL-SH-FINAL-CHECKPOINT-ARCHIVE-SERVER1-20261009-R1-SERVER3",
   "server": "server3",
-  "status": "POLICY_ACCEPTED_NO_VERIFIED_FINAL_ELIGIBLE_CHECKPOINT",
+  "status": "POLICY_ACCEPTED_PROSPECTIVE_ONLY",
+  "latest_relay_nonce": "GH-SH3-FINAL-CHECKPOINT-FUTURE-ONLY-20261009-R1",
+  "effective_after_utc": "2026-10-08 16:44:20 UTC",
+  "effective_after_kst": "2026-10-09 01:44:20 KST",
+  "preexisting_jobs_and_checkpoints": "EXCLUDED_KEEP_EVEN_IF_LATER_COMPLETED",
+  "future_caller": "PENDING_EXACT_SH1_API_BINDING_IN_NEW_UNFROZEN_SOURCE",
   "transfer_status": "NOT_STARTED",
   "destination_verification_status": "NOT_STARTED",
   "source_deletion_status": "NOT_STARTED",
@@ -10,5 +15,7 @@
   "deleted_files": 0,
   "scientific_job_mutations": 0,
   "report": "experiment-reports/servers/server3/final-checkpoint-archive-20261009/report-ko.md",
-  "audit": "audits/servers/server3/final-checkpoint-archive-20261009/receipt.json"
+  "audit": "audits/servers/server3/final-checkpoint-archive-20261009/receipt.json",
+  "latest_scope_report": "experiment-reports/servers/server3/final-checkpoint-archive-20261009/prospective-r1-ko.md",
+  "latest_scope_audit": "audits/servers/server3/final-checkpoint-archive-20261009/prospective-r1.json"
 }

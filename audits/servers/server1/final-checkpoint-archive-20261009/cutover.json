@@ -1,0 +1,9 @@
+{
+  "schema": "final-checkpoint-archive-server-cutover-v1",
+  "server": "server1",
+  "instruction_id": "USER-GH-ALL-SH-FINAL-CHECKPOINT-ARCHIVE-SERVER1-20261009-R1",
+  "policy_sha256": "6da0d1fcb576a51610daf3a733b896cf48a373dc60a3d8aa3c2ec1405ecfd9da",
+  "scope": "NEW_SUBMISSIONS_ONLY",
+  "ack_nonce": "GH-SH1-FINAL-CHECKPOINT-FUTURE-ONLY-20261009-R1",
+  "received_at_utc": "2026-10-08T16:54:50Z"
+}
