@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH1-GPT2XL-MEMIT-ALPHAEDIT-CAKE-W20-GENERATION-20261008-R1",
+  "date_kst": "2026-10-08",
+  "authority_commit": "d4838fa83124356cbac74605178196dd98476c6f",
+  "envelope": "messages/head/2026-10-08-gpt2xl-memit-alphaedit-cake-w20-generation.json",
+  "envelope_sha256": "c865c14ba386cacac7380b89bbdbf6c800c194b9d363f1c869256b970da9eccb",
+  "status": "DIRECT_OWNER_ACCEPTED_IMPLEMENTING",
+  "transport": "공식app-server exact session/CWD 대조 후 idle turn/start, 명시 OWNER_ACK 수신. model/effort override0, 재전송0.",
+  "owner": {"server": "server1", "session": "01a04939-f93a-7b50-bca0-65438eab2062", "cwd": "/mnt/raid5/janghj/ODE-edit", "accepted_turn": "01a11b24-54ef-7502-9151-b7058a7cf86e"},
+  "explicit_ACK": "OWNER_ACK nonce=USER-GH-SH1-GPT2XL-MEMIT-ALPHAEDIT-CAKE-W20-GENERATION-20261008-R1 server=server1 session=01a04939-f93a-7b50-bca0-65438eab2062 accepted=true authority=d4838fa83124356cbac74605178196dd98476c6f",
+  "owner_report": "동일 nonce의 기존 ACK·제출 기록은 현재 확인한 범위에 없습니다. 전용 작업트리에서 새 세 방법의 profile·native 초기 history·collector를 결속한 뒤 실제 등록까지 계속합니다. 기존 BLUE/PRUNE/RECT61436–61439 보존, 새3method만W20-only 진행.",
+  "methods": ["BASE_MEMIT", "BASE_ALPHAEDIT", "CAKE"],
+  "generation_schedule": "W20_ONLY_FIRST2000",
+  "latest_USER_W20_only_instruction_delivered": true,
+  "resource": "S1합산cap2, 기존GPU61437/61438 frontierfresh대조와동등폭2 afterany, 원등록·원collector변경0.",
+  "receipt": {"path": "local/baseline-fluency-consistency-dispatch/remaining-three-dispatch-d4838fa8.json", "sha256": "2513ec413afa8599efc08cf4c46f493ca410eaf34516d507e2c5537409594321", "elapsed_seconds": 86.424, "raw_local_only": true},
+  "actual_new_job_ids_received": [],
+  "actual_registration_receipt_received": false,
+  "turn_completed_observed": false,
+  "GH_actions": {"actual_SH1_direct_dispatches": 1, "duplicates": 0, "SH2_SH3_SH4_contacts": 0, "scientific_or_Slurm_mutations": 0, "recurring_monitors": 0},
+  "claim_boundary": "수락은 담당이 실제 사용자권한을 받은 증거이며 새Slurm등록/actualGPUqualification/W20완료가아니다. SH1은추가승인없이 최소구현/검산/held등록/release까지계속. GH는ownerACK로인계하고장기GPU대기/polling/heartbeat/retry0."
+}

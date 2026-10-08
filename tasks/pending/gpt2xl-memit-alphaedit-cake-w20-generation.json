@@ -6,10 +6,17 @@
   "type": "global-head-command",
   "worker_claimable": false,
   "authority_envelope": "messages/head/2026-10-08-gpt2xl-memit-alphaedit-cake-w20-generation.json",
-  "status": "AUTHORIZED_AWAITING_DIRECT_OWNER_ACK",
+  "status": "DIRECT_OWNER_ACCEPTED_IMPLEMENTING_NOT_YET_REPORTED_SUBMITTED",
+  "authority_commit_delivered": "d4838fa83124356cbac74605178196dd98476c6f",
+  "accepted_turn": "01a11b24-54ef-7502-9151-b7058a7cf86e",
+  "owner_session": "01a04939-f93a-7b50-bca0-65438eab2062",
+  "explicit_owner_ACK_received": true,
+  "delivery_audit": "audits/global/2026-10-08-gpt2xl-native-three-w20-generation/delivery.json",
+  "owner_stage": "전용작업트리에서 새3method profile/native초기history/collector결속 후 실제등록까지계속. 기존61436..39보존/이번3method W20-only수락.",
   "methods": ["BASE_MEMIT", "BASE_ALPHAEDIT", "CAKE"],
   "generation_schedule": "W20_ONLY_FIRST2000",
   "actual_job_ids": [],
+  "registration_receipt_received": false,
   "protected_existing_jobs": [61436, 61437, 61438, 61439],
   "completion": "새3method+ownGPU0collector actualheld검사/등록/release 및boundedhandoff. OWNER_ACK는Slurm등록/W20결과가아니다."
 }
