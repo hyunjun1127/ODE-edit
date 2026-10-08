@@ -1,0 +1,183 @@
+{
+  "schema": 1,
+  "instruction_id": "SH1-SH2-NATIVE-FLUCON-SOURCE-READY-20261008-R1",
+  "task_id": "gptj-baselines-fluency-consistency-2k",
+  "server": "server2",
+  "session": "01a0493a-074c-7f91-9a13-769116326fef",
+  "accepted": true,
+  "observed_utc": "2026-10-08 12:50:44 UTC",
+  "status": "SOURCE_API_REPORT_IDENTITY_RECEIVED_VERIFIED_NOT_INTEGRATED",
+  "owner_notes": "SH1 branch의 exact Git source/report/audit bytes를 수신·검산했다. 현재 SH2 caller·frozen source·job은 변경하지 않았고 새 실행을 제출하지 않았다.",
+  "shared_implementation_owner": "SH1",
+  "source_branch": "origin/codex/server1-native-flucon-repair-20261008",
+  "source": "adb244e6f9c86b54f73bd6d8fb833b338f470ded",
+  "source_tree": "7bf5183df0791ac467ddd6c62c89cf0fe2278e4f",
+  "package_tree": "91349ee439b1573e473d280ff86f88d71dd6d807",
+  "implementation_commit": "762d62fdf502779501fb862da391e2c353f0910a",
+  "members": [
+    {
+      "path": "project/run_scripts/experiment_generation_eval/native_profile.py",
+      "bytes": 2839,
+      "sha256": "ddd3d6266a02a613beaea052920da763c721990a6f9228bb257ad988156fb0c4"
+    },
+    {
+      "path": "project/run_scripts/experiment_generation_eval/native_generator.py",
+      "bytes": 8734,
+      "sha256": "ef3d3daf20c174cfa3627a3852e2d593eb506718ac8ddde62a909a26c87bd2c3"
+    },
+    {
+      "path": "project/run_scripts/experiment_generation_eval/native_observer.py",
+      "bytes": 17516,
+      "sha256": "09f8f4915d848dcd820ff4ffc382871f457c107098102bfb8d1a682ff321653a"
+    },
+    {
+      "path": "project/run_scripts/experiment_generation_eval/README.md",
+      "bytes": 13459,
+      "sha256": "f3e67bee495d06e1694d55698f6aadd7851994cd251002220b17aa2c89e60d72"
+    },
+    {
+      "path": "project/run_scripts/experiment_tracking/schema.py",
+      "bytes": 12685,
+      "sha256": "b63cd41816f4022ff85c83130f16fff4380e7e039d0c37f6618c7d008b7aa659"
+    },
+    {
+      "path": "experiment-reports/servers/server1/gpt2xl-baselines-native-generation-repair/report-ko.md",
+      "bytes": 17069,
+      "sha256": "0ff995aa83774a11c9d0cdd67e6272768ce7d539ba2de105596c830bd2d3b1b3"
+    },
+    {
+      "path": "audits/servers/server1/gpt2xl-baselines-native-generation-repair/source-review.json",
+      "bytes": 15133,
+      "sha256": "82f2695e98bb5c291e42cb37471445b9241ada50cd1030b18ad09241dba209da"
+    }
+  ],
+  "profile": {
+    "PROFILE": "cf-cake-native-casebatch-kv-total100-globalrng-v1",
+    "ROUTE": "NATIVE_CASE_PADDED_KV_GLOBAL_RNG"
+  },
+  "API": {
+    "__init__": {
+      "positional": [
+        "self",
+        "model",
+        "tokenizer",
+        "assets",
+        "config",
+        "out",
+        "state_callback",
+        "progress_callback"
+      ],
+      "keyword_only": [],
+      "defaults": [
+        "None",
+        "None"
+      ],
+      "keyword_defaults": []
+    },
+    "observe": {
+      "positional": [
+        "self",
+        "records",
+        "endpoint",
+        "cohort",
+        "state_identity"
+      ],
+      "keyword_only": [],
+      "defaults": [
+        "None",
+        "None"
+      ],
+      "keyword_defaults": []
+    },
+    "read_observed": {
+      "positional": [
+        "self",
+        "path"
+      ],
+      "keyword_only": [],
+      "defaults": [],
+      "keyword_defaults": []
+    },
+    "subset": {
+      "positional": [
+        "self",
+        "observed",
+        "records",
+        "endpoint",
+        "cohort"
+      ],
+      "keyword_only": [],
+      "defaults": [
+        "None"
+      ],
+      "keyword_defaults": []
+    }
+  },
+  "module_readback": {
+    "positional": [
+      "path",
+      "expected_runtime"
+    ],
+    "keyword_only": [
+      "assets",
+      "_depth"
+    ],
+    "defaults": [
+      "None"
+    ],
+    "keyword_defaults": [
+      "None",
+      "0"
+    ]
+  },
+  "generate_case": {
+    "positional": [
+      "model",
+      "tokenizer",
+      "prompts"
+    ],
+    "keyword_only": [
+      "occurrence",
+      "eval_seed",
+      "trace"
+    ],
+    "defaults": [],
+    "keyword_defaults": [
+      null,
+      "EVAL_SEED",
+      "None"
+    ]
+  },
+  "CPU_API_AST_check": "PASS_STATIC_COMPILE_NO_IMPORT_NO_MODEL_NOT_GPU",
+  "strict_tracking_registry": "NATIVE_PROFILE_REQUIRES_EXPLICIT_REPAIR_INSTRUCTION_AND_W20_SCHEDULE",
+  "torch_imported": false,
+  "model_loads": 0,
+  "Slurm_queries": 0,
+  "new_submissions": 0,
+  "SDK_or_network_smoke": 0,
+  "source_and_report_received": true,
+  "SH2_caller_integrated": false,
+  "shared_implementation_edits": 0,
+  "science_source_edits": 0,
+  "job_mutations": 0,
+  "old_execution_lock_sha256": "03d703230492ed2f85c5ba373c0e916aa17aca97aebca3562bf7b56070766125",
+  "old_execution_generation_policy_sha256": "bb147bfff33d86f9a7a31d9b3193fd00a6075b3ab2df7496cad727cd9dbcf412",
+  "old_frozen_61428_source_archive_preserved": true,
+  "source_API_check_scope": "정적 AST/compile 및 SHA, 모델·torch import·실제 함수 호출 없음. SH1 CPU178을 SH2 actual GPU PASS로 승계하지 않는다.",
+  "SH1_CPU178_status": "SH1_PUBLISHED_CPU_EVIDENCE_NOT_RERUN_OR_GPU_CERTIFICATION",
+  "SH1_new_jobs": "SH1_REPORTED_61519_61520_61521_61522_NOT_QUERIED_BY_SH2",
+  "future_binding_constraints": [
+    "native_observer/native_profile를 명시 import; package 기본 export는 legacy",
+    "SH2 기존 final bridge의 qualification/link/MB prerequisite는 native API와 단순 alias 호환되지 않음",
+    "native runtime에는 old qualification/reuse/generation_microbatch 키 금지",
+    "W20/20 commit/full2000 일정은 caller가 결속; shared observer 자체는 W20 scheduler가 아님",
+    "partial old raw reuse/새 profile relabel0; 완성 endpoint·parent-bound subset만",
+    "generation_repair_instruction USER-DIRECT-NATIVE-FLUCON-REPAIR-20261008-R1 및 generation_schedule W20_ONLY_FIRST2000 필수",
+    "ROUTE는 local runtime; W_B config whitelist에 임의 추가하지 않음"
+  ],
+  "monitoring_active": false,
+  "automatic_retry": false,
+  "new_scientific_execution_authorized_by_this_relay": false,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED; Git source/compact metadata만 수신, reference/model/raw/credential 전송0",
+  "independent_scoped_review": "기존 SH2 bridge/API 차이 read-only 정적검토; 구현·GPU·Slurm·network 작업0"
+}

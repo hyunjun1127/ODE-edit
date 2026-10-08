@@ -10,6 +10,18 @@
   "origin": "hyunjun1127/ODE-edit",
   "authority": "b0cee1a302c10d48e206a31c7c5cf318ac36d8c3",
   "accepted": true,
+  "native_flucon_source_ready_owner_ack": {
+    "nonce": "SH1-SH2-NATIVE-FLUCON-SOURCE-READY-20261008-R1",
+    "accepted": true,
+    "stage": "SOURCE_API_REPORT_IDENTITY_RECEIVED_VERIFIED_NOT_INTEGRATED",
+    "source": "adb244e6f9c86b54f73bd6d8fb833b338f470ded",
+    "report_sha256": "0ff995aa83774a11c9d0cdd67e6272768ce7d539ba2de105596c830bd2d3b1b3",
+    "source_audit_sha256": "82f2695e98bb5c291e42cb37471445b9241ada50cd1030b18ad09241dba209da",
+    "actual_GPU_PASS": false,
+    "new_submissions": 0,
+    "frozen_source_or_jobs_changed": false,
+    "monitoring_active": false
+  },
   "native_flucon_repair_stop_owner_ack": {
     "nonce": "SH1-SH2-NATIVE-FLUCON-REPAIR-20261008-R1",
     "accepted": true,

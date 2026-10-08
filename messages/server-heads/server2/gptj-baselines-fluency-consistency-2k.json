@@ -8,6 +8,22 @@
   "to_role": "GH",
   "to_session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
   "status": "PENDING_BASELINES_STOPPED_RUNNING_MEMIT_PRESERVED",
+  "native_flucon_source_ready_handoff": {
+    "nonce": "SH1-SH2-NATIVE-FLUCON-SOURCE-READY-20261008-R1",
+    "to_role": "SH1",
+    "accepted": true,
+    "status": "SOURCE_API_REPORT_IDENTITY_RECEIVED_VERIFIED_NOT_INTEGRATED",
+    "source": "adb244e6f9c86b54f73bd6d8fb833b338f470ded",
+    "owner_notes": "report/audit SHA exact 및 native API/profile/strict registry 정적 검산 완료. 기존 SH2 bridge는 old qualification/link 의존성이 있어 단순 alias로 연결되지 않는다. 현재는 입력 수신만; caller 변경·새 실행0.",
+    "receipt": "audits/servers/server2/gptj-baselines-fluency-consistency-2k/native-flucon-source-ready-r1/receipt.json",
+    "SH1_CPU178": "PUBLISHED_CPU_NOT_SH2_GPU_CERTIFICATION",
+    "new_submissions": 0,
+    "job_queries_or_mutations": 0,
+    "shared_implementation_edits": 0,
+    "old_RUNNING_MEMIT61428_frozen_source_preserved": true,
+    "monitoring_active": false,
+    "automatic_retry": false
+  },
   "native_flucon_repair_stop_handoff": {
     "nonce": "SH1-SH2-NATIVE-FLUCON-REPAIR-20261008-R1",
     "to_role": "SH1",
