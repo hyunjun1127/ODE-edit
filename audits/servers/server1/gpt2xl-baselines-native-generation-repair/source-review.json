@@ -1,0 +1,251 @@
+{
+  "schema": 1,
+  "date_kst": "2026-10-08",
+  "task": "gpt2xl-baselines-native-generation-repair",
+  "instruction_id": "USER-DIRECT-NATIVE-FLUCON-REPAIR-20261008-R1",
+  "authority_member": {
+    "path": "plans/updates/server1/gpt2xl-baselines-native-generation-repair/user-authority.json",
+    "sha256": "fb974ed38808198aa0b95fd2eb49b2bb238efd5f0a98eb0a7eca13ed7e2a91bd"
+  },
+  "status": "SOURCE_IMPLEMENTED_CPU178PASS_INDEPENDENT_REVIEW_DONE_ACTUAL_NEW_REGISTRATION_AND_PUBLICATION_PENDING_SEPARATE_ROOT_RECEIPTS",
+  "version": 1,
+  "reviewer": "native_flucon_report",
+  "reviewer_scope": "Read original and previous derived generator/metric source; edit only report and this compact audit; no code/runtime/job/network/commit changes",
+  "worktree": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-native-flucon-repair-20261008",
+  "inspected_worktree_base_commit": "e92821171be7558f54187853ac5e35a8d1b90f61",
+  "original_sources": [
+    {
+      "repository": "/mnt/raid5/janghj/CAKE",
+      "commit": "0b378234862bd76c69f58404ef84c27d5f4bf9ef",
+      "generator": "util/generate.py",
+      "generator_sha256": "43d219ecc1955a4e4f82ea22edc286b4774e52e917d4b375021b8d7329b0adf3",
+      "generator_entry_line": 77,
+      "metric": "experiments/py/eval_utils_counterfact.py",
+      "metric_sha256": "ee00ee9cfb1be1cb1e5d1495fd15b2d1bfef9426af2b159095b924e6bdd0da26",
+      "reference_entry_line": 99,
+      "generation_metric_entry_line": 194,
+      "formula_entry_line": 228,
+      "relevant_files_clean_against_HEAD": true,
+      "attention_mask": "Cumulative attention_mask[:, :current_pos]",
+      "decode": "tok.decode; NFKD; double newline to space; literal endoftext removal",
+      "emits": ["ngram_entropy", "reference_score"]
+    },
+    {
+      "repository": "/mnt/raid5/janghj/BLUE",
+      "commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+      "generator": "util/generate.py",
+      "generator_sha256": "51f41871d750a1fe86f39d4142fe8a5c12a41086c6d4a2cee98b72f809ff0366",
+      "generator_entry_line": 77,
+      "metric": "experiments/py/eval_utils_counterfact.py",
+      "metric_sha256": "b521945531a2b95b95c412b69e0c713ce67897af33a5ece9c7e608108b2ddb33",
+      "generation_metric_entry_line": 194,
+      "relevant_files_clean_against_HEAD": true,
+      "attention_mask": "Current-query attention_mask[:, cur_context]",
+      "decode": "skip_special_tokens=True; NFKD; double newline to space; literal endoftext removal",
+      "emits": ["ngram_entropy", "reference_score"]
+    },
+    {
+      "repository": "/mnt/raid5/janghj/EasyEdit",
+      "commit": "3488a66ee988d83ee7891a8abbbe6bcb24a77daf",
+      "generator": "easyeditor/util/generate.py",
+      "generator_sha256": "13d28184bd215ea7d51bef091fcd3624271d93f4c3df32fdbf2e97cc15581b45",
+      "generator_entry_line": 77,
+      "metric": "easyeditor/evaluate/evaluate_utils.py",
+      "metric_sha256": "f5973dedb4e1b811ebec02133a1bec4caf6d64d39feeefd4b2456c72379518b3",
+      "generation_metric_entry_line": 344,
+      "formula_entry_line": 366,
+      "relevant_files_clean_against_HEAD": true,
+      "attention_mask": "Current-query mask for GPT family; None for selected other family names",
+      "decode": "skip_special_tokens=True; NFKD; double newline to space; literal endoftext removal",
+      "generation_input": "Native evaluate path rewrite prompt, not raw CounterFact generation_prompts",
+      "emits": ["ngram_entropy"],
+      "native_reference_score": "NOT_IMPLEMENTED_OR_EMITTED_ON_INSPECTED_PATH",
+      "dirty_other_repository_files_not_claimed_as_upstream": true
+    }
+  ],
+  "original_common_semantics": {
+    "unit": "Padded prompts within one case",
+    "cache": "Call-local past_key_values; explicit use_cache=True",
+    "sampling": "Full-vocabulary softmax; top5; renormalize; one global torch.multinomial(batch_by_5, 1) per step",
+    "samples_per_prompt": 1,
+    "max_total_padded_width": 100,
+    "EOS_early_stop": false,
+    "prompt_inclusive_score_text": true,
+    "longest_prompt_ge100": "Native loop makes zero continuation for all rows in that case",
+    "prompt_overwrite": "Avoided by native catch-up rule",
+    "explicit_per_prompt_seed": false
+  },
+  "previous_derived_profile": {
+    "profile": "cf-cake-prompt-inclusive-total100-eos-corrected-v1",
+    "reference_route": "UNPADDED_FULL_PREFIX_NO_CACHE",
+    "KV_routes": ["UNPADDED_KV_SINGLETON", "EQUAL_LENGTH_KV_BATCH"],
+    "per_row_total_cap": 100,
+    "EOS_early_stop": true,
+    "seed_key": "model identity + ordered occurrence + prompt index",
+    "qualification": "Predeclared PLAN, exact/numeric semantic comparison and route selection",
+    "historical_source_raw_receipts_immutable": true
+  },
+  "approved_new_direction": {
+    "scope_server1_first_three": ["BASE_MEMIT", "BASE_ALPHAEDIT", "ALPHAEDIT_BLUE"],
+    "generation_schedule": "W20_ONLY_FIRST2000",
+    "per_case_padded_batch": true,
+    "call_local_KV": true,
+    "total100_not_max_new100": true,
+    "EOS_early_stop": false,
+    "global_batched_sampling": true,
+    "equal_length_MB8_qualification_gate": false,
+    "no_cache_fallback": false,
+    "profile": "cf-cake-native-casebatch-kv-total100-globalrng-v1",
+    "route": "NATIVE_CASE_PADDED_KV_GLOBAL_RNG",
+    "RNG": "Endpoint seeded once; native batched multinomial advances global stream; no case/prompt reseed; endpoint finally restores caller RNG",
+    "decode": "Exact CAKE padded-array decode without skip flag, NFKD, double newline and literal endoftext cleanup",
+    "minimal_modern_compatibility": "Existing CAKE cumulative cache+query mask preserved; FP32/eval/finite/right-padding/cache-return guards and local work metadata; endpoint restoration inspection pending",
+    "science_profile_revision": "EOS, RNG and batch/length semantics differ from previous derived profile; no bitwise parity claim",
+    "metrics": "F=H2/3+2H3/3; C=joined generated/new-target reference TF-IDF cosine; one observation for both",
+    "RPN_native_editing_hparams_history_precision_schedule_unchanged": true,
+    "extra_fit_pilot": 0,
+    "NoCP": true,
+    "privacy": "Raw prompt/text/token/caseID/reference/secret/tensor local-only; compact source/manifests/reports and whitelisted scalars only"
+  },
+  "implementation": {
+    "status": "COMMON_NATIVE_AND_CALLER_INDEPENDENT_SOURCE_REVIEW_DONE_CPU178PASS_NO_UNRESOLVED_SOURCE_BLOCKER",
+    "API": {
+      "profile_module": "project.run_scripts.experiment_generation_eval.native_profile",
+      "metadata_functions": ["runtime_identity(config, assets_sha)", "source_identity()"],
+      "generator_module": "project.run_scripts.experiment_generation_eval.native_generator",
+      "generate_function": "generate_case(model, tokenizer, prompts, *, occurrence, eval_seed=20261007, trace=None)",
+      "observer_module": "project.run_scripts.experiment_generation_eval.native_observer",
+      "observer": "NativeGenerationObserver(model, tokenizer, assets, config, out, state_callback=None, progress_callback=None)",
+      "observation_methods": ["observe(records, endpoint, cohort=None, state_identity=None)", "subset(observed, records, endpoint, cohort=None)", "read_observed(path)"],
+      "module_readback": "read_observed(path, expected_runtime=None, *, assets=None)",
+      "raw_validation": "verify_native_raw(raw, *, expected_runtime=None, assets=None, expected_stream=None)"
+    },
+    "source_commit": "PENDING_ROOT_SOURCEFREEZE_RECEIPT",
+    "source_tree": "PENDING_ROOT_SOURCEFREEZE_RECEIPT",
+    "config_sha256": "PENDING_ROOT_SEALED_CONFIG_RECEIPT",
+    "runner_integration": "repo_native_run uses NativeGenerationObserver/no qualification and records native_execution_member only after actual20 commits; repo_native_collect uses native readback, exact stream recomputation and raw/execution/receipt counter crosschecks",
+    "common_native_source_bytes_reviewed": {
+      "native_profile.py": "ddd3d6266a02a613beaea052920da763c721990a6f9228bb257ad988156fb0c4",
+      "native_generator.py": "ef3d3daf20c174cfa3627a3852e2d593eb506718ac8ddde62a909a26c87bd2c3",
+      "native_observer.py": "09f8f4915d848dcd820ff4ffc382871f457c107098102bfb8d1a682ff321653a"
+    }
+  },
+  "verification": {
+    "original_source_inspection": "DONE_READ_ONLY",
+    "new_CPU_tests": {
+      "initial_aggregate": {
+        "status": "PASS",
+        "tests": 177,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "receipt": "/mnt/raid5/janghj/ODE-edit/local/gpt2xl-baselines-fluency-consistency-2k/20261007-v1/native-repo-repair-r1/prepared/cpu-preflight.json",
+        "receipt_sha256": "73cb8c257967b3d7e5976ee53a65441e4d126996f5f6f19486da1c0bf27c19dd",
+        "scope": "CUDA_VISIBLE_DEVICES empty; CPU fake-model/software only; native_apply_actual0/GPU_model_validationNOT_RUN/onlineNOT_RUN"
+      },
+      "science_helper_final_aggregate": {
+        "status": "PASS",
+        "tests": 178,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "receipt": "/mnt/raid5/janghj/ODE-edit/local/gpt2xl-baselines-fluency-consistency-2k/20261007-v1/native-repo-repair-r1/cpu-final-r1/cpu-preflight.json",
+        "receipt_sha256": "0fb9545abf8f7e6fc483330711ee7d08a14db13780f2ca479275c1b33a7b30f6",
+        "scope": "CUDA_VISIBLE_DEVICES empty; CPU fake-model/software checks; no pretrained/GPU/online/actual native model apply",
+        "collector_proof_fixes_and_tamper_regression_included": true
+      },
+      "exact_source_final_aggregate": {
+        "status": "PASS",
+        "tests": 178,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "receipt": "/mnt/raid5/janghj/ODE-edit/local/gpt2xl-baselines-fluency-consistency-2k/20261007-v1/native-repo-repair-r1/cpu-source-final-r1/cpu-preflight.json",
+        "receipt_sha256": "f6f31faf7da03007d053f7f49bf29c88a30d41543ff60a7b3bf0213bdbdca8bf",
+        "operational_relay_readback_mode_included": true,
+        "GPU_model_validation": "NOT_RUN",
+        "online_validation": "NOT_RUN",
+        "native_apply_actual": 0
+      },
+      "old_profile_PASS_inherited": false
+    },
+    "owner_review": "EXACT_SOURCE_FINAL_CPU178PASS_INPUT_LOCK_ALLPASS; owner-preflight.json contains root independent review/cancellation/server2ACK; source publication/new registration separate",
+    "independent_caller_review": {
+      "reviewer": "native_flucon_implementation",
+      "status": "COMPLETE_NO_UNRESOLVED_BLOCKER_ROOT_CONFIRMED",
+      "read_only_review_scope": "New caller runner/collector seam, W20 once after commit20, AlphaEdit-BLUE cold two-layer H and retained current RPN",
+      "collector_findings_addressed": ["Expected stream recomputed from exact ordered record identities", "Raw/execution/final receipt work counters crosschecked with tamper regression"]
+    },
+    "independent_implementation_review": {
+      "status": "COMMON_NATIVE_SOURCE_REVIEW_DONE_NO_REMAINING_SOURCE_BLOCKER",
+      "read_only": true,
+      "scope": "Original CAKE/BLUE/EasyEdit and new native profile/generator/observer; runner import/API connection inspected, not full submission/GPU audit",
+      "findings_addressed": [
+        "Generator row now records endpoint_RNG_restore_guard_required rather than falsely claiming standalone stream restoration",
+        "Native subset binds stream plus parent endpoint member/identity; readback verifies completed parent execution, runtime/state and exact selected rows, with recursion depth bound"
+      ],
+      "actual_tests_by_this_reviewer": "NOT_RUN; JSON validation and git diffcheck only",
+      "model_GPU_Slurm_online_network_commit_by_this_reviewer": "NOT_RUN"
+    },
+    "old_route_qualification": "REMOVED_NOT_REQUIRED_NOT_PERFORMED_NEW_PROFILE",
+    "actual_GPU_native_generation": "NOT_RUN_BY_REPORT_WORKER",
+    "scientific_W20_completion": "NOT_OBSERVED_BY_REPORT_WORKER",
+    "speedup": "NOT_MEASURED",
+    "old_other_profile_PASS_not_reused": true
+  },
+  "approved_server1_cancellation_scope": [61439, 61438, 61437, 61436],
+  "actual_server1_cancellation_root_confirmed": {
+    "61436": {"role": "ALPHAEDIT_BLUE", "state": "CANCELLED", "preserved_pre_cancel_authoritative_batch_commits": 4, "preserved_GPU_sec": 2240},
+    "61437": {"role": "PRUNE", "state": "CANCELLED", "preserved_pre_cancel_authoritative_batch_commits": 0, "preserved_GPU_sec": 980},
+    "61438": {"role": "RECT", "state": "CANCELLED", "never_started": true, "preserved_GPU_sec": 0},
+    "61439": {"role": "collector", "state": "CANCELLED", "preserved_GPU_sec": 0},
+    "source_raw_partial_science_cost_preserved": true,
+    "cancel_does_not_claim_W20_completion": true
+  },
+  "source_publication_and_server1_job_receipts": "PENDING_ROOT_EXACT_RECEIPTS; no guessed commit, cancellation, registration or release claims",
+  "root_pre_registration_admission_confirmed": {
+    "input_lock_verification": "ALL_PASS",
+    "server1_owned_project_GPU_allocations": 0,
+    "owned_admitted_GPU_DAG_width": 0,
+    "planned_new_DAG": "BASE_MEMIT and BASE_ALPHAEDIT parallel; ALPHAEDIT_BLUE after BASE_MEMIT",
+    "combined_GPU_cap": 2,
+    "actual_submission_claim": false
+  },
+  "server2_handoff": {
+    "status": "FULL_OWNER_ACK_AND_EXACT_PENDING_CANCELLATION_CONFIRMED_FROZEN_RUNNING_PRESERVED_FINAL_SOURCE_REPORT_DELIVERY_PENDING",
+    "initial_direction_transport": {
+      "transport": "REGISTERED_SSH_UNIX_WEBSOCKET",
+      "method": "turn/start",
+      "accepted": true,
+      "turn": "01a11b80-fce1-75b1-9553-632eb5dd2800",
+      "full_owner_ACK_proof": false,
+      "initial_owner_text": "Fragmented ACK, not accepted as full owner acknowledgment"
+    },
+    "exact_direction_readback": {
+      "transport": "REGISTERED_SSH_UNIX_WEBSOCKET",
+      "method": "thread/resume",
+      "thread": "01a0493a-074c-7f91-9a13-769116326fef",
+      "turn": "01a11b80-fce1-75b1-9553-632eb5dd2800",
+      "receipt": "/mnt/raid5/janghj/ODE-edit/local/gpt2xl-baselines-fluency-consistency-2k/20261007-v1/native-repo-repair-r1/server2-direction-readback.json",
+      "receipt_sha256": "fee44a863a537f7ee2c391698950a01820b70e916bdcee0e54ea1139c04439b1",
+      "full_OWNER_ACK_nonce": "SH1-SH2-NATIVE-FLUCON-REPAIR-20261008-R1",
+      "owner_ACK_confirmed": true,
+      "frozen_RUNNING_MEMIT_61428_preserved": true,
+      "owner_fresh_scope_check": "Owner/source/argv/state exact;61429-61434 confirmed unstarted PENDING before successor-first cancellation",
+      "actual_CANCELLED": [61429, 61430, 61431, 61432, 61433, 61434],
+      "cancelled_elapsed_sec": 0,
+      "cancelled_GPU_allocation": 0,
+      "source_raw_logs_worktree_frozen_running_source_preserved": true,
+      "new_submissions": 0,
+      "shared_implementation_edits": 0,
+      "new_source_API_received_applied": false
+    },
+    "reuse": "Same common implementation and profile contract; task-private native adapter/source closure preserved",
+    "preserve_user_identified_RUNNING": [61428],
+    "owner_confirmed_exact_pending_cancellation_scope": [61429, 61430, 61431, 61432, 61433, 61434],
+    "ambiguous_scope": "Ask exact pending IDs; no broad cancellation",
+    "running_frozen_source_not_modified": true,
+    "new_server2_submission_authorized_by_this_direction": false,
+    "others_OURS_PRICE_other_owner_raw_cost_preserved": true
+  }
+}
