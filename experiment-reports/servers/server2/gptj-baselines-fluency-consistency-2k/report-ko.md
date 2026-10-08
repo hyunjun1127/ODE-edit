@@ -379,3 +379,8 @@ receipts는 ignored 새attempt 아래 보존한다. 이번 direct USER recall에
 own status/server-head receipt에 기록했다. GH가 직접 수신했다는 주장은 새 app-server ACK 없이는 하지 않는다.
 등록된 sealed 프로그램은 W0 qualification/관측·각2k 편집·평가·collector를 자연 진행한다.
 Agent는 resourcepending 인계 후 멈추며 새 recurring monitor/heartbeat/automatic retry0.
+
+Source+compact RCA/submission/report는 own branch와 main의
+`24005002f23761d31f3d91948475f077fd4d2859`에 nonforce 게시했고 두 remote ref exact SHA를 검산했다.
+실행 sourcef979efa6/원 source2e6f6f55와 이 publication commit은 별도다.
+원 dirtyroot reset/stash/stageall/force/shared environment 변경0이다.

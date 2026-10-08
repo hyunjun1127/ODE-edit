@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "task_id": "gptj-baselines-generation-cache-repair",
+  "registration_profile": "r2",
+  "execution_source": "f979efa69ce76a00b3e35c295452d01e14d1f13c",
+  "first_verified_publication": "24005002f23761d31f3d91948475f077fd4d2859",
+  "verified_remote_refs": {
+    "refs/heads/main": "24005002f23761d31f3d91948475f077fd4d2859",
+    "refs/heads/codex/server2-gptj-baselines-generation-repair-r2": "24005002f23761d31f3d91948475f077fd4d2859"
+  },
+  "publication_method": "Separate sequential nonforce branch then main push; remote ls-remote exact verification",
+  "scope": "Own source/config authority/CPU and failure receipts/report/status only",
+  "runtime_archive_hotpatched": false,
+  "raw_or_tensor_or_secret_in_git": false,
+  "root_dirty_preserved": true,
+  "reset_or_stash_or_force_or_stage_all": false,
+  "scientific_complete": false,
+  "monitoring_active": false,
+  "automatic_retry": false
+}

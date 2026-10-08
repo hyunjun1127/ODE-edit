@@ -39,7 +39,7 @@
     "automatic_retry": false,
     "old_source_raw_spools_preserved": true,
     "all_unrelated_jobs_unchanged": true,
-    "publication": "OWN_NONFORCE_PENDING",
+    "publication": "NONFORCE_BRANCH_AND_MAIN_VERIFIED_AT_24005002f23761d31f3d91948475f077fd4d2859",
     "next": "Sealed runner/collector naturally continue; detailed completion review only on USER recall"
   },
   "historical_submission_status": "SUBMISSION_HANDOFF",
