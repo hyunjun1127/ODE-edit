@@ -27,3 +27,28 @@ display-score/logger 불일치와 shared W0 input 대기는 해제되지 않았�
 다음 준비 source freeze에서 새 source/config SHA를 기록하며 기존 frozen run에 주입하지 않는다.
 
 상세 근거: `audits/servers/server4/official-baselines-20261008/ours-hparams-main-sync.json`.
+
+## 후속 공통 deferred FLU/CON 입력 적용
+
+Nonce: `GH-SH4-DEFERRED-FLUCON-READY-20261009-R1`.
+관측: 2026-10-09 02:57:39 KST.
+
+같은 clean 준비 WT에 fetched main `6c7152fae8fa2b6d49af6e5593e6113c64c5ee1f`를
+안전 merge했다. 적용 코드 HEAD `cd7ad87512497faab9bdfbda1f67bbd38db4191b`,
+official tree `e46c7d5cd125676b3d12a276a373337d36d4f77a`.
+요구 commit `6d35c65de19ec378a30749683762eba87fee50e3`와 fetched main의 ancestor 검사는
+모두 PASS다. 이전 own commit과 runner bytes를 보존했으며 충돌은 없었다.
+
+공통 보고서/API를 전체 읽고 source verify 157 SHA / Python 250 / imports 0 PASS,
+지정 tracking + server2 checkpoint profile CPU **32 PASS**, SH4 caller CPU **9 PASS**를 확인했다.
+server2 전체 suite 또는 실제 GPU/온라인 검증으로 확대 해석하지 않는다.
+
+새 API는 명시적 CF `DEFERRED_CHECKPOINT_EVALUATION`을 허용하며 schedule 외
+generation metadata와 reference assets SHA를 생략한다. FLU/CON 점수·count·progress·phase는
+0 placeholder도 거부한다. deferred 소비자는 실제 최종 W20 checkpoint와 source/config/sample/RNG
+identity를 보존하고 후속 평가 완료 전 삭제·이관 완료를 가정해서는 안 된다.
+
+**SH4는 이번 코드 수신만으로 기존 평가 일정을 변경하지 않았다.** own caller 검산은 기존
+enabled CF / zsRE 경로의 호환 검사다. GPU 평가·smoke·sweep·Slurm 제출·W&B 온라인 호출,
+기존 frozen 경로 변경 및 checkpoint 전송·삭제 모두 0. main 직접 게시/README 편집도 없다.
+공통 코드 적용과 실제 과학 gate/등록 완료는 별개이며 기존 미완료 사항을 PASS로 바꾸지 않는다.
