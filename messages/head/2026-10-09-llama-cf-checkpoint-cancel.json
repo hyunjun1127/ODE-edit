@@ -1,0 +1,29 @@
+{
+  "instruction_id": "USER-SIDE-GH-LLAMA-CF-MEMIT-ALPHA-CHECKPOINT-CANCEL-20261009-R1",
+  "user_quote": "이거 GH에게 보고해. checkpoint 존재한다고. llama run중 memit과 alphaedit CF는 취소해도 된다고 user의 명령이라고 해",
+  "sender_side_session": "01a11de3-d6da-75d2-a515-43c8a2d53a84",
+  "owner": "SH1",
+  "owner_session": "01a04939-f93a-7b50-bca0-65438eab2062",
+  "scope": "현재 Llama native MEMIT 및 native AlphaEdit CF 두 run만 exact 확인 후 취소",
+  "GH_fresh_readonly_candidates": [
+    {"job": "61769", "name": "official-s1-cf-alphaedit", "state": "PENDING", "reason": "Dependency", "elapsed": "00:00:00", "owner": "janghj", "node": "devbox"},
+    {"job": "61772", "name": "official-s1-cf-memit", "state": "PENDING", "reason": "Dependency", "elapsed": "00:00:00", "owner": "janghj", "node": "devbox"}
+  ],
+  "registered_source": "34e4d52d821113d56ee6c59b71d553dd01768e73",
+  "registered_receipt": "audits/servers/server1/official-baselines-20261008/cf-display-score-repair-20261009/submission.json",
+  "required_before_cancel": "담당 owner가 취소 직전 source/Command/WorkDir/config/model/method/dataset/state를 원 제출 기록과 대조. 현재 Llama ordered stream을 원 CP B1..20 identity와 읽기 전용 대조하고 결과 기록. 이미 정상 완료면 취소하지 말고 상태 보고",
+  "dependencies": "관련 후속 MEMIT_FE 및 collector는 취소하지 않음. afterany가 취소에도 풀리므로 필요한 경우 exact PENDING resource edge만 원 자원 frontier로 유지·재연결하고 검사. 과학 source/config 불변",
+  "allowed": ["두 exact job 취소", "필수 pending resource dependency 최소 보전", "own scope compact audit/report 비강제 게시"],
+  "forbidden": ["다른 모델/method/dataset 취소", "과거 CP 출처42657/42658을 취소 대상으로 사용", "새 GPU/복원/평가/재제출", "파일삭제", "기존 결과 점수 승계", "과학 source hotpatch", "반복 모니터"],
+  "historical_checkpoint": {
+    "observed_by_side": "server2 B020 regular files의 오늘 존재/bytes만; SHA는 과거 migration 기록이며 오늘 재해시 아님",
+    "migration_map": "transfers/verifications/2026-09-11-checkpoint-migration-server4-source/migration-map.csv",
+    "alphaedit": {"source_job": "42657", "bytes": 5284852213, "recorded_sha256": "a7f338ced5df28a428129703e07386eec5d038e33d63fa1b885950ef81a6803b"},
+    "memit": {"source_job": "42658", "bytes": 1174435733, "recorded_sha256": "0119370f71753ee4101f5bafd179328370d1f348453edb5a4bb9122289e0365e"},
+    "sample_evidence": "side에서 원2000 request ID/order와 SH4 Qwen CF stream 일치. SH1 현 Llama stream 최종 대조는 담당 수행",
+    "meaning": "CP 존재/order 일치는 현 runtime/evaluator/hparams 완전동등이나 새 official W20 완료가 아님"
+  },
+  "preserve": "Qwen/GPTJ/zsRE/PRICE/OURS/tuning/BLUE/SPHERE/FT/MEMIT_FE 및 기타 job, 모든 CP/raw/source/비용/취소이력",
+  "resources": "현 server1 cap 및 기존 frontier 유지, cap 증액0",
+  "report": "명시 owner ACK, exact 취소 전후 job 상태/ID, dependency 보전, CP/stream 확인 범위와 미검증 범위. README는 GH가 실제 receipt 후 해당 CF 두 행만 갱신"
+}
