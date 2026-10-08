@@ -44,7 +44,7 @@ def fixture_boolean_adapter(*args):
 
 
 class Fixture:
-    def __init__(self, root, origin="server1", original_transform=None, adapter=fixture_evidence_adapter):
+    def __init__(self, root, origin="server1", original_transform=None, adapter=fixture_evidence_adapter, content_tree=False):
         self.root = Path(root)
         self.root.mkdir(parents=True,exist_ok=True)
         self.source = self.root/"source"
@@ -62,6 +62,8 @@ class Fixture:
                         actual_job_id="12345",registration_attempt_id="fixture-registration")
         self.identity = {key:(hashlib.sha1 if key in a.GIT_IDENTITY_FIELDS else hashlib.sha256)
                          (("CPU_FIXTURE_"+key).encode()).hexdigest() for key in a.IDENTITY_FIELDS}
+        if content_tree:
+            self.identity["official_tree_sha256"] = hashlib.sha256(b"CPU_FIXTURE_SORTED_FILES").hexdigest()
         self.payload = self.source/"final-W20.pt"
         self.payload.write_bytes(b"CPU fixture bytes only: not a model or checkpoint tensor.\x00"*7)
         payload_sha = member(self.payload)["sha256"]
@@ -407,11 +409,44 @@ class ArchiveTests(unittest.TestCase):
 
     def test_git40_and_content64_hash_fields_are_not_interchangeable(self):
         for key in a.IDENTITY_FIELDS:
+            if key == "official_tree_sha256":
+                continue
             with self.subTest(field=key):
                 identity=dict(self.f.identity)
                 identity[key]="a"*(64 if key in a.GIT_IDENTITY_FIELDS else 40)
                 self.assert_code("CHECKPOINT_IDENTITY_FULL_SHA_REQUIRED",lambda:a.checkpoint_identity(identity))
         a.checkpoint_identity(self.f.identity)
+
+    def test_content_tree_roundtrip_and_type_tampering(self):
+        f = Fixture(self.f.root/"content-tree", origin="server4", content_tree=True)
+        original = dict(f.identity)
+        manifest = f.manifest
+        self.assertEqual(manifest["checkpoint_identity"], original)
+        self.assertEqual(manifest["checkpoint_identity_types"]["official_tree_sha256"], "content-sha256")
+        admission = f.receiver.admit(manifest)
+        f.receive(admission)
+        receipt = f.receiver.verify(admission, manifest)
+        self.assertTrue(f.receiver.recheck(receipt))
+        self.assertEqual(receipt["checkpoint_identity"], original)
+        for change in ("missing", "wrong"):
+            bad = deepcopy(manifest)
+            if change == "missing":
+                del bad["checkpoint_identity_types"]
+            else:
+                bad["checkpoint_identity_types"]["official_tree_sha256"] = "git-tree-sha1"
+            bad["manifest_sha256"] = a.digest(a._unsigned(bad,"manifest_sha256"))
+            self.assert_code("CHECKPOINT_IDENTITY_TYPE_BINDING_MISMATCH",lambda:a.validate_manifest(bad))
+
+    def test_legacy_untyped_git_tree_manifest_accepted(self):
+        old = deepcopy(self.f.manifest)
+        del old["checkpoint_identity_types"]
+        old["manifest_sha256"] = a.digest(a._unsigned(old,"manifest_sha256"))
+        a.validate_manifest(old)
+
+    def test_tree_hash_malformed_rejected(self):
+        for tree in ("a"*39, "a"*41, "a"*63, "a"*65, "g"*64, "A"*40, None, 123):
+            identity = dict(self.f.identity, official_tree_sha256=tree)
+            self.assert_code("CHECKPOINT_IDENTITY_FULL_SHA_REQUIRED",lambda:a.checkpoint_identity(identity))
 
     def test_no_evidence_adapter_cannot_claim_verified_completion(self):
         self.assert_code("ARCHIVE_PENDING_KEEP_SOURCE",lambda:self.f.seal(adapter=None))
