@@ -1,0 +1,31 @@
+{
+  "authority": "2026-10-08 USER: generation 경로 확인 후 run 재등록 및 GPT2XL repair",
+  "review_level": "OWNER_SOURCE_REVIEW_NO_INDEPENDENT_REVIEWER",
+  "old_attempt": "attempt-r1",
+  "replacement_attempt": "attempt-generation-repair-r1",
+  "old_jobs": {"GPTJ_M1":61207,"LLAMA_REPRO":61208,"collector":61209},
+  "cancellation": "Exact owner/name/Command/WorkDir verified; collector first then two GPU jobs. Original files KEEP. No other jobs changed.",
+  "changes": [
+    "Existing generation APIs connected at POST B1 only; zero W0 qualification/evaluation/generation.",
+    "Task-private Llama family adapter: exact shared KV bucket family tuple and qualification scope extended to actual llama; model.config.model_type unchanged. Shared source/module globals untouched.",
+    "Task-private observer subclass changes only its local generate_rows import. Original sampling/topk5/seed/mask/cache/position/logit tolerances retained.",
+    "Fixed8-prompt qualification with actual batch width4; memory-alternative MB4 frozen from CPU token coverage. BATCH if passed, KV singleton if only that passes, no silent no-cache production fallback.",
+    "Current/post and W5/10/15/20 generation schedule unchanged: 6600 request-endpoints per run, not CAKE-final-only2000. Actual speedup NOT_MEASURED.",
+    "Boundary progress callback connected to existing scalar tracking. No extra evaluation for logging.",
+    "GPT2XL full L13-L17 existing C0 bound; four existing NPZ copied from server1, total655364920bytes, exact hashes checked, source KEEP/no new stats/model download.",
+    "GPT2XL existing same-server L13 cold W0 contains full2000/26000 rows. Same unedited full model asset/token/runtime verified; old selected-layer state explicitly mapped to new full editor state without rewriting raw.",
+    "GPT2XL M1+M2 native lambda20000/grace9; M3 arms remain blocked absent savedK/new explicit RAM-B1 authority."
+  ],
+  "shared_bucket_source_SHA256": "674b595c744d7d0077388cc1ced7fd8a791009ad39c8cc285636de8b8cffe6ea",
+  "tests": {"narrow_CPU_checks":8,"result":"PASS","AST_import":"PASS","three_plans_actual_batch_width":4,"GPT2_W0_raw_rows":26000,"online_GPU_result":"NOT_OBSERVED"},
+  "qualification_location": "First post-edit B1 inside each main, no new qualification job",
+  "qualification_scope_limit": "Shared source originally GPT2/GPTJ; task Llama adapter has CPU plumbing evidence only until actual post-B1 receipt. No fabricated common SH1 Llama PASS.",
+  "shared_owner_coordination": "Direct thread message tool returned unavailable. No shared source edits or claims of SH1 approval.",
+  "memory": "KV MB4 <=1GiB additional GPU estimate. Qualification traces occur after plan/entry release, not simultaneous with fit host peak; separate measured cost/peaks recorded by shared qualifier. Not measured ETA.",
+  "storage": {"free_at_prepare_bytes":69280104448,"reserved_plan_bytes":41716285440,"actual_reservation":false},
+  "W0_new_forward":0,
+  "GPU_cap":2,
+  "held_baselines_preserved":[60917,60918,60919,60920,60921,60922,60923],
+  "automatic_retry":false,
+  "monitoring_active":false
+}

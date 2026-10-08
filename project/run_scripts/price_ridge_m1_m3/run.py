@@ -39,24 +39,46 @@ def validate_lock(attempt,cell):
 
 
 def attach_post_generation(parent,a,bench,records,H,c,out,tracker,lock):
-    from project.run_scripts.experiment_generation_eval import load_assets,GenerationObserver
+    from project.run_scripts.experiment_generation_eval import load_assets
+    from .generation_adapter import GenerationObserver,run_qualification
+    from project.run_scripts.experiment_generation_eval.kv_qualification import verify_actual_receipt
     from project.run_scripts.llama3_native_baselines.generation import normalize_summary,endpoint_ref
     from project.run_scripts.llama3_native_baselines.producer import generation_values
     from project.run_scripts.jlz_interference_l1.cap_tracking import safe_log
     g=c['generation'];assets=load_assets(dict(reference_assets=g['reference_manifest'],asset_paths=g['asset_paths']))
     parent.require(assets.sha==g['assets_sha256'],'GENERATION_ASSET_IDENTITY')
     identity=dict(model=c['model_alias'],revision=c['model_revision'],observation_identity=c['observation_identity'])
-    gen=GenerationObserver(a.model,bench.tokenizer,assets,dict(model_identity=identity,
+    gen_config=dict(model_identity=identity,
         profile=g['profile'],eval_seed=20261007,generation_source_sha=lock['source_commit'],
-        occurrence_by_case_id={str(r['case_id']):i for i,r in enumerate(records)}),out/'generation',
-        state_callback=lambda:dict(editor=parent.state(a,H),contexts=parent.digest(bench.contexts),hooks=a.hook_signature()))
-    original=parent.observer;pending={}
+        occurrence_by_case_id={str(r['case_id']):i for i,r in enumerate(records)})
+    guard=lambda:dict(editor=parent.state(a,H),contexts=parent.digest(bench.contexts),hooks=a.hook_signature())
+    original=parent.observer;pending={};gen=None
     def observer(a,bench,seen,selected,H,name,folder,config,identities,current):
+        nonlocal gen
         if name.startswith('W0'):
             raise RuntimeError('NEW_W0_FORWARD_FORBIDDEN')
         result=original(a,bench,seen,selected,H,name,folder,config,identities,current)
         if name.startswith('W'):
             b=int(name[1:]);state=parent.state(a,H);rng=parent.rng_snapshot()
+            if gen is None:
+                parent.require(b==1,'GENERATION_POST_B1_ONLY_QUALIFICATION')
+                plan=json.loads(parent.verify(g['qualification_plan']).read_text())
+                parent.require(plan['model_identity']==identity,'GENERATION_PLAN_MODEL_IDENTITY')
+                actual=run_qualification(a.model,bench.tokenizer,assets,plan,
+                    out=out/'generation-qualification',state_callback=guard,source_identity=lock['source_commit'])
+                actual_member=actual['member']
+                qualified=verify_actual_receipt(actual_member,expected_plan_sha256=parent.digest(plan),
+                    expected_model_identity=identity)
+                parent.write(out/'generation-route.json',dict(actual=actual_member,
+                    route=qualified['selected_route'],microbatch=qualified['fixed_microbatch'],
+                    qualification_state=state,new_W0=False))
+                parent.require(qualified['selected_route']!='UNPADDED_FULL_PREFIX_NO_CACHE',
+                    'GENERATION_KV_PARITY_FAILED_NO_SILENT_SLOW_FALLBACK')
+                gen=GenerationObserver(a.model,bench.tokenizer,assets,dict(gen_config,
+                    generation_route=qualified['selected_route'],generation_microbatch=qualified['fixed_microbatch'],
+                    qualification_receipt_member=actual_member,qualification_plan_sha256=parent.digest(plan)),
+                    out/'generation',state_callback=guard,
+                    progress_callback=lambda payload:safe_log(tracker,lambda:payload,'post_generation_progress'))
             parent.guard(out,c['storage']['next_batch_bytes']+c['generation_reserve_bytes'])
             observed=gen.observe(selected,name,state_identity=dict(W=state['W'],model_identity=identity))
             selected_ids=set(current)
@@ -106,6 +128,9 @@ def execute(attempt,cell):
         # GPT-J's unchanged bind() is reuse-only because a sealed READY is required.
         if c['model_alias']=='gptj':
             parent.verify(c['native_ready'])
+        if c['model_alias']=='gpt2xl':
+            from .gpt2_binding import install_runtime_bindings
+            install_runtime_bindings(parent,c)
         a,bench,records,H=parent.setup(c,out,cell);a.tracker=tracker
         w0mod=importlib.import_module('project.run_scripts.'+('jlz_interference_l1.cap_w0' if c['model_alias']=='llama3'
             else 'jlz_price_gptj.w0' if c['model_alias']=='gptj' else 'jlz_price_gpt2xl.w0'))

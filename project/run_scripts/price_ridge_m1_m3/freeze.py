@@ -15,7 +15,9 @@ def freeze(attempt):
         raise RuntimeError('SOURCE_WORKTREE_NOT_CLEAN')
     config=json.loads((attempt/'config.json').read_text())
     evidence=[]
-    for name in ('token-binding.json','source-review.json'):
+    evidence_names=['token-binding.json','source-review.json']
+    if config.get('repair'):evidence_names.append('generation-repair.json')
+    for name in evidence_names:
         p=root/'audits/servers/server4'/TASK/name
         value=json.loads(p.read_text())
         if name=='token-binding.json' and value['status']!='PASS_SAVED_PACK_BINDING':
