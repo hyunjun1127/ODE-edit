@@ -58,5 +58,15 @@
       "skip_special_tokens_decode"
     ]
   },
-  "speedup": "NOT_MEASURED"
+  "speedup": "NOT_MEASURED",
+  "distribution_compatibility": {
+    "instruction_id": "USER-OFFICIAL-BASELINES-20261008-R1",
+    "review_nonce": "SH1-GH-OFFICIAL-COMPAT-REVIEW-20261008-R1",
+    "implemented_model_types": ["gpt2", "gptj", "llama", "qwen2"],
+    "llama_qwen2_positions": "native_contiguous_position_ids_and_cache_position",
+    "cache_policy": "call_local_full_context_DynamicCache_or_legacy_tuple; reject_static_sliding_offloaded",
+    "source_binding": "official/SOURCES.json evaluation/generation/native_generator.py entry",
+    "original_source_and_jobs": "readonly_provenance; no_hotpatch_or_restart",
+    "actual_pretrained_GPU_qualification": "NOT_RUN"
+  }
 }

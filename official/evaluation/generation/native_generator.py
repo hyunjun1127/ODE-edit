@@ -6,6 +6,7 @@ CAKE cumulative mask already supports incremental cached queries; unlike BLUE's
 query-only mask this needs no modern-transformers mask substitution.
 """
 from collections.abc import Mapping
+import inspect
 import unicodedata
 
 import torch
@@ -24,6 +25,36 @@ def _compatible(call, reason):
         raise GenerationError(reason + ':' + type(error).__name__) from error
 
 
+def _cache_length(cache, *, batch_size, device):
+    """Validate only call-local full-context caches; never repair or repack one.
+
+    Legacy native tuples remain supported. Modern Llama/Qwen native forwards
+    return DynamicCache. Sliding/static/offloaded caches are not silently
+    admitted by this full-prefix CAKE route.
+    """
+    dynamic = not isinstance(cache, (tuple, list))
+    if dynamic:
+        from transformers.cache_utils import DynamicCache
+        require(type(cache) is DynamicCache and not getattr(cache, 'offloading', False),
+                'NATIVE_GENERATION_KV_CACHE_CLASS_UNSUPPORTED')
+    require(len(cache) > 0, 'NATIVE_GENERATION_KV_CACHE_EMPTY')
+    lengths = []
+    for layer in cache:
+        require(isinstance(layer, (tuple, list)) and len(layer) == 2,
+                'NATIVE_GENERATION_KV_LAYER_SCHEMA')
+        key, value = layer
+        require(all(torch.is_tensor(tensor) and tensor.ndim == 4
+            and tensor.shape[0] == batch_size and tensor.device == device
+            and tensor.dtype == torch.float32 for tensor in (key, value))
+            and key.shape[-2] == value.shape[-2],
+            'NATIVE_GENERATION_KV_SHAPE_DEVICE_OR_DTYPE')
+        lengths.append(key.shape[-2])
+    require(len(set(lengths)) == 1, 'NATIVE_GENERATION_KV_LAYER_LENGTH')
+    if dynamic:
+        require(cache.get_seq_length() == lengths[0], 'NATIVE_GENERATION_KV_DYNAMIC_LENGTH')
+    return lengths[0]
+
+
 def generate_case(model, tokenizer, prompts, *, occurrence, eval_seed=EVAL_SEED, trace=None):
     """Generate all prompts of one case together, using the caller's RNG stream.
 
@@ -39,8 +70,14 @@ cases do not tokenize/forward. No cache/no-EOS fallback or extra forward exists.
     require(not model.training, 'NATIVE_GENERATION_MODEL_NOT_EVAL')
     require(all(not p.is_floating_point() or p.dtype == torch.float32 for p in model.parameters()),
             'NATIVE_GENERATION_MODEL_NOT_FP32')
-    require(getattr(getattr(model, 'config', None), 'model_type', None) in ('gpt2', 'gptj'),
+    family = getattr(getattr(model, 'config', None), 'model_type', None)
+    require(family in ('gpt2', 'gptj', 'llama', 'qwen2'),
             'NATIVE_GENERATION_MODEL_FAMILY_UNSUPPORTED')
+    explicit_positions = family in ('llama', 'qwen2')
+    if explicit_positions:
+        arguments = inspect.signature(model.forward).parameters
+        require('position_ids' in arguments and 'cache_position' in arguments,
+                'NATIVE_GENERATION_POSITION_API_UNSUPPORTED')
     device = model_device(model)
     if device.type == 'cuda':
         require(not torch.backends.cuda.matmul.allow_tf32 and not torch.backends.cudnn.allow_tf32,
@@ -74,13 +111,29 @@ cases do not tokenize/forward. No cache/no-EOS fallback or extra forward exists.
         while ids.size(1) < 100:
             current_pos = context.stop
             query, attention = ids[:, context], mask[:, :current_pos]
-            output = _compatible(lambda: model(input_ids=query, attention_mask=attention,
-                past_key_values=past, use_cache=True), 'NATIVE_GENERATION_FORWARD_COMPATIBILITY')
+            history_length = 0 if past is None else _cache_length(
+                past, batch_size=batch_size, device=device)
+            require(history_length == context.start and attention.shape[1]
+                == history_length + query.shape[1], 'NATIVE_GENERATION_CACHE_QUERY_POSITION')
+            arguments = dict(input_ids=query, attention_mask=attention,
+                past_key_values=past, use_cache=True)
+            # The original traversal processes the shared unpadded prefix and
+            # then one physical column at a time. Contiguous physical positions
+            # therefore equal the native default positions; no cumsum/padding
+            # position rewrite or generation helper is introduced.
+            positions = (torch.arange(history_length, current_pos, device=device)
+                         if explicit_positions or trace is not None else None)
+            if explicit_positions:
+                arguments.update(position_ids=positions.unsqueeze(0), cache_position=positions)
+            output = _compatible(lambda: model(**arguments),
+                                 'NATIVE_GENERATION_FORWARD_COMPATIBILITY')
             logits, new_past = getattr(output, 'logits', None), getattr(output, 'past_key_values', None)
             require(torch.is_tensor(logits) and logits.ndim == 3
                 and logits.shape[:2] == query.shape and logits.shape[-1] >= 5
                 and logits.dtype == torch.float32, 'NATIVE_GENERATION_LOGIT_SHAPE_OR_DTYPE')
             require(new_past is not None, 'NATIVE_GENERATION_KV_CACHE_MISSING')
+            require(_cache_length(new_past, batch_size=batch_size, device=device) == current_pos,
+                    'NATIVE_GENERATION_KV_CACHE_POSITION')
             last = logits[:, -1, :]
             require(bool(torch.isfinite(last).all()), 'NATIVE_GENERATION_NONFINITE_LOGITS')
             softmax = torch.nn.functional.softmax(last, dim=1)
@@ -104,7 +157,10 @@ cases do not tokenize/forward. No cache/no-EOS fallback or extra forward exists.
                     attention_mask=attention.detach().cpu().tolist(),
                     sampled_tokens=new_tokens.detach().cpu().tolist(),
                     context=[context.start, context.stop], use_cache=True,
-                    past_present=past is not None))
+                    past_present=past is not None, past_length=history_length,
+                    position_ids=positions.unsqueeze(0).detach().cpu().tolist(),
+                    cache_position=positions.detach().cpu().tolist(),
+                    cache_position_explicit=explicit_positions))
             past = new_past
             if context.stop == ids.size(1):
                 mask = torch.cat([mask, mask.new_zeros(batch_size, 1)], dim=1)

@@ -1,0 +1,126 @@
+{
+  "schema": "official-shared-compatibility-review-v1",
+  "date_kst": "2026-10-09",
+  "request_nonces": [
+    "SH1-GH-OFFICIAL-COMPAT-REVIEW-20261008-R1",
+    "SH2-GH-OFFICIAL-TRACKING-BINDING-20261009-R1"
+  ],
+  "parent_instruction": "USER-OFFICIAL-BASELINES-20261008-R1",
+  "workspace": "/mnt/raid5/janghj/.codex/worktrees/gh-official-compatibility-20261008",
+  "branch": "codex/gh-official-compatibility-20261008",
+  "base": "16d999ae1de3dac846a562199127a0db791293d9",
+  "boundary": {
+    "repository": "hyunjun1127/ODE-edit",
+    "session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "result": "PASS",
+    "dirty_app_root": "KEEP"
+  },
+  "source_hashes": {
+    "README.md": "e302631cdf303ca63b7511fe8781adc316d598e72614ee931094f40bc1c236ce",
+    "baselines/blue/AlphaEdit/compute_z.py": "27bf91146e838254150c92f398d67e330ad230f57d4b96b4910eb0ef29cd0521",
+    "baselines/blue/util/generate.py": "af0698ea4dde7dbaa6e0711cb2e244ca8083a8a8bfd4cdb204eecafd4156a6fa",
+    "baselines/sphere/memit/compute_z.py": "8c0796bc1a1a45d8b9aee7079b5355419c8b6f6659f744344d8ad41285dda376",
+    "baselines/sphere/util/generate.py": "48451031b091753598f74272d38ad6b0f79363d1e8e8efa7c061e4ac189f3d68",
+    "evaluation/generation/native_generator.py": "601bfb8b3d5514d0d2b13a11d025b02fd53f0f1fe39325daa94ed7307c3ec520",
+    "hparams/generation.lock.json": "426eba6d74bb7f514c3248f1569e9bbb307d382a74035549f66b316016ed3882",
+    "evaluation/generation/test_native_families.py": "599f6d67a22e19608a01eb8dfcb8c7956b68ff8a89ab099ee1932442588888d8",
+    "tests/test_sphere_compat.py": "495f9d8dfbc75414744911f208f2ed191bfb497102f34109c2196e9320b2cea8",
+    "tracking/__init__.py": "9579cfaa99409de241105154c60542fbcb0c61ddff89bbc2a124e6e13f86dbc5",
+    "tracking/schema.py": "7147d38cc840e0f3592f271afdada5fd6dadfb202da4715eafacfd96eae42f63",
+    "tracking/method.py": "c1ac5111314a58937560b8f9d63a3d06edeaf93753f5c1e46a4475157cc669b8",
+    "tracking/identity.py": "ba2e33b6036a91919f85378846f7f37825cd5574814277e5ba826818ce188b5b",
+    "tracking/client.py": "e1222d2891b0c14dc0d2b0ba4ac1fd9c7e820f09c49512bfd35ee8cb22a71d3d",
+    "tracking/worker.py": "6b3b690b3a6c483f18616f33b0bc6a6f9bc0846ae0f8e2c3ff955fb39c39be11",
+    "tracking/readback.py": "ab6af507efe0a931d9ec7e6b430e083952abd8a4705bf6beb58bd2006e225c32",
+    "tracking/test_transport.py": "3675dcba83ca4d692a57b44a1e9274bc4e021ea12f9a4cecef6678206ef73167",
+    "tracking/README.md": "a55b4462f041bf6435f54d3a9285fa9d7eca9ab0d2f08b2d3f2771a9f0fa673f",
+    "tracking/UPSTREAM.json": "22d7592d3d95e9aaadfe44ac11147b46c5e468eecf5a16781b0bb2f4adf404f7"
+  },
+  "tracking_upstream_commit": "762d62fdf502779501fb862da391e2c353f0910a",
+  "tracking_upstream_SHA_matches": [
+    {
+      "path": "tracking/__init__.py",
+      "match": true
+    },
+    {
+      "path": "tracking/schema.py",
+      "match": true
+    },
+    {
+      "path": "tracking/method.py",
+      "match": true
+    },
+    {
+      "path": "tracking/identity.py",
+      "match": true
+    },
+    {
+      "path": "tracking/client.py",
+      "match": true
+    },
+    {
+      "path": "tracking/worker.py",
+      "match": true
+    },
+    {
+      "path": "tracking/readback.py",
+      "match": true
+    }
+  ],
+  "tests": {
+    "generation": {
+      "command": "CUDA_VISIBLE_DEVICES='' /mnt/raid5/janghj/EasyEdit/.venv/bin/python -B -m unittest discover -s official/evaluation/generation -t . -v",
+      "count": 60,
+      "status": "PASS",
+      "seconds": 3.422
+    },
+    "core": {
+      "command": "CUDA_VISIBLE_DEVICES='' /mnt/raid5/janghj/EasyEdit/.venv/bin/python -B -m unittest official.tests.test_preparation official.tests.test_runtime official.tests.test_sphere_compat official.tracking.test_transport -v",
+      "count": 44,
+      "status": "PASS",
+      "seconds": 1.315
+    },
+    "scope": "CPU/fake SDK 및 tiny 무작위 native 모델; 실제 pretrained/GPU/인증/온라인 아님"
+  },
+  "verifier": {
+    "source_files": 148,
+    "python_files": 189,
+    "source_integrity": "PASS",
+    "external_task_imports": 0,
+    "GPU_qualification": "NOT_RUN"
+  },
+  "independent_reviews": {
+    "generation": {
+      "writer": "official_generation_families",
+      "reviewer": "official_sphere_compat",
+      "tests": 8,
+      "blockers": 0,
+      "limitations": "full-context DynamicCache/legacy tuple 및 explicit Llama/Qwen position API만"
+    },
+    "tracking": {
+      "writer": "official_tracking_transport",
+      "reviewer": "official_generation_families",
+      "tests": 24,
+      "blockers": 0,
+      "phase_adapter_warning": "RESOLVED"
+    }
+  },
+  "unchanged": {
+    "FE_native_source": true,
+    "old_project_tracking_helper": true,
+    "science_hparams_inputs_matrix": true,
+    "existing_jobs": true,
+    "source_raw_checkpoints": true
+  },
+  "actions": {
+    "GPU": 0,
+    "pretrained_forward": 0,
+    "Slurm_queries": 0,
+    "Slurm_writes": 0,
+    "Wandb_online_runs": 0,
+    "auth_changes": 0,
+    "delete": 0,
+    "new_science_arms": 0
+  },
+  "claim_limits": "공통 소스 CPU 정합과 실제 담당의 runner/GPU/online/제출/완료 상태를 구분한다."
+}

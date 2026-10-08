@@ -1,0 +1,58 @@
+{
+  "instruction_id": "USER-OFFICIAL-BASELINES-20261008-R1",
+  "publication_commit": "537509729345c26efa641ac9f026993e5f5c036e",
+  "official_git_tree": "c750f75d14b722233810cc790cdc128d0edb965c",
+  "source_root": "official/",
+  "baseline_main_rows": 36,
+  "qwen_auxiliary_rows": 5,
+  "physical_edit_chains": 40,
+  "ours_in_execution_matrix": false,
+  "CPU_validation": {
+    "standalone_tests_passed": 28,
+    "ownership_allow_deny_cases_passed": 8,
+    "GPU_runs_submitted_by_preparation": 0
+  },
+  "owners": [
+    {
+      "server": "server1",
+      "accepted": true,
+      "thread": "01a04939-f93a-7b50-bca0-65438eab2062",
+      "turn": "01a11bf8-5fd1-7db3-967d-76a755c1d603",
+      "message_sha256": "9239ab9ac4b6baeabd333661458c77314d65ddf195dc541a5a2bb059326746b3",
+      "status": "inProgress",
+      "owner_ACK": "OWNER_ACK nonce=USER-OFFICIAL-BASELINES-20261008-R1 server=server1"
+    },
+    {
+      "server": "server2",
+      "accepted": true,
+      "thread": "01a0493a-074c-7f91-9a13-769116326fef",
+      "turn": "01a11bf7-a8a4-73b1-be9d-67289ab2c55d",
+      "message_sha256": "8493ea4196b4c4c0345527410b15de0a36ba8b030e406283b6f88389cbd6dd18",
+      "status": "inProgress",
+      "owner_ACK": "OWNER_ACK nonce=USER-OFFICIAL-BASELINES-20261008-R1 server=server2"
+    },
+    {
+      "server": "server3",
+      "accepted": true,
+      "thread": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+      "turn": "01a11bf7-91ad-71b0-b738-f4355b3cb195",
+      "message_sha256": "9cdd8a4e268e80aea2b9900c0aca57e04a19c9beb19ae3bc05f7d5f1a95596c0",
+      "status": "inProgress",
+      "owner_ACK": "OWNER_ACK nonce=USER-OFFICIAL-BASELINES-20261008-R1 server=server3"
+    },
+    {
+      "server": "server4",
+      "accepted": true,
+      "thread": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+      "turn": "01a11bf2-3f39-73b2-ab97-f1b657e0a2ac",
+      "message_sha256": "ba795d83b2a4c23886111fc0d08c2c60331a55cfbb1077aa45724a9504953f0b",
+      "transport_method": "turn/steer",
+      "status": "inProgress",
+      "owner_ACK": "OWNER_ACK nonce=USER-OFFICIAL-BASELINES-20261008-R1 server=server4"
+    }
+  ],
+  "implementation_status": "서버 담당자가 실제 runner 구현 및 GPU smoke/resume 검증을 수행하는 단계. CPU PASS를 GPU PASS로 간주하지 않음.",
+  "existing_runs": "기존 Qwen 및 generation frozen 실행 유지; 새 source를 주입하지 않음",
+  "status": "ALL_FOUR_OWNERS_ACCEPTED_SOURCE_PREPARATION_COMPLETE_RUNNER_WORK_IN_PROGRESS",
+  "delivery_verified_at_utc": "2026-10-08T14:53:00.002980+00:00"
+}
