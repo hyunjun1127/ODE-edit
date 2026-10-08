@@ -69,6 +69,38 @@ Ours 행은 결과 기록용이며 새 arm/실험을 자동 승인하지 않습�
 
 ### GPT-J-6B
 
+**Server2 CF 등록 현황 — 2026-10-09 03:06 KST 관측, 사용자 지정 GPU cap4.**
+official 6종 모두 등록·release했으며 CF first2000, batch100×20을 실행하는 pipeline이다.
+각 pipeline의 W0/qualification과 실제 편집 chain 단계는 구분한다. 아래 `RUNNING`은
+Slurm 상태이며 본편집 시작·GPU 검증 통과·W20 완료를 뜻하지 않는다.
+
+| Arm | 실제 job ID | Slurm 상태 | 선행 job (afterany) |
+| :--- | ---: | :--- | :--- |
+| FT | 61650 | RUNNING | 없음 |
+| MEMIT | 61651 | PENDING | 61650 |
+| AlphaEdit | 61652 | PENDING | 61650 |
+| AlphaEdit-BLUE | 61653 | PENDING | 61650 |
+| MEMIT-FE | 61654 | PENDING | 61650 |
+| AlphaEdit+SPHERE | 61655 | PENDING | 61652 |
+| CPU collector (GPU0) | 61656 | PENDING | 61650–61655 전체 |
+
+GPU job name은 `official-baselines-server2-20261008-r1-cf_checkpoint-<ARM>`이며,
+scheduler의 ARM 표기는 `FT/MEMIT/ALPHAEDIT/ALPHAEDIT_BLUE/MEMIT_FE/SPHERE`다.
+공통 factual W0를 제공하는 FT 선행 조건을 유지하고, 이후 최대4개 lane을 허용한다.
+실제 시작은 물리 자원 가용성에 따른다. zsRE 및 OURS 신규 등록을 뜻하지 않는다.
+
+**이 CF 실행의 FLU/CON은 W0·W20 모두 `DEFERRED_CHECKPOINT_EVALUATION`이다.**
+generation 점수·count·progress를 0으로 채우지 않는다. factual 평가는 유지하고,
+매 batch 완료 후 최신 checkpoint 1개와 최종 W20 checkpoint를 보존한다.
+FLU/CON은 이후 별도 2k checkpoint 평가에서 측정하며, 그 consumer 완료 전에는
+최종 checkpoint를 삭제하지 않는다. 아래 성능표는 미관측 수치를 채우지 않는다.
+
+실행 source `6d35c65de19ec378a30749683762eba87fee50e3` 및 manifest/lock은
+[제출 보고](experiment-reports/servers/server2/official-baselines-20261008/deferred-flucon-ready-20261009-r1.md),
+현재 cap4와 FE dependency 조정은
+[자원 변경 보고](experiment-reports/servers/server2/official-baselines-20261008/cap4-existing-dag-20261009-r1.md)에 기록했다.
+cap4 변경은 별도 scheduling override이며 기존 frozen source/manifest의 cap3 기록을 소급 변경하지 않았다.
+
 | Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | FT |  |  |  |  |  |  |  |  |  |
