@@ -12,4 +12,13 @@
 
 새 source/config/attempt/W&B ID를 사용하며 합산 cap3 내 독립 GPU1 세 lane과 GPU0 afterany collector로 등록한다. CPU8/59392MiB/hard60416MiB/48h 상한이며 실측 ETA가 아니다. 원 source·교체 이력·미측정 값은 보존하고 반복 모니터/자동 retry는 만들지 않는다.
 
-등록 결과는 이 문서의 후속 receipt에 기록한다. 검토 수준은 소유자 CPU/source 검산이며 별도 reviewer 없음.
+실제 source `10fa1f6a77243312e8d6e0770262f7016931a36c`로 아래 네 job의 held검사/release를 완료했다. 세 GPU는 독립 lane이며 초기 snapshot은 모두 PENDING이다.
+
+| Cell | Job | 의존성 |
+| --- | --- | --- |
+| Llama REPRO | 61398 | 없음 |
+| GPTJ M1 | 61399 | 없음 |
+| GPT2XL M1+M2 | 61400 | 없음 |
+| CPU collector | 61401 | afterany:61398:61399:61400 |
+
+[봉인/등록 receipt](../../../../../audits/servers/server4/price-ridge-m1-m3-2k-20261008/subset-repair-submission.json). 검토 수준은 소유자 CPU/source 검산이며 별도 reviewer 없음. 새 실제 GPU 검산·W&B 원격 연결·W20 완료는 NOT_OBSERVED다. own branch에 게시하며 main 통합은 기존 GH 절차로 남긴다.

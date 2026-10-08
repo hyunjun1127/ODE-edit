@@ -1,6 +1,8 @@
 # PRICE ridge M1–M3 실행 준비
 
-**최신 2026-10-08 generation 수리:** 이전61207/61208/61209는 사용자 지시로 취소·보존했다. 수리 source `e310c38b`의 Llama61356/GPTJ61357/GPT2XL M1+M2 61358/collector61359를 release했다. 실제 KV 확인은 본 B1 이후이며 아직 NOT_OBSERVED다. [최신 수리 보고](generation-repair-ko.md)와 [현재 status](../../../../../tasks/status/price-ridge-m1-m3-2k-20261008/server4.json)가 아래 최초 제출 기록보다 우선한다. GPT2XL 통계·W0 결속은 수리됐고 M3의 저장 K 문제만 남았다.
+**최신 2026-10-08 전체 재제출:** endpoint 파일명 충돌 및 GPT2 W0 reader 교정 source `10fa1f6a`로 Llama61398/GPTJ61399/GPT2XL M1+M2 61400/collector61401을 held검사 후 release했다. cap3·독립 세 lane·baseline hold·신규 W0 금지를 유지했다. 초기 상태 PENDING. [최신 교정 보고](subset-repair-ko.md)와 [현재 status](../../../../../tasks/status/price-ridge-m1-m3-2k-20261008/server4.json)가 이전 기록보다 우선한다.
+
+이전 generation 경로 수리 source `e310c38b`의 Llama61356은 B1 실제 KV/MB4 검산과100edit커밋 후 B2 저장 충돌로 실패했다. GPT2 61358은 W0 reader 연결 오류로 실패했다. GPTJ61357과collector61359는 이번 재제출 승인에 따라 취소했다. [이전 수리 기록](generation-repair-ko.md)은 역사로 보존한다. M3 저장 K가 없는 두 cell은 계속 보류한다.
 
 아래는 최초 source8f39b226/attempt-r1의 보존 기록이다.
 

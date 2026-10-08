@@ -1,0 +1,22 @@
+{
+  "authority":"사용자 전부 다 RERUN 승인",
+  "source":"10fa1f6a77243312e8d6e0770262f7016931a36c",
+  "attempt":"/data/janghj/ODE-edit/local/price-ridge-m1-m3-2k-20261008/attempt-subset-repair-r1",
+  "config_sha256":"1d4e0ac4b58434190760636d0c33b3139c9b7e43d0e1269ab5956cb2125460e6",
+  "lock_sha256":"27e6738a8e29d8ae74ec23ffd33f8e7c365074d71c840703585881736a24a0b1",
+  "archive_sha256":"903190d5dfa7728bd2a9698e187525ef94ad6d229f3b3414f7022661d7345836",
+  "raw_submission_sha256":"5bf67e7a9c0f6c930b214583faf214e1a4a52fb1511db3aaa3fe6ccc09604ead",
+  "cancellation_receipt_sha256":"0aa37d86757c63da7af1366829ac7ef8ef0304d8ce670a49fae5c9945d148f4a",
+  "jobs":{"LLAMA_REPRO":61398,"GPTJ_M1":61399,"GPT2XL_M1_M2":61400,"collector":61401},
+  "dependencies":{"LLAMA_REPRO":null,"GPTJ_M1":null,"GPT2XL_M1_M2":null,"collector":"afterany:61398:61399:61400"},
+  "held_checks":"owner/name/Command/WorkDir/source/config/full argv/CPU/mem/GPU/wall/exportNONE/Requeue0/dependency PASS 후 release",
+  "initial_states":{"61398":"PENDING","61399":"PENDING","61400":"PENDING","61401":"PENDING"},
+  "project_cap":3,
+  "baseline_holds_preserved":[60917,60918,60919,60920,60921,60922,60923],
+  "no_new_W0":true,
+  "actual_new_GPU_verification":"NOT_OBSERVED",
+  "WandB_identity":"각 실제 startup의 새 run ID/URL; 현재 원격 연결 PASS 주장 없음",
+  "science_complete":false,
+  "monitoring_active":false,
+  "automatic_retry":false
+}
