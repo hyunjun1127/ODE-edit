@@ -1,0 +1,61 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-OFFICIAL-BASELINES-20261008-R1",
+  "owner": "server3",
+  "scope": "Qwen2.5 FT/MEMIT/AlphaEdit/BLUE/FE/SPHERE CF+zsRE and CF BLUE grid/controls",
+  "source_state": "IMPLEMENTED_CPU_CHECKED_NOT_GPU_QUALIFIED",
+  "source_publication": {
+    "implementation_commit": "225f751a",
+    "first_main_integration_commit": "5a74d76c15560a041f6bdd2b7ae7d7c0642c9981",
+    "official_git_tree": "291426c6ee06ebe06da2aa121e8fd4ca591ae74d",
+    "remote_main_verified_at_first_integration": true
+  },
+  "matrix": {
+    "main_logical_rows": 12,
+    "cf_auxiliary_rows": 5,
+    "physical_edit_chains": 16,
+    "qualification_jobs_planned": 7,
+    "cf_jobs_planned": 10,
+    "zsre_jobs_planned_after_blue_selection": 8,
+    "registered_jobs": 0
+  },
+  "checks": {
+    "server3_tracking_factual_generator_cpu_suite": "82_PASS",
+    "official_source_integrity": "PASS_148_SOURCE_FILES_199_PYTHON_FILES_0_EXTERNAL_TASK_IMPORTS",
+    "real_target_model_gpu": "NOT_RUN",
+    "real_native_checkpoint_parity": "NOT_RUN",
+    "wandb_online_readback": "NOT_ESTABLISHED"
+  },
+  "asset_evidence": {
+    "local_receipt": "/data/janghj/ODE-edit/local/official-baselines-20261008/asset-preflight-hashed.json",
+    "local_receipt_sha256": "4b099e24a856d381915eb03bd39a2f46398023fa2b66d75362486edfd440c22c",
+    "postsource_local_receipt": "/data/janghj/ODE-edit/local/official-baselines-20261008/asset-preflight-postsource.json",
+    "postsource_local_receipt_sha256": "6509df856941c5430bb676ff211eab0409a1c67d42c9c435cf5014815ce854d1",
+    "postsource_clean_and_published_main": true,
+    "asset_identity_sha256": "11fbe79a7784817f8fb0e1164df936dab7ed1c7480bddc923c509aec58e380ec",
+    "cf_and_zsre_source": "SHA256_VERIFIED",
+    "covariance_layers_4_to_8": "SHA256_VERIFIED",
+    "alpha_projector_layers_4_to_8": "SHA256_VERIFIED",
+    "qwen_snapshot": "MISSING",
+    "cf_generation_reference": "MISSING",
+    "nltk_punkt_resources": "MISSING"
+  },
+  "resource_evidence": {
+    "full_program_reserve_bytes": 138905911296,
+    "available_bytes_observed_2026_10_09": 108977373184,
+    "reserve_deficit_bytes_at_observation": 29928538112,
+    "storage_action": "NONE"
+  },
+  "submission": {
+    "status": "BLOCKED_PRE_SUBMISSION",
+    "jobs": [],
+    "logs": [],
+    "other_jobs_changed": false
+  },
+  "review_provenance": {
+    "owner_audit": true,
+    "bounded_independent_read_only_reviewer": true,
+    "reviewer_found": "COMMITTED_MILESTONE_LOGGING_CRASH_WINDOW_REPAIRED_BEFORE_PUBLICATION",
+    "scientific_result": "NOT_AVAILABLE"
+  }
+}

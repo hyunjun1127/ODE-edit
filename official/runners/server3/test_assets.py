@@ -113,7 +113,10 @@ class AssetPreflightTests(unittest.TestCase):
                                      for x in report["blockers"]), 3)
                 report = _result()
                 assets._generation(report, str(reference), root, True, True)
-                self.assertFalse(report["blockers"])
+                self.assertEqual({x["code"] for x in report["blockers"]}, set())
+                self.assertEqual(report["assets"]["generation_reference"]
+                                 ["qwen2_software_compatibility"],
+                                 "CPU_FAMILY_FIXTURE_ONLY_GPU_NOT_QUALIFIED")
                 self.assertEqual(report["assets"]["generation_reference"]["verification"],
                                  "SHA256_VERIFIED")
                 files["idf.npy"]["sha256"] = "0" * 64
