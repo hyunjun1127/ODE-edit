@@ -109,6 +109,32 @@ separate in `pre_state_edits`/`post_state_edits`. Native fit metrics use monoton
 
 ## CF generation endpoints only
 
+### Deferred FLU/CON evaluation from the final 2K checkpoint
+
+An official CF editing run may explicitly set
+`generation_schedule="DEFERRED_CHECKPOINT_EVALUATION"`. Keep the official
+instruction, dataset, method, source and config identity; omit generation profile,
+metric schema, seed, reference/source SHA, repair instruction and qualification
+metadata. The existing Server2 checkpoint-only caller already emits this config.
+The common transport accepts it for all official models and servers. Missing or
+unknown schedules still fail validation; zsRE and legacy schemas cannot opt in.
+
+This run logs measured factual E/G/L/Score and fit metrics only. FLU/CON scores,
+counts, generation progress and generation phases are rejected, including zero
+placeholders. W&B records the deferred schedule; successful factual readback
+does not imply generation evaluation or scientific completion.
+
+The runner must skip W0/W20 generation, retain the final W20 (2,000-edit)
+checkpoint and its model/source/config/sample/RNG identity, and keep the future
+evaluation consumer pending. Do not delete the checkpoint before that consumer
+finishes. Later FLU/CON measurement must use a separate evaluation run with its
+actual generation configuration and checkpoint provenance. Do not relabel the
+editing run as generation-enabled or fabricate W0 observations. Reference assets
+and metric definitions stay unchanged. These are caller obligations; the W&B
+schema does not save checkpoints or launch the deferred evaluator.
+
+The following endpoint rules apply when generation is enabled.
+
 Use `W0_first2000/generation/*`, `W0_first2000/fluency/ngram_entropy` and
 `W0_first2000/consistency/reference_score` at `edits=0`. Use the analogous
 `all_seen/post/*` keys only at `edits=2000`, `post_state_edits=2000`. Each complete
@@ -156,7 +182,7 @@ change merely because this distribution is published.
 python3 -m unittest official.tracking.test_transport -v
 ```
 
-The 24 fake SDK tests cover schema/schedule authority, variable native W0 counts,
+The 28 fake SDK tests cover schema/schedule authority, variable native W0 counts,
 CF/zsRE definitions, separate endpoint/fit/progress axes, array0/signedstep,
 immutable identity, sanitized isolated worker, and truthful bounded readback.
 No SDK import/login/upload, actual-model forward, or Slurm action is used.
