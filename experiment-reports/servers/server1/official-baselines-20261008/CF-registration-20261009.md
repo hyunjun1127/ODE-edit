@@ -1,5 +1,18 @@
 # CF checkpoint 전용 실제 등록
 
+README 갱신용 단발 관측: **2026-10-09 03:06:48 KST** (`2026-10-08T18:06:48Z`).
+61657/61658/61659 RUNNING, 61660/61661/61662/61663/61664 PENDING.
+이는 scheduler 상태이며 native qualification/과학/online 완료 증명이 아니다.
+정확 config SHA256:
+
+- FT: `1008ab8f3861f15708ca262d1902514abef5819f58633270bdbd777aca17a86d`
+- MEMIT: `0da941fe5903e1261ee28a0feb6ac930d8d049611c0e7b3fc9307f61a011ab9f`
+- MEMIT_FE: `18f01afc0051787b44dd67b73c5af17e97ce42ea55aa89967177e1f0bb10097d`
+
+공통 ordered CF stream SHA256:
+`66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37`.
+stream bundle SHA256 `02f335a7e2005d62881aacf09fc3535a6b1a0cd73e3ce9ed0af3ba4ec288a9b1`.
+
 사용자 직접 main 통합/즉시 제출 지시에 따라 main source
 `ecc80fc06d1e20d1550cda2fbb1436fbe1059c27`, official tree
 `c7ebf3eff6537aa969e71462543994eee4173d11`를 게시·봉인했다.

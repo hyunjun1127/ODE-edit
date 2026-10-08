@@ -45,13 +45,20 @@ Ours 행은 결과 기록용이며 새 arm/실험을 자동 승인하지 않습�
 
 ### Llama3-8B-Instruct
 
+Server1 CF 등록 상태(2026-10-09 03:06:48 KST): FT **61661**, MEMIT **61662**,
+MEMIT-FE **61663** 모두 PENDING이다. 선행 native qualification **61657–61659**는
+RUNNING, 공통 W0 **61660**과 GPU0 collector **61664**는 PENDING이다.
+선행 검증을 본 실험의 ING/완료로 표시하지 않는다. server1 cap4이며 W20 checkpoint를
+보존하고 FLU/CON은 후속 별도 평가로 연기한다. 실행 source `ecc80fc0` 및 정확한
+config/sample identity·dependency는 [제출 보고서](experiment-reports/servers/server1/official-baselines-20261008/CF-registration-20261009.md)에 기록했다.
+
 | Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| FT |  |  |  |  |  |  |  |  |  |
-| MEMIT |  |  |  |  |  |  |  |  |  |
+| FT | PENDING: official-s1-cf-ft | PENDING: official-s1-cf-ft | PENDING: official-s1-cf-ft | PENDING: official-s1-cf-ft | DEFERRED | DEFERRED |  |  |  |
+| MEMIT | PENDING: official-s1-cf-memit | PENDING: official-s1-cf-memit | PENDING: official-s1-cf-memit | PENDING: official-s1-cf-memit | DEFERRED | DEFERRED |  |  |  |
 | AlphaEdit |  |  |  |  |  |  |  |  |  |
 | AlphaEdit-BLUE |  |  |  |  |  |  |  |  |  |
-| MEMIT-FE |  |  |  |  |  |  |  |  |  |
+| MEMIT-FE | PENDING: official-s1-cf-memit_fe | PENDING: official-s1-cf-memit_fe | PENDING: official-s1-cf-memit_fe | PENDING: official-s1-cf-memit_fe | DEFERRED | DEFERRED |  |  |  |
 | AlphaEdit+SPHERE |  |  |  |  |  |  |  |  |  |
 | PRICE (Ours) |  |  |  |  |  |  |  |  |  |
 
