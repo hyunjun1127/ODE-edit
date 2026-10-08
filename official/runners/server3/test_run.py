@@ -71,6 +71,33 @@ class Server3RunTests(unittest.TestCase):
         self.assertFalse(any(k.endswith("/success_pct") for k in values))
         validate(values, scientific=True, official=True)
 
+    def test_zsre_transport_uses_bound_common_api_for_current_and_all_seen(self):
+        from official.tracking.schema import metrics
+        cfg = dict(server="server3", task_id="official-baselines-20261008",
+                   arm="qwen25-zsre-ft", attempt="cpu", source_sha="a" * 40,
+                   config_sha="b" * 64, model="qwen25", model_family="qwen2",
+                   writer="FT", baseline="FT", role="scientific", dataset="zsre",
+                   metric_schema="official-baselines-scalar-v1",
+                   instruction_id="USER-OFFICIAL-BASELINES-20261008-R1")
+        with tempfile.TemporaryDirectory() as folder:
+            tracker = SimpleNamespace(config_values=cfg, log=Mock(return_value=True),
+                                      run_id="cpu", spool=folder, dropped=0)
+            values = dict(edits=500, pre_state_edits=400, post_state_edits=500)
+            for endpoint, count in (("current/post", 100), ("all_seen/post", 500)):
+                for field, value in dict(Efficacy=50., Generalization=50.,
+                                         Specificity=50., Specificity_loc_ans=20.,
+                                         requests=count).items():
+                    values[f"official/{endpoint}/{field}"] = value
+            original = dict(values)
+            run._log_scalar_receipt(tracker, folder, "w05", values, "c" * 64)
+            payload = tracker.log.call_args.args[0]
+            metrics(payload, scientific=True, config_values=cfg)
+            self.assertEqual(payload["zsre/current/post/requests"], 100)
+            self.assertEqual(payload["zsre/all_seen/post/requests"], 500)
+            self.assertEqual(payload["zsre/all_seen/post/Score"], 50.)
+            self.assertEqual(payload["zsre/all_seen/post/Specificity_loc_ans"], 20.)
+            self.assertEqual(values, original)
+
     def test_official_tracking_config_binds_cf_and_omits_zsre_generation(self):
         from official.tracking.schema import config as check_config
         assets = {"generation_reference": {"identity_sha256": "c" * 64,
