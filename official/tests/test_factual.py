@@ -4,12 +4,15 @@ import json
 import random
 from types import SimpleNamespace
 import unittest
+from unittest.mock import patch
 
 import numpy as np
 import torch
 
 from official.evaluation.factual import (FactualError, build_zsre_w0_reference,
-                                         evaluate_counterfact, evaluate_zsre)
+                                         evaluate_counterfact, evaluate_zsre,
+                                         retained_query_work, validate_retained_observation)
+from official.evaluation import factual
 
 
 class CharacterTokenizer:
@@ -267,6 +270,203 @@ class FactualTests(unittest.TestCase):
         self.assertEqual(progress[-1]["completed_candidate_sequences"], 8)
         self.assertEqual(progress[-1]["target_tokens"], 24)
         self.assertTrue(value["model_no_mutation"] and value["RNG_restored"])
+
+
+def retained_fixture(dataset="cf", batch_size=4):
+    """UNIT TEST ONLY synthetic retained rows; no model/tokenizer observation."""
+    signatures, queries, cases = [], [], []
+    for index in range(2):
+        case = dict(case_id=100 + index, occurrence_index=index + 1)
+        case_queries = []
+        for slot, kind in enumerate(("rewrite", "paraphrase", "neighborhood")):
+            targets = ("new", "true") if dataset == "cf" else (
+                "loc_ans" if kind == "neighborhood" else "new",)
+            for target_kind in targets:
+                prefix = [1] + [10 + slot] * (1 + index + slot)
+                gold = [20, 21] if target_kind == "new" else [22]
+                query = dict(kind=kind, prompt_index=0, prompt="CPU_FIXTURE_PROMPT_" + kind,
+                    target_kind=target_kind, target="CPU_FIXTURE_TARGET_" + target_kind,
+                    input_token_ids=prefix + gold, target_start=len(prefix), target_token_ids=gold)
+                case_queries.append(query)
+                queries.append(dict(query, case_index=index, occurrence_index=index + 1))
+        signatures.append(dict(case, queries=case_queries))
+        cases.append(case)
+    results = []
+    for query in queries:
+        gold = query["target_token_ids"]
+        desired = "true" if query["kind"] == "neighborhood" else "new"
+        nll = 1.0 if query["target_kind"] in (desired, "loc_ans") else 2.0
+        predicted = list(gold)
+        if query["case_index"] == 1 and query["kind"] == "rewrite":
+            predicted[-1] = 99
+        correct = [a == b for a, b in zip(predicted, gold)]
+        results.append(dict(query, predicted_token_ids=predicted, token_correct=correct,
+            token_count=len(gold), token_correct_count=sum(correct), strict_correct=all(correct),
+            nll_by_token=[nll] * len(gold), mean_nll=nll))
+    summary, accuracy = (factual._assemble_cf(cases, results) if dataset == "cf" else
+                         factual._assemble_zsre(cases, results, None, signatures))
+    identity = dict(schema=factual.SCHEMA, dataset=dataset, tokenization=factual.TOKENIZATION,
+        cohort_sha256=factual._digest(signatures), ordered_occurrences=[1, 2],
+        external_identity={"unit_test_evidence": "TEST_ONLY_NO_REAL_MODEL_CALLS"},
+        padding="RIGHT_EXPLICIT_ATTENTION_MASK", use_cache=False, W0_reference_sha256=None)
+    chunks = [queries[i:i + batch_size] for i in range(0, len(queries), batch_size)]
+    work = dict(forward_calls=len(chunks), candidate_sequences=len(queries),
+        physical_input_tokens=sum(len(query["input_token_ids"]) for query in queries),
+        target_tokens=sum(len(query["target_token_ids"]) for query in queries),
+        padded_input_tokens=sum(len(chunk) * max(len(q["input_token_ids"]) for q in chunk) for chunk in chunks),
+        seconds=0.001)
+    return dict(summary=summary, accuracy=accuracy, cases=cases, identity=identity,
+        identity_sha256=factual._digest(identity), work=work, raw_local_only=True,
+        model_no_mutation=True, RNG_restored=True), signatures, queries
+
+
+class RetainedObservationTests(unittest.TestCase):
+    """Adversarial CPU raw checks, expressly not actual GPU/parity evidence."""
+    def audit(self, endpoint, signatures, dataset="cf", **kwargs):
+        with patch.object(factual, "_infer", side_effect=AssertionError("MODEL_FORWARD_FORBIDDEN")), \
+             patch.object(factual, "_ids", side_effect=AssertionError("TOKENIZER_CALL_FORBIDDEN")):
+            return validate_retained_observation(endpoint, dataset,
+                input_signature=signatures, batch_size=4, **kwargs)
+
+    def test_synthetic_CF_and_zsRE_completed_raw_reduces_with_no_model_or_tokenizer_call(self):
+        for dataset in ("cf", "zsre"):
+            value, signatures, queries = retained_fixture(dataset)
+            before = copy.deepcopy(value)
+            with self.subTest(dataset=dataset):
+                result = self.audit(value, signatures, dataset, query_plan=queries)
+                self.assertEqual(result["candidate_sequences"], len(queries))
+                self.assertEqual(result["requests"], 2)
+                self.assertTrue(result["observed_work_validated"])
+                self.assertEqual(result["actual_model_forward_calls"], 0)
+                self.assertFalse(result["GPU_parity_claim"])
+                self.assertEqual(value, before)
+
+    def test_removed_all_canonical_observations_is_not_probability_only_proof(self):
+        value, signatures, _ = retained_fixture()
+        for case in value["cases"]:
+            for kind in ("rewrite", "paraphrase", "neighborhood"):
+                case.pop(kind + "_observations")
+        value["payload_sha256"] = factual._digest(value)
+        with self.assertRaisesRegex(FactualError, "CANONICAL_OBSERVATIONS_REQUIRED"):
+            self.audit(value, signatures)
+
+    def test_missing_zero_or_same_wrong_resigned_work_counters_are_rejected(self):
+        original, signatures, _ = retained_fixture()
+        for kind in ("missing", "all0", "all123456", "padded", "forward"):
+            value = copy.deepcopy(original)
+            if kind == "missing":
+                value.pop("work")
+            elif kind in ("all0", "all123456"):
+                for key in value["work"]:
+                    value["work"][key] = 0 if kind == "all0" else 123456
+            elif kind == "padded":
+                value["work"]["padded_input_tokens"] += 1
+            else:
+                value["work"]["forward_calls"] += 1
+            value["payload_sha256"] = factual._digest(value)
+            with self.subTest(kind=kind), self.assertRaisesRegex(FactualError, "QUERY_DERIVED_WORK_REQUIRED"):
+                self.audit(value, signatures)
+
+    def test_positive_finite_elapsed_and_typed_actual_work_required(self):
+        original, signatures, _ = retained_fixture()
+        for elapsed in (0, -1, float("nan"), float("inf"), True, "0.001"):
+            value = copy.deepcopy(original)
+            value["work"]["seconds"] = elapsed
+            with self.subTest(elapsed=elapsed), self.assertRaisesRegex(FactualError, "WORK_ELAPSED_FINITE"):
+                self.audit(value, signatures)
+        value = copy.deepcopy(original)
+        value["work"]["forward_calls"] = True
+        with self.assertRaisesRegex(FactualError, "QUERY_DERIVED_WORK_REQUIRED"):
+            self.audit(value, signatures)
+
+    def test_nll_mean_probabilities_margins_strict_and_desired_N_are_bound_to_raw(self):
+        original, signatures, _ = retained_fixture()
+        for field in ("token_nll", "mean", "probability", "margin", "strict", "desired"):
+            value = copy.deepcopy(original)
+            observation = value["cases"][0]["neighborhood_observations"][0]
+            if field == "token_nll":
+                observation["target_true"]["nll_by_token"][0] = 3.0
+            elif field == "mean":
+                observation["target_true"]["mean_nll"] = 3.0
+            elif field == "probability":
+                value["cases"][0]["neighborhood_prompts_probs"][0]["target_true"] = 3.0
+            elif field == "margin":
+                observation["margin_true_minus_new"] += 1
+            elif field == "strict":
+                value["cases"][0]["neighborhood_prompts_correct"][0] = False
+            else:
+                observation["desired_target"] = "new"
+            value["payload_sha256"] = factual._digest(value)
+            with self.subTest(field=field), self.assertRaises(FactualError):
+                self.audit(value, signatures)
+
+    def test_token_bool_corruption_and_wrong_flat_plan_are_not_equal_integer_evidence(self):
+        original, signatures, queries = retained_fixture()
+        value = copy.deepcopy(original)
+        value["cases"][0]["rewrite_observations"][0]["target_new"]["input_token_ids"][0] = True
+        with self.assertRaisesRegex(FactualError, "RAW_QUERY_TOKEN_IDENTITY"):
+            self.audit(value, signatures)
+        changed = copy.deepcopy(queries)
+        changed[0]["target_start"] += 1
+        with self.assertRaisesRegex(FactualError, "FLAT_QUERY_PLAN_MISMATCH"):
+            self.audit(original, signatures, query_plan=changed)
+        value = copy.deepcopy(original)
+        value["cases"][0]["rewrite_observations"][0]["target_new"]["token_correct"][0] = 1
+        with self.assertRaisesRegex(FactualError, "CORRECTNESS_NUMERATOR_DENOMINATOR"):
+            self.audit(value, signatures)
+
+    def test_signature_order_and_causal_prefix_cannot_be_resigned_to_replace_locked_plan(self):
+        value, signatures, _ = retained_fixture()
+        changed = copy.deepcopy(value)
+        changed["cases"].reverse()
+        with self.assertRaisesRegex(FactualError, "ORDERED_CASES"):
+            self.audit(changed, signatures)
+        changed_signature = copy.deepcopy(signatures)
+        changed_signature[0]["queries"][0]["target_start"] = 0
+        with self.assertRaisesRegex(FactualError, "CAUSAL_TOKEN_PREFIX"):
+            self.audit(value, changed_signature)
+        changed_signature = copy.deepcopy(signatures)
+        changed_signature[1]["occurrence_index"] = 1
+        with self.assertRaisesRegex(FactualError, "CASE_ORDER_OR_SCHEMA"):
+            self.audit(value, changed_signature)
+
+    def test_native_per_case_padding_work_differs_from_canonical_contiguous_layout(self):
+        value, signatures, queries = retained_fixture()
+        native = retained_query_work(signatures, "cf", per_case=True)
+        groups = [[q for q in queries if q["case_index"] == index] for index in range(2)]
+        self.assertEqual(native["forward_calls"], 2)
+        self.assertEqual(native["padded_input_tokens"], sum(len(group) * max(
+            len(q["input_token_ids"]) for q in group) for group in groups))
+        self.assertEqual(native["physical_input_tokens"], value["work"]["physical_input_tokens"])
+        self.assertEqual(native["target_tokens"], value["work"]["target_tokens"])
+        self.assertNotEqual(native["forward_calls"], value["work"]["forward_calls"])
+
+    def test_zsRE_cold_reference_pred_agreement_distinct_from_loc_answer_and_tamper_rejected(self):
+        value, signatures, _ = retained_fixture("zsre")
+        reference_cases = []
+        for case, signature in zip(value["cases"], signatures):
+            observations = case["neighborhood_observations"]
+            predictions = [row["predicted_token_ids"] for row in observations]
+            case["neighborhood_W0_agreement"] = [True for group in predictions for _ in group]
+            reference_cases.append(dict(case_id=case["case_id"], occurrence_index=case["occurrence_index"],
+                queries=[q for q in signature["queries"] if q["kind"] == "neighborhood"],
+                predictions=predictions))
+        value["summary"] = factual.zsre(value["cases"])
+        identity = dict(schema=factual.W0_SCHEMA, tokenization=factual.TOKENIZATION,
+            external_identity=value["identity"]["external_identity"], ordered_occurrences=[1, 2],
+            cohort_sha256=factual._digest(signatures), state="W0_COLD_BASE_MODEL")
+        reference = dict(schema=factual.W0_SCHEMA, identity=identity,
+            identity_sha256=factual._digest(identity), cases=reference_cases,
+            evaluation=copy.deepcopy(value), raw_local_only=True)
+        reference["payload_sha256"] = factual._digest(reference)
+        result = self.audit(value, signatures, "zsre", w0_reference=reference)
+        self.assertFalse(result["GPU_parity_claim"])
+        changed = copy.deepcopy(value)
+        changed["cases"][0]["neighborhood_W0_agreement"][0] = False
+        changed["identity"]["W0_reference_sha256"] = reference["identity_sha256"]
+        changed["identity_sha256"] = factual._digest(changed["identity"])
+        with self.assertRaisesRegex(FactualError, "PROBABILITY_STRICT_OR_AGREEMENT"):
+            self.audit(changed, signatures, "zsre", w0_reference=reference)
 
 
 if __name__ == "__main__":
