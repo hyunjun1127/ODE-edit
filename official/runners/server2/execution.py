@@ -38,7 +38,9 @@ def memory_disk_plan():
 
 
 def prepare(asset_manifest, out, source, official_tree, tracking_binding, local_caps,
-            qualification_producer_attempt=None, checkpoint_only=False):
+            qualification_producer_attempt=None, checkpoint_only=False, zsre_only=False):
+    if zsre_only and (checkpoint_only or qualification_producer_attempt is not None):
+        raise ValueError('ZSRE_SEPARATE_PROFILE_REQUIRED')
     source_binding = sealed_source(source, official_tree)
     assets.verify(asset_manifest)
     base = read(asset_manifest)
@@ -90,8 +92,18 @@ def prepare(asset_manifest, out, source, official_tree, tracking_binding, local_
             value['checkpoint_plan']['per_method_payload_bytes'].values())
         value['checkpoint_plan']['generation_evaluation_consumer_pending'] = True
         value['checkpoint_plan']['final_checkpoint_archive_delete_allowed'] = False
+    if zsre_only:
+        from official.runners.server2.zsre_profile import profile
+        value['zsre_launch_profile'] = profile()
+        value['smoke_method'] = 'MEMIT'
+        value['checkpoint_plan']['four_lane_atomic_extra_bytes'] = 4*max(value['checkpoint_plan']['per_method_payload_bytes'].values())
+        value['zsre_smoke_plan'] = dict(method='MEMIT', batches=1, requests=100,
+            actual_GPU='NOT_OBSERVED', W0_reference='SAME_SOURCE_NEW_TOKEN_PREDICTIONS',
+            runtime_verifier='official.runners.server2.collect.validate_smoke',
+            native_formula_parity=True, subsequent_chains='FRESH_COLD_W0', automatic_retry=False)
     tracking_schema.load_env(tracking['env_file'])
-    for dataset in (('cf',) if checkpoint_only else ('cf','zsre')):
+    datasets = ('zsre',) if zsre_only else ('cf',) if checkpoint_only else ('cf','zsre')
+    for dataset in datasets:
         for method in METHODS:
             tracking_schema.config(tracking_config(value,configuration(method,dataset),
                                                    'chain',Path(method+'-'+dataset)))
@@ -99,7 +111,7 @@ def prepare(asset_manifest, out, source, official_tree, tracking_binding, local_
         credential_values_read=False, online_remote_identity='NOT_OBSERVED',
         source_route='SHARED_OFFICIAL_TRACKING_READONLY', duplicate_logger=False)
     value['checkpoint_identities'] = {dataset:{method:checkpoint_identity(value,method,dataset)
-        for method in METHODS} for dataset in (('cf',) if checkpoint_only else ('cf','zsre'))}
+        for method in METHODS} for dataset in datasets}
     if qualification_producer_attempt is not None:
         from official.runners.server2 import qualification_input
         value['qualification_input_plan'] = qualification_input.plan(qualification_producer_attempt, value)
@@ -122,10 +134,11 @@ def main():
     parser.add_argument('--local-caps', required=True)
     parser.add_argument('--qualification-producer-attempt')
     parser.add_argument('--checkpoint-only', action='store_true')
+    parser.add_argument('--zsre-only', action='store_true')
     args=parser.parse_args()
     prepare(args.asset_manifest,args.out,args.source,args.official_tree,args.tracking_binding,args.local_caps,
             qualification_producer_attempt=args.qualification_producer_attempt,
-            checkpoint_only=args.checkpoint_only)
+            checkpoint_only=args.checkpoint_only, zsre_only=args.zsre_only)
 
 
 if __name__=='__main__':
