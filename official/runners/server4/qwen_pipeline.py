@@ -1,4 +1,4 @@
-"""One serial official main cell with original native qualification and no retries."""
+"""One cold official main cell, GPU qualification USER_DISABLED, no retries."""
 import argparse
 import json
 import os
@@ -9,7 +9,7 @@ from datetime import datetime,timezone
 
 from official.experiments.prepare import file_sha,write_new
 from official.runners.server4.qwen_plan import rows
-from official.runners.server4.qwen_submission_plan import require_execution_enabled
+from official.runners.server4.qwen_submission_plan import require_execution_enabled, QUALIFICATION_STATUS, AUTHORITY
 
 
 def now():return datetime.now(timezone.utc).isoformat()
@@ -40,23 +40,16 @@ def run(root,logical):
     job=os.environ['SLURM_JOB_ID']; out=root/'runs'/logical
     if out.exists():raise RuntimeError('NO_DUPLICATE_COLD_CHAIN')
     (root/'logs').mkdir(exist_ok=True)
+    write_new(root/'validation'/f'{logical}.json',dict(
+        authority=AUTHORITY, qualification=QUALIFICATION_STATUS,
+        GPU_smoke=QUALIFICATION_STATUS, GPU_resume_equivalence=QUALIFICATION_STATUS,
+        native_oracle_reevaluation=QUALIFICATION_STATUS,
+        runtime_identity_finite_shape_commit_guards='PRESERVED'))
     # Every GPU cell runs after the previous archival gate, not merely GPU exit.
     w0=root/'shared-w0'/f'qwen25-{dataset}'
     if not (w0/'w0-receipt.json').exists():
         if method!='FT':raise RuntimeError('SHARED_W0_PREDECESSOR_MISSING')
         child(root,'w0',w0,dataset=dataset,label=f'{dataset}-w0')
-    qualification=root/'qualification'/method
-    if dataset=='cf':
-        child(root,'qualify',qualification,dataset='cf',config=config,label=f'qual-{method}')
-        receipt=read(qualification/'resume-parity.json')
-        if receipt['status']!='PASS':raise RuntimeError('ACTUAL_PARITY_REQUIRED')
-        # Qualification checkpoints are not final W20 archive candidates.
-        # Keep them; their peak/retention budget remains a pre-submission gate.
-    elif not (qualification/'resume-parity.json').is_file():
-        raise RuntimeError('CF_METHOD_QUALIFICATION_REQUIRED')
-    if dataset=='zsre' and method=='FT':
-        child(root,'execute',root/'zsre-smoke',dataset=dataset,config=config,
-              extra=('--stop-after-batch','1'),label='zsre-ft-smoke')
     child(root,'execute',out,dataset=dataset,config=config,label=logical)
     pointer=read(out/'checkpoint/latest.json')
     commits=[read(out/'commits'/f'b{b:02d}.json') for b in range(1,21)]
@@ -67,6 +60,7 @@ def run(root,logical):
         status='W20_COMPLETE',completed_edits=2000,checkpoint=pointer,
         commits=[dict(path=str(out/'commits'/f'b{b:02d}.json'),sha256=file_sha(out/'commits'/f'b{b:02d}.json')) for b in range(1,21)],
         config_sha256=row['config']['config_sha256'],dataset=dataset,
+        qualification=QUALIFICATION_STATUS,
         archive_pending=True,scientific_job_source_immutable=True))
 
 

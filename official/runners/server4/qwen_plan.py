@@ -76,12 +76,13 @@ def prepare(output):
                 atomic_peak_bytes=atomic, raw_headroom_bytes=16*1024**3,
                 lower_bound_required_bytes=reserve, free_bytes=free,
                 shortfall_bytes=max(0,reserve-free),
-                excludes_from_lower_bound=['qualification checkpoints','concurrent tuning growth'],
+                excludes_from_lower_bound=['concurrent tuning growth'],
                 intended_resource_frontier='afterany:61674', serial_main_chain=True,
                 project_GPU_cap=2, per_job_GPU=1, job_ids=[],
                 status='RESOURCE_BLOCKED_STORAGE' if free<reserve else 'CPU_PLAN_ONLY',
                 existing_job_mutations=0, deletion_authorized=False,
-                remaining=['server4 runtime/asset preflight','native/resume gates',
+                qualification='NOT_RUN_USER_DISABLED',
+                remaining=['server4 runtime/asset preflight',
                            'main source freeze','held submit/inspect/release'])
     write_new(output/'plan.json',plan)
     print(json.dumps(plan,indent=2))

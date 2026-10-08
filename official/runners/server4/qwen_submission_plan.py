@@ -1,7 +1,9 @@
 """Preparation-only DAG. No scheduler or network calls are made here."""
 from official.runners.server4.qwen_plan import rows
 
-USER_SUBMISSION_HOLD = True
+USER_SUBMISSION_HOLD = False
+QUALIFICATION_STATUS = 'NOT_RUN_USER_DISABLED'
+AUTHORITY = 'USER-GH-SH4-QWEN-OFFICIAL-NO-GPU-QUAL-20261009-R1'
 
 
 def require_execution_enabled():
@@ -21,13 +23,13 @@ def plan():
         nodes.append(dict(symbol=predecessor, kind='CPU_ARCHIVE_GATE', GPUs=0,
                           dependency_symbol=name, job_id=None,
                           blocks_next_until='VERIFIED_DESTINATION_AND_SAFE_SOURCE_DISPOSITION'))
-    return dict(status='PREPARATION_ONLY_USER_HOLD', submission_enabled=False,
+    return dict(status='AUTHORIZED_STORAGE_INTEGRATION_PENDING', submission_enabled=True,
+                authority=AUTHORITY, qualification=QUALIFICATION_STATUS,
                 project_GPU_cap=2, baseline_max_concurrent_GPUs=1,
                 existing_tuning_keep=True, job_ids=[], main_rows=12, nodes=nodes,
                 historical_frontier_hint='61674 (not a fresh scheduler assertion)',
                 failure_policy='No automatic retry; no later run after failed storage gate',
                 remaining_gates=['reviewed exact source/config freeze',
-                                 'native/resume qualification at authorized execution',
                                  'archive caller proof integration and CPU tests',
-                                 'qualification checkpoint retention/storage peak budget',
-                                 'fresh scheduler/storage admission after USER releases hold'])
+                                 'serial checkpoint storage peak budget',
+                                 'fresh scheduler/storage admission'])

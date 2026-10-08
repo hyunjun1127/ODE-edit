@@ -779,6 +779,10 @@ def w0(args):
 
 
 def execute(args):
+    if getattr(args, 'qualify_b3_metrics', False) or getattr(args, 'state_hash_at_batch3', False):
+        raise RuntimeError('NOT_RUN_USER_DISABLED: separate GPU qualification observations')
+    if getattr(args, 'stop_after_batch', None) not in (None, 20):
+        raise RuntimeError('NOT_RUN_USER_DISABLED: separate GPU smoke/partial qualification')
     import torch
     from official.baselines import registry
     from official.experiments import checkpoint
@@ -924,6 +928,10 @@ def execute(args):
 
 
 def qualify(args):
+    raise RuntimeError('NOT_RUN_USER_DISABLED: Qwen official GPU qualification')
+
+
+def _historical_qualify_not_dispatched(args):
     """Actual target-model B3 continuity versus B2 checkpoint reload test.
 
     Each child starts a new Python/model process.  The stopped B2 path is
