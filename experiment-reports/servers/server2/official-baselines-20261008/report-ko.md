@@ -3,7 +3,7 @@
 Instruction: `USER-OFFICIAL-BASELINES-20261008-R1`.
 Owner: server2 / SH2 `01a0493a-074c-7f91-9a13-769116326fef`.
 
-현재 상태는 **공통 factual/tracking 및 runner main 게시, 실제 qualification 등록 제어 수리 중**이다.
+현재 상태는 **실제 qualification GPU6+CPU collector 등록·held 검사·release 완료**다.
 이 보고는 CPU 준비를 GPU qualification 또는 2K 실험 완료로 표시하지 않는다.
 기존 server2 실행/source/raw는 변경·취소하지 않았다. OURS는 이번 격자에 없다.
 
@@ -69,7 +69,8 @@ GPT-J Tensor/tuple/readout27→ln_f→untied biased head, suffix/token/FP32 NLL 
 새 forward/fit/write0이며 측정 전 plan/tolerance/source를 봉인한다. 이것은 **owner formula
 control**이지 독립 원본 evaluator oracle PASS가 아니다. 원본 parity와 resume를 혼동하지 않는다.
 `CF_original_evaluator_parity`는 별도 요구 상태이며 GH에 exact source/reference 범위를 요청했다.
-CF main gate는 이 증거를 resume PASS로 대체하지 않는다.
+게시본 수신으로 source 입력 gap은 해제했다. CF native/resume 실제 증거로 본등록을 허용하되,
+새 W0에서 실제 original 비교가 성공한 뒤만 READY/후속이 열리도록 분리했다.
 
 CF factual은 strict NLL/tie failure와 request macro E/G/S 및 raw/display rounding을 구분한다.
 zsRE는 teacher-forced token request macro, W0 prediction agreement, loc_ans accuracy를 분리한다.
@@ -99,10 +100,28 @@ CF 생성은 새 비교의 **모델당 W0 1회 + 각 W20 chain 2K 1회**다. 중
 AllocTRES 없음·RunTime0이며 release 전에 dependency 검사에서 멈췄다.
 Slurm은 요청 `afterany:61538:61539`를 같은 AND 의미인
 `afterany:61538(unfulfilled),afterany:61539(unfulfilled)`로 저장했다.
-제어부 정규화·동일 attempt 명시 continuation을 수리한다. 이미 등록된 FT를 재제출하지 않고
-원 archive/source/failure receipt를 보존한다. 나머지 실제 IDs/release는 후속 증거로 분리한다.
+제어부 정규화·동일 attempt 명시 continuation을 source
+`fed0550c0b790431c04ec8a26865ba689c2a8236`으로 수리했다. 이미 등록된 FT를 재제출하지 않고
+원 archive/source/failure receipt를 보존했다. 실행 source `18e7fbd`는 변경하지 않았다.
 초기 execution lock SHA: `84c6f1397a42de671261f8a2b52ce5acd8efa57d01102d673c6d46cb6786929e`.
-등록 상태는 `registration-partial-r1.json`에 기록했다. 아직 실제 GPU/online PASS는 없다.
+최초 부분 등록은 `registration-partial-r1.json`에 그대로 보존했다. 후속 단회 continuation에서
+전체 held owner/source/full argv/input/resources/dependency 검산 후 아래 경로를 release했다.
+
+| 경로 | 실제 job ID | afterany dependency |
+| --- | --- | --- |
+| FT | 61619 | 61538, 61539 |
+| MEMIT | 61624 | 61538, 61539 |
+| AlphaEdit | 61625 | 61619 |
+| AlphaEdit-BLUE | 61626 | 61624 |
+| FE | 61627 | 61625 |
+| SPHERE | 61628 | 61626 |
+| CPU collector | 61629 | 위 GPU6개 |
+
+단1회 release 직후 snapshot은 전부 **PENDING**, reason은 당시 `None`이었다. 이를 별도로 관측하지
+않은 `Resources` 이유 또는 RUNNING으로 바꾸지 않는다. 두 lane cap2, 기존61534..40/61428 및
+다른 작업은 유지했다. 이 등록은 native/resume 기술 qualification이며 **CF/zsRE12개 2K 본실행
+등록·완료가 아니다**. 실제 GPU qualification/resume/W&B startup은 아직 NOT_OBSERVED다.
+source/lock/receipt와 GH app-server 직접 handoff는 `registration-handoff-r1.json`에 결속했다.
 공유 tracking b10a87df / official tree85f2cb7b와 factual source596896ff/publication55afa07d/
 official treee79c3939를 exact 대조해 병합했다. factual.py SHA256은
 `2bc41883b9261d084a3b4b99e0920911789659401a6d9b2b0f0d801a446ab47b`다.
@@ -119,12 +138,37 @@ CPU config/scalar PASS는 auth/원격 readback PASS가 아니다. 실제 init은
 source/API 및 원본 evaluator parity 범위 요청은 repo app-server direct로 SH1/GH에게 전달했다.
 추가 USER 승인 요청은 아니다. actual held 등록은 published main/tree/현재cap/자원/input/argv를
 결속하고 수행한다. 원본 parity 입력 미결속 상태는 CF 본실행에서 정확히 차단한다.
-현재 상태를 scheduler PENDING·online verified·GPU PASS로 표시하지 않는다.
+등록 전 준비 상태와 실제 등록 후 PENDING·online verified·GPU PASS를 구분한다.
 qualification은 독립 원본 evaluator 없이도 native/resume 검산만 수행할 수 있다. 등록 단계의
 계획과 실제 측정 receipt는 구분한다. 원본 evaluator 추가로 official tree가 바뀌면 기존
-qualification을 새 source의 PASS로 재표기할 수 없다. CF 본실행에는 실제 원본 proof의
-source/member/SHA 결속이 필요하며 현재 PASS 문자열이나 owner 식 검산으로 대체하지 않는다.
+qualification을 새 source의 PASS로 재표기할 수 없다. CF W0 READY와 후속 본실행에는 실제 원본
+proof의 source/member/SHA 결속이 필요하며 현재 PASS 문자열이나 owner 식 검산으로 대체하지 않는다.
 오류 기록에서 checkpoint metadata가 손상돼도 최초 scientific 예외를 유지하도록 좁게 보완했다.
+
+## 독립 원본 scorer 신규 source 입력
+
+`GH-SH2-OFFICIAL-NATIVE-ORACLE-READY-20261009-R1`을 직접 수락했다. main
+`34001ec0950f00b61e89be753494f40b9da6f70f`의 API/lock/envelope 전체와 SHA를 검산했다.
+원 public AlphaEdit `test_batch_prediction` AST가 독립 model forward를 수행하는 공통
+`official.evaluation.cf_native_reference`를 읽기 전용 재사용한다. owner logits/formula/resume를
+원본 PASS로 대체하지 않는다. 새 source에 first4 사전고정 cohort/state/model/tokenizer/runtime와
+NLL abs1e-4/rel1e-5, 집계1e-10pp, strict bits exact 조건을 결속한다.
+원 qualification archive와 실행 bytes는 그대로 유지하며, 새로운 oracle 입력과 과거 실제 resume
+증거의 producer provenance/consumer binding을 분리한다. 새 source 입력 수신·CPU 연결은 actual
+GPU oracle PASS가 아니다. 실제 증거 전 CF/zsRE 본실행 gate를 성공으로 표시하지 않는다.
+
+미래 source의 Server2 CPU137/137 PASS, oracle 독립공유 CPU17/17 PASS 및 source157 SHA/
+external-task imports0을 확인했다. 실제 pretrained/GPU·원격 W&B 증거는 아니다.
+새 `preparation-r3/assets.json` SHA는
+`a91d01c42613606bc2784179cb098b6cde5cc3e9103d12d8321315f43760283c`, assets identity는
+`7dbdd126d3155d0fd874f7adef01a8a706155796d8aeaebd2459e5a25548ebbc`다.
+source provenance가 달라 전체 assets ID가 바뀌는 것을 숨기지 않는다. 모델/입력/C0/P/tokenizer/
+runtime/reference의 physical 내용은 이전 manifest와 정확히 일치하며 생성/다운로드/모델 forward0이다.
+179개 native computational source와15개 핵심 runner 함수 AST 및12 cell config가 동일한 조건을
+사전 봉인한다. 과거 actual resume aggregate/원 per-case/cost/source/CP identity는 그대로 보존해
+검산하며 consumer binding을 별도로 기록한다. display-only rounding 예외는 정확한 두 source SHA로
+제한한다. 이 compatibility로 old CP를 새 source로 재개하지 않으며 새 chain은 cold W0부터 시작한다.
+실제 qualification collector aggregate가 아직 없으므로 미래 본등록은 INPUT_PENDING이다.
 
 ## 보존·인계
 

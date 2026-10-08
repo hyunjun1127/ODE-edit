@@ -21,7 +21,7 @@ import torch
 from official.experiments import checkpoint
 from official.evaluation import reduce as factual_reduce
 from official.experiments.prepare import build_matrix, digest, file_sha, load_plan, read, write_new
-from official.runners.server2 import assets, generation, parity
+from official.runners.server2 import assets, generation, oracle, parity
 from official.runners.server2.telemetry import NativeTelemetry
 from official.runners.server2.native import METHODS, NativeEngine
 
@@ -129,6 +129,14 @@ def verify_manifest(manifest):
     import transformers
     require(torch.__version__ == runtime['torch'] and transformers.__version__ == runtime['transformers'],
             'OFFICIAL_SCIENTIFIC_RUNTIME_CHANGED')
+    if manifest.get('registration_stage') == 'cf':
+        from official.runners.server2.submit import gate
+        bound = manifest.get('qualification_receipt')
+        require(isinstance(bound, dict) and member(bound['path']) ==
+            {key:bound[key] for key in ('path', 'bytes', 'sha256')},
+            'CF_NATIVE_RESUME_PRODUCER_INPUT_CHANGED')
+        require(gate(bound['path'], manifest=manifest, kind='qualification') == bound,
+                'CF_NATIVE_RESUME_CONSUMER_BINDING_CHANGED')
     return True
 
 
@@ -412,7 +420,72 @@ def qualification(model, tok, engine, manifest, records, out, tracking):
     return value
 
 
+def cf_native_oracle(model, tok, manifest, records, out):
+    """One locked first4 engineering observation; never hotpatch old jobs.
+
+    The preregistered plan is part of the future execution manifest, not an
+    actual receipt invented during held inspection. Physical state is captured
+    before the fresh canonical observation. Raw/state/reference remain local.
+    """
+    frozen = manifest.get('cf_native_reference_plan')
+    require(frozen is not None and frozen == oracle.plan(manifest, records[:4]),
+            'PREMEASUREMENT_CF_NATIVE_ORACLE_PLAN_REQUIRED')
+    folder = out/'native-oracle'
+    write_new(folder/'plan.json', frozen)
+    before = oracle.capture_state(model, tok)
+    # The literal public scorer calls model(ids, mask), without a use_cache
+    # kwarg. Supply its declared native precondition for this call only, and
+    # restore before full W0/generation. No model-name/tokenizer spoofing.
+    previous_cache = model.config.use_cache
+    original_error = None
+    try:
+        model.config.use_cache = False
+        state = oracle.capture_state(model, tok)
+        write_new(folder/'state-before-canonical.json', state)
+        canonical, canonical_member = factual(model, tok, manifest, records[:4], 'cf', out,
+            'native-reference-canonical-first4')
+        proof = oracle.compare(model, tok, manifest, records[:4], canonical,
+            frozen_plan=frozen, canonical_member=canonical_member, state_identity=state)
+    except BaseException as error:
+        original_error = error
+        raise
+    finally:
+        model.config.use_cache = previous_cache
+        restored = oracle.capture_state(model, tok) == before
+        if not restored and original_error is not None:
+            original_error.add_note('ORACLE_CALL_LOCAL_CONFIG_STATE_NOT_RESTORED; FIRST_ERROR_PRESERVED')
+        else:
+            require(restored, 'ORACLE_CALL_LOCAL_CONFIG_STATE_NOT_RESTORED')
+    # Retain the complete typed comparison before a mismatch blocks READY.
+    write_new(folder/'comparison.json', proof)
+    checked = oracle.verify(frozen, proof, canonical_member)
+    require(checked['status'] == 'PASS_ACTUAL_GPU_SMOKE' and checked['actual_GPU'] is True,
+            'ACTUAL_INDEPENDENT_ORIGINAL_CF_SMOKE_NOT_PASSED')
+    return dict(plan_sha256=frozen['plan_sha256'], proof=member(folder/'comparison.json'),
+        canonical=canonical_member, state=member(folder/'state-before-canonical.json'),
+        scope=checked['evidence_scope'], full_2k_parity='NOT_APPLICABLE_GPTJ; NOT_OBSERVED')
+
+
+def verify_cf_native_oracle(manifest, binding):
+    """Stored local proof verification only, no model/GPU/extra observation."""
+    require(isinstance(binding, dict), 'W0_ACTUAL_ORIGINAL_ORACLE_BINDING_REQUIRED')
+    frozen = manifest.get('cf_native_reference_plan')
+    require(frozen is not None and binding.get('plan_sha256') == frozen['plan_sha256'],
+            'W0_ORIGINAL_ORACLE_FROZEN_PLAN_BINDING')
+    for key in ('proof', 'canonical', 'state'):
+        require(member(binding[key]['path']) == binding[key], 'W0_ORACLE_MEMBER_CHANGED:'+key)
+    proof = read(binding['proof']['path'])
+    checked = oracle.verify(frozen, proof, binding['canonical'])
+    require(checked['status'] == 'PASS_ACTUAL_GPU_SMOKE' and checked['actual_GPU'] is True
+        and binding.get('scope') == checked['evidence_scope']
+        and proof['binding']['physical_state_sha256'] == digest(read(binding['state']['path']))
+        and binding.get('full_2k_parity') == 'NOT_APPLICABLE_GPTJ; NOT_OBSERVED',
+        'W0_ORIGINAL_CF_ACTUAL_SOURCE_STATE_SCOPE_PROOF')
+    return checked
+
+
 def cold_w0(model, tok, manifest, records, dataset, out, tracking):
+    native_reference = None
     if dataset == 'zsre':
         reference = w0_reference(model, tok, records, manifest, out)
         observed = reference['evaluation']
@@ -421,6 +494,7 @@ def cold_w0(model, tok, manifest, records, dataset, out, tracking):
         factual_member = member(path)
         generation_member = None
     else:
+        native_reference = cf_native_oracle(model, tok, manifest, records, out)
         observed, factual_member = factual(model, tok, manifest, records, dataset, out, 'W0')
         result = generation.observe(model, tok, manifest, records, out/'generation', 'W0',
             dict(completed_batch=0), lambda:signature(model), lambda values:log(tracking, values))
@@ -433,7 +507,8 @@ def cold_w0(model, tok, manifest, records, dataset, out, tracking):
         stream_sha256=manifest['streams'][dataset]['lock']['stream_sha256'],
         factual=factual_member, generation=generation_member,
         generation_READY=member(out/'generation/READY.json') if dataset == 'cf' else None,
-        w0_reference=member(out/'W0-reference.json') if dataset == 'zsre' else None)
+        w0_reference=member(out/'W0-reference.json') if dataset == 'zsre' else None,
+        original_native_reference=native_reference)
     write_new(out/'READY.json', ready)
     return ready
 
@@ -450,6 +525,7 @@ def read_w0(manifest, dataset, records):
         'OFFICIAL_W0_READY_IDENTITY')
     require(member(ready['factual']['path']) == ready['factual'], 'OFFICIAL_W0_FACTUAL_RAW_CHANGED')
     if dataset == 'cf':
+        verify_cf_native_oracle(manifest, ready.get('original_native_reference'))
         generation.reuse_w0(ready['generation_READY']['path'], manifest, records)
         reference = None
     else:

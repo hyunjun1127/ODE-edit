@@ -378,6 +378,14 @@ def validate_cold_w0(value, manifest, assets, datasets, *, role=None, inventory=
     observed = read(verify_member(value['factual'], inventory))
     summary = validate_factual(observed, dataset, datasets[dataset], manifest=manifest, endpoint='W0')
     if dataset == 'cf':
+        from official.runners.server2.run import verify_cf_native_oracle
+        binding = value.get('original_native_reference')
+        summary['original_native_reference'] = verify_cf_native_oracle(manifest, binding)
+        for key in ('proof', 'canonical', 'state'):
+            verify_member(binding[key], inventory)
+        canonical = read(binding['canonical']['path'])
+        validate_factual(canonical, 'cf', datasets['cf'][:4], manifest=manifest,
+            endpoint='native-reference-canonical-first4')
         ready = read(verify_member(value['generation_READY'], inventory))
         summary['generation'] = validate_generation_ready(ready, assets, datasets['cf'],
             endpoint='W0', inventory=inventory)
@@ -519,6 +527,13 @@ def collect(attempt, *, account=None):
         return dict(read(terminal), duplicate_collection_prevented=True)
     manifest, submission = read(attempt/'manifest.json'), read(attempt/'submission.json')
     stage = manifest['registration_stage']
+    if stage == 'cf':
+        from official.runners.server2.submit import gate
+        bound = manifest.get('qualification_receipt')
+        require(isinstance(bound, dict), 'COLLECT_CF_NATIVE_RESUME_INPUT_REQUIRED')
+        verify_member(bound)
+        require(gate(bound['path'], manifest=manifest, kind='qualification') == bound,
+                'COLLECT_CF_NATIVE_RESUME_INPUT_BINDING_CHANGED')
     require(submission.get('status') == 'SUBMISSION_HANDOFF' and submission.get('stage') == stage
         and submission.get('source', {}).get('code_commit') == manifest['code_commit']
         and submission.get('source', {}).get('official_tree_sha256') == manifest['official_tree_sha256']

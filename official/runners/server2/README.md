@@ -33,3 +33,32 @@ EasyEdit 알고리즘 코드 import·모델 load·GPU·다운로드·C0/P 생성
 
 Manifest의 `ASSETS_BOUND_CPU_ONLY`는 자산 준비 상태다. 실제 native smoke, BLUE output/layout,
 연속 B3와 B2→B3 resume 및 평가 parity는 별도 GPU 증거가 필요하다.
+
+## 신규 CF 독립 원본 reference 결속
+
+`oracle.plan(manifest, records[:4])`은 shared `cf_native_reference`/원 source/lock과
+ordered first4, 고정 tolerance를 actual 관측 전에 봉인한다. 새 `execution.prepare`가
+manifest에 이 계획을 넣는다. 새 CF W0는 call-local `use_cache=False` 및 실제 물리 state를
+canonical first4 관측 전에 기록하고, 수정 없는 원 `test_batch_prediction`의 **독립 forward**와
+비교한다. 실패/CPU fixture/미관측은 raw를 보존하고 READY를 차단한다. GPU smoke PASS만
+새 complete W0 READY에 proof/canonical/state member SHA로 결속한다. 일반 full2k parity와는
+다른 engineering scope이며 추가 fit/edit/generation은 없다.
+
+이 연결은 미래 immutable source만 적용한다. 기존18e7fbd qualification source/archive는
+변경하지 않는다. 과거 native/resume producer proof와 새 independent scorer proof를 각각
+검산하고 consumer compatibility를 별도로 기록한다. old raw/source/identity를 새 source로
+relabel하거나 actual receipt 없는 plan을 GPU PASS로 사용하지 않는다.
+
+`execution.prepare(..., qualification_producer_attempt=<exact old attempt>)` 또는 CLI
+`--qualification-producer-attempt`는 `qualification_input.plan`의 native source/input
+compatibility를 봉인한다. 입력은 기존18e7fbd registration-qualification-r1으로 한정한다.
+179개 계산 source 및15개 핵심 함수 AST/모델·token·stream·C0/P·runtime·reference·12config를
+대조하고 old/new 전체 source와 assets manifest IDs를 별도로 남긴다. 원 display rounding은
+과거 원뜻으로 검산한다. 이 native compatibility는 old checkpoint를 새 source로 재개할
+권한이 아니다. 본 chain은 새 cold W0/checkpoint identity에서 시작한다.
+
+`submit --stage cf`는 실제 여섯 native/resume proof와 완료된 CPU collector/atomic terminal이
+있어야 등록한다. 새 W0 oracle actual PASS를 그 W0를 제출하기 전에 요구하는 순환 gate는 없다.
+대신 사전 봉인한 oracle PLAN이 필요하고, W0 actual PASS 이후만 READY/후속이 열리며 reader와
+collector가 member SHA를 재검산한다. 원 qualification receipt가 없으면 INPUT_PENDING이며
+CPU fixture·label·단순 Slurm terminal로 성공을 만들지 않는다. 새 monitor/retry는 없다.

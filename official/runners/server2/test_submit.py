@@ -540,17 +540,23 @@ class OfficialSubmitTests(unittest.TestCase):
         receipt = dict(status='PASS_ACTUAL_QUALIFICATION', actual_GPU=True, methods=methods,
             code_commit=value['code_commit'], official_tree_sha256=value['official_tree_sha256'],
             manifest_sha256=value['base_manifest_sha256'],
-            CF_original_evaluator_parity='PASS_ACTUAL_ORIGINAL_NATIVE_REFERENCE')
+            CF_original_evaluator_parity='NOT_ESTABLISHED_BY_OWNER_FORMULA_CONTROL')
         with tempfile.TemporaryDirectory() as directory, \
-                patch('official.runners.server2.run.checkpoint_identity', return_value=checkpoint_identity):
+                patch('official.runners.server2.run.checkpoint_identity', return_value=checkpoint_identity), \
+                patch('official.runners.server2.oracle.plan', return_value={'CPU_PLAN_FIXTURE':True}):
+            value['cf_native_reference_plan'] = {'CPU_PLAN_FIXTURE':True}
+            cohort = Path(directory)/'stream.json'
+            cohort.write_text(json.dumps([{'occurrence_index':i} for i in range(1,5)]))
+            value['streams'] = {'cf':{'path':str(cohort)}}
             path = Path(directory)/'qualification.json'
             path.write_text(json.dumps(receipt))
             self.assertEqual(controller.gate(path, manifest=value, kind='qualification')['path'], str(path))
-            receipt['CF_original_evaluator_parity']='NOT_ESTABLISHED_BY_OWNER_FORMULA_CONTROL'
-            path.write_text(json.dumps(receipt))
-            with self.assertRaisesRegex(ValueError,'CF_ORIGINAL_NATIVE_REFERENCE_PARITY'):
+            # Actual original smoke is produced by NEW W0 and gates READY;
+            # its preregistered source/cohort plan is not actual GPU PASS.
+            value.pop('cf_native_reference_plan')
+            with self.assertRaisesRegex(ValueError,'FUTURE_W0_ORIGINAL_ORACLE_PLAN'):
                 controller.gate(path,manifest=value,kind='qualification')
-            receipt['CF_original_evaluator_parity']='PASS_ACTUAL_ORIGINAL_NATIVE_REFERENCE'
+            value['cf_native_reference_plan'] = {'CPU_PLAN_FIXTURE':True}
             receipt['actual_GPU'] = False
             path.write_text(json.dumps(receipt))
             with self.assertRaisesRegex(ValueError, 'ACTUAL_STAGE_RECEIPT'):
@@ -565,6 +571,28 @@ class OfficialSubmitTests(unittest.TestCase):
             path.write_text(json.dumps(receipt))
             with self.assertRaisesRegex(ValueError, 'ACTUAL_RESUME_PROOF'):
                 controller.gate(path, manifest=value, kind='qualification')
+
+    def test_old_producer_compatibility_requires_actual_input_not_pending_or_cpu_label(self):
+        value = manifest()
+        with tempfile.TemporaryDirectory() as directory, \
+             patch('official.runners.server2.oracle.plan', return_value={'CPU_PLAN_FIXTURE':True}), \
+             patch('official.runners.server2.qualification_input.verify') as check:
+            path = Path(directory)/'producer.json'
+            path.write_text(json.dumps({'fixture':'CPU_METADATA_ONLY_NOT_ACTUAL_GPU'}))
+            cohort = Path(directory)/'stream.json'
+            cohort.write_text(json.dumps([{'occurrence_index':i} for i in range(1,5)]))
+            value.update(cf_native_reference_plan={'CPU_PLAN_FIXTURE':True},
+                streams={'cf':{'path':str(cohort)}}, qualification_input_plan={'CPU_COMPAT_PLAN':True})
+            for result in ({'status':'INPUT_PENDING_NOT_ACTUAL_QUALIFIED', 'actual_GPU':False},
+                           {'status':'VERIFIED_PRODUCER_QUALIFICATION_INPUT', 'actual_GPU':False}):
+                check.return_value = result
+                with self.assertRaisesRegex(ValueError,'ACTUAL_PRODUCER_QUALIFICATION_INPUT_NOT_READY'):
+                    controller.gate(path,manifest=value,kind='qualification')
+            check.return_value = {'status':'VERIFIED_PRODUCER_QUALIFICATION_INPUT',
+                                 'actual_GPU':True, 'fixture':'MOCK_ONLY_NO_ACTUAL_PROOF'}
+            bound = controller.gate(path,manifest=value,kind='qualification')
+            self.assertEqual(bound['native_resume_consumer_binding'], check.return_value)
+            check.assert_called_with(value['qualification_input_plan'],value,path)
 
     def test_project_match_uses_registered_repository_roots_not_generic_worktrees(self):
         roots = ('/mnt/raid5/janghj/ODE-edit/', '/mnt/raid5/janghj/.codex/worktrees/this-ode-wt/')
