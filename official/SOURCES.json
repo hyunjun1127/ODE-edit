@@ -370,10 +370,12 @@
       "upstream_path": "memit/compute_z.py",
       "path": "baselines/sphere/memit/compute_z.py",
       "upstream_sha256": "cc6884dd66b58de0647b3ad47d2d5daa4db99b7157b464dbd2c62db52e47421a",
-      "sha256": "ca7b3de306396f31a9c870efca135489ee6da9bbf11baa31d4409fe4e5560c42",
+      "sha256": "8c0796bc1a1a45d8b9aee7079b5355419c8b6f6659f744344d8ad41285dda376",
       "changes": [
-        "package_namespace_only"
-      ]
+        "package_namespace_only",
+        "Tensor/tuple/list hidden container extraction/replace; native target-fit/loss unchanged"
+      ],
+      "review_nonce": "SH1-GH-OFFICIAL-COMPAT-REVIEW-20261008-R1"
     },
     {
       "component": "sphere",
@@ -512,10 +514,12 @@
       "upstream_path": "util/generate.py",
       "path": "baselines/sphere/util/generate.py",
       "upstream_sha256": "3764cb8a0a1b3f28c17d8aab3028b33d2127ba4e02e8dbc253025791a9ab2514",
-      "sha256": "ddc195162e9f257a49ff37ebd7a5377f1ef31d6470b2e3a88d3a220aea14ecf5",
+      "sha256": "48451031b091753598f74272d38ad6b0f79363d1e8e8efa7c061e4ac189f3d68",
       "changes": [
-        "package_namespace_only"
-      ]
+        "package_namespace_only",
+        "cumulative cached-prefix attention mask; own native contexts/sampling unchanged"
+      ],
+      "review_nonce": "SH1-GH-OFFICIAL-COMPAT-REVIEW-20261008-R1"
     },
     {
       "component": "sphere",
@@ -622,10 +626,12 @@
       "upstream_path": "AlphaEdit/compute_z.py",
       "path": "baselines/blue/AlphaEdit/compute_z.py",
       "upstream_sha256": "a941a492d9e9e45f2aa7b88ab0137ae20910b423d7e59186b20c85bb285ff79f",
-      "sha256": "9ce6cddb251b4d27cde1f89c4570f25d556fbdba0ecfd55bb8b115e65d7cef8f",
+      "sha256": "27bf91146e838254150c92f398d67e330ad230f57d4b96b4910eb0ef29cd0521",
       "changes": [
-        "package_namespace_only"
-      ]
+        "package_namespace_only",
+        "Tensor/tuple/list hidden container extraction/replace; native target-fit/loss unchanged"
+      ],
+      "review_nonce": "SH1-GH-OFFICIAL-COMPAT-REVIEW-20261008-R1"
     },
     {
       "component": "blue",
@@ -736,10 +742,12 @@
       "upstream_path": "util/generate.py",
       "path": "baselines/blue/util/generate.py",
       "upstream_sha256": "51f41871d750a1fe86f39d4142fe8a5c12a41086c6d4a2cee98b72f809ff0366",
-      "sha256": "ce53fdbd927e43d736cdb4bbd165ef853e975c865f84fa44be7e0f54841f120a",
+      "sha256": "af0698ea4dde7dbaa6e0711cb2e244ca8083a8a8bfd4cdb204eecafd4156a6fa",
       "changes": [
-        "package_namespace_only"
-      ]
+        "package_namespace_only",
+        "cumulative cached-prefix attention mask; own native contexts/sampling/decode unchanged"
+      ],
+      "review_nonce": "SH1-GH-OFFICIAL-COMPAT-REVIEW-20261008-R1"
     },
     {
       "component": "blue",
@@ -1414,8 +1422,11 @@
       "upstream_path": "project/run_scripts/experiment_generation_eval/native_generator.py",
       "path": "evaluation/generation/native_generator.py",
       "upstream_sha256": "ef3d3daf20c174cfa3627a3852e2d593eb506718ac8ddde62a909a26c87bd2c3",
-      "sha256": "ef3d3daf20c174cfa3627a3852e2d593eb506718ac8ddde62a909a26c87bd2c3",
-      "changes": []
+      "sha256": "601bfb8b3d5514d0d2b13a11d025b02fd53f0f1fe39325daa94ed7307c3ec520",
+      "changes": [
+        "llama/qwen2 native family admission; call-local full-context cache/position guards; CAKE profile unchanged"
+      ],
+      "review_nonce": "SH1-GH-OFFICIAL-COMPAT-REVIEW-20261008-R1"
     },
     {
       "component": "generation",
@@ -1528,6 +1539,191 @@
       "changes": [
         "package_namespace_only"
       ]
+    },
+    {
+      "component": "distribution_documentation",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "16d999ae1de3dac846a562199127a0db791293d9",
+      "upstream_path": "official/README.md",
+      "path": "README.md",
+      "upstream_sha256": "92ec6723d4e7268276109cfd4ac20435b34c4a654607faaac5b662cbcff94d4a",
+      "sha256": "e302631cdf303ca63b7511fe8781adc316d598e72614ee931094f40bc1c236ce",
+      "changes": [
+        "GH reviewed official compatibility/API documentation; original provenance retained"
+      ],
+      "review_nonce": "SH1-GH-OFFICIAL-COMPAT-REVIEW-20261008-R1"
+    },
+    {
+      "component": "generation_distribution_lock",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "16d999ae1de3dac846a562199127a0db791293d9",
+      "upstream_path": "official/hparams/generation.lock.json",
+      "path": "hparams/generation.lock.json",
+      "upstream_sha256": "333748ec6a76f1ac0ba216cdee09e663e3219f5ece6d996807bd26a0ba86a681",
+      "sha256": "426eba6d74bb7f514c3248f1569e9bbb307d382a74035549f66b316016ed3882",
+      "changes": [
+        "GH reviewed official compatibility/API documentation; original provenance retained"
+      ],
+      "review_nonce": "SH1-GH-OFFICIAL-COMPAT-REVIEW-20261008-R1"
+    },
+    {
+      "component": "tracking",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "762d62fdf502779501fb862da391e2c353f0910a",
+      "upstream_path": "project/run_scripts/experiment_tracking/__init__.py",
+      "path": "tracking/__init__.py",
+      "upstream_sha256": "f7481e9203c048e2ff2935aed0cd4ebc8d040355bb7b17f15ddd01bc620da89b",
+      "sha256": "9579cfaa99409de241105154c60542fbcb0c61ddff89bbc2a124e6e13f86dbc5",
+      "changes": [
+        "export shared official generation-progress phase adapter"
+      ],
+      "review_nonce": "SH1-GH-OFFICIAL-COMPAT-REVIEW-20261008-R1"
+    },
+    {
+      "component": "tracking",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "762d62fdf502779501fb862da391e2c353f0910a",
+      "upstream_path": "project/run_scripts/experiment_tracking/schema.py",
+      "path": "tracking/schema.py",
+      "upstream_sha256": "b63cd41816f4022ff85c83130f16fff4380e7e039d0c37f6618c7d008b7aa659",
+      "sha256": "7147d38cc840e0f3592f271afdada5fd6dadfb202da4715eafacfd96eae42f63",
+      "changes": [
+        "official instruction/dataset/schema and native W0+W20 authority pair",
+        "zsRE rejects CF generation",
+        "official request-macro namespace and actual native denominators",
+        "shared native W20 progress phase-only callback adapter"
+      ],
+      "review_nonce": "SH1-GH-OFFICIAL-COMPAT-REVIEW-20261008-R1"
+    },
+    {
+      "component": "tracking",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "762d62fdf502779501fb862da391e2c353f0910a",
+      "upstream_path": "project/run_scripts/experiment_tracking/method.py",
+      "path": "tracking/method.py",
+      "upstream_sha256": "4606fec3bb3403dc942f8308c4e53b3a576ea7c279286fde63d486450fbec173",
+      "sha256": "c1ac5111314a58937560b8f9d63a3d06edeaf93753f5c1e46a4475157cc669b8",
+      "changes": [
+        "official request-macro score/requests validation and edits axes",
+        "official W0 accepts actual native prompt/token counts without changing legacy PRICE counts"
+      ],
+      "review_nonce": "SH1-GH-OFFICIAL-COMPAT-REVIEW-20261008-R1"
+    },
+    {
+      "component": "tracking",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "762d62fdf502779501fb862da391e2c353f0910a",
+      "upstream_path": "project/run_scripts/experiment_tracking/identity.py",
+      "path": "tracking/identity.py",
+      "upstream_sha256": "ba2e33b6036a91919f85378846f7f37825cd5574814277e5ba826818ce188b5b",
+      "sha256": "ba2e33b6036a91919f85378846f7f37825cd5574814277e5ba826818ce188b5b",
+      "changes": [],
+      "review_nonce": "SH1-GH-OFFICIAL-COMPAT-REVIEW-20261008-R1"
+    },
+    {
+      "component": "tracking",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "762d62fdf502779501fb862da391e2c353f0910a",
+      "upstream_path": "project/run_scripts/experiment_tracking/client.py",
+      "path": "tracking/client.py",
+      "upstream_sha256": "876ec874c31ca2a2f663cabd64313c6cd7620df25af227baefd205f37084e681",
+      "sha256": "e1222d2891b0c14dc0d2b0ba4ac1fd9c7e820f09c49512bfd35ee8cb22a71d3d",
+      "changes": [
+        "isolated worker module official.tracking.worker and repo PYTHONPATH",
+        "config-aware metric validation"
+      ],
+      "review_nonce": "SH1-GH-OFFICIAL-COMPAT-REVIEW-20261008-R1"
+    },
+    {
+      "component": "tracking",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "762d62fdf502779501fb862da391e2c353f0910a",
+      "upstream_path": "project/run_scripts/experiment_tracking/worker.py",
+      "path": "tracking/worker.py",
+      "upstream_sha256": "459dd54a01d60a2512c40e3350395ea64dab67bfc184b52578ca0e1a042baf32",
+      "sha256": "6b3b690b3a6c483f18616f33b0bc6a6f9bc0846ae0f8e2c3ff955fb39c39be11",
+      "changes": [
+        "config-aware metric validation"
+      ],
+      "review_nonce": "SH1-GH-OFFICIAL-COMPAT-REVIEW-20261008-R1"
+    },
+    {
+      "component": "tracking",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "762d62fdf502779501fb862da391e2c353f0910a",
+      "upstream_path": "project/run_scripts/experiment_tracking/readback.py",
+      "path": "tracking/readback.py",
+      "upstream_sha256": "abccdae84bdbe58690d18c35509e96ffa31e02fead69ca0a6eebe4910f951a0f",
+      "sha256": "ab6af507efe0a931d9ec7e6b430e083952abd8a4705bf6beb58bd2006e225c32",
+      "changes": [
+        "bounded progress readback recognizes W20_generation phase"
+      ],
+      "review_nonce": "SH1-GH-OFFICIAL-COMPAT-REVIEW-20261008-R1"
+    },
+    {
+      "component": "compatibility_CPU_tests",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": null,
+      "upstream_path": null,
+      "path": "evaluation/generation/test_native_families.py",
+      "upstream_sha256": null,
+      "sha256": "599f6d67a22e19608a01eb8dfcb8c7956b68ff8a89ab099ee1932442588888d8",
+      "changes": [
+        "new GH-reviewed distribution artifact; final commit recorded by publication, no fictitious upstream"
+      ],
+      "review_nonce": "SH1-GH-OFFICIAL-COMPAT-REVIEW-20261008-R1"
+    },
+    {
+      "component": "compatibility_CPU_tests",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": null,
+      "upstream_path": null,
+      "path": "tests/test_sphere_compat.py",
+      "upstream_sha256": null,
+      "sha256": "495f9d8dfbc75414744911f208f2ed191bfb497102f34109c2196e9320b2cea8",
+      "changes": [
+        "new GH-reviewed distribution artifact; final commit recorded by publication, no fictitious upstream"
+      ],
+      "review_nonce": "SH1-GH-OFFICIAL-COMPAT-REVIEW-20261008-R1"
+    },
+    {
+      "component": "tracking_distribution",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": null,
+      "upstream_path": null,
+      "path": "tracking/test_transport.py",
+      "upstream_sha256": null,
+      "sha256": "3675dcba83ca4d692a57b44a1e9274bc4e021ea12f9a4cecef6678206ef73167",
+      "changes": [
+        "new GH-reviewed distribution artifact; final commit recorded by publication, no fictitious upstream"
+      ],
+      "review_nonce": "SH1-GH-OFFICIAL-COMPAT-REVIEW-20261008-R1"
+    },
+    {
+      "component": "tracking_distribution",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": null,
+      "upstream_path": null,
+      "path": "tracking/README.md",
+      "upstream_sha256": null,
+      "sha256": "a55b4462f041bf6435f54d3a9285fa9d7eca9ab0d2f08b2d3f2771a9f0fa673f",
+      "changes": [
+        "new GH-reviewed distribution artifact; final commit recorded by publication, no fictitious upstream"
+      ],
+      "review_nonce": "SH1-GH-OFFICIAL-COMPAT-REVIEW-20261008-R1"
+    },
+    {
+      "component": "tracking_distribution",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": null,
+      "upstream_path": null,
+      "path": "tracking/UPSTREAM.json",
+      "upstream_sha256": null,
+      "sha256": "22d7592d3d95e9aaadfe44ac11147b46c5e468eecf5a16781b0bb2f4adf404f7",
+      "changes": [
+        "new GH-reviewed distribution artifact; final commit recorded by publication, no fictitious upstream"
+      ],
+      "review_nonce": "SH1-GH-OFFICIAL-COMPAT-REVIEW-20261008-R1"
     }
   ]
 }
