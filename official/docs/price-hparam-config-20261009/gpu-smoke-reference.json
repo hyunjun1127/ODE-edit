@@ -1,0 +1,89 @@
+{
+  "status": "GPU_SMOKE_PLAN_ONLY_NOT_SUBMITTED",
+  "job_reference": 61598,
+  "source_commit": "9ecdf8342c52ee7e6a85a6ed741fc4f5468bc1ef",
+  "reference_files": {
+    "execution.lock.json": {
+      "path": "/data/janghj/ODE-edit/local/qwen-ours-m1-2k-20261008/preparation-v1/execution.lock.json",
+      "sha256": "83afecec61e9d51b6cdecee6d2ac7b34bdb12eab96dfbee176eefc0aa96c6d58"
+    },
+    "QWEN_M1_CAP075/initial.json": {
+      "path": "/data/janghj/ODE-edit/local/qwen-ours-m1-2k-20261008/preparation-v1/QWEN_M1_CAP075/initial.json",
+      "sha256": "4fff5a412bdf93c72b6dc2f3b53ead5229cc80c2131365610675c39a171818e6"
+    },
+    "QWEN_M1_CAP075/batch-01/commit.json": {
+      "path": "/data/janghj/ODE-edit/local/qwen-ours-m1-2k-20261008/preparation-v1/QWEN_M1_CAP075/batch-01/commit.json",
+      "sha256": "bd79fb4b69aea77ef7369f534eb395fe702009dc396ec74fa3c731a2f4dfa9bf"
+    },
+    "QWEN_M1_CAP075/batch-01/writer/B1-reproduction.json": {
+      "path": "/data/janghj/ODE-edit/local/qwen-ours-m1-2k-20261008/preparation-v1/QWEN_M1_CAP075/batch-01/writer/B1-reproduction.json",
+      "sha256": "0a76f38f6aa67a163c3415dadf52758072b47ce4a2db648d3a143ed465a6f598"
+    }
+  },
+  "expected_before": {
+    "H": {
+      "4": "c81b58d1c1e79864bc5608c481d50f87547607108aa42e2993be519d184c45f4",
+      "5": "c81b58d1c1e79864bc5608c481d50f87547607108aa42e2993be519d184c45f4",
+      "6": "c81b58d1c1e79864bc5608c481d50f87547607108aa42e2993be519d184c45f4",
+      "7": "c81b58d1c1e79864bc5608c481d50f87547607108aa42e2993be519d184c45f4",
+      "8": "c81b58d1c1e79864bc5608c481d50f87547607108aa42e2993be519d184c45f4"
+    },
+    "W": {
+      "4": "02840e29ec550994801da6ba615897263c3d9277cc18607a61e0d8006d6ecdac",
+      "5": "6653bcfe27ce3b1cd9909facc513607d8e5e22f8fd9adfc39a47984f15e4d03c",
+      "6": "63692e2f4d40f25d13785908af8cb35c294b2a731aa22ab345ba8cea2792fbb1",
+      "7": "2dced8459e4fc6e5ee93f32df07259af0d0e107f6aff70e516f176c8b9010351",
+      "8": "5627dbf35411b2f47a474fc307eba12226823fe252d6a3fb34e37e41f88be813"
+    }
+  },
+  "expected_after": {
+    "H": {
+      "4": "36dcf5dd9ef47b140dd770706b0b208930bc9c2cfc056cfd6665d49b1bbd9dca",
+      "5": "dc133cbdb962ee8a36e276803f786596e3b66a5a3e13bb37f470d37b39930111",
+      "6": "7d620407c6a5f8c51615625f88684984652a64a2d7118c171fc8892e44a5b262",
+      "7": "fc6e4cc113a18085311ee8586987f1f925b1ee942bd9048b937556be98bf4c94",
+      "8": "d6adbdbddec4b87182e479df41fb843f8ce47206fd8f57b02dad612974970fba"
+    },
+    "W": {
+      "4": "a8a18af3f393de984aeeffbf427c3f161a6916c1eb3472c3de136bff2a17835a",
+      "5": "6f261cfb0ec4a49620b236ce6fc2b4b667c8bacec2f3fceed63cc8acdee2d07d",
+      "6": "74e66008cebe4370de9854f701f25982a42cdb97021c17ad6384d05de464d5a4",
+      "7": "49a6989bf9c3f96bc072bfb58ac74b7d392dd026fb52d213891e9261572aa019",
+      "8": "f3425c582bd848483dcb893b890abe817cf3c186232e496de9ce6e4f1c8c9ae1"
+    }
+  },
+  "initial_next_entry_matches_B1_after": true,
+  "native_pack_sha256": "84f29ce3e66bcb76f1a5077efe34921855108f88f564c1e259d127c2340db8af",
+  "context_sha256": "6688fe84115305610c00b328df931b0f0f4bc6c8eced70386ef975c58d85a9c3",
+  "RNG_before": "660ee344bfa528f2f9aed8993bb74bfab4ffca4a40893ee02400d2130923cc5c",
+  "old_config_sha256": "cdc04a22b297f221518fa977287b95e57fd081a8c37048dacf1821012e605d8d",
+  "old_profile_sha256": "2926e3723d26efad63dc1dfd9e5887cf78d713d3ede196450bbd166d5b230c7d",
+  "frozen_oracle_source_members_verified": {
+    "jlz_interference_l1.cap_controller": "6fb46e8120e1b93368d760b97cf266d5dadd32c2766e5e2ade0db3082270a33d",
+    "jlz_interference_l1.cap_optimizer": "70826aea7ab2b16794dc7205e7ead53bb7c092129661a98487529368e64b91fa",
+    "jlz_interference_l1.cap_projection": "ab16e5f91f006f103cedaee4879d44ef51be74770cc6e1683a3875f2455925c6",
+    "jlz_interference_l1.projection": "30e7a3c4e9711ab744bc0641af38887398c873613ea850e9b7af83c8860930f4",
+    "jlz_interference_l1.cap_profile": "8d3d40f77ac3bc51eff29fcac7a5b4f9e726cd28d35852965470a5381332e0a8",
+    "jlz_interference_l1.cap_common": "946f91ca0edddd43d7edd477eeb637c6170bd28ad1da3cc979eb2ecfbc693573",
+    "jlz_interference_l1.cap_price": "1c573982fbe02553de8a8caa402de9f08bbfcbe7684e70e2a5887ab450a5c9e3",
+    "jlz_v12r.optimizer": "3cbb75711a48f0ce9df1d10f2fcf4666a9a6dacde4e0066b7702bc5a8788369e",
+    "jlz_v12r.projection": "daa79e4edfdd01288d47b1deb1ce53117bfa9336bcc1e80c8e2ad5eeccd39d44",
+    "jlz_v12r.subject": "56834e9af320429722faab8159126e089f99e2efed4253e87bcf5c9b66aca870",
+    "jlz_realized_subject.subject": "ac2e72d60588b7d72c2e7a3cd9ce938479a5381bb506dbb3481a26568de9c81c",
+    "jlz_realized_subject.allocation": "bd7e4eaaab9e14edebc2ca90c117eff5d4949c997b8e4cbce29ce0c0c874382a",
+    "jlz_native_writer_aware.routes": "1a3b3e00f52179095f137f010979c13c11b1286f3aea09b46051619f55f7e304",
+    "jlz_pilot.prompts": "e2883bb96741395c28d87f6534a594734f94bda17ac09a45ba53fd9eab160718"
+  },
+  "historical_B1_reproduction": {
+    "record_only": true,
+    "reference": {
+      "bytes": 5036,
+      "inode": 136135412,
+      "mtime_ns": 1791310954080279767,
+      "path": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/logging-repair-20261007/QWEN_CAP075/batch-01/writer/commit.json",
+      "sha256": "5b541ba961f1d15685cc756fcc13f6039f3ae61b31d1943467573c56e7401547"
+    },
+    "same_H": true,
+    "same_W": true
+  }
+}

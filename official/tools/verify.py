@@ -24,8 +24,13 @@ def verify():
                 raise ValueError("EXTERNAL_REPOSITORY_CODE_IMPORT: " + str(path))
     from official.experiments.prepare import load_plan
     load_plan()
+    from official.ours.config import MODELS, ROOT as OURS_HPARAMS, resolve
+    defaults = {model: resolve(model)["config_sha256"] for model in MODELS}
+    for path in (OURS_HPARAMS / "arms").glob("*.json"):
+        resolve(json.loads(path.read_text())["base"], path.stem)
     return dict(source_files=len(lock["files"]), python_files=count,
                 source_integrity="PASS", external_task_imports=0,
+                ours_default_config_sha256=defaults,
                 GPU_qualification="NOT_RUN")
 
 
