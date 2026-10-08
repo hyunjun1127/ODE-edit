@@ -52,14 +52,20 @@ RUNNING, 공통 W0 **61660**과 GPU0 collector **61664**는 PENDING이다.
 보존하고 FLU/CON은 후속 별도 평가로 연기한다. 실행 source `ecc80fc0` 및 정확한
 config/sample identity·dependency는 [제출 보고서](experiment-reports/servers/server1/official-baselines-20261008/CF-registration-20261009.md)에 기록했다.
 
+Server1 추가 CF(2026-10-09 03:28 KST 등록 직후): AlphaEdit **61677**, AlphaEdit+SPHERE
+**61678** PENDING. 선행 qualification **61675/61676**은 기존 GPU 말단
+61661/61662/61663 afterany, 본실험은 두 qualification afterok, GPU0 collector는 **61679**다.
+전량 held 검산·release 완료, source `509b052c`; FLU/CON은 DEFERRED이고 checkpoint를 보존한다.
+실제 GPU/온라인 PASS는 아직 미관측이며 [추가 제출 보고서](experiment-reports/servers/server1/official-baselines-20261008/alpha-sphere-CF-registration-20261009.md)에 구분했다.
+
 | Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | FT | PENDING: 61661 | PENDING: 61661 | PENDING: 61661 | PENDING: 61661 | DEFERRED | DEFERRED |  |  |  |
 | MEMIT | PENDING: 61662 | PENDING: 61662 | PENDING: 61662 | PENDING: 61662 | DEFERRED | DEFERRED |  |  |  |
-| AlphaEdit |  |  |  |  |  |  |  |  |  |
+| AlphaEdit | PENDING: 61677 | PENDING: 61677 | PENDING: 61677 | PENDING: 61677 | DEFERRED | DEFERRED |  |  |  |
 | AlphaEdit-BLUE |  |  |  |  |  |  |  |  |  |
 | MEMIT-FE | PENDING: 61663 | PENDING: 61663 | PENDING: 61663 | PENDING: 61663 | DEFERRED | DEFERRED |  |  |  |
-| AlphaEdit+SPHERE |  |  |  |  |  |  |  |  |  |
+| AlphaEdit+SPHERE | PENDING: 61678 | PENDING: 61678 | PENDING: 61678 | PENDING: 61678 | DEFERRED | DEFERRED |  |  |  |
 | PRICE (Ours) |  |  |  |  |  |  |  |  |  |
 
 ### Qwen2.5-7B-Instruct
