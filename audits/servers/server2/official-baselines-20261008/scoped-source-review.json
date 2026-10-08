@@ -1,0 +1,25 @@
+{
+  "instruction_id": "USER-OFFICIAL-BASELINES-20261008-R1",
+  "server": "server2",
+  "review_kind": "FOCUSED_INDEPENDENT_SOURCE_REVIEW_NOT_GPU_CERTIFICATION",
+  "reviewer": "official_assets subagent",
+  "independent_review_scope": ["run.py", "native.py", "submit.py", "collect.py"],
+  "reviewer_authored_components_excluded_from_independence_claim": ["assets.py", "generation.py"],
+  "reported_findings_repaired": [
+    "resume old checkpoint folder with fresh attempt control/UUID/raw paths",
+    "preserve old immutable failure and terminal files",
+    "durable completed commit cursor supports metadata recovery after checkpoint fsync",
+    "B20 resume preserves original generation READY member",
+    "contexts_equal required by qualification submit and collector gates"
+  ],
+  "remaining_P1_P2_findings_at_review": [],
+  "actual_GPU_qualification": "NOT_RUN",
+  "actual_continuous_B3_and_B2_resume": "NOT_RUN",
+  "unresolved_readiness": [
+    "SH1 official factual source/API implemented but main publication pending",
+    "common official W&B transport/schema/schedule source not sealed",
+    "projector original construction receipt unavailable; historical exact SHA/stat and declared threshold recorded"
+  ],
+  "model_loads": 0,
+  "Slurm_writes": 0
+}
