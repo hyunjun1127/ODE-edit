@@ -1,5 +1,6 @@
 """No-grad current native writer BUILD and intentionally same-layer gradient."""
 import torch
+from official.ours.config import require_config
 from official.ours.core.jlz_native_writer_aware.physical import Adapter
 from official.ours.core.jlz_native_writer_aware.builder import build as native_build
 from official.ours.common import require,tensor_sha
@@ -8,6 +9,7 @@ from .subject import evaluate as subject_evaluate,pullback
 
 class CandidateObjective:
     def __init__(self,a,entry,events=None):
+        self.config=require_config(a.profile)
         self.a,self.entry,self.events=a,entry,events
         self.calls=dict(logical_builds=0,logical_subject_forwards=0,logical_subject_backwards=0,
                         physical_subject_forward_groups=0,physical_subject_backward_groups=0,

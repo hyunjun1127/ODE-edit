@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-ALL-SH-FINAL-CHECKPOINT-ARCHIVE-SERVER1-20261009-R1",
+  "recipient_nonce": "USER-GH-ALL-SH-FINAL-CHECKPOINT-ARCHIVE-SERVER1-20261009-R1-SERVER3",
+  "owner": "server3",
+  "authority_main": "12eff7e36e1128dba2daa9a463ea1cc09563de46",
+  "policy": {
+    "path": "control/final-checkpoint-archive-policy.json",
+    "sha256": "aa7cc7ee9bb0bf1a08a183d7807ac2699d8cc4a09b28e1b90fbf50f955a202d6",
+    "full_read": true
+  },
+  "approval": {
+    "path": "transfers/approvals/2026-10-09-final-checkpoint-to-server1.json",
+    "sha256": "ae903819bb875b964e31bbf58247c687409210de215129732caa866f7ab7b201"
+  },
+  "stage": "POLICY_ACCEPTED_NO_VERIFIED_FINAL_ELIGIBLE_CHECKPOINT",
+  "evidence_scope": "Bounded existing server3 reports, status and storage inventory; no scheduler monitoring, tensor load or new large-file SHA",
+  "checked": [
+    {
+      "task": "official-baselines-20261008",
+      "evidence": "audits/servers/server3/official-baselines-20261008/audit.json",
+      "registered_jobs": 0,
+      "final_checkpoint": "NOT_CREATED"
+    },
+    {
+      "task": "memit-hj-20260930-v2",
+      "evidence": [
+        "experiment-reports/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/report-ko.md",
+        "experiment-reports/servers/server3/memit-hj-20260930-v2/review-1k-20261002-v1/checkpoint-metadata.json",
+        "audits/servers/server3/price-storage-inventory-20261007/summary.json"
+      ],
+      "historical_temporary_checkpoint": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/temporary-checkpoints/000-01000-0000.pt",
+      "historical_bytes": 5313662767,
+      "endpoint": "MAIN000_PREFIX_1K_OF_PLANNED_10K",
+      "collector": "TECHNICAL_INCOMPLETE",
+      "classification": "REPRODUCTION_KEEP",
+      "current_content_rehashed": false,
+      "final_eligible": false
+    },
+    {
+      "task": "other server3 completed no-checkpoint chains",
+      "evidence": "Existing task status and noCP reports only",
+      "final_eligible": "NOT_ESTABLISHED"
+    }
+  ],
+  "actual": {
+    "final_manifest_sealed": 0,
+    "destination_admission_requested": 0,
+    "transferred_files": 0,
+    "verified_destination_files": 0,
+    "deleted_files": 0,
+    "deleted_bytes": 0,
+    "existing_checkpoints_preserved": true,
+    "existing_scientific_jobs_or_source_changed": false
+  },
+  "next_application": "At an actual final endpoint, verify final computation and all consumers complete; seal exact regular-file SHA/size/provenance manifest; request SH1 capacity and unique archive admission; transfer exact allowlist; require SH1 independent VERIFIED_DESTINATION and distinct-object receipt; recheck source/consumers; unlink only listed payload files individually. Existing frozen jobs are unchanged."
+}

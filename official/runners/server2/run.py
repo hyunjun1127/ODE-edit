@@ -21,12 +21,18 @@ import torch
 from official.experiments import checkpoint
 from official.evaluation import reduce as factual_reduce
 from official.experiments.prepare import build_matrix, digest, file_sha, load_plan, read, write_new
-from official.runners.server2 import assets, generation, parity
+from official.runners.server2 import assets, generation, oracle, parity
 from official.runners.server2.telemetry import NativeTelemetry
 from official.runners.server2.native import METHODS, NativeEngine
 
 INSTRUCTION = 'USER-OFFICIAL-BASELINES-20261008-R1'
 LOCAL = Path('/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1')
+
+
+def deferred(manifest):
+    """Caller schedule only, outside the unchanged native qualification closure."""
+    from official.runners.server2.checkpoint_profile import deferred as validate_schedule
+    return validate_schedule(manifest)
 
 
 def require(value, code):
@@ -129,6 +135,14 @@ def verify_manifest(manifest):
     import transformers
     require(torch.__version__ == runtime['torch'] and transformers.__version__ == runtime['transformers'],
             'OFFICIAL_SCIENTIFIC_RUNTIME_CHANGED')
+    if manifest.get('registration_stage') == 'cf':
+        from official.runners.server2.submit import gate
+        bound = manifest.get('qualification_receipt')
+        require(isinstance(bound, dict) and member(bound['path']) ==
+            {key:bound[key] for key in ('path', 'bytes', 'sha256')},
+            'CF_NATIVE_RESUME_PRODUCER_INPUT_CHANGED')
+        require(gate(bound['path'], manifest=manifest, kind='qualification') == bound,
+                'CF_NATIVE_RESUME_CONSUMER_BINDING_CHANGED')
     return True
 
 
@@ -145,7 +159,11 @@ def tracking_config(manifest, config, mode, out):
         role='scientific', metric_schema=binding['metric_schema'],
         baseline='none' if mode == 'w0' else config['method'],
         instruction_id=INSTRUCTION, dataset=config['dataset'])
-    if config['dataset'] == 'cf':
+    if config['dataset'] == 'cf' and deferred(manifest):
+        values.update(config_sha=digest(dict(native_config_sha256=config['config_sha256'],
+                      checkpoint_only_profile=manifest['checkpoint_only_profile'])),
+                      generation_schedule='DEFERRED_CHECKPOINT_EVALUATION')
+    elif config['dataset'] == 'cf':
         measured = generation.configuration(manifest)
         values.update(generation_metric_schema='counterfact-cake-generation-metrics-v1',
             generation_profile=measured['profile'], generation_eval_seed=measured['eval_seed'],
@@ -412,7 +430,72 @@ def qualification(model, tok, engine, manifest, records, out, tracking):
     return value
 
 
+def cf_native_oracle(model, tok, manifest, records, out):
+    """One locked first4 engineering observation; never hotpatch old jobs.
+
+    The preregistered plan is part of the future execution manifest, not an
+    actual receipt invented during held inspection. Physical state is captured
+    before the fresh canonical observation. Raw/state/reference remain local.
+    """
+    frozen = manifest.get('cf_native_reference_plan')
+    require(frozen is not None and frozen == oracle.plan(manifest, records[:4]),
+            'PREMEASUREMENT_CF_NATIVE_ORACLE_PLAN_REQUIRED')
+    folder = out/'native-oracle'
+    write_new(folder/'plan.json', frozen)
+    before = oracle.capture_state(model, tok)
+    # The literal public scorer calls model(ids, mask), without a use_cache
+    # kwarg. Supply its declared native precondition for this call only, and
+    # restore before full W0/generation. No model-name/tokenizer spoofing.
+    previous_cache = model.config.use_cache
+    original_error = None
+    try:
+        model.config.use_cache = False
+        state = oracle.capture_state(model, tok)
+        write_new(folder/'state-before-canonical.json', state)
+        canonical, canonical_member = factual(model, tok, manifest, records[:4], 'cf', out,
+            'native-reference-canonical-first4')
+        proof = oracle.compare(model, tok, manifest, records[:4], canonical,
+            frozen_plan=frozen, canonical_member=canonical_member, state_identity=state)
+    except BaseException as error:
+        original_error = error
+        raise
+    finally:
+        model.config.use_cache = previous_cache
+        restored = oracle.capture_state(model, tok) == before
+        if not restored and original_error is not None:
+            original_error.add_note('ORACLE_CALL_LOCAL_CONFIG_STATE_NOT_RESTORED; FIRST_ERROR_PRESERVED')
+        else:
+            require(restored, 'ORACLE_CALL_LOCAL_CONFIG_STATE_NOT_RESTORED')
+    # Retain the complete typed comparison before a mismatch blocks READY.
+    write_new(folder/'comparison.json', proof)
+    checked = oracle.verify(frozen, proof, canonical_member)
+    require(checked['status'] == 'PASS_ACTUAL_GPU_SMOKE' and checked['actual_GPU'] is True,
+            'ACTUAL_INDEPENDENT_ORIGINAL_CF_SMOKE_NOT_PASSED')
+    return dict(plan_sha256=frozen['plan_sha256'], proof=member(folder/'comparison.json'),
+        canonical=canonical_member, state=member(folder/'state-before-canonical.json'),
+        scope=checked['evidence_scope'], full_2k_parity='NOT_APPLICABLE_GPTJ; NOT_OBSERVED')
+
+
+def verify_cf_native_oracle(manifest, binding):
+    """Stored local proof verification only, no model/GPU/extra observation."""
+    require(isinstance(binding, dict), 'W0_ACTUAL_ORIGINAL_ORACLE_BINDING_REQUIRED')
+    frozen = manifest.get('cf_native_reference_plan')
+    require(frozen is not None and binding.get('plan_sha256') == frozen['plan_sha256'],
+            'W0_ORIGINAL_ORACLE_FROZEN_PLAN_BINDING')
+    for key in ('proof', 'canonical', 'state'):
+        require(member(binding[key]['path']) == binding[key], 'W0_ORACLE_MEMBER_CHANGED:'+key)
+    proof = read(binding['proof']['path'])
+    checked = oracle.verify(frozen, proof, binding['canonical'])
+    require(checked['status'] == 'PASS_ACTUAL_GPU_SMOKE' and checked['actual_GPU'] is True
+        and binding.get('scope') == checked['evidence_scope']
+        and proof['binding']['physical_state_sha256'] == digest(read(binding['state']['path']))
+        and binding.get('full_2k_parity') == 'NOT_APPLICABLE_GPTJ; NOT_OBSERVED',
+        'W0_ORIGINAL_CF_ACTUAL_SOURCE_STATE_SCOPE_PROOF')
+    return checked
+
+
 def cold_w0(model, tok, manifest, records, dataset, out, tracking):
+    native_reference = None
     if dataset == 'zsre':
         reference = w0_reference(model, tok, records, manifest, out)
         observed = reference['evaluation']
@@ -421,10 +504,13 @@ def cold_w0(model, tok, manifest, records, dataset, out, tracking):
         factual_member = member(path)
         generation_member = None
     else:
+        native_reference = cf_native_oracle(model, tok, manifest, records, out)
         observed, factual_member = factual(model, tok, manifest, records, dataset, out, 'W0')
-        result = generation.observe(model, tok, manifest, records, out/'generation', 'W0',
-            dict(completed_batch=0), lambda:signature(model), lambda values:log(tracking, values))
-        generation_member = member(result['rows_path'])
+        generation_member = None
+        if not deferred(manifest):
+            result = generation.observe(model, tok, manifest, records, out/'generation', 'W0',
+                dict(completed_batch=0), lambda:signature(model), lambda values:log(tracking, values))
+            generation_member = member(result['rows_path'])
     log(tracking, evaluate_payload(observed, 'W0', 0))
     ready = dict(status='READY_COLD_W0_COMPLETE', actual_GPU=True, model='gptj', dataset=dataset,
         code_commit=manifest['code_commit'], official_tree_sha256=manifest['official_tree_sha256'],
@@ -432,8 +518,10 @@ def cold_w0(model, tok, manifest, records, dataset, out, tracking):
         model_revision=manifest['model_revision'], tokenizer_sha256=manifest['tokenizer_sha256'],
         stream_sha256=manifest['streams'][dataset]['lock']['stream_sha256'],
         factual=factual_member, generation=generation_member,
-        generation_READY=member(out/'generation/READY.json') if dataset == 'cf' else None,
-        w0_reference=member(out/'W0-reference.json') if dataset == 'zsre' else None)
+        generation_READY=member(out/'generation/READY.json') if dataset == 'cf' and not deferred(manifest) else None,
+        generation_status='DEFERRED_NOT_MEASURED' if deferred(manifest) else 'SCHEDULED',
+        w0_reference=member(out/'W0-reference.json') if dataset == 'zsre' else None,
+        original_native_reference=native_reference)
     write_new(out/'READY.json', ready)
     return ready
 
@@ -450,7 +538,13 @@ def read_w0(manifest, dataset, records):
         'OFFICIAL_W0_READY_IDENTITY')
     require(member(ready['factual']['path']) == ready['factual'], 'OFFICIAL_W0_FACTUAL_RAW_CHANGED')
     if dataset == 'cf':
-        generation.reuse_w0(ready['generation_READY']['path'], manifest, records)
+        verify_cf_native_oracle(manifest, ready.get('original_native_reference'))
+        if deferred(manifest):
+            require(ready.get('generation_status') == 'DEFERRED_NOT_MEASURED'
+                and ready.get('generation') is None and ready.get('generation_READY') is None,
+                'DEFERRED_W0_NO_GENERATION_OR_RELABELED_RAW')
+        else:
+            generation.reuse_w0(ready['generation_READY']['path'], manifest, records)
         reference = None
     else:
         require(member(ready['w0_reference']['path']) == ready['w0_reference'], 'OFFICIAL_ZSRE_W0_RAW_CHANGED')
@@ -517,7 +611,7 @@ def chain(model, tok, engine, manifest, records, dataset, out, tracking, resume=
             incoming = current_subset(observed, records[(batch-1)*100:batch*100], dataset)
             log(tracking, evaluate_payload(incoming, 'W'+str(batch), batch*100, current=True))
         generation_endpoint = None
-        if dataset == 'cf' and batch == 20 and not smoke:
+        if dataset == 'cf' and batch == 20 and not smoke and not deferred(manifest):
             observed_generation = generation.observe(model, tok, manifest, records, out/'generation',
                 'W20', physical_state(engine), lambda:signature(model, engine),
                 lambda values:log(tracking, values))
@@ -553,6 +647,9 @@ def chain(model, tok, engine, manifest, records, dataset, out, tracking, resume=
         generation_endpoint=cursor.get('generation_W20'), W0_READY=member(manifest['W0_'+dataset+'_ready_path']),
         generation_ready=cursor.get('generation_READY') if dataset == 'cf' else None,
         w0_ready=ready['generation_READY'] if dataset == 'cf' else None,
+        generation_status='DEFERRED_NOT_MEASURED' if deferred(manifest) else 'SCHEDULED',
+        completion_scope='EDIT_FACTUAL_CHECKPOINT_ONLY' if deferred(manifest) else 'FULL_SCHEDULE',
+        checkpoint_evaluation_consumer_pending=deferred(manifest),
         native_only=True, requested_quality_not_selection_gate=True)
     write_new(out/'result.json', value)
     return value
@@ -593,6 +690,13 @@ def main():
                 result = qualification(model, tok, engine, manifest, records, out, tracking)
             else:
                 require(args.mode != 'smoke' or args.dataset == 'zsre', 'ZSRE_SMOKE_ONLY')
+                if deferred(manifest):
+                    require(args.mode == 'chain' and args.dataset == 'cf' and not args.resume,
+                            'NEW_COLD_CHECKPOINT_PIPELINE_ONLY')
+                    from official.runners.server2.checkpoint_pipeline import verify_qualification
+                    proof = verify_qualification(out.parent/'qualification', manifest, args.method)
+                    require(read(out.parent/'qualification-verified.json')['member'] == proof,
+                            'ACTUAL_QUALIFICATION_REQUIRED_BEFORE_CHAIN')
                 result = chain(model, tok, engine, manifest, records, args.dataset, out, tracking,
                                resume=args.resume, smoke=args.mode == 'smoke')
     except BaseException as exc:

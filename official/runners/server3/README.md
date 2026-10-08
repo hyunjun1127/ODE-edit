@@ -15,6 +15,15 @@ B1 smoke, six physical chains). Each stage is serialized on one server3 GPU.
 The CF BLUE winner is selected from exact W20 receipts with the published
 Score/Specificity/Efficacy/Generalization/L2 tie order; zsRE uses that L2.
 
+The 2026-10-09 fresh-rerun authority supersedes the earlier CF MEMIT/AlphaEdit
+exclusions. All planned edits start cold on the canonical ordered stream;
+historical checkpoints with different samples are preserved, not resumed for
+this main table. GH owns the root README table. Server3 reports must identify
+the rerun attempt, model/method/dataset, ordered sample SHA, cold state,
+source/config SHA, actual job ID/name, observed state/time and report path.
+Unsubmitted rows remain blank; qualification/W0/collector jobs are not main
+runs. Only measured W20 fields populate CF or zsRE result columns.
+
 Run `python -m official.runners.server3.submit plan --matrix-root MATRIX
 --output-root OUTPUT --stage qualify` for a read-only mapping. The mutable
 commands are `submit-held`, `release`, `select-blue`, and `resume-held`;

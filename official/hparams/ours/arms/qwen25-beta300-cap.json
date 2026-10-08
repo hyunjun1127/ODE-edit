@@ -1,0 +1,9 @@
+{
+  "base": "qwen25",
+  "override": {
+    "beta_base": 3.0,
+    "beta_max_scale": 3.0,
+    "lr": 0.25,
+    "lambda_N": 0.05
+  }
+}

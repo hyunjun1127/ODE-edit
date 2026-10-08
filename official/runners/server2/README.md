@@ -1,5 +1,30 @@
 # server2 실행 연결
 
+## 2026-10-09 직접 USER: CF six-arm checkpoint-only 준비
+
+`checkpoint_profile.py`의 명시 opt-in만 FT/MEMIT/AlphaEdit/BLUE/FE/SPHERE
+CF first2000 BS100×20, project cap3, FLU/CON W0/W20 모두 미실행을 선택한다.
+기존 profile/default와 frozen jobs는 바꾸지 않는다. factual 평가/native 수학은 유지한다.
+`execution --checkpoint-only` → `submit --stage cf_checkpoint` 경로다.
+
+각 GPU allocation의 `checkpoint_pipeline`은 실제 B3 대 B2→B3 qualification을
+별도 모델 process에서 확인한 뒤, fresh cold model의 20-batch chain을 실행한다.
+첫 FT job은 편집 전 shared factual W0와 독립 원본 scorer proof를 한 번 만든다.
+나머지는 FT 종료 후 READY를 검증하고 3-lane DAG로 진행한다. GPU file polling은 없다.
+따라서 첫 FT 동안에는 GPU1, 그 이후 최대GPU3이며 6개 scientific arm과 CPU collector다.
+qualification의 추가 B3 replay는 원 parent 기술 검증이며 실제 비용을 별도 기록한다.
+
+배치 W0..W20의 latest1 official checkpoint를 저장하며 최종 W20을 보존한다.
+평가 미측정은 `DEFERRED_NOT_MEASURED`이지 점수0/평가완료가 아니다.
+후속 2K checkpoint 평가가 예정된 consumer이므로 archive/delete gate는 닫혀 있다.
+재개용 native W/H/RNG/context/cursor와 원 base/runtime/input/source binding을 유지한다.
+
+공통 `official.tracking`은 읽기 전용이다. 이 caller는 실제 미실행을
+`generation_schedule=DEFERRED_CHECKPOINT_EVALUATION`로 기록하며,
+이를 승인하지 않는 옛 schema에서는 준비/시작을 차단한다. 켜진 schedule로 위장하거나
+logger를 복제하지 않는다. 공통 schedule 게시 전에는 **미제출**이며 CPU fixture는
+실제 native/resume/GPU/온라인 PASS가 아니다.
+
 이 폴더는 server2가 소유하는 EasyEdit 자산 연결과 runner 경로다. `assignment.json`의 모델·방법을 담당한다.
 
 - `prepare.py`는 기존 자산의 존재/선택적 SHA를 확인한다. GPU runner 완료를 뜻하지 않는다.
@@ -33,3 +58,32 @@ EasyEdit 알고리즘 코드 import·모델 load·GPU·다운로드·C0/P 생성
 
 Manifest의 `ASSETS_BOUND_CPU_ONLY`는 자산 준비 상태다. 실제 native smoke, BLUE output/layout,
 연속 B3와 B2→B3 resume 및 평가 parity는 별도 GPU 증거가 필요하다.
+
+## 신규 CF 독립 원본 reference 결속
+
+`oracle.plan(manifest, records[:4])`은 shared `cf_native_reference`/원 source/lock과
+ordered first4, 고정 tolerance를 actual 관측 전에 봉인한다. 새 `execution.prepare`가
+manifest에 이 계획을 넣는다. 새 CF W0는 call-local `use_cache=False` 및 실제 물리 state를
+canonical first4 관측 전에 기록하고, 수정 없는 원 `test_batch_prediction`의 **독립 forward**와
+비교한다. 실패/CPU fixture/미관측은 raw를 보존하고 READY를 차단한다. GPU smoke PASS만
+새 complete W0 READY에 proof/canonical/state member SHA로 결속한다. 일반 full2k parity와는
+다른 engineering scope이며 추가 fit/edit/generation은 없다.
+
+이 연결은 미래 immutable source만 적용한다. 기존18e7fbd qualification source/archive는
+변경하지 않는다. 과거 native/resume producer proof와 새 independent scorer proof를 각각
+검산하고 consumer compatibility를 별도로 기록한다. old raw/source/identity를 새 source로
+relabel하거나 actual receipt 없는 plan을 GPU PASS로 사용하지 않는다.
+
+`execution.prepare(..., qualification_producer_attempt=<exact old attempt>)` 또는 CLI
+`--qualification-producer-attempt`는 `qualification_input.plan`의 native source/input
+compatibility를 봉인한다. 입력은 기존18e7fbd registration-qualification-r1으로 한정한다.
+179개 계산 source 및15개 핵심 함수 AST/모델·token·stream·C0/P·runtime·reference·12config를
+대조하고 old/new 전체 source와 assets manifest IDs를 별도로 남긴다. 원 display rounding은
+과거 원뜻으로 검산한다. 이 native compatibility는 old checkpoint를 새 source로 재개할
+권한이 아니다. 본 chain은 새 cold W0/checkpoint identity에서 시작한다.
+
+`submit --stage cf`는 실제 여섯 native/resume proof와 완료된 CPU collector/atomic terminal이
+있어야 등록한다. 새 W0 oracle actual PASS를 그 W0를 제출하기 전에 요구하는 순환 gate는 없다.
+대신 사전 봉인한 oracle PLAN이 필요하고, W0 actual PASS 이후만 READY/후속이 열리며 reader와
+collector가 member SHA를 재검산한다. 원 qualification receipt가 없으면 INPUT_PENDING이며
+CPU fixture·label·단순 Slurm terminal로 성공을 만들지 않는다. 새 monitor/retry는 없다.
