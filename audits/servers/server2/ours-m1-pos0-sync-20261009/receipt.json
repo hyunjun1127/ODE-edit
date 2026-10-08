@@ -1,0 +1,48 @@
+{
+  "nonce": "USER-SH3-GH-OFFICIAL-M1-POS0-QWEN-GPTJ-20261009-R1",
+  "server": "server2",
+  "session": "01a0493a-074c-7f91-9a13-769116326fef",
+  "registry": "servers/active/server2.md",
+  "app_cwd": "/mnt/raid5/janghj/ODE-edit",
+  "prepared_worktree": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-ours-m1-pos0-sync-20261009",
+  "branch": "codex/server2-ours-m1-pos0-sync-20261009",
+  "prepared_source_HEAD": "68b976bdfd26d792e7da74e461672521b6528ef4",
+  "fetched_main": "68b976bdfd26d792e7da74e461672521b6528ef4",
+  "official_tree": "e62561b18a6c4951797e3178b95272e9bbdd265c",
+  "required_commit_ancestor": true,
+  "fetched_main_ancestor": true,
+  "source_verify": {
+    "source_files": 157,
+    "python_files": 290,
+    "source_integrity": "PASS",
+    "external_task_imports": 0
+  },
+  "CPU": {
+    "python": "/mnt/raid5/janghj/EasyEdit/.venv/bin/python",
+    "tokenizer_cache": "/mnt/raid5/janghj/.cache/huggingface/hub",
+    "tests": [
+      "official.tests.test_ours_pos0",
+      "official.tests.test_ours_config",
+      "official.tests.test_ours_numeric"
+    ],
+    "passed": 20,
+    "skipped": 0,
+    "failed": 0,
+    "local_native_tokenizer_tests": 6,
+    "config_numeric_tests": 14,
+    "offline": true,
+    "CUDA_VISIBLE_DEVICES": ""
+  },
+  "GPU": "NOT_RUN",
+  "pretrained_model_forward": 0,
+  "Slurm_queries": 0,
+  "Slurm_mutations": 0,
+  "downloads": 0,
+  "root_dirty": "PRESERVED",
+  "existing_worktrees": "UNCHANGED",
+  "frozen_job_sources": "KEEP_NO_HOTPATCH",
+  "future_caller": "CounterFactAdapter(tokenizer,native_contexts,config=resolve(model)).prepare(records); no old-pack relabel",
+  "M1": "price_m1_anchor_guard=False; actual subject norm",
+  "native_baselines_Llama_tuning": "UNCHANGED",
+  "monitoring": false
+}
