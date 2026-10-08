@@ -152,5 +152,17 @@ class ObserverTests(unittest.TestCase):
         self.assertEqual(ar['observations'][0]['seed'],br['observations'][0]['seed'])
         self.assertEqual(ar['observations'][0]['full_token_ids'],br['observations'][0]['full_token_ids'])
 
+    def test_distinct_subset_paths_are_identity_keyed_and_repeated_subset_idempotent(self):
+        records=[record(1),record(2,501)]
+        observed=self.observer.observe(records,'W0','FIRST2',self.state)
+        first=self.observer.subset(observed,records[:1],'B1_PRE','CURRENT')
+        second=self.observer.subset(observed,records[1:],'B2_PRE','CURRENT')
+        repeated=self.observer.subset(observed,records[:1],'B1_PRE','CURRENT')
+        self.assertNotEqual(first['rows_path'],second['rows_path'])
+        self.assertEqual(first['rows_path'],repeated['rows_path'])
+        for endpoint in (first,second,repeated):
+            self.assertEqual(Path(endpoint['rows_path']).stem,endpoint['identity_sha256'])
+        self.assertEqual(len(self.model.calls),2)
+
 
 if __name__=='__main__':unittest.main()

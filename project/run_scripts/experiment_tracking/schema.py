@@ -18,7 +18,8 @@ CONFIG_KEYS = {'server', 'task_id', 'arm', 'attempt', 'source_sha', 'config_sha'
                'source_run_id','source_run_url','observation_identity','baseline',
                'generation_metric_schema','generation_profile','generation_eval_seed',
                'reference_assets_sha256','generation_source_sha',
-               'generation_qualification_plan_sha256','generation_repair_instruction'} | JOB_FIELDS | METHOD_CONFIG
+               'generation_qualification_plan_sha256','generation_repair_instruction',
+               'generation_schedule'} | JOB_FIELDS | METHOD_CONFIG
 METRICS = {
     'setup_ok','step','batch','edits','candidate','phase_id','status_code',
     'fit/loss','fit/nll','fit/kl','fit/norm','fit/gradient_norm',
@@ -41,6 +42,7 @@ GENERATION_PROGRESS_FIELDS=('completed_cases','total_cases','completed_prompts',
     'tokens_per_sec','physical_forward_calls','prefill_query_tokens','decode_query_tokens','step')
 GENERATION_PROGRESS_METRICS={'generation_progress/'+key for key in GENERATION_PROGRESS_FIELDS}
 METRICS |= GENERATION_PROGRESS_METRICS | {'phase'}
+GENERATION_PHASES = ('W0_generation', 'generation_evaluation', 'W20_generation')
 
 
 def require(ok, code):
@@ -64,8 +66,12 @@ def config(values):
         elif key=='generation_eval_seed':
             require(type(value) is int and value==20261007,'GENERATION_EVAL_SEED')
         elif key=='generation_repair_instruction':
-            require(type(value) is str and value=='USER-GH-SH1-SH2-BASELINE-GENERATION-KV-BATCH-REPAIR-20261008-R1',
+            require(type(value) is str and value in (
+                'USER-GH-SH1-SH2-BASELINE-GENERATION-KV-BATCH-REPAIR-20261008-R1',
+                'USER-GH-SH1-GPT2XL-BLUE-PRUNE-RECT-W20-GENERATION-20261008-R1'),
                 'GENERATION_REPAIR_INSTRUCTION')
+        elif key=='generation_schedule':
+            require(type(value) is str and value=='W20_ONLY_FIRST2000', 'GENERATION_SCHEDULE')
         elif key == 'step_id':
             step_identifier(value)
         elif key == 'source_run_url':
@@ -147,13 +153,14 @@ def metrics(values,*,scientific=False):
     require(type(values) is dict and 0 < len(values) <= len(METRICS), 'METRIC_MAPPING')
     require(set(values) <= METRICS, 'METRIC_NOT_ALLOWLISTED')
     # No float(tensor), .item(), .cpu(), arbitrary __float__, or GPU sync.
-    require(all((key=='phase' and type(x) is str and x in ('W0_generation','generation_evaluation')) or
+    require(all((key=='phase' and type(x) is str and x in GENERATION_PHASES) or
                 (key!='phase' and type(x) in (int,float,bool) and math.isfinite(x))
                 for key,x in values.items()), 'BUILTIN_FINITE_SCALARS_ONLY')
     if GENERATION_PROGRESS_METRICS & values.keys():
-        require(type(values.get('phase')) is str and values['phase'] in ('W0_generation','generation_evaluation')
+        require(type(values.get('phase')) is str and values['phase'] in GENERATION_PHASES
             and 'generation_progress/step' in values,'GENERATION_PROGRESS_PHASE_AXIS_REQUIRED')
-        require(not any(k.startswith(('W0_first2000/','current/','all_seen/','w0/','fit/','optimizer/'))
+        require(not ({'edits','pre_state_edits','post_state_edits'} & values.keys())
+            and not any(k.startswith(('W0_first2000/','current/','all_seen/','w0/','fit/','optimizer/'))
             for k in values),'GENERATION_PROGRESS_NOT_ENDPOINT_OR_FIT')
         for key in GENERATION_PROGRESS_METRICS & values.keys():
             value=values[key]
