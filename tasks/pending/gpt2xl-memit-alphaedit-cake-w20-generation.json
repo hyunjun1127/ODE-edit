@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH1-GPT2XL-MEMIT-ALPHAEDIT-CAKE-W20-GENERATION-20261008-R1",
+  "task_id": "gpt2xl-memit-alphaedit-cake-w20-generation",
+  "owner_server": "server1",
+  "type": "global-head-command",
+  "worker_claimable": false,
+  "authority_envelope": "messages/head/2026-10-08-gpt2xl-memit-alphaedit-cake-w20-generation.json",
+  "status": "AUTHORIZED_AWAITING_DIRECT_OWNER_ACK",
+  "methods": ["BASE_MEMIT", "BASE_ALPHAEDIT", "CAKE"],
+  "generation_schedule": "W20_ONLY_FIRST2000",
+  "actual_job_ids": [],
+  "protected_existing_jobs": [61436, 61437, 61438, 61439],
+  "completion": "새3method+ownGPU0collector actualheld검사/등록/release 및boundedhandoff. OWNER_ACK는Slurm등록/W20결과가아니다."
+}

@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH1-GPT2XL-MEMIT-ALPHAEDIT-CAKE-W20-GENERATION-20261008-R1",
+  "date_kst": "2026-10-08",
+  "envelope": "messages/head/2026-10-08-gpt2xl-memit-alphaedit-cake-w20-generation.json",
+  "envelope_sha256": "c865c14ba386cacac7380b89bbdbf6c800c194b9d363f1c869256b970da9eccb",
+  "user_authority": "현재 USER가 GPT2-XL MEMIT/CAKE/AlphaEdit도 다시 올리라고 승인했고 후속 현재 메시지에서 fluency와 consistency 연산은 다른 job들처럼 W20에서만 연산하도록 전달하라고 명시했다.",
+  "scope_review": {
+    "reviewer": "GH child gpt2_three_baseline_followup_scope",
+    "method": "read-only exact W20 source/profile/collector/native adapter 및 canonical envelope 검토. 새 모델/CPU 수치 toy/GPU/Slurm실행0.",
+    "result": "PASS_WITH_MINOR_METADATA_WARNING",
+    "blockers": 0,
+    "checks": ["editedW20만FC/새W0generation0/기존RPN유지", "61436..39 기존source/job/collector보호", "cap2 공통GPUfrontier61437+61438 및own3collector", "stockAlpha coldH{} guard와nativehistory분리", "MEMIT20000/AlphaL2=10/CAKEL2=40 원native계수", "정확profile/source/identity/NoCP/privacy/무추가fit"],
+    "metadata_warning_resolution": "검토agent는 최신steered USER 메시지가 fork 이후라 원문을 보지 못해 quote 불일치를 경고했다. GH는 현재 실제 USER 메시지 'fluency와 consistency 연산은 다른 job들처럼 W20에서만 연산하도록 전달해'와 canonical user_latest_schedule_quote가 문자 그대로 일치함을 직접 대조했다. 범위/실행조건 변경0, blocker0."
+  },
+  "target_pre_read": {"session": "01a04939-f93a-7b50-bca0-65438eab2062", "cwd": "/mnt/raid5/janghj/ODE-edit", "status": "idle", "prior_turn": "01a11ab8-1d87-7483-9370-0845c4ab76ce", "prior_turn_status": "completed", "evidence": "공식Codex app read_thread 읽기전용 exact session/CWD 확인. 전달 직전 transport에서 재확인한다."},
+  "fresh_owner_admission_required": true,
+  "GH_scientific_or_scheduler_mutations": 0,
+  "duplicate_dispatches": 0,
+  "stage": "PREFLIGHT_SCOPED_DOCUMENT_REVIEW_PASS_ACTUAL_DELIVERY_PENDING",
+  "claim_boundary": "문서/scope검산은 새runner actual GPUqualification나Slurm제출완료가 아니다. source/runtime/config/현재자원 fresh binding은 SH1책임."
+}

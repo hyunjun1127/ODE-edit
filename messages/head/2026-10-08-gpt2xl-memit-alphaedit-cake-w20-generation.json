@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH1-GPT2XL-MEMIT-ALPHAEDIT-CAKE-W20-GENERATION-20261008-R1",
+  "date_kst": "2026-10-08",
+  "user_exact_quote": "해당 실험들도 올리도록 시켜",
+  "user_latest_schedule_quote": "fluency와 consistency 연산은 다른 job들처럼 W20에서만 연산하도록 전달해",
+  "antecedent": "GPT2-XL MEMIT·CAKE·AlphaEdit의 edited W20 fluency/consistency가 없어 이 세 baseline도 W20-only source로 재실행이 필요하다는 설명에 대한 현재 USER 승인.",
+  "authority": "SH1의 최소 구현/기술 수리/검산/source봉인/Slurm3GPUjob+GPU0collector 전량등록/held검사/release를 승인한다. 추가 단계 재승인 대기 없이 계속한다. 이전 BLUE/PRUNE/RECT envelope의 MEMIT/AlphaEdit/CAKE 신규실행 금지는 이 새3target 범위에 한해서 현재USER가 supersede한다. 나머지 task STOP·보호 범위는 유지.",
+  "task_id": "gpt2xl-memit-alphaedit-cake-w20-generation",
+  "owner": {"server": "server1", "session": "01a04939-f93a-7b50-bca0-65438eab2062", "cwd": "/mnt/raid5/janghj/ODE-edit", "repository": "hyunjun1127/ODE-edit"},
+  "policies": ["control/generation-metric-policy.json", "control/wandb-method-metric-schema.json", "control/wandb-policy.json", "control/gpu-concurrency-policy.tsv"],
+  "scope": {
+    "model": "GPT2-XL",
+    "revision": "15ea56dee5df4983c59b2538573817e1667135e2",
+    "methods": ["BASE_MEMIT", "BASE_ALPHAEDIT", "CAKE"],
+    "baseline_not_ours": true,
+    "fixed_order": "counterfact-fixed-10k-v1 ordered first2000, seed20261002",
+    "batch_size": 100,
+    "batches": 20,
+    "edits_per_method": 2000,
+    "start": "각method fresh coldW0 및 자기 native history/cache 초기상태. 이전 partial/checkpoint 복원0, 각 trajectory 독립.",
+    "generation_schedule": "W20_ONLY_FIRST2000",
+    "no_B21": true,
+    "new_BLUE_PRUNE_RECT_OURS_baseline_sweep_or_pilot": 0
+  },
+  "source_reuse": {
+    "W20_only_reference_source": "9a8c7ebfae197cc0d8dba994ff1208cdb24635f8",
+    "publication_reference": "25618016",
+    "parent_runtime_reference": "bb86a6ca514a47bbad372efd9032f9a5962f0140",
+    "native": "기존 stock MEMIT/AlphaEdit EasyEdit 구현 및 CAKE의 S1 native adapter/원 hparams/source closure를 현 SHA로 재사용. baseline을 PRICE/ours planner나 다른 writer로 대체하지 않는다. 기존 model/tokenizer/context/covariance/projector/reference/schedule 자산 read-only, 재생성/다운로드0.",
+    "effective_hparams": "기존 native GPT2 lr.5/eval20/update19/readout47/norm.5/clamp.75/KL.0625 유지. MEMIT20000, AlphaEdit L2=10, CAKE L2=40을 각각 parser 및 실제 소비 source에 결속. CAKE를 Alpha L2나 ours 계수로 바꾸지 않는다.",
+    "profile": "w20_common/prepare/submit의 nonce·ARMS·source/config·member·옛ID guard는 원3method 전용. 새 task-private profile/entrypoint 또는 명시적 backward-compatible parameterization으로 이번3method만 실행하며 옛 source/archive/defaults/61436..39 실행조건을 변경하지 않는다. ARMS 문자열만 바꿔 guard 우회0.",
+    "collector": "stock BASE_ALPHAEDIT cold native H cache 미초기화({})와 첫 apply 뒤 5층 history mapping을 구분해 검산. cold부터 H5가 있다고 허위 요구하지 않는다. 기존 generic collector 초기-H 분기를 재사용하고 MEMIT/CAKE의 native 초기/누적history/terminal semantics도 원 구현에 결속. 기존 RPN/commit collector 검사 삭제0.",
+    "failure_repair": "과거 IMMUTABLE_GENERATION_IDENTITY_CONFLICT를 새 W20 namespace, endpoint/window별 identity/path 분리 및 CPU 충돌/변조 거절 검사로 방지. 기존 observer subset member_name 수정 재사용. 옛 source/raw 덮어쓰기·hash guard 완화0, sharedW0 generation READY prerequisite 제거."
+  },
+  "evaluation": {
+    "generation": "편집 후 W20/edits2000에서 전체 ordered first2000을1회만 생성하고 같은 텍스트로 CAKE entropy와 TF-IDF consistency를 계산·저장. 새 W0/current pre/post/W5/W10/W15 generation0. W20 전량의 current100/first500은 추가 생성0의 검산된 CPU subset만 허용하며 endpoint/cohort/실제분모 명시.",
+    "RPN": "기존 W0/current100 pre/post/W5·10·15·20 allseen/cohort의 RS/PS/NS·TF strict/token/prompt ACC·true/newNLL/margin/harmonic 유지. W20 R2000/P4000/N20000.",
+    "semantics": "기존 CAKE prompt-inclusive total100/topk5/temp1/topp1/nativeEOS, reference bundle·rowseed·RNG finally복원·observer비변이 유지. P/N 및 generation을 fit/controller/과학promotion에 사용하지 않는다. 결측 이유/validcount 기록,0채움0.",
+    "W0": "기존 동일 identity RPN W0는 provenance와 함께 subset/전량 재사용 가능. 옛 W0 fluency/consistency를 editedW20 대신 쓰지 않는다. 새 W0 generation0.",
+    "storage_and_WB": "method별 W20 full raw/endpoint receipt, planned2000·actual prompts·fluency_count/consistency_count·ngram_entropy/reference_score 저장. all_seen/post scalar와 W20_generation 진행률/실jobID/name/불변identity를 실시간 W&B로 전송. 부분관측을 최종W20평균으로 표시하지 않는다. 업로드접수/remote readback/과학완료 구분.",
+    "technical": "기존 CPU/actualroute evidence 재사용, 새3profile/nativecoldH/collector/schedule/collision/resourceDAG/jobidentity만 좁은CPU검사. route 미qualification일 때만 기존 고정PLAN 최대8prompt 기술검사·receipt를 유지(기존 before-loop 또는 명시 W20 route 검사); 이는 과학 FC endpoint 추가가 아니다. 별도BS2pilot/추가fit/성능gate/사후허용차완화0."
+  },
+  "dedup_and_jobs": {
+    "known_prior_state_not_current_authority": {"MEMIT": "61167 FAILED/IMMUTABLE_GENERATION_IDENTITY_CONFLICT/authoritativecommit0", "AlphaEdit": "61168 CANCELLED/elapsed0", "CAKE": "61169 CANCELLED/elapsed0"},
+    "owner_fresh_check": "현 owner/session/source/Command/attempt/상태 및 nonce 중복 먼저 확인. 동일profile 정상등록이 이미 있으면 유지하고jobID보고, 중복submit0. terminal은 사실대로 기록하고 가상scancel0.",
+    "protected_registered": {"AlphaEdit_BLUE": 61436, "PRUNE": 61437, "RECT": 61438, "CPU_collector": 61439},
+    "frontier": "기존61436→61438 lane과61437 lane 유지. owner가 아직admitted라면 GPU말단61437과61438 모두의afterany를 새root 공통frontier로 사용(61436만 또는 CPU61439 대기를frontier로 삼지 않는다). 다른owner admitted실험도fresh admission에 포함해cap2강제. 기존job/source/dependency/collector변경0.",
+    "new_DAG": "보수적default: MEMIT/AlphaEdit 새heads는 공통GPUfrontier 뒤 병렬, CAKE는 새MEMIT afterany. 독립coldrun 실행순서만이며 성능afterokgate0. 새GPU0collector는own3 afterany, 실jobID로coverage봉인. cap2동등 다른DAG면exactgraph/width/cycle검산 기록. cancel된옛ID를resource dependency에 남기지 않는다.",
+    "replacement_scope": "이번추가3target의 새동일task active가 발견되면exactowner/source/state결속 후 중복없이계속. 옛source의이번3target이 아직active이면descendant/owncollector부터 대상한정coldreplacement가능. BLUE/PRUNE/RECT61436..39, OURS/PRICE/W0only/FE/준비/다른server취소변경0."
+  },
+  "resources": {"server1_combined_project_GPU_cap": 2, "task_GPU_cap": 2, "per_job_GPUs": 1, "default_CPUs": 8, "default_host_MiB": 65536, "GPU_wall_ceiling": "48h, ETA아님", "collector": "GPU0/CPU8/24576MiB/4h", "admission": "현node/QoS/명시mem/exportNONE/Requeue0/space/inodes/reserve/ownerGPUallocation+admittedpending확인, 더엄격한현재제한우선. 물리GPU부족은정상PENDING등록. cap증액/타job선점0."},
+  "allowed_write_paths": ["project/run_scripts/gpt2xl_generation_baselines/** 및새profile/runtime/launcher/collector/tests", "project/run_scripts/gpt2xl_native_baselines/** 및 project/run_scripts/gpt2xl_cake_blue/**의 이번3method 최소호환변경/tests", "project/run_scripts/experiment_generation_eval/** 및 experiment_tracking/**의 SH1소유 최소backward-compatible변경/tests", "plans/updates/server1/gpt2xl-baselines-fluency-consistency-2k/**", "audits/servers/server1/gpt2xl-baselines-fluency-consistency-2k/w20-only-native-three/**", "experiment-reports/servers/server1/gpt2xl-baselines-fluency-consistency-2k/**", "runs/gpt2xl-baselines-fluency-consistency-2k/w20-only-native-three/**", "tasks/status/gpt2xl-memit-alphaedit-cake-w20-generation/server1.json", "messages/acks/server1/gpt2xl-memit-alphaedit-cake-w20-generation.json", "messages/server-heads/server1/gpt2xl-memit-alphaedit-cake-w20-generation.json", "ignored local/gpt2xl-baselines-fluency-consistency-2k/**"],
+  "workflow": "전용non-main cleanWT/branch 최소수리→source/config/runtime/assets/input/ref/qualification/collector/hashlock→3GPUjob+GPU0collector전량held등록→owner/fullargv/source/script/resources/dependencies/noCP/W&B검사→release→bounded snapshothandoff. 추가approval대기0, 실제jobID만보고.",
+  "Slurm_allowed": "이번3baseline과ownGPU0collector 등록/필요exacttarget한정replacement허용. 타job변경/타server이동/중복science0.",
+  "git_allowed": "검토된ownsource/소형summary/manifest/한글report/receipt를ownbranch+main nonforce게시허용. dirtyroot/타session변경 stage/reset/stash/revert0.",
+  "noCP": "durable model/W/H/optimizer/resume-equivalentdelta0. 옛source/실패/취소/원raw/비용/W&B run KEEP.",
+  "artifacts": "대형raw/text/token/caseID/tensor/reference/secret은local-only, Git/W&B에는sourceidentity및허용scalar/작은metadata만. ordinarybroadcasthelper 또는 NO_BROADCAST_NOT_REQUIRED/blocked이유정확기록, --delete0.",
+  "report": "experiment-reports/servers/server1/gpt2xl-baselines-fluency-consistency-2k/w20-only-native-three/report-ko.md",
+  "ACK": "즉시nonce포함explicit OWNER_ACK/acceptedturn/currentstage. 등록후실IDs/source/config/lock/dependencies/기존유지목록compact보고. 담당수락과GPUqualification/제출/완료구분.",
+  "monitoring": "GH는directowner수락까지bounded확인. SH1은actual등록/초기resourcepending까지bounded관측, sealedrunner는20batch/W20generation 자연진행. 새recurringmonitor/heartbeat/자동retry/장기GPU완료대기0."
+}
