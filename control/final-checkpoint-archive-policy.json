@@ -1,0 +1,101 @@
+{
+  "schema": "final-checkpoint-central-archive-v1",
+  "instruction_id": "USER-GH-ALL-SH-FINAL-CHECKPOINT-ARCHIVE-SERVER1-20261009-R1",
+  "date_kst": "2026-10-09",
+  "status": "USER_AUTHORIZED_POLICY_NOT_TRANSFER_COMPLETION",
+  "user_quote": "현재 각 서버별 가용 용량 자체가 server1이 가장 많기에, 각 서버들이 최종 checkpoint 연산 이후엔 server1로 전달하고 삭제하는 식으로 보존하자고 각 서버들에게 전달하자",
+  "repository": "hyunjun1127/ODE-edit",
+  "scope": {
+    "servers": [
+      "server1",
+      "server2",
+      "server3",
+      "server4"
+    ],
+    "artifacts": "기존 승인 실험이 저장하는 정확한 최종 checkpoint와 복원/출처 검증에 필요한 작은 companion만",
+    "new_checkpoint_creation": "기존 noCP 작업에 신규 저장 권한을 추가하지 않음",
+    "not_authorized": [
+      "중간/실행 중/재개·평가·collector에 필요한 checkpoint 삭제",
+      "base model·tokenizer·C0·projector·dataset·raw/log·무관 파일 전송 또는 삭제",
+      "모든 checkpoint 일괄 이동·자동 과거 정리",
+      "기존 job/source hotpatch·취소·재제출·새 fit/평가·GPU 추가"
+    ]
+  },
+  "destination": {
+    "server": "server1",
+    "owner": "SH1",
+    "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+    "repo": "/mnt/raid5/janghj/ODE-edit",
+    "root": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archive",
+    "layout": "<origin_server>/<task_id>/<run_id>/<attempt>/job-<actual_job_id>/<full_checkpoint_sha256>/",
+    "privacy": "Git 및 W&B에 checkpoint/tensor/RNG/payload를 올리지 않음. Git에는 source·작은 manifest/hash/보존/삭제 영수증만.",
+    "unique": "검증된 immutable run identity로 create-once. 충돌하는 기존 archive를 덮어쓰지 않음."
+  },
+  "eligibility": {
+    "required": [
+      "해당 task의 실제 최종 endpoint checkpoint이며 마지막 편집·평가·필수 계산 완료 증거가 있음",
+      "checkpoint writer 종료와 mutation 없음; 해당 파일을 읽는 실행/재개/평가/collector/후속 consumer가 모두 종료하거나 그 파일에 의존하지 않음이 정확히 확인됨",
+      "소유 task/run/job/source/config/입력/endpoint를 원자료·pointer·terminal/commit/evaluation receipt로 연결",
+      "정확한 원본 경로의 regular file, 크기와 fullSHA, symlink 아님; nlink!=1·공유 object·alias 위험이면 HOLD",
+      "필요한 pinned source/native hparams/base model/tokenizer/P/C0/input 참조 provenance를 보존; 모델 자체를 묶어 전송하지 않음"
+    ],
+    "official_W20": "official/experiments/checkpoint.py의 latest.json + 그 file member: batch20/final_W20=true/fullSHA/identity와 실제 final 계산 receipt가 일치. afterany 또는 파일명만으로 완료 판정하지 않음.",
+    "failed_partial": "실패/중단의 intermediate checkpoint는 자동 archive/delete 대상 아님. 보존하고 상태를 기록."
+  },
+  "flow": [
+    {
+      "stage": "MANIFEST_SEALED",
+      "owner": "source SH",
+      "action": "정확한 파일 allowlist와 출처, bytes/fullSHA/dev/inode/nlink/mtime/realpath, 완료/consumer 증거를 봉인. source 범위를 재귀 directory나 glob으로 넓히지 않음."
+    },
+    {
+      "stage": "DESTINATION_ADMITTED",
+      "owner": "SH1",
+      "action": "현재 실제 server1 disk/inode와 이미 예약된 archive·transfer를 확인. payload+partial/staging+receipt 및 최소64GiB 운영 여유를 확보하고 정확한 유일 destination을 발급. 기본 수신동시1; 용량/인증 미준비는 KEEP/ARCHIVE_PENDING, 원본 삭제0."
+    },
+    {
+      "stage": "TRANSFERRED_UNVERIFIED",
+      "owner": "source SH 또는 승인된 SH1 pull",
+      "action": "기존 인증된 SSH mesh에서 exact allowlist만 server1의 unique staging으로 1방향 전송. 불필요 source-side 대형 복제 없음. 일반 helper가 exact file/충돌방지/검증을 지원하지 않으면 이 사용자 승인 exception의 전용 bounded CPU/I/O 경로를 사용. --delete/--remove-source-files/전체서버 broadcast 금지."
+    },
+    {
+      "stage": "VERIFIED_DESTINATION",
+      "owner": "SH1",
+      "action": "수신 파일마다 fullSHA/bytes 재계산, 전체 allowlist와 pointer/run/endpoint/복원 참조 identity 확인, fsync/atomic seal 및 provenance receipt 발행. 단순 rsync exit0/Slurm COMPLETED/collector PASS는 이 검증을 대신하지 못함. 원본과 destination이 같은 path/object/hardlink/symlink가 아닌 별도 보존 사본임을 확인."
+    },
+    {
+      "stage": "SOURCE_REMOVED_ARCHIVE_VERIFIED",
+      "owner": "source SH",
+      "action": "SH1의 정확 VERIFIED_DESTINATION 영수증을 받은 뒤 원본의 path/owner/task/bytes/fullSHA/mtime/inode와 소비자 종료를 다시 확인. 변경 없을 때 allowlist의 checkpoint payload 각 regular file만 개별 unlink. rm-rf/재귀·glob 삭제0. local metadata/최종 latest pointer 출처/raw/log/receipt를 보존하고 archive-location/status를 별도 기록. 삭제 bytes/회수 allocated bytes를 구분."
+    }
+  ],
+  "source_server1": "SH1 자신의 최종 checkpoint는 이미 server1에 있으므로 현재 경로를 등록·보호하거나 안전한 중앙 archive 사본으로 보존. 자기 자신/같은 object를 전송 사본으로 오인해 unlink하지 않음. 같은 object이면 ALREADY_ON_SERVER1/SAME_OBJECT_HOLD와 삭제0.",
+  "failures": {
+    "transfer_or_verification": "원본 KEEP, typed failure/미검증 상태와 실제 bytes 기록. 무단 fallback·추가 복제·반복 retry 없음.",
+    "consumer_or_source_changed": "HOLD_SOURCE_CHANGED_OR_IN_USE, 삭제0.",
+    "destination_unavailable": "ARCHIVE_PENDING_KEEP_SOURCE, 과학적 결과/정확재개를 허위 표시하지 않음."
+  },
+  "implementation": {
+    "SH1": "수신 저장소/예약/검증 API·도구의 단일 owner. project/run_scripts/checkpoint_archive/**와 CPU storage fixture tests를 전용 non-main branch에서 구현/최소 검산·main 게시하고 READY/API를 다른 SH에 직접 중계.",
+    "source_SHs": "자기 task 소유 checkpoint final manifest/one-shot transfer/삭제 영수증/caller 연결만 담당. 다른 SH source·raw를 수정하지 않음.",
+    "shared_source": "필요한 backward-compatible archive 연결만, scientific math/계수/평가기/CP schema 변경0. 이미 제출된 scientific archive 불변, post-computation storage만 별도 source/receipt로 적용.",
+    "source_write_scope": [
+      "project/run_scripts/checkpoint_archive/** (SH1 소유)",
+      "자기 official/runners/serverN/**의 향후 archive caller 연결",
+      "자기 task/서버 report/audit/status와 승인된 transfers/verifications/**",
+      "ignored local/checkpoint-archive/** 수신 및 정확 own local run의 allowlist payload/companion"
+    ],
+    "Git": "자기 source·작은 보고서/manifest/영수증 비강제 commit/push 허용. user dirty root 보존."
+  },
+  "execution": {
+    "GPU": 0,
+    "CPU_IO": "기존 server별 CPU/memory/I/O 정책 내 one-shot storage 작업. 기본 GPU0/CPU2/4096MiB/wall4h 이하, payload deserialize/model load 없이 streaming hash/transfer. 더 엄격한 현재 정책 우선. 기존 실험/GPU cap 변경0.",
+    "Slurm": "필요하면 GPU0 archive/verification 작업을 명시 등록할 수 있음; afterany만으로 삭제하지 않고 위 gate를 파일/receipt로 강제. 신규 과학 job/agent recurring monitor/heartbeat/자동 retry 없음.",
+    "current_jobs": "실행 중 최신 checkpoint는 현재 장소에서 유지. 완료 시 archival 정책 적용; 완료 관측을 위한 새 반복 polling을 만들지 않음."
+  },
+  "reporting": {
+    "initial": "각 SH 직접 OWNER_ACK와 policy 수락/수신 구현/실제 전송/검증/삭제를 구분. 이 GH turn은 bounded 직접 수락까지.",
+    "per_run": "source·destination 경로, 원본·수신 fullSHA/bytes, run/job/endpoint/identity, 종료·consumer 증거, 검증·삭제 시각(KST/UTC 명시), 삭제 항목과 recoverable archive 경로. 실제 삭제0이면 그대로 기록.",
+    "GH_output": "전송/삭제 후 사실을 원 user에게 compact 보고. 접수·구현을 전송/삭제 완료로 표시하지 않음."
+  }
+}

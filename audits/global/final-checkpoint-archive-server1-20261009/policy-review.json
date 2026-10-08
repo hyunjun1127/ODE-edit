@@ -1,0 +1,33 @@
+{
+  "schema": "final-checkpoint-archive-policy-review-v1",
+  "instruction_id": "USER-GH-ALL-SH-FINAL-CHECKPOINT-ARCHIVE-SERVER1-20261009-R1",
+  "date_kst": "2026-10-09",
+  "policy": "control/final-checkpoint-archive-policy.json",
+  "source_base": "5ae296f50ae56ee1e1652cdf8ee8fec88fa8b694",
+  "review": {
+    "agent": "checkpoint_archive_policy_review",
+    "type": "READ_ONLY_SOURCE_REVIEW",
+    "status": "PASS_WITH_IMPLEMENTATION_CAVEATS",
+    "findings": [
+      "official latest.json 원본과 참조 batch20 SHA payload만 선별. afterany/파일명으로 final 판단 불가.",
+      "기존 일반 broadcast helper는 exact-file/destinationSHA/alias/삭제 gate가 없으므로 완료영수증 전 원본삭제에 사용 불가.",
+      "SH1/SH2 동일표시 path는 공유 filesystem 여부를 증명하지 않음. 별도 object와 symlink/hardlink를 확인해야 함.",
+      "collector 성공은 checkpoint 목적지 fullhash검증을 대신하지 않음."
+    ],
+    "new_GPU_or_model_tests": 0
+  },
+  "server1_capacity_observation": {
+    "filesystem": "/mnt/raid5",
+    "available_bytes": 1297555070976,
+    "observation": "이 정책 작성 turn의 단1회 local df -B1 read-only. 다른 서버보다 가장 크다고 새로 검증한 것은 아님; 실제 매수신 admission은 SH1 담당."
+  },
+  "authority": "사용자 조건부 최종 checkpoint 전송+검증 후 삭제 직접 승인. exact manifest/destination verify 없으면 삭제0.",
+  "actual": {
+    "transfer": 0,
+    "deletion": 0,
+    "Slurm_changes": 0,
+    "model_forward": 0
+  },
+  "next": "정본 게시 후 정확한 SH1/2/3/4 직접 수락을 회수. 실제 archive/삭제는 owner 정책 구현 및 eligible final checkpoint 완료 이후.",
+  "recurring_monitor": false
+}
