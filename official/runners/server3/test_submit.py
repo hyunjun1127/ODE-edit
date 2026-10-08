@@ -14,6 +14,8 @@ from unittest.mock import patch
 
 from official.experiments.prepare import digest, materialize_matrix
 from official.runners.server3 import submit
+from official.tracking import schema as tracking_schema
+from official.tracking.method import OFFICIAL_SCHEMA
 
 
 class SubmitTests(unittest.TestCase):
@@ -119,10 +121,13 @@ class SubmitTests(unittest.TestCase):
         with patch.dict(os.environ, {"WANDB_API_KEY": "SECRET_SENTINEL",
                                       "NETRC": "/tmp/custom-netrc",
                                       "WANDB_CREDENTIALS_FILE": "/tmp/custom-credential"}), \
-             patch.object(submit, "command", return_value=settings), \
+             patch.object(submit, "command", return_value=settings) as command, \
              patch.object(submit.subprocess, "run",
                           return_value=SimpleNamespace(returncode=0)) as run:
             receipt = submit.check_wandb(self.root, env_file)
+        self.assertIn("from official.tracking.schema import load_env",
+                      command.call_args.args[0][2])
+        self.assertEqual(command.call_args.kwargs["cwd"], self.root)
         env = run.call_args.kwargs["env"]
         self.assertEqual(env["HOME"], pwd.getpwuid(os.getuid()).pw_dir)
         self.assertNotIn("WANDB_API_KEY", env)
@@ -174,6 +179,38 @@ class SubmitTests(unittest.TestCase):
         self.assertEqual(before, submit.official_tree_sha256(self.root))
         source.write_text("value = 2\n")
         self.assertNotEqual(before, submit.official_tree_sha256(self.root))
+
+    def test_frozen_tracking_is_inside_official_source_closure(self):
+        package = self.root / "official/tracking"
+        package.mkdir(parents=True)
+        for name in ("client.py", "schema.py", "method.py", "worker.py"):
+            (package / name).write_text("# frozen\n")
+        runner = self.root / "official/runners/server3/run.py"
+        runner.parent.mkdir(parents=True)
+        runner.write_text('import_module("official.tracking.client")\n')
+        submit.verify_tracking_closure(self.root)
+        before = submit.official_tree_sha256(self.root)
+        (package / "schema.py").write_text("# changed\n")
+        self.assertNotEqual(before, submit.official_tree_sha256(self.root))
+        runner.write_text('import_module("project.run_scripts.experiment_tracking.client")\n')
+        with self.assertRaisesRegex(submit.Blocked, "RUNNER_OFFICIAL_TRACKING_IMPORT_MISSING"):
+            submit.verify_tracking_closure(self.root)
+        runner.write_text('import_module("official.tracking.client")\n'
+                          'import_module("project.run_scripts.experiment_tracking.client")\n')
+        with self.assertRaisesRegex(submit.Blocked, "RUNNER_LEGACY_TRACKING_IMPORT"):
+            submit.verify_tracking_closure(self.root)
+
+    def test_official_zsre_schema_accepts_actual_w0_token_denominators(self):
+        config = dict(server="server3", task_id="official-baselines", arm="QWEN_ZSRE_W0",
+                      attempt="fixture", source_sha="a" * 40, config_sha="b" * 64,
+                      model="qwen25", model_family="qwen", writer="ft", baseline="FT",
+                      role="scientific", metric_schema=OFFICIAL_SCHEMA,
+                      instruction_id=tracking_schema.OFFICIAL_INSTRUCTION,
+                      dataset="zsre")
+        values = {"edits": 0, "W0_first2000/R/count": 3915,
+                  "W0_first2000/P/count": 8219, "W0_first2000/N/count": 6441}
+        self.assertEqual(tracking_schema.metrics(values, scientific=True,
+                                                 config_values=config), values)
 
     def test_online_mode_is_a_registration_gate(self):
         with patch.dict("os.environ", {"WANDB_MODE": "offline"}):

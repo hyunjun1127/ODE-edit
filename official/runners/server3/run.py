@@ -237,69 +237,75 @@ def _model_seed(seed):
     torch.cuda.manual_seed_all(seed)
 
 
-def _tracker(output, *, arm, writer, source_sha, config_sha):
+def _tracker(output, *, arm, writer, dataset, source_sha, config_sha, assets):
     """Start the shared scalar-only online logger before a model is loaded."""
-    # Scientific/native implementation remains entirely in official/.  The
-    # centrally owned cross-task transport is loaded only at this boundary.
-    from importlib import import_module
-    init = import_module("project.run_scripts.experiment_tracking.client").init
-    COMPARISON_SCHEMA = import_module(
-        "project.run_scripts.experiment_tracking.method").COMPARISON_SCHEMA
+    from official.tracking import init
+    from official.tracking.method import OFFICIAL_SCHEMA
+    from official.tracking.schema import OFFICIAL_INSTRUCTION, NATIVE_GENERATION_PROFILE
+    from official.evaluation.generation.native_profile import SOURCE
     env_file = os.environ.get("ODEEDIT_WANDB_ENV_FILE")
     attempt = os.environ.get("ODEEDIT_ATTEMPT_ID")
     if not env_file or not attempt:
         raise RuntimeError("ONLINE_LOGGER_ENV_OR_ATTEMPT_MISSING")
     values = dict(server="server3", task_id="official-baselines-20261008",
                   arm=arm, attempt=attempt, source_sha=source_sha,
-                  config_sha=config_sha, model="qwen", model_family="qwen",
+                  config_sha=config_sha, model="qwen25", model_family="qwen2",
                   writer=writer, baseline=writer, role="scientific",
-                  metric_schema=COMPARISON_SCHEMA)
+                  metric_schema=OFFICIAL_SCHEMA, instruction_id=OFFICIAL_INSTRUCTION,
+                  dataset=dataset)
+    if dataset == "cf":
+        values.update(generation_metric_schema="counterfact-cake-generation-metrics-v1",
+                      generation_profile=NATIVE_GENERATION_PROFILE,
+                      generation_eval_seed=20261007,
+                      reference_assets_sha256=assets["generation_reference"]["identity_sha256"],
+                      generation_source_sha=SOURCE["primary_file_sha256"],
+                      generation_repair_instruction=OFFICIAL_INSTRUCTION,
+                      generation_schedule="W0_AND_W20_FIRST2000")
     return init(env_file=env_file, spool=Path(output) / "wandb" / attempt,
                 config=values)
 
 
 def _factual_scalars(dataset, cases, summary, prefix, edits):
-    """Map already measured raw to scalar logging without new forwards."""
+    """Report official request-macro scores; never relabel them as prompt success."""
     values = dict(edits=edits, post_state_edits=edits)
-    if prefix == "W0_first2000":
-        values.pop("post_state_edits")
-    if dataset == "cf":
-        for kind, key, label in (("rewrite", "R", "Efficacy"),
-                                 ("paraphrase", "P", "Generalization"),
-                                 ("neighborhood", "N", "Specificity")):
-            # The native published score is request-macro.  Prompt-pair count
-            # is reported separately; its success_count would imply an
-            # incompatible prompt-micro denominator and is deliberately absent.
-            count = sum(len(case[f"{kind}_prompts_probs"]) for case in cases)
-            values[f"{prefix}/{key}/count"] = count
-            values[f"{prefix}/{key}/success_pct"] = float(summary[label])
-        values[f"{prefix}/success_harmonic_pct"] = float(summary["Score"])
-    else:
-        for field, key in (("rewrite_prompts_correct", "R"),
-                           ("paraphrase_prompts_correct", "P"),
-                           ("neighborhood_W0_agreement", "N")):
-            if not all(field in case for case in cases):
-                continue
-            # The normalized zsRE stream supplies one rewrite, rephrase and
-            # neighborhood prompt per request; token-level booleans inside
-            # each prompt remain separate from this prompt-pair count.
-            values[f"{prefix}/{key}/count"] = len(cases)
-            values[f"{prefix}/{key}/prompt_acc_pct"] = float(summary[
-                {"R": "Efficacy", "P": "Generalization", "N": "Specificity"}[key]])
-            # The shared evaluator records per-request token outcomes.  Keep
-            # token-micro/strict missing until it publishes explicit token
-            # denominators; do not fabricate prompt-level equivalents.
+    if prefix == "current/post":
+        values["pre_state_edits"] = edits - 100
+    if len(cases) != summary["requests"]:
+        raise ValueError("FACTUAL_SUMMARY_REQUEST_DENOMINATOR")
+    group = f"official/{prefix}"
+    for field in ("Efficacy", "Generalization", "Specificity", "Score",
+                  "Score_AlphaEdit_display", "Specificity_loc_ans", "requests"):
+        if field in summary:
+            values[f"{group}/{field}"] = summary[field]
+    return values
+
+
+def _milestone_scalars(dataset, cases, summary, edits):
+    """Split current 100 from a measured all-seen endpoint without a forward."""
+    from official.evaluation.reduce import counterfact, zsre
+    if edits not in (500, 1000, 1500, 2000) or len(cases) != edits:
+        raise ValueError("MILESTONE_RAW_CARDINALITY")
+    reducer = counterfact if dataset == "cf" else zsre
+    current = cases[-100:]
+    values = _factual_scalars(dataset, cases, summary, "all_seen/post", edits)
+    values.update(_factual_scalars(dataset, current, reducer(current),
+                                   "current/post", edits))
     return values
 
 
 def _log_scalar_receipt(tracker, output, label, values):
     """Keep local transport evidence separate from scientific completion."""
     accepted = tracker.log(values)
-    _write_once(Path(output) / "logging" / f"{label}.json",
-                dict(label=label, sdk_queue_accepted=accepted,
-                     remote_readback="NOT_ESTABLISHED_BY_SDK_QUEUE",
-                     run_id=tracker.run_id, spool=str(tracker.spool),
-                     dropped_points_at_call=tracker.dropped))
+    try:
+        _write_once(Path(output) / "logging" / f"{label}.json",
+                    dict(label=label, sdk_queue_accepted=accepted,
+                         remote_readback="NOT_ESTABLISHED_BY_SDK_QUEUE",
+                         run_id=tracker.run_id, spool=str(tracker.spool),
+                         dropped_points_at_call=tracker.dropped))
+    except Exception:
+        # The tracker has its own local spool; receipt I/O cannot roll back a
+        # committed native edit or replace its scientific error.
+        pass
     return accepted
 
 
@@ -322,18 +328,6 @@ def _preflight(args, *, require_frozen=False):
         _require_evaluator()
     except (ModuleNotFoundError, RuntimeError) as error:
         blockers.append(str(error))
-    if dataset == "zsre":
-        # The current shared scalar helper hardcodes CF's 2000/4000/20000
-        # W0 prompt counts.  zsRE has its own evaluator cardinalities; never
-        # silently drop an invalid logging point after spending GPU work.
-        from importlib import import_module
-        metrics = import_module("project.run_scripts.experiment_tracking.schema").metrics
-        probe = {"edits": 0}
-        probe.update({f"W0_first2000/{kind}/count": 2000 for kind in "RPN"})
-        try:
-            metrics(probe, scientific=True)
-        except ValueError:
-            blockers.append("W0_ZSRE_TRACKING_SCHEMA_UNSUPPORTED")
     if config is not None and config["method"] == "ALPHAEDIT_BLUE" and \
             config["hparams"]["L2"] is None:
         blockers.append("QWEN_BLUE_L2_SELECTION_REQUIRED")
@@ -406,18 +400,46 @@ def _tokenizer_receipt(snapshot, tokenizer, stream_lock):
                 stream_sha256=stream_lock["stream_sha256"])
 
 
-def _generation(model, tokenizer, records, assets, output, endpoint, state_identity):
+def _generation(model, tokenizer, records, assets, output, endpoint, state_identity,
+                tracker, native=None):
     from official.evaluation.generation.native_observer import NativeGenerationObserver
     from official.evaluation.generation.assets import load_assets
     from official.evaluation.generation.native_profile import PROFILE, SOURCE
+    from official.tracking import official_generation_progress
     reference = load_assets(assets["generation_reference"]["manifest_path"])
     config = dict(model_identity="qwen25@a09a35458c702b33eeacc393d103063234e8bc28",
                   generation_source_sha=SOURCE["primary_file_sha256"],
                   profile=PROFILE, eval_seed=20261007)
+    def native_state():
+        if native is None:
+            return {"history": "W0_ZERO", "context": "W0_UNEDITED"}
+        return {"history": _weight_hashes(native.cache_for_checkpoint()),
+                "context": hashlib.sha256(pickle.dumps(
+                    native.context_snapshot(), protocol=5)).hexdigest()}
+    progress_counts = {"sdk_queue_accepted": 0, "sdk_queue_rejected": 0}
+    def progress(row):
+        accepted = tracker.log(official_generation_progress(row, endpoint=endpoint))
+        progress_counts["sdk_queue_accepted" if accepted else "sdk_queue_rejected"] += 1
     observer = NativeGenerationObserver(model, tokenizer, reference, config,
-                                        Path(output) / "generation")
-    return observer.observe(records, endpoint=endpoint, cohort="first2000",
-                            state_identity=state_identity)
+                                        Path(output) / "generation",
+                                        state_callback=native_state,
+                                        progress_callback=progress)
+    completed = False
+    try:
+        result = observer.observe(records, endpoint=endpoint, cohort="first2000",
+                                  state_identity=state_identity)
+        completed = True
+        return result
+    finally:
+        try:
+            _write_once(Path(output) / "logging" /
+                        f"generation-progress-{endpoint}-{tracker.run_id}.json",
+                        dict(endpoint=endpoint, generation_complete=completed,
+                             remote_readback="NOT_ESTABLISHED_BY_SDK_QUEUE",
+                             logger_status=tracker.status, **progress_counts))
+        except Exception:
+            # Transport receipt failure must not replace the science exception.
+            pass
 
 
 def _recover_batch_receipts(out, payload, checkpoint_ref, config, lock, source, identity):
@@ -481,6 +503,7 @@ def w0(args):
             raise ValueError("W0_EXISTING_IDENTITY_MISMATCH")
         return 0
     with _tracker(out, arm=f"qwen25-{args.dataset}-W0", writer="W0",
+                  dataset=args.dataset, assets=assets,
                   source_sha=source["code_commit"],
                   config_sha=lock["stream_sha256"]) as tracker:
         _model_seed(0)
@@ -490,7 +513,8 @@ def w0(args):
         with torch.inference_mode():
             cases, summary = _evaluate_factual(module, model, tok, records, args.dataset)
             generation = _generation(model, tok, records, assets, out, "W0",
-                                     dict(source=source, stream_sha256=lock["stream_sha256"])) \
+                                     dict(source=source, stream_sha256=lock["stream_sha256"]),
+                                     tracker) \
                 if args.dataset == "cf" else None
         out.mkdir(parents=True, exist_ok=True)
         _write_once(out / "w0-cases.json", cases)
@@ -540,6 +564,7 @@ def execute(args):
     if args.resume and not (checkpoint_dir / "latest.json").exists():
         raise ValueError("RESUME_CHECKPOINT_MISSING")
     with _tracker(out, arm=config["run_id"], writer=config["method"],
+                  dataset=config["dataset"], assets=asset_receipt["assets"],
                   source_sha=source["code_commit"],
                   config_sha=config["config_sha256"]) as tracker:
         _model_seed(config["edit_seed"])
@@ -603,7 +628,8 @@ def execute(args):
                             generation = _generation(model, tok, records, asset_receipt["assets"],
                                                      out, "W20", dict(checkpoint_identity=identity,
                                                                        batch=batch,
-                                                                       weight_hashes=_weight_hashes(weights)))
+                                                                       weight_hashes=_weight_hashes(weights)),
+                                                     tracker, native)
                 cursor = dict(completed_batch=batch, w0_receipt=str(shared / "w0-receipt.json"),
                               evaluated_endpoints=[n for n in PHASES if n <= batch],
                               per_request_records=[dict(occurrence_index=r["occurrence_index"],
@@ -635,9 +661,12 @@ def execute(args):
                     dict(batch=batch, evaluation_cursor=cursor), ck,
                     config, lock, source, identity)
                 if factual is not None:
-                    scalars = _factual_scalars(config["dataset"], cases, summary,
-                                               "current/post" if batch == 3 else "all_seen/post",
-                                               batch * 100)
+                    if batch == 3:
+                        scalars = _factual_scalars(config["dataset"], cases, summary,
+                                                   "current/post", batch * 100)
+                    else:
+                        scalars = _milestone_scalars(config["dataset"], cases,
+                                                     summary, batch * 100)
                     if generation is not None:
                         from official.evaluation.generation.metrics import generation_payload
                         scalars.update(generation_payload("all_seen/post", generation["summary"]))

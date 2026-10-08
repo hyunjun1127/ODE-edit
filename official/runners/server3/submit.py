@@ -116,19 +116,19 @@ def official_tree_sha256(source_root):
     return hasher.hexdigest()
 
 
-def tracking_tree_sha256(source_root):
-    package = Path(source_root) / "project/run_scripts/experiment_tracking"
-    require(package.is_dir(), "TRACKING_HELPER_MISSING")
-    require(not any(p.is_symlink() for p in package.rglob("*")),
-            "TRACKING_TREE_SYMLINK")
-    files = [p for p in package.rglob("*") if p.is_file() and not p.is_symlink()
-             and "__pycache__" not in p.parts and p.suffix != ".pyc"]
-    require(files, "TRACKING_HELPER_EMPTY")
-    hasher = hashlib.sha256()
-    for path in sorted(files, key=lambda p: p.relative_to(source_root).as_posix()):
-        relative = path.relative_to(source_root).as_posix()
-        hasher.update(relative.encode() + b"\0" + file_sha(path).encode() + b"\n")
-    return hasher.hexdigest()
+def verify_tracking_closure(source_root):
+    """The runner and its tracking implementation must share the frozen tree."""
+    source_root = Path(source_root)
+    for name in ("official/tracking/client.py", "official/tracking/schema.py",
+                 "official/tracking/method.py", "official/tracking/worker.py"):
+        require((source_root / name).is_file(), "OFFICIAL_TRACKING_SOURCE_MISSING:" + name)
+    runner = source_root / "official/runners/server3/run.py"
+    require(runner.is_file(), "FROZEN_RUNNER_MISSING")
+    runner_source = runner.read_text()
+    require("official.tracking" in runner_source,
+            "RUNNER_OFFICIAL_TRACKING_IMPORT_MISSING")
+    require("project.run_scripts.experiment_tracking" not in runner_source,
+            "RUNNER_LEGACY_TRACKING_IMPORT")
 
 
 def git_main_identity():
@@ -137,16 +137,15 @@ def git_main_identity():
             "SOURCE_MUST_BE_PUBLISHED_MAIN_COMMIT")
     sealed_paths = ("official", "agents/server3/experiment-ready-paths-20260919-v1.json",
                     "agents/server4/p4-hf-consumed-closure-seal.json",
-                    "agents/server4/alphaedit-runtime-path-seal.json",
-                    "project/run_scripts/experiment_tracking")
+                    "agents/server4/alphaedit-runtime-path-seal.json")
     require(not command(["git", "status", "--porcelain", "--", *sealed_paths], cwd=ROOT),
             "OFFICIAL_TREE_UNCOMMITTED")
     for name in ("official/runners/server3/run.py", "official/runners/server3/submit.py",
-                 "official/evaluation/factual.py", *sealed_paths[1:4]):
+                 "official/evaluation/factual.py", "official/tracking/client.py",
+                 "official/tracking/schema.py", "official/tracking/method.py",
+                 "official/tracking/worker.py", *sealed_paths[1:]):
         require(command(["git", "ls-files", "--", name], cwd=ROOT) == name,
                 "SOURCE_NOT_TRACKED:" + name)
-    require(command(["git", "ls-files", "--", sealed_paths[4]], cwd=ROOT),
-            "TRACKING_SOURCE_NOT_TRACKED")
     return commit
 
 
@@ -158,14 +157,13 @@ def freeze_source(attempt):
     command(["git", "archive", "--format=tar", "--output=" + str(archive),
              commit, "official", "agents/server3/experiment-ready-paths-20260919-v1.json",
              "agents/server4/p4-hf-consumed-closure-seal.json",
-             "agents/server4/alphaedit-runtime-path-seal.json",
-             "project/run_scripts/experiment_tracking"], cwd=ROOT)
+             "agents/server4/alphaedit-runtime-path-seal.json"], cwd=ROOT)
     with tarfile.open(archive) as tar:
         members = tar.getmembers()
         require(members and len({x.name for x in members}) == len(members), "ARCHIVE_DUPLICATE")
         for entry in members:
             parts = Path(entry.name).parts
-            require(parts and parts[0] in ("official", "agents", "project") and
+            require(parts and parts[0] in ("official", "agents") and
                     ".." not in parts and
                     not Path(entry.name).is_absolute() and
                     (entry.isfile() or entry.isdir()), "UNSAFE_SOURCE_ARCHIVE")
@@ -178,10 +176,8 @@ def freeze_source(attempt):
                     shutil.copyfileobj(src, dst)
     sha = official_tree_sha256(source)
     require(sha == official_tree_sha256(ROOT), "SOURCE_CHANGED_DURING_FREEZE")
-    tracking_sha = tracking_tree_sha256(source)
-    require(tracking_sha == tracking_tree_sha256(ROOT), "TRACKING_SOURCE_CHANGED_DURING_FREEZE")
+    verify_tracking_closure(source)
     return {"code_commit": commit, "official_tree_sha256": sha,
-            "tracking_tree_sha256": tracking_sha,
             "archive": member(archive), "source": str(source),
             "source_members": [member(p) for p in sorted(source.rglob("*")) if p.is_file()],
             "agent_seals": [member(source / "agents/server3/experiment-ready-paths-20260919-v1.json"),
@@ -400,12 +396,12 @@ def check_wandb(source, env_file):
     env.update(HOME=pwd.getpwuid(os.getuid()).pw_dir, USER=getpass.getuser(),
                PYTHONPATH=str(source), WANDB_MODE="online", CUDA_VISIBLE_DEVICES="")
     settings_script = ("import json,sys\n"
-                       "from project.run_scripts.experiment_tracking.schema import load_env\n"
+                       "from official.tracking.schema import load_env\n"
                        "settings=load_env(sys.argv[1])\n"
                        "print(json.dumps({'python':settings['ODEEDIT_WANDB_PYTHON'],"
                        "'base_url':settings['WANDB_BASE_URL']}))\n")
     settings = json.loads(command([sys.executable, "-c", settings_script, str(env_file)],
-                                  env=env, timeout=20))
+                                  cwd=source, env=env, timeout=20))
     sdk_python = Path(settings["python"])
     require(sdk_python.is_file() and os.access(sdk_python, os.X_OK), "WANDB_SDK_PYTHON_MISSING")
     script = ("import sys,wandb\n"
@@ -603,8 +599,7 @@ def verify_runtime(attempt, key):
     require(key in {s["key"] for s in lock["specs"]}, "UNKNOWN_LAUNCHER_KEY")
     require(official_tree_sha256(lock["source"]) == lock["official_tree_sha256"],
             "FROZEN_OFFICIAL_TREE_CHANGED")
-    require(tracking_tree_sha256(lock["source"]) == lock["tracking_tree_sha256"],
-            "FROZEN_TRACKING_TREE_CHANGED")
+    verify_tracking_closure(lock["source"])
     source_root = Path(lock["source"])
     actual = {str(p.resolve()) for p in source_root.rglob("*") if p.is_file()
               and "__pycache__" not in p.parts and p.suffix != ".pyc"}
@@ -857,8 +852,6 @@ def submit_held(args):
     output_root.mkdir(parents=True, exist_ok=True)
     lock_descriptor = attempt_lock(output_root)
     try:
-        if args.stage == "zsre":
-            raise Blocked("ZSRE_W0_TRACKING_SCHEMA_UNSUPPORTED:shared_method_helper_requires_2000_4000_20000")
         attempt = safe_attempt(args.attempt, output_root)
         rows, files = matrix_rows(args.matrix_root)
         selection = None
@@ -997,8 +990,6 @@ def resume_held(args):
         origin_attempt = Path(prior.get("origin_attempt", prior_attempt)).resolve(strict=True)
         origin = read(origin_attempt / "execution.lock.json")
         require(origin["stage"] in ("cf", "zsre"), "RESUME_ORIGIN_STAGE_INVALID")
-        if origin["stage"] == "zsre":
-            raise Blocked("ZSRE_W0_TRACKING_SCHEMA_UNSUPPORTED:shared_method_helper_requires_2000_4000_20000")
         position = next(i for i, row in enumerate(origin["specs"])
                         if row["key"] == spec["key"])
         descendants = origin["specs"][position + 1:]
@@ -1027,7 +1018,7 @@ def resume_held(args):
                 "RESUME_OUTPUT_ROOT_CHANGED")
         storage = storage_reserve(output_root, [spec], assets_data)
         source_lock = {k: prior[k] for k in ("code_commit", "official_tree_sha256",
-                        "tracking_tree_sha256", "archive", "source", "source_members",
+                        "archive", "source", "source_members",
                         "agent_seals")}
         source = Path(source_lock["source"])
         python = Path(prior["python"])

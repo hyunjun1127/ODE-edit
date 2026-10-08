@@ -2,6 +2,7 @@
 
 import copy
 import json
+import os
 from pathlib import Path
 import tempfile
 import unittest
@@ -42,25 +43,67 @@ class Server3RunTests(unittest.TestCase):
             run.validate_config(changed)
 
     def test_cf_macro_score_is_not_fabricated_prompt_success_count(self):
+        from official.tracking.method import harmonic, validate
         cases = [{"rewrite_prompts_probs": [{}], "paraphrase_prompts_probs": [{}, {}],
                   "neighborhood_prompts_probs": [{}] * 10} for _ in range(2000)]
         summary = {"Efficacy": 80.0, "Generalization": 70.0,
-                   "Specificity": 60.0, "Score": 69.42028985507247}
+                   "Specificity": 60.0, "Score": harmonic([80.0, 70.0, 60.0]),
+                   "requests": 2000}
         values = run._factual_scalars("cf", cases, summary, "W0_first2000", 0)
-        self.assertEqual([values[f"W0_first2000/{kind}/count"] for kind in "RPN"],
-                         [2000, 4000, 20000])
+        self.assertEqual(values["official/W0_first2000/requests"], 2000)
         self.assertFalse(any(k.endswith("/success_count") for k in values))
-        self.assertEqual(values["W0_first2000/N/success_pct"], 60.0)
+        self.assertFalse(any("/R/count" in k or "/P/count" in k for k in values))
+        self.assertEqual(values["official/W0_first2000/Specificity"], 60.0)
+        validate(values, scientific=True, official=True)
 
     def test_zsre_never_calls_accuracy_nll_preference(self):
+        from official.tracking.method import validate
         cases = [{"rewrite_prompts_correct": [True, False],
                   "paraphrase_prompts_correct": [True],
-                  "neighborhood_W0_agreement": [False, True]}]
+                  "neighborhood_W0_agreement": [False, True]}] * 100
         summary = {"Efficacy": 50.0, "Generalization": 100.0,
-                   "Specificity": 50.0}
-        values = run._factual_scalars("zsre", cases, summary, "all_seen/post", 100)
-        self.assertEqual(values["all_seen/post/R/prompt_acc_pct"], 50.0)
+                   "Specificity": 50.0, "Specificity_loc_ans": 25.0,
+                   "requests": 100}
+        values = run._factual_scalars("zsre", cases, summary, "current/post", 100)
+        self.assertEqual(values["official/current/post/Efficacy"], 50.0)
+        self.assertEqual(values["official/current/post/Specificity_loc_ans"], 25.0)
         self.assertFalse(any(k.endswith("/success_pct") for k in values))
+        validate(values, scientific=True, official=True)
+
+    def test_official_tracking_config_binds_cf_and_omits_zsre_generation(self):
+        from official.tracking.schema import config as check_config
+        assets = {"generation_reference": {"identity_sha256": "c" * 64}}
+        with tempfile.TemporaryDirectory() as folder, patch.dict(os.environ, {
+                "ODEEDIT_WANDB_ENV_FILE": str(Path(folder) / "wandb.env"),
+                "ODEEDIT_ATTEMPT_ID": "fixture"}):
+            with patch("official.tracking.init") as start:
+                run._tracker(folder, arm="qwen25-cf-ft", writer="FT", dataset="cf",
+                             source_sha="a" * 40, config_sha="b" * 64, assets=assets)
+                cf = start.call_args.kwargs["config"]
+                self.assertEqual(check_config(cf), cf)
+                self.assertEqual(cf["metric_schema"], "official-baselines-scalar-v1")
+                run._tracker(folder, arm="qwen25-zsre-ft", writer="FT", dataset="zsre",
+                             source_sha="a" * 40, config_sha="b" * 64, assets=assets)
+                zsre = start.call_args.kwargs["config"]
+                self.assertEqual(check_config(zsre), zsre)
+                self.assertFalse(any(k.startswith("generation_") for k in zsre))
+
+    def test_milestone_current_is_raw_last100_of_same_all_seen_endpoint(self):
+        from official.evaluation.reduce import counterfact
+        from official.tracking.method import validate
+        cases = []
+        for index in range(500):
+            new = 0.0 if index >= 400 else 2.0
+            cases.append({kind + "_prompts_probs": [{"target_new": new,
+                "target_true": 1.0}] for kind in ("rewrite", "paraphrase") } |
+                {"neighborhood_prompts_probs": [{"target_new": 2.0,
+                    "target_true": 1.0}]})
+        values = run._milestone_scalars("cf", cases, counterfact(cases), 500)
+        self.assertEqual(values["official/all_seen/post/requests"], 500)
+        self.assertEqual(values["official/current/post/requests"], 100)
+        self.assertEqual(values["official/current/post/Efficacy"], 100.0)
+        self.assertEqual(values["official/all_seen/post/Efficacy"], 20.0)
+        validate(values, scientific=True, official=True)
 
     def test_checkpoint_pointer_receipt_recovery_including_w20(self):
         from official.experiments.prepare import file_sha

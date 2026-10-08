@@ -411,14 +411,17 @@ def _generation(result: dict, value, base: Path, hash_large: bool,
     native_generator = OFFICIAL / "evaluation/generation/native_generator.py"
     native_sha = _sha(native_generator)
     generation["native_generator_sha256"] = native_sha
-    # The distributed native case-batched generator currently has an explicit
-    # model_type gate for GPT-2/GPT-J.  Qwen's qwen2 type must not get as far as
-    # a costly W0 load only to fail at the first generation call.  A changed
-    # shared source still needs a reviewed Qwen qualification, not silent PASS.
+    # This reviewed common source contains the Qwen2 cache/position route.
+    # Source identity plus tiny CPU family fixtures establishes only software
+    # compatibility; the target-model GPU B3 qualification remains separate.
     known_gpt_only_sha = "ef3d3daf20c174cfa3627a3852e2d593eb506718ac8ddde62a909a26c87bd2c3"
-    _block(result, "QWEN_GENERATION_MODEL_FAMILY_UNSUPPORTED" if native_sha == known_gpt_only_sha
-           else "QWEN_GENERATION_SOURCE_NOT_QUALIFIED", native_generator,
-           "NativeGenerationObserver's case generator has no qualified qwen2 path")
+    reviewed_qwen2_sha = "601bfb8b3d5514d0d2b13a11d025b02fd53f0f1fe39325daa94ed7307c3ec520"
+    if native_sha != reviewed_qwen2_sha:
+        _block(result, "QWEN_GENERATION_MODEL_FAMILY_UNSUPPORTED" if native_sha == known_gpt_only_sha
+               else "QWEN_GENERATION_SOURCE_NOT_REVIEWED", native_generator,
+               "Qwen2 generator source differs from the reviewed CPU-compatible bytes")
+    else:
+        generation["qwen2_software_compatibility"] = "CPU_FAMILY_FIXTURE_ONLY_GPU_NOT_QUALIFIED"
     runtime_python = result.get("runtime", {}).get("python")
     if runtime_python and Path(runtime_python).is_file():
         # Probe the actual scientific interpreter with the same HOME-only
