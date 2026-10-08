@@ -1,0 +1,14 @@
+{
+  "instruction_id": "USER-GH-ALL-SH-FINAL-CHECKPOINT-ARCHIVE-SERVER1-20261009-R1",
+  "recipient_nonce": "USER-GH-ALL-SH-FINAL-CHECKPOINT-ARCHIVE-SERVER1-20261009-R1-SERVER3",
+  "server": "server3",
+  "status": "POLICY_ACCEPTED_NO_VERIFIED_FINAL_ELIGIBLE_CHECKPOINT",
+  "transfer_status": "NOT_STARTED",
+  "destination_verification_status": "NOT_STARTED",
+  "source_deletion_status": "NOT_STARTED",
+  "transferred_files": 0,
+  "deleted_files": 0,
+  "scientific_job_mutations": 0,
+  "report": "experiment-reports/servers/server3/final-checkpoint-archive-20261009/report-ko.md",
+  "audit": "audits/servers/server3/final-checkpoint-archive-20261009/receipt.json"
+}
