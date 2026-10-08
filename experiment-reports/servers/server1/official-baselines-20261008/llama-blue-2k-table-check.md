@@ -1,7 +1,7 @@
 # Llama AlphaEdit-BLUE B20 표 반영 확인
 
 2026-10-09 사용자 직접 요청: 기존 BLUE checkpoint 표본·순서를 간단히 확인하고
-표를 갱신. 이전 지시대로 Flu와 Loc 칸 유지. 이는 해당 행에 대한 역사 결과 반영
+표를 갱신. 후속 사용자 요청에 따라 Loc도 원 NS 집계로 반영하고 Flu 칸은 유지. 이는 해당 행에 대한 역사 결과 반영
 예외이며 다른 행의 fresh-run 정책이나 실행을 변경하지 않는다.
 
 ## 표본 및 순서
@@ -26,7 +26,7 @@
 | --- | ---: | ---: |
 | Eff/RS | 1992/2000 | 99.60 |
 | Gen/PS | 3886/4000 | 97.15 |
-| N success (Score 산출용; Loc 칸 미변경) | 15317/20000 | 76.585 |
+| Loc/NS | 15317/20000 | 76.585 (표 표시 76.59) |
 | Score | 3 / (1/99.6 + 1/97.15 + 1/76.585) | 89.84481471267732 |
 
 첫2000의 P는 요청당2개, N은 요청당10개임을 현재 JSON에서 확인했다.
@@ -38,4 +38,5 @@ transformers4.44.2 등 과거 source/runtime를 현재 것으로 relabel하지 �
 B020 checkpoint SHA `268cf596e963b3455a694ccb2b7599b97ee483ad091cadcc051c185358fcc675`는
 기존 `checkpoint-tensors.csv`와 global checkpoint reuse 보고서의 결속을 참조했다.
 본 점검에서 원격 CP 재전송/deserialize/restore/GPU 검산은 하지 않았다.
-Flu/Loc/Con 및 zsRE 칸은 변경하지 않았다. job/CP/raw 변경 및 새 실험 제출0.
+후속 요청으로 Loc 칸을 76.59로 추가했다. Flu/Con 및 zsRE 칸은 변경하지 않았다.
+job/CP/raw 변경 및 새 실험 제출0.
