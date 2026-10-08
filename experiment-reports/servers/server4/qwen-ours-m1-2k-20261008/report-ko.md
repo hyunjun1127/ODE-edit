@@ -18,4 +18,8 @@ job-lifetime CPU companion은 원 history를 추가로 쓰지 않는다. 시작,
 
 GPU1 RTX PRO 6000/CPU8/59392MiB/24h, exportNONE/requeue0. 합산 project cap3, Qwen task cap1. 기존61418/61420 유지,60917–60923 baseline hold 유지. disk reserve24536416256bytes를 제출 직전 확인한다. GPU/host 추정74.62/49.74GiB는 실측이 아니다.
 
-등록 결과와 W&B 실제 online 여부는 후속 receipt로 남긴다. 정상 자원 PENDING을 완료로 쓰지 않는다.
+실제 **61598**을 held검사 후 release했다. release 직후 snapshot은 PENDING이며 scheduler Reason은 아직 None이었다. 관측 당시 전체 노드GPU는 점유 중이었다. 신규W0/다른job변경은 없다. W&B ID/URL은 아직 생성되지 않았고 online PASS를 주장하지 않는다.
+
+[등록 receipt](../../../../../audits/servers/server4/qwen-ours-m1-2k-20261008/submission.json). 운영 source는 `486f5f7501ad2ee1bcf567c5390e1724105339f6`; 원 scientific source와 구분한다. 원 `run.sh` SHA를 held상태에서 다시 확인했다. 디스크 실여유62,205,317,120bytes >= reserve24,536,416,256bytes.
+
+이후 운영 기록은 `/data/janghj/ODE-edit/local/qwen-ours-m1-2k-20261008/execution-v1/readback/` 및 `collection-*.json`에 남는다. 사용자의 phase별 실시간 확인 요청에 한정된 job-lifetime CPU companion이며 별도 agent daemon/새science/Slurm재시도는 없다. 제출·online·GPU검산·W20완료를 별개 상태로 기록한다.

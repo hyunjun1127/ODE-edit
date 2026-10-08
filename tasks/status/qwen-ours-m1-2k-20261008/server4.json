@@ -1,0 +1,13 @@
+{
+  "nonce":"USER-SH4-QWEN-OURS-M1-2K-LIVE-WANDB-20261008-R1",
+  "task_id":"qwen-ours-m1-2k-20261008","server":"server4",
+  "stage":"SUBMITTED_RELEASED_INITIAL_PENDING","job_ids":[61598],
+  "cell":"QWEN_M1_CAP075","scientific_source":"9ecdf8342c52ee7e6a85a6ed741fc4f5468bc1ef",
+  "operations_source":"486f5f7501ad2ee1bcf567c5390e1724105339f6",
+  "source_config_runtime_SHA":"PASS_CPU","actual_GPU_qualification":"NOT_OBSERVED",
+  "WandB_run_id":null,"WandB_url":null,"WandB_online":"NOT_STARTED",
+  "progress_root":"/data/janghj/ODE-edit/local/qwen-ours-m1-2k-20261008/execution-v1",
+  "project_GPU_cap":3,"task_GPU_cap":1,"new_W0":0,"noCP":true,
+  "agent_monitoring_active":false,"job_phase_readbacks":true,"automatic_resubmit":false,
+  "science_complete":false,"other_jobs_unchanged":true
+}

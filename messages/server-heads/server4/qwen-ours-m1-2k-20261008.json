@@ -1,0 +1,12 @@
+{
+  "nonce":"USER-SH4-QWEN-OURS-M1-2K-LIVE-WANDB-20261008-R1",
+  "owner":"SH4","session":"01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "accepted":true,"stage":"HELD_INSPECTED_RELEASED_INITIAL_PENDING","job_id":61598,
+  "scientific_source":"9ecdf8342c52ee7e6a85a6ed741fc4f5468bc1ef",
+  "operations_source":"486f5f7501ad2ee1bcf567c5390e1724105339f6",
+  "WandB":"아직 job 시작 전이라 ID/URL 없음. startup remote identity 및 phase readback 운영 wrapper 봉인",
+  "scope":"단일 QWEN_M1_CAP075 100x20, W0 재사용, W20-only generation, cap3 내 GPU1/CPU8/58GiB/24h",
+  "other_runs":"61418/61420 및 baseline hold 그대로",
+  "report":"experiment-reports/servers/server4/qwen-ours-m1-2k-20261008/report-ko.md",
+  "completion":"현재 실험완료 아님. job 종료 후 frozen collector CPU 수집, 자동과학 retry0"
+}
