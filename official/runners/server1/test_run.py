@@ -110,6 +110,8 @@ class RunnerConnectorTests(unittest.TestCase):
                 patch.object(run, "load_model", side_effect=lambda assets: (FixtureModel(), object())),
                 patch.object(run, "seed_edit", seed_CPU),
                 patch.object(run, "factual", self.endpoint),
+                patch("official.runners.server1.w0_binding.execution_identity",
+                      return_value=dict(test_only_CPU_serialization_fixture=True)),
                 patch("official.runners.server1.native_parity.qualify",
                       side_effect=lambda model, tok, records, external, engine, plan, endpoint:
                           dict(state_after=engine.state_identity(), identity=dict(method=engine.method),
@@ -204,13 +206,71 @@ class RunnerConnectorTests(unittest.TestCase):
     def test_native_oracle_stage_uses_separate_binding_not_augmented_raw_identity(self):
         endpoint, report = self.root / "endpoint.json", self.root / "oracle.json"
         state = dict(method="FT", successful_calls=3)
-        write_new(endpoint, dict(identity=dict(external_identity=self.external)))
-        write_new(report, dict(state_after=state, reference_binding=dict(state_identity=state)))
+        original = dict(identity=dict(external_identity=self.external))
+        write_new(endpoint, original)
+        write_new(report, dict(state_after=state, reference_binding=dict(state_identity=state),
+                               canonical=original, canonical_payload_sha256=digest(original)))
         value = dict(factual_member=common.member(endpoint), native_parity_member=common.member(report),
                      method="FT", selected_state=state)
         with patch("official.runners.server1.native_parity.validate_report", return_value="CPU_FIXTURE_VALIDATED"):
             self.assertEqual(run.verify_native_parity_stage(value, {"native_reference_matched_B3": {}}),
                              "CPU_FIXTURE_VALIDATED")
+
+    def test_native_oracle_matching_external_different_canonical_member_is_rejected_early(self):
+        endpoint, report = self.root / "endpoint.json", self.root / "oracle.json"
+        state = dict(method="FT", successful_calls=3)
+        original = dict(identity=dict(external_identity=self.external), observations="measured")
+        other = dict(identity=dict(external_identity=self.external), observations="different")
+        write_new(endpoint, original)
+        write_new(report, dict(state_after=state, reference_binding=dict(state_identity=state),
+                               canonical=other, canonical_payload_sha256=digest(other)))
+        value = dict(factual_member=common.member(endpoint), native_parity_member=common.member(report),
+                     method="FT", selected_state=state)
+        with patch("official.runners.server1.native_parity.validate_report") as validator:
+            with self.assertRaisesRegex(ValueError, "CANONICAL_COMPLETED_B3_MEMBER"):
+                run.verify_native_parity_stage(value, {"native_reference_matched_B3": {}})
+            validator.assert_not_called()
+
+    def test_qualification_other_stream_is_rejected_before_loading_stage_members(self):
+        identity = dict(self.identity, stream_sha256="a" * 64)
+        value = dict(schema="official-server1-native-resume-READY-v1", method="FT", passed=True,
+                     actual_native_B3_and_B2_resume=True, actual_fit_calls=6, generation_calls=0,
+                     identity=dict(identity, stream_sha256="b" * 64))
+        with patch.object(run, "verify") as member_verifier:
+            with self.assertRaisesRegex(ValueError, "SOURCE_ASSET_IDENTITY"):
+                run.verify_qualification(value, "FT", identity)
+            member_verifier.assert_not_called()
+
+    def test_zsre_caller_binds_CF_qualification_to_actual_CF_bundle_not_zsre_stream(self):
+        cf, bundle, assets = (self.root / name for name in ("cf.json", "bundle.json", "assets.json"))
+        write_new(cf, self.records)
+        cf_member = common.member(cf)
+        write_new(bundle, dict(datasets=dict(cf=dict(stream=cf_member))))
+        write_new(assets, dict(streams=dict(cf=dict(stream_sha256=cf_member["sha256"]))))
+        config = dict(dataset="zsre", stream_bundle_member=common.member(bundle),
+                      assets_member=common.member(assets), qualification_plan={},
+                      qualification_outputs={method:str(self.root / method) for method in common.METHODS})
+        for method in common.METHODS:
+            (self.root / method).mkdir()
+            write_new(self.root / method / "READY.json", {"method":method})
+        zsre_identity = dict(self.identity, stream_sha256="e" * 64)
+        with patch.object(run, "verify_qualification") as qualifier:
+            run.verify_qualifications(config, zsre_identity)
+            self.assertEqual(qualifier.call_count, 3)
+            for call in qualifier.call_args_list:
+                self.assertEqual(call.args[2], dict(zsre_identity, stream_sha256=cf_member["sha256"]))
+        self.assertEqual(zsre_identity["stream_sha256"], "e" * 64)
+
+    def test_zsre_caller_rejects_CF_bundle_asset_mismatch_before_qualification(self):
+        cf, bundle, assets = (self.root / name for name in ("cf.json", "bundle.json", "assets.json"))
+        write_new(cf, self.records)
+        write_new(bundle, dict(datasets=dict(cf=dict(stream=common.member(cf)))))
+        write_new(assets, dict(streams=dict(cf=dict(stream_sha256="f" * 64))))
+        config = dict(dataset="zsre", stream_bundle_member=common.member(bundle), assets_member=common.member(assets))
+        with patch.object(run, "verify_qualification") as qualifier:
+            with self.assertRaisesRegex(ValueError, "ACTUAL_CF_STREAM_ASSET_IDENTITY"):
+                run.verify_qualifications(config, dict(self.identity, stream_sha256="e" * 64))
+            qualifier.assert_not_called()
 
     def test_qualification_failed_stage_never_writes_READY(self):
         output = self.root / "failed-qualification"

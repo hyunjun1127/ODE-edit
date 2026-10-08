@@ -5,7 +5,7 @@ from pathlib import Path
 import tempfile
 import unittest
 from unittest.mock import patch
-from contextlib import nullcontext
+from contextlib import nullcontext, ExitStack
 
 from official.evaluation import factual
 from official.evaluation import w0_reference as w
@@ -64,7 +64,8 @@ def endpoint(dataset, fp):
         for kind in ("rewrite","paraphrase","neighborhood"):
             if dataset=="cf":
                 new,true=candidate(ordinal,kind,"new"),candidate(ordinal,kind,"true")
-                row[kind+"_observations"]=[dict(prompt_index=0,prompt="TEST_ONLY_PROMPT", target_new=new,target_true=true)]
+                row[kind+"_observations"]=[dict(prompt_index=0,prompt="TEST_ONLY_PROMPT", target_new=new,target_true=true,
+                    desired_target="true" if kind=="neighborhood" else "new",margin_true_minus_new=true["mean_nll"]-new["mean_nll"])]
                 row[kind+"_prompts_probs"]=[dict(target_new=new["mean_nll"],target_true=true["mean_nll"])]
             else:
                 row[kind+"_observations"]=[candidate(ordinal,kind,"loc_ans" if kind=="neighborhood" else "new")]
@@ -81,7 +82,50 @@ def endpoint(dataset, fp):
         ([observation["target_true" if kind=="neighborhood" else "target_new"] for observation in row[kind+"_observations"]]
          if dataset=="cf" else row[kind+"_observations"])]) for kind in ("rewrite","paraphrase","neighborhood")}
     return dict(cases=cases,accuracy=accuracy,summary=counterfact(cases) if dataset=="cf" else zsre(cases),identity=identity,
-        identity_sha256=w._digest(identity),model_no_mutation=True,RNG_restored=True,raw_local_only=True)
+        identity_sha256=w._digest(identity),model_no_mutation=True,RNG_restored=True,raw_local_only=True,
+        work=dict(factual.retained_query_work(w._signatures(cases,dataset),dataset),seconds=.001))
+
+
+def execution_fixture(fp, *, consumer=False, role=None):
+    runtime=dict(python="/fixture/python",python_version=fp["content"]["runtime"]["versions"]["python"],
+                 dependency_versions={k:fp["content"]["runtime"]["versions"][k] for k in ("torch","transformers","numpy")})
+    return dict(server="server4" if consumer else "server1", role=role or ("GPU_CONSUMER" if consumer else "GPU_PRODUCER"),
+        source=dict(main_commit=("f" if consumer else "a")*40,official_tree=("e" if consumer else "b")*40),
+        config_sha256=sha("a"),assets_manifest=dict(path="/fixture/assets.json",bytes=8,sha256=sha()),
+        runtime=runtime,input_stream_bundle=dict(path="/fixture/bundle.json",bytes=8,sha256=sha()),
+        output="/consumer" if consumer else "/producer",base_W0_input="/producer",
+        hardware=dict(device="CPU" if role=="CPU_REDUCER" else "synthetic-unit-GPU",capability=[] if role=="CPU_REDUCER" else [8,6],
+                      cross_hardware_bitwise_claim=False),slurm=dict(SLURM_JOB_ID="700" if consumer else "600"))
+
+
+def state_fixture(method, calls=3):
+    module=dict(FT="official.baselines.easyedit.models.ft.ft_main",MEMIT="official.baselines.sphere.memit.memit_main",
+                MEMIT_FE="official.baselines.easyedit.models.memit_FE.memit_FE_main")[method]
+    context=dict(schema="official-server1-native-context-v1",method=method,module=module,successful_calls=calls,
+                 CONTEXT_TEMPLATES_CACHE=None if method=="FT" else [["{}"],["synthetic context {}"]])
+    if method=="MEMIT":context["GLOBAL_EDIT_COUNT"]=calls
+    context["identity_sha256"]=w._digest(context)
+    state=dict(method=method,successful_calls=calls,cache_c={},contexts_sha256=context["identity_sha256"],
+               selected_weights={"model.layers."+str(layer)+".mlp.down_proj.weight":dict(sha256=sha(),shape=[4096,14336],dtype="torch.float32")
+                                 for layer in ((21,) if method=="FT" else (4,5,6,7,8))})
+    state["identity_sha256"]=w._digest(state)
+    tensor=lambda dtype,shape:dict(dtype=dtype,shape=shape,sha256=sha())
+    rng=dict(python=[3,[0]*624+[624],None],numpy=["MT19937",tensor("uint32",[624]),624,0,0.0],
+             torch_cpu=tensor("torch.uint8",[5056]),torch_cuda=[tensor("torch.uint8",[5056])])
+    return state,context,rng
+
+
+def sliced_endpoint(ep,n):
+    value=copy.deepcopy(ep);value["cases"]=value["cases"][:n]
+    signatures=w._signatures(value["cases"],"cf")
+    value["identity"]["ordered_occurrences"]=list(range(1,n+1))
+    value["identity"]["cohort_sha256"]=w._digest(signatures)
+    value["identity_sha256"]=w._digest(value["identity"])
+    value["summary"]=counterfact(value["cases"])
+    value["accuracy"]={kind:factual._accuracy([row["target_true" if kind=="neighborhood" else "target_new"]
+            for case in value["cases"] for row in case[kind+"_observations"]]) for kind in ("rewrite","paraphrase","neighborhood")}
+    value["work"]=dict(factual.retained_query_work(signatures,"cf"),seconds=.001)
+    return value
 
 
 def reference(ep):
@@ -95,7 +139,7 @@ def reference(ep):
     return value
 
 
-def generation(root, fp, execution, cf_records):
+def generation(root, fp, execution, cf_records, *, assets=None):
     runtime=runtime_identity(dict(model_identity=dict(model="TEST_ONLY",revision=fp["content"]["model"]["revision"],
         tokenizer_sha256=w._tokenizer_sha(fp)),generation_source_sha=dict(code_commit=execution["source"]["main_commit"],
             official_tree=execution["source"]["official_tree"])), fp["content"]["references"]["identity_sha256"])
@@ -119,6 +163,10 @@ def generation(root, fp, execution, cf_records):
             text="TEST_ONLY_TEXT",prefill_query_tokens=0,decode_query_tokens=0,full_prefix_token_work=0)
         metrics=dict(ngram_entropy=0.0,reference_score=0.5,fluency_valid=True,consistency_valid=True,
             reasons=["length_cap_no_continuation"],generation_prompt_count=1,generated_token_count=0,length_cap_no_continuation_count=1)
+        if assets is not None:
+            from official.evaluation.generation.metrics import score_case
+            observation["text"]="one two three"
+            metrics=score_case([observation],["one two three"],assets.vectorizer,str.split)
         raw=dict(identity=identity,identity_sha256=gd(identity),raw_local_only=True,checkpoint_saved=False,
             occurrence=ordinal,case_id=record["case_id"],observations=[observation],metrics=metrics)
         raw["payload_sha256"]=gd(raw)
@@ -141,7 +189,19 @@ class W0ReferenceTests(unittest.TestCase):
     def setUpClass(cls):
         cls.tmp=tempfile.TemporaryDirectory(); cls.root=Path(cls.tmp.name)
         data=content()
-        cls.records={name:[dict(case_id=n+5000,occurrence_index=n,generation_prompts=["TEST_ONLY_PROMPT"]) for n in range(1,2001)]
+        # Real tiny reference bytes and CPU metric code, with explicit fake
+        # NLTK/runtime boundaries. No model/oracle/GPU observations occur.
+        cls.scoring_fixture=type("LocalScoringFixture",(W0GenerationScoringTests,),{})
+        cls.scoring_fixture.setUpClass()
+        cls.asset_stack=cls.scoring_fixture.asset_fixture();cls.asset_stack.__enter__()
+        data["references"]=copy.deepcopy(cls.scoring_fixture.fp["content"]["references"])
+        data["runtime"]["versions"].update(cls.scoring_fixture.versions)
+        cls.generation_assets=cls.scoring_fixture.descriptor
+        cls.records={name:[dict(case_id=n+5000,occurrence_index=n,generation_prompts=["TEST_ONLY_PROMPT"],
+            requested_rewrite=dict(prompt="{}",subject="TEST_ONLY_PROMPT",relation_id="R",
+                target_new=dict(str="TEST_ONLY_TARGET",id="T"),target_true=dict(str="TEST_ONLY_TARGET",id="U")),
+            paraphrase_prompts=["TEST_ONLY_PROMPT"],neighborhood_prompts=["TEST_ONLY_PROMPT"] if name=="cf"
+                else [dict(prompt="TEST_ONLY_PROMPT",target="TEST_ONLY_TARGET")]) for n in range(1,2001)]
                      for name in ("cf","zsre")}
         cls.dataset_members={name:put(cls.root/"datasets"/(name+".json"),rows) for name,rows in cls.records.items()}
         for name,row in cls.dataset_members.items():data["datasets"][name]["stream_sha256"]=row["sha256"]
@@ -153,21 +213,20 @@ class W0ReferenceTests(unittest.TestCase):
             else:data["sources"][name.removesuffix(".py")]=cls.source_members[name]["sha256"]
         cls.fp=w.computational_fingerprint(data)
         cls.cf=endpoint("cf",cls.fp); cls.zsre=endpoint("zsre",cls.fp); cls.ref=reference(cls.zsre)
-        cls.execution=dict(source=dict(main_commit="a"*40,official_tree="b"*40),
-            path="/producer",hardware="TEST_ONLY_GPU_METADATA_NOT_ACTUAL_GPU")
-        cls.consumer=dict(source=dict(main_commit="f"*40,official_tree="e"*40),path="/consumer",hardware="OTHER_GPU")
-        cls.gen,cls.runtime_member=generation(cls.root/"generation",cls.fp,cls.execution,cls.records["cf"])
+        cls.execution=execution_fixture(cls.fp)
+        cls.consumer=execution_fixture(cls.fp,consumer=True)
+        cls.gen,cls.runtime_member=generation(cls.root/"generation",cls.fp,cls.execution,cls.records["cf"],assets=cls.scoring_fixture.assets)
         proof={}
         for method in ("FT","MEMIT","MEMIT_FE"):
             identity=dict(model_revision=cls.fp["content"]["model"]["revision"],tokenizer_sha256=w._tokenizer_sha(cls.fp),
-                code_commit=cls.execution["source"]["main_commit"],official_tree_sha256=cls.execution["source"]["official_tree"])
+                code_commit=cls.execution["source"]["main_commit"],official_tree_sha256=cls.execution["source"]["official_tree"],
+                stream_sha256=cls.fp["content"]["datasets"]["cf"]["stream_sha256"],config_sha256=sha(),assets_sha256=sha())
             ready=dict(schema="official-server1-native-resume-READY-v1",method=method,identity=identity,passed=True,
                 actual_native_B3_and_B2_resume=True,actual_fit_calls=6,generation_calls=0,
                 checks=dict(selected_weights="EXACT_SHA256",contexts="EXACT",RNG="EXACT",factual="EXACT_RAW_VALUES_AND_TOKEN_IDENTITY",no_tolerance_relaxation=True),
                 native_parity=None)
-            measured=copy.deepcopy(cls.cf);measured["cases"]=measured["cases"][:300]
-            measured["summary"]=counterfact(measured["cases"])
-            selected_state=dict(successful_calls=3,method=method,TEST_ONLY_NO_REAL_NATIVE_CALLS=True)
+            measured=sliced_endpoint(cls.cf,300)
+            selected_state,context,rng=state_fixture(method)
             factual_member=put(cls.root/"qualification"/method/"B3-factual.json",measured)
             live_measured=copy.deepcopy(measured)
             # Complete structural metadata fixture for stored original300 proof.
@@ -180,7 +239,7 @@ class W0ReferenceTests(unittest.TestCase):
             live_measured["identity_sha256"]=w._digest(live_measured["identity"])
             measured=copy.deepcopy(live_measured)
             live_measured["work"]=dict(candidate_sequences=1800,forward_calls=113,physical_input_tokens=3600,
-                padded_input_tokens=3600,target_tokens=1800,seconds=0.0,TEST_ONLY_METADATA_NOT_ACTUAL_FORWARD=True)
+                padded_input_tokens=3600,target_tokens=1800,seconds=.001)
             factual_member=put(cls.root/"qualification"/method/"B3-factual.json",measured)
             bind=dict(model_identity=dict(revision=cls.fp["content"]["model"]["revision"]),
                 tokenizer_identity=dict(sha256=w._tokenizer_sha(cls.fp)),state_identity=selected_state)
@@ -192,7 +251,9 @@ class W0ReferenceTests(unittest.TestCase):
             native=dict(schema="official-cf-original-native-reference-v1",status="OBSERVED_UNCOMPARED",identity=ni,
                 identity_sha256=w._digest(ni),canonical_payload_sha256=w._digest(live_measured),raw_local_only=True,model_no_mutation=True,
                 RNG_restored=True,checkpoint_saved=False,cases=copy.deepcopy(measured["cases"]),summary=measured["summary"],case_signatures=sigs,
-                work=dict(live_measured["work"],forward_calls=300))
+                work=dict(live_measured["work"],forward_calls=300),
+                evidence={"TEST_ONLY_CPU_FIXTURE":"NOT_OBSERVED","ACTUAL_GPU_SMOKE":"NOT_OBSERVED",
+                          "ACTUAL_MATCHED_SUBSET":"NOT_OBSERVED","ACTUAL_FULL_2K":"NOT_OBSERVED"})
             comparison=dict(schema="official-cf-original-native-reference-v1",status="PASS",evidence_scope="ACTUAL_MATCHED_SUBSET",
                 evidence={"TEST_ONLY_CPU_FIXTURE":"NOT_OBSERVED","ACTUAL_GPU_SMOKE":"NOT_OBSERVED","ACTUAL_MATCHED_SUBSET":"PASS","ACTUAL_FULL_2K":"NOT_OBSERVED"},
                 mismatches=[],display_mismatches=[],raw_local_only=True,checkpoint_saved=False,scientific_performance_promotion=False,
@@ -202,17 +263,20 @@ class W0ReferenceTests(unittest.TestCase):
                 external_identity=live_measured["identity"]["external_identity"],reference_binding=bind,canonical=live_measured,
                 canonical_payload_sha256=w._digest(live_measured),canonical_payload_unchanged=True,canonical_observation="EXISTING_B3_FIRST300",
                 additional_canonical_forward_calls=0,state_before=selected_state,state_after=selected_state,comparison=comparison,
-                RNG_restored=True,input_records_unchanged=True,raw_local_only=True,performance_gate=False,additional_fit_calls=0,generation_calls=0,
-                TEST_ONLY_METADATA_FIXTURE_NOT_ACTUAL_GPU=True)
+                RNG_restored=True,input_records_unchanged=True,raw_local_only=True,performance_gate=False,additional_fit_calls=0,generation_calls=0)
             ready["native_parity"]=validate_report(parity,live_measured["identity"]["external_identity"],PLAN)
             assert ready["native_parity"]==w._native_parity_proof(parity,measured,selected_state)
             parity_member=put(cls.root/"qualification"/method/"B3-native-parity.json",parity)
             for key,name,batches,calls in (("continuous","continuous",3,3),("stopped","stop",2,2),("resumed","resume",3,1)):
+                selected_state,context,rng=state_fixture(method,batches)
                 ready[key]=put(cls.root/"qualification"/method/(key+".json"),dict(schema="official-server1-native-qualification-stage-v1",
                     stage=name,completed_batch=batches,actual_native_fit_calls=calls,GPU_actual=True,actual_model_loaded=True,
-                    identity=identity,method=method,selected_state=selected_state,contexts_sha256=sha(),RNG_sha256=sha(),checkpoint_RNG_sha256=sha(),
+                    identity=identity,method=method,selected_state=selected_state,contexts_sha256=w._digest(context),
+                    RNG_sha256=w._digest(rng),checkpoint_RNG_sha256=w._digest(rng),context_content=context,
+                    RNG_content=rng,checkpoint_RNG_content=copy.deepcopy(rng),
+                    execution_identity=execution_fixture(cls.fp,role="QUALIFICATION"),
                     factual_member=factual_member if key in ("continuous","resumed") else None,
-                    native_parity_member=parity_member if key=="continuous" else None,TEST_ONLY_METADATA_FIXTURE_NOT_ACTUAL_GPU=True))
+                    native_parity_member=parity_member if key=="continuous" else None))
             proof[method]=put(cls.root/"qualification"/method/"READY.json",ready)
         cls.validation={name:dict(actual_complete=True,actual_model_edits=0,state="W0_COLD_BASE_MODEL",requests=2000,
             ordered_queries_sha256=cls.fp["content"]["datasets"]["zsre" if name=="zsre_reference" else "cf"]["ordered_queries_sha256"],
@@ -221,11 +285,13 @@ class W0ReferenceTests(unittest.TestCase):
             (("cf_factual",cls.cf),("cf_generation",cls.gen),("zsre_reference",cls.ref))}
         cls.ready=w.make_ready(producer_execution_identity=cls.execution,fingerprint=cls.fp,members=cls.members,
             component_validation=cls.validation,generation_runtime_member=cls.runtime_member,
-            source_members=cls.source_members,dataset_members=cls.dataset_members)
+            source_members=cls.source_members,dataset_members=cls.dataset_members,generation_assets=cls.generation_assets)
         cls.ready_path=cls.root/"READY.json";put(cls.ready_path,cls.ready)
 
     @classmethod
     def tearDownClass(cls):
+        cls.asset_stack.__exit__(None,None,None)
+        cls.scoring_fixture.tearDownClass()
         cls.tmp.cleanup()
 
     def bind(self, reference=None, **kw):
@@ -266,7 +332,7 @@ class W0ReferenceTests(unittest.TestCase):
             self.assertEqual(infer.call_count,1)
 
     def test_ready_all_raw_sha_proofs_and_actual_content_reader(self):
-        view=w.read_ready(self.ready_path,consumer_execution_identity=self.consumer,consumer_fingerprint=self.fp)
+        view=w.read_ready(self.ready_path,consumer_execution_identity=self.consumer,consumer_fingerprint=self.fp,generation_assets=self.generation_assets)
         self.assertEqual(view.values["cf_factual"],self.cf)
         self.assertFalse(view.binding["execution_identities_equal"])
         self.assertEqual(len([key for key in view.members if key.startswith("cf_generation.raw.")]),2000)
@@ -275,7 +341,7 @@ class W0ReferenceTests(unittest.TestCase):
     def test_explicit_copied_member_path_is_content_only_and_original_unchanged(self):
         path=self.root/"consumer-copy.json";path.write_bytes(Path(self.members["cf_factual"]["path"]).read_bytes())
         view=w.read_ready(self.ready_path,consumer_execution_identity=self.consumer,consumer_fingerprint=self.fp,
-            member_paths={"cf_factual":str(path)})
+            member_paths={"cf_factual":str(path)},generation_assets=self.generation_assets)
         self.assertTrue(view.members["cf_factual"]["path_differs"])
         self.assertEqual(view.ready,self.ready)
 
@@ -333,12 +399,13 @@ class W0ReferenceTests(unittest.TestCase):
                        lambda r:r.pop("computational_fingerprint"),lambda r:r["component_validation"]["cf_generation"].update(requests=1999)):
             ready=copy.deepcopy(self.ready);mutate(ready);ready["ready_sha256"]=w._digest({k:v for k,v in ready.items() if k!="ready_sha256"})
             path=self.root/"tampered-READY.json";put(path,ready)
-            with self.assertRaises(w.ReferenceInputError):w.read_ready(path,consumer_execution_identity=self.consumer,consumer_fingerprint=self.fp)
+            with self.assertRaises(w.ReferenceInputError):w.read_ready(path,consumer_execution_identity=self.consumer,consumer_fingerprint=self.fp,generation_assets=self.generation_assets)
 
     def test_mutated_source_bytes_with_same_json_and_consumer_file_sha_rejected(self):
         path=self.root/"byte-mutated.json";path.write_bytes(Path(self.members["cf_factual"]["path"]).read_bytes()+b" ")
         with self.assertRaisesRegex(w.ReferenceInputError,"BYTES_SHA"):
-            w.read_ready(self.ready_path,consumer_execution_identity=self.consumer,consumer_fingerprint=self.fp,member_paths={"cf_factual":str(path)})
+            w.read_ready(self.ready_path,consumer_execution_identity=self.consumer,consumer_fingerprint=self.fp,
+                         member_paths={"cf_factual":str(path)},generation_assets=self.generation_assets)
 
     def test_generation_actual_other_model_reference_runtime_and_cold_state_rejected(self):
         identity=self.gen["identity"]
@@ -376,7 +443,7 @@ class W0ReferenceTests(unittest.TestCase):
     def test_generation_other_stream_case_cohort_is_not_source_compatible(self):
         records=copy.deepcopy(self.records["cf"]);records[0]["case_id"]=-1
         with self.assertRaisesRegex(w.ReferenceInputError,"ORDER_STREAM"):
-            w._generation(self.gen,self.fp,{},self.runtime_member,records,collect=True)
+            w._generation(self.gen,self.fp,{},self.runtime_member,records,collect=True,generation_assets=self.generation_assets)
 
     def test_generation_nonzero_cold_state_not_allowed_even_with_resigned_hashes(self):
         value=copy.deepcopy(self.gen);row=value["rows"][0]
@@ -386,7 +453,7 @@ class W0ReferenceTests(unittest.TestCase):
         row.update(observation_path=new["path"],identity_sha256=raw["identity_sha256"],payload_sha256=raw["payload_sha256"])
         row["provenance"]["raw_member"]=new
         with self.assertRaisesRegex(w.ReferenceInputError,"ACTUAL_COLD_MODEL_STATE"):
-            w._generation(value,self.fp,{},self.runtime_member,self.records["cf"],collect=True)
+            w._generation(value,self.fp,{},self.runtime_member,self.records["cf"],collect=True,generation_assets=self.generation_assets)
 
     def test_actual_stage_without_measured_B3_or_native_proof_cannot_unlock_ready(self):
         validation=copy.deepcopy(self.validation)
@@ -397,9 +464,64 @@ class W0ReferenceTests(unittest.TestCase):
         for row in validation.values():
             q=row["native_qualification_state"];q["evidence_members"]["FT"]=proof;q["evidence_sha256"]=w._digest(q["evidence_members"])
         with self.assertRaisesRegex(w.ReferenceInputError,"FACTUAL_PROOF_REQUIRED"):
-            w._qualification(validation,self.fp,self.execution,{},collect=True)
+            w._qualification(validation,self.fp,self.execution,{},collect=True,
+                             cf_records=self.records["cf"],cf_signatures=w._signatures(self.cf["cases"],"cf"),expected_assets_sha256=sha())
         value=copy.deepcopy(self.validation);value["cf_factual"]["native_qualification_state"]["evidence_sha256"]=sha("f")
         with self.assertRaises(w.ReferenceInputError):w._component_validation(value,self.fp)
+
+    def test_locked_cold_stream_cannot_be_replaced_by_mutually_resigned_other_stream_proofs(self):
+        validation=copy.deepcopy(self.validation)
+        original=validation["cf_factual"]["native_qualification_state"]["evidence_members"]["FT"]
+        proof=json.loads(Path(original["path"]).read_text());proof["identity"]["stream_sha256"]=sha("f")
+        # Re-signing the receipt does not make its OTHER stream the verified CF.
+        changed=put(self.root/"other-stream-qualified.json",proof)
+        for component in validation.values():
+            component["native_qualification_state"]["evidence_members"]["FT"]=changed
+            component["native_qualification_state"]["evidence_sha256"]=w._digest(component["native_qualification_state"]["evidence_members"])
+        with self.assertRaisesRegex(w.ReferenceInputError,"ACTUAL_NATIVE_READY_IDENTITY"):
+            w._qualification(validation,self.fp,self.execution,{},collect=True,cf_records=self.records["cf"],
+                             cf_signatures=w._signatures(self.cf["cases"],"cf"),expected_assets_sha256=sha())
+
+    def test_actual_dataset_query_target_order_not_just_case_ids(self):
+        for key in ("subject","target_new","target_true"):
+            records=copy.deepcopy(self.records["cf"])
+            if key=="subject":records[0]["requested_rewrite"][key]="OTHER_QUERY"
+            else:records[0]["requested_rewrite"][key]["str"]="OTHER_TARGET"
+            with self.subTest(key=key),self.assertRaisesRegex(w.ReferenceInputError,"QUERY_OR_TARGET"):
+                w._case_order(self.cf,records,"cf")
+
+    def test_missing_or_zero_cold_work_cannot_unlock_complete_ready(self):
+        for edit in (lambda e:e.pop("work"),lambda e:e["work"].update(forward_calls=0),
+                     lambda e:e["work"].update(physical_input_tokens=0,target_tokens=0,candidate_sequences=0),
+                     lambda e:e["work"].update(seconds=0)):
+            value=copy.deepcopy(self.cf);edit(value)
+            with self.assertRaises(w.ReferenceInputError):
+                w._cold_component(value,"cf",self.fp,self.execution)
+
+    def test_execution_provenance_missing_role_and_slurm_fake_claims_are_rejected(self):
+        for field in ("source","config_sha256","assets_manifest","runtime","output","hardware","slurm"):
+            value=copy.deepcopy(self.execution);value.pop(field)
+            with self.subTest(field=field),self.assertRaises(w.ReferenceInputError):w._execution(value,"PRODUCER")
+        for edit in (lambda e:e.update(role="CPU_REDUCER"),lambda e:e["hardware"].update(device="CPU"),
+                     lambda e:e["slurm"].update(SLURM_JOB_ID="UNKNOWN")):
+            value=copy.deepcopy(self.execution);edit(value)
+            with self.assertRaises(w.ReferenceInputError):w._execution(value,"PRODUCER")
+
+    def test_labels_or_malformed_weight_context_rng_content_cannot_replace_actual_state_receipt(self):
+        selected,context,rng=state_fixture("FT")
+        base=dict(selected_state=selected,context_content=context,contexts_sha256=w._digest(context),
+                  RNG_content=rng,checkpoint_RNG_content=copy.deepcopy(rng),
+                  RNG_sha256=w._digest(rng),checkpoint_RNG_sha256=w._digest(rng))
+        w._state_content(base,method="FT",calls=3)
+        for edit in (lambda e:e["selected_state"].update(selected_weights="EXACT_SHA256"),
+                     lambda e:e["selected_state"].update(TEST_ONLY_NO_REAL_NATIVE_CALLS=True),
+                     lambda e:e["context_content"].update(module="official.baselines.WRONG"),
+                     lambda e:e["RNG_content"]["python"][1].__setitem__(-1,625),
+                     lambda e:e["RNG_content"]["numpy"].__setitem__(3,True)):
+            value=copy.deepcopy(base);edit(value)
+            value["RNG_sha256"]=w._digest(value["RNG_content"])
+            with self.assertRaises((w.ReferenceInputError,KeyError,TypeError)):
+                w._state_content(value,method="FT",calls=3)
 
     def test_native_stored_receipt_replays_exact_source_raw_tolerance_work_contract(self):
         ready=json.loads(Path(self.validation["cf_factual"]["native_qualification_state"]["evidence_members"]["FT"]["path"]).read_text())
@@ -419,6 +541,188 @@ class W0ReferenceTests(unittest.TestCase):
             lambda r:r["comparison"]["evidence"].update(ACTUAL_FULL_2K="PASS")):
             value=copy.deepcopy(proof);mutate(value)
             with self.assertRaises(w.ReferenceInputError):w._native_parity_proof(value,measured,stage["selected_state"])
+
+
+class W0GenerationScoringTests(unittest.TestCase):
+    """Synthetic CPU reference/scoring fixtures; no native/model observation."""
+
+    @classmethod
+    def setUpClass(cls):
+        import numpy as np
+        from official.evaluation.generation import assets as a
+        from official.evaluation.generation.metrics import score_case
+        cls.tmp = tempfile.TemporaryDirectory()
+        cls.root = Path(cls.tmp.name)
+        refs = cls.root / "references"
+        snippets = put(refs / "attribute_snippets.json", [dict(relation_id="R", target_id="T", samples=[dict(text="one two three")])])
+        vocab = put(refs / "tfidf_vocab.json", {"one": 0, "two": 1, "three": 2})
+        np.save(refs / "idf.npy", np.ones(3, dtype=np.float64), allow_pickle=False)
+        idf = w.member(refs / "idf.npy")
+        resource = put(cls.root / "nltk_data/tokenizers/punkt_tab/english/collocations.tab", {"CPU_FIXTURE_ONLY": True})
+        source = dict(put(cls.root / "nltk_package/tokenize/punkt.py", {"CPU_FIXTURE_ONLY": True}), relative="tokenize/punkt.py")
+        versions = {key: "TEST_ONLY_SCORING_VERSION" for key in ("numpy", "scipy", "sklearn", "nltk")}
+        cls.nltk = dict(nltk_version=versions["nltk"], language="english", required_family="punkt_tab",
+                        required_resources=[resource], source_members=[source])
+        manifest = dict(schema=a.SCHEMA, status="READY", files={"attribute_snippets.json": snippets, "idf.npy": idf, "tfidf_vocab.json": vocab},
+            versions=versions, tokenizer=copy.deepcopy(cls.nltk),
+            snippet_schema=dict(entries=1, relation_target_pairs=1, samples=1,
+                                selection="all samples per exact relation_id/target_new.id, original order"),
+            vocabulary_size=3, idf_shape=[3], idf_dtype="float64",
+            fixed_vectorizer=dict(fit_calls=0, refit=False, class_name="sklearn.feature_extraction.text.TfidfVectorizer"))
+        manifest["identity_sha256"] = a.digest(a._identity(manifest))
+        cls.descriptor = dict(manifest=put(cls.root / "asset-manifest.json", manifest))
+        cls.versions = versions
+        data = content()
+        data["runtime"]["versions"].update(versions)
+        data["references"] = dict(identity_sha256=manifest["identity_sha256"],
+            files={name: {key: row[key] for key in ("bytes", "sha256")} for name, row in manifest["files"].items()},
+            nltk=dict(resources={"tokenizers/punkt_tab/english/collocations.tab": {key: resource[key] for key in ("bytes", "sha256")}},
+                      sources={"tokenize/punkt.py": {key: source[key] for key in ("bytes", "sha256")}}),
+            vectorizer=manifest["fixed_vectorizer"]["class_name"] + ":PUBLIC_IDF_SETTER_NO_FIT")
+        cls.fp = w.computational_fingerprint(data)
+        cls.records = [dict(case_id=5000 + index, occurrence_index=index, generation_prompts=["TEST_ONLY_PROMPT"],
+                            requested_rewrite=dict(relation_id="R", target_new=dict(id="T"))) for index in range(1, 2001)]
+        execution = dict(source=dict(main_commit="a" * 40, official_tree="b" * 40))
+        cls.observed, cls.runtime_member = generation(cls.root / "generation", cls.fp, execution, cls.records)
+        with cls.asset_fixture():
+            cls.assets = a.load_assets(cls.descriptor)
+        for row in cls.observed["rows"]:
+            path = Path(row["observation_path"])
+            raw = json.loads(path.read_text())
+            raw["observations"][0]["text"] = "one two three"
+            raw["metrics"] = score_case(raw["observations"], ["one two three"], cls.assets.vectorizer, str.split)
+            raw["payload_sha256"] = gd({key: value for key, value in raw.items() if key != "payload_sha256"})
+            original = put(path, raw)
+            row.update(metrics=copy.deepcopy(raw["metrics"]), payload_sha256=raw["payload_sha256"])
+            row["provenance"]["raw_member"] = original
+        cls.observed["summary"] = reduce_cases(cls.observed["rows"])
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.tmp.cleanup()
+
+    @classmethod
+    def asset_fixture(cls, nltk=None):
+        from contextlib import ExitStack
+        stack = ExitStack()
+        stack.enter_context(patch("official.evaluation.generation.assets.dependency_versions", return_value=cls.versions))
+        stack.enter_context(patch("official.evaluation.generation.assets.nltk_binding", return_value=copy.deepcopy(cls.nltk if nltk is None else nltk)))
+        stack.enter_context(patch("official.evaluation.generation.assets._nltk_callable", return_value=str.split))
+        return stack
+
+    def verify(self, value=None, *, descriptor=None, fingerprint=None, overrides=None):
+        with self.asset_fixture():
+            return w._generation(self.observed if value is None else value, self.fp if fingerprint is None else fingerprint,
+                {}, self.runtime_member, self.records, collect=True, overrides=overrides,
+                generation_assets=self.descriptor if descriptor is None else descriptor)
+
+    def altered_raw(self, mutate, label):
+        endpoint = copy.deepcopy(self.observed)
+        row = endpoint["rows"][0]
+        raw = json.loads(Path(row["observation_path"]).read_text())
+        mutate(raw)
+        raw["payload_sha256"] = gd({key: value for key, value in raw.items() if key != "payload_sha256"})
+        receipt = put(self.root / "adversarial" / (self._testMethodName + "-" + label + ".json"), raw)
+        row.update(observation_path=receipt["path"], payload_sha256=raw["payload_sha256"], metrics=copy.deepcopy(raw["metrics"]))
+        row["provenance"]["raw_member"] = receipt
+        endpoint["summary"] = reduce_cases(endpoint["rows"])
+        return endpoint
+
+    def test_actual_cpu_assets_score_and_observation_counts_are_consumed(self):
+        receipts = self.verify()
+        self.assertIn("reference.manifest", receipts)
+        self.assertIn("reference.files.idf.npy", receipts)
+        self.assertIn("reference.nltk.sources.tokenize/punkt.py", receipts)
+        self.assertEqual(self.observed["summary"]["generation_prompt_count"], 2000)
+        self.assertEqual(self.observed["summary"]["generated_token_count"], 0)
+        self.assertEqual(self.observed["summary"]["length_cap_no_continuation_prompt_count"], 2000)
+        self.assertEqual(self.observed["summary"]["fluency_count"], 2000)
+        self.assertEqual(self.observed["summary"]["consistency_count"], 2000)
+        # Keep native cosine rounding; do not clip a measured 1+1 ULP.
+        self.assertEqual(self.observed["summary"]["reference_score"],
+                         self.observed["rows"][0]["metrics"]["reference_score"])
+
+    def test_missing_assets_and_untrusted_preloaded_objects_fail_closed(self):
+        for descriptor in (None, self.assets, {}, dict(manifest=self.descriptor["manifest"], allow_missing=True)):
+            with self.asset_fixture(), self.assertRaises(w.ReferenceInputError):
+                w._generation(self.observed, self.fp, {}, self.runtime_member, self.records, collect=True,
+                              generation_assets=descriptor)
+
+    def test_resigned_fabricated_score_counts_cap_and_missingness_rejected(self):
+        mutations = {
+            "prompts": lambda raw: raw["metrics"].update(generation_prompt_count=17),
+            "tokens": lambda raw: raw["metrics"].update(generated_token_count=42),
+            "cap": lambda raw: raw["metrics"].update(length_cap_no_continuation_count=0),
+            "consistency": lambda raw: raw["metrics"].update(reference_score=999.0),
+            "fluency": lambda raw: raw["metrics"].update(ngram_entropy=999.0),
+            "missing": lambda raw: raw["metrics"].update(reasons=["missing_reference"]),
+            "validity": lambda raw: raw["metrics"].update(fluency_valid=False),
+        }
+        for label, mutate in mutations.items():
+            with self.subTest(label=label), self.assertRaises(w.ReferenceInputError):
+                self.verify(self.altered_raw(mutate, label))
+
+    def test_equal_bool_float_count_spoofs_rejected_without_numeric_relaxation(self):
+        mutations = {
+            "metric_bool_count": lambda raw: raw["metrics"].update(generation_prompt_count=True),
+            "metric_integer_flag": lambda raw: raw["metrics"].update(fluency_valid=1),
+            "observation_float": lambda raw: raw["observations"][0].update(continuation_token_count=0.0),
+            "observation_bool": lambda raw: raw["observations"][0].update(prompt_index=False),
+        }
+        for label, mutate in mutations.items():
+            with self.subTest(label=label), self.assertRaises(w.ReferenceInputError):
+                self.verify(self.altered_raw(mutate, label))
+
+    def test_consumed_reference_nltk_source_and_resource_sha_mismatch_rejected(self):
+        for key in ("files", "nltk_resource", "nltk_source", "versions", "vectorizer"):
+            fp = copy.deepcopy(self.fp)
+            if key == "files":
+                fp["content"]["references"]["files"]["idf.npy"]["sha256"] = sha("f")
+            elif key == "nltk_resource":
+                fp["content"]["references"]["nltk"]["resources"]["tokenizers/punkt_tab/english/collocations.tab"]["sha256"] = sha("f")
+            elif key == "nltk_source":
+                fp["content"]["references"]["nltk"]["sources"]["tokenize/punkt.py"]["sha256"] = sha("f")
+            elif key == "versions":
+                fp["content"]["runtime"]["versions"]["nltk"] = "OTHER_CPU_FIXTURE_VERSION"
+            else:
+                fp["content"]["references"]["vectorizer"] = "NOT_THE_CONSUMED_VECTORIZER"
+            fp["sha256"] = w._digest(fp["content"])
+            with self.subTest(key=key), self.assertRaises(w.ReferenceInputError):
+                self.verify(fingerprint=fp)
+
+    def test_wrong_reference_override_bytes_and_extra_override_keys_rejected(self):
+        changed = put(self.root / "wrong-snippets.json", [])
+        for overrides in ({"attribute_snippets.json": changed["path"]}, {"NLTK": changed["path"]}):
+            descriptor = dict(self.descriptor, asset_paths=overrides)
+            with self.assertRaises(w.ReferenceInputError):
+                self.verify(descriptor=descriptor)
+
+    def test_local_manifest_copy_preserves_original_descriptor_and_producer_receipt(self):
+        original = copy.deepcopy(self.descriptor)
+        target = self.root / "consumer-local-manifest.json"
+        target.write_bytes(Path(original["manifest"]["path"]).read_bytes())
+        receipts = self.verify(overrides={"reference.manifest": str(target)})
+        receipt = receipts["reference.manifest"]
+        self.assertEqual(receipt["producer_member"], original["manifest"])
+        self.assertEqual(receipt["consumed_member"], w.member(target))
+        self.assertTrue(receipt["path_differs"])
+        self.assertEqual(self.descriptor, original)
+        target.write_text('{"CPU_FIXTURE_CHANGED_MANIFEST":true}')
+        with self.assertRaises(w.ReferenceInputError):
+            self.verify(overrides={"reference.manifest": str(target)})
+
+    def test_actual_nltk_source_and_resource_bytes_independently_rehashed(self):
+        for kind, key, relative in (("source", "source_members", "tokenize/punkt.py"),
+                                   ("resource", "required_resources", "tokenizers/punkt_tab/english/collocations.tab")):
+            actual = copy.deepcopy(self.nltk)
+            target = self.root / ("bad-local-nltk-" + kind) / relative
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_text("CPU_FIXTURE_BYTES_CHANGED_BUT_STALE_METADATA")
+            # Stale original SHA labels alone must not pass the consumed proof.
+            actual[key][0]["path"] = str(target)
+            with self.asset_fixture(nltk=actual), self.assertRaises(w.ReferenceInputError):
+                w._generation(self.observed, self.fp, {}, self.runtime_member, self.records,
+                              collect=True, generation_assets=self.descriptor)
 
 
 if __name__=="__main__":unittest.main()

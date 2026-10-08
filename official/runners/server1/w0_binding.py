@@ -82,19 +82,21 @@ def build_fingerprint(assets, tokenizer, records_by_dataset):
     return computational_fingerprint(content)
 
 
-def execution_identity(config, lock, assets, *, output):
+def execution_identity(config, lock, assets, *, output, role="GPU_PRODUCER"):
     """Actual producer/consumer execution, deliberately not fingerprint equality."""
     import os
     import torch
-    identity = dict(server="server1", source=lock["source"], config_sha256=config["config_sha256"],
+    require(role in ("GPU_PRODUCER","GPU_CONSUMER","QUALIFICATION","CPU_REDUCER"), "SHARED_W0_EXECUTION_ROLE")
+    identity = dict(server="server1", role=role, source=lock["source"], config_sha256=config["config_sha256"],
         assets_manifest=config["assets_member"], runtime=assets["runtime"],
         input_stream_bundle=config["stream_bundle_member"], output=str(Path(output).absolute()),
         base_W0_input=config["base_W0_output"],
-        hardware=dict(device=torch.cuda.get_device_name(0),
-            capability=list(torch.cuda.get_device_capability(0)), cross_hardware_bitwise_claim=False))
+        hardware=dict(device="CPU" if role == "CPU_REDUCER" else torch.cuda.get_device_name(0),
+            capability=[] if role == "CPU_REDUCER" else list(torch.cuda.get_device_capability(0)), cross_hardware_bitwise_claim=False))
     # Whitelist metadata only. No entire environment or credential is read.
     identity["slurm"] = {name:os.environ[name] for name in
-        ("SLURM_JOB_ID", "SLURM_ARRAY_JOB_ID", "SLURM_ARRAY_TASK_ID", "SLURM_STEP_ID") if name in os.environ}
+        ("SLURM_JOB_ID", "SLURM_ARRAY_JOB_ID", "SLURM_ARRAY_TASK_ID", "SLURM_STEP_ID")
+        if name in os.environ and not (name == "SLURM_STEP_ID" and os.environ[name] == "")}
     require(bool(identity["slurm"].get("SLURM_JOB_ID")), "SHARED_W0_ACTUAL_SLURM_ID_REQUIRED")
     # Reuse the official identity validator; do not fork logger semantics.
     from official.tracking.schema import SLURM_ENV, job_identity

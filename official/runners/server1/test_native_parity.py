@@ -5,7 +5,6 @@ No fixture result is actual pretrained/CUDA matched-subset qualification.
 """
 from copy import deepcopy
 from contextlib import contextmanager
-import math
 from pathlib import Path
 import tempfile
 from types import SimpleNamespace
@@ -15,6 +14,7 @@ from unittest.mock import patch
 import torch
 
 from official.evaluation.reduce import counterfact
+from official.evaluation.factual import _assemble_cf, retained_query_work
 from official.experiments.prepare import digest
 from official.runners.server1 import native_parity as parity
 
@@ -56,37 +56,71 @@ class MetadataEngine:
     def __init__(self):
         self.asset_manifest = dict(model=dict(identity=dict(revision=external()["model_revision"]),
                                              tokenizer_sha256=external()["tokenizer_sha256"]))
-        self.state = dict(method="FT", successful_calls=3, selected_weights_sha="9" * 64)
+        self.state = dict(method="FT", successful_calls=3, cache_c={},
+            selected_weights={"model.layers.21.mlp.down_proj.weight":
+                dict(sha256="9" * 64, shape=[4096, 14336], dtype="torch.float32")},
+            contexts_sha256="8" * 64)
+        self.state["identity_sha256"] = digest(self.state)
     def state_identity(self):
         return deepcopy(self.state)
 
 
+def fixture_record(index):
+    """Synthetic locked inputs, not real CounterFact or GPU evidence."""
+    return dict(case_id=901 + index, occurrence_index=1 + index,
+        requested_rewrite=dict(prompt="{} is", subject="Ada", target_new={"str":"new"},
+                               target_true={"str":"true"}),
+        paraphrase_prompts=["Ada was"], neighborhood_prompts=["Bob is"])
+
+
+def signatures_fixture(records):
+    signatures = []
+    for index, record in enumerate(records):
+        queries = []
+        rw = record["requested_rewrite"]
+        groups = dict(rewrite=[rw["prompt"].format(rw["subject"])],
+                      paraphrase=record["paraphrase_prompts"], neighborhood=record["neighborhood_prompts"])
+        for slot, (kind, prompts) in enumerate(groups.items()):
+            for prompt_index, prompt in enumerate(prompts):
+                prefix = [1, 10 + slot] + [12] * (index % 2)
+                for target_kind, target, gold in (("new", rw["target_new"]["str"], [40, 41]),
+                                                ("true", rw["target_true"]["str"], [42, 43])):
+                    queries.append(dict(kind=kind, prompt_index=prompt_index, prompt=prompt,
+                        target_kind=target_kind, target=target, input_token_ids=prefix + gold,
+                        target_start=len(prefix), target_token_ids=gold))
+        signatures.append(dict(case_id=record["case_id"], occurrence_index=record["occurrence_index"], queries=queries))
+    return signatures
+
+
 def canonical_fixture(records, identity):
-    cases = []
-    for record in records:
-        case = dict(case_id=record["case_id"], occurrence_index=record["occurrence_index"])
-        for kind in parity.GROUPS:
-            case[kind + "_prompts_probs"] = [dict(target_true=1.0, target_new=2.0)]
-            case[kind + "_prompts_correct"] = [kind == "neighborhood"]
-        cases.append(case)
-    signatures = [dict(case_id=row["case_id"], occurrence_index=row["occurrence_index"], queries=[])
-                  for row in records]
+    signatures = signatures_fixture(records)
+    cases = [dict(case_id=row["case_id"], occurrence_index=row["occurrence_index"]) for row in records]
+    results = []
+    for index, signature in enumerate(signatures):
+        for query in signature["queries"]:
+            gold = query["target_token_ids"]
+            predicted = list(gold) if query["target_kind"] == "true" else [99] * len(gold)
+            correct = [a == b for a,b in zip(predicted,gold)]
+            nll = 1.0 if query["target_kind"] == "true" else 2.0
+            results.append(dict(query, case_index=index, occurrence_index=signature["occurrence_index"],
+                predicted_token_ids=predicted, token_correct=correct, token_count=len(gold),
+                token_correct_count=sum(correct), strict_correct=all(correct),
+                nll_by_token=[nll] * len(gold), mean_nll=nll))
+    summary, accuracy = _assemble_cf(cases, results)
     ci = dict(schema="official-factual-causal-v1", dataset="cf",
         tokenization="NATIVE_CF_VERIFIED_BOUNDARY_ZSRE_EXACT_TOKEN_PREFIX_NO_TARGET_BOS",
         ordered_occurrences=[row["occurrence_index"] for row in records],
         cohort_sha256=digest(signatures), external_identity=deepcopy(identity),
-        padding="RIGHT_EXPLICIT_ATTENTION_MASK", use_cache=False)
-    candidates = len(records) * 6
-    return dict(identity=ci, identity_sha256=digest(ci), cases=cases, summary=counterfact(cases),
+        padding="RIGHT_EXPLICIT_ATTENTION_MASK", use_cache=False, W0_reference_sha256=None)
+    work = retained_query_work(signatures, "cf", batch_size=16)
+    work["seconds"] = .001
+    return dict(identity=ci, identity_sha256=digest(ci), cases=cases, summary=summary, accuracy=accuracy,
         model_no_mutation=True, raw_local_only=True, RNG_restored=True,
-        work=dict(forward_calls=math.ceil(candidates / 16), candidate_sequences=candidates,
-                  physical_input_tokens=candidates * 5, padded_input_tokens=candidates * 6,
-                  target_tokens=candidates * 2, seconds=.001))
+        work=work)
 
 
 def reference_fixture(records, canonical, identity, binding):
-    signatures = [dict(case_id=row["case_id"], occurrence_index=row["occurrence_index"], queries=[])
-                  for row in records]
+    signatures = signatures_fixture(records)
     locked = [dict(case_id=row["case_id"], occurrence_index=row["occurrence_index"]) for row in records]
     ni = dict(schema="official-cf-original-native-reference-v1", external_identity=deepcopy(identity),
         reference_binding=deepcopy(binding), source_sha256=parity.REFERENCE_SOURCE_SHA256,
@@ -95,10 +129,13 @@ def reference_fixture(records, canonical, identity, binding):
         ordered_occurrences=[row["occurrence_index"] for row in records],
         cohort_sha256=canonical["identity"]["cohort_sha256"], locked_cohort_sha256=digest(locked),
         native_device="cuda", model_dtype="FP32", padding="NATIVE_RIGHT", use_cache=False)
-    work = dict(canonical["work"], forward_calls=len(records), seconds=.002)
+    work = retained_query_work(signatures, "cf", per_case=True)
+    work["seconds"] = .002
     native = dict(schema="official-cf-original-native-reference-v1", status="OBSERVED_UNCOMPARED",
         identity=ni, identity_sha256=digest(ni), cases=deepcopy(canonical["cases"]),
         summary=deepcopy(canonical["summary"]), case_signatures=signatures, work=work,
+        evidence={"TEST_ONLY_CPU_FIXTURE": "NOT_OBSERVED", "ACTUAL_GPU_SMOKE": "NOT_OBSERVED",
+                  parity.SCOPE: "NOT_OBSERVED", "ACTUAL_FULL_2K": "NOT_OBSERVED"},
         raw_local_only=True, model_no_mutation=True, RNG_restored=True, checkpoint_saved=False,
         canonical_payload_sha256=digest(canonical))
     return dict(schema="official-cf-original-native-reference-v1", status="PASS", evidence_scope=parity.SCOPE,
@@ -110,11 +147,23 @@ def reference_fixture(records, canonical, identity, binding):
                         strict_booleans="EXACT", aggregate_abs=1e-10), native=native, work=work)
 
 
+def resign_fixture(value):
+    """Adversarial hash repair must not repair inconsistent raw measurements."""
+    canonical, comparison = value["canonical"], value["comparison"]
+    native = comparison["native"]
+    canonical["identity_sha256"] = digest(canonical["identity"])
+    value["canonical_payload_sha256"] = digest(canonical)
+    native["canonical_payload_sha256"] = value["canonical_payload_sha256"]
+    native["identity_sha256"] = digest(native["identity"])
+    comparison["canonical_identity_sha256"] = canonical["identity_sha256"]
+    comparison["work"] = deepcopy(native["work"])
+
+
 class NativeParityConnector(unittest.TestCase):
     def setUp(self):
         self.engine, self.model = MetadataEngine(), MetadataModel()
         self.tokenizer = SimpleNamespace(padding_side="right", pad_token_id=0)
-        self.records = [dict(case_id=901 + index, occurrence_index=1 + index) for index in range(2000)]
+        self.records = [fixture_record(index) for index in range(2000)]
         self.canonical = canonical_fixture(self.records[:300], external())
         self.reference_calls = []
         self.module = SimpleNamespace(compare_native_counterfact=self.reference)
@@ -255,8 +304,118 @@ class NativeParityConnector(unittest.TestCase):
         for change in changes:
             bad = deepcopy(value)
             change(bad)
-            with self.subTest(change=change), self.assertRaises(parity.NativeParityError):
+            with self.subTest(change=change), self.assertRaises(ValueError):
                 parity.validate_report(bad, external(), deepcopy(parity.PLAN))
+
+    def test_resigned_removed_canonical_observations_never_probability_only_PASS(self):
+        value = self.qualify()
+        for case in value["canonical"]["cases"]:
+            for kind in parity.GROUPS:
+                case.pop(kind + "_observations")
+        resign_fixture(value)
+        # A retained-query requirement must reject before any receipt PASS.
+        with self.assertRaises((ValueError, KeyError)):
+            parity.validate_report(value, external(), deepcopy(parity.PLAN))
+
+    def test_resigned_same_wrong_work_in_both_endpoints_cannot_replace_token_plan(self):
+        original = self.qualify()
+        for wrong in (0, 123456):
+            value = deepcopy(original)
+            for endpoint in (value["canonical"], value["comparison"]["native"]):
+                for field in ("physical_input_tokens", "target_tokens", "padded_input_tokens"):
+                    endpoint["work"][field] = wrong
+            resign_fixture(value)
+            with self.subTest(wrong=wrong), self.assertRaises(ValueError):
+                parity.validate_report(value, external(), deepcopy(parity.PLAN))
+
+    def test_resigned_token_prediction_NLL_mean_probability_and_strict_mismatch_rejected(self):
+        original = self.qualify()
+        for field in ("token", "prediction", "nll", "mean", "probability", "strict", "nonbool"):
+            value = deepcopy(original)
+            case = value["canonical"]["cases"][0]
+            raw = case["rewrite_observations"][0]["target_new"]
+            if field == "token":
+                raw["input_token_ids"][0] = 7
+            elif field == "prediction":
+                raw["predicted_token_ids"][0] = raw["target_token_ids"][0]
+            elif field == "nll":
+                raw["nll_by_token"][0] = 3.0
+            elif field == "mean":
+                raw["mean_nll"] = 3.0
+            elif field == "probability":
+                case["rewrite_prompts_probs"][0]["target_new"] = 3.0
+            elif field == "strict":
+                case["rewrite_prompts_correct"][0] = True
+            else:
+                raw["token_correct"][0] = 0
+            resign_fixture(value)
+            with self.subTest(field=field), self.assertRaises(ValueError):
+                parity.validate_report(value, external(), deepcopy(parity.PLAN))
+
+    def test_resigned_missing_work_zero_forward_or_elapsed_rejected(self):
+        original = self.qualify()
+        for field in ("missing", "forward", "elapsed", "padded"):
+            value = deepcopy(original)
+            if field == "missing":
+                value["canonical"].pop("work")
+            elif field == "forward":
+                value["canonical"]["work"]["forward_calls"] = 0
+            elif field == "elapsed":
+                value["canonical"]["work"]["seconds"] = 0
+            else:
+                value["canonical"]["work"]["padded_input_tokens"] += 1
+            resign_fixture(value)
+            with self.subTest(field=field), self.assertRaises(ValueError):
+                parity.validate_report(value, external(), deepcopy(parity.PLAN))
+
+    def test_production_payload_TEST_ONLY_label_is_rejected_not_fixture_promoted(self):
+        original = self.qualify()
+        for field in ("report", "canonical", "native_evidence"):
+            value = deepcopy(original)
+            if field == "report":
+                value["TEST_ONLY_NO_REAL_NATIVE_CALLS"] = True
+            elif field == "canonical":
+                value["canonical"]["TEST_ONLY_CPU_FIXTURE"] = "PASS"
+            else:
+                value["comparison"]["native"]["evidence"] = {"TEST_ONLY_CPU_FIXTURE": "PASS"}
+            resign_fixture(value)
+            with self.subTest(field=field), self.assertRaisesRegex(ValueError, "TEST_ONLY_EVIDENCE"):
+                parity.validate_report(value, external(), deepcopy(parity.PLAN))
+
+    def test_original_native_uncompared_evidence_mapping_is_exact_not_promoted(self):
+        value = self.qualify()
+        expected = {"TEST_ONLY_CPU_FIXTURE": "NOT_OBSERVED", "ACTUAL_GPU_SMOKE": "NOT_OBSERVED",
+                    parity.SCOPE: "NOT_OBSERVED", "ACTUAL_FULL_2K": "NOT_OBSERVED"}
+        self.assertEqual(value["comparison"]["native"]["evidence"], expected)
+        for scope in ("TEST_ONLY_CPU_FIXTURE", parity.SCOPE):
+            changed = deepcopy(value)
+            changed["comparison"]["native"]["evidence"][scope] = "PASS"
+            resign_fixture(changed)
+            with self.subTest(scope=scope), self.assertRaises(ValueError):
+                parity.validate_report(changed, external(), deepcopy(parity.PLAN))
+
+    def test_resigned_native_selected_weight_descriptor_missing_or_malformed_rejected(self):
+        original = self.qualify()
+        for field in ("missing", "shape", "dtype", "label"):
+            value = deepcopy(original)
+            state = value["state_before"]
+            if field == "missing":
+                state["selected_weights"] = {}
+            else:
+                weight = state["selected_weights"]["model.layers.21.mlp.down_proj.weight"]
+                if field == "shape":
+                    weight["shape"] = [14336, 4096]
+                elif field == "dtype":
+                    weight["dtype"] = "torch.float16"
+                else:
+                    weight["sha256"] = "PASS"
+            state["identity_sha256"] = digest({key:item for key,item in state.items() if key != "identity_sha256"})
+            value["state_after"] = deepcopy(state)
+            value["reference_binding"]["state_identity"] = deepcopy(state)
+            value["comparison"]["native"]["identity"]["reference_binding"] = deepcopy(value["reference_binding"])
+            resign_fixture(value)
+            with self.subTest(field=field), self.assertRaises(ValueError):
+                parity.validate_report(value, external(), deepcopy(parity.PLAN))
 
     def test_native_strict_flags_are_bool_not_equal_integer_or_tuple(self):
         value = self.qualify()

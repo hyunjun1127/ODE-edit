@@ -162,9 +162,60 @@ def _compatible(producer, consumer):
         raise ReferenceInputError("COMPUTATIONAL_FIELDS_MISMATCH:" + ",".join(fields))
 
 
+@_typed
 def _execution(value, label):
     result = _json(value)
     _require(type(result) is dict and bool(result), label + ".EXECUTION_IDENTITY_MISSING")
+    if label.endswith("_EXTERNAL"):
+        required = {"model", "model_revision", "tokenizer_sha256", "assets_sha256", "stream_sha256",
+                    "code_commit", "official_tree", "runtime", "precision", "raw_local_only"}
+        _keys(result, required, label)
+        _require(result["raw_local_only"] is True and result["precision"] == "FP32_EAGER_TF32_OFF_NO_AUTOCAST",
+                 label + ".NUMERIC_PRIVACY")
+        for name in ("tokenizer_sha256", "assets_sha256", "stream_sha256"):
+            _sha(result[name], label + "." + name)
+        for name in ("model_revision", "code_commit", "official_tree"):
+            _require(type(result[name]) is str and re.fullmatch(r"[a-f0-9]{40}", result[name]), label + "." + name)
+        _keys(result["runtime"], ("torch", "transformers", "numpy"), label + ".RUNTIME")
+        _require(all(type(v) is str and v for v in result["runtime"].values()), label + ".RUNTIME_VALUES")
+        return result
+    _keys(result, ("server", "role", "source", "config_sha256", "assets_manifest", "runtime", "input_stream_bundle",
+                   "output", "base_W0_input", "hardware", "slurm"), label)
+    _require(result["server"] in ("server1", "server2", "server3", "server4"), label + ".SERVER")
+    _require(result["role"] in ("GPU_PRODUCER","GPU_CONSUMER","QUALIFICATION","CPU_REDUCER"), label + ".ROLE")
+    expected_roles = {"PRODUCER": ("GPU_PRODUCER",), "QUALIFICATION": ("QUALIFICATION",),
+                      "CONSUMER": ("GPU_CONSUMER","CPU_REDUCER")}
+    _require(label not in expected_roles or result["role"] in expected_roles[label], label + ".ROLE_MISMATCH")
+    _sha(result["config_sha256"], label + ".CONFIG")
+    for name in ("assets_manifest", "input_stream_bundle"):
+        _keys(result[name], ("path", "bytes", "sha256"), label + "." + name)
+        _sha(result[name]["sha256"], label + "." + name + ".SHA")
+        _require(type(result[name]["bytes"]) is int and result[name]["bytes"] > 0
+                 and type(result[name]["path"]) is str and Path(result[name]["path"]).is_absolute(), label + ".MEMBER_PATH_BYTES")
+    _require(type(result["source"]) is dict and {"main_commit", "official_tree"} <= set(result["source"]), label + ".SOURCE")
+    for name in ("main_commit", "official_tree"):
+        _require(type(result["source"][name]) is str and re.fullmatch(r"[a-f0-9]{40}", result["source"][name]), label + ".SOURCE_SHA")
+    _require(type(result["runtime"]) is dict and {"python", "python_version", "dependency_versions"} <= set(result["runtime"]), label + ".RUNTIME")
+    _require(type(result["runtime"]["python"]) is str and Path(result["runtime"]["python"]).is_absolute()
+             and type(result["runtime"]["python_version"]) is str and result["runtime"]["python_version"], label + ".RUNTIME_PATH")
+    _keys(result["runtime"]["dependency_versions"], ("torch", "transformers", "numpy"), label + ".DEPENDENCIES")
+    _require(all(type(v) is str and v for v in result["runtime"]["dependency_versions"].values()), label + ".DEPENDENCY_VALUES")
+    for name in ("output", "base_W0_input"):
+        _require(type(result[name]) is str and Path(result[name]).is_absolute(), label + ".EXECUTION_PATH")
+    _keys(result["hardware"], ("device", "capability", "cross_hardware_bitwise_claim"), label + ".HARDWARE")
+    _require(type(result["hardware"]["device"]) is str and bool(result["hardware"]["device"])
+             and type(result["hardware"]["capability"]) is list
+             and len(result["hardware"]["capability"]) == (0 if result["role"] == "CPU_REDUCER" else 2)
+             and all(type(v) is int and v >= 0 for v in result["hardware"]["capability"])
+             and result["hardware"]["cross_hardware_bitwise_claim"] is False, label + ".HARDWARE_VALUES")
+    _require((result["hardware"]["device"] == "CPU") == (result["role"] == "CPU_REDUCER"), label + ".DEVICE_ROLE_MISMATCH")
+    from official.tracking.schema import SLURM_ENV, job_identity
+    _require(type(result["slurm"]) is dict and set(result["slurm"]) <= set(SLURM_ENV.values()), label + ".SLURM_WHITELIST")
+    raw = {key:result["slurm"][name] for key,name in SLURM_ENV.items() if name in result["slurm"]}
+    raw.update(execution_backend="slurm", identity_source="SLURM_ENV")
+    raw["job_display_id"] = (raw.get("array_job_id", "") + "_" + raw.get("array_task_id", "")
+                             if "array_job_id" in raw else raw.get("job_id"))
+    job_identity(raw)
     return result
 
 
@@ -217,6 +268,7 @@ def _tokenizer_sha(fingerprint):
 
 
 def _factual_external(external, dataset, fingerprint, execution=None):
+    _execution(external, dataset + "_EXTERNAL")
     content = fingerprint["content"]
     _require(type(external) is dict and external.get("model_revision") == content["model"]["revision"]
              and external.get("tokenizer_sha256") == _tokenizer_sha(fingerprint)
@@ -268,9 +320,11 @@ def _signatures(cases, dataset):
     return result
 
 
+@_typed
 def _cold_component(value, dataset, fingerprint, producer_execution=None):
     from .factual import SCHEMA, TOKENIZATION
     endpoint = value["evaluation"] if dataset == "zsre" else value
+    _no_test_evidence(endpoint)
     identity = endpoint["identity"]
     _require(identity.get("schema") == SCHEMA and identity.get("dataset") == dataset
              and identity.get("tokenization") == TOKENIZATION
@@ -311,6 +365,9 @@ def _cold_component(value, dataset, fingerprint, producer_execution=None):
                      and source["predictions"] == [row["predicted_token_ids"] for row in measured["neighborhood_observations"]]
                      and measured["neighborhood_W0_agreement"] == [True for group in source["predictions"] for _ in group],
                      "ZSRE.PREDICTIONS_ACTUAL_MEASUREMENT_BINDING")
+    from .factual import validate_retained_observation
+    validate_retained_observation(endpoint, dataset, input_signature=_signatures(endpoint["cases"], dataset),
+                                 batch_size=16, w0_reference=value if dataset == "zsre" else None)
     return endpoint
 
 
@@ -441,16 +498,119 @@ def _case_order(endpoint, records, dataset):
     cases = endpoint["evaluation"]["cases"] if dataset == "zsre" else endpoint["cases"]
     _require([(row["case_id"],row["occurrence_index"]) for row in cases] ==
              [(row["case_id"],row["occurrence_index"]) for row in records], "FACTUAL.ACTUAL_DATASET_CASE_ORDER")
+    _dataset_queries(_signatures(cases, dataset), records, dataset)
+
+
+def _dataset_queries(signatures, records, dataset):
+    """Connect retained token plans to original locked query/target text."""
+    from .factual import _groups
+    _require(len(signatures) == len(records), "FACTUAL.DATASET_QUERY_COUNT")
+    for signature, record in zip(signatures, records):
+        _require(signature["case_id"] == record["case_id"] and signature["occurrence_index"] == record["occurrence_index"],
+                 "FACTUAL.DATASET_QUERY_ORDER")
+        expected = []
+        rewrite = record["requested_rewrite"]
+        for kind, prompts in _groups(record).items():
+            for index, prompt in enumerate(prompts):
+                if dataset == "cf":
+                    targets = (("new", rewrite["target_new"]["str"]), ("true", rewrite["target_true"]["str"]))
+                elif kind == "neighborhood":
+                    targets = (("loc_ans", prompt["target"]),)
+                    prompt = prompt["prompt"]
+                else:
+                    targets = (("new", rewrite["target_new"]["str"]),)
+                expected.extend(dict(kind=kind,prompt_index=index,prompt=prompt,target_kind=name,target=target)
+                                for name,target in targets)
+        _require([{name:query[name] for name in ("kind","prompt_index","prompt","target_kind","target")}
+                  for query in signature["queries"]] == expected, "FACTUAL.DATASET_QUERY_OR_TARGET_CHANGED")
+
+
+def _native_state(state, *, method=None, calls=3):
+    _keys(state, ("method", "successful_calls", "cache_c", "selected_weights", "contexts_sha256", "identity_sha256"), "NATIVE.STATE")
+    _require(state["method"] in ("FT", "MEMIT", "MEMIT_FE") and (method is None or state["method"] == method)
+             and type(state["successful_calls"]) is int and state["successful_calls"] == calls
+             and state["cache_c"] == {} and state["identity_sha256"] == _digest({k:v for k,v in state.items() if k != "identity_sha256"}),
+             "NATIVE.STATE_METHOD_CURSOR_HASH")
+    _sha(state["contexts_sha256"], "NATIVE.STATE_CONTEXT_HASH")
+    layers = (21,) if state["method"] == "FT" else (4,5,6,7,8)
+    expected = {"model.layers." + str(layer) + ".mlp.down_proj.weight" for layer in layers}
+    _keys(state["selected_weights"], expected, "NATIVE.SELECTED_WEIGHTS")
+    for weight in state["selected_weights"].values():
+        _keys(weight, ("sha256","shape","dtype"), "NATIVE.WEIGHT")
+        _sha(weight["sha256"], "NATIVE.WEIGHT_HASH")
+        _require(weight["shape"] == [4096,14336] and weight["dtype"] == "torch.float32", "NATIVE.WEIGHT_SHAPE_DTYPE")
+
+
+def _no_test_evidence(value):
+    if type(value) is dict:
+        for key, item in value.items():
+            _require(not str(key).startswith("TEST_ONLY") or item == "NOT_OBSERVED", "ACTUAL_PROOF.TEST_ONLY_EVIDENCE")
+            _no_test_evidence(item)
+    elif type(value) is list:
+        for item in value:
+            _no_test_evidence(item)
+
+
+def _state_content(stage, *, method, calls):
+    """Validate native context and encoded RNG content, not PASS labels."""
+    _native_state(stage["selected_state"], method=method, calls=calls)
+    context = stage["context_content"]
+    expected_modules = dict(FT="official.baselines.easyedit.models.ft.ft_main",
+        MEMIT="official.baselines.sphere.memit.memit_main",
+        MEMIT_FE="official.baselines.easyedit.models.memit_FE.memit_FE_main")
+    fields = {"schema","method","module","successful_calls","CONTEXT_TEMPLATES_CACHE","identity_sha256"}
+    if method == "MEMIT":
+        fields.add("GLOBAL_EDIT_COUNT")
+    _keys(context, fields, "NATIVE.CONTEXT_CONTENT")
+    _require(context["schema"] == "official-server1-native-context-v1" and context["method"] == method
+             and context["successful_calls"] == calls and type(context["module"]) is str
+             and context["module"] == expected_modules[method]
+             and context["identity_sha256"] == _digest({k:v for k,v in context.items() if k != "identity_sha256"})
+             and stage["selected_state"]["contexts_sha256"] == context["identity_sha256"]
+             and stage["contexts_sha256"] == _digest(context), "NATIVE.CONTEXT_HASH_SCOPE")
+    templates = context["CONTEXT_TEMPLATES_CACHE"]
+    _require((templates is None if method == "FT" else
+             type(templates) is list and bool(templates) and all(type(group) is list and bool(group)
+                 and all(type(text) is str and text for text in group) for group in templates)), "NATIVE.CONTEXT_TEMPLATES")
+    if method == "MEMIT":
+        _require(type(context["GLOBAL_EDIT_COUNT"]) is int and context["GLOBAL_EDIT_COUNT"] == calls, "NATIVE.EDIT_COUNTER")
+    for prefix in ("RNG", "checkpoint_RNG"):
+        value = stage[prefix + "_content"]
+        _keys(value, ("python","numpy","torch_cpu","torch_cuda"), "NATIVE.RNG_CONTENT")
+        _require(type(value["python"]) is list and len(value["python"]) == 3 and type(value["python"][0]) is int
+                 and value["python"][0] == 3
+                 and type(value["python"][1]) is list and len(value["python"][1]) == 625
+                 and all(type(v) is int and 0 <= v <= 2**32-1 for v in value["python"][1][:-1])
+                 and type(value["python"][1][-1]) is int and 0 <= value["python"][1][-1] <= 624
+                 and (value["python"][2] is None or type(value["python"][2]) is float and math.isfinite(value["python"][2])),
+                 "NATIVE.PYTHON_RNG")
+        _require(type(value["numpy"]) is list and len(value["numpy"]) == 5 and value["numpy"][0] == "MT19937"
+                 and type(value["numpy"][2]) is int and 0 <= value["numpy"][2] <= 624
+                 and type(value["numpy"][3]) is int and value["numpy"][3] in (0,1)
+                 and type(value["numpy"][4]) in (float,int) and math.isfinite(value["numpy"][4]), "NATIVE.NUMPY_RNG")
+        def tensor(row, dtype, shape=None):
+            _keys(row, ("dtype","shape","sha256"), "NATIVE.RNG_TENSOR")
+            _sha(row["sha256"], "NATIVE.RNG_TENSOR_SHA")
+            _require(row["dtype"] == dtype and type(row["shape"]) is list and len(row["shape"]) == 1
+                     and type(row["shape"][0]) is int and row["shape"][0] > 0
+                     and (shape is None or row["shape"] == shape), "NATIVE.RNG_TENSOR_SHAPE")
+        tensor(value["numpy"][1], "uint32", [624])
+        tensor(value["torch_cpu"], "torch.uint8")
+        _require(type(value["torch_cuda"]) is list and len(value["torch_cuda"]) == 1, "NATIVE.CUDA_RNG_COUNT")
+        tensor(value["torch_cuda"][0], "torch.uint8")
+        _require(stage[prefix + "_sha256"] == _digest(value), "NATIVE.RNG_CONTENT_HASH")
+    _require(stage["RNG_content"] == stage["checkpoint_RNG_content"], "NATIVE.CHECKPOINT_RNG_CONTENT_MISMATCH")
 
 
 @_typed
-def _native_parity_proof(report, measured, state):
+def _native_parity_proof(report, measured, state, *, signatures=None):
     """Replay the frozen first300 receipt contract, never a model observation.
 
     This validates stored original-source rows/tolerances/work and canonical
     reducers. It is not a new GPU test or a full2K parity certification.
     """
     source_sha = "25c3f49039e7bacb58de6d9ab8139f6f24f21532434a08690e9ec71ea939e145"
+    _no_test_evidence(report)
     source_commit = "b84624f44dfe8fc6cd9e41df916c44124a0c46dc"
     occurrences = list(range(1,301))
     scope = "ACTUAL_MATCHED_SUBSET"
@@ -466,6 +626,7 @@ def _native_parity_proof(report, measured, state):
              and all(type(report.get(key)) is int and report[key] == 0 for key in ("additional_fit_calls", "generation_calls", "additional_canonical_forward_calls"))
              and report.get("canonical_observation") == plan["canonical_observation"], "QUALIFICATION.NATIVE_REPORT_PLAN_GUARDS")
     canonical, comparison, binding = report["canonical"], report["comparison"], report["reference_binding"]
+    _native_state(state)
     external = canonical["identity"]["external_identity"]
     _require(type(external) is dict and set(external) == {"model", "model_revision", "tokenizer_sha256", "assets_sha256",
                   "stream_sha256", "code_commit", "official_tree", "runtime", "precision", "raw_local_only"}
@@ -496,6 +657,8 @@ def _native_parity_proof(report, measured, state):
              and ci.get("ordered_occurrences") == occurrences and canonical.get("identity_sha256") == _digest(ci)
              and all(canonical.get(key) is True for key in ("raw_local_only", "model_no_mutation", "RNG_restored"))
              and native.get("schema") == "official-cf-original-native-reference-v1" and native.get("status") == "OBSERVED_UNCOMPARED"
+             and native.get("evidence") == {"TEST_ONLY_CPU_FIXTURE":"NOT_OBSERVED","ACTUAL_GPU_SMOKE":"NOT_OBSERVED",
+                                           scope:"NOT_OBSERVED","ACTUAL_FULL_2K":"NOT_OBSERVED"}
              and ni.get("schema") == "official-cf-original-native-reference-v1" and ni.get("external_identity") == external
              and ni.get("reference_binding") == binding and ni.get("source_sha256") == source_sha and ni.get("source_commit") == source_commit
              and ni.get("source_bytes") == 7941 and ni.get("original_function") == "test_batch_prediction" and ni.get("evidence_scope") == scope
@@ -506,6 +669,11 @@ def _native_parity_proof(report, measured, state):
              and all(native.get(key) is True for key in ("raw_local_only", "model_no_mutation", "RNG_restored"))
              and native.get("checkpoint_saved") is False, "QUALIFICATION.NATIVE_ORIGINAL_SOURCE_AND_WORK_SCOPE")
     left, right = canonical["cases"], native["cases"]
+    from .factual import validate_retained_observation, retained_query_work
+    expected_signatures = native["case_signatures"] if signatures is None else signatures
+    _require(native["case_signatures"] == expected_signatures, "QUALIFICATION.NATIVE_EXPECTED_TOKEN_COHORT")
+    validate_retained_observation(canonical, "cf", input_signature=expected_signatures, batch_size=16)
+    _require(_signatures(measured["cases"], "cf") == expected_signatures, "QUALIFICATION.MEASURED_TOKEN_COHORT")
     _require(type(left) is list and type(right) is list and len(left) == len(right) == 300
              and _digest(native["case_signatures"]) == ci["cohort_sha256"]
              and ni.get("locked_cohort_sha256") == _digest([dict(case_id=row["case_id"],occurrence_index=row["occurrence_index"]) for row in left]),
@@ -536,11 +704,14 @@ def _native_parity_proof(report, measured, state):
         _require(all(type(endpoint["summary"].get(key)) in (float,int) and math.isfinite(endpoint["summary"][key])
                      and abs(endpoint["summary"][key]-value) <= 1e-10 for key,value in reduced.items()), "QUALIFICATION.NATIVE_CANONICAL_REDUCTION")
         work = endpoint["work"]
+        expected_work = retained_query_work(expected_signatures, "cf", batch_size=16, per_case=actual_native)
+        _require(all(type(work.get(key)) is int and work[key] == count for key,count in expected_work.items()),
+                 "QUALIFICATION.NATIVE_OBSERVATION_DERIVED_WORK")
         _require(work.get("candidate_sequences") == candidates and type(work.get("forward_calls")) is int
                  and work["forward_calls"] == (300 if actual_native else math.ceil(candidates/16))
                  and all(type(work.get(key)) is int and work[key] > 0 for key in ("physical_input_tokens", "padded_input_tokens", "target_tokens"))
                  and work["padded_input_tokens"] >= work["physical_input_tokens"]
-                 and type(work.get("seconds")) in (float,int) and math.isfinite(work["seconds"]) and work["seconds"] >= 0,
+                 and type(work.get("seconds")) in (float,int) and math.isfinite(work["seconds"]) and work["seconds"] > 0,
                  "QUALIFICATION.NATIVE_MEASURED_FORWARD_TOKEN_WORK")
     _require(comparison.get("work") == native["work"]
              and all(native["work"][key] == canonical["work"][key] for key in ("candidate_sequences","physical_input_tokens","target_tokens")),
@@ -552,7 +723,7 @@ def _native_parity_proof(report, measured, state):
         performance_gate=False,additional_fit_calls=0,generation_calls=0,raw_local_only=True,case_ids_tokens_prompts_omitted=True)
 
 
-def _qualification(validation, fingerprint, producer_execution, nested, *, overrides=None, collect=False):
+def _qualification(validation, fingerprint, producer_execution, nested, *, cf_records, cf_signatures, expected_assets_sha256, overrides=None, collect=False):
     """Verify source proof bytes; does NOT claim independent GPU certification."""
     evidence = validation["cf_factual"]["native_qualification_state"]["evidence_members"]
     _require(all(row["native_qualification_state"]["evidence_members"] == evidence for row in validation.values()),
@@ -564,7 +735,14 @@ def _qualification(validation, fingerprint, producer_execution, nested, *, overr
         original = row if collect else nested.get(name)
         _require(original == row, "QUALIFICATION.ORIGINAL_PROOF_MEMBER_CHANGED")
         value, receipt = _read_verified(original, overrides, name)
+        _no_test_evidence(value)
         identity = value.get("identity", {})
+        _keys(identity, ("config_sha256","stream_sha256","code_commit","official_tree_sha256",
+                         "model_revision","tokenizer_sha256","assets_sha256"), "QUALIFICATION.CHECKPOINT_IDENTITY")
+        for key in ("config_sha256","stream_sha256","tokenizer_sha256","assets_sha256"):
+            _sha(identity[key], "QUALIFICATION." + key)
+        for key in ("code_commit","official_tree_sha256","model_revision"):
+            _require(type(identity[key]) is str and re.fullmatch(r"[a-f0-9]{40}", identity[key]), "QUALIFICATION.SOURCE_REVISION_SHA")
         _require(value.get("schema") == "official-server1-native-resume-READY-v1"
                  and value.get("method") == method and value.get("passed") is True
                  and value.get("actual_native_B3_and_B2_resume") is True
@@ -572,6 +750,8 @@ def _qualification(validation, fingerprint, producer_execution, nested, *, overr
                  and type(value.get("generation_calls")) is int and value["generation_calls"] == 0
                  and identity.get("model_revision") == fingerprint["content"]["model"]["revision"]
                  and identity.get("tokenizer_sha256") == _tokenizer_sha(fingerprint)
+                 and identity.get("stream_sha256") == fingerprint["content"]["datasets"]["cf"]["stream_sha256"]
+                 and identity.get("assets_sha256") == expected_assets_sha256
                  and identity.get("code_commit") == expected_source["main_commit"]
                  and identity.get("official_tree_sha256") == expected_source["official_tree"],
                  "QUALIFICATION.ACTUAL_NATIVE_READY_IDENTITY")
@@ -585,12 +765,19 @@ def _qualification(validation, fingerprint, producer_execution, nested, *, overr
             original_stage = value[key] if collect else nested.get(stage_key)
             _require(original_stage == value[key], "QUALIFICATION.STAGE_MEMBER_CHANGED")
             stage, stage_receipt = _read_verified(original_stage, overrides, stage_key)
+            _no_test_evidence(stage)
             _require(stage.get("schema") == "official-server1-native-qualification-stage-v1"
                      and stage.get("stage") == stage_name and stage.get("completed_batch") == batches
-                     and stage.get("actual_native_fit_calls") == calls
+                     and type(stage.get("actual_native_fit_calls")) is int and stage["actual_native_fit_calls"] == calls
                      and stage.get("GPU_actual") is True and stage.get("actual_model_loaded") is True
                      and stage.get("identity") == identity and stage.get("method") == method,
                      "QUALIFICATION.ACTUAL_STAGE_IDENTITY")
+            _state_content(stage, method=method, calls=batches)
+            stage_execution = _execution(stage["execution_identity"], "QUALIFICATION")
+            _require(stage_execution["role"] == "QUALIFICATION" and stage_execution["source"] == expected_source
+                     and stage_execution["config_sha256"] == identity["config_sha256"]
+                     and stage_execution["assets_manifest"] == producer_execution["assets_manifest"]
+                     and stage_execution["runtime"] == producer_execution["runtime"], "QUALIFICATION.EXECUTION_PROVENANCE")
             if collect:
                 nested[stage_key] = deepcopy(original_stage)
             consumed[stage_key] = stage_receipt
@@ -614,13 +801,23 @@ def _qualification(validation, fingerprint, producer_execution, nested, *, overr
         _require(all(left[key] == right[key] for key in ("identity", "method", "completed_batch", "selected_state",
                     "contexts_sha256", "RNG_sha256", "checkpoint_RNG_sha256")), "QUALIFICATION.ACTUAL_RESUME_STATE_RNG_MISMATCH")
         left_fact, right_fact = proofs[("continuous", "factual_member")], proofs[("resumed", "factual_member")]
+        expected_queries = cf_signatures[:300]
+        _dataset_queries(expected_queries, cf_records[:300], "cf")
+        from .factual import validate_retained_observation
+        for measured in (left_fact, right_fact):
+            _factual_external(measured["identity"]["external_identity"], "cf", fingerprint, producer_execution)
+            _require(measured["identity"]["external_identity"]["assets_sha256"] == identity["assets_sha256"],
+                     "QUALIFICATION.FACTUAL_ASSET_BINDING")
+            _require(_signatures(measured["cases"], "cf") == expected_queries,
+                     "QUALIFICATION.ACTUAL_LOCKED_FIRST300_QUERY_TOKEN_IDENTITY")
+            validate_retained_observation(measured,"cf",input_signature=expected_queries,batch_size=16)
         _require(all(left_fact[key] == right_fact[key] for key in ("identity", "identity_sha256", "summary", "accuracy", "cases")),
                  "QUALIFICATION.ACTUAL_RESUME_FACTUAL_MISMATCH")
         _require(value.get("checks") == dict(selected_weights="EXACT_SHA256", contexts="EXACT", RNG="EXACT",
                     factual="EXACT_RAW_VALUES_AND_TOKEN_IDENTITY", no_tolerance_relaxation=True), "QUALIFICATION.EXACT_CHECK_CONTRACT")
         parity = proofs[("continuous", "native_parity_member")]
         comparison = parity.get("comparison", {})
-        _require(value.get("native_parity") == _native_parity_proof(parity,left_fact,left["selected_state"]),
+        _require(value.get("native_parity") == _native_parity_proof(parity,left_fact,left["selected_state"], signatures=expected_queries),
                  "QUALIFICATION.BOUND_NATIVE_MATCHED_RECEIPT")
     return consumed
 
@@ -647,11 +844,88 @@ def _generation_runtime(value, fingerprint, identity, producer_execution=None):
     return runtime
 
 
-def _generation(value, fingerprint, nested_members, runtime_member, cf_records, *, overrides=None, collect=False, producer_execution=None):
+@_typed
+def _generation_assets(descriptor, fingerprint, *, overrides=None):
+    """Load and bind the actual CPU scoring inputs, not an asset-SHA label.
+
+    The original manifest member is immutable provenance. Reference-file path
+    overrides select existing local copies only; NLTK resolves its existing
+    installed resources/source independently through the pinned loader.
+    """
+    from .generation.assets import AssetError, load_assets, nltk_binding
+    if descriptor is None:
+        raise ReferenceInputError("GENERATION.SCORING_ASSETS_REQUIRED", missing=True)
+    _require(type(descriptor) is dict and {"manifest"} <= set(descriptor) <= {"manifest", "asset_paths"},
+             "GENERATION.SCORING_ASSET_DESCRIPTOR")
+    local_paths = descriptor.get("asset_paths", {})
+    _require(type(local_paths) is dict and set(local_paths) <= set(REFERENCE_FILES)
+             and all(type(path) is str and Path(path).is_absolute() for path in local_paths.values()),
+             "GENERATION.SCORING_ASSET_PATH_OVERRIDES")
+    manifest, manifest_receipt = _read_verified(descriptor["manifest"], overrides, "reference.manifest")
+    reference_paths = {name: local_paths.get(name, (overrides or {}).get("reference.files." + name,
+                         (overrides or {}).get(row["path"], row["path"])))
+                       for name, row in manifest["files"].items()}
+    try:
+        # Load the already SHA-verified original manifest content, never rewrite
+        # its producer paths to make a local copy appear producer-generated.
+        assets = load_assets(dict(manifest=manifest, asset_paths=reference_paths))
+        actual_nltk = nltk_binding()
+    except (AssetError, LookupError, OSError) as error:
+        raise ReferenceInputError("GENERATION.SCORING_ASSETS_UNVERIFIED:" + str(error), missing=True) from error
+    references = fingerprint["content"]["references"]
+    content = lambda row: {key: row[key] for key in ("bytes", "sha256")}
+    _require(assets.manifest == manifest and assets.sha == manifest["identity_sha256"] == references["identity_sha256"]
+             and {name: content(row) for name, row in manifest["files"].items()} == references["files"]
+             and manifest["versions"] == {key: fingerprint["content"]["runtime"]["versions"][key]
+                                            for key in ("numpy", "scipy", "sklearn", "nltk")},
+             "GENERATION.SCORING_REFERENCE_RUNTIME_CONTENT")
+    fixed = manifest["fixed_vectorizer"]
+    actual_class = type(assets.vectorizer).__module__ + "." + type(assets.vectorizer).__name__
+    _require(fixed.get("fit_calls") == 0 and type(fixed.get("fit_calls")) is int and fixed.get("refit") is False
+             and fixed.get("class_name") == actual_class
+             and references["vectorizer"] == actual_class + ":PUBLIC_IDF_SETTER_NO_FIT"
+             and callable(assets.word_tokenize), "GENERATION.SCORING_FIXED_VECTORIZER")
+
+    def resource_name(row):
+        parts = Path(row["path"]).parts
+        _require("tokenizers" in parts, "GENERATION.NLTK_RESOURCE_LOGICAL_PATH")
+        index = len(parts) - 1 - list(reversed(parts)).index("tokenizers")
+        return str(Path(*parts[index:]))
+
+    original_tokenizer = manifest["tokenizer"]
+    actual_resources = {resource_name(row): row for row in actual_nltk["required_resources"]}
+    original_resources = {resource_name(row): row for row in original_tokenizer["required_resources"]}
+    actual_sources = {row["relative"]: row for row in actual_nltk["source_members"]}
+    original_sources = {row["relative"]: row for row in original_tokenizer["source_members"]}
+    _require(actual_nltk["nltk_version"] == original_tokenizer["nltk_version"] == manifest["versions"]["nltk"]
+             and actual_nltk["required_family"] == original_tokenizer["required_family"]
+             and {name: content(row) for name, row in actual_resources.items()} == references["nltk"]["resources"]
+             and {name: content(row) for name, row in original_resources.items()} == references["nltk"]["resources"]
+             and {name: content(row) for name, row in actual_sources.items()} == references["nltk"]["sources"]
+             and {name: content(row) for name, row in original_sources.items()} == references["nltk"]["sources"],
+             "GENERATION.SCORING_NLTK_SOURCE_RESOURCE_CONTENT")
+    consumed = {"reference.manifest": manifest_receipt}
+    for name, row in manifest["files"].items():
+        _, receipt = _member(row, {row["path"]: reference_paths[name]})
+        consumed["reference.files." + name] = receipt
+    for kind, original, actual in (("resources", original_resources, actual_resources),
+                                    ("sources", original_sources, actual_sources)):
+        for name, row in original.items():
+            original_member = {key: row[key] for key in ("path", "bytes", "sha256")}
+            _, receipt = _member(original_member, {row["path"]: actual[name]["path"]})
+            consumed["reference.nltk." + kind + "." + name] = receipt
+    _require(_read_verified(descriptor["manifest"], overrides, "reference.manifest")[0] == manifest,
+             "GENERATION.SCORING_MANIFEST_CHANGED_DURING_LOAD")
+    return assets, consumed
+
+
+def _generation(value, fingerprint, nested_members, runtime_member, cf_records, *, overrides=None, collect=False, producer_execution=None,
+                generation_assets=None):
     from .generation.common import digest as generation_digest
     from .generation.native_observer import verify_native_raw
     from .generation.metrics import reduce_cases
     from .generation.observer import _record_identity
+    assets, asset_receipts = _generation_assets(generation_assets, fingerprint, overrides=overrides)
     identity = value.get("identity", {})
     _require(value.get("identity_sha256") == generation_digest(identity) and identity.get("endpoint") == "W0"
              and identity.get("ordered_occurrences") == list(range(1, 2001))
@@ -660,7 +934,7 @@ def _generation(value, fingerprint, nested_members, runtime_member, cf_records, 
              and [row.get("occurrence") for row in value["rows"]] == list(range(1, 2001)), "GENERATION.INCOMPLETE_OR_NOT_W0")
     runtime_value, runtime_receipt = _read_verified(runtime_member, overrides, "cf_generation.observer_identity")
     runtime = _generation_runtime(runtime_value, fingerprint, identity, producer_execution)
-    consumed = {"cf_generation.observer_identity": runtime_receipt}
+    consumed = {"cf_generation.observer_identity": runtime_receipt, **asset_receipts}
     record_identities, observation_identities = [], []
     work = dict(physical_forward_calls=0, prefill_query_tokens=0, decode_query_tokens=0)
     for row in value["rows"]:
@@ -673,9 +947,29 @@ def _generation(value, fingerprint, nested_members, runtime_member, cf_records, 
                  and row["provenance"]["route"] == runtime["route"], "GENERATION.ORIGINAL_SOURCE_BYTE_PROVENANCE")
         raw, binding = _read_verified(original, overrides, name)
         try:
-            verify_native_raw(raw, expected_runtime=identity["runtime"], expected_stream=identity["sampling_stream_sha256"])
+            verify_native_raw(raw, expected_runtime=identity["runtime"], assets=assets,
+                              expected_stream=identity["sampling_stream_sha256"])
         except (ValueError, RuntimeError, KeyError, TypeError) as error:
             raise ReferenceInputError("GENERATION.ORIGINAL_RAW_VALIDATION:" + str(error)) from error
+        metrics, observations = raw["metrics"], raw["observations"]
+        _require(type(metrics) is dict and set(metrics) == {"ngram_entropy", "reference_score", "fluency_valid", "consistency_valid",
+                    "reasons", "generation_prompt_count", "generated_token_count", "length_cap_no_continuation_count"}
+                 and all(type(metrics[key]) is bool for key in ("fluency_valid", "consistency_valid"))
+                 and all(type(metrics[key]) is int and metrics[key] >= 0 for key in
+                         ("generation_prompt_count", "generated_token_count", "length_cap_no_continuation_count"))
+                 and metrics["generation_prompt_count"] == len(observations)
+                 and metrics["generated_token_count"] == sum(len(obs["continuation_token_ids"]) for obs in observations)
+                 and metrics["length_cap_no_continuation_count"] == sum(obs["stop_reason"] == "length_cap_no_continuation" for obs in observations)
+                 and type(metrics["reasons"]) is list and all(type(reason) is str for reason in metrics["reasons"]),
+                 "GENERATION.OBSERVED_METRIC_COUNTS_VALIDITY")
+        for observation in observations:
+            _require(all(type(observation.get(key)) is int and observation[key] >= 0 for key in
+                        ("occurrence", "prompt_index", "input_token_count", "continuation_token_count", "case_batch_prompt_count",
+                         "initial_batch_width", "model_forwards", "physical_forward_calls", "prefill_query_tokens",
+                         "decode_query_tokens", "full_prefix_token_work"))
+                     and all(type(observation.get(key)) is list and all(type(token) is int and token >= 0 for token in observation[key])
+                             for key in ("input_token_ids", "continuation_token_ids", "full_token_ids", "padded_input_token_ids", "padded_decode_token_ids")),
+                     "GENERATION.OBSERVED_TOKEN_WORK_COUNT_TYPES")
         _require(raw["identity_sha256"] == row["identity_sha256"] and raw["payload_sha256"] == row["payload_sha256"]
                  and raw["occurrence"] == row["occurrence"] and raw["case_id"] == row["case_id"]
                  and raw["metrics"] == row["metrics"], "GENERATION.ORIGINAL_ROW_BINDING")
@@ -715,7 +1009,7 @@ def _generation(value, fingerprint, nested_members, runtime_member, cf_records, 
 
 
 @_typed
-def make_ready(*, producer_execution_identity, fingerprint, members, component_validation, generation_runtime_member, source_members, dataset_members):
+def make_ready(*, producer_execution_identity, fingerprint, members, component_validation, generation_runtime_member, source_members, dataset_members, generation_assets=None):
     """Return metadata for an atomic immutable READY; never write or infer READY.
 
     Caller writes this via its create-once atomic writer only AFTER actual raw
@@ -731,17 +1025,25 @@ def make_ready(*, producer_execution_identity, fingerprint, members, component_v
         values[name], _ = _read_verified(row)
         component_members[name] = deepcopy(row)
     execution = _execution(producer_execution_identity, "PRODUCER")
+    _require(execution["role"] == "GPU_PRODUCER", "PRODUCER.ACTUAL_ROLE")
     _cold_component(values["cf_factual"], "cf", fingerprint, execution)
     _cold_component(values["zsre_reference"], "zsre", fingerprint, execution)
     _case_order(values["cf_factual"], records["cf"], "cf")
     _case_order(values["zsre_reference"], records["zsre"], "zsre")
+    expected_assets = values["cf_factual"]["identity"]["external_identity"]["assets_sha256"]
+    _require(values["zsre_reference"]["identity"]["external_identity"]["assets_sha256"] == expected_assets,
+             "PRODUCER.COLD_ASSET_MANIFEST_IDENTITY")
     nested = {}
-    _qualification(component_validation, fingerprint, execution, nested, collect=True)
-    _generation(values["cf_generation"], fingerprint, nested, generation_runtime_member, records["cf"], collect=True, producer_execution=execution)
+    _qualification(component_validation, fingerprint, execution, nested, collect=True,
+                   cf_records=records["cf"], cf_signatures=_signatures(values["cf_factual"]["cases"],"cf"),
+                   expected_assets_sha256=expected_assets)
+    _generation(values["cf_generation"], fingerprint, nested, generation_runtime_member, records["cf"], collect=True,
+                producer_execution=execution, generation_assets=generation_assets)
     result = dict(schema=READY_SCHEMA, status="READY", actual_complete=True, actual_model_edits=0,
                   producer_execution_identity=execution,
                   computational_fingerprint=fingerprint, members=component_members,
                   generation_raw_members=nested, generation_runtime_member=deepcopy(generation_runtime_member),
+                  generation_assets_manifest=deepcopy(generation_assets["manifest"]),
                   source_members=deepcopy(source_members),
                   dataset_members=deepcopy(dataset_members),
                   component_validation=_json(component_validation),
@@ -775,7 +1077,7 @@ class BorrowedW0:
 
 
 @_typed
-def read_ready(path, *, consumer_execution_identity, consumer_fingerprint, member_paths=None):
+def read_ready(path, *, consumer_execution_identity, consumer_fingerprint, member_paths=None, generation_assets=None):
     """Verify all consumed raw bytes; explicit local overrides permit prior transfers.
 
     No files are transferred/created. ``member_paths`` maps logical member keys
@@ -789,7 +1091,10 @@ def read_ready(path, *, consumer_execution_identity, consumer_fingerprint, membe
              and ready["actual_model_edits"] == 0
              and ready.get("ready_sha256") == _digest({key: value for key, value in ready.items() if key != "ready_sha256"}), "READY.COLD_COMPLETE_IDENTITY")
     _compatible(ready["computational_fingerprint"], consumer_fingerprint)
+    _execution(ready["producer_execution_identity"], "PRODUCER")
     _component_validation(ready["component_validation"], ready["computational_fingerprint"])
+    _require(type(generation_assets) is dict and generation_assets.get("manifest") == ready.get("generation_assets_manifest"),
+             "GENERATION.ORIGINAL_REFERENCE_MANIFEST_REQUIRED")
     source_consumed = _sources(ready["source_members"], ready["computational_fingerprint"], overrides=member_paths)
     records, dataset_consumed = _datasets(ready["dataset_members"], ready["computational_fingerprint"], overrides=member_paths)
     _keys(ready["members"], COMPONENTS, "READY_COMPONENT_MEMBERS")
@@ -800,12 +1105,18 @@ def read_ready(path, *, consumer_execution_identity, consumer_fingerprint, membe
     _cold_component(values["zsre_reference"], "zsre", consumer_fingerprint, ready["producer_execution_identity"])
     _case_order(values["cf_factual"], records["cf"], "cf")
     _case_order(values["zsre_reference"], records["zsre"], "zsre")
+    expected_assets = values["cf_factual"]["identity"]["external_identity"]["assets_sha256"]
+    _require(values["zsre_reference"]["identity"]["external_identity"]["assets_sha256"] == expected_assets,
+             "PRODUCER.COLD_ASSET_MANIFEST_IDENTITY")
     consumed.update(_qualification(ready["component_validation"], consumer_fingerprint,
-                                  ready["producer_execution_identity"], ready["generation_raw_members"], overrides=member_paths))
+                                  ready["producer_execution_identity"], ready["generation_raw_members"], overrides=member_paths,
+                                  cf_records=records["cf"], cf_signatures=_signatures(values["cf_factual"]["cases"],"cf"),
+                                  expected_assets_sha256=expected_assets))
     consumed.update(_generation(values["cf_generation"], consumer_fingerprint,
                                 ready["generation_raw_members"], ready["generation_runtime_member"], records["cf"], overrides=member_paths,
-                                producer_execution=ready["producer_execution_identity"]))
-    _require(set(ready["generation_raw_members"]) == set(consumed) - set(COMPONENTS) - {"cf_generation.observer_identity"},
+                                producer_execution=ready["producer_execution_identity"], generation_assets=generation_assets))
+    _require(set(ready["generation_raw_members"]) == {name for name in consumed if not name.startswith("reference.")}
+                 - set(COMPONENTS) - {"cf_generation.observer_identity"},
              "READY.UNCONSUMED_OR_MISSING_RAW_PROOF_MEMBERS")
     consumed.update(source_consumed)
     consumed.update(dataset_consumed)

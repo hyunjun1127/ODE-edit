@@ -170,8 +170,8 @@ def load_model(assets):
     return model, tokenizer
 
 
-def rng_digest(value):
-    """Content identity, not nondeterministic torch.save archive timestamps."""
+def rng_content(value):
+    """Small encoded state-content proof; tensors remain RAM/checkpoint local."""
     import numpy as np
     import torch
     def encode(item):
@@ -189,7 +189,12 @@ def rng_digest(value):
         if isinstance(item, np.generic):
             return item.item()
         return item
-    return digest(encode(value))
+    return encode(value)
+
+
+def rng_digest(value):
+    """Content identity, not nondeterministic torch.save archive timestamps."""
+    return digest(rng_content(value))
 
 
 def restore_checkpoint(model, engine, payload, identity):

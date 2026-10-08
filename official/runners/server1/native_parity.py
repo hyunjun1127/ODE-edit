@@ -11,6 +11,7 @@ import math
 from pathlib import Path
 import re
 import time
+from functools import wraps
 
 from official.evaluation.reduce import counterfact
 from official.experiments import checkpoint
@@ -43,6 +44,18 @@ GROUPS = ("rewrite", "paraphrase", "neighborhood")
 
 class NativeParityError(ValueError):
     pass
+
+
+def _typed(function):
+    @wraps(function)
+    def call(*args, **kwargs):
+        try:
+            return function(*args, **kwargs)
+        except NativeParityError:
+            raise
+        except (KeyError,TypeError,ValueError,AttributeError) as error:
+            raise NativeParityError(function.__name__ + ".INVALID_PROOF:" + str(error)) from error
+    return call
 
 
 def require(value, code):
@@ -111,6 +124,8 @@ def _state(engine):
     require(value.get("method") == engine.method and type(value.get("successful_calls")) is int
             and value["successful_calls"] == 3,
             "NATIVE_PARITY_ONLY_COMPLETED_B3")
+    from official.evaluation.w0_reference import _native_state
+    _native_state(value, method=engine.method)
     return value
 
 
@@ -196,13 +211,16 @@ def _work(value, candidate_count, *, native):
     for key in ("physical_input_tokens", "padded_input_tokens", "target_tokens"):
         require(type(value.get(key)) is int and value[key] > 0, "NATIVE_PARITY_PHYSICAL_TOKEN_WORK")
     require(value["padded_input_tokens"] >= value["physical_input_tokens"]
-            and _finite(value.get("seconds")) and value["seconds"] >= 0, "NATIVE_PARITY_WORK_FINITE")
+            and _finite(value.get("seconds")) and value["seconds"] > 0, "NATIVE_PARITY_WORK_FINITE")
 
 
+@_typed
 def _canonical(canonical, external, selected=None):
     """Check original existing raw before allowing the independent forwards."""
     require(type(canonical) is dict and type(canonical.get("identity")) is dict,
             "NATIVE_PARITY_EXISTING_CANONICAL_REQUIRED")
+    from official.evaluation.w0_reference import _no_test_evidence
+    _no_test_evidence(canonical)
     ci = canonical["identity"]
     require(ci.get("external_identity") == external and ci.get("ordered_occurrences") == OCCURRENCES
             and ci.get("schema") == "official-factual-causal-v1" and ci.get("dataset") == "cf"
@@ -220,6 +238,8 @@ def _canonical(canonical, external, selected=None):
         require([(row["case_id"], row["occurrence_index"]) for row in cases]
                 == [(row["case_id"], row["occurrence_index"]) for row in selected],
                 "NATIVE_PARITY_EXISTING_CANONICAL_COHORT_MISMATCH")
+        from official.evaluation.w0_reference import _dataset_queries, _signatures
+        _dataset_queries(_signatures(cases,"cf"), selected, "cf")
     # Factual raw must retain the measured work rather than invent new calls.
     candidates = 0
     for row in cases:
@@ -235,12 +255,18 @@ def _canonical(canonical, external, selected=None):
                         "NATIVE_PARITY_EXISTING_CANONICAL_NLL")
             candidates += len(probabilities) * 2
     _work(canonical.get("work"), candidates, native=False)
+    from official.evaluation.factual import validate_retained_observation
+    from official.evaluation.w0_reference import _signatures
+    validate_retained_observation(canonical,"cf",input_signature=_signatures(cases,"cf"),batch_size=16)
     return ci
 
 
+@_typed
 def validate_report(value, expected_external, plan):
     """Independent CPU acceptance of stored source/scope/raw/guards/work only."""
     plan_sha = validate_plan(plan)
+    from official.evaluation.w0_reference import _no_test_evidence
+    _no_test_evidence(value)
     expected_external = _external_identity(expected_external)
     require(type(value) is dict and value.get("schema") == SCHEMA and value.get("plan_sha256") == plan_sha
             and value.get("external_identity") == expected_external, "NATIVE_PARITY_REPORT_SOURCE_PLAN_IDENTITY")
@@ -254,6 +280,8 @@ def validate_report(value, expected_external, plan):
             and value.get("canonical_payload_unchanged") is True,
             "NATIVE_PARITY_REPORT_OBSERVATION_GUARDS")
     binding, canonical, comparison = (value[name] for name in ("reference_binding", "canonical", "comparison"))
+    from official.evaluation.w0_reference import _native_state
+    _native_state(value.get("state_before"))
     require(type(binding) is dict and set(binding) == {"model_identity", "tokenizer_identity", "state_identity"}
             and binding.get("state_identity") == value.get("state_before") == value.get("state_after")
             and binding["state_identity"].get("successful_calls") == 3
@@ -277,6 +305,8 @@ def validate_report(value, expected_external, plan):
     native, ni = comparison["native"], comparison["native"]["identity"]
     require(native.get("schema") == "official-cf-original-native-reference-v1"
             and native.get("status") == "OBSERVED_UNCOMPARED"
+            and native.get("evidence") == {"TEST_ONLY_CPU_FIXTURE":"NOT_OBSERVED","ACTUAL_GPU_SMOKE":"NOT_OBSERVED",
+                                          SCOPE:"NOT_OBSERVED","ACTUAL_FULL_2K":"NOT_OBSERVED"}
             and ni.get("schema") == "official-cf-original-native-reference-v1"
             and ni.get("external_identity") == expected_external and ni.get("reference_binding") == binding
             and ni.get("source_sha256") == REFERENCE_SOURCE_SHA256
@@ -290,6 +320,12 @@ def validate_report(value, expected_external, plan):
             and all(native.get(key) is True for key in ("raw_local_only", "model_no_mutation", "RNG_restored"))
             and native.get("checkpoint_saved") is False, "NATIVE_PARITY_ORIGINAL_SOURCE_IDENTITY_OR_GUARDS")
     left, right = canonical["cases"], native["cases"]
+    from official.evaluation.factual import validate_retained_observation, retained_query_work
+    validate_retained_observation(canonical,"cf",input_signature=native["case_signatures"],batch_size=16)
+    for endpoint, per_case in ((canonical,False),(native,True)):
+        derived = retained_query_work(native["case_signatures"],"cf",batch_size=16,per_case=per_case)
+        require(all(type(endpoint["work"].get(key)) is int and endpoint["work"][key] == count
+                    for key,count in derived.items()), "NATIVE_PARITY_OBSERVATION_DERIVED_WORK")
     require(type(left) is list and type(right) is list and len(left) == len(right) == REQUESTS,
             "NATIVE_PARITY_EXACT_FIRST300_RAW")
     require(ni.get("locked_cohort_sha256") == digest([dict(case_id=row["case_id"], occurrence_index=row["occurrence_index"])

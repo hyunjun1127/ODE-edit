@@ -21,7 +21,7 @@ from official.evaluation.factual import evaluate, build_zsre_w0_reference
 from official.evaluation.reduce import counterfact, zsre
 from .common import (METHODS, MILESTONES, Tracking, bindings, factual_payload,
                      generation_payload, immutable_observation, load_model, local_output, member, read,
-                     require, restore_checkpoint, rng_digest, seed_edit,
+                     require, restore_checkpoint, rng_digest, rng_content, seed_edit,
                      source_binding, validate_config, verify)
 
 
@@ -66,7 +66,10 @@ def stage(args, config, lock, output):
         if batch == 3:
             endpoint = factual(model, tokenizer, records[:300], "cf", external)
             immutable_observation(output / "B3-factual-local.json", endpoint)
-            cursor["factual_member"] = member(output / "B3-factual-local.json")
+            # Preserve the original deterministic observation separately. The
+            # immutable proof retains actual work for CPU receipt revalidation.
+            write_new(output / "B3-factual-proof-local.json", endpoint)
+            cursor["factual_member"] = member(output / "B3-factual-proof-local.json")
             if args.qualification_stage == "continuous":
                 from .native_parity import qualify
                 try:
@@ -81,13 +84,17 @@ def stage(args, config, lock, output):
         checkpoint_save(output, batch, engine, identity, cursor)
     state = engine.state_identity()
     payload = checkpoint.load(output / "checkpoint", identity)
+    from .w0_binding import execution_identity
     value = dict(schema="official-server1-native-qualification-stage-v1",
         stage=args.qualification_stage, completed_batch=stop, selected_state=state,
         contexts_sha256=digest(engine.contexts()), RNG_sha256=rng_digest(checkpoint.rng_snapshot()),
         checkpoint_RNG_sha256=rng_digest(payload["rng"]), method=args.method,
+        context_content=engine.contexts(), RNG_content=rng_content(checkpoint.rng_snapshot()),
+        checkpoint_RNG_content=rng_content(payload["rng"]),
+        execution_identity=execution_identity(config,lock,assets,output=output,role="QUALIFICATION"),
         identity=identity, actual_model_loaded=True, actual_native_fit_calls=len(receipts),
         edit_receipts=receipts, seconds=time.monotonic() - started,
-        factual_member=member(output / "B3-factual-local.json") if stop == 3 else None,
+        factual_member=member(output / "B3-factual-proof-local.json") if stop == 3 else None,
         native_parity_member=member(output / "native-CF-parity-first300-local.json")
             if args.qualification_stage == "continuous" else None,
         GPU_actual=True, performance_gate=False, generation_calls=0)
@@ -142,13 +149,28 @@ def verify_native_parity_stage(continuous, plan):
     require(report.get("state_after") == continuous["selected_state"]
             and report.get("reference_binding", {}).get("state_identity", {}).get("method") == continuous["method"],
             "NATIVE_PARITY_COMPLETED_B3_STATE_IDENTITY")
+    require(report.get("canonical") == endpoint
+            and report.get("canonical_payload_sha256") == digest(endpoint),
+            "NATIVE_PARITY_CANONICAL_COMPLETED_B3_MEMBER")
     return validate_report(report, endpoint["identity"]["external_identity"], plan["native_reference_matched_B3"])
 
 
 def verify_qualifications(config, identity):
+    expected_identity = dict(identity)
+    if config.get("dataset") == "zsre":
+        # The independently observed qualification is always CF first300, even
+        # when a later science caller consumes the separate zsRE stream.
+        # Bind its CF input to the actual pinned bundle/assets, not to an
+        # untrusted report's self-declared stream or the zsRE endpoint identity.
+        bundle = read(verify(config["stream_bundle_member"]))
+        assets = read(verify(config["assets_member"]))
+        cf_member = member(verify(bundle["datasets"]["cf"]["stream"]))
+        require(cf_member["sha256"] == assets["streams"]["cf"]["stream_sha256"],
+                "QUALIFICATION_ACTUAL_CF_STREAM_ASSET_IDENTITY")
+        expected_identity["stream_sha256"] = cf_member["sha256"]
     for method in METHODS:
         value = read(config["qualification_outputs"][method] + "/READY.json")
-        verify_qualification(value, method, identity, config.get("qualification_plan"))
+        verify_qualification(value, method, expected_identity, config.get("qualification_plan"))
 
 
 def verify_qualification(value, method, identity=None, plan=None):
@@ -158,7 +180,7 @@ def verify_qualification(value, method, identity=None, plan=None):
             and value.get("actual_fit_calls") == 6 and value.get("generation_calls") == 0,
             "ACTUAL_NATIVE_QUALIFICATION_READY_REQUIRED")
     if identity is not None:
-        for key in ("code_commit", "official_tree_sha256", "model_revision", "tokenizer_sha256", "assets_sha256"):
+        for key in ("code_commit", "official_tree_sha256", "model_revision", "tokenizer_sha256", "assets_sha256", "stream_sha256"):
             require(value["identity"][key] == identity[key], "QUALIFICATION_SOURCE_ASSET_IDENTITY")
     if plan is not None:
         require(value["qualification_plan_sha256"] == digest(plan), "QUALIFICATION_PLAN_IDENTITY")
@@ -205,6 +227,7 @@ def base_w0(args, config, lock, output, tracker):
     seed_edit()
     cf = factual(model, tokenizer, cf_records, "cf", external, tracker=tracker)
     immutable_observation(output / "cf-factual-local.json", cf)
+    write_new(output / "cf-factual-proof-local.json", cf)
     observer = generation_observer(model, tokenizer, assets, lock, output / "cf-generation", tracker=tracker, endpoint="W0")
     generation = observer.observe(cf_records, "W0", cohort="first2000", state_identity=dict(
         base_model=assets["model"]["identity"], assets_sha256=assets["assets_sha256"], actual_model_edits=0))
@@ -229,7 +252,7 @@ def base_w0(args, config, lock, output, tracker):
     fingerprint = build_fingerprint(assets, tokenizer, dict(cf=cf_records, zsre=zsre_records))
     qualification_members = {method:member(Path(config["qualification_outputs"][method]) / "READY.json")
                              for method in METHODS}
-    components = dict(cf_factual=member(output / "cf-factual-local.json"),
+    components = dict(cf_factual=member(output / "cf-factual-proof-local.json"),
                       cf_generation=member(output / "cf-generation-local.json"),
                       zsre_reference=member(output / "zsre-reference-local.json"))
     validation = {name:dict(actual_complete=True, actual_model_edits=0, state="W0_COLD_BASE_MODEL",
@@ -241,14 +264,15 @@ def base_w0(args, config, lock, output, tracker):
         fingerprint=fingerprint, members=components, component_validation=validation,
         generation_runtime_member=member(output / "cf-generation" / "observer-identity.json"),
         source_members=consumed_source_members(),
-        dataset_members={name:bundle["datasets"][name]["stream"] for name in ("cf","zsre")})
+        dataset_members={name:bundle["datasets"][name]["stream"] for name in ("cf","zsre")},
+        generation_assets=dict(manifest=assets["generation_reference"]["manifest"]))
     write_new(output / "PORTABLE_READY.json", portable)
     # CF W0 run's config/namespace cannot carry zsRE scores. The separately
     # bound zsRE chains log the shared exact token reference in their own runs.
     ready = dict(schema="official-server1-base-W0-READY-v1", actual_model_edits=0,
         model_identity=assets["model"]["identity"], source=lock["source"], assets_sha256=assets["assets_sha256"],
         cf_external_identity=external, zsre_external_identity=zsre_external,
-        cf_factual=member(output / "cf-factual-local.json"),
+        cf_factual=member(output / "cf-factual-proof-local.json"),
         cf_generation=member(output / "cf-generation-local.json"),
         zsre_reference=member(output / "zsre-reference-local.json"),
         portable_reference=member(output / "PORTABLE_READY.json"),
@@ -531,12 +555,12 @@ def _collect_profile(profile, profile_config, lock, folder, assets, records, ide
         reference_assets = references_cache[assets["assets_sha256"]]
         generation_audit = _collect_generation(verify(ready["cf_generation"]), records, tokenizer, assets,
             lock, "W0", references=reference_assets, folder=folder)
-        from .w0_binding import build_fingerprint
+        from .w0_binding import build_fingerprint, execution_identity
         from official.evaluation.w0_reference import read_ready
         borrowed = read_ready(verify(ready["portable_reference"]),
-            consumer_execution_identity=dict(server="server1", role="CPU_REDUCER", source=lock["source"],
-                                               config_sha256=profile_config["config_sha256"]),
-            consumer_fingerprint=build_fingerprint(assets, tokenizer, dict(cf=records,zsre=zsre_records)))
+            consumer_execution_identity=execution_identity(profile_config,lock,assets,output=folder,role="CPU_REDUCER"),
+            consumer_fingerprint=build_fingerprint(assets, tokenizer, dict(cf=records,zsre=zsre_records)),
+            generation_assets=dict(manifest=assets["generation_reference"]["manifest"]))
         return dict(verification="ACTUAL_COLD_W0_RAW_VERIFIED", actual_model_edits=0,
                     cf_factual=cf_audit, zsre_reference=zsre_audit, generation=generation_audit,
                     portable_reference=ready["portable_reference"],
