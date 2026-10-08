@@ -7,13 +7,14 @@ import unittest
 from pathlib import Path
 
 from .generation_common import member, read, require, write
-from .generation_cache_common import REPAIR_LOCAL, ROOT, ready
+from .generation_cache_common import REPAIR_LOCAL, ROOT, ready, layout
 
 MODULES = (
     'test_generation_cache_qualification',
     'test_generation_cache_reuse',
     'test_generation_cache_bridge',
     'test_generation_cache_tracking',
+    'test_generation_tracking_reader',
     'test_generation_cache_profile',
     'test_generation_collect',
     'test_generation_run',
@@ -21,12 +22,12 @@ MODULES = (
 )
 
 
-def check(out):
+def check(out, profile='r1'):
     import torch
     started = time.monotonic()
     require(not torch.cuda.is_initialized(), 'CPU_CHECK_MUST_NOT_INITIALIZE_CUDA')
     torch.set_num_threads(1)
-    config_path = REPAIR_LOCAL / 'preparation-r1/config.json'
+    config_path = layout(profile)[0] / 'preparation-r1/config.json'
     config = read(config_path)
     ready(config)
     package = 'project.run_scripts.gptj_native_baselines.'
@@ -62,7 +63,9 @@ def check(out):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--out', type=Path, required=True)
-    check(parser.parse_args().out)
+    parser.add_argument('--profile', choices=('r1', 'r2'), default='r1')
+    args = parser.parse_args()
+    check(args.out, profile=args.profile)
 
 
 if __name__ == '__main__':

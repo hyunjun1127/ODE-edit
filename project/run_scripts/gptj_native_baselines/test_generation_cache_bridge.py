@@ -70,7 +70,7 @@ class FakeShared:
 class CacheBridgeTests(unittest.TestCase):
     def test_api_binding_is_read_only_plan_not_actual_pass(self):
         api=b.api_binding()
-        self.assertEqual(api['source_sha'],'199cfe5664355f6f1c9069c72396ec759bb25cec')
+        self.assertEqual(api['source_sha'],'1413ac0ff550f2132feda355e44519506fc0eb84')
         self.assertEqual(api['package_tree'],b.PACKAGE_TREE)
         self.assertFalse(api['actual_GPU_qualification'])
         self.assertFalse(api['source_namespace_modified'])

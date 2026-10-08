@@ -1,6 +1,6 @@
 # GPT-J native six-baseline fluency/consistency 준비·등록 보고
 
-최신 상태(2026-10-08): `CACHE_REPAIR_SUBMISSION_HANDOFF; SIX_GPU_AND_COLLECTOR_RELEASED`.
+최신 상태(2026-10-08): `MANUAL_R2_SOURCE_BOUND; SUBMISSION_NOT_YET_PERFORMED`.
 이하 기존 등록 보고는 역사 기록이며, 현재 실행 상태로 읽지 않는다.
 원 등록 상태: `SUBMISSION_HANDOFF; SIX_GPU_AND_CPU_COLLECTOR_RELEASED`.
 Instruction/nonce `USER-GH-ALL-SH-BASELINE-FLUENCY-CONSISTENCY-RERUN-20261007-R1`,
@@ -296,3 +296,47 @@ hotpatch하지 않았다. 원 CPU93/source2e6f6f55 evidence와 이후 publicatio
 당시 실제 장비는 RTX A6000 8개/각49140MiB, own project allocation0,
 disk425102852096B·free inode443311699였다. 이는 실제 generation peak/ETA가 아니다.
 Bounded submission 인계 뒤 추가 job 조회/agent monitoring 없이 USER recall을 기다린다.
+
+## 최신 USER recall: r1 logger 실패와 별도 r2 준비
+
+사용자 “server2에서 진행된 baseline들 실험 다시 올려봐. fail되었다.
+Wandb에 실시간으로 기록하는것도 진행시켜”를 직접 수락했다.
+대상은 바로 앞 여섯 GPT-J baseline(MEMIT/AlphaEdit/CAKE/AlphaEdit-BLUE/PRUNE/RECT)이며
+FE/OURS/W0-only/다른 서버는 재개·변경하지 않는다.
+전용 clean worktree/branch에서 기존 source/raw/spool/원 dirty root를 보존한다.
+
+61160–61165는 모두 FAILED,61166 collector는 COMPLETED이나 science_complete=false다.
+현재 exact7개 queue는 empty, 이미 terminal이므로 이번 scancel0.
+각 GPU 할당10/9/9/9/8/8초, 합53GPU-sec(0.0147222222GPUh)는 실패한 r1 비용으로 분리한다.
+원60909의25963GPU-sec는 그대로 별도 보존하며 중복 가산하지 않는다.
+
+여섯 sidecar 모두 인증·원격 config/job name 확인 뒤 **READY_ONLINE**을 반환했다.
+그 후 parent Tracker._read가 공유 identity.create에서 private config 키
+`qualification_plan_sha256`을 검산하여 `ValueError: CONFIG_NOT_ALLOWLISTED`로 거절했다.
+Broad catch가 이를 `LOGGING_DEGRADED_CONTROL`로 표시했고 모델 로드 전 종료했다.
+따라서 이 실패를 “로그인 누락”으로 분류하지 않는다. 실제 fit/write/commit/history0,
+새 actual qualification0. 원 online run UUID/URL/spool은 보존하며 rename/backfill0이다.
+
+최소 수리는 외부 config 키를 기존 공유 schema가 지원하는
+`generation_qualification_plan_sha256`으로 바꾼 것이다. 내부 PLAN 키·과학식·native 예산·입력·dtype는
+그대로다. 실제 parent pipe-reader→immutable identity 생성 CPU seam을 추가하여 array index0,
+signed step -5, PLAN binding, mismatch/privacy rejection와 overwrite 금지를 검사했다.
+공유 tracking helper 수정0. SH1이 게시한 rich-member 검산 수리1413ac0f/treee6935b9a도 읽기전용 채택했다.
+기존83535c6a raw의 source/runtime/route를 새source로 바꾸지 않는다.
+
+`--profile r2`는 ignored `local/gptj-baselines-fluency-consistency-2k/cache-repair-r2/`에만
+새 config/PLAN/source/lock/새W&B UUID를 만든다. r1 기본 경로와 모든 old archive/config는 불변이다.
+현재 config SHA1924773f0bbb60addc0a9d1ace8281691a625da96a2099053a4c44e8a920411c,
+private PLAN35c53b58…, shared PLANbdcac9e9…를 제출 전 고정했다.
+변경 source/실제 parent identity와 기존 좁은 API/control fixture 총99 tests PASS,
+11.853초/CUDA initialized=false; pretrained model/GPU/새 실제 qualification은 아직0이다.
+독립 실제 GPU 인증이 아닌 owner CPU 검산과 bounded source 검토 수준이다.
+
+각GPU1/CPU6/59392MiB/48h 및 GPU0 collector CPU6/24576MiB/4h,
+합산cap2/더엄격현행 제한과 fresh frontier를 등록 직전 검사한다. wall은 ETA가 아니다.
+BASE_MEMIT 안에서 actual qualification→compatible W0 READY를 만든 뒤 native trajectory를 진행하고,
+종료 후 두 lane이 기술 READY를 검산한다. 추가 fit/pilot/성능 gate·자동 retry0.
+W&B scalar-only online, 실제job번호 name/config, separate fit/progress/performance axes,
+bounded finish/readback을 유지한다. CPU PASS/SDK 접수/실제 online 검증/실험완료를 별도로 기록한다.
+NoCP/raw local KEEP/NO_BROADCAST_NOT_REQUIRED. 실제 등록 ID/새 online 상태는 등록 후 추가한다.
+이번 source/RCA receipt: `cache-repair-r2/failure-and-source-review.json`.

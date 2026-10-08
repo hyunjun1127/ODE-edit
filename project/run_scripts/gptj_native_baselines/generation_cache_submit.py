@@ -6,6 +6,7 @@ GPU execution. Actual qualification is created inside BASE_MEMIT, not invented
 as an sbatch prerequisite or claimed in held inspection.
 """
 import getpass
+import argparse
 import json
 import re
 import subprocess
@@ -15,13 +16,13 @@ from pathlib import Path
 from .generation_common import (ARMS, SESSION, digest, member, read, require,
     sha, stat_seal, verify, write)
 from .generation_cache_common import (ATTEMPT, ENVELOPE, NONCE, REPAIR_LOCAL,
-    ROOT, TASK, authority, ready)
+    ROOT, TASK, RERUN_AUTHORITY, authority, ready, layout, recall_authority)
 from .generation_plan import counts, dependencies
 from .generation_submit import (SOURCES as PARENT_SOURCES, admission, command,
     field, gpu_count, inspect_held, launcher, sbatch_argv)
 from project.run_scripts.gptj_cake_blue_prune_rect.submit import project_job
 
-SOURCES = list(dict.fromkeys([*PARENT_SOURCES, ENVELOPE]))
+SOURCES = list(dict.fromkeys([*PARENT_SOURCES, ENVELOPE, RERUN_AUTHORITY]))
 
 
 def inventory(exclude=()):
@@ -68,20 +69,23 @@ def inventory(exclude=()):
         other_server_detailed_queries=0)
 
 
-def submit():
+def submit(profile='r1'):
     authority()
-    config_path = REPAIR_LOCAL / 'preparation-r1/config.json'
+    repair_local, expected_attempt = layout(profile)
+    if profile == 'r2':
+        recall_authority()
+    config_path = repair_local / 'preparation-r1/config.json'
     config = read(config_path)
     ready(config)
     attempt = Path(config['attempt'])
-    require(attempt == ATTEMPT and not attempt.exists(), 'CACHE_REPAIR_ATTEMPT_CREATE_ONCE')
-    require(not list(REPAIR_LOCAL.glob('attempt-*/submitted-*.json')),
+    require(attempt == expected_attempt and not attempt.exists(), 'CACHE_REPAIR_ATTEMPT_CREATE_ONCE')
+    require(not list(repair_local.glob('attempt-*/submitted-*.json')),
         'CACHE_REPAIR_NO_DUPLICATE_REGISTRATION')
     require(not command(['git', 'status', '--porcelain', '--', *SOURCES]),
         'CACHE_REPAIR_SOURCE_COMMITTED')
     # r1 is preserved FAILED: its mutated-raw negative fixture expected only
     # RuntimeError while the unchanged bound-file guard emits ValueError.
-    checks_path = REPAIR_LOCAL / 'cpu-integration-r2.json'
+    checks_path = repair_local / 'cpu-integration-r2.json'
     checks = read(checks_path)
     require(checks['status'] == 'PASS_CPU_INTEGRATION' and checks['CUDA_initialized'] is False,
         'CACHE_REPAIR_NARROW_CPU_NOT_GPU')
@@ -131,6 +135,8 @@ def submit():
         actual_qualification_in_first_replacement_job=True,
         old_complete_case_inventory=repair['old_complete_case_inventory'],
         noCP=True, exact_resume='NOT_AVAILABLE', resources=config['resources'],
+        registration_profile=profile, tracking_attempt=config.get('tracking_attempt', 'cache-repair-r1'),
+        manual_recall_authority=config.get('manual_recall_authority'),
         count_plan=counts(), raw_generation_local_only=True,
         source_freeze_distinct_from_report=True, no_new_monitor_or_automatic_retry=True)
     write(attempt / 'execution.lock.json', lock)
@@ -185,4 +191,6 @@ def submit():
 
 
 if __name__ == '__main__':
-    submit()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--profile', choices=('r1', 'r2'), default='r1')
+    submit(parser.parse_args().profile)

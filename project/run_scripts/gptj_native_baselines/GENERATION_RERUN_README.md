@@ -1,5 +1,36 @@
 # GPT-J six-native generation rerun: SH1 source/reference bound
 
+## Manual USER recall: cache-repair-r2 (2026-10-08)
+
+Six r1 jobs61160..61165 failed at ONLINE_STARTUP before model load. Their
+sidecars actually reached READY_ONLINE, but the parent immutable identity
+validator rejected the private qualification_plan_sha256 config key. New
+telemetry uses the already-supported generation_qualification_plan_sha256 key;
+the internal scientific PLAN key is unchanged. A real parent pipe-reader CPU
+test now covers READY_ONLINE -> immutable identity, not only mocked SDK READY.
+Old runs/source/logs are preserved, never renamed or backfilled.
+
+The explicit --profile r2 writes only local/cache-repair-r2 (under the parent
+local root), binds direct USER recall metadata and new run UUIDs, and preserves
+the r1 default. Native budgets/methods/inputs/noCP are unchanged. The published
+SH1 rich metadata compatibility fix1413ac0f/treee6935b9a is read-only reused.
+No prior actual qualification receipt exists; the first new GPU job writes it.
+
+One deliberate registration pass, after source commit and fresh admission:
+
+```bash
+OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1 /mnt/raid5/janghj/EasyEdit/.venv/bin/python -m project.run_scripts.gptj_native_baselines.generation_cache_bind --profile r2 --shared-source 1413ac0ff550f2132feda355e44519506fc0eb84 --package-tree e6935b9a099b14d7ad8e5e39e5455da08b2159f8
+OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1 /mnt/raid5/janghj/EasyEdit/.venv/bin/python -m project.run_scripts.gptj_native_baselines.generation_cache_cpu_checks --profile r2 --out /mnt/raid5/janghj/ODE-edit/local/gptj-baselines-fluency-consistency-2k/cache-repair-r2/cpu-integration-r2.json
+PYTHONDONTWRITEBYTECODE=1 /mnt/raid5/janghj/EasyEdit/.venv/bin/python -m project.run_scripts.gptj_native_baselines.generation_cache_submit --profile r2
+```
+
+These are create-once commands, not an automatic retry or monitoring loop.
+Scalar realtime logging retains actual job name/config IDs, separate progress,
+fit and performance axes, immutable run identity and bounded remote readback.
+CPU99 PASS is not actual GPU qualification or W20 completion.
+
+## Historical original registration (unchanged)
+
 Task: `gptj-baselines-fluency-consistency-2k`.
 Nonce: `USER-GH-ALL-SH-BASELINE-FLUENCY-CONSISTENCY-RERUN-20261007-R1`.
 

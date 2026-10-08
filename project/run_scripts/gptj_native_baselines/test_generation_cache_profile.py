@@ -12,6 +12,16 @@ from .test_generation_run import config as parent_config
 
 
 class RepairProfileTests(unittest.TestCase):
+    def test_manual_r2_has_isolated_root_and_preserves_r1_default(self):
+        self.assertEqual(repair.layout(), (repair.REPAIR_LOCAL, repair.ATTEMPT))
+        base, attempt = repair.layout('r2')
+        self.assertEqual(base.name, 'cache-repair-r2')
+        self.assertEqual(attempt, base / 'attempt-r1')
+        self.assertNotEqual(attempt, repair.ATTEMPT)
+        self.assertEqual(repair.recall_authority()['arms'], list(ARMS))
+        with self.assertRaisesRegex(RuntimeError, 'EXPLICIT_PROFILE'):
+            repair.layout('automatic-r3')
+
     def test_published_authority_is_exact_owner_and_scope(self):
         envelope = repair.authority()
         self.assertEqual(envelope['owners']['server2']['task_id'], repair.TASK)

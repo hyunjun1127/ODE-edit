@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "authority_kind": "DIRECT_USER_MANUAL_RECALL",
+  "user_exact": "server2에서 진행된 baseline들 실험 다시 올려봐. fail되었다.\nWandb에 실시간으로 기록하는것도 진행시켜",
+  "server": "server2",
+  "session": "01a0493a-074c-7f91-9a13-769116326fef",
+  "task_id": "gptj-baselines-generation-cache-repair",
+  "parent_task_id": "gptj-baselines-fluency-consistency-2k",
+  "registration_profile": "r2",
+  "arms": ["BASE_MEMIT", "BASE_ALPHAEDIT", "CAKE", "ALPHAEDIT_BLUE", "PRUNE", "RECT"],
+  "project_gpu_cap": 2,
+  "noCP": true,
+  "automatic_retry": false,
+  "new_scientific_methods": false,
+  "prior_jobs": [61160, 61161, 61162, 61163, 61164, 61165, 61166],
+  "repair_scope": "Canonical W&B PLAN configuration key, actual parent identity regression, explicit immutable r2 control profile and published SH1 rich-member compatibility repair; science/native budgets unchanged.",
+  "protected": ["OURS", "W0-only", "FE", "other-server and unrelated jobs", "old source/raw/assets"],
+  "new_runtime_source_separate": true
+}

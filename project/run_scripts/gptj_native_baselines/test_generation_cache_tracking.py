@@ -21,7 +21,7 @@ ENV=dict(SLURM_JOB_ID='71002',SLURM_ARRAY_JOB_ID='71001',SLURM_ARRAY_TASK_ID='0'
 
 def config():
     return schema.bind_job_identity(dict(CFG,task_id=schema.REPAIR_TASK,
-        attempt=schema.REPAIR_ATTEMPT,qualification_plan_sha256='e'*64),ENV)
+        attempt=schema.REPAIR_ATTEMPT,generation_qualification_plan_sha256='e'*64),ENV)
 
 
 def progress(step=0, completed=0, reused=0, route=None):
@@ -100,8 +100,8 @@ class CacheRepairTrackingTests(unittest.TestCase):
         self.assertEqual(cfg['array_task_id'],'0')
         self.assertEqual(cfg['job_display_id'],'71001_0')
         self.assertEqual(schema.config(CFG),CFG)
-        for key,value in (('attempt','attempt-r1'),('qualification_plan_sha256','f'*40),
-                          ('qualification_plan_sha256','F'*64),('private_path','/PRIVATE')):
+        for key,value in (('attempt','attempt-r1'),('generation_qualification_plan_sha256','f'*40),
+                          ('generation_qualification_plan_sha256','F'*64),('private_path','/PRIVATE')):
             with self.assertRaises(ValueError):schema.config(dict(cfg,**{key:value}))
 
     def test_repair_startup_uses_private_client_and_original_keeps_shared(self):
@@ -122,6 +122,15 @@ class CacheRepairTrackingTests(unittest.TestCase):
         private.assert_called_once();shared.assert_not_called()
         self.assertEqual(captured['config']['task_id'],schema.REPAIR_TASK)
         self.assertEqual(captured['config']['attempt'],schema.REPAIR_ATTEMPT)
+        self.assertEqual(captured['config']['generation_qualification_plan_sha256'],'e'*64)
+        self.assertNotIn('qualification_plan_sha256',captured['config'])
+        captured.clear()
+        c['tracking_attempt']='cache-repair-r2'
+        with patch.dict(os.environ,ENV,clear=True),patch.object(client,'init',fake_init),\
+                patch.object(producer,'write'):
+            producer.start_tracking(c,dict(source_commit='a'*40,config_sha256='b'*64),
+                Path('/fixture/no-write'), 'BASE_MEMIT')
+        self.assertEqual(captured['config']['attempt'],'cache-repair-r2')
         self.assertNotIn('PRIVATE',captured['config'])
         self.assertNotIn('repair',captured['config'])
 

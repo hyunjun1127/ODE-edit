@@ -19,9 +19,9 @@ def start_tracking(c,lock,out,arm):
         from .generation_tracking_client import init as private_init
         from .generation_tracking_schema import REPAIR_TASK, REPAIR_ATTEMPT
         require(type(gen['repair']) is dict,'GEN_REPAIR_CONFIG')
-        cfg.update(task_id=REPAIR_TASK,attempt=REPAIR_ATTEMPT)
+        cfg.update(task_id=REPAIR_TASK,attempt=c.get('tracking_attempt', REPAIR_ATTEMPT))
         if 'qualification_plan_sha256' in gen['repair']:
-            cfg['qualification_plan_sha256']=gen['repair']['qualification_plan_sha256']
+            cfg['generation_qualification_plan_sha256']=gen['repair']['qualification_plan_sha256']
         logger_init=private_init
     tracker=logger_init(env_file=c['tracking']['env_file'],spool=out/'tracking',config=cfg)
     write(out/'tracking-identity.json',dict(run_id=tracker.run_id,url=tracker.startup.get('url'),

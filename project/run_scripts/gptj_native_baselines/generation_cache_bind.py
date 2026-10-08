@@ -12,7 +12,7 @@ from pathlib import Path
 from .generation_common import (LOCAL, ROOT, small_member, digest, member,
     read, require, sha, stat_seal, verify, write)
 from .generation_cache_common import (ATTEMPT, ENVELOPE, NONCE, PARENT_TASK,
-    REPAIR_LOCAL, TASK, authority, ready)
+    REPAIR_LOCAL, TASK, RERUN_AUTHORITY, authority, ready, layout, recall_authority)
 from .generation_cache_qualification import (build_plan, freeze_plan,
     installed_native_binding)
 from .generation_cache_reuse import (INVENTORY_SCHEMA, read_member, semantic_identity,
@@ -25,8 +25,11 @@ def git(*args):
     return subprocess.check_output(['git', *args], cwd=ROOT, text=True).strip()
 
 
-def bind(shared_source, package_tree, *, batch_microbatch=8, memory_admission_member=None):
+def bind(shared_source, package_tree, *, batch_microbatch=8, memory_admission_member=None, profile='r1'):
     authority()
+    repair_local, attempt = layout(profile)
+    if profile == 'r2':
+        recall_authority()
     require(len(shared_source) == len(package_tree) == 40
         and all(c in '0123456789abcdef' for c in shared_source + package_tree),
         'CACHE_REPAIR_EXACT_SHARED_GIT_IDENTITY')
@@ -47,8 +50,8 @@ def bind(shared_source, package_tree, *, batch_microbatch=8, memory_admission_me
     api = api_binding()
     require(api['status'] == 'READ_BOUND_SHARED_API'
         and api['source_sha'] == shared_source, 'CACHE_REPAIR_ACTUAL_API_READ')
-    out = REPAIR_LOCAL / 'preparation-r1'
-    require(not out.exists() and not ATTEMPT.exists(), 'CACHE_REPAIR_BIND_CREATE_ONCE')
+    out = repair_local / 'preparation-r1'
+    require(not out.exists() and not attempt.exists(), 'CACHE_REPAIR_BIND_CREATE_ONCE')
     old_path = LOCAL / 'preparation-r2/config.json'
     original = read(old_path)
     config = copy.deepcopy(original)
@@ -68,13 +71,17 @@ def bind(shared_source, package_tree, *, batch_microbatch=8, memory_admission_me
     require(old_inventory['identity']['semantic_inputs'] == semantic_identity(config)
         and old_inventory['planned_cases'] == 2000, 'CACHE_REPAIR_OLD_SEMANTIC_REUSE_BOUND')
     old_binding = build_old_w0_reuse_binding(inventory_member,
-        out_directory=REPAIR_LOCAL / 'inputs/old-cold-phase-r1')
+        out_directory=repair_local / 'inputs/old-cold-phase-r1')
     config.update(task_id=TASK, instruction_id=NONCE, parent_task_id=PARENT_TASK,
-        authority=small_member(ROOT / ENVELOPE), attempt=str(ATTEMPT))
+        authority=small_member(ROOT / ENVELOPE), attempt=str(attempt))
+    if profile == 'r2':
+        config.update(registration_profile='r2', tracking_attempt='cache-repair-r2',
+            manual_recall_authority=small_member(ROOT / RERUN_AUTHORITY),
+            previous_failed_registration=str(ATTEMPT))
     gen = config['generation']
     gen.update(source_sha=shared_source, package_tree=package_tree,
         shared_source_members=[small_member(p) for p in sorted((ROOT / PACKAGE).rglob('*.py'))],
-        W0_cache=str(ATTEMPT / 'W0-generation-cache'), generator_route='RUNTIME_QUALIFIED_ROUTE_ONLY')
+        W0_cache=str(attempt / 'W0-generation-cache'), generator_route='RUNTIME_QUALIFIED_ROUTE_ONLY')
     # Local tokenizer load only, no AutoModel import, CUDA, forward or download.
     from transformers import AutoTokenizer
     from scripts.fixed_counterfact import load_prefix
@@ -87,7 +94,7 @@ def bind(shared_source, package_tree, *, batch_microbatch=8, memory_admission_me
         admission_reason='DEFAULT_MB8' if batch_microbatch == 8 else 'PREDECLARED_MEMORY_MB4')
     if memory_admission_member is not None:
         plan['memory_admission_member'] = memory_admission_member
-    plan_binding = freeze_plan(plan, cohort, REPAIR_LOCAL / 'qualification-plan-r1')
+    plan_binding = freeze_plan(plan, cohort, repair_local / 'qualification-plan-r1')
     gen['repair'] = dict(status='PLAN_BOUND_NOT_ACTUAL_PASS', actual_qualification_status='NOT_RUN',
         qualification_in_first_replacement_job=True,
         qualification_plan=plan_binding['qualification_plan'],
@@ -95,8 +102,8 @@ def bind(shared_source, package_tree, *, batch_microbatch=8, memory_admission_me
         qualification_cohort=plan_binding['qualification_cohort'],
         shared_qualification_plan=plan_binding['shared_qualification_plan'],
         shared_qualification_plan_sha256=plan_binding['shared_qualification_plan_sha256'],
-        qualification_receipt_path=str(ATTEMPT / 'BASE_MEMIT/qualification.json'),
-        compatibility_manifest_path=str(ATTEMPT / 'BASE_MEMIT/compatibility.json'),
+        qualification_receipt_path=str(attempt / 'BASE_MEMIT/qualification.json'),
+        compatibility_manifest_path=str(attempt / 'BASE_MEMIT/compatibility.json'),
         old_complete_case_inventory=inventory_member,
         old_cold_observation_guard=old_binding['cold_observation_guard_member'],
         old_w0_reuse_binding=old_binding['binding_member'],
@@ -127,9 +134,11 @@ def main():
     parser.add_argument('--package-tree', required=True)
     parser.add_argument('--batch-microbatch', type=int, choices=(4, 8), default=8)
     parser.add_argument('--memory-admission-json', type=Path)
+    parser.add_argument('--profile', choices=('r1', 'r2'), default='r1')
     args = parser.parse_args()
     bind(args.shared_source, args.package_tree, batch_microbatch=args.batch_microbatch,
-         memory_admission_member=member(args.memory_admission_json) if args.memory_admission_json else None)
+         memory_admission_member=member(args.memory_admission_json) if args.memory_admission_json else None,
+         profile=args.profile)
 
 
 if __name__ == '__main__':

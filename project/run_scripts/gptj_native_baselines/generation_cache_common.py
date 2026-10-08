@@ -19,6 +19,26 @@ ORIGINAL_ENVELOPE_SHA = '6902af1cb866fde3e6e01a0cd21cac7642db9c20de1bbdb86d18d72
 ENVELOPE_SHA = '32f52ab0b884ef3b4bb83141d5a20fe3e6883db25f6235399bda202ddaac75ce'
 REPAIR_LOCAL = LOCAL / 'cache-repair-r1'
 ATTEMPT = REPAIR_LOCAL / 'attempt-r1'
+RERUN_AUTHORITY = 'plans/updates/server2/gptj-baselines-fluency-consistency-2k/cache-repair-r2-user-recall.json'
+
+
+def layout(profile='r1'):
+    """Explicit manual rerun profile; never overwrite the historical r1 root."""
+    require(profile in ('r1', 'r2'), 'CACHE_REPAIR_EXPLICIT_PROFILE')
+    base = REPAIR_LOCAL if profile == 'r1' else LOCAL / 'cache-repair-r2'
+    return base, base / 'attempt-r1'
+
+
+def recall_authority():
+    value = read(ROOT / RERUN_AUTHORITY)
+    require(value['authority_kind'] == 'DIRECT_USER_MANUAL_RECALL'
+        and value['server'] == 'server2' and value['session'] == SESSION
+        and value['task_id'] == TASK and value['registration_profile'] == 'r2'
+        and value['user_exact'] == 'server2에서 진행된 baseline들 실험 다시 올려봐. fail되었다.\nWandb에 실시간으로 기록하는것도 진행시켜'
+        and value['arms'] == list(ARMS) and value['project_gpu_cap'] == 2
+        and value['noCP'] is True and value['automatic_retry'] is False,
+        'CACHE_REPAIR_DIRECT_USER_SCOPE')
+    return value
 
 
 def authority():
@@ -58,6 +78,15 @@ def ready(config):
     parent_ready(config)
     identity(config)
     authority()
+    profile = config.get('registration_profile', 'r1')
+    base, attempt = layout(profile)
+    if profile == 'r2':
+        recall_authority()
+        verify(config['manual_recall_authority'])
+        require(config['manual_recall_authority']['sha256'] == sha(ROOT / RERUN_AUTHORITY)
+            and config['attempt'] == str(attempt)
+            and config['tracking_attempt'] == 'cache-repair-r2',
+            'CACHE_REPAIR_R2_MANUAL_AUTHORITY_BINDING')
     repair = config['generation']['repair']
     verify(repair['old_complete_case_inventory'])
     require(repair['status'] == 'PLAN_BOUND_NOT_ACTUAL_PASS'

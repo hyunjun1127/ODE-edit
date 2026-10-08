@@ -13,9 +13,10 @@ FIELDS=('fluency/ngram_entropy','consistency/reference_score','generation/planne
 GEN_KEYS={p+'/'+f for p in PREFIXES for f in FIELDS}
 EXTRA_CONFIG={'generation_metric_schema','generation_profile','generation_eval_seed',
               'reference_assets_sha256','generation_source_sha','baseline'}
-OPTIONAL_CONFIG={'qualification_plan_sha256'}
+OPTIONAL_CONFIG={'generation_qualification_plan_sha256'}
 REPAIR_TASK='gptj-baselines-generation-cache-repair'
 REPAIR_ATTEMPT='cache-repair-r1'
+REPAIR_ATTEMPTS=(REPAIR_ATTEMPT, 'cache-repair-r2')
 PROGRESS_PHASE='W0_generation'
 PROGRESS_PHASES=(PROGRESS_PHASE,'generation_evaluation')
 PROGRESS_ROUTES=('UNPADDED_FULL_PREFIX_NO_CACHE','UNPADDED_SINGLETON_KV_CACHE',
@@ -45,11 +46,11 @@ def config(values):
     optional={k:values[k] for k in OPTIONAL_CONFIG if k in values}
     if optional:
         require(cfg['task_id']==REPAIR_TASK,'GEN_PLAN_SHA_REPAIR_ONLY')
-        require(type(optional['qualification_plan_sha256']) is str
-                and re.fullmatch(r'[a-f0-9]{64}',optional['qualification_plan_sha256']),
+        require(type(optional['generation_qualification_plan_sha256']) is str
+                and re.fullmatch(r'[a-f0-9]{64}',optional['generation_qualification_plan_sha256']),
                 'GEN_PLAN_SHA256')
     if cfg['task_id']==REPAIR_TASK:
-        require(cfg['attempt']==REPAIR_ATTEMPT,'GEN_REPAIR_ATTEMPT')
+        require(cfg['attempt'] in REPAIR_ATTEMPTS,'GEN_REPAIR_ATTEMPT')
     return dict(cfg,**extra,**optional)
 def bind_job_identity(values,environ=None):
     cfg=config(values)
