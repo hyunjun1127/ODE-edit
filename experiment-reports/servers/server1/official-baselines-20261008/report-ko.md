@@ -3,9 +3,13 @@
 담당 수락: USER-OFFICIAL-BASELINES-20261008-R1 및
 GH-SH1-OFFICIAL-COMPAT-READY-20261009-R1. 모델·effort 변경 없음.
 원 담당 과학 행은 Llama3 FT/MEMIT/MEMIT_FE × CF/zsRE 여섯 개였다.
-최신 `GH-SH1-NATIVE-CF-CHECKPOINT-REUSE-20261009-R1`에 따라 Llama MEMIT CF
-신규 editing chain은 제외하며 FT/FE CF와 세 zsRE 준비만 유지한다. ours 실행은 없다.
-이번 수신에서 새 GPU/generation/Slurm 등록0, 기존 job/CP 이동·삭제0이다.
+최신 USER 직접 지시(2026-10-09)는 server1 cap4, official 순서의 Llama CF
+FT/MEMIT/MEMIT_FE 재실행이다. 이전 MEMIT CF 제외를 대체한다. 세 zsRE 준비는
+보존하되 이번 CF 등록에는 포함하지 않는다. ours 실행은 없다.
+W20 FLU/CON은 생략하고 실제 W20 checkpoint를 보존해 후속 평가에 사용한다.
+중간 factual 평가와 매 batch 최신 checkpoint/W20 보존은 유지한다. 모델당 W0
+generation 계약은 변경하지 않았다. deferred W20 지표·progress 업로드는 거절한다.
+변경 runner CPU181 PASS, 실제 GPU/Slurm 등록은 아직0이다. 기존 job/CP 이동·삭제0.
 
 ## 최신 shared W0 기술 수리 상태
 
@@ -28,9 +32,9 @@ source verifier는 upstream157 SHA/Python245/external task import0 PASS다.
 초기 오류는 typed prerequisite 오류로 수리했고 검증 guard를 완화하지 않았다.
 이번 CPU fixture 결과는 실제 GPU 과학 관측 또는 main integration 승인이 아니다.
 
-새 MEMIT CF 제외 지시로 기존 미제출 pipeline-r2의 6-chain/3-CFqualification/12-job
-계획은 현재 제출에 사용하지 않는다. excluded CF를 qualification 명목으로 다시 fit하지
-않으며 유지 zsRE 및 FT/FE CF의 미래 정확한 qualification/DAG를 별도 source로 결속한다.
+기존 미제출 pipeline-r2의 6-chain/12-job 계획은 현재 제출에 사용하지 않는다.
+최신 CF 전용 계획은 원 승인 native qualification3 + 공유W0 1 + CF3 + CPUcollector1이다.
+GPU DAG 최대폭3으로 cap4 이내이며 실제 자원과 기존 admission은 제출 직전 재검산한다.
 shared W0는 유지 CF chain에 계속 필요하다. 역사 CP generation-only 후속은 원 source/
 model/hparams/salted-hash cohort를 보존하는 별도 계획이며 이번 turn에서 실행하지 않는다.
 아래 이전 단계의 숫자/경로는 역사 기록이지 최신 admission이나 READY가 아니다.

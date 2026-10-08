@@ -1586,9 +1586,10 @@
       "upstream_path": "project/run_scripts/experiment_tracking/schema.py",
       "path": "tracking/schema.py",
       "upstream_sha256": "b63cd41816f4022ff85c83130f16fff4380e7e039d0c37f6618c7d008b7aa659",
-      "sha256": "7147d38cc840e0f3592f271afdada5fd6dadfb202da4715eafacfd96eae42f63",
+      "sha256": "9a6cce55ff0579ec6b9a8c9710ac59015e7900e736910ff2346f9d9b9d8579b5",
       "changes": [
         "official instruction/dataset/schema and native W0+W20 authority pair",
+        "2026-10-09 direct USER server1 CF deferred-W20 checkpoint schedule; W20 generation payloads rejected",
         "zsRE rejects CF generation",
         "official request-macro namespace and actual native denominators",
         "shared native W20 progress phase-only callback adapter"
@@ -1693,7 +1694,7 @@
       "upstream_path": null,
       "path": "tracking/test_transport.py",
       "upstream_sha256": null,
-      "sha256": "3675dcba83ca4d692a57b44a1e9274bc4e021ea12f9a4cecef6678206ef73167",
+      "sha256": "6c05e80520c4050af18faa61ab8202d7fa2559a526e88629296204d68fe8fdbe",
       "changes": [
         "new GH-reviewed distribution artifact; final commit recorded by publication, no fictitious upstream"
       ],

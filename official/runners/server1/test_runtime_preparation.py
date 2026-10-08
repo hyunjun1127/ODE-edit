@@ -37,6 +37,19 @@ class RuntimePreparationTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "QUALIFICATION_PLAN_CHANGED"):
                 validate_config(row)
 
+    def test_deferred_generation_requires_explicit_CF_override_and_exact_schedule(self):
+        from official.runners.server1.common import DEFERRED_W20, CF_CHECKPOINT_AUTHORITY
+        row = next(value for value in self.configs() if value["dataset"] == "cf")
+        row.update(cf_W20_generation=DEFERRED_W20, scope_override=CF_CHECKPOINT_AUTHORITY)
+        row["evaluation"]["generation"]["edited_endpoints"] = []
+        row["evaluation"]["generation"]["deferred_to_checkpoint"] = 20
+        row.pop("config_sha256"); row["config_sha256"] = digest(row)
+        validate_config(row)
+        for key,value in (("scope_override","wrong"),("dataset","zsre"),("cf_W20_generation","UNKNOWN")):
+            wrong=copy.deepcopy(row); wrong[key]=value
+            wrong.pop("config_sha256"); wrong["config_sha256"]=digest(wrong)
+            with self.assertRaises(ValueError):validate_config(wrong)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -17,6 +17,18 @@ from official.experiments.prepare import digest, file_sha, load_plan, write_new
 METHODS = ("FT", "MEMIT", "MEMIT_FE")
 LOCAL_ROOT = Path("/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1")
 MILESTONES = (5, 10, 15, 20)
+DEFERRED_W20 = "DEFERRED_TO_SAVED_W20_CHECKPOINT"
+CF_CHECKPOINT_AUTHORITY = "USER-DIRECT-SERVER1-CF-CHECKPOINT-20261009"
+
+
+def generation_at_W20(config):
+    policy = config.get("cf_W20_generation", "INLINE")
+    require(policy in ("INLINE", DEFERRED_W20), "UNKNOWN_W20_GENERATION_POLICY")
+    if policy == DEFERRED_W20:
+        require(config.get("dataset") == "cf" and
+                config.get("scope_override") == CF_CHECKPOINT_AUTHORITY,
+                "DEFERRED_W20_EXPLICIT_CF_AUTHORITY_REQUIRED")
+    return policy == "INLINE"
 
 
 def require(value, code):
@@ -67,8 +79,13 @@ def validate_config(value):
     expected = profiles["llama3/" + value["method"]]["hparams"]
     require(value.get("hparams") == expected and value.get("edit_seed") == contract["edit_seed"] == 0,
             "NATIVE_HPARAMS_OR_SEED_CHANGED")
+    import copy
+    evaluation = copy.deepcopy(contract["evaluation"])
+    if not generation_at_W20(value):
+        evaluation["generation"]["edited_endpoints"] = []
+        evaluation["generation"]["deferred_to_checkpoint"] = 20
     require(value.get("precision") == contract["precision"] and
-            value.get("evaluation") == contract["evaluation"], "OFFICIAL_PRECISION_OR_EVALUATION_CHANGED")
+            value.get("evaluation") == evaluation, "OFFICIAL_PRECISION_OR_EVALUATION_CHANGED")
     unsigned = {key: item for key, item in value.items() if key != "config_sha256"}
     require(value.get("config_sha256") == digest(unsigned), "CONFIG_DIGEST")
     from .native_parity import PLAN as native_reference_plan
@@ -238,7 +255,8 @@ class Tracking:
         if dataset == "cf":
             assets = read(verify(config["assets_member"]))
             reference = read(assets["generation_reference"]["manifest"]["path"])
-            values.update(generation_schedule="W0_AND_W20_FIRST2000",
+            values.update(generation_schedule=("W0_AND_W20_FIRST2000" if generation_at_W20(config)
+                else "W0_ONLY_W20_DEFERRED_CHECKPOINT"),
                 generation_metric_schema="counterfact-cake-generation-metrics-v1",
                 generation_profile="cf-cake-native-casebatch-kv-total100-globalrng-v1",
                 generation_eval_seed=20261007, reference_assets_sha256=reference["identity_sha256"],

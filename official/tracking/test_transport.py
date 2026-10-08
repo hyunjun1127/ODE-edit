@@ -101,6 +101,18 @@ def execute(payloads,*,cfg=None,sdk=None):
 
 
 class OfficialTransport(unittest.TestCase):
+    def test_server1_CF_deferred_W20_rejects_generation_but_accepts_factual(self):
+        cfg=dict(config(),generation_schedule=schema.OFFICIAL_DEFERRED_W20_SCHEDULE)
+        schema.config(cfg)
+        schema.metrics(official(),scientific=True,config_values=cfg)
+        schema.metrics(generation(),scientific=True,config_values=cfg)
+        with self.assertRaisesRegex(ValueError,'W20_GENERATION_DEFERRED'):
+            schema.metrics(generation('all_seen/post'),scientific=True,config_values=cfg)
+        with self.assertRaisesRegex(ValueError,'W20_GENERATION_DEFERRED'):
+            schema.metrics({'phase':'W20_generation','generation_progress/step':1},scientific=True,config_values=cfg)
+        with self.assertRaisesRegex(ValueError,'SERVER1_SCOPE'):
+            schema.config(dict(cfg,server='server2'))
+
     def test_cf_exact_authority_profile_schedule_and_models(self):
         for model in ('llama3','gptj','qwen25'):
             cfg=config();cfg['model']=model

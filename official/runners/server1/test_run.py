@@ -402,6 +402,38 @@ class RunnerConnectorTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "REFUSE_OVERWRITE"):
             common.immutable_observation(path, changed_science)
 
+    def test_deferred_W20_saves_checkpoint_without_constructing_generation_observer(self):
+        from contextlib import ExitStack
+        output, base = self.root / "deferred", self.root / "base"
+        output.mkdir(); base.mkdir()
+        write_new(base / "READY.json", {"CPU_fixture": True})
+        cold = self.root / "cold.json"
+        write_new(cold, self.endpoint(FixtureModel(), object(), self.records, "cf", self.external))
+        ready = dict(cf_factual=common.member(cold))
+        config = dict(base_W0_output=str(base), dataset="cf", cf_W20_generation=common.DEFERRED_W20,
+                      scope_override=common.CF_CHECKPOINT_AUTHORITY)
+        tracker = FixtureTracker()
+        with ExitStack() as stack:
+            for context in self.connector_patches():
+                stack.enter_context(context)
+            stack.enter_context(patch.object(run, "verify_qualifications"))
+            stack.enter_context(patch.object(run, "read_w0", return_value=ready))
+            stack.enter_context(patch.object(run, "factual_payload", side_effect=lambda endpoint, prefix, edits:
+                dict(edits=edits, **{"official/"+prefix+"/requests":len(endpoint["cases"])})))
+            observer = stack.enter_context(patch.object(run, "generation_observer", side_effect=AssertionError("UNAUTHORIZED_W20_GENERATION")))
+            run.chain(self.arguments(output), config, self.lock, output, tracker)
+            observer.assert_not_called()
+        saved = checkpoint.load(output / "checkpoint", self.identity)
+        self.assertEqual(saved["batch"], 20)
+        self.assertEqual(saved["evaluation_cursor"]["generation_status"], common.DEFERRED_W20)
+        self.assertNotIn("generation", saved["evaluation_cursor"])
+        self.assertTrue(common.read(output / "checkpoint" / "latest.json")["final_W20"])
+        complete = common.read(output / "COMPLETE.json")
+        self.assertEqual(complete["W20_generation_status"], common.DEFERRED_W20)
+        self.assertEqual(complete["actual_applied_requests"], 2000)
+        self.assertEqual(len(list((output / "commits").glob("batch-*.json"))), 20)
+        self.assertTrue(any(row.get("edits")==2000 and row.get("official/all_seen/post/requests")==2000 for row in tracker.payloads))
+
     def test_W20_generation_failure_preserves_B19_and_resume_recovers_science(self):
         from contextlib import ExitStack
         output = self.root / "chain"

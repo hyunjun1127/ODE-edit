@@ -225,18 +225,19 @@ def build_pipeline(configs, output_root, *, main_commit, official_tree, inputs,
                    existing_frontier=(), cap=3, resources=None, purpose="pipeline",
                    python=DEFAULT_PYTHON):
     """Prepare only; GPU receipts/READY do not exist until sealed jobs run."""
-    require(purpose in ("pipeline", "qualification"), "UNKNOWN_PLAN_PURPOSE")
+    require(purpose in ("pipeline", "qualification", "cf_checkpoint"), "UNKNOWN_PLAN_PURPOSE")
     output_root = Path(output_root).absolute()
     jobs = [_job("qual-" + method.lower(), "qualification", method, "cf",
                  configs[(method, "cf")], output_root / ("qualification-" + method.lower()))
             for method in METHODS]
-    if purpose == "pipeline":
+    if purpose in ("pipeline", "cf_checkpoint"):
         qual = [job["key"] for job in jobs]
         jobs.append(_job("base-w0", "base_w0", None, "cf", configs[("FT", "cf")],
                          output_root / "base-w0", qual))
         for method in METHODS:
             jobs.append(_job("cf-" + method.lower(), "chain", method, "cf",
                              configs[(method, "cf")], output_root / ("cf-" + method.lower()), ["base-w0"]))
+    if purpose == "pipeline":
         cf = ["cf-" + method.lower() for method in METHODS]
         jobs.append(_job("zsre-smoke", "smoke", "FT", "zsre", configs[("FT", "zsre")],
                          output_root / "zsre-smoke", cf))
@@ -281,8 +282,8 @@ def build_resume(config, output, *, method, dataset, main_commit, official_tree,
 def validate_plan(plan):
     require(plan.get("schema") == SCHEMA and plan.get("server") == "server1"
             and plan.get("model") == "llama3", "PLAN_SCOPE")
-    require(plan.get("purpose") in ("pipeline", "qualification", "resume"), "UNKNOWN_PLAN_PURPOSE")
-    require(type(plan.get("cap")) is int and 1 <= plan["cap"] <= 3, "PLAN_STRICTER_CAP")
+    require(plan.get("purpose") in ("pipeline", "qualification", "resume", "cf_checkpoint"), "UNKNOWN_PLAN_PURPOSE")
+    require(type(plan.get("cap")) is int and 1 <= plan["cap"] <= 4, "PLAN_STRICTER_CAP")
     require(not plan.get("automatic_retry") and not plan.get("recurring_monitor")
             and not plan.get("old_jobs_mutation") and plan.get("actual_GPU_qualification") is False,
             "CONTROL_NOT_SCIENCE_PASS_OR_RETRY")
@@ -313,6 +314,10 @@ def validate_plan(plan):
         require(value.get("model") == "llama3" and value.get("dataset") == job["dataset"]
                 and (job["method"] is None or value.get("method") == job["method"]), "CONFIG_PROFILE")
         stream = value.get("stream", {})
+        if plan["purpose"] == "cf_checkpoint":
+            require(job["dataset"] == "cf" and value.get("cf_W20_generation") == "DEFERRED_TO_SAVED_W20_CHECKPOINT"
+                    and value.get("scope_override") == "USER-DIRECT-SERVER1-CF-CHECKPOINT-20261009",
+                    "CF_CHECKPOINT_ONLY_EXPLICIT_SOURCE_CONFIG")
         require(stream.get("requests") == 2000 and stream.get("batch_size") == 100
                 and stream.get("batches") == 20, "EXACT_2K_20B_CONFIG")
     for row in plan["inputs"]:

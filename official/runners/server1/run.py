@@ -22,7 +22,7 @@ from official.evaluation.reduce import counterfact, zsre
 from .common import (METHODS, MILESTONES, Tracking, bindings, factual_payload,
                      generation_payload, immutable_observation, load_model, local_output, member, read,
                      require, restore_checkpoint, rng_digest, rng_content, seed_edit,
-                     source_binding, validate_config, verify)
+                     source_binding, validate_config, verify, generation_at_W20)
 
 
 def factual(model, tokenizer, records, dataset, external, reference=None, tracker=None, edits=0):
@@ -397,9 +397,9 @@ def chain(args, config, lock, output, tracker):
             endpoint_path = output / "factual" / f"batch-{batch:02d}.json"
             immutable_observation(endpoint_path, endpoint)
             cursor.update(evaluation="COMPLETE", factual=member(endpoint_path))
-            if args.mode != "smoke" and not (batch == 20 and args.dataset == "cf"):
+            if args.mode != "smoke" and not (batch == 20 and args.dataset == "cf" and generation_at_W20(config)):
                 tracker.log(factual_payload(endpoint, "all_seen/post", 100 * batch))
-        if batch == 20 and args.dataset == "cf":
+        if batch == 20 and args.dataset == "cf" and generation_at_W20(config):
             observer = generation_observer(model, tokenizer, assets, lock, output / "generation-W20",
                                            engine=engine, tracker=tracker)
             observed = observer.observe(records, "W20", cohort="first2000", state_identity=dict(
@@ -411,6 +411,8 @@ def chain(args, config, lock, output, tracker):
             full_W20 = factual_payload(endpoint, "all_seen/post", 2000)
             full_W20.update(generation_payload(observed, 2000))
             tracker.log(full_W20)
+        elif batch == 20 and args.dataset == "cf":
+            cursor["generation_status"] = "DEFERRED_TO_SAVED_W20_CHECKPOINT"
         # No checkpoint is committed before all scheduled observations finish.
         # A W20 generation exception leaves the pinned B19 pointer intact.
         pointer = checkpoint_save(output, batch, engine, identity, cursor)
@@ -427,7 +429,9 @@ def chain(args, config, lock, output, tracker):
         write_new(output / "COMPLETE.json", dict(schema="official-server1-chain-complete-v1", method=args.method,
             dataset=args.dataset, identity=identity, actual_native_apply_calls=20, actual_applied_requests=2000,
             final_cursor=cursor, final_checkpoint=member(output / "checkpoint" / "latest.json"),
-            checkpoint_W20_preserved=True, scientific_complete=True, model_forward_not_mock=True))
+            checkpoint_W20_preserved=True, scientific_complete=True, model_forward_not_mock=True,
+            W20_generation_status=("DEFERRED_TO_SAVED_W20_CHECKPOINT" if args.dataset == "cf"
+                and not generation_at_W20(config) else "OBSERVED" if args.dataset == "cf" else "NOT_APPLICABLE")))
 
 
 def _collect_local_path(path, parent=None):
@@ -602,7 +606,14 @@ def _collect_profile(profile, profile_config, lock, folder, assets, records, ide
                 "COLLECTOR_COMPLETE_LEDGER_CURSOR_POINTER")
     result = dict(verification="ACTUAL_LOCAL_RAW_AND_LEDGER_VERIFIED", native_commits=ledger,
                   factual=factual_checks)
-    if mode == "chain" and dataset == "cf":
+    if mode == "chain" and dataset == "cf" and not generation_at_W20(profile_config):
+        require("generation" not in last["cursor"]
+                and last["cursor"].get("generation_status") == "DEFERRED_TO_SAVED_W20_CHECKPOINT"
+                and receipt.get("W20_generation_status") == "DEFERRED_TO_SAVED_W20_CHECKPOINT"
+                and not (folder / "generation-W20-local.json").exists(),
+                "COLLECTOR_DEFERRED_W20_GENERATION_CONTRACT")
+        result["generation"] = dict(status="DEFERRED_TO_SAVED_W20_CHECKPOINT", actual_observation=False)
+    elif mode == "chain" and dataset == "cf":
         generation_member = last["cursor"].get("generation")
         require(generation_member is not None and Path(generation_member["path"]) == folder / "generation-W20-local.json",
                 "COLLECTOR_W20_GENERATION_CURSOR")

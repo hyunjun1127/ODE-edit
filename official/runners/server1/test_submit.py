@@ -58,6 +58,22 @@ class SubmissionTests(unittest.TestCase):
         self.assertIn("--method", argv)
         self.assertNotIn("mock", " ".join(argv))
 
+    def test_CF_checkpoint_only_three_chains_cap4_and_no_zsre_submission(self):
+        for (method,dataset),path in self.configs.items():
+            if dataset=="cf":
+                value=s.read(path)
+                value.update(cf_W20_generation="DEFERRED_TO_SAVED_W20_CHECKPOINT",
+                             scope_override="USER-DIRECT-SERVER1-CF-CHECKPOINT-20261009")
+                path.write_text(json.dumps(value))
+        plan=s.build_pipeline(self.configs,self.root/"cf-checkpoint",main_commit="a"*40,
+            official_tree="b"*40,inputs=self.plan["inputs"],cap=4,purpose="cf_checkpoint")
+        self.assertEqual(len(plan["jobs"]),8)
+        self.assertEqual({job["method"] for job in plan["jobs"] if job["mode"]=="chain"},set(s.METHODS))
+        self.assertTrue(all(job["dataset"]=="cf" for job in plan["jobs"]))
+        self.assertEqual(s.graph_width(plan["jobs"]),3)
+        wrong=copy.deepcopy(plan); wrong["cap"]=5
+        with self.assertRaisesRegex(s.RegistrationError,"STRICTER_CAP"):s.validate_plan(wrong)
+
     def test_config_hparam_or_input_mutation_rejected(self):
         self.configs[("FT", "cf")].write_text("{}")
         with self.assertRaisesRegex(s.RegistrationError, "INPUT_MEMBER_CHANGED"):

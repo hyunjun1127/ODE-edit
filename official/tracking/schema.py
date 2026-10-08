@@ -15,6 +15,7 @@ PROJECT = 'layer allocation'
 SDK_VERSION = '0.30.0'
 OFFICIAL_INSTRUCTION = 'USER-OFFICIAL-BASELINES-20261008-R1'
 OFFICIAL_GENERATION_SCHEDULE = 'W0_AND_W20_FIRST2000'
+OFFICIAL_DEFERRED_W20_SCHEDULE = 'W0_ONLY_W20_DEFERRED_CHECKPOINT'
 NATIVE_GENERATION_PROFILE = 'cf-cake-native-casebatch-kv-total100-globalrng-v1'
 JOB_FIELDS = {'job_id','array_job_id','array_task_id','step_id','job_display_id','execution_backend','identity_source'}
 SLURM_ENV = {'job_id':'SLURM_JOB_ID','array_job_id':'SLURM_ARRAY_JOB_ID',
@@ -96,7 +97,7 @@ def config(values):
                 'GENERATION_REPAIR_INSTRUCTION')
         elif key=='generation_schedule':
             require(type(value) is str and value in (
-                'W20_ONLY_FIRST2000', OFFICIAL_GENERATION_SCHEDULE), 'GENERATION_SCHEDULE')
+                'W20_ONLY_FIRST2000', OFFICIAL_GENERATION_SCHEDULE, OFFICIAL_DEFERRED_W20_SCHEDULE), 'GENERATION_SCHEDULE')
         elif key == 'step_id':
             step_identifier(value)
         elif key == 'source_run_url':
@@ -135,8 +136,12 @@ def config(values):
             if official:
                 require(result['dataset']=='cf'
                         and result.get('generation_repair_instruction')==OFFICIAL_INSTRUCTION
-                        and result.get('generation_schedule')==OFFICIAL_GENERATION_SCHEDULE,
+                        and result.get('generation_schedule') in (OFFICIAL_GENERATION_SCHEDULE, OFFICIAL_DEFERRED_W20_SCHEDULE),
                         'OFFICIAL_NATIVE_GENERATION_AUTHORITY_SCHEDULE')
+                if result.get('generation_schedule')==OFFICIAL_DEFERRED_W20_SCHEDULE:
+                    require(result['server']=='server1' and result['model']=='llama3'
+                            and result['writer'] in ('ft','memit','memit_fe','none'),
+                            'OFFICIAL_DEFERRED_W20_SERVER1_SCOPE')
             else:
                 require(result.get('generation_repair_instruction')==
                     'USER-DIRECT-NATIVE-FLUCON-REPAIR-20261008-R1'
@@ -237,8 +242,12 @@ def metrics(values,*,scientific=False,config_values=None):
                     'ZSRE_GENERATION_FORBIDDEN')
         if generation_keys or progress:
             require(cfg.get('generation_profile')==NATIVE_GENERATION_PROFILE
-                    and cfg.get('generation_schedule')==OFFICIAL_GENERATION_SCHEDULE,
+                    and cfg.get('generation_schedule') in (OFFICIAL_GENERATION_SCHEDULE, OFFICIAL_DEFERRED_W20_SCHEDULE),
                     'OFFICIAL_GENERATION_CONFIG_REQUIRED')
+            if cfg.get('generation_schedule')==OFFICIAL_DEFERRED_W20_SCHEDULE:
+                require(not any(key.startswith('all_seen/post/') for key in generation_keys)
+                        and (not progress or values.get('phase')=='W0_generation'),
+                        'OFFICIAL_W20_GENERATION_DEFERRED')
         if progress:
             require(values['phase'] in ('W0_generation','W20_generation'),
                     'OFFICIAL_GENERATION_PHASE')
