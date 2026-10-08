@@ -3,6 +3,27 @@
 USER-OFFICIAL-BASELINES-20261008-R1. 실제 실행 준비 코드이며 현재 `READY`는 발급하지 않았다.
 새 baseline 제출 0. 기존 baseline 60917–60923은 최신 사용자 지시에 따라 취소했다.
 
+## Fresh main-table scope correction (2026-10-09)
+
+GH-SH4-MAIN-TABLE-FRESH-RERUN-20261009-R1 / main1bedeaf0 수락.
+AlphaEdit CF를 포함한 Llama AlphaEdit/BLUE/SPHERE × CF/zsRE 6행 모두 현재
+ordered first2K의 fresh cold 대상이다. sample/order가 다른 과거 CP 제외 방침은
+SUPERSEDED이며 old CP/source/raw는 KEEP. 이 runner에는 CF 제외 분기가 없고
+assignment에 빈 checkpoint exclusion 목록을 명시했다.
+
+main_results.py는 actual job ID/name과 sample/source/config/cold origin을 기록한다.
+main resume에는 같은 fresh chain의 origin receipt가 필요하며 과거 CP 채택을 거부한다.
+qualification/W0/collector/tuning/replay는 main 표 대상으로 기록하지 않는다.
+미제출 값은 null/빈칸, 결과 수치는 actual cold identity의 W20만 허용한다.
+README는 GH 소유이며 직접 편집하지 않는다.
+
+새 CPU 5개 포함 own29 PASS / official source157 SHA·외부import0 PASS.
+이 중 logger mismatch 재현 PASS는 blocker 증거이며 실행 준비 PASS가 아니다.
+공통 portable W0 repair/actual READY, display logger 정합과 실제 native/resume
+qualification이 아직 미충족이다. 신규 job IDs=[] / main six rows NOT_SUBMITTED.
+한정 현재 scheduler snapshot에는61418 OURS·61618 replay만 있었고 변경하지 않았다.
+Qwen held-out hparam task와 본 table task는 독립이며 여기서 수정/재개/취소0.
+
 ## Portable W0 branch API 수신 (2026-10-09)
 
 후속 정정 `GH-SH4-FINAL-CHECKPOINT-FUTURE-ONLY-20261009-R1`: GH review

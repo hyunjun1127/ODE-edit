@@ -151,6 +151,11 @@ def run_chain(args,config,assets,ready,records,tracker):
             W0_observation='REUSED' if observer.w0 is not None else 'NOT_MEASURED_QUALIFICATION')
         observer.verify_w0(records)
         state.save(cp, 0, cursor, identity)
+    main_binding=None
+    if not args.qualification:
+        from .main_results import cold_origin,save_event
+        main_binding=cold_origin(args,config,assets,ready,records,state.signature())
+        save_event(args.output,main_binding,'RUNNING')
     if args.oracle_smoke:
         from .oracle import compare
         from official.evaluation.cf_native_reference import SMOKE_SCOPE
@@ -204,6 +209,10 @@ def run_chain(args,config,assets,ready,records,tracker):
     write_new(args.output/f'terminal-B{args.stop_after}.json', dict(
         status='W20_COMPLETE' if args.stop_after == 20 else 'VALIDATION_PREFIX_COMPLETE',
         batch=args.stop_after, identity=identity))
+    if main_binding is not None and args.stop_after==20:
+        measured={'factual':all_seen['summary']}
+        if config['dataset']=='cf':measured['generation']=gen['summary']
+        save_event(args.output,main_binding,'W20_COMPLETE',batch=20,metrics=measured)
 
 
 if __name__ == '__main__':

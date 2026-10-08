@@ -84,6 +84,8 @@ def main():
         raise ValueError('DUPLICATE_SUBMISSION_RECEIPT')
     if args.resume and not (args.output/'checkpoint/latest.json').is_file():
         raise ValueError('RESUME_CHECKPOINT_REQUIRED')
+    if args.resume and not args.qualification and not (args.output/'main-cold-origin.json').is_file():
+        raise ValueError('HISTORICAL_CHECKPOINT_NOT_FRESH_MAIN')
     if not args.resume and (args.output/'checkpoint/latest.json').exists():
         raise ValueError('EXISTING_CHAIN_REQUIRES_EXPLICIT_RESUME')
     argv=[assets['python'],'-m','official.runners.server4.'+('qualify' if args.qualification_pipeline else 'run')]
@@ -131,6 +133,17 @@ def main():
     write_new(registration/'held-inspection.json',dict(job_id=job,scontrol=held))
     subprocess.run(['scontrol','release',job],check=True)
     write_new(registration/'released.json',dict(job_id=job,status='RELEASED_NOT_COMPLETE'))
+    if not args.qualification:
+        # One bounded scheduler read, no daemon/poll. Qualification never becomes a table run.
+        from .main_results import identity,save_event
+        snapshot=subprocess.check_output(['scontrol','show','job',job,'-o'],text=True)
+        now=dict(piece.split('=',1) for piece in snapshot.split() if '=' in piece)
+        records=read(assets['streams'][config['dataset']]['path'])
+        binding=identity(config,assets,ready,args.attempt,records,job_id=job,job_name=now['JobName'])
+        write_new(registration/'postrelease-snapshot.json',dict(job_id=job,scontrol=snapshot))
+        state=now['JobState']
+        if state in ('PENDING','RUNNING','COMPLETING','FAILED','CANCELLED'):
+            save_event(args.output,binding,state)
     print(job)
 
 

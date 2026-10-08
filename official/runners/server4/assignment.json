@@ -10,7 +10,11 @@
     "cf",
     "zsre"
   ],
-  "scope_status": "ASSIGNED_FOR_IMPLEMENTATION",
+  "scope_status": "FRESH_COLD_SIX_ROWS_RESTORED_NOT_SUBMITTED",
+  "main_results_policy": "USER-GH-MAIN-TABLE-FRESH-RERUN-20261009-R1",
+  "fresh_cold_required": true,
+  "checkpoint_based_CF_exclusions": [],
+  "README_owner": "GH",
   "runner_owner": "server4",
   "shared_code_root": "official",
   "private_assets": "EasyEdit_local_paths_no_external_code_import",
