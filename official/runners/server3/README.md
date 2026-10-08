@@ -35,12 +35,20 @@ W/history/context/RNG/cursor hashes and factual raw. CPU tests alone do not
 establish native GPU parity.
 
 The common factual forward evaluator is owned by server1 at
-`official.evaluation.factual`. Until its actual `evaluate_cases` API and raw
-schema are published and checked against this caller, server3 preflight blocks
-science. The current shared W&B scalar schema also fixes CounterFact W0 counts
-and cannot truthfully accept zsRE's distinct W0 counts; the zsRE stage blocks
-until a shared schema extension is published. The server3 folder does not
-fork either shared evaluator or logger.
+`official.evaluation.factual`. Server3 calls its `evaluate` API and saves the
+complete zsRE W0 token-prediction reference once; edited zsRE batches pass the
+same model/tokenizer/stream identity and reference back to that API. The
+common CPU fixtures do not establish native target-model parity. The common
+`official.tracking` schema accepts request-macro official
+scores and the measured, dataset-specific W0 prompt counts. W5/W10/W15/W20
+current 100 is reduced from the same all-seen raw without another forward.
+The server3 folder does not fork either shared evaluator or logger.
+
+The reviewed common native case-batched generator has a Qwen2 cache/position
+route. Tiny CPU family fixtures establish software compatibility only; the
+actual target-model B3 parity qualification remains required. CF never
+substitutes Hugging Face `generate` or a different RNG/KV schedule. The native
+NLTK tokenizer resource is checked before model load.
 
 Failed physical edit jobs have an identity-checked, held checkpoint-resume
 path. A failed shared W0, qualification or zsRE smoke prerequisite requires a

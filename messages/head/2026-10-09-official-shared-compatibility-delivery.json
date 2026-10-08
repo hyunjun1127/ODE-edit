@@ -1,0 +1,80 @@
+{
+  "schema": "official-common-compatibility-owner-delivery-v1",
+  "date_kst": "2026-10-09",
+  "parent": "USER-OFFICIAL-BASELINES-20261008-R1",
+  "user_quote": "server4도 다른 서버들이 현재 작업중인 것 진행하라고 지시해",
+  "common_source_publication": "b10a87dfdbb2b12d6e0393bf55a391738f5adb54",
+  "common_official_tree": "85f2cb7bbdbe8eeed27c4e24b923b45d6615cab6",
+  "envelope": "messages/head/2026-10-09-official-shared-compatibility.json",
+  "envelope_sha256": "3e4f1e97f56566d3ce0ea8e2c191737abd9bf949ae84a5eeb838f8f995b28959",
+  "owner_receipts": [
+    {
+      "server": "server1",
+      "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+      "nonce": "GH-SH1-OFFICIAL-COMPAT-READY-20261009-R1",
+      "operation": "turn/steer",
+      "accepted_turn": "01a11bf8-5fd1-7db3-967d-76a755c1d603",
+      "direct_owner_ack": true,
+      "ack": "OWNER_ACK nonce=GH-SH1-OFFICIAL-COMPAT-READY-20261009-R1 server=server1 accepted=true 게시된 공통 호환성·tracking 입력을 수락했습니다. 현재 own runner와 checkpoint/resume 연결을 검산 중이며, GPU qualification·Slurm 등록은 아직입니다. 먼저 검토된 factual API를 main에 게시하고 다른 담당자에게 exact commit/API를 전달하겠습니다.",
+      "stage_at_ack": "IMPLEMENTING_NOT_SUBMITTED"
+    },
+    {
+      "server": "server2",
+      "session": "01a0493a-074c-7f91-9a13-769116326fef",
+      "nonce": "GH-SH2-OFFICIAL-TRACKING-READY-20261009-R1",
+      "operation": "turn/steer",
+      "accepted_turn": "01a11bf7-a8a4-73b1-be9d-67289ab2c55d",
+      "direct_owner_ack": true,
+      "ack": "OWNER_ACK nonce=GH-SH2-OFFICIAL-TRACKING-READY-20261009-R1 server=server2 accepted=true 공통 official tracking 게시본을 결속하겠습니다. 새 CF W0+W20 일정과 공식 request-macro 지표를 적용하며, 실제 GPU/W&B 검증은 별도로 기록합니다.",
+      "stage_at_ack": "SOURCE_BINDING_GPU_AND_ONLINE_NOT_OBSERVED"
+    },
+    {
+      "server": "server4",
+      "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+      "host": "remote-ssh-codex-managed:lab163",
+      "cwd": "/data/janghj/ODE-edit",
+      "nonce": "USER-GH-SH4-OFFICIAL-BASELINES-CONTINUE-20261009-R1",
+      "operation": "turn/start",
+      "accepted_turn": "01a11c1c-513e-72d2-895a-f94ca37f7809",
+      "direct_owner_ack": true,
+      "ack_observation": "Exact app recent-turn read showed same nonce in user input and the owner's explicit agentMessage; bounded socket listener did not itself receive the ACK event.",
+      "ack": "OWNER_ACK nonce=USER-GH-SH4-OFFICIAL-BASELINES-CONTINUE-20261009-R1 server=server4 accepted=true\n\n기존 runner를 보존하면서 새 official 호환성·tracking API에 연결하겠습니다. 현재는 구현 중·신규 job 미제출이며, Qwen/OURS와 기존 취소 기록은 변경하지 않습니다.",
+      "scope": "Llama3 ALPHAEDIT/ALPHAEDIT_BLUE/SPHERE x CF/zsRE, existing six rows",
+      "stage_at_ack": "IMPLEMENTING_NOT_SUBMITTED",
+      "new_job_ids_at_ack": [],
+      "prior_transport": [
+        {"stage": "thread/read includeTurns=true", "result": "TIMEOUT_BEFORE_TURN_WRITE"},
+        {"stage": "retired dynamic app send tool", "result": "UNAVAILABLE_NO_WRITE"},
+        {"stage": "thread/read includeTurns=false then thread/resume", "result": "EXACT_IDLE_OWNER_READ_PASS_RESUME_RESPONSE_TIMEOUT_NO_TURN_WRITE"}
+      ],
+      "successful_transport": "One turn/start to the already-resumed exact idle owner after app recent-turn confirmed no nonce/idle and compact CWD/status recheck; no model/effort override, no repeated turn write."
+    }
+  ],
+  "factual_input": {
+    "owner": "SH1",
+    "owner_publication_nonce_received": "SH1-ALL-OFFICIAL-FACTUAL-PUBLISHED-20261009-R1",
+    "source_commit": "596896ff82a0c0aab8f64e4920f6f09d73072c58",
+    "publication": "55afa07d2555718c4ad8b2e483db8a260aa94e35",
+    "official_tree": "e79c3939447d2fbbd536cb0449c9ed2da361fa2b",
+    "path": "official/evaluation/factual.py",
+    "sha256": "2bc41883b9261d084a3b4b99e0920911789659401a6d9b2b0f0d801a446ab47b",
+    "tests_sha256": "6eababac9556f758ee4f31f8342500674081aa102515d464871458cdbed0c999",
+    "api": "evaluate(model, tokenizer, records, dataset, *, w0_reference=None, batch_size=16, device=None, progress=None, identity=None); evaluate_counterfact/evaluate_zsre; build_zsre_w0_reference(..., identity=None, batch_size=16, device=None, progress=None)",
+    "server4_relay": {
+      "operation": "turn/steer",
+      "expected_and_accepted_turn": "01a11c1c-513e-72d2-895a-f94ca37f7809",
+      "status": "RELATED_FACTUAL_INPUT_ACCEPTED"
+    },
+    "actual_native_GPU_parity": "NOT_OBSERVED_BY_GH"
+  },
+  "integration": {
+    "latest_factual_publication_fast_forwarded": true,
+    "verifier": {"source_files": 148, "python_files": 199, "source_integrity": "PASS", "external_task_imports": 0},
+    "independent_handoff_scope_review": "PASS_BLOCKER0_READONLY",
+    "dirty_root_and_concurrent_changes": "PRESERVED"
+  },
+  "GH_GPU_or_Slurm_or_online_or_delete_actions": 0,
+  "recurring_monitor": false,
+  "experiment_completion_claim": false,
+  "status": "DIRECT_OWNER_ACKS_RECEIVED_SHARED_INPUT_PUBLISHED"
+}

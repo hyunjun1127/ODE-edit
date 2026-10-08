@@ -7,6 +7,7 @@ import getpass
 import os
 import pwd
 import sys
+import tarfile
 import tempfile
 from types import SimpleNamespace
 import unittest
@@ -14,6 +15,8 @@ from unittest.mock import patch
 
 from official.experiments.prepare import digest, materialize_matrix
 from official.runners.server3 import submit
+from official.tracking import schema as tracking_schema
+from official.tracking.method import OFFICIAL_SCHEMA
 
 
 class SubmitTests(unittest.TestCase):
@@ -24,6 +27,30 @@ class SubmitTests(unittest.TestCase):
         self.matrix = self.root / "matrix"
         materialize_matrix(submit.ROOT / "official/hparams", self.matrix)
         self.rows, self.files = submit.matrix_rows(self.matrix)
+
+    def frozen_attempt(self, output_root, name="attempt-qual", stage="qualify"):
+        attempt = output_root / "attempts" / name
+        source = attempt / "source"
+        tracking = source / "official/tracking"
+        tracking.mkdir(parents=True)
+        for name in ("client.py", "schema.py", "method.py", "worker.py"):
+            (tracking / name).write_text("# frozen scientific tracking\n")
+        runner = source / "official/runners/server3/run.py"
+        runner.parent.mkdir(parents=True)
+        runner.write_text('from official.tracking import init\n')
+        for name in submit.AGENT_SEALS:
+            path = source / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text("{}\n")
+        with tarfile.open(attempt / "official.tar", "w") as tar:
+            for name in ("official", "agents"):
+                tar.add(source / name, arcname=name)
+        lock = submit.source_lock_for_archive(attempt, "a" * 40,
+                                              submit.official_tree_sha256(source))
+        lock.update(stage=stage, output_root=str(output_root), owner=getpass.getuser())
+        submit.write_new(attempt / "execution.lock.json", lock)
+        submit.write_new(attempt / "release.json", {"status": "RELEASED"})
+        return attempt, lock
 
     def test_physical_stages_and_alias(self):
         qualify = submit.stage_specs("qualify", self.rows, self.files, self.root)
@@ -119,10 +146,13 @@ class SubmitTests(unittest.TestCase):
         with patch.dict(os.environ, {"WANDB_API_KEY": "SECRET_SENTINEL",
                                       "NETRC": "/tmp/custom-netrc",
                                       "WANDB_CREDENTIALS_FILE": "/tmp/custom-credential"}), \
-             patch.object(submit, "command", return_value=settings), \
+             patch.object(submit, "command", return_value=settings) as command, \
              patch.object(submit.subprocess, "run",
                           return_value=SimpleNamespace(returncode=0)) as run:
             receipt = submit.check_wandb(self.root, env_file)
+        self.assertIn("from official.tracking.schema import load_env",
+                      command.call_args.args[0][2])
+        self.assertEqual(command.call_args.kwargs["cwd"], self.root)
         env = run.call_args.kwargs["env"]
         self.assertEqual(env["HOME"], pwd.getpwuid(os.getuid()).pw_dir)
         self.assertNotIn("WANDB_API_KEY", env)
@@ -174,6 +204,115 @@ class SubmitTests(unittest.TestCase):
         self.assertEqual(before, submit.official_tree_sha256(self.root))
         source.write_text("value = 2\n")
         self.assertNotEqual(before, submit.official_tree_sha256(self.root))
+
+    def test_frozen_tracking_is_inside_official_source_closure(self):
+        package = self.root / "official/tracking"
+        package.mkdir(parents=True)
+        for name in ("client.py", "schema.py", "method.py", "worker.py"):
+            (package / name).write_text("# frozen\n")
+        runner = self.root / "official/runners/server3/run.py"
+        runner.parent.mkdir(parents=True)
+        runner.write_text('import_module("official.tracking.client")\n')
+        submit.verify_tracking_closure(self.root)
+        before = submit.official_tree_sha256(self.root)
+        (package / "schema.py").write_text("# changed\n")
+        self.assertNotEqual(before, submit.official_tree_sha256(self.root))
+        runner.write_text('import_module("project.run_scripts.experiment_tracking.client")\n')
+        with self.assertRaisesRegex(submit.Blocked, "RUNNER_OFFICIAL_TRACKING_IMPORT_MISSING"):
+            submit.verify_tracking_closure(self.root)
+        runner.write_text('import_module("official.tracking.client")\n'
+                          'import_module("project.run_scripts.experiment_tracking.client")\n')
+        with self.assertRaisesRegex(submit.Blocked, "RUNNER_LEGACY_TRACKING_IMPORT"):
+            submit.verify_tracking_closure(self.root)
+
+    def test_cf_and_zsre_inherit_exact_prior_archive_after_main_advances(self):
+        output = self.root / "output"
+        parent, parent_lock = self.frozen_attempt(output)
+        cf = output / "attempts" / "attempt-cf"
+        cf.mkdir()
+        with patch.object(submit, "git_main_identity",
+                          side_effect=submit.Blocked("MAIN_ADVANCED")), \
+             patch.object(submit, "freeze_source",
+                          side_effect=AssertionError("later stage re-froze main")):
+            cf_lock = submit.stage_source("cf", cf, output,
+                                          qualification={"attempt": str(parent)})
+        self.assertEqual(cf_lock["source_parent_attempt"], str(parent))
+        self.assertEqual(cf_lock["code_commit"], parent_lock["code_commit"])
+        self.assertEqual(cf_lock["official_tree_sha256"],
+                         parent_lock["official_tree_sha256"])
+        self.assertEqual((cf / "official.tar").read_bytes(),
+                         (parent / "official.tar").read_bytes())
+        self.assertNotEqual((cf / "official.tar").stat().st_ino,
+                            (parent / "official.tar").stat().st_ino)
+        cf_lock.update(stage="cf", output_root=str(output), owner=getpass.getuser())
+        submit.write_new(cf / "execution.lock.json", cf_lock)
+        submit.write_new(cf / "release.json", {"status": "RELEASED"})
+        zsre = output / "attempts" / "attempt-zsre"
+        zsre.mkdir()
+        with patch.object(submit, "git_main_identity",
+                          side_effect=submit.Blocked("MAIN_ADVANCED")), \
+             patch.object(submit, "freeze_source",
+                          side_effect=AssertionError("later stage re-froze main")):
+            zsre_lock = submit.stage_source("zsre", zsre, output,
+                                             selection={"source_attempt": str(cf)})
+        self.assertEqual(zsre_lock["source_parent_attempt"], str(cf))
+        self.assertEqual(zsre_lock["archive"]["sha256"], parent_lock["archive"]["sha256"])
+        self.assertEqual((parent / "official.tar").read_bytes(),
+                         (zsre / "official.tar").read_bytes())
+
+    def test_inheritance_rejects_tampered_archive_before_copy(self):
+        output = self.root / "output"
+        parent, _ = self.frozen_attempt(output)
+        archive = parent / "official.tar"
+        changed = bytearray(archive.read_bytes())
+        changed[-1] ^= 1
+        archive.write_bytes(changed)
+        child = output / "attempts" / "attempt-cf"
+        child.mkdir()
+        with self.assertRaisesRegex(submit.Blocked, "INPUT_SHA_CHANGED"):
+            submit.inherit_source(child, parent, output, "qualify")
+        self.assertFalse((child / "official.tar").exists())
+
+    def test_inheritance_rejects_unrelated_archive_member(self):
+        output = self.root / "output"
+        parent, lock = self.frozen_attempt(output)
+        unrelated = self.root / "unrelated.py"
+        unrelated.write_text("# unrelated source\n")
+        with tarfile.open(parent / "official.tar", "a") as tar:
+            tar.add(unrelated, arcname="agents/server3/unrelated.py")
+        lock["archive"] = submit.member(parent / "official.tar")
+        (parent / "execution.lock.json").write_text(json.dumps(lock))
+        child = output / "attempts" / "attempt-cf"
+        child.mkdir()
+        with self.assertRaisesRegex(submit.Blocked, "UNSAFE_SOURCE_ARCHIVE"):
+            submit.inherit_source(child, parent, output, "qualify")
+        self.assertFalse((child / "official.tar").exists())
+
+    def test_inheritance_rejects_unrelated_output_or_stage(self):
+        output = self.root / "output"
+        parent, _ = self.frozen_attempt(output)
+        child = output / "attempts" / "attempt-cf"
+        child.mkdir()
+        with self.assertRaisesRegex(submit.Blocked, "SOURCE_PARENT_STAGE_OR_OWNER"):
+            submit.inherit_source(child, parent, output, "cf")
+        other = self.root / "other"
+        unrelated_child = other / "attempts" / "attempt-cf"
+        unrelated_child.mkdir(parents=True)
+        with self.assertRaisesRegex(submit.Blocked, "SOURCE_PARENT_SCOPE_OR_RELEASE"):
+            submit.inherit_source(unrelated_child, parent, other, "qualify")
+        self.assertFalse((unrelated_child / "official.tar").exists())
+
+    def test_official_zsre_schema_accepts_actual_w0_token_denominators(self):
+        config = dict(server="server3", task_id="official-baselines", arm="QWEN_ZSRE_W0",
+                      attempt="fixture", source_sha="a" * 40, config_sha="b" * 64,
+                      model="qwen25", model_family="qwen", writer="ft", baseline="FT",
+                      role="scientific", metric_schema=OFFICIAL_SCHEMA,
+                      instruction_id=tracking_schema.OFFICIAL_INSTRUCTION,
+                      dataset="zsre")
+        values = {"edits": 0, "W0_first2000/R/count": 3915,
+                  "W0_first2000/P/count": 8219, "W0_first2000/N/count": 6441}
+        self.assertEqual(tracking_schema.metrics(values, scientific=True,
+                                                 config_values=config), values)
 
     def test_online_mode_is_a_registration_gate(self):
         with patch.dict("os.environ", {"WANDB_MODE": "offline"}):

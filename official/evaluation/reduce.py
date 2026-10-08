@@ -1,5 +1,6 @@
 """Request-macro factual scores, with strict NLL comparisons and explicit counts."""
 import math
+import numpy as np
 
 
 def mean(values):
@@ -15,10 +16,10 @@ def harmonic(values):
 
 
 def counterfact(cases):
-    output = {}
+    output, display_values = {}, []
     for kind, label in (("rewrite", "Efficacy"), ("paraphrase", "Generalization"),
                          ("neighborhood", "Specificity")):
-        rates = []
+        rates, native_rates = [], []
         for case in cases:
             rows = case[f"{kind}_prompts_probs"]
             scores = []
@@ -28,10 +29,15 @@ def counterfact(cases):
                     raise ValueError("NONFINITE_NLL")
                 scores.append(float(true < new if kind == "neighborhood" else new < true))
             rates.append(mean(scores))
+            native_rates.append(np.mean(scores))
         output[label] = 100 * mean(rates)
+        # Upstream summarizes via NumPy at both levels before np.around.
+        # Preserve the fsum-based raw metrics; halfway display rounding can
+        # otherwise differ despite exactly identical per-prompt success bits.
+        display_values.append(float(np.around(np.mean(native_rates) * 100, 2)))
     values = [output[k] for k in ("Efficacy", "Generalization", "Specificity")]
     output.update(Score=harmonic(values),
-                  Score_AlphaEdit_display=harmonic([round(x, 2) for x in values]),
+                  Score_AlphaEdit_display=harmonic(display_values),
                   requests=len(cases))
     return output
 

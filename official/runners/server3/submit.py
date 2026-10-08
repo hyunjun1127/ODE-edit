@@ -41,6 +41,9 @@ QOS = "lab_gpu_s3"
 JOB_PREFIX = "official_s3_qwen_"
 GRID = (1, 10, 95)
 METHODS = ("FT", "MEMIT", "ALPHAEDIT", "ALPHAEDIT_BLUE", "MEMIT_FE", "SPHERE")
+AGENT_SEALS = ("agents/server3/experiment-ready-paths-20260919-v1.json",
+               "agents/server4/p4-hf-consumed-closure-seal.json",
+               "agents/server4/alphaedit-runtime-path-seal.json")
 DEFAULT_MEMORY_MIB = 116736  # 114 GiB, below the server3 119 GiB policy ceiling.
 GIB = 1 << 30
 
@@ -116,59 +119,58 @@ def official_tree_sha256(source_root):
     return hasher.hexdigest()
 
 
-def tracking_tree_sha256(source_root):
-    package = Path(source_root) / "project/run_scripts/experiment_tracking"
-    require(package.is_dir(), "TRACKING_HELPER_MISSING")
-    require(not any(p.is_symlink() for p in package.rglob("*")),
-            "TRACKING_TREE_SYMLINK")
-    files = [p for p in package.rglob("*") if p.is_file() and not p.is_symlink()
-             and "__pycache__" not in p.parts and p.suffix != ".pyc"]
-    require(files, "TRACKING_HELPER_EMPTY")
-    hasher = hashlib.sha256()
-    for path in sorted(files, key=lambda p: p.relative_to(source_root).as_posix()):
-        relative = path.relative_to(source_root).as_posix()
-        hasher.update(relative.encode() + b"\0" + file_sha(path).encode() + b"\n")
-    return hasher.hexdigest()
+def verify_tracking_closure(source_root):
+    """The runner and its tracking implementation must share the frozen tree."""
+    source_root = Path(source_root)
+    for name in ("official/tracking/client.py", "official/tracking/schema.py",
+                 "official/tracking/method.py", "official/tracking/worker.py"):
+        require((source_root / name).is_file(), "OFFICIAL_TRACKING_SOURCE_MISSING:" + name)
+    runner = source_root / "official/runners/server3/run.py"
+    require(runner.is_file(), "FROZEN_RUNNER_MISSING")
+    runner_source = runner.read_text()
+    require("official.tracking" in runner_source,
+            "RUNNER_OFFICIAL_TRACKING_IMPORT_MISSING")
+    require("project.run_scripts.experiment_tracking" not in runner_source,
+            "RUNNER_LEGACY_TRACKING_IMPORT")
 
 
 def git_main_identity():
     commit = command(["git", "rev-parse", "HEAD"], cwd=ROOT)
     require(commit == command(["git", "rev-parse", "refs/remotes/origin/main"], cwd=ROOT),
             "SOURCE_MUST_BE_PUBLISHED_MAIN_COMMIT")
-    sealed_paths = ("official", "agents/server3/experiment-ready-paths-20260919-v1.json",
-                    "agents/server4/p4-hf-consumed-closure-seal.json",
-                    "agents/server4/alphaedit-runtime-path-seal.json",
-                    "project/run_scripts/experiment_tracking")
+    sealed_paths = ("official", *AGENT_SEALS)
     require(not command(["git", "status", "--porcelain", "--", *sealed_paths], cwd=ROOT),
             "OFFICIAL_TREE_UNCOMMITTED")
     for name in ("official/runners/server3/run.py", "official/runners/server3/submit.py",
-                 "official/evaluation/factual.py", *sealed_paths[1:4]):
+                 "official/evaluation/factual.py", "official/tracking/client.py",
+                 "official/tracking/schema.py", "official/tracking/method.py",
+                 "official/tracking/worker.py", *sealed_paths[1:]):
         require(command(["git", "ls-files", "--", name], cwd=ROOT) == name,
                 "SOURCE_NOT_TRACKED:" + name)
-    require(command(["git", "ls-files", "--", sealed_paths[4]], cwd=ROOT),
-            "TRACKING_SOURCE_NOT_TRACKED")
     return commit
 
 
-def freeze_source(attempt):
-    commit = git_main_identity()
-    archive = attempt / "official.tar"
-    source = attempt / "source"
+def checked_archive_members(tar):
+    members = tar.getmembers()
+    require(members and len({x.name for x in members}) == len(members), "ARCHIVE_DUPLICATE")
+    for entry in members:
+        parts = Path(entry.name).parts
+        require(parts and parts[0] in ("official", "agents") and
+                entry.name.rstrip("/") == Path(entry.name).as_posix() and
+                not any(part in (".", "..") for part in entry.name.split("/")) and
+                not Path(entry.name).is_absolute() and
+                (entry.isfile() or entry.isdir()) and
+                (parts[0] != "agents" or not entry.isfile() or
+                 entry.name in AGENT_SEALS), "UNSAFE_SOURCE_ARCHIVE")
+    return members
+
+
+def unpack_source_archive(archive, source):
+    """Extract only regular, canonically named files in the sealed closure."""
+    source = Path(source)
     source.mkdir()
-    command(["git", "archive", "--format=tar", "--output=" + str(archive),
-             commit, "official", "agents/server3/experiment-ready-paths-20260919-v1.json",
-             "agents/server4/p4-hf-consumed-closure-seal.json",
-             "agents/server4/alphaedit-runtime-path-seal.json",
-             "project/run_scripts/experiment_tracking"], cwd=ROOT)
     with tarfile.open(archive) as tar:
-        members = tar.getmembers()
-        require(members and len({x.name for x in members}) == len(members), "ARCHIVE_DUPLICATE")
-        for entry in members:
-            parts = Path(entry.name).parts
-            require(parts and parts[0] in ("official", "agents", "project") and
-                    ".." not in parts and
-                    not Path(entry.name).is_absolute() and
-                    (entry.isfile() or entry.isdir()), "UNSAFE_SOURCE_ARCHIVE")
+        for entry in checked_archive_members(tar):
             target = source / entry.name
             if entry.isdir():
                 target.mkdir(parents=True, exist_ok=True)
@@ -176,17 +178,119 @@ def freeze_source(attempt):
                 target.parent.mkdir(parents=True, exist_ok=True)
                 with tar.extractfile(entry) as src, target.open("xb") as dst:
                     shutil.copyfileobj(src, dst)
+
+
+def source_lock_for_archive(attempt, commit, sha, *, parent_attempt=None):
+    archive = attempt / "official.tar"
+    source = attempt / "source"
+    require(official_tree_sha256(source) == sha, "SOURCE_TREE_HASH_MISMATCH")
+    verify_tracking_closure(source)
+    result = {"code_commit": commit, "official_tree_sha256": sha,
+              "archive": member(archive), "source": str(source),
+              "source_members": [member(p) for p in sorted(source.rglob("*")) if p.is_file()],
+              "agent_seals": [member(source / path) for path in AGENT_SEALS]}
+    if parent_attempt is not None:
+        result["source_parent_attempt"] = str(parent_attempt)
+    return result
+
+
+def verify_source_snapshot(attempt, lock):
+    """Check a prior archive, extracted tree and every locked file byte."""
+    attempt = Path(attempt).resolve(strict=True)
+    source = attempt / "source"
+    archive = attempt / "official.tar"
+    require(lock.get("source") == str(source) and
+            lock.get("archive", {}).get("path") == str(archive),
+            "SOURCE_ARCHIVE_SCOPE_MISMATCH")
+    require(not archive.is_symlink() and not source.is_symlink(),
+            "SOURCE_ARCHIVE_OR_ROOT_SYMLINK")
+    require(re.fullmatch(r"[0-9a-f]{40}", lock.get("code_commit", "")) and
+            re.fullmatch(r"[0-9a-f]{64}", lock.get("official_tree_sha256", "")),
+            "SOURCE_IDENTITY_INVALID")
+    verify_member(lock["archive"])
+    require(official_tree_sha256(source) == lock["official_tree_sha256"],
+            "FROZEN_OFFICIAL_TREE_CHANGED")
+    verify_tracking_closure(source)
+    require(not any(p.is_symlink() for p in source.rglob("*")),
+            "FROZEN_SOURCE_SYMLINK")
+    actual = {str(p.resolve()) for p in source.rglob("*") if p.is_file()
+              and "__pycache__" not in p.parts and p.suffix != ".pyc"}
+    records = lock["source_members"]
+    expected = {record["path"] for record in records}
+    require(len(records) == len(expected) and actual == expected and
+            all(Path(path).is_relative_to(source) for path in expected),
+            "FROZEN_SOURCE_MEMBER_SET_CHANGED")
+    for record in records:
+        verify_member(record)
+    seals = lock["agent_seals"]
+    require({x["path"] for x in seals} == {str(source / path) for path in AGENT_SEALS} and
+            len(seals) == len(AGENT_SEALS) and
+            all(x in records for x in seals), "AGENT_SEAL_SET_CHANGED")
+    for record in seals:
+        verify_member(record)
+    relative = {str(Path(x["path"]).relative_to(source)): x for x in records}
+    with tarfile.open(archive) as tar:
+        archive_files = {entry.name for entry in checked_archive_members(tar)
+                         if entry.isfile()}
+    require(archive_files == set(relative), "SOURCE_ARCHIVE_MEMBER_SET_CHANGED")
+    return relative
+
+
+def freeze_source(attempt):
+    commit = git_main_identity()
+    archive = attempt / "official.tar"
+    source = attempt / "source"
+    command(["git", "archive", "--format=tar", "--output=" + str(archive),
+             commit, "official", *AGENT_SEALS], cwd=ROOT)
+    unpack_source_archive(archive, source)
     sha = official_tree_sha256(source)
     require(sha == official_tree_sha256(ROOT), "SOURCE_CHANGED_DURING_FREEZE")
-    tracking_sha = tracking_tree_sha256(source)
-    require(tracking_sha == tracking_tree_sha256(ROOT), "TRACKING_SOURCE_CHANGED_DURING_FREEZE")
-    return {"code_commit": commit, "official_tree_sha256": sha,
-            "tracking_tree_sha256": tracking_sha,
-            "archive": member(archive), "source": str(source),
-            "source_members": [member(p) for p in sorted(source.rglob("*")) if p.is_file()],
-            "agent_seals": [member(source / "agents/server3/experiment-ready-paths-20260919-v1.json"),
-                            member(source / "agents/server4/p4-hf-consumed-closure-seal.json"),
-                            member(source / "agents/server4/alphaedit-runtime-path-seal.json")]}
+    return source_lock_for_archive(attempt, commit, sha)
+
+
+def inherit_source(attempt, parent_attempt, output_root, expected_stage):
+    """Make an independent, byte-identical task-local copy of a released stage."""
+    output_root = Path(output_root).resolve(strict=True)
+    attempt = Path(attempt)
+    require(attempt.parent == output_root / "attempts" and
+            attempt.name.startswith("attempt-"), "SOURCE_CHILD_SCOPE")
+    parent_attempt = Path(parent_attempt).resolve(strict=True)
+    require(parent_attempt.parent == output_root / "attempts" and
+            parent_attempt.name.startswith("attempt-") and
+            (parent_attempt / "release.json").is_file(), "SOURCE_PARENT_SCOPE_OR_RELEASE")
+    parent = read(parent_attempt / "execution.lock.json")
+    require(parent.get("stage") == expected_stage and
+            parent.get("output_root") == str(output_root) and
+            parent.get("owner") == getpass.getuser(), "SOURCE_PARENT_STAGE_OR_OWNER")
+    prior_members = verify_source_snapshot(parent_attempt, parent)
+    archive = attempt / "official.tar"
+    with (parent_attempt / "official.tar").open("rb") as src, archive.open("xb") as dst:
+        shutil.copyfileobj(src, dst)
+    require(file_sha(archive) == parent["archive"]["sha256"] and
+            archive.stat().st_size == parent["archive"]["bytes"],
+            "INHERITED_ARCHIVE_HASH_MISMATCH")
+    unpack_source_archive(archive, attempt / "source")
+    result = source_lock_for_archive(attempt, parent["code_commit"],
+                                     parent["official_tree_sha256"],
+                                     parent_attempt=parent_attempt)
+    copied = {str(Path(x["path"]).relative_to(result["source"])): x
+              for x in result["source_members"]}
+    require(copied.keys() == prior_members.keys() and
+            all((copied[name]["bytes"], copied[name]["sha256"]) ==
+                (record["bytes"], record["sha256"])
+                for name, record in prior_members.items()),
+            "INHERITED_SOURCE_MEMBERS_CHANGED")
+    return result
+
+
+def stage_source(stage, attempt, output_root, qualification=None, selection=None):
+    if stage == "qualify":
+        return freeze_source(attempt)
+    if stage == "cf":
+        require(qualification is not None, "CF_QUALIFICATION_SOURCE_MISSING")
+        return inherit_source(attempt, qualification["attempt"], output_root, "qualify")
+    require(stage == "zsre" and selection is not None, "ZSRE_SELECTION_SOURCE_MISSING")
+    return inherit_source(attempt, selection["source_attempt"], output_root, "cf")
 
 
 def matrix_rows(matrix_root):
@@ -400,12 +504,12 @@ def check_wandb(source, env_file):
     env.update(HOME=pwd.getpwuid(os.getuid()).pw_dir, USER=getpass.getuser(),
                PYTHONPATH=str(source), WANDB_MODE="online", CUDA_VISIBLE_DEVICES="")
     settings_script = ("import json,sys\n"
-                       "from project.run_scripts.experiment_tracking.schema import load_env\n"
+                       "from official.tracking.schema import load_env\n"
                        "settings=load_env(sys.argv[1])\n"
                        "print(json.dumps({'python':settings['ODEEDIT_WANDB_PYTHON'],"
                        "'base_url':settings['WANDB_BASE_URL']}))\n")
     settings = json.loads(command([sys.executable, "-c", settings_script, str(env_file)],
-                                  env=env, timeout=20))
+                                  cwd=source, env=env, timeout=20))
     sdk_python = Path(settings["python"])
     require(sdk_python.is_file() and os.access(sdk_python, os.X_OK), "WANDB_SDK_PYTHON_MISSING")
     script = ("import sys,wandb\n"
@@ -601,19 +705,27 @@ def verify_runtime(attempt, key):
     attempt = Path(attempt).resolve(strict=True)
     lock = read(attempt / "execution.lock.json")
     require(key in {s["key"] for s in lock["specs"]}, "UNKNOWN_LAUNCHER_KEY")
-    require(official_tree_sha256(lock["source"]) == lock["official_tree_sha256"],
-            "FROZEN_OFFICIAL_TREE_CHANGED")
-    require(tracking_tree_sha256(lock["source"]) == lock["tracking_tree_sha256"],
-            "FROZEN_TRACKING_TREE_CHANGED")
-    source_root = Path(lock["source"])
-    actual = {str(p.resolve()) for p in source_root.rglob("*") if p.is_file()
-              and "__pycache__" not in p.parts and p.suffix != ".pyc"}
-    expected = {record["path"] for record in lock["source_members"]}
-    require(actual == expected and not any(p.is_symlink() for p in source_root.rglob("*")),
-            "FROZEN_SOURCE_MEMBER_SET_CHANGED")
-    for record in lock["source_members"]:
-        verify_member(record)
-    verify_member(lock["archive"])
+    if lock["stage"] in ("cf", "zsre"):
+        require("source_parent_attempt" in lock, "INHERITED_SOURCE_PARENT_MISSING")
+    source_owner = Path(lock["archive"]["path"]).parent
+    verify_source_snapshot(source_owner, lock)
+    if "source_parent_attempt" in lock:
+        parent_attempt = Path(lock["source_parent_attempt"]).resolve(strict=True)
+        origin_stage = (read(Path(lock["origin_attempt"]) / "execution.lock.json")["stage"]
+                        if lock["stage"] == "resume" else lock["stage"])
+        expected_stage = {"cf": "qualify", "zsre": "cf"}.get(origin_stage)
+        require(expected_stage is not None and
+                parent_attempt.parent == Path(lock["output_root"]) / "attempts" and
+                (parent_attempt / "release.json").is_file(), "SOURCE_PARENT_SCOPE_OR_RELEASE")
+        parent = read(parent_attempt / "execution.lock.json")
+        require(parent["stage"] == expected_stage and
+                parent["output_root"] == lock["output_root"] and
+                parent["owner"] == lock["owner"] and
+                parent["code_commit"] == lock["code_commit"] and
+                parent["official_tree_sha256"] == lock["official_tree_sha256"] and
+                parent["archive"]["sha256"] == lock["archive"]["sha256"],
+                "SOURCE_PARENT_IDENTITY_CHANGED")
+        verify_source_snapshot(parent_attempt, parent)
     for record in lock["inputs"]:
         verify_member(record)
     require(Path(lock["python"]).resolve(strict=True) ==
@@ -857,8 +969,6 @@ def submit_held(args):
     output_root.mkdir(parents=True, exist_ok=True)
     lock_descriptor = attempt_lock(output_root)
     try:
-        if args.stage == "zsre":
-            raise Blocked("ZSRE_W0_TRACKING_SCHEMA_UNSUPPORTED:shared_method_helper_requires_2000_4000_20000")
         attempt = safe_attempt(args.attempt, output_root)
         rows, files = matrix_rows(args.matrix_root)
         selection = None
@@ -875,8 +985,7 @@ def submit_held(args):
             require(selection["selected_zsre_config_sha256"] ==
                     file_sha(selection["selected_zsre_config"]), "SELECTED_CONFIG_CHANGED")
         specs = stage_specs(args.stage, rows, files, output_root, selection)
-        if args.stage == "cf":
-            verify_qualification(output_root)
+        qualification = verify_qualification(output_root) if args.stage == "cf" else None
         existing = registered_keys(output_root)
         require(not existing.intersection(s["key"] for s in specs),
                 "PREVIOUS_REGISTRATION_EXISTS_USE_RESUME")
@@ -888,10 +997,9 @@ def submit_held(args):
         if args.stage == "qualify":
             storage["whole_program"] = full_program_storage_reserve(output_root, rows)
         python, runtime_binary = bind_runtime_python(args.python, assets_data)
-        git_main_identity()  # Ensure no attempt is made from an unmerged source.
         attempt.mkdir(parents=True)
         (attempt / "logs").mkdir()
-        source_lock = freeze_source(attempt)
+        source_lock = stage_source(args.stage, attempt, output_root, qualification, selection)
         source = Path(source_lock["source"])
         if args.stage == "cf":
             verify_qualification(output_root, source=source_lock)
@@ -899,6 +1007,7 @@ def submit_held(args):
             require(selection["code_commit"] == source_lock["code_commit"] and
                     selection["official_tree_sha256"] ==
                     source_lock["official_tree_sha256"], "ZSRE_SELECTION_SOURCE_MISMATCH")
+            verify_qualification(output_root, source=source_lock)
         write_new(attempt / "source-lock.json", {
             "code_commit": source_lock["code_commit"],
             "official_tree_sha256": source_lock["official_tree_sha256"]})
@@ -997,8 +1106,6 @@ def resume_held(args):
         origin_attempt = Path(prior.get("origin_attempt", prior_attempt)).resolve(strict=True)
         origin = read(origin_attempt / "execution.lock.json")
         require(origin["stage"] in ("cf", "zsre"), "RESUME_ORIGIN_STAGE_INVALID")
-        if origin["stage"] == "zsre":
-            raise Blocked("ZSRE_W0_TRACKING_SCHEMA_UNSUPPORTED:shared_method_helper_requires_2000_4000_20000")
         position = next(i for i, row in enumerate(origin["specs"])
                         if row["key"] == spec["key"])
         descendants = origin["specs"][position + 1:]
@@ -1027,8 +1134,10 @@ def resume_held(args):
                 "RESUME_OUTPUT_ROOT_CHANGED")
         storage = storage_reserve(output_root, [spec], assets_data)
         source_lock = {k: prior[k] for k in ("code_commit", "official_tree_sha256",
-                        "tracking_tree_sha256", "archive", "source", "source_members",
+                        "archive", "source", "source_members",
                         "agent_seals")}
+        if "source_parent_attempt" in prior:
+            source_lock["source_parent_attempt"] = prior["source_parent_attempt"]
         source = Path(source_lock["source"])
         python = Path(prior["python"])
         require(python.is_file() and os.access(python, os.X_OK), "RUNTIME_PYTHON_MISSING")

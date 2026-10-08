@@ -148,22 +148,37 @@ def _require_evaluator():
     module = require_shared_factual()
     # A shared CPU/GPU forward adapter must expose the same raw case schema as
     # official.evaluation.reduce.  Refuse a partial package before loading W0.
-    if not callable(getattr(module, "evaluate_cases", None)):
-        raise RuntimeError("SHARED_FACTUAL_EVALUATE_CASES_API_REQUIRED")
+    if not callable(getattr(module, "evaluate", None)) or not callable(
+            getattr(module, "build_zsre_w0_reference", None)):
+        raise RuntimeError("SHARED_FACTUAL_EVALUATE_AND_ZSRE_W0_API_REQUIRED")
     return module
 
 
-def _evaluate_factual(module, model, tokenizer, records, dataset, *, w0_cases=None):
+def _factual_identity(source, assets, stream_lock, tokenizer_receipt):
+    """Stable cold-W0/edited identity, independent of the physical method."""
+    return dict(model="Qwen/Qwen2.5-7B-Instruct",
+                revision="a09a35458c702b33eeacc393d103063234e8bc28",
+                tokenizer_sha256=tokenizer_receipt["tokenizer_sha256"],
+                stream_sha256=stream_lock["stream_sha256"],
+                assets_sha256=assets["assets_sha256"],
+                runtime_packages=assets["runtime"]["packages"],
+                code_commit=source["code_commit"],
+                official_tree_sha256=source["official_tree_sha256"])
+
+
+def _evaluate_factual(module, model, tokenizer, records, dataset, *,
+                      w0_reference=None, identity):
     from official.evaluation.reduce import counterfact, zsre
-    cases = module.evaluate_cases(model=model, tokenizer=tokenizer, records=records,
-                                  dataset=dataset, w0_cases=w0_cases)
+    observed = module.evaluate(model, tokenizer, records, dataset,
+                               w0_reference=w0_reference, batch_size=16,
+                               identity=identity)
+    cases, summary = observed["cases"], observed["summary"]
     if len(cases) != len(records):
         raise ValueError("FACTUAL_CASE_CARDINALITY")
-    if dataset == "cf":
-        summary = counterfact(cases)
-    else:
-        summary = zsre(cases)
-    return cases, summary
+    expected = counterfact(cases) if dataset == "cf" else zsre(cases)
+    if summary != expected:
+        raise ValueError("FACTUAL_SHARED_REDUCER_MISMATCH")
+    return observed
 
 
 def _load_model(snapshot, revision):
@@ -228,6 +243,29 @@ def _run_receipt(config, lock, source, identity, *, batch, factual, generation=N
                 placement=placement, seconds=seconds)
 
 
+def _verified_w0_receipt(folder, dataset, lock, source, asset_receipt):
+    from official.experiments.prepare import digest
+    folder = Path(folder)
+    receipt = _read(folder / "w0-receipt.json")
+    expected = dict(model="qwen25", dataset=dataset, endpoint="W0",
+                    stream_sha256=lock["stream_sha256"],
+                    code_commit=source["code_commit"],
+                    official_tree_sha256=source["official_tree_sha256"],
+                    assets_sha256=asset_receipt["assets_sha256"],
+                    observed_requests=2000)
+    if any(receipt.get(key) != value for key, value in expected.items()) or \
+            receipt.get("receipt_sha256") != digest({
+                key: value for key, value in receipt.items() if key != "receipt_sha256"}):
+        raise ValueError("SHARED_W0_RECEIPT_IDENTITY_OR_DIGEST")
+    factual = receipt.get("factual") or {}
+    if _sha(folder / "w0-cases.json") != factual.get("cases_sha256"):
+        raise ValueError("SHARED_W0_CASE_HASH")
+    if dataset == "zsre" and _sha(folder / "w0-zsre-reference.json") != \
+            factual.get("w0_reference_sha256"):
+        raise ValueError("SHARED_ZSRE_W0_REFERENCE_HASH")
+    return receipt
+
+
 def _model_seed(seed):
     import numpy as np
     import torch
@@ -237,69 +275,171 @@ def _model_seed(seed):
     torch.cuda.manual_seed_all(seed)
 
 
-def _tracker(output, *, arm, writer, source_sha, config_sha):
+def _tracker(output, *, arm, writer, dataset, source_sha, config_sha, assets):
     """Start the shared scalar-only online logger before a model is loaded."""
-    # Scientific/native implementation remains entirely in official/.  The
-    # centrally owned cross-task transport is loaded only at this boundary.
-    from importlib import import_module
-    init = import_module("project.run_scripts.experiment_tracking.client").init
-    COMPARISON_SCHEMA = import_module(
-        "project.run_scripts.experiment_tracking.method").COMPARISON_SCHEMA
+    from official.tracking import init
+    from official.tracking.method import OFFICIAL_SCHEMA
+    from official.tracking.schema import OFFICIAL_INSTRUCTION, NATIVE_GENERATION_PROFILE
     env_file = os.environ.get("ODEEDIT_WANDB_ENV_FILE")
     attempt = os.environ.get("ODEEDIT_ATTEMPT_ID")
     if not env_file or not attempt:
         raise RuntimeError("ONLINE_LOGGER_ENV_OR_ATTEMPT_MISSING")
     values = dict(server="server3", task_id="official-baselines-20261008",
                   arm=arm, attempt=attempt, source_sha=source_sha,
-                  config_sha=config_sha, model="qwen", model_family="qwen",
+                  config_sha=config_sha, model="qwen25", model_family="qwen2",
                   writer=writer, baseline=writer, role="scientific",
-                  metric_schema=COMPARISON_SCHEMA)
+                  metric_schema=OFFICIAL_SCHEMA, instruction_id=OFFICIAL_INSTRUCTION,
+                  dataset=dataset)
+    if dataset == "cf":
+        values.update(generation_metric_schema="counterfact-cake-generation-metrics-v1",
+                      generation_profile=NATIVE_GENERATION_PROFILE,
+                      generation_eval_seed=20261007,
+                      reference_assets_sha256=assets["generation_reference"]["identity_sha256"],
+                      generation_source_sha=assets["generation_reference"]["native_generator_sha256"],
+                      generation_repair_instruction=OFFICIAL_INSTRUCTION,
+                      generation_schedule="W0_AND_W20_FIRST2000")
     return init(env_file=env_file, spool=Path(output) / "wandb" / attempt,
                 config=values)
 
 
 def _factual_scalars(dataset, cases, summary, prefix, edits):
-    """Map already measured raw to scalar logging without new forwards."""
+    """Report official request-macro scores; never relabel them as prompt success."""
     values = dict(edits=edits, post_state_edits=edits)
-    if prefix == "W0_first2000":
-        values.pop("post_state_edits")
-    if dataset == "cf":
-        for kind, key, label in (("rewrite", "R", "Efficacy"),
-                                 ("paraphrase", "P", "Generalization"),
-                                 ("neighborhood", "N", "Specificity")):
-            # The native published score is request-macro.  Prompt-pair count
-            # is reported separately; its success_count would imply an
-            # incompatible prompt-micro denominator and is deliberately absent.
-            count = sum(len(case[f"{kind}_prompts_probs"]) for case in cases)
-            values[f"{prefix}/{key}/count"] = count
-            values[f"{prefix}/{key}/success_pct"] = float(summary[label])
-        values[f"{prefix}/success_harmonic_pct"] = float(summary["Score"])
-    else:
-        for field, key in (("rewrite_prompts_correct", "R"),
-                           ("paraphrase_prompts_correct", "P"),
-                           ("neighborhood_W0_agreement", "N")):
-            if not all(field in case for case in cases):
-                continue
-            # The normalized zsRE stream supplies one rewrite, rephrase and
-            # neighborhood prompt per request; token-level booleans inside
-            # each prompt remain separate from this prompt-pair count.
-            values[f"{prefix}/{key}/count"] = len(cases)
-            values[f"{prefix}/{key}/prompt_acc_pct"] = float(summary[
-                {"R": "Efficacy", "P": "Generalization", "N": "Specificity"}[key]])
-            # The shared evaluator records per-request token outcomes.  Keep
-            # token-micro/strict missing until it publishes explicit token
-            # denominators; do not fabricate prompt-level equivalents.
+    if prefix == "current/post":
+        values["pre_state_edits"] = edits - 100
+    if len(cases) != summary["requests"]:
+        raise ValueError("FACTUAL_SUMMARY_REQUEST_DENOMINATOR")
+    group = f"official/{prefix}"
+    for field in ("Efficacy", "Generalization", "Specificity", "Score",
+                  "Score_AlphaEdit_display", "Specificity_loc_ans", "requests"):
+        if field in summary:
+            values[f"{group}/{field}"] = summary[field]
     return values
 
 
-def _log_scalar_receipt(tracker, output, label, values):
+def _milestone_scalars(dataset, cases, summary, edits):
+    """Split current 100 from a measured all-seen endpoint without a forward."""
+    from official.evaluation.reduce import counterfact, zsre
+    if edits not in (500, 1000, 1500, 2000) or len(cases) != edits:
+        raise ValueError("MILESTONE_RAW_CARDINALITY")
+    reducer = counterfact if dataset == "cf" else zsre
+    current = cases[-100:]
+    values = _factual_scalars(dataset, cases, summary, "all_seen/post", edits)
+    values.update(_factual_scalars(dataset, current, reducer(current),
+                                   "current/post", edits))
+    return values
+
+
+def _accuracy_scalars(dataset, observed, prefix):
+    """Map measured TF counts; zsRE loc_ans is distinct from W0 agreement."""
+    values = {}
+    groups = [("rewrite", "R"), ("paraphrase", "P")]
+    if dataset == "cf":
+        groups.append(("neighborhood", "N"))
+    for kind, label in groups:
+        accuracy = observed["accuracy"].get(kind)
+        if accuracy is None:
+            continue
+        stem = f"{prefix}/{label}"
+        values[stem + "/count"] = accuracy["prompt_count"]
+        for key in ("token_acc_pct", "prompt_acc_pct", "strict_acc_pct"):
+            values[stem + "/" + key] = accuracy[key]
+    return values
+
+
+def _current_accuracy_scalars(dataset, cases):
+    """Use the shared evaluator's own TF reducer on measured last-100 raw."""
+    from official.evaluation.factual import _accuracy
+    if len(cases) != 100:
+        raise ValueError("CURRENT_TF_RAW_CARDINALITY")
+    accuracy = {}
+    for kind in ("rewrite", "paraphrase", "neighborhood"):
+        if dataset == "cf":
+            rows = [observation["target_" + observation["desired_target"]]
+                    for case in cases for observation in case[kind + "_observations"]]
+        else:
+            rows = [observation for case in cases
+                    for observation in case[kind + "_observations"]]
+        accuracy[kind] = _accuracy(rows)
+    return _accuracy_scalars(dataset, {"accuracy": accuracy}, "current/post")
+
+
+def _generation_summary_for_replay(output, path, identity_sha256):
+    """Read the sealed native endpoint and its raw rows without model work."""
+    from official.evaluation.generation.native_observer import read_observed
+    output = Path(output).resolve()
+    path = Path(path)
+    if not path.is_file() or path.is_symlink() or \
+            path.resolve() != output / "generation" / "endpoints" / f"{identity_sha256}.json":
+        raise ValueError("SCALAR_REPLAY_GENERATION_PATH_OR_IDENTITY")
+    observed = read_observed(path)
+    if observed["identity_sha256"] != identity_sha256:
+        raise ValueError("SCALAR_REPLAY_GENERATION_IDENTITY")
+    return observed["summary"]
+
+
+def _w0_scalar_values(dataset, cases, factual, generation_summary=None):
+    values = _factual_scalars(dataset, cases, factual["summary"], "W0_first2000", 0)
+    values.update(_accuracy_scalars(dataset, factual, "W0_first2000"))
+    if generation_summary is not None:
+        from official.evaluation.generation.metrics import generation_payload
+        values.update(generation_payload("W0_first2000", generation_summary))
+    return values
+
+
+def _batch_scalar_values(dataset, batch, cases, factual, generation_summary=None):
+    if batch == 3:
+        values = _factual_scalars(dataset, cases, factual["summary"],
+                                  "current/post", batch * 100)
+    else:
+        values = _milestone_scalars(dataset, cases, factual["summary"], batch * 100)
+        values.update(_current_accuracy_scalars(dataset, cases[-100:]))
+    values.update(_accuracy_scalars(dataset, factual,
+                  "current/post" if batch == 3 else "all_seen/post"))
+    if generation_summary is not None:
+        from official.evaluation.generation.metrics import generation_payload
+        values.update(generation_payload("all_seen/post", generation_summary))
+    return values
+
+
+def _logging_accepted(output, label, source_receipt_sha256):
+    """A local SDK queue acknowledgment is not proof of remote readback."""
+    folder = Path(output) / "logging"
+    paths = [folder / f"{label}.json", *sorted(folder.glob(f"{label}-replay-*.json"))]
+    for path in paths:
+        if not path.is_file():
+            continue
+        receipt = _read(path)
+        if receipt.get("label") != label or \
+                receipt.get("source_receipt_sha256") != source_receipt_sha256 or \
+                type(receipt.get("sdk_queue_accepted")) is not bool or \
+                receipt.get("remote_readback") != "NOT_ESTABLISHED_BY_SDK_QUEUE":
+            raise ValueError("SCALAR_LOGGING_RECEIPT_IDENTITY")
+        if receipt["sdk_queue_accepted"]:
+            return True
+    return False
+
+
+def _log_scalar_receipt(tracker, output, label, values, source_receipt_sha256):
     """Keep local transport evidence separate from scientific completion."""
+    if _logging_accepted(output, label, source_receipt_sha256):
+        return True
     accepted = tracker.log(values)
-    _write_once(Path(output) / "logging" / f"{label}.json",
-                dict(label=label, sdk_queue_accepted=accepted,
-                     remote_readback="NOT_ESTABLISHED_BY_SDK_QUEUE",
-                     run_id=tracker.run_id, spool=str(tracker.spool),
-                     dropped_points_at_call=tracker.dropped))
+    try:
+        folder = Path(output) / "logging"
+        path = folder / f"{label}.json"
+        if path.exists():
+            path = folder / f"{label}-replay-{tracker.run_id}.json"
+        _write_once(path,
+                    dict(label=label, sdk_queue_accepted=accepted,
+                         source_receipt_sha256=source_receipt_sha256,
+                         remote_readback="NOT_ESTABLISHED_BY_SDK_QUEUE",
+                         run_id=tracker.run_id, spool=str(tracker.spool),
+                         dropped_points_at_call=tracker.dropped))
+    except Exception:
+        # The tracker has its own local spool; receipt I/O cannot roll back a
+        # committed native edit or replace its scientific error.
+        pass
     return accepted
 
 
@@ -322,18 +462,6 @@ def _preflight(args, *, require_frozen=False):
         _require_evaluator()
     except (ModuleNotFoundError, RuntimeError) as error:
         blockers.append(str(error))
-    if dataset == "zsre":
-        # The current shared scalar helper hardcodes CF's 2000/4000/20000
-        # W0 prompt counts.  zsRE has its own evaluator cardinalities; never
-        # silently drop an invalid logging point after spending GPU work.
-        from importlib import import_module
-        metrics = import_module("project.run_scripts.experiment_tracking.schema").metrics
-        probe = {"edits": 0}
-        probe.update({f"W0_first2000/{kind}/count": 2000 for kind in "RPN"})
-        try:
-            metrics(probe, scientific=True)
-        except ValueError:
-            blockers.append("W0_ZSRE_TRACKING_SCHEMA_UNSUPPORTED")
     if config is not None and config["method"] == "ALPHAEDIT_BLUE" and \
             config["hparams"]["L2"] is None:
         blockers.append("QWEN_BLUE_L2_SELECTION_REQUIRED")
@@ -388,6 +516,16 @@ def _tokenizer_receipt(snapshot, tokenizer, stream_lock):
             files[name] = _sha(path)
     if not files:
         raise ValueError("TOKENIZER_FILES_MISSING")
+    audited = _read(ROOT / "official/hparams/tokenizers.lock.json")["audits"][
+        "qwen25-" + stream_lock["dataset"]]
+    if files != audited["tokenizer_files_sha256"] or \
+            digest(files) != audited["tokenizer_sha256"]:
+        raise ValueError("TOKENIZER_FILE_SHA_MISMATCH")
+    if tokenizer is not None and (type(tokenizer).__name__ != audited["tokenizer_class"] or
+            getattr(tokenizer, "add_bos_token", None) != audited["add_bos_token"] or
+            tokenizer.bos_token_id != audited["bos_token_id"] or
+            tokenizer.padding_side != audited["padding_side"]):
+        raise ValueError("TOKENIZER_RUNTIME_CONTRACT_MISMATCH")
     return dict(tokenizer_sha256=digest(files), files=files,
                 tokenizer_class=type(tokenizer).__name__ if tokenizer is not None else None,
                 add_bos_token=getattr(tokenizer, "add_bos_token", None),
@@ -396,18 +534,46 @@ def _tokenizer_receipt(snapshot, tokenizer, stream_lock):
                 stream_sha256=stream_lock["stream_sha256"])
 
 
-def _generation(model, tokenizer, records, assets, output, endpoint, state_identity):
+def _generation(model, tokenizer, records, assets, output, endpoint, state_identity,
+                tracker, native=None):
     from official.evaluation.generation.native_observer import NativeGenerationObserver
     from official.evaluation.generation.assets import load_assets
-    from official.evaluation.generation.native_profile import PROFILE, SOURCE
+    from official.evaluation.generation.native_profile import PROFILE
+    from official.tracking import official_generation_progress
     reference = load_assets(assets["generation_reference"]["manifest_path"])
     config = dict(model_identity="qwen25@a09a35458c702b33eeacc393d103063234e8bc28",
-                  generation_source_sha=SOURCE["primary_file_sha256"],
+                  generation_source_sha=assets["generation_reference"]["native_generator_sha256"],
                   profile=PROFILE, eval_seed=20261007)
+    def native_state():
+        if native is None:
+            return {"history": "W0_ZERO", "context": "W0_UNEDITED"}
+        return {"history": _weight_hashes(native.cache_for_checkpoint()),
+                "context": hashlib.sha256(pickle.dumps(
+                    native.context_snapshot(), protocol=5)).hexdigest()}
+    progress_counts = {"sdk_queue_accepted": 0, "sdk_queue_rejected": 0}
+    def progress(row):
+        accepted = tracker.log(official_generation_progress(row, endpoint=endpoint))
+        progress_counts["sdk_queue_accepted" if accepted else "sdk_queue_rejected"] += 1
     observer = NativeGenerationObserver(model, tokenizer, reference, config,
-                                        Path(output) / "generation")
-    return observer.observe(records, endpoint=endpoint, cohort="first2000",
-                            state_identity=state_identity)
+                                        Path(output) / "generation",
+                                        state_callback=native_state,
+                                        progress_callback=progress)
+    completed = False
+    try:
+        result = observer.observe(records, endpoint=endpoint, cohort="first2000",
+                                  state_identity=state_identity)
+        completed = True
+        return result
+    finally:
+        try:
+            _write_once(Path(output) / "logging" /
+                        f"generation-progress-{endpoint}-{tracker.run_id}.json",
+                        dict(endpoint=endpoint, generation_complete=completed,
+                             remote_readback="NOT_ESTABLISHED_BY_SDK_QUEUE",
+                             logger_status=tracker.status, **progress_counts))
+        except Exception:
+            # Transport receipt failure must not replace the science exception.
+            pass
 
 
 def _recover_batch_receipts(out, payload, checkpoint_ref, config, lock, source, identity):
@@ -455,6 +621,68 @@ def _recover_batch_receipts(out, payload, checkpoint_ref, config, lock, source, 
         _write_once(Path(out) / "evaluations" / f"w{batch:02d}.json", receipt)
 
 
+def _replay_w0_logging(out, dataset, receipt, tracker):
+    out = Path(out)
+    source_sha = receipt["receipt_sha256"]
+    if _logging_accepted(out, "w0", source_sha):
+        return False
+    cases_path = out / "w0-cases.json"
+    if _sha(cases_path) != receipt["factual"]["cases_sha256"]:
+        raise ValueError("SCALAR_REPLAY_W0_CASE_HASH")
+    cases = _read(cases_path)
+    generation_summary = None
+    if dataset == "cf":
+        generation_summary = _generation_summary_for_replay(
+            out, receipt["generation_rows_path"], receipt["generation_identity_sha256"])
+    values = _w0_scalar_values(dataset, cases, receipt["factual"], generation_summary)
+    _log_scalar_receipt(tracker, out, "w0", values, source_sha)
+    return True
+
+
+def _replay_committed_batch_logging(out, payload, config, lock, source, identity, tracker):
+    """Retry each measured endpoint bound to the restored chain in order."""
+    out = Path(out)
+    start = payload["batch"]
+    endpoints = payload["evaluation_cursor"]["evaluated_endpoints"]
+    eligible = {batch for batch in endpoints if batch in PHASES and 0 < batch <= start}
+    if start >= 3 and (out / "commits" / "b03.json").is_file():
+        eligible.add(3)  # The bounded continuity test measures B3 only.
+    replayed = False
+    for batch in sorted(eligible):
+        commit_path = out / "commits" / f"b{batch:02d}.json"
+        if not commit_path.is_file():
+            raise ValueError("SCALAR_REPLAY_COMMIT_MISSING")
+        receipt = _read(commit_path)
+        expected = dict(run_id=config["run_id"], config_sha256=config["config_sha256"],
+                        stream_sha256=lock["stream_sha256"],
+                        code_commit=source["code_commit"],
+                        official_tree_sha256=source["official_tree_sha256"],
+                        checkpoint_identity=identity, completed_batch=batch)
+        if any(receipt.get(key) != value for key, value in expected.items()):
+            raise ValueError("SCALAR_REPLAY_COMMIT_IDENTITY")
+        factual = receipt.get("factual")
+        if factual is None or receipt.get("factual_sha256") != factual.get("cases_sha256"):
+            raise ValueError("SCALAR_REPLAY_FACTUAL_BINDING")
+        source_sha = _sha(commit_path)
+        label = f"w{batch:02d}"
+        if _logging_accepted(out, label, source_sha):
+            continue
+        cases_path = out / "evaluations" / f"w{batch:02d}-cases.json"
+        if factual.get("cases_path") != str(cases_path.resolve()) or \
+                _sha(cases_path) != factual["cases_sha256"]:
+            raise ValueError("SCALAR_REPLAY_FACTUAL_HASH")
+        generation_summary = None
+        if batch == 20 and config["dataset"] == "cf":
+            generation = receipt.get("generation") or {}
+            generation_summary = _generation_summary_for_replay(
+                out, generation["rows_path"], generation["identity_sha256"])
+        values = _batch_scalar_values(config["dataset"], batch, _read(cases_path),
+                                      factual, generation_summary)
+        _log_scalar_receipt(tracker, out, label, values, source_sha)
+        replayed = True
+    return replayed
+
+
 def w0(args):
     import torch
     from official.experiments.prepare import digest
@@ -465,42 +693,61 @@ def w0(args):
     assets = asset_receipt["assets"]
     out = Path(args.output)
     if (out / "w0-receipt.json").exists():
-        existing = _read(out / "w0-receipt.json")
-        if existing["stream_sha256"] != lock["stream_sha256"] or \
-                existing["code_commit"] != source["code_commit"]:
-            raise ValueError("W0_EXISTING_IDENTITY_MISMATCH")
+        receipt = _verified_w0_receipt(out, args.dataset, lock, source, asset_receipt)
+        if not _logging_accepted(out, "w0", receipt["receipt_sha256"]):
+            with _tracker(out, arm=f"qwen25-{args.dataset}-W0", writer="W0",
+                          dataset=args.dataset, assets=assets,
+                          source_sha=source["code_commit"],
+                          config_sha=lock["stream_sha256"]) as tracker:
+                _replay_w0_logging(out, args.dataset, receipt, tracker)
         return 0
     with _tracker(out, arm=f"qwen25-{args.dataset}-W0", writer="W0",
+                  dataset=args.dataset, assets=assets,
                   source_sha=source["code_commit"],
                   config_sha=lock["stream_sha256"]) as tracker:
         _model_seed(0)
         model, tok = _load_model(assets["model_snapshot"]["path"],
                                  "a09a35458c702b33eeacc393d103063234e8bc28")
         tok_receipt = _tokenizer_receipt(assets["model_snapshot"]["path"], tok, lock)
+        factual_identity = _factual_identity(source, asset_receipt, lock, tok_receipt)
         with torch.inference_mode():
-            cases, summary = _evaluate_factual(module, model, tok, records, args.dataset)
+            if args.dataset == "zsre":
+                zsre_reference = module.build_zsre_w0_reference(
+                    model, tok, records, identity=factual_identity, batch_size=16)
+                observed = zsre_reference["evaluation"]
+            else:
+                zsre_reference = None
+                observed = _evaluate_factual(module, model, tok, records, args.dataset,
+                                             identity=factual_identity)
             generation = _generation(model, tok, records, assets, out, "W0",
-                                     dict(source=source, stream_sha256=lock["stream_sha256"])) \
+                                     dict(source=source, stream_sha256=lock["stream_sha256"]),
+                                     tracker) \
                 if args.dataset == "cf" else None
+        cases, summary = observed["cases"], observed["summary"]
         out.mkdir(parents=True, exist_ok=True)
         _write_once(out / "w0-cases.json", cases)
+        if zsre_reference is not None:
+            _write_once(out / "w0-zsre-reference.json", zsre_reference)
+        reference_sha = _sha(out / "w0-zsre-reference.json") if zsre_reference else None
         receipt = dict(model="qwen25", dataset=args.dataset, endpoint="W0",
                        run_id=f"qwen25-{args.dataset}-W0", stream_sha256=lock["stream_sha256"],
                        code_commit=source["code_commit"],
                        official_tree_sha256=source["official_tree_sha256"],
                        tokenizer_sha256=tok_receipt["tokenizer_sha256"],
                        assets_sha256=asset_receipt["assets_sha256"],
-                       factual=dict(summary=summary, cases_sha256=_sha(out / "w0-cases.json")),
+                       factual=dict(summary=summary, accuracy=observed["accuracy"],
+                                    work=observed["work"],
+                                    observation_identity_sha256=observed["identity_sha256"],
+                                    cases_sha256=_sha(out / "w0-cases.json"),
+                                    w0_reference_sha256=reference_sha),
                        generation_rows_path=generation["rows_path"] if generation else None,
                        generation_identity_sha256=generation["identity_sha256"] if generation else None,
                        observed_requests=len(records), receipt_sha256=None)
         receipt["receipt_sha256"] = digest({k: v for k, v in receipt.items() if k != "receipt_sha256"})
         _write_once(out / "w0-receipt.json", receipt)
-        scalars = _factual_scalars(args.dataset, cases, summary, "W0_first2000", 0)
-        if generation is not None:
-            from official.evaluation.generation.metrics import generation_payload
-            scalars.update(generation_payload("W0_first2000", generation["summary"]))
-        _log_scalar_receipt(tracker, out, "w0", scalars)
+        scalars = _w0_scalar_values(args.dataset, cases, receipt["factual"],
+                                    generation["summary"] if generation else None)
+        _log_scalar_receipt(tracker, out, "w0", scalars, receipt["receipt_sha256"])
         return 0
 
 
@@ -514,14 +761,12 @@ def execute(args):
         raise RuntimeError("RUN_PREFLIGHT_BLOCKED:" + ";".join(result["blockers"]))
     shared = Path(asset_receipt["storage"]["output_root"]) / "shared-w0" / \
              f"qwen25-{config['dataset']}"
-    w0_ref = _read(shared / "w0-receipt.json")
-    if w0_ref["stream_sha256"] != lock["stream_sha256"] or \
-            w0_ref["official_tree_sha256"] != source["official_tree_sha256"] or \
-            w0_ref["assets_sha256"] != asset_receipt["assets_sha256"]:
-        raise ValueError("SHARED_W0_IDENTITY_MISMATCH")
-    w0_cases = _read(shared / "w0-cases.json")
-    if _sha(shared / "w0-cases.json") != w0_ref["factual"]["cases_sha256"]:
-        raise ValueError("SHARED_W0_CASE_HASH")
+    w0_ref = _verified_w0_receipt(shared, config["dataset"], lock, source, asset_receipt)
+    if config["dataset"] == "zsre":
+        reference_path = shared / "w0-zsre-reference.json"
+        zsre_reference = _read(reference_path)
+    else:
+        zsre_reference = None
     module = _require_evaluator()
     out = Path(args.output)
     checkpoint_dir = out / "checkpoint"
@@ -530,12 +775,16 @@ def execute(args):
     if args.resume and not (checkpoint_dir / "latest.json").exists():
         raise ValueError("RESUME_CHECKPOINT_MISSING")
     with _tracker(out, arm=config["run_id"], writer=config["method"],
+                  dataset=config["dataset"], assets=asset_receipt["assets"],
                   source_sha=source["code_commit"],
                   config_sha=config["config_sha256"]) as tracker:
         _model_seed(config["edit_seed"])
         model, tok = _load_model(asset_receipt["assets"]["model_snapshot"]["path"],
                                  config["model_identity"]["revision"])
         tok_receipt = _tokenizer_receipt(asset_receipt["assets"]["model_snapshot"]["path"], tok, lock)
+        if w0_ref.get("tokenizer_sha256") != tok_receipt["tokenizer_sha256"]:
+            raise ValueError("SHARED_W0_TOKENIZER_IDENTITY")
+        factual_identity = _factual_identity(source, asset_receipt, lock, tok_receipt)
         identity = checkpoint_identity(config, lock, source, asset_receipt, tok_receipt)
         hparams = registry.hparams(config["method"], "qwen25", overrides=config["hparams"])
         native = NativeState(config["method"], model, hparams, asset_receipt["assets"])
@@ -550,6 +799,8 @@ def execute(args):
             checkpoint_ref = _read(checkpoint_dir / "latest.json")
             _recover_batch_receipts(out, payload, checkpoint_ref, config, lock,
                                     source, identity)
+            _replay_committed_batch_logging(out, payload, config, lock, source, identity,
+                                            tracker)
             _write_once(out / f"resume-from-b{start:02d}.json",
                         dict(start_batch=start, checkpoint_sha256=_sha(
                              checkpoint_dir / _read(checkpoint_dir / "latest.json")["file"]),
@@ -580,20 +831,27 @@ def execute(args):
                 if evaluated:
                     eval_records = current if batch == 3 else records[:batch * 100]
                     with torch.inference_mode():
-                        cases, summary = _evaluate_factual(module, model, tok, eval_records,
-                                                           config["dataset"], w0_cases=w0_cases)
+                        observed = _evaluate_factual(module, model, tok, eval_records,
+                                                     config["dataset"],
+                                                     w0_reference=zsre_reference,
+                                                     identity=factual_identity)
+                        cases, summary = observed["cases"], observed["summary"]
                     evaldir = out / "evaluations"
                     evaldir.mkdir(parents=True, exist_ok=True)
                     case_path = evaldir / f"w{batch:02d}-cases.json"
                     _write_once(case_path, cases)
-                    factual = dict(summary=summary, cases_sha256=_sha(case_path),
+                    factual = dict(summary=summary, accuracy=observed["accuracy"],
+                                   work=observed["work"],
+                                   observation_identity_sha256=observed["identity_sha256"],
+                                   cases_sha256=_sha(case_path),
                                    cases_path=str(case_path.resolve()))
                     if batch == 20 and config["dataset"] == "cf":
                         with torch.inference_mode():
                             generation = _generation(model, tok, records, asset_receipt["assets"],
                                                      out, "W20", dict(checkpoint_identity=identity,
                                                                        batch=batch,
-                                                                       weight_hashes=_weight_hashes(weights)))
+                                                                       weight_hashes=_weight_hashes(weights)),
+                                                     tracker, native)
                 cursor = dict(completed_batch=batch, w0_receipt=str(shared / "w0-receipt.json"),
                               evaluated_endpoints=[n for n in PHASES if n <= batch],
                               per_request_records=[dict(occurrence_index=r["occurrence_index"],
@@ -625,13 +883,10 @@ def execute(args):
                     dict(batch=batch, evaluation_cursor=cursor), ck,
                     config, lock, source, identity)
                 if factual is not None:
-                    scalars = _factual_scalars(config["dataset"], cases, summary,
-                                               "current/post" if batch == 3 else "all_seen/post",
-                                               batch * 100)
-                    if generation is not None:
-                        from official.evaluation.generation.metrics import generation_payload
-                        scalars.update(generation_payload("all_seen/post", generation["summary"]))
-                    _log_scalar_receipt(tracker, out, f"w{batch:02d}", scalars)
+                    scalars = _batch_scalar_values(config["dataset"], batch, cases,
+                        factual, generation["summary"] if generation else None)
+                    _log_scalar_receipt(tracker, out, f"w{batch:02d}", scalars,
+                                        _sha(out / "commits" / f"b{batch:02d}.json"))
         if args.stop_after_batch == 1:
             _write_once(out / "smoke-receipt.json", dict(completed_batch=1,
                         run_id=config["run_id"], config_sha256=config["config_sha256"],

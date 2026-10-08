@@ -1724,6 +1724,123 @@
         "new GH-reviewed distribution artifact; final commit recorded by publication, no fictitious upstream"
       ],
       "review_nonce": "SH1-GH-OFFICIAL-COMPAT-REVIEW-20261008-R1"
+    },
+    {
+      "component": "CF_native_reference",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": null,
+      "upstream_path": null,
+      "path": "evaluation/cf_native_reference.py",
+      "upstream_sha256": null,
+      "sha256": "0473673abf92e483b19d534743278ee33177ce22e66c059e9788e40ba7e12216",
+      "changes": [
+        "new reviewed distribution artifact; publication commit recorded separately; no fictitious upstream"
+      ],
+      "review_nonce": "SH2-GH-OFFICIAL-NATIVE-REFERENCE-20261009-R1"
+    },
+    {
+      "component": "CF_native_reference",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": null,
+      "upstream_path": null,
+      "path": "evaluation/CF_NATIVE_REFERENCE.md",
+      "upstream_sha256": null,
+      "sha256": "a1d8023575c5b493e1bcc31fc6fcd464734c262136d193b3eb9a320b1f94fd54",
+      "changes": [
+        "new reviewed distribution artifact; publication commit recorded separately; no fictitious upstream"
+      ],
+      "review_nonce": "SH2-GH-OFFICIAL-NATIVE-REFERENCE-20261009-R1"
+    },
+    {
+      "component": "CF_native_reference",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": null,
+      "upstream_path": null,
+      "path": "tests/test_cf_native_reference.py",
+      "upstream_sha256": null,
+      "sha256": "40e6e41c85f5d1eb8241085268e142a5bf7fe67e13d83cca0ec65b340e028486",
+      "changes": [
+        "new reviewed distribution artifact; publication commit recorded separately; no fictitious upstream"
+      ],
+      "review_nonce": "SH2-GH-OFFICIAL-NATIVE-REFERENCE-20261009-R1"
+    },
+    {
+      "component": "CF_native_reference",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": null,
+      "upstream_path": null,
+      "path": "tests/test_cf_display_rounding.py",
+      "upstream_sha256": null,
+      "sha256": "a1930570f9a2905339400a8401e0aacafca6b9f080814d4ea17e9aa19ac687e6",
+      "changes": [
+        "new reviewed distribution artifact; publication commit recorded separately; no fictitious upstream"
+      ],
+      "review_nonce": "SH2-GH-OFFICIAL-NATIVE-REFERENCE-20261009-R1"
+    },
+    {
+      "component": "CF_native_reference",
+      "repository": "https://github.com/jianghoucheng/AlphaEdit",
+      "commit": "b84624f44dfe8fc6cd9e41df916c44124a0c46dc",
+      "upstream_path": "experiments/py/eval_utils_counterfact.py",
+      "path": "evaluation/reference/alphaedit_eval_utils_counterfact.py.txt",
+      "upstream_sha256": "25c3f49039e7bacb58de6d9ab8139f6f24f21532434a08690e9ec71ea939e145",
+      "sha256": "25c3f49039e7bacb58de6d9ab8139f6f24f21532434a08690e9ec71ea939e145",
+      "changes": [
+        "byte-exact pinned original, stored as inert text; adapter executes unchanged factual function AST only"
+      ],
+      "review_nonce": "SH2-GH-OFFICIAL-NATIVE-REFERENCE-20261009-R1"
+    },
+    {
+      "component": "CF_native_reference",
+      "repository": "https://github.com/jianghoucheng/AlphaEdit",
+      "commit": "b84624f44dfe8fc6cd9e41df916c44124a0c46dc",
+      "upstream_path": "experiments/summarize.py",
+      "path": "evaluation/reference/alphaedit_summarize.py.txt",
+      "upstream_sha256": "64f009b2fb648627a956b95abd801838d86edf04c8e1888d90ade0ec07b745c0",
+      "sha256": "dc96d2b64bb38a8a0d6446cf9e35078a740811c43d53855540c3cc0ca8cf7aa3",
+      "changes": [
+        "one final LF appended by distribution; other bytes unchanged; not claimed byte-exact"
+      ],
+      "review_nonce": "SH2-GH-OFFICIAL-NATIVE-REFERENCE-20261009-R1"
+    },
+    {
+      "component": "CF_native_reference",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": null,
+      "upstream_path": null,
+      "path": "evaluation/reference/PROVENANCE.json",
+      "upstream_sha256": null,
+      "sha256": "4704d75ffa7b6288f53325e7c0205c82f2485d6caaa790a9b43469b3c8e1e405",
+      "changes": [
+        "new reviewed distribution artifact; publication commit recorded separately; no fictitious upstream"
+      ],
+      "review_nonce": "SH2-GH-OFFICIAL-NATIVE-REFERENCE-20261009-R1"
+    },
+    {
+      "component": "CF_native_reference",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": null,
+      "upstream_path": null,
+      "path": "hparams/cf-native-reference.lock.json",
+      "upstream_sha256": null,
+      "sha256": "e8f540ee60db8f2343bca99307f1ebaca51c11cf31cfe39c05bf3d808c5199ae",
+      "changes": [
+        "new reviewed distribution artifact; publication commit recorded separately; no fictitious upstream"
+      ],
+      "review_nonce": "SH2-GH-OFFICIAL-NATIVE-REFERENCE-20261009-R1"
+    },
+    {
+      "component": "CF_native_reference",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "1503b458a1b685e5b5918968cbc119001dfd0e90",
+      "upstream_path": "official/evaluation/reduce.py",
+      "path": "evaluation/reduce.py",
+      "upstream_sha256": "9bfb19a42c0e3e0a0c62c3fadaf60645cb9096a9bd7595c64db003ebb08c6db0",
+      "sha256": "1e18b024ac900665b2ed7f1164b1074d3d4720ad8bde626daa23aea70609731f",
+      "changes": [
+        "display-only Score_AlphaEdit_display now follows upstream NumPy per-request/cohort averaging and np.around; raw E/G/S, raw Score and zsRE unchanged"
+      ],
+      "review_nonce": "SH2-GH-OFFICIAL-NATIVE-REFERENCE-20261009-R1"
     }
   ]
 }
