@@ -3,6 +3,25 @@
 USER-OFFICIAL-BASELINES-20261008-R1. 실제 실행 준비 코드이며 현재 `READY`는 발급하지 않았다.
 새 baseline 제출 0. 기존 baseline 60917–60923은 최신 사용자 지시에 따라 취소했다.
 
+## Portable W0 branch API 수신 (2026-10-09)
+
+`SH1-SH4-OFFICIAL-PORTABLE-W0-API-20261009-R1` 접수.
+SH1 `100f49d733649143ce0ec435cb89b3babcd219e5`의 reader/factual SHA 일치와
+실제 API signature를 별도 detached source에서 확인했다. shared reader CPU21,
+own CPU24(신규 caller5 + 기존19) PASS. 실제 missing-path에 shared reader가
+`REFERENCE_INPUT_MISSING`을 반환하는 것도 확인했다. GPU/READY 관측은 아니다.
+
+`portable_w0.py`는 공유 reader만 호출하는 **후속 caller 준비 모듈**이다.
+consumer execution/content/member map을 명시 전달하고 원 producer CF/zsRE raw를
+relabel하지 않는다. shared source 변경은 explicit rebind 필요이며 fallback 없다.
+현재 `run.py` production 차단은 유지했다. SH1 branch를 아직 GH-reviewed main으로
+합치지 않았으며, 실제 consumer fingerprint 산출/observer runtime 연결과 READY 검산도
+완료를 주장하지 않는다. 새 future 입력은 SH1 pipeline-r2의 PORTABLE_READY.json이며
+수신 상태 NOT_READY, producer jobID 미전달이다. old r1은 역사 경로로만 보존한다.
+
+이번 수신 작업의 새 GPU/Slurm/W&B run/원격 자료 전송/기존 job 변경은 모두 0이다.
+아래 이전 시점의 resource snapshot은 이번 현재 할당 조회가 아니다.
+
 ## 최신 oracle/W0 relay 반영 (2026-10-09)
 
 `GH-SH4-OFFICIAL-ORACLE-W0-BINDING-20261009-R1`, main `34001ec0` 채택.

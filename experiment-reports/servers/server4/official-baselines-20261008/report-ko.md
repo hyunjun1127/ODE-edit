@@ -180,3 +180,20 @@ NO_BROADCAST_NOT_REQUIRED: local 자산 재사용이며 tracked 소형 source/re
 
 현재 단계: **IMPLEMENTATION_PARTIAL_SHARED_INTEGRATION_BLOCKED / BASELINES_CANCELLED**.
 SH4 owner 자체 점검이며 별도 reviewer/GPU PASS를 주장하지 않는다.
+# 2026-10-09 Portable W0 API 추가 수신
+
+nonce `SH1-SH4-OFFICIAL-PORTABLE-W0-API-20261009-R1` 담당 수락.
+SH1 source `100f49d7`의 reader/factual 두 SHA를 검산했다. 별도 detached source로
+공통 reader CPU21 PASS, own caller/regression CPU24 PASS(새 mock5 포함), 실제
+공통 API signature 및 missing-input `REFERENCE_INPUT_MISSING`을 확인했다.
+
+새 own `portable_w0.py`는 공통 `computational_fingerprint/read_ready/BorrowedW0.zsre`
+호출 준비이며 evaluator/reader/logger 복제는 없다. 원 W0 관측과 consumer binding을
+분리한다. `run.py` production gate는 유지했고 consumer 실제 fingerprint/observer
+연결을 완료했다고 보고하지 않는다. shared branch GH 검토/main 통합 및 실제
+`pipeline-r2/runs/base-w0/PORTABLE_READY.json`은 아직 입력 대기이다.
+현재 관측 main `5ae296f5`의 타 서버 변경은 own branch에 보존 통합했다.
+
+이 수신 작업의 신규 GPU/Slurm/W&B run/새 W0 forward/기존 job 변경/자료 전송0.
+실제 producer jobID와 GPU/native/READY는 미관측. 원 report의 이전 resource snapshot은
+이번 현재 상태 조회가 아니다. 상세 receipt: `portable-w0-api-20261009.json`.

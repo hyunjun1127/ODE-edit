@@ -1,0 +1,37 @@
+{
+  "nonce": "SH1-SH4-OFFICIAL-PORTABLE-W0-API-20261009-R1",
+  "parent": "USER-OFFICIAL-BASELINES-20261008-R1",
+  "server": "server4",
+  "status": "BRANCH_API_CPU_PREPARED_NOT_PRODUCTION_READY",
+  "source_commit": "100f49d733649143ce0ec435cb89b3babcd219e5",
+  "reader_sha256": "eeb098c827fda07eff20aaad7e18cd765c9dfc32a7168dd3c94442db2ca469c9",
+  "factual_sha256": "294480339e1742e1224d82f4faf1a23f3bbab4cda13dfbe21f1770299abfdaaa",
+  "source_sha_check": "EXACT",
+  "main_observed": "5ae296f5",
+  "shared_branch_main_adoption": false,
+  "CPU": {
+    "shared_reader_tests": 21,
+    "own_caller_and_regression_tests": 24,
+    "new_caller_mock_tests_included": 5,
+    "actual_branch_api_signature_probe": "PASS",
+    "actual_reader_missing_path": "REFERENCE_INPUT_MISSING",
+    "actual_GPU_or_READY_proof": false
+  },
+  "production": {
+    "run_py_gate_removed": false,
+    "consumer_runtime_fingerprint": "NOT_YET_BOUND",
+    "observer_runtime_connected": false,
+    "producer_future_path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/pipeline-r2/runs/base-w0/PORTABLE_READY.json",
+    "producer_READY": "NOT_READY_AS_RELAYED_NOT_REMOTELY_OBSERVED",
+    "producer_job_id": null,
+    "shared_display_logger_issue": "PREVIOUS_REPRODUCTION_NOT_REPAIRED_IN_THIS_SCOPE"
+  },
+  "new_GPU_jobs": 0,
+  "new_W0_observations": 0,
+  "existing_job_mutations": 0,
+  "new_WB_runs": 0,
+  "data_transfers": 0,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED: 소형 source/receipt만 Git; 원 자료·credential·W0 raw 전송 없음",
+  "review_level": "SH4 owner API/caller CPU 검산; 독립 review 새로 수행하지 않음",
+  "note_ko": "공통 source는 읽기 전용이다. 생산자 전체 execution identity를 소비자로 바꾸지 않으며, 결측 시 새 W0 평가로 우회하지 않는다. source 게시/CPU PASS와 실제 READY/실행은 분리했다."
+}
