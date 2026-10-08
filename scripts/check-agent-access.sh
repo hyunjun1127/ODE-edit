@@ -71,7 +71,7 @@ is_server_head_allowed() {
     servers/active/"${agent_hostname}".md)
       return 0
       ;;
-    official/evaluation/factual.py|official/tests/test_factual.py)
+    official/evaluation/factual.py|official/tests/test_factual.py|official/evaluation/w0_reference.py|official/tests/test_w0_reference.py)
       # Shared evaluator ownership: USER-OFFICIAL-BASELINES-20261008-R1.
       [ "${agent_hostname}" = server1 ] || return 1
       branch="$(git symbolic-ref --quiet --short HEAD 2>/dev/null || true)"
