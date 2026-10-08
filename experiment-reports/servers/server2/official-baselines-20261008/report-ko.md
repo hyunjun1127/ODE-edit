@@ -3,7 +3,7 @@
 Instruction: `USER-OFFICIAL-BASELINES-20261008-R1`.
 Owner: server2 / SH2 `01a0493a-074c-7f91-9a13-769116326fef`.
 
-현재 상태는 **실제 native runner/controller 및 공통 factual/tracking 연결 완료, 실제 qualification 등록 준비**다.
+현재 상태는 **공통 factual/tracking 및 runner main 게시, 실제 qualification 등록 제어 수리 중**이다.
 이 보고는 CPU 준비를 GPU qualification 또는 2K 실험 완료로 표시하지 않는다.
 기존 server2 실행/source/raw는 변경·취소하지 않았다. OURS는 이번 격자에 없다.
 
@@ -14,7 +14,9 @@ Branch: `codex/server2-official-baselines-20261008-r1`.
 배포 정본은 main `537509729345c26efa641ac9f026993e5f5c036e`, 최초 official tree
 `c750f75d14b722233810cc790cdc128d0edb965c`이다. 최종 실행 main commit/tree는 공통
 factual/tracking source와 검토된 own runner가 통합된 뒤 별도로 동결한다. 최초 배포 SHA를
-새 실행 source로 잘못 표시하지 않는다.
+새 실행 source로 잘못 표시하지 않는다. 검토된 실행 source는 main
+`18e7fbd99bc2692c9da9ebdc9f4598caba79a1f8`, official tree
+`7f550b1a02b29173da91372e25dd9279c334504c`로 동결·archive했다.
 
 GPT-J FT/MEMIT/AlphaEdit/AlphaEdit-BLUE/FE/SPHERE × CF/zsRE **12행**이다.
 각 cold first2000, batch100×20, edit seed0, FP32/eager/TF32 off/autocast off다.
@@ -77,7 +79,8 @@ CF 생성은 새 비교의 **모델당 W0 1회 + 각 W20 chain 2K 1회**다. 중
 
 ## 검산·등록 상태
 
-- Server2 전용 CPU fixtures: 97/97 PASS(현재 source). 실제 pretrained/GPU 관측0.
+- 봉인 실행 source의 Server2 CPU fixtures: 97/97 PASS. 등록 제어 repair 포함105/105 PASS,
+  control 전용26/26 PASS다. 실제 pretrained/GPU 관측0.
 - official source verifier: source148, source integrity PASS, external task import0,
   GPU qualification NOT_RUN.
 - 별도 scoped independent source review: run/native/submit/collect; reviewer가 작성한 assets/generation은
@@ -92,7 +95,14 @@ CF 생성은 새 비교의 **모델당 W0 1회 + 각 W20 chain 2K 1회**다. 중
   PENDING이었다. 전체 admitted graph를 보존하고 새2lane은 실제 surviving frontier 뒤에 연결한다.
   이 관측을 과학 진행률/결과 모니터링으로 사용하지 않는다.
 
-신규 actual job IDs는 실제 봉인·등록 후 후속 receipt에 기록한다. 아직 실제 GPU/online PASS는 없다.
+첫 qualification FT job **61619**를 실제 held 등록했다. `PENDING/JobHeldUser`,
+AllocTRES 없음·RunTime0이며 release 전에 dependency 검사에서 멈췄다.
+Slurm은 요청 `afterany:61538:61539`를 같은 AND 의미인
+`afterany:61538(unfulfilled),afterany:61539(unfulfilled)`로 저장했다.
+제어부 정규화·동일 attempt 명시 continuation을 수리한다. 이미 등록된 FT를 재제출하지 않고
+원 archive/source/failure receipt를 보존한다. 나머지 실제 IDs/release는 후속 증거로 분리한다.
+초기 execution lock SHA: `84c6f1397a42de671261f8a2b52ce5acd8efa57d01102d673c6d46cb6786929e`.
+등록 상태는 `registration-partial-r1.json`에 기록했다. 아직 실제 GPU/online PASS는 없다.
 공유 tracking b10a87df / official tree85f2cb7b와 factual source596896ff/publication55afa07d/
 official treee79c3939를 exact 대조해 병합했다. factual.py SHA256은
 `2bc41883b9261d084a3b4b99e0920911789659401a6d9b2b0f0d801a446ab47b`다.

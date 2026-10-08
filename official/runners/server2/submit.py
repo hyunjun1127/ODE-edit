@@ -7,6 +7,7 @@ automatic retry or scientific-quality selection is implemented.
 """
 import argparse
 import getpass
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -24,6 +25,10 @@ SESSION = '01a0493a-074c-7f91-9a13-769116326fef'
 INSTRUCTION = 'USER-OFFICIAL-BASELINES-20261008-R1'
 TASK = 'official-baselines-server2-20261008-r1'
 ACTIVE = ('RUNNING', 'PENDING', 'CONFIGURING', 'COMPLETING', 'SUSPENDED')
+CONTROL_PATHS = ('official/runners/server2/submit.py', 'official/runners/server2/test_submit.py')
+CONTROL_IMPORT_PATHS = (*CONTROL_PATHS, 'official/__init__.py',
+    'official/experiments/__init__.py', 'official/experiments/prepare.py',
+    'official/runners/__init__.py', 'official/runners/server2/__init__.py')
 
 
 def require(value, code):
@@ -167,8 +172,14 @@ def typed_dependencies(value):
     if value in (None, '', '(null)', 'None'):
         return ()
     dependency_ids(value)
-    return tuple(sorted((group.split(':')[0], tuple(sorted(part.split('(', 1)[0]
-        for part in group.split(':')[1:]))) for group in value.split(',')))
+    # Slurm may expand afterany:a:b into afterany:a,afterany:b. Commas
+    # are conjunctions; normalize only equal dependency kinds, never OR/? or
+    # afterok versus afterany. Array task zero remains part of the actual ID.
+    groups = {}
+    for group in value.split(','):
+        kind, *jobs = group.split(':')
+        groups.setdefault(kind, set()).update(job.split('(', 1)[0] for job in jobs)
+    return tuple(sorted((kind, tuple(sorted(jobs))) for kind, jobs in groups.items()))
 
 
 def frontier(rows):
@@ -540,6 +551,237 @@ def safe_archive_members(rows):
         and (row.name.startswith('official/') or row.name == 'official' and row.isdir()) for row in rows)
 
 
+def git_bytes(argv):
+    """Read exact Git bytes without a checkout/archive write or remote call."""
+    require(argv and argv[0] == 'git', 'CONTROL_GIT_READ_ONLY')
+    result = subprocess.run(argv, cwd=REPO, capture_output=True, timeout=45)
+    require(result.returncode == 0, 'CONTROL_GIT_EVIDENCE_FAILED')
+    return result.stdout
+
+
+def published_control_binding(manifest, source, tree, *, run=command, raw=git_bytes):
+    require(re.fullmatch(r'[0-9a-f]{40}', source or '')
+        and re.fullmatch(r'[0-9a-f]{40}', tree or ''), 'CONTROL_EXACT_SOURCE_TREE_REQUIRED')
+    require(run(['git', 'remote', 'get-url', 'origin']).removesuffix('.git').endswith('hyunjun1127/ODE-edit'),
+            'CONTROL_WRONG_ORIGIN')
+    for commit in (manifest['code_commit'], source):
+        require(run(['git', 'merge-base', '--is-ancestor', commit, 'origin/main']) == '',
+                'CONTROL_EXECUTION_AND_CONTROLLER_MUST_BE_PUBLISHED')
+    require(run(['git', 'rev-parse', manifest['code_commit']+':official'])
+            == manifest['official_tree_sha256'], 'CONTROL_EXECUTION_TREE_CHANGED')
+    require(run(['git', 'rev-parse', source+':official']) == tree, 'CONTROL_CONTROLLER_TREE_MISMATCH')
+    changes = run(['git', 'diff', '--name-status', manifest['code_commit'], source, '--', 'official'])
+    rows = [line.split('\t') for line in changes.splitlines()]
+    require(rows and all(len(row) == 2 and row[0] == 'M' and row[1] in CONTROL_PATHS for row in rows)
+        and CONTROL_PATHS[0] in {row[1] for row in rows}, 'CONTROL_ONLY_SUBMIT_AND_TEST_DIFF_ALLOWED')
+    require(not run(['git', 'status', '--porcelain', '--', *CONTROL_IMPORT_PATHS]), 'CONTROL_UNCOMMITTED_SOURCE')
+    members = {}
+    # Concurrent other-server merges may change unrelated official profiles.
+    # Bind every byte actually imported by this controller rather than falsely
+    # certifying that the whole live checkout equals the selected old branch.
+    for path in CONTROL_IMPORT_PATHS:
+        expected = hashlib.sha256(raw(['git', 'show', source+':'+path])).hexdigest()
+        require(file_sha(REPO/path) == expected, 'CONTROL_IMPORTED_BYTES_NOT_PUBLISHED:'+path)
+        members[path] = expected
+    difference = raw(['git', 'diff', '--no-ext-diff', '--binary', manifest['code_commit'], source, '--', 'official'])
+    return dict(code_commit=source, official_tree_sha256=tree, source_members=members,
+        execution_commit=manifest['code_commit'], execution_tree=manifest['official_tree_sha256'],
+        changed_paths=[row[1] for row in rows], exact_official_diff_sha256=hashlib.sha256(difference).hexdigest(),
+        observed_main=run(['git', 'rev-parse', 'origin/main']), science_or_archive_hotpatch=False)
+
+
+def verify_held_attempt(manifest_path, attempt, *, run=command):
+    """Narrow first-FT dependency formatting failure; no arbitrary retry path."""
+    attempt = Path(os.path.abspath(os.fspath(attempt)))
+    require(OUTPUT in attempt.parents and re.fullmatch(r'registration-[A-Za-z0-9_-]+', attempt.name)
+        and all(not path.is_symlink() for path in (attempt, *attempt.parents)), 'CONTROL_EXACT_OWN_ATTEMPT_SCOPE')
+    require(attempt.is_dir() and not (attempt/'submission.json').exists()
+        and not (attempt/'control-repair.lock.json').exists()
+        and not list(attempt.glob('released-*.json')), 'CONTROL_ALREADY_STARTED_OR_RELEASED_NO_RETRY')
+    failure_member = member(attempt/'submission-failure.json')
+    failure = read(failure_member['path'])
+    require(failure.get('status') == 'REGISTRATION_OR_RELEASE_BLOCKED'
+        and failure.get('error') == 'HELD_DEPENDENCY'
+        and set(failure.get('jobs', {})) == {'FT'}, 'CONTROL_EXACT_FIRST_FT_HELD_DEPENDENCY_FAILURE_ONLY')
+    lock_path = verify_member(failure['lock'])
+    require(lock_path == attempt/'execution.lock.json', 'CONTROL_ORIGINAL_LOCK_PATH')
+    lock = read(lock_path)
+    require(verify_member(lock['base_manifest']) == Path(manifest_path).resolve()
+        and verify_member(lock['manifest']) == attempt/'manifest.json'
+        and verify_member(lock['archive']) == attempt/'source.tar', 'CONTROL_ORIGINAL_IMMUTABLE_MEMBERS')
+    manifest = read(attempt/'manifest.json')
+    require(manifest.get('model') == 'gptj' and manifest.get('instruction_id') == INSTRUCTION
+        and manifest.get('owner') == {'server':'server2', 'session':SESSION}
+        and manifest.get('registration_stage') == 'qualification'
+        and manifest.get('registration_roles') == list(METHODS)
+        and not manifest.get('resume') and lock.get('stage') == 'qualification'
+        and lock.get('code_commit') == manifest['code_commit']
+        and lock.get('official_tree_sha256') == manifest['official_tree_sha256']
+        and lock.get('resources') == manifest['resources'], 'CONTROL_FROZEN_QUALIFICATION_IDENTITY')
+    require(file_sha(manifest_path) == manifest['base_manifest_sha256'], 'CONTROL_BASE_MANIFEST_CHANGED')
+    source = attempt/'source'
+    expected = {'official/'+name:checksum for name, checksum in manifest['source_members'].items()}
+    actual = {str(path.relative_to(source)):file_sha(path) for path in source.rglob('*') if path.is_file()}
+    require(actual == expected, 'CONTROL_ARCHIVED_SOURCE_MEMBERS_CHANGED')
+    locked = {str(verify_member(row).relative_to(source)):row['sha256'] for row in lock['source_members']}
+    require(locked == actual, 'CONTROL_SOURCE_LOCK_MEMBERS_CHANGED')
+    # Also bind the actual extracted files to the old Git objects. The lock's
+    # original archive/manifest hash is not permission to relabel a new source.
+    git_rows = run(['git', 'ls-tree', '-r', manifest['code_commit']+':official'])
+    blobs = {}
+    for line in git_rows.splitlines():
+        info, path = line.split('\t', 1)
+        mode, kind, checksum = info.split()
+        require(mode in ('100644', '100755') and kind == 'blob', 'CONTROL_GIT_SOURCE_REGULAR_FILES_ONLY')
+        blobs['official/'+path] = checksum
+    actual_blobs = {}
+    for name in actual:
+        data = (source/name).read_bytes()
+        actual_blobs[name] = hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()
+    require(actual_blobs == blobs, 'CONTROL_ARCHIVE_NOT_ORIGINAL_PUBLISHED_GIT_SOURCE')
+    with tarfile.open(attempt/'source.tar') as archive:
+        require(safe_archive_members(archive.getmembers()), 'CONTROL_UNSAFE_ORIGINAL_ARCHIVE')
+        archive_files = {row.name:hashlib.sha256(archive.extractfile(row).read()).hexdigest()
+                         for row in archive.getmembers() if row.isfile()}
+    require(archive_files == actual, 'CONTROL_ARCHIVE_AND_EXTRACTED_BYTES_DIFFER')
+    launchers = {str(verify_member(row)):row['sha256'] for row in lock['launchers']}
+    require(set(launchers) == {str(attempt/(role+'.sh')) for role in (*METHODS, 'collector')},
+            'CONTROL_ALL_ORIGINAL_LAUNCHERS_REQUIRED')
+    for role in (*METHODS, 'collector'):
+        require((attempt/(role+'.sh')).read_text() == launcher(attempt, role, manifest),
+                'CONTROL_LAUNCHER_OR_SCIENCE_ARGV_CHANGED')
+    require({path.name for path in attempt.glob('submitted-*.json')} == {'submitted-FT.json'}
+        and {path.name for path in attempt.glob('sbatch-*.json')} == {'sbatch-FT.json'}
+        and {path.name for path in attempt.glob('command-*.json')} == {'command-FT.json'},
+        'CONTROL_UNKNOWN_PARTIAL_SCHEDULER_RECEIPT_NO_DUPLICATE')
+    submitted, sbatch = read(attempt/'submitted-FT.json'), read(attempt/'sbatch-FT.json')
+    external = submitted['dependencies']
+    require(isinstance(external, list) and external and len(set(external)) == len(external)
+        and all(re.fullmatch(r'[1-9][0-9]*', job) for job in external), 'CONTROL_ORIGINAL_EXACT_EXTERNAL_FRONTIER')
+    argv = sbatch_argv(attempt, 'FT', manifest, external)
+    require(submitted['argv'] == read(attempt/'command-FT.json')['argv'] == sbatch['argv'] == argv
+        and sbatch['returncode'] == 0 and sbatch['stdout'].split(';')[0] == submitted['job']
+        and failure['jobs'] == {'FT':submitted['job']} and submitted['job'].isdigit(),
+        'CONTROL_KNOWN_FT_SUBMISSION_BINDING')
+    return dict(attempt=attempt, manifest=manifest, lock=lock, failure= failure_member,
+        jobs={'FT':submitted['job']}, external=external, FT_argv=argv,
+        immutable_members=dict(manifest=member(attempt/'manifest.json'), lock=member(lock_path),
+                              archive=member(attempt/'source.tar'), base_manifest=member(manifest_path)))
+
+
+def continuation_frontier(bound, observed):
+    rows = observed['project']
+    attempt = str(bound['attempt'])
+    require(not any(row.get('command', '').startswith(attempt+'/')
+                    or row.get('workdir', '').startswith(attempt+'/') for row in rows),
+            'CONTROL_UNKNOWN_SAME_ATTEMPT_JOB_NO_DUPLICATE')
+    current = {row['job'] for row in rows}
+    require(set(bound['external']) <= current, 'CONTROL_ORIGINAL_FRONTIER_TRANSITION_REMAIN_HELD')
+    surviving = sorted(bound['external'])
+    require(frontier(rows) == surviving, 'CONTROL_CHANGED_OR_NEW_EXTERNAL_FRONTIER_REMAIN_HELD')
+    return dict(surviving=surviving, original_expected_frontier=bound['external'])
+
+
+def control_lock_once(path, value):
+    """An exclusive side-effect claim, not idempotent preparation/retry."""
+    data = (json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True)+'\n').encode()
+    try:
+        with Path(path).open('xb') as stream:
+            stream.write(data)
+            stream.flush()
+            os.fsync(stream.fileno())
+    except FileExistsError as error:
+        raise ValueError('CONTROL_ALREADY_STARTED_NO_RETRY') from error
+
+
+def reverify_frozen_execution(bound, controller):
+    for row in bound['immutable_members'].values():
+        verify_member(row)
+    verify_member(bound['failure'])
+    source = bound['attempt']/'source'
+    actual = {str(path.relative_to(source)):file_sha(path) for path in source.rglob('*') if path.is_file()}
+    locked = {str(verify_member(row).relative_to(source)):row['sha256'] for row in bound['lock']['source_members']}
+    require(actual == locked, 'CONTROL_PRE_RELEASE_SOURCE_SET_CHANGED')
+    for row in bound['lock']['launchers']:
+        verify_member(row)
+    for path, checksum in controller['source_members'].items():
+        require(file_sha(REPO/path) == checksum, 'CONTROL_PRE_RELEASE_IMPORTED_BYTES_CHANGED:'+path)
+
+
+def continue_held_registration(manifest_path, attempt, controller_source, controller_tree):
+    """One explicit control-only pass; old FT/source/archive are never replaced."""
+    bound = verify_held_attempt(manifest_path, attempt, run=command)
+    attempt, manifest, jobs = bound['attempt'], bound['manifest'], dict(bound['jobs'])
+    controller = published_control_binding(manifest, controller_source, controller_tree, run=command)
+    bound_tracking = tracking_binding(manifest)
+    # Never exclude the known FT ID from cap/admission before establishing its
+    # current exact owner, held state, source script, full argv and dependencies.
+    first = inspect_held(jobs['FT'], 'FT', attempt, manifest, bound['FT_argv'], bound['external'], run=command)
+    observed = inventory(exclude=jobs.values())
+    external = continuation_frontier(bound, observed)
+    actual_admission = admission(manifest, attempt, inspect_inventory=lambda:observed)
+    repair = dict(instruction_id=INSTRUCTION, task_id=TASK, repair='HELD_DEPENDENCY_CONJUNCTION_CONTROL_ONLY',
+        execution=bound['immutable_members'], old_failure=bound['failure'], controller=controller,
+        original_jobs=bound['jobs'], original_frontier=bound['external'], admission=actual_admission,
+        surviving_frontier=external, known_held_inspection=first,
+        old_source_manifest_archive_launchers_unchanged=True, no_new_scientific_attempt=True,
+        tracking=bound_tracking, create_once_no_automatic_retry=True)
+    control_lock_once(attempt/'control-repair.lock.json', repair)
+    deps, inspections = {'FT':bound['external']}, [first]
+    ordered = list(METHODS)
+    try:
+        for role in [*ordered[1:], 'collector']:
+            dep = stage_dependencies(role, 'qualification', ordered, jobs,
+                external['surviving'], actual_admission['cap'])
+            deps[role] = dep
+            argv = sbatch_argv(attempt, role, manifest, dep)
+            require(not any((attempt/(prefix+role+'.json')).exists()
+                    for prefix in ('submitted-', 'sbatch-', 'command-')), 'CONTROL_MISSING_ROLE_ALREADY_ATTEMPTED')
+            write_new(attempt/('command-'+role+'.json'), dict(role=role, argv=argv))
+            result = subprocess.run(argv, text=True, capture_output=True, timeout=45)
+            write_new(attempt/('sbatch-'+role+'.json'), dict(returncode=result.returncode,
+                stdout=result.stdout.strip(), stderr=result.stderr.strip(), argv=argv))
+            require(result.returncode == 0, 'SBATCH_REJECTED:'+role+':'+result.stderr.strip()[:800])
+            job = result.stdout.strip().split(';')[0]
+            require(job.isdigit() and job not in jobs.values(), 'ACTUAL_DISTINCT_JOB_ID_REQUIRED')
+            jobs[role] = job
+            write_new(attempt/('submitted-'+role+'.json'), dict(job=job, dependencies=dep, argv=argv))
+            inspections.append(inspect_held(job, role, attempt, manifest, argv, dep, run=command))
+        fresh = inventory(exclude=jobs.values())
+        require(not fresh.get('ambiguous') and {row['job'] for row in fresh['project']}
+            <= {row['job'] for row in observed['project']}, 'CONTROL_ADMISSION_RACE_REMAIN_HELD')
+        final_frontier = continuation_frontier(bound, fresh)
+        inspections = [inspect_held(jobs[role], role, attempt, manifest,
+            read(attempt/('command-'+role+'.json'))['argv'], deps[role], run=command)
+            for role in [*ordered, 'collector']]
+        reverify_frozen_execution(bound, controller)
+        write_new(attempt/'held-inspection.json', dict(jobs=inspections, admission=actual_admission,
+            fresh=fresh, cap_bound=actual_admission['cap'], actual_GPU_PASS=False,
+            source_manifest_verified=True, control_repair=member(attempt/'control-repair.lock.json')))
+        for role in reversed([*ordered, 'collector']):
+            answer = command(['scontrol', 'release', jobs[role]])
+            write_new(attempt/('released-'+role+'.json'), dict(job=jobs[role], released=True, response=answer))
+    except BaseException as error:
+        write_new(attempt/'control-repair-failure.json', dict(status='CONTROL_CONTINUATION_BLOCKED', jobs=jobs,
+            error_type=type(error).__name__, error=str(error)[:1200],
+            control_repair=member(attempt/'control-repair.lock.json'), original_failure_preserved=True,
+            no_automatic_retry=True, no_cancellation=True))
+        raise
+    result = dict(instruction_id=INSTRUCTION, task_id=TASK, status='SUBMISSION_HANDOFF', stage='qualification',
+        jobs=jobs, dependencies=deps, source=bound['lock']['source'],
+        base_manifest_sha256=manifest['base_manifest_sha256'], registration_roles=ordered, resume_binding=None,
+        manifest=member(attempt/'manifest.json'), lock=member(attempt/'execution.lock.json'),
+        collector=jobs['collector'], resources=manifest['resources'], cap=actual_admission['cap'],
+        frontier=external['surviving'], original_execution_source=manifest['code_commit'],
+        control_repair=member(attempt/'control-repair.lock.json'), original_failure=bound['failure'],
+        existing_FT_reused_not_resubmitted=True, controller=controller,
+        initial_snapshot=command(['squeue', '-h', '-j', ','.join(jobs.values()), '-o', '%i|%j|%T|%b|%N|%r']),
+        W_B='NEW_RUN_ACTUAL_STARTUP_NOT_OBSERVED', actual_GPU_qualification='NOT_OBSERVED',
+        scientific_complete=False, monitoring_active=False, automatic_retry=False)
+    write_new(attempt/'submission.json', result)
+    return result
+
+
 def submit(manifest_path, out, stage, *, qualification_receipt=None, smoke_receipt=None,
            smoke_only=False, resume=None, method=None, attempt_name='registration-r1'):
     manifest_path, out = Path(manifest_path).resolve(), Path(out).resolve()
@@ -666,7 +908,18 @@ def main():
     parser.add_argument('--resume', type=Path)
     parser.add_argument('--method', choices=METHODS)
     parser.add_argument('--attempt-name', default='registration-r1')
+    parser.add_argument('--continue-held', type=Path)
+    parser.add_argument('--controller-source')
+    parser.add_argument('--controller-official-tree')
     args = parser.parse_args()
+    if args.continue_held is not None:
+        require(args.stage == 'qualification' and not any((args.qualification_receipt,
+            args.smoke_receipt, args.smoke_only, args.resume, args.method)), 'CONTROL_QUALIFICATION_ONLY_NO_NEW_SCIENCE')
+        print(json.dumps(continue_held_registration(args.manifest, args.continue_held,
+            args.controller_source, args.controller_official_tree), sort_keys=True))
+        return
+    require(args.controller_source is None and args.controller_official_tree is None,
+            'CONTROL_EVIDENCE_ONLY_WITH_EXPLICIT_CONTINUE_HELD')
     print(json.dumps(submit(args.manifest, args.out, args.stage,
         qualification_receipt=args.qualification_receipt, smoke_receipt=args.smoke_receipt,
         smoke_only=args.smoke_only, resume=args.resume, method=args.method, attempt_name=args.attempt_name),
