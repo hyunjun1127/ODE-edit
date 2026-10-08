@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-ALL-SH-FINAL-CHECKPOINT-ARCHIVE-SERVER1-20261009-R1",
+  "relay_nonce": "GH-SH3-FINAL-CHECKPOINT-FUTURE-ONLY-20261009-R1",
+  "owner": "server3",
+  "owner_ack": "accepted=true",
+  "cutover_observed_utc": "2026-10-08 16:44:20 UTC",
+  "cutover_observed_kst": "2026-10-09 01:44:20 KST",
+  "authority": {
+    "prospective_publication": "f9a6084ab050c1283ff3910e75c2032a81bc5997",
+    "policy": "control/final-checkpoint-archive-policy.json",
+    "policy_full_sha256": "6da0d1fcb576a51610daf3a733b896cf48a373dc60a3d8aa3c2ec1405ecfd9da",
+    "clarification": "messages/head/2026-10-09-final-checkpoint-archive-prospective.json",
+    "clarification_sha256": "42d508e3e54abc28672c3f2f5e866cb3e2de3c61628834bfc8465499b84471ba",
+    "approval": "transfers/approvals/2026-10-09-final-checkpoint-to-server1.json",
+    "approval_sha256": "b8b4217995641d20b21d930804e998a6bfdc485ad106b29705dd636433369d88",
+    "full_read": true
+  },
+  "effective_scope": {
+    "prospective_only": true,
+    "new_submissions_after_cutover": "BIND_POLICY_TO_NEW_SOURCE_AND_CONFIG",
+    "all_jobs_registered_before_cutover": "EXCLUDED_KEEP_EVEN_IF_THEY_FINISH_LATER",
+    "all_existing_checkpoints": "EXCLUDED_KEEP",
+    "earlier_current_final_candidate_permission": "WITHDRAWN",
+    "no_checkpoint_jobs": "NO_NEW_CHECKPOINT_PERMISSION"
+  },
+  "previous_server3_publication": {
+    "main": "f550298c31a8795fa19c07c2049b39884dbd99f4",
+    "report": "experiment-reports/servers/server3/final-checkpoint-archive-20261009/report-ko.md",
+    "audit": "audits/servers/server3/final-checkpoint-archive-20261009/receipt.json",
+    "historical_metadata_preserved": true,
+    "new_old_checkpoint_inventory": false
+  },
+  "future_adoption": {
+    "shared_receiver_and_helper_owner": "SH1",
+    "shared_helper_exact_commit_bound": false,
+    "server3_future_caller_connected": false,
+    "reason": "Exact SH1 published receiver API not yet bound to a new unfrozen server3 source/config at cutover",
+    "existing_frozen_runners_or_jobs_modified": false,
+    "official_qwen_science_resumed_or_submitted": false,
+    "archive_deferral": "ARCHIVE_PENDING_KEEP_SOURCE_IF_FUTURE_API_OR_CAPACITY_UNAVAILABLE",
+    "scientific_performance_gate_added": false
+  },
+  "actual": {
+    "new_scientific_jobs_submitted_by_this_policy_task": 0,
+    "source_final_manifests": 0,
+    "destination_admissions": 0,
+    "transferred_files": 0,
+    "verified_destination_files": 0,
+    "deleted_files": 0,
+    "deleted_bytes": 0,
+    "old_checkpoints_moved_or_deleted": 0,
+    "new_gpu_or_model_evaluations": 0,
+    "new_scheduler_monitoring": false
+  },
+  "next_step": "For a future newly submitted checkpoint-saving job only: bind policy and exact SH1 API in unfrozen source/config; after final compute and all consumers end seal exact regular-file manifest/fullSHA/bytes; SH1 admission and separate-object independent verification; recheck source/consumers; only then unlink listed payload files individually."
+}
