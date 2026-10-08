@@ -10,6 +10,26 @@ from official.runners.server2 import submit, zsre_profile, zsre_pipeline
 
 
 class ZsrePipelineTests(unittest.TestCase):
+    def test_actual_caller_shared_metric_mapping(self):
+        from official.runners.server2 import run
+        from official.tracking import schema
+        # Use the actual production config builder, no invented Slurm ID.
+        manifest=dict(tracking={'metric_schema':'official-baselines-scalar-v1'},code_commit='a'*40)
+        config=run.tracking_config(manifest,run.configuration('MEMIT','zsre'),'chain',Path('MEMIT'))
+        raw=dict(dataset='zsre',summary=dict(Efficacy=50.,Generalization=25.,Specificity=100.,
+            Specificity_loc_ans=10.,requests=100))
+        result=run.evaluate_payload(raw,'W5',500,current=True,config_values=config)
+        self.assertEqual(result['zsre/current/post/requests'],100)
+        self.assertEqual(result['zsre/current/post/Specificity'],100.)
+        self.assertEqual(result['zsre/current/post/Specificity_loc_ans'],10.)
+        self.assertAlmostEqual(result['zsre/current/post/Score'],3/(1/50+1/25+1/100))
+        self.assertEqual(schema.metrics(result,scientific=True,config_values=schema.config(config)),result)
+        self.assertFalse(any(k.startswith('official/') or 'generation' in k or 'fluency' in k for k in result))
+        raw['summary']['requests']=2000
+        w0=run.evaluate_payload(raw,'W0',0,config_values=config)
+        self.assertEqual(w0['zsre/W0_first2000/requests'],2000)
+        self.assertEqual(w0['post_state_edits'],0)
+
     def test_exact_profile(self):
         self.assertFalse(zsre_profile.enabled({}))
         p=zsre_profile.profile()

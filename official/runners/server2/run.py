@@ -185,13 +185,14 @@ def tracker(manifest, config, mode, out):
     # The common helper reads only the whitelisted real Slurm IDs and uses the
     # user's existing local credential. No token/key/full environment is copied.
     common = module.init(env_file=binding['env_file'], spool=str(out/'tracking'), config=values)
-    return TransportAudit(common, out)
+    return TransportAudit(common, out, values)
 
 
 class TransportAudit:
     """Receipt-only adapter, not another SDK/logger implementation."""
-    def __init__(self, common, out):
+    def __init__(self, common, out, config_values=None):
         self.common, self.out = common, out
+        self.config_values = config_values
         self.accepted = self.rejected = self.errors = 0
         self.finished = False
         self.finish_status = 'NOT_FINISHED'
@@ -314,10 +315,14 @@ def native_apply(engine, records, batch, tracking, cursor):
     return dict(receipt, fit_telemetry=bridge.receipt)
 
 
-def evaluate_payload(observed, endpoint, edits, *, current=False):
+def evaluate_payload(observed, endpoint, edits, *, current=False, config_values=None):
     # This schema reports request-macro E/G/S, not old prompt-pair R/P/N or
     # paper free-generation accuracy. The shared official whitelist binds it.
     prefix = 'W0_first2000' if endpoint == 'W0' else 'current/post' if current else 'all_seen/post'
+    if observed.get('dataset', observed.get('identity', {}).get('dataset')) == 'zsre':
+        from official.tracking import official_zsre_metrics
+        return official_zsre_metrics(observed['summary'], config_values=config_values,
+            endpoint=prefix, edits=edits, pre_state_edits=max(0,edits-100), post_state_edits=edits)
     fields = ('Efficacy', 'Generalization', 'Specificity', 'Score',
               'Score_AlphaEdit_display', 'Specificity_loc_ans', 'requests')
     value = {'official/' + prefix + '/' + key:score for key, score in observed['summary'].items()
@@ -511,7 +516,7 @@ def cold_w0(model, tok, manifest, records, dataset, out, tracking):
             result = generation.observe(model, tok, manifest, records, out/'generation', 'W0',
                 dict(completed_batch=0), lambda:signature(model), lambda values:log(tracking, values))
             generation_member = member(result['rows_path'])
-    log(tracking, evaluate_payload(observed, 'W0', 0))
+    log(tracking, evaluate_payload(observed, 'W0', 0, config_values=getattr(tracking,'config_values',None)))
     ready = dict(status='READY_COLD_W0_COMPLETE', actual_GPU=True, model='gptj', dataset=dataset,
         code_commit=manifest['code_commit'], official_tree_sha256=manifest['official_tree_sha256'],
         manifest_sha256=manifest['base_manifest_sha256'],
@@ -607,9 +612,11 @@ def chain(model, tok, engine, manifest, records, dataset, out, tracking, resume=
                 parity_plan=manifest['native_parity_plans']['zsre'][engine.method] if smoke else None)
             endpoints['W'+str(batch)] = cursor['W'+str(batch)] = observed_member
             if not smoke:
-                log(tracking, evaluate_payload(observed, 'W'+str(batch), batch*100))
+                log(tracking, evaluate_payload(observed, 'W'+str(batch), batch*100,
+                    config_values=getattr(tracking,'config_values',None)))
             incoming = current_subset(observed, records[(batch-1)*100:batch*100], dataset)
-            log(tracking, evaluate_payload(incoming, 'W'+str(batch), batch*100, current=True))
+            log(tracking, evaluate_payload(incoming, 'W'+str(batch), batch*100, current=True,
+                config_values=getattr(tracking,'config_values',None)))
         generation_endpoint = None
         if dataset == 'cf' and batch == 20 and not smoke and not deferred(manifest):
             observed_generation = generation.observe(model, tok, manifest, records, out/'generation',
