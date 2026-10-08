@@ -83,27 +83,33 @@ native source/runtime·평가기 차이와 분모 및 대조 근거는
 
 ### Qwen2.5-7B-Instruct
 
-**SH4 official 6종×CF/zsRE 12개 held 검사·release 완료.** 제출 직후
-2026-10-09 04:46:46 KST snapshot은 전부 PENDING이며 아래 표는 그 시점 기준입니다.
-실행 source `d614add5e4c650821ed8d2503c071a1e02605ca8`, server4 합산 GPU cap2.
-PRICE/tuning **61674**는 유지하며 첫 main **61743**이 `afterany:61674`로 대기합니다.
-이후 각 main → `afterok` GPU0 archive → `afterok` 다음 main의 단일 baseline lane입니다.
-Archive **61744/61746/61748/61750/61752/61754/61756/61758/61760/61762/61764/61766**은
-저장·검증·정리 단계로, 아래 성능표의 실험 행에는 넣지 않습니다.
-별도 GPU qualification은 `NOT_RUN_USER_DISABLED`; 실제 GPU 결과·W&B startup은 미관측이고
-실제 checkpoint 전송·삭제도 아직 0입니다. 과거 성능값을 새 결과로 옮겨 쓰지 않았습니다.
-실제 job name·config/ordered stream SHA·dependency는
-[등록 영수증](audits/servers/server4/qwen-baselines-20261009/submission.json)과
-[SH4 보고서](experiment-reports/servers/server4/qwen-baselines-20261009/report-ko.md)에 기록합니다.
+**CF 표시값 전송 수리 후 6개 main과 GPU0 archive 6개를 교체·held 검사·release했습니다.**
+2026-10-09 05:26:36 KST snapshot에서 새 CF와 유지 zsRE는 모두 PENDING(Dependency)입니다.
+CF 실행 source `dc80ec529c940019d1bee27a67a4e908eb37cc64`; 기존 미시작 CF/archive
+**61743–61754**는 취소하고 원 source·자료는 보존했습니다. 실제 Qwen 오류/편집 실패를 관측한 것은 아닙니다.
+zsRE **61755/61757/61759/61761/61763/61765**와 해당 archive는 원 source
+`d614add5e4c650821ed8d2503c071a1e02605ca8`·config·ID 그대로 유지합니다.
+첫 zsRE **61755**의 pending dependency만 새 CF 마지막 archive **61794**에 `afterok`로 재연결했습니다.
+
+승인 cap2는 유지합니다. 별도 tuning **61674**(GPU2), held-out **61776/61777**(각 GPU1)의
+기존 allocation 합계4는 사실대로 별도 기록하며 변경하지 않았습니다.
+새 첫 CF **61783**은 `afterany:61674:61776:61777`로 세 job 종료를 모두 기다립니다.
+그 뒤 main → `afterok` GPU0 archive → `afterok` 다음 main으로 순차 실행합니다.
+새 archive **61784/61786/61788/61790/61792/61794**는 성능표에서 제외합니다.
+별도 GPU qualification은 `NOT_RUN_USER_DISABLED`; 새 GPU/W&B 실행은 NOT_STARTED,
+실제 archive 전송·삭제는 0입니다. 제출·CPU 검사와 과학적 완료를 구분합니다.
+실제 job name·source/config/sample SHA·dependency·보존 내역은
+[교체 등록 영수증](audits/servers/server4/qwen-baselines-20261009/cf-display-repair/submission.json)과
+[수리 보고서](experiment-reports/servers/server4/qwen-baselines-20261009/cf-display-repair-ko.md)에 기록합니다.
 
 | Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| FT | PENDING: 61743 | PENDING: 61743 | PENDING: 61743 | PENDING: 61743 | PENDING: 61743 | PENDING: 61743 | PENDING: 61755 | PENDING: 61755 | PENDING: 61755 |
-| MEMIT | PENDING: 61745 | PENDING: 61745 | PENDING: 61745 | PENDING: 61745 | PENDING: 61745 | PENDING: 61745 | PENDING: 61757 | PENDING: 61757 | PENDING: 61757 |
-| AlphaEdit | PENDING: 61747 | PENDING: 61747 | PENDING: 61747 | PENDING: 61747 | PENDING: 61747 | PENDING: 61747 | PENDING: 61759 | PENDING: 61759 | PENDING: 61759 |
-| AlphaEdit-BLUE | PENDING: 61749 | PENDING: 61749 | PENDING: 61749 | PENDING: 61749 | PENDING: 61749 | PENDING: 61749 | PENDING: 61761 | PENDING: 61761 | PENDING: 61761 |
-| MEMIT-FE | PENDING: 61751 | PENDING: 61751 | PENDING: 61751 | PENDING: 61751 | PENDING: 61751 | PENDING: 61751 | PENDING: 61763 | PENDING: 61763 | PENDING: 61763 |
-| AlphaEdit+SPHERE | PENDING: 61753 | PENDING: 61753 | PENDING: 61753 | PENDING: 61753 | PENDING: 61753 | PENDING: 61753 | PENDING: 61765 | PENDING: 61765 | PENDING: 61765 |
+| FT | PENDING: 61783 | PENDING: 61783 | PENDING: 61783 | PENDING: 61783 | PENDING: 61783 | PENDING: 61783 | PENDING: 61755 | PENDING: 61755 | PENDING: 61755 |
+| MEMIT | PENDING: 61785 | PENDING: 61785 | PENDING: 61785 | PENDING: 61785 | PENDING: 61785 | PENDING: 61785 | PENDING: 61757 | PENDING: 61757 | PENDING: 61757 |
+| AlphaEdit | PENDING: 61787 | PENDING: 61787 | PENDING: 61787 | PENDING: 61787 | PENDING: 61787 | PENDING: 61787 | PENDING: 61759 | PENDING: 61759 | PENDING: 61759 |
+| AlphaEdit-BLUE | PENDING: 61789 | PENDING: 61789 | PENDING: 61789 | PENDING: 61789 | PENDING: 61789 | PENDING: 61789 | PENDING: 61761 | PENDING: 61761 | PENDING: 61761 |
+| MEMIT-FE | PENDING: 61791 | PENDING: 61791 | PENDING: 61791 | PENDING: 61791 | PENDING: 61791 | PENDING: 61791 | PENDING: 61763 | PENDING: 61763 | PENDING: 61763 |
+| AlphaEdit+SPHERE | PENDING: 61793 | PENDING: 61793 | PENDING: 61793 | PENDING: 61793 | PENDING: 61793 | PENDING: 61793 | PENDING: 61765 | PENDING: 61765 | PENDING: 61765 |
 | PRICE (Ours) |  |  |  |  |  |  |  |  |  |
 
 ### GPT-J-6B
