@@ -146,7 +146,7 @@ class TrackingBinding(unittest.TestCase):
         self.assertNotIn("reference_assets_sha256", actual)
         tracker.log(common.factual_payload(cf_endpoint(500), "all_seen/post", 500))
         for values in ({"all_seen/post/fluency/ngram_entropy": 0},
-                       {"generation_progress/step": 0}, {"phase": "W20_generation"}):
+                       {"generation_progress/step": 0, "phase": "W20_generation"}):
             with self.assertRaisesRegex(ValueError, "DEFERRED_GENERATION_NOT_MEASURED"):
                 tracker.log(values)
 

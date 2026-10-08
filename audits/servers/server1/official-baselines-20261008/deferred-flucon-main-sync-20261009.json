@@ -1,0 +1,22 @@
+{
+  "nonce": "GH-SH1-DEFERRED-FLUCON-READY-20261009-R1",
+  "server": "server1",
+  "checkout": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-official-baselines-20261008",
+  "branch": "codex/server1-official-cf-checkpoint-20261009",
+  "integration_HEAD": "b705a939fe14816997573fa5eb25bdb9a10efe17",
+  "fetched_main": "6d35c65de19ec378a30749683762eba87fee50e3",
+  "required_ancestor_pass": true,
+  "fetched_main_ancestor_pass": true,
+  "conflicts": ["official/SOURCES.json", "official/tracking/schema.py", "official/tracking/test_transport.py"],
+  "resolution": "Use exact published shared schema/tests; preserve own runner and W0 changes. SOURCES combines other preserved entries with canonical tracking hashes.",
+  "CF_editing_run_schedule": "DEFERRED_CHECKPOINT_EVALUATION",
+  "CF_editing_run_generation_metadata": "schedule only; no reference_assets_sha256",
+  "CPU_tests": {"tests": 73, "status": "PASS", "CUDA_VISIBLE_DEVICES": "", "seconds": 0.927},
+  "initial_fixture_errors": "corrected invalid endpoint and incomplete progress fixture; production guards unchanged",
+  "source_verify": {"source_files": 157, "python_files": 257, "external_task_imports": 0, "status": "PASS"},
+  "separate_existing_base_W0_enabled_contract": "preserved; not a deferred editing run or new evaluation submission",
+  "shared_W0_review_and_registration": "still separate unresolved technical integration gate; not claimed ready by tracking sync",
+  "frozen_jobs_unchanged": true,
+  "new_GPU_Slurm_online_calls": 0,
+  "main_publication": false
+}
