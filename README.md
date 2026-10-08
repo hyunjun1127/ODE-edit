@@ -47,7 +47,7 @@ Ours 행은 결과 기록용이며 새 arm/실험을 자동 승인하지 않습�
 
 **SH1 CF 수리본 held 검사·release 완료, snapshot 2026-10-09 04:57:44 KST.**
 당시 CF AlphaEdit **61769**, SPHERE **61770**, FT **61771**, MEMIT **61772**, MEMIT-FE **61773**는 PENDING/dependency였다.
-최신 사용자 지시로 AlphaEdit **61769**·MEMIT **61772**만 취소 처리 중이며, 아래 두 행의 수치는
+최신 사용자 지시로 AlphaEdit **61769**·MEMIT **61772**만 **CANCELLED** 확인(2026-10-09 08:53:42 KST), 아래 두 행의 수치는
 그 신규 job의 결과가 아닌 과거 **42657/42658 B020/2,000 edits** 결과다(‡).
 기존 zsRE **61716–61719**는 RUNNING, **61720/61721**은 PENDING으로 유지했다.
 새 CF W0 **61768**와 GPU0 collector **61774**는 PENDING이며 본실험 표에서 제외한다.

@@ -39,7 +39,7 @@ request-macro와 prompt-micro 성공률이 같다. 다른 평가 정의와 무�
 
 raw의 `evaluation_type=CHECKPOINT_FINAL_W_ON_ALL_SEEN_REQUESTS`, `requests=2000`.
 발신 side는 원 B1..B20 request_ids와 SH4 현 CF stream의 2000개 순서 일치를 검산했다.
-SH1 현 Llama stream과의 최종 대조 및 취소는 SH1 담당이며 아래 receipt로 보완한다.
+SH1도 아래 receipt에서 현 Llama stream과 원 두 trajectory의 ID·순서 일치를 확인했다.
 같은 파일 SHA/표본 순서가 source/runtime/evaluator/hparams 전부 동등함을 보증하지 않는다.
 이 보고에서는 과거 실행 전체 source closure나 현재 official GPU parity를 새 검증하지 않았다.
 
@@ -57,10 +57,21 @@ server2 migration의 B020 파일 두 개는 side에서 현재 regular/bytes 일�
 `fixed10k-native-baselines/attempt-v1/output/main-cell-{1,2}/B020/W-method-state.pt` 행이다.
 모든 원 CP/raw/provenance는 KEEP한다.
 
-현재 취소 대상 후보는 SH1 **61769 official-s1-cf-alphaedit** 및
+실제 취소 대상은 SH1 **61769 official-s1-cf-alphaedit** 및
 **61772 official-s1-cf-memit**, source `34e4d52d`다.
 GH 최초 fresh snapshot은 모두 PENDING/Dependency/elapsed0이었다.
 SH1 accepted turn `01a11ded-c4ba-7ed3-a6ba-847e08ffd8aa`에서 직접 담당 ACK를 회수했다.
-실제 취소 완료는 owner receipt가 나오기 전 주장하지 않는다.
+2026-10-09 08:53:42 KST owner receipt에서 두 job 모두 PENDING→CANCELLED를 확인했다.
+동일 receipt의 원 B1..B20 entry와 현 Llama stream 대조는 각2000건 exact order PASS이며
+ordered case IDs SHA는 `0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4`다.
+현 stream SHA는 `66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37`.
+
+원 owner receipt:
+`/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/llama-cf-checkpoint-cancel-20261009-r1/result.json`,
+SHA `ebd172c62639fe50136df4a772ab3efd2f52610f8e1cfbf3d8947318e6ddbebd`.
+GH는 이 실제 receipt를 읽어 취소 상태와 source/config 결속을 확인했다.
+MEMIT-FE **61773**은 `afterany:61719 + afterok:61768`로 자원 의존성을 보전한 뒤 release했다.
+**61774** collector는 그대로이며 coverage는 취소된 두 신규 run을 포함한 partial로 취급한다.
+다른 job/source·모든 CP/raw 보존, 현재 할당과 admitted DAG 폭은 모두4/cap4다.
 MEMIT-FE/collector와 zsRE 등 다른 작업은 취소하지 않으며 필요한 resource edge만 보전한다.
 새 GPU·재제출·평가·복원은 이번 지시로 추가하지 않는다.
