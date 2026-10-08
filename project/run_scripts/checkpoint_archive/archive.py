@@ -220,9 +220,22 @@ def run_identity(value):
 def checkpoint_identity(value):
     require(type(value) is dict and set(value) == set(IDENTITY_FIELDS), "INCOMPLETE_CHECKPOINT_IDENTITY")
     for key, item in value.items():
+        if key == "official_tree_sha256":
+            require(type(item) is str and bool(re.fullmatch(r"(?:[a-f0-9]{40}|[a-f0-9]{64})", item)),
+                    "CHECKPOINT_IDENTITY_FULL_SHA_REQUIRED", key)
+            continue
         length = 40 if key in GIT_IDENTITY_FIELDS else 64
         require(type(item) is str and bool(re.fullmatch(r"[a-f0-9]{"+str(length)+r"}", item)),
                 "CHECKPOINT_IDENTITY_FULL_SHA_REQUIRED", key)
+
+
+def checkpoint_identity_types(value):
+    """Archive provenance only; never rewrite the original CP identity/digest."""
+    checkpoint_identity(value)
+    return {key: ("git-tree-sha1" if len(item) == 40 else "content-sha256")
+            if key == "official_tree_sha256" else
+            ("git-commit-sha1" if key in GIT_IDENTITY_FIELDS else "content-sha256")
+            for key, item in value.items()}
 
 
 def _unsigned(value, key):
@@ -234,6 +247,12 @@ def validate_manifest(value):
             and value.get("instruction_id") == INSTRUCTION
             and value.get("manifest_sha256") == digest(_unsigned(value, "manifest_sha256")), "MANIFEST_IDENTITY_OR_PROSPECTIVE_SCOPE")
     run_identity(value["run_identity"]); checkpoint_identity(value["checkpoint_identity"])
+    types = value.get("checkpoint_identity_types")
+    # Old 40-hex manifests remain verifiable without changing their hashes.
+    require(("checkpoint_identity_types" not in value and
+             len(value["checkpoint_identity"]["official_tree_sha256"]) == 40) or
+            types == checkpoint_identity_types(value["checkpoint_identity"]),
+            "CHECKPOINT_IDENTITY_TYPE_BINDING_MISMATCH")
     sha(value["policy_sha256"])
     require(type(value.get("proof_packet")) is dict and set(value["proof_packet"]) == set(ROLES),
             "COMPLETE_ADMISSION_PROOF_PACKET_REQUIRED")
@@ -504,6 +523,7 @@ def seal_manifest(*, run, identity, checkpoint, companions, provenance_reference
     cutover_value = _read_metadata_member(cutover_member)
     result = dict(schema=MANIFEST_SCHEMA, instruction_id=INSTRUCTION, scope=SCOPE,
                   run_identity=run, checkpoint_identity=identity, files=files,
+                  checkpoint_identity_types=checkpoint_identity_types(identity),
                   provenance_references=provenance_references, policy_sha256=policy_sha256,
                   proof_packet=values, proof_contents=proof_contents,
                   cutover_member=cutover_member, cutover=cutover_value, sealed_at_utc=utc_now())

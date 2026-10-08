@@ -102,6 +102,10 @@ def validate_config(value):
             value.get("evaluation") == evaluation, "OFFICIAL_PRECISION_OR_EVALUATION_CHANGED")
     unsigned = {key: item for key, item in value.items() if key != "config_sha256"}
     require(value.get("config_sha256") == digest(unsigned), "CONFIG_DIGEST")
+    if 'qualification_policy' in value:
+        from .noqual import validate_overlay
+        validate_overlay(value)
+        return value
     if value.get("zsre_six") is True:
         require(value.get("qualification_plan") == ZSRE_PLAN, "ZSRE_QUALIFICATION_PLAN_CHANGED")
         return value
