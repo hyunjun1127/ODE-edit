@@ -1,0 +1,61 @@
+{
+  "schema": "official-Llama-shared-W0-binding-v1",
+  "date_kst": "2026-10-09",
+  "nonce": "SH1-GH-OFFICIAL-NATIVE-ORACLE-W0-BINDING-20261009-R1",
+  "parent": "USER-OFFICIAL-BASELINES-20261008-R1",
+  "status": "OWNER_ASSIGNED_READER_IMPLEMENTATION_REQUIRED_ACTUAL_READY_NOT_OBSERVED",
+  "producer": {
+    "owner": "SH1",
+    "server": "server1",
+    "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+    "job_role": "base_w0",
+    "future_READY_path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/pipeline-r1/runs/base-w0/READY.json",
+    "path_is_actual_READY": false,
+    "observations": [
+      "Cold Llama CF first2000 factual once",
+      "Cold Llama CF first2000 native generation once, shared FLU/CON generated text",
+      "Cold Llama zsRE first2000 token W0 prediction reference once; reuse reference.evaluation, not another W0 forward"
+    ]
+  },
+  "consumers": ["SH1 own official Llama rows", "SH4 official Llama AlphaEdit/BLUE/SPHERE rows"],
+  "no_duplicate_observation": "SH4 waits for verified immutable SH1 W0 inputs; do not register a second full W0/generation job just because paths/source trees differ. Qualification/runner/source checks can continue independently.",
+  "identity_contract": {
+    "producer_execution_identity": "Original full source commit/tree, config/assets manifest, paths/runtime/hardware/job/W&B/source cohort and raw identity are preserved without rewriting.",
+    "consumer_execution_identity": "Separate full actual consumer source/config/path/runtime/hardware identity; never assert equality of full producer and consumer execution identities.",
+    "computational_identity": [
+      "Cold W0 model revision/config and full consumed weight-file content SHA, no edited state",
+      "Tokenizer consumed file SHA, BOS/noBOS/padding/target-prefix/lookup settings",
+      "Exact normalized stream and ordered occurrence/token/query identity for each dataset",
+      "Common consumed factual/reducer/generation source SHA and profile/settings, not the entire unrelated runner tree",
+      "Torch/Transformers and relevant numeric/scoring runtime versions, FP32/eager/TF32/autocast/cache settings",
+      "CF generation seed20261007/endpoint global RNG/case grouping/topk5/total100/noEOS/decode/native profile",
+      "Attribute snippets/vocab/IDF and vectorizer/NLTK provenance SHA for generation metrics"
+    ],
+    "path_manifest_tree_difference": "A path or full bundle/tree difference alone is not a computational mismatch; it must be recorded, not overwritten. Compare content and consumed dependency closure explicitly.",
+    "hardware": "Record producer and consumer hardware separately; source-compatible reference reuse is not a claim of cross-hardware bitwise forward/generation equality. No missing runtime field is invented.",
+    "incompatible_or_unrecorded_computational_fields": "REFERENCE_INPUT_NOT_COMPATIBLE, no silent rebinding or READY. Report exact mismatch; no automatic duplicate W0/model/fit.",
+    "view": "A verified reader may expose immutable source raw as a borrowed reference with producer provenance, computational fingerprint and distinct consumer execution binding. It cannot edit original raw external_identity, label source raw as consumer observations, or pass a producer full identity as if it were the consumer full identity.",
+    "zsre": "Current factual API's exact external_identity guard is not bypassed. SH1 implements an explicit reviewed backward-compatible portable-reference binding or a common computational-identity contract for new producer/consumer callers. Old reference payload/identity stays intact; edited evaluation records borrowed reference SHA and actual consumer identity separately. Until this reader is published, cross-SH zsRE reference adoption is SOURCE_INPUT_PENDING, not PASS.",
+    "scalars": "W0_first2000 values retain exact source cohort/denominators and origin; current/pre/post are actual consumer observations. Missing/partial W0 never filled with0 or completed by name alone."
+  },
+  "READY": {
+    "requirements": [
+      "Actual cold state/model and all required observations completed",
+      "Atomic immutable manifest of required members/path/bytes/fullSHA/status and source computational identity",
+      "Actual denominator/ordered token query/row validation and native qualification state",
+      "Explicit per-component availability; incomplete/failed producer does not expose complete READY",
+      "Consumer verifies manifest and every consumed raw member without changing source files"
+    ],
+    "actual_observed": false,
+    "future_path_existence_is_not_ready": true
+  },
+  "implementation_ownership": {
+    "SH1": ["Own base_w0 producer/runner/collector", "official/evaluation/w0_reference.py and its narrow tests if needed", "Backward-compatible integration in owned official/evaluation/factual.py"],
+    "SH4": ["Own immutable reader/caller binding to published shared API", "Own reference input/dependency and execution provenance"],
+    "common_source_review": "GH review/main publication before final scientific source freeze; other SHs do not fork evaluator/reader.",
+    "additional_USER_stage_approval": false
+  },
+  "delivery_and_transport": "Publish compact READY/API/source availability when real. Use only existing approved ordinary artifact helper/transfer scope for necessary W0 scalar/raw/reference members, exact source/destination/checksum and no --delete; do not initiate a new model/checkpoint/C0/dataset or large raw copy from this document. If current transfer scope/size does not authorize the bundle, send exact request instead. No transport or remote READY is claimed yet.",
+  "resources": "Owner fresh current cap/allocation policy and valid dependencies; existing jobs unchanged. No extra fit/edit chain or cap change.",
+  "recurring_monitor": false
+}

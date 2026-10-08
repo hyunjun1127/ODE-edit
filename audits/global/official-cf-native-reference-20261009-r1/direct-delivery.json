@@ -1,0 +1,115 @@
+{
+  "schema": "official-cf-native-reference-direct-delivery-v1",
+  "date_kst": "2026-10-09",
+  "parent": "USER-OFFICIAL-BASELINES-20261008-R1",
+  "request_nonces": [
+    "SH2-GH-OFFICIAL-NATIVE-REFERENCE-20261009-R1",
+    "SH1-GH-OFFICIAL-NATIVE-ORACLE-W0-BINDING-20261009-R1"
+  ],
+  "sources": {
+    "implementation_commit": "bcdeceba",
+    "ownership_commit": "34001ec0",
+    "published_main": "34001ec0950f00b61e89be753494f40b9da6f70f",
+    "official_tree": "7a096c467655b0c2b41e6b154e3028a0e3447cf8",
+    "envelope": {
+      "path": "messages/head/2026-10-09-official-cf-native-reference.json",
+      "sha256": "3e8bb517026577b0694dc68974de391562f88a577db4ec64267d18a5a94d86bd"
+    },
+    "W0_contract": {
+      "path": "messages/head/2026-10-09-official-llama-w0-sharing.json",
+      "sha256": "44ae83b77f1eedec91e3c68be3bda441ca91616f80f007ec0031bd4b12572eb1"
+    }
+  },
+  "direct_delivery": [
+    {
+      "server": "server1",
+      "owner_session": "01a04939-f93a-7b50-bca0-65438eab2062",
+      "cwd": "/mnt/raid5/janghj/ODE-edit",
+      "nonce": "GH-SH1-OFFICIAL-NATIVE-ORACLE-READY-20261009-R1",
+      "accepted_turn": "01a11bf8-5fd1-7db3-967d-76a755c1d603",
+      "transport_operation": "turn/steer",
+      "transport": "approved Unix app-server control WebSocket; exact current owner/CWD and related expectedTurnId or idle checked",
+      "transport_listener_result": "ACCEPTED_OWNER_ACK_PENDING",
+      "ACK_confirmation": "codex_app.read_thread readonly latest turn; exact nonce owner agentMessage confirmed, no retransmission",
+      "owner_ack": {
+        "item_id": "msg_09c016de10ca3dd2016ac7bc9aa4bc8191a1a302f2df816ab1",
+        "phase": "commentary",
+        "text": "OWNER_ACK nonce=GH-SH1-OFFICIAL-NATIVE-ORACLE-READY-20261009-R1 server=server1 accepted=true\n\n게시된 원본 oracle은 기존 B3 first300 raw와 독립 비교하는 경로로 결속하겠습니다. W0 reader는 원본 provenance를 보존하는 별도 binding으로 구현 중이며, 실제 READY/GPU 검증과 소스 준비 상태는 구분해 보고하겠습니다.\n"
+      },
+      "stage": "OWNER_ACCEPTED_IMPLEMENTATION_CONTINUES",
+      "source_publication": "34001ec0950f00b61e89be753494f40b9da6f70f",
+      "official_tree": "7a096c467655b0c2b41e6b154e3028a0e3447cf8"
+    },
+    {
+      "server": "server2",
+      "owner_session": "01a0493a-074c-7f91-9a13-769116326fef",
+      "cwd": "/mnt/raid5/janghj/ODE-edit",
+      "nonce": "GH-SH2-OFFICIAL-NATIVE-ORACLE-READY-20261009-R1",
+      "accepted_turn": "01a11bf7-a8a4-73b1-be9d-67289ab2c55d",
+      "transport_operation": "turn/steer",
+      "transport": "approved Unix app-server control WebSocket; exact current owner/CWD and related expectedTurnId or idle checked",
+      "transport_listener_result": "ACCEPTED_OWNER_ACK_PENDING",
+      "ACK_confirmation": "codex_app.read_thread readonly latest turn; exact nonce owner agentMessage confirmed, no retransmission",
+      "owner_ack": {
+        "item_id": "msg_0d42b844470841a7016ac7bca6e124819180f8bbab9133173f",
+        "phase": "commentary",
+        "text": "OWNER_ACK nonce=GH-SH2-OFFICIAL-NATIVE-ORACLE-READY-20261009-R1 server=server2 accepted=true\n\n원본 scorer 게시본을 읽고 다음 source에 결속하겠습니다. 이미 봉인·등록된 `61619`와 기존 job은 유지하며, 새 oracle 증거와 기존 resume/formula 증거를 별도로 기록하겠습니다.\n"
+      },
+      "stage": "OWNER_ACCEPTED_IMPLEMENTATION_CONTINUES",
+      "source_publication": "34001ec0950f00b61e89be753494f40b9da6f70f",
+      "official_tree": "7a096c467655b0c2b41e6b154e3028a0e3447cf8"
+    },
+    {
+      "server": "server4",
+      "owner_session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+      "cwd": "/data/janghj/ODE-edit",
+      "nonce": "GH-SH4-OFFICIAL-ORACLE-W0-BINDING-20261009-R1",
+      "accepted_turn": "01a11c38-97f9-7a60-ba08-0f51ba66dd8c",
+      "transport_operation": "turn/start",
+      "transport": "approved Unix app-server control WebSocket; exact current owner/CWD and related expectedTurnId or idle checked",
+      "transport_listener_result": "ACCEPTED_OWNER_ACK_PENDING",
+      "ACK_confirmation": "codex_app.read_thread readonly latest turn; exact nonce owner agentMessage confirmed, no retransmission",
+      "owner_ack": {
+        "item_id": "msg_00ab4bb7b1cf2cba016ac7bc937f6087d09180dd2268774cb3",
+        "phase": "commentary",
+        "text": "OWNER_ACK nonce=GH-SH4-OFFICIAL-ORACLE-W0-BINDING-20261009-R1 server=server4 accepted=true\n\nW0는 SH1 단일 producer로 확정하고 SH4의 별도 full-W0 실행은 하지 않겠습니다. 게시된 원본 비교 API와 공유 계약을 결속하되, 아직 미게시된 reader/READY는 `SOURCE_INPUT_PENDING`으로 분리해 기록하고 native/resume 준비를 계속하겠습니다.\n"
+      },
+      "stage": "OWNER_ACCEPTED_IMPLEMENTATION_CONTINUES",
+      "source_publication": "34001ec0950f00b61e89be753494f40b9da6f70f",
+      "official_tree": "7a096c467655b0c2b41e6b154e3028a0e3447cf8"
+    }
+  ],
+  "CPU": {
+    "tests": 49,
+    "status": "PASS",
+    "source_entries_verified": 157,
+    "Python_sources_verified": 221,
+    "external_task_imports": 0,
+    "independent_review": "PASS"
+  },
+  "actual_GPU_parity": "NOT_OBSERVED",
+  "full2k_parity": "NOT_OBSERVED",
+  "W0": {
+    "producer": "SH1",
+    "consumer": "SH4 plus ownSH1",
+    "actualREADY": "NOT_OBSERVED",
+    "portable_reader": "SH1_IMPLEMENTING_NOT_PUBLISHED",
+    "original_provenance": "PRESERVED_SEPARATE_CONSUMER_BINDING_REQUIRED"
+  },
+  "SH2_partial_registration": {
+    "source": "OWNER_USER_MESSAGE_ONLY_NO_GH_SCHEDULER_QUERY",
+    "job_id": "61619",
+    "reported_state": "PENDING_JobHeldUser_UNALLOCATED",
+    "reported_issue": "Equivalent afterany dependency formatting controller normalization, no release or duplicate",
+    "registration_completion": "NOT_OBSERVED_BY_GH"
+  },
+  "GH_actions": {
+    "GPU_model": 0,
+    "Slurm_query_or_write": 0,
+    "WandB_online": 0,
+    "old_job_mutation": 0,
+    "monitoring_or_heartbeat": 0,
+    "automatic_resend": 0
+  },
+  "stop_condition": "Bounded direct-input handoff complete; owners continue within existing parent authority without waiting for GH GPU completion."
+}

@@ -1,0 +1,47 @@
+{
+  "schema": "official-cf-native-reference-input-response-v1",
+  "date_kst": "2026-10-09",
+  "nonce": "SH2-GH-OFFICIAL-NATIVE-REFERENCE-20261009-R1",
+  "parent": "USER-OFFICIAL-BASELINES-20261008-R1",
+  "request": "Supply a genuine original public CounterFact oracle; passive same-call owner formula guard is not independent parity.",
+  "additional_request_nonce": "SH1-GH-OFFICIAL-NATIVE-ORACLE-W0-BINDING-20261009-R1",
+  "source_review_finding": "The original evaluator was already pinned in official/hparams/sources.lock.json but absent from the runnable distribution. Its exact original source is now adopted; the unchanged factual function is independently executed by a single shared official adapter. No requirement is waived or reported PASS before actual comparison.",
+  "source": {
+    "repository": "https://github.com/jianghoucheng/AlphaEdit",
+    "commit": "b84624f44dfe8fc6cd9e41df916c44124a0c46dc",
+    "path": "experiments/py/eval_utils_counterfact.py",
+    "sha256": "25c3f49039e7bacb58de6d9ab8139f6f24f21532434a08690e9ec71ea939e145",
+    "bytes": 7941,
+    "adopted_path": "official/evaluation/reference/alphaedit_eval_utils_counterfact.py.txt",
+    "provenance": "official/evaluation/reference/PROVENANCE.json"
+  },
+  "api": {
+    "module": "official.evaluation.cf_native_reference",
+    "functions": ["evaluate_native_counterfact", "compare_native_counterfact"],
+    "exact_contract": "official/evaluation/CF_NATIVE_REFERENCE.md",
+    "comparison_plan": "official/hparams/cf-native-reference.lock.json"
+  },
+  "interpretation": {
+    "engineering_admission": "Actual independent original scorer on fixed first four requests with matching native state/input/source, plus existing method smoke/resume. CPU fixtures or owner same-call guards alone do not satisfy this.",
+    "SH1_existing_B3_first300": "ACTUAL_MATCHED_SUBSET on identical B3 weights and original first300 canonical raw is supported as separate genuine engineering evidence, not full2k. Actual successful first300 includes the fixed first4 and can satisfy same-model engineering admission without another redundant first4 observation; keep matched-subset receipt labels. No new fit/edit and no post-result tolerance change.",
+    "Llama_AlphaEdit_full_2k": "Separate explicit README completion evidence on actual full first2k weights. Keep NOT_OBSERVED until the full same-state comparison exists; small smoke cannot clear it. It is not a circular completed-W20 prerequisite for starting an authorized trajectory.",
+    "display_only_correction": "Score_AlphaEdit_display now uses original per-request/cohort NumPy mean and around, not fsum-mean plus Python round; raw E/G/S and Score unchanged. Old frozen source/run results are not rewritten.",
+    "tolerances": "CF NLL abs1e-4 nats/rel1e-5; arithmetic aggregate1e-10pp; token/position/order/denominators/strict/NLL-success bits exact. New fixed technical plan before actual model results, not paper1pp or generation tolerance.",
+    "same_call_guard": "Preserve as separately labeled formula consistency; never relabel original parity.",
+    "resume": "Separate B3 versus B2-resume proof remains required."
+  },
+  "owner": {
+    "primary": "SH2",
+    "server": "server2",
+    "session": "01a0493a-074c-7f91-9a13-769116326fef",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "write_scope": "Existing own official runner/config/audits/report and source freeze; common adapter read-only.",
+    "instruction": "Bind this shared posted source into existing qualification/main registration and continue within parent authority. No additional fit, scientific arm, performance tuning, logger duplication, or stage USER approval. Do not fabricate the actual gate."
+  },
+  "source_policy": "Direct delivery records exact main publication and official tree after reviewed integration. Source/config lock is updated only for new qualification/main sources; old frozen jobs/raw remain unchanged.",
+  "resource_policy": "Existing parent cap/allocation and stricter actual policy; no cap increase or unrelated cancellation.",
+  "GH_actual_GPU_Slurm_online_actions": 0,
+  "status_at_document_creation": "IMPLEMENTED_CPU49_PASS_INDEPENDENT_REVIEW_PASS_ACTUAL_GPU_NOT_RUN",
+  "delivery": "Official direct related turn with expectedTurnId and owner ACK; inbox or Git publication alone is not receipt.",
+  "recurring_monitor": false
+}

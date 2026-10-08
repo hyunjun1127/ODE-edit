@@ -1,0 +1,30 @@
+{
+  "instruction_id": "USER-OFFICIAL-BASELINES-20261008-R1",
+  "server": "server2",
+  "repair": "HELD_DEPENDENCY_CONJUNCTION_CONTROL_ONLY",
+  "scope": "동일 qualification attempt의 held FT61619 유지와 미등록5방법+GPU0 collector 연결",
+  "scientific_source": "18e7fbd99bc2692c9da9ebdc9f4598caba79a1f8",
+  "scientific_tree": "7f550b1a02b29173da91372e25dd9279c334504c",
+  "changed_execution_controls": ["official/runners/server2/submit.py", "official/runners/server2/test_submit.py"],
+  "source_archive_or_native_math_hotpatch": false,
+  "old_registered_job_resubmit": false,
+  "control_CPU_tests": 26,
+  "own_CPU_tests_with_control_repair": 105,
+  "control_CPU_status": "PASS",
+  "reviewer": "native_flucon_runner",
+  "review_status": "pass",
+  "review_scope": "현재 repair 작성자가 아닌 reviewer의 source·metadata·CPU 회귀 점검; 기본 submit scaffold의 작성 이력과 구분",
+  "required_before_release": [
+    "기존 job의 실제 owner/node/state/전체argv/source/script/dependency held 검사",
+    "원 source291개·launcher7개·manifest/archive/lock의 전체 SHA와 Git blob 검산",
+    "현재 frontier와 cap2 확인, unknown 같은attempt job 및 변경된 frontier 차단",
+    "new controller published source/import closure·exact diff SHA 별도 봉인",
+    "미등록 역할만 단1회 등록 후 전량 held 재검사와 역순 release"
+  ],
+  "irreversible_side_effect_claim": "exclusive fsynced control lock; 재진입/자동retry 차단",
+  "old_failure_receipt_retained": true,
+  "actual_GPU_qualification": "NOT_OBSERVED",
+  "actual_WandB_online": "NOT_OBSERVED",
+  "existing_scientific_jobs_unchanged": true,
+  "shared_oracle_input": "34001ec0 게시본 수신; 기존 job archive에는 적용하지 않고 future source로 별도 결속"
+}

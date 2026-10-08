@@ -1,0 +1,68 @@
+{
+  "schema": "official-cf-independent-native-parity-plan-v1",
+  "date_kst": "2026-10-09",
+  "parent": "USER-OFFICIAL-BASELINES-20261008-R1",
+  "request_nonce": "SH2-GH-OFFICIAL-NATIVE-REFERENCE-20261009-R1",
+  "status": "PREREGISTERED_BEFORE_ACTUAL_PRETRAINED_COMPARISON",
+  "source": {
+    "repository": "jianghoucheng/AlphaEdit",
+    "commit": "b84624f44dfe8fc6cd9e41df916c44124a0c46dc",
+    "path": "experiments/py/eval_utils_counterfact.py",
+    "sha256": "25c3f49039e7bacb58de6d9ab8139f6f24f21532434a08690e9ec71ea939e145",
+    "distribution": "official/evaluation/reference/alphaedit_eval_utils_counterfact.py.txt"
+  },
+  "shared_adapter": "official/evaluation/cf_native_reference.py",
+  "independence": "The unchanged pinned original scorer performs its own forward. No canonical logits or derived canonical NLLs are fed into the oracle.",
+  "technical_preconditions": [
+    "Existing locked native FP32/eager/TF32-off model and tokenizer/runtime",
+    "Exact same weight/state identity and ordered cohort in both results",
+    "Native tokenizer right padding; actual BOS behavior checked, no fake model-name or BOS adaptation",
+    "No-grad/eval/cache setting recorded and model/tokenizer/RNG/state restored",
+    "No fit/edit/context generation or added scientific arm"
+  ],
+  "tolerances": {
+    "NLL_absolute_nats": 0.0001,
+    "NLL_relative": 0.00001,
+    "aggregate_arithmetic_absolute_percentage_points": 1e-10,
+    "token_ids_positions_masks_target_order_counts": "EXACT",
+    "strict_desired_argmax_booleans": "EXACT",
+    "per_prompt_NLL_preference_success_bits_and_ties": "EXACT",
+    "reason": "New fixed technical comparison tolerances for native FP32 operation/batch grouping, declared before actual runs. Neither paper reproduction 1pp nor generation KV tolerances are reused.",
+    "post_result_relaxation": false
+  },
+  "pre_execution_smoke": {
+    "cohort": "Own locked CF ordered occurrences 1,2,3,4 (first four, no result-based selection)",
+    "state": "Existing authorized W0/native qualification loaded state",
+    "canonical": "Reuse same-state exact canonical raw when identity/token/cohort is certified; otherwise record a small canonical observation in the already-authorized qualification, not a new fit.",
+    "oracle": "One independent original factual candidate batch per case; no generation",
+    "evidence_scope": "ACTUAL_GPU_SMOKE",
+    "admission_meaning": "Satisfies real engineering evaluator smoke only when actually run and passed; source/CPU/passive same-call controls alone do not. An actual successful preregistered same-model first300 B3 matched comparison includes these first4 and can satisfy that engineering admission without a redundant first4 forward; retain its ACTUAL_MATCHED_SUBSET evidence label."
+  },
+  "existing_B3_comparison": {
+    "request_nonce": "SH1-GH-OFFICIAL-NATIVE-ORACLE-W0-BINDING-20261009-R1",
+    "owner": "SH1",
+    "cohort": "Existing same-state first300 canonical raw, ordered occurrences1..300, fixed before native comparison",
+    "state": "SAME locked actual qualification B3 weights, not W0 or another edited branch",
+    "evidence_scope": "ACTUAL_MATCHED_SUBSET",
+    "comparison": "Independent pinned native scorer at that same state with the same fixed tolerances and strict identity/boolean/count gates",
+    "canonical_raw": "Reuse original provenance intact if exact identity/token/state validation succeeds; do not relabel or silently synthesize a reference.",
+    "additional_fit_or_edit": 0,
+    "full_2k_requirement_satisfied": false,
+    "engineering_admission_if_actual_passed": "Accepted stronger same-model original-vs-common engineering evidence; no duplicate smaller smoke solely to change the evidence label."
+  },
+  "full_2k_requirement": {
+    "owner": "SH4",
+    "model_method": "Llama3 AlphaEdit CF",
+    "cohort": "Same locked first2000 ordered requests",
+    "state": "Actual authorized full-2k endpoint weights, preferably W20 with canonical W20 raw reused at identical state",
+    "evidence_scope": "ACTUAL_FULL_2K",
+    "status": "NOT_OBSERVED",
+    "meaning": "README's full Llama AlphaEdit 2k comparison remains a separate completion evidence item. Small smoke does not clear it; do not create a circular requirement for completed W20 before starting an authorized chain.",
+    "additional_edit_fits": 0,
+    "scientific_promotion_gate": false
+  },
+  "passive_same_call_formula_guard": "Keep as a separately labeled owner-formula control, never original independent parity.",
+  "checkpoint_resume": "Separate B3 versus B2-resume proof remains required; oracle parity does not replace it.",
+  "reporting": "Keep CPU_FIXTURE_PASS, ACTUAL_GPU_SMOKE, ACTUAL_FULL_2K and actual work/calls/time/source/state/cohort separately. Raw tokens/text/IDs remain local; Git/W&B compact scalar-only.",
+  "job_changes": "No old job mutations or new scientific chains; owners connect the shared source to existing approved qualification and main tasks."
+}

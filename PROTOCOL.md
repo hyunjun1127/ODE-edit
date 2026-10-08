@@ -36,6 +36,22 @@ still owns the experiment lifecycle and evidence review.
 실험 도중 일시적 통신 실패는 로컬 기록 보존 및 logging degraded로 처리하며,
 수치 실험을 자동 재실행하거나 agent 반복 모니터를 만들지 않는다.
 
+## 최종 checkpoint 중앙 보존 정책 (2026-10-09 사용자 지시)
+
+앞으로 새로 제출하는 승인 실험의 최종 checkpoint는 마지막 필수 계산과 모든 consumer가 종료한
+뒤 `control/final-checkpoint-archive-policy.json`에 따라 server1에 보존한다.
+source SH가 exact allowlist와 fullSHA/bytes를 봉인하고, SH1이 별도 수신 사본을
+독립 검증해 `VERIFIED_DESTINATION` 영수증을 발급한 뒤에만 source payload를
+개별 삭제한다. source 변경·사용중·용량/전송/검증 실패·동일 object는 KEEP이며,
+이미 등록된 PENDING/RUNNING/완료 job과 기존 checkpoint는 이번 정책으로
+이전·삭제하지 않고 KEEP한다. base model·C0·P·dataset·raw/log도 삭제하지 않는다.
+server1 자체 checkpoint는 중앙 서버에 이미 있으므로 등록·보호하고 자기
+자신을 사본으로 오인해 삭제하지 않는다. 기존 noCP 작업에 신규 저장 권한을
+추가하지 않으며 기존 scientific source/job은 hotpatch하지 않는다.
+승인 범위와 대형 전송 예외는
+`transfers/approvals/2026-10-09-final-checkpoint-to-server1.json`에 기록한다.
+실제 이전/삭제와 정책 수락은 분리하고 checkpoint는 Git/W&B에 올리지 않는다.
+
 ## Language Policy
 
 모든 agent 간 통신은 사용자가 바로 읽을 수 있도록 한글로 작성한다.

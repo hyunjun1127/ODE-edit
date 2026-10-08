@@ -1,8 +1,8 @@
 {
-  "easyedit_root": "/path/to/EasyEdit",
-  "model_snapshot": "/path/to/pinned/HuggingFace/snapshot",
-  "cf_source": "/path/to/counterfact-fixed-10k-v1/counterfact.json",
-  "zsre_source": "/path/to/zsre_mend_eval.json",
-  "generation_reference_manifest": "/path/to/reference-ready-r1/manifest.json",
-  "output_root": "/path/to/ignored/local/official-baselines"
+  "easyedit_root": "/mnt/raid5/janghj/EasyEdit",
+  "model_snapshot": "/mnt/raid5/janghj/.cache/huggingface/hub/models--EleutherAI--gpt-j-6b/snapshots/47e169305d2e8376be1d31e765533382721b2cc1",
+  "cf_source": "/mnt/raid5/janghj/ODE-edit/local/datasets/counterfact-fixed-10k-v1/counterfact.json",
+  "zsre_source": "/mnt/raid5/janghj/EasyEdit/data/zsre/zsre_mend_eval.json",
+  "generation_reference_manifest": "/mnt/raid5/janghj/ODE-edit/local/gptj-baselines-fluency-consistency-2k/inputs/reference-r1/reference-ready-r1/manifest.json",
+  "output_root": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/preparation-r1"
 }
