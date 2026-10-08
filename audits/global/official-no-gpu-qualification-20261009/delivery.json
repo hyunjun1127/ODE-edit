@@ -19,8 +19,25 @@
           "kind": "completed qualification, not main"
         }
       ],
-      "stage": "IMPLEMENTING_CF5_ZSRE6_REPLACEMENT",
-      "new_job_ids": []
+      "stage": "HELD_INSPECTED_RELEASED",
+      "new_job_ids": [
+        61709,
+        61710,
+        61711,
+        61712,
+        61713,
+        61714,
+        61715,
+        61716,
+        61717,
+        61718,
+        61719,
+        61720,
+        61721,
+        61722
+      ],
+      "registration_receipt": "audits/servers/server1/official-baselines-20261008/no-gpu-qualification-rerun-20261009/submission.json",
+      "registration_evidence": "Owner main-published receipt; direct transport timeout was not counted as delivery"
     },
     "server2": {
       "turn": "01a11cf5-234a-7650-9c3e-d3dc1ec9fd42",
@@ -37,8 +54,24 @@
           "kind": "CF FT W20 complete; EDIT_FACTUAL_CHECKPOINT_COMPLETE/20 main receipt, no rerun"
         }
       ],
-      "stage": "IMPLEMENTING_CF5_ZSRE6_REPLACEMENT",
-      "new_job_ids": []
+      "stage": "HELD_INSPECTED_RELEASED",
+      "new_job_ids": [
+        61723,
+        61724,
+        61725,
+        61726,
+        61727,
+        61728,
+        61729,
+        61730,
+        61731,
+        61732,
+        61733,
+        61734,
+        61735,
+        61736
+      ],
+      "registration_receipt": "audits/global/official-no-gpu-qualification-20261009/server2-registration.json"
     },
     "server4": {
       "turn": "01a11cf9-95e7-71b2-932f-3cb9bd2713a9",
@@ -51,5 +84,5 @@
   },
   "qualification": "NOT_RUN_USER_DISABLED on replacements; historical proofs preserved",
   "source_raw_checkpoint_cost_history": "KEEP",
-  "completion": "Dispatch accepted; replacement implementation ongoing, no new submission claimed"
+  "completion": "Server1 and server2 actual replacement registration/release reported; scientific completion not claimed. Server4 unchanged in this receipt."
 }

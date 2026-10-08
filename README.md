@@ -45,24 +45,26 @@ Ours 행은 결과 기록용이며 새 arm/실험을 자동 승인하지 않습�
 
 ### Llama3-8B-Instruct
 
-사용자 지시에 따라 별도 GPU qualification·smoke·resume 반복 검증을 제거한 cold 재실행을 준비 중입니다.
-SH1 직접 보고로 **61658–61664, 61675–61679, 61681–61694 취소**를 확인했습니다.
-완료된 qualification **61657**은 보존하며 본실험 완료로 간주하지 않습니다.
-아래 취소 ID는 과거 등록 이력입니다. 새 source/실제 job ID 수신 후 교체하며,
-W0·본실험 평가·checkpoint·runtime 안전 검사는 유지합니다.
-[직접 전달·취소 현황](audits/global/official-no-gpu-qualification-20261009/delivery.json).
-기존 [CF](experiment-reports/servers/server1/official-baselines-20261008/CF-registration-20261009.md),
-[Alpha/SPHERE CF](experiment-reports/servers/server1/official-baselines-20261008/alpha-sphere-CF-registration-20261009.md),
-[zsRE](experiment-reports/servers/server1/official-baselines-20261008/zsre-six-20261009.md) source/원자료/비용 이력은 보존합니다.
+**SH1 실제 held 검사·release 완료, snapshot 2026-10-09 04:28:08 KST.**
+CF AlphaEdit **61711**, SPHERE **61712**는 RUNNING, CF FT **61713**, MEMIT **61714**,
+MEMIT-FE **61715**와 zsRE **61716–61721**은 PENDING이다.
+필수 W0 입력 **61709/61710**은 RUNNING, GPU0 collector **61722**는 PENDING이며 본실험 표에서는 제외한다.
+cap4, 실행 source `94304dc9`, official tree `4b09cc81`.
+별도 GPU qualification·smoke·resume 반복 검증은 `NOT_RUN_USER_DISABLED`이고
+필수 W0·본실험 평가·checkpoint·runtime 안전 검사는 유지한다.
+원 26개 취소 및 완료 qualification **61657** 보존, source/config SHA·실제 job name·dependency는
+[제출 보고](experiment-reports/servers/server1/official-baselines-20261008/no-gpu-qualification-rerun-20261009/report.md)와
+[등록 영수증](audits/servers/server1/official-baselines-20261008/no-gpu-qualification-rerun-20261009/submission.json)에 있다.
+W&B startup·최종 성능 완료는 이 snapshot에서 미관측이다.
 
 | Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| FT | CANCELLED: 61661 | CANCELLED: 61661 | CANCELLED: 61661 | CANCELLED: 61661 | DEFERRED | DEFERRED | CANCELLED: 61683 | CANCELLED: 61683 | CANCELLED: 61683 |
-| MEMIT | CANCELLED: 61662 | CANCELLED: 61662 | CANCELLED: 61662 | CANCELLED: 61662 | DEFERRED | DEFERRED | CANCELLED: 61685 | CANCELLED: 61685 | CANCELLED: 61685 |
-| AlphaEdit | CANCELLED: 61677 | CANCELLED: 61677 | CANCELLED: 61677 | CANCELLED: 61677 | DEFERRED | DEFERRED | CANCELLED: 61687 | CANCELLED: 61687 | CANCELLED: 61687 |
-| AlphaEdit-BLUE | 89.84† | 99.60† | 97.15† | 76.59† |  |  | CANCELLED: 61689 | CANCELLED: 61689 | CANCELLED: 61689 |
-| MEMIT-FE | CANCELLED: 61663 | CANCELLED: 61663 | CANCELLED: 61663 | CANCELLED: 61663 | DEFERRED | DEFERRED | CANCELLED: 61691 | CANCELLED: 61691 | CANCELLED: 61691 |
-| AlphaEdit+SPHERE | CANCELLED: 61678 | CANCELLED: 61678 | CANCELLED: 61678 | CANCELLED: 61678 | DEFERRED | DEFERRED | CANCELLED: 61693 | CANCELLED: 61693 | CANCELLED: 61693 |
+| FT | PENDING: 61713 | PENDING: 61713 | PENDING: 61713 | PENDING: 61713 | DEFERRED | DEFERRED | PENDING: 61716 | PENDING: 61716 | PENDING: 61716 |
+| MEMIT | PENDING: 61714 | PENDING: 61714 | PENDING: 61714 | PENDING: 61714 | DEFERRED | DEFERRED | PENDING: 61717 | PENDING: 61717 | PENDING: 61717 |
+| AlphaEdit | ING: 61711 | ING: 61711 | ING: 61711 | ING: 61711 | DEFERRED | DEFERRED | PENDING: 61718 | PENDING: 61718 | PENDING: 61718 |
+| AlphaEdit-BLUE | 89.84† | 99.60† | 97.15† | 76.59† |  |  | PENDING: 61719 | PENDING: 61719 | PENDING: 61719 |
+| MEMIT-FE | PENDING: 61715 | PENDING: 61715 | PENDING: 61715 | PENDING: 61715 | DEFERRED | DEFERRED | PENDING: 61720 | PENDING: 61720 | PENDING: 61720 |
+| AlphaEdit+SPHERE | ING: 61712 | ING: 61712 | ING: 61712 | ING: 61712 | DEFERRED | DEFERRED | PENDING: 61721 | PENDING: 61721 | PENDING: 61721 |
 | PRICE (Ours) |  |  |  |  |  |  |  |  |  |
 
 † 사용자 2026-10-09 지시에 따라 표본·순서를 대조한 기존 Llama BLUE job **39283_1**의
@@ -94,10 +96,14 @@ SH4가 official 6종×CF/zsRE 12개에 같은 검증 제거를 수락했습니�
 SH2 직접 보고에서 CF FT **61650**은 W20 정상 완료(20 commit,
 `EDIT_FACTUAL_CHECKPOINT_COMPLETE`)로 확인되어 유지합니다.
 최종 수치 검산·게시 전이므로 아래 완료 표시는 성능값을 대신하지 않습니다.
-**CF 61651–61656 및 zsRE 61666–61672 총 13개는 취소**했고,
-CF 5종·zsRE 6종은 별도 GPU 검증을 제거한 새 cold source로 재등록 준비 중입니다.
-새 source/실제 ID 수신 전에는 Slurm PENDING으로 표시하지 않습니다.
-[직접 전달·취소 현황](audits/global/official-no-gpu-qualification-20261009/delivery.json).
+**CF 61651–61656 및 zsRE 61666–61672 총 13개를 취소한 뒤,
+새 CF 5종·zsRE 6종을 held 검사·release했습니다.** SH2 최초 snapshot은 모두 PENDING이며
+아래 표는 그 제출 직후 보고 기준입니다(최신 scheduler 상태를 재조회한 표가 아님).
+필수 factual W0 입력 **61723/61724**, GPU0 collector **61736**은 본실험 행에 넣지 않습니다.
+source `47846468`, official tree `41ed261d`, cap4.
+불필요한 qualification/기존 취소 ID dependency 없이 W0 입력 afterok와 4개 자원 lane afterany를 사용합니다.
+[SH2 직접 등록 영수증](audits/global/official-no-gpu-qualification-20261009/server2-registration.json).
+W&B startup·새 main 완료는 아직 미관측입니다.
 
 W&B: [zsRE 전용 페이지](https://forge.coreweave.com/wandb/wkdguswns2256/layer%20allocation?nw=zsreindex) ·
 [Llama3](https://forge.coreweave.com/wandb/wkdguswns2256/layer%20allocation?nw=zsrellama3) ·
@@ -119,12 +125,12 @@ FLU/CON은 이후 별도 2k checkpoint 평가에서 측정하며, 그 consumer �
 
 | Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| FT | W20 DONE: 61650 | W20 DONE: 61650 | W20 DONE: 61650 | W20 DONE: 61650 | DEFERRED | DEFERRED | CANCELLED: 61667 | CANCELLED: 61667 | CANCELLED: 61667 |
-| MEMIT | CANCELLED: 61651 | CANCELLED: 61651 | CANCELLED: 61651 | CANCELLED: 61651 | DEFERRED | DEFERRED | CANCELLED: 61666 | CANCELLED: 61666 | CANCELLED: 61666 |
-| AlphaEdit | CANCELLED: 61652 | CANCELLED: 61652 | CANCELLED: 61652 | CANCELLED: 61652 | DEFERRED | DEFERRED | CANCELLED: 61668 | CANCELLED: 61668 | CANCELLED: 61668 |
-| AlphaEdit-BLUE | CANCELLED: 61653 | CANCELLED: 61653 | CANCELLED: 61653 | CANCELLED: 61653 | DEFERRED | DEFERRED | CANCELLED: 61669 | CANCELLED: 61669 | CANCELLED: 61669 |
-| MEMIT-FE | CANCELLED: 61654 | CANCELLED: 61654 | CANCELLED: 61654 | CANCELLED: 61654 | DEFERRED | DEFERRED | CANCELLED: 61670 | CANCELLED: 61670 | CANCELLED: 61670 |
-| AlphaEdit+SPHERE | CANCELLED: 61655 | CANCELLED: 61655 | CANCELLED: 61655 | CANCELLED: 61655 | DEFERRED | DEFERRED | CANCELLED: 61671 | CANCELLED: 61671 | CANCELLED: 61671 |
+| FT | W20 DONE: 61650 | W20 DONE: 61650 | W20 DONE: 61650 | W20 DONE: 61650 | DEFERRED | DEFERRED | PENDING: 61726 | PENDING: 61726 | PENDING: 61726 |
+| MEMIT | PENDING: 61725 | PENDING: 61725 | PENDING: 61725 | PENDING: 61725 | DEFERRED | DEFERRED | PENDING: 61728 | PENDING: 61728 | PENDING: 61728 |
+| AlphaEdit | PENDING: 61727 | PENDING: 61727 | PENDING: 61727 | PENDING: 61727 | DEFERRED | DEFERRED | PENDING: 61730 | PENDING: 61730 | PENDING: 61730 |
+| AlphaEdit-BLUE | PENDING: 61729 | PENDING: 61729 | PENDING: 61729 | PENDING: 61729 | DEFERRED | DEFERRED | PENDING: 61732 | PENDING: 61732 | PENDING: 61732 |
+| MEMIT-FE | PENDING: 61731 | PENDING: 61731 | PENDING: 61731 | PENDING: 61731 | DEFERRED | DEFERRED | PENDING: 61734 | PENDING: 61734 | PENDING: 61734 |
+| AlphaEdit+SPHERE | PENDING: 61733 | PENDING: 61733 | PENDING: 61733 | PENDING: 61733 | DEFERRED | DEFERRED | PENDING: 61735 | PENDING: 61735 | PENDING: 61735 |
 | PRICE (Ours) |  |  |  |  |  |  |  |  |  |
 
 기존 연구 문서와 실험 이력은 아래에 보존합니다. 새 실험의 설정 근거는 `official/`입니다.
