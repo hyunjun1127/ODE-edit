@@ -252,11 +252,12 @@ class Tracking:
             baseline=method or "W0", metric_schema="official-baselines-scalar-v1",
             instruction_id="USER-OFFICIAL-BASELINES-20261008-R1", dataset=dataset,
             source_sha=identity["code_commit"], config_sha=identity["config_sha256"])
-        if dataset == "cf":
+        if dataset == "cf" and not generation_at_W20(config) and mode != "base_w0":
+            values["generation_schedule"] = "DEFERRED_CHECKPOINT_EVALUATION"
+        elif dataset == "cf":
             assets = read(verify(config["assets_member"]))
             reference = read(assets["generation_reference"]["manifest"]["path"])
-            values.update(generation_schedule=("W0_AND_W20_FIRST2000" if generation_at_W20(config)
-                else "W0_ONLY_W20_DEFERRED_CHECKPOINT"),
+            values.update(generation_schedule="W0_AND_W20_FIRST2000",
                 generation_metric_schema="counterfact-cake-generation-metrics-v1",
                 generation_profile="cf-cake-native-casebatch-kv-total100-globalrng-v1",
                 generation_eval_seed=20261007, reference_assets_sha256=reference["identity_sha256"],

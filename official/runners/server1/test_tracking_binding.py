@@ -135,6 +135,21 @@ class TrackingBinding(unittest.TestCase):
         self.assertEqual(result["status"], "CPU_FIXTURE_NOT_ONLINE_VALIDATED")
         self.assertFalse(result["remote_verification"])
 
+    def test_deferred_CF_caller_uses_common_API_without_reference_assets(self):
+        config = dict(self.config, dataset="cf", cf_W20_generation=common.DEFERRED_W20,
+                      scope_override=common.CF_CHECKPOINT_AUTHORITY)
+        config.pop("assets_member")
+        tracker = self.tracking(config=config)
+        actual = self.transport.calls[-1]["config"]
+        self.assertEqual(actual["generation_schedule"], "DEFERRED_CHECKPOINT_EVALUATION")
+        self.assertEqual([k for k in actual if k.startswith("generation_")], ["generation_schedule"])
+        self.assertNotIn("reference_assets_sha256", actual)
+        tracker.log(common.factual_payload(cf_endpoint(500), "all_seen/post", 500))
+        for values in ({"all_seen/post/fluency/ngram_entropy": 0},
+                       {"generation_progress/step": 0}, {"phase": "W20_generation"}):
+            with self.assertRaisesRegex(ValueError, "DEFERRED_GENERATION_NOT_MEASURED"):
+                tracker.log(values)
+
     def test_repeated_runtime_attempt_gets_unique_spool_and_attempt(self):
         self.tracking()
         self.tracking()

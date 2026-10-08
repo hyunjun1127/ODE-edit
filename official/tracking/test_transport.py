@@ -101,17 +101,55 @@ def execute(payloads,*,cfg=None,sdk=None):
 
 
 class OfficialTransport(unittest.TestCase):
-    def test_server1_CF_deferred_W20_rejects_generation_but_accepts_factual(self):
-        cfg=dict(config(),generation_schedule=schema.OFFICIAL_DEFERRED_W20_SCHEDULE)
-        schema.config(cfg)
-        schema.metrics(official(),scientific=True,config_values=cfg)
-        schema.metrics(generation(),scientific=True,config_values=cfg)
-        with self.assertRaisesRegex(ValueError,'W20_GENERATION_DEFERRED'):
-            schema.metrics(generation('all_seen/post'),scientific=True,config_values=cfg)
-        with self.assertRaisesRegex(ValueError,'W20_GENERATION_DEFERRED'):
-            schema.metrics({'phase':'W20_generation','generation_progress/step':1},scientific=True,config_values=cfg)
-        with self.assertRaisesRegex(ValueError,'SERVER1_SCOPE'):
-            schema.config(dict(cfg,server='server2'))
+    @staticmethod
+    def deferred_config():
+        cfg=config('zsre');cfg['dataset']='cf'
+        cfg['generation_schedule']=schema.DEFERRED_GENERATION_SCHEDULE
+        return cfg
+
+    def test_deferred_cf_all_servers_models_and_factual_readback(self):
+        for server in ('server1','server2','server3','server4'):
+            for model in ('llama3','gptj','qwen25'):
+                cfg=dict(self.deferred_config(),server=server,model=model)
+                sdk,out,bound=execute([official()],cfg=cfg)
+                self.assertEqual(sdk.config['generation_schedule'],schema.DEFERRED_GENERATION_SCHEDULE)
+                self.assertNotIn('generation_profile',sdk.config)
+                self.assertEqual(out[-1]['method_readback']['status'],'REMOTE_BOUNDED_ROWS_VERIFIED')
+                self.assertFalse(out[-1]['scientific_completion_claim'])
+                self.assertEqual(len(sdk.points),1)
+                self.assertFalse(schema.GENERATION_METRICS & sdk.points[0].keys())
+
+    def test_deferred_cf_rejects_enabled_metadata_and_wrong_scope(self):
+        for key,value in config().items():
+            if (key.startswith('generation_') and key!='generation_schedule') or key=='reference_assets_sha256':
+                with self.subTest(key=key), self.assertRaisesRegex(ValueError,'DEFERRED_GENERATION_METADATA_FORBIDDEN'):
+                    schema.config(dict(self.deferred_config(),**{key:value}))
+        with self.assertRaisesRegex(ValueError,'DEFERRED_GENERATION_METADATA_FORBIDDEN'):
+            schema.config(dict(self.deferred_config(),generation_qualification_plan_sha256='e'*64))
+        for changes in ({'dataset':'zsre'},{'instruction_id':'WRONG'},{'generation_schedule':'disabled'}):
+            with self.assertRaises(ValueError):schema.config(dict(self.deferred_config(),**changes))
+        legacy=self.deferred_config()
+        legacy.pop('instruction_id');legacy.pop('dataset');legacy['metric_schema']=schema.COMPARISON_SCHEMA
+        with self.assertRaisesRegex(ValueError,'DEFERRED_GENERATION_OFFICIAL_CF_ONLY'):
+            schema.config(legacy)
+
+    def test_deferred_cf_rejects_generation_scores_counts_and_progress(self):
+        cfg=self.deferred_config()
+        values=[generation(),generation('all_seen/post'),
+                {'phase':'W20_generation'},
+                {'phase':'W0_generation','generation_progress/step':1}]
+        values.extend({key:0} for key in schema.GENERATION_METRICS)
+        for value in values:
+            with self.subTest(value=value), self.assertRaisesRegex(ValueError,'DEFERRED_GENERATION_NOT_MEASURED'):
+                schema.metrics(value,scientific=True,config_values=cfg)
+
+    def test_deferred_schedule_is_explicit_and_cannot_hide_missing_config(self):
+        cfg=self.deferred_config();cfg.pop('generation_schedule')
+        with self.assertRaisesRegex(ValueError,'OFFICIAL_CF_GENERATION_CONFIG_REQUIRED'):
+            schema.config(cfg)
+        cfg['generation_schedule']=schema.OFFICIAL_GENERATION_SCHEDULE
+        with self.assertRaisesRegex(ValueError,'OFFICIAL_CF_GENERATION_CONFIG_REQUIRED'):
+            schema.config(cfg)
 
     def test_cf_exact_authority_profile_schedule_and_models(self):
         for model in ('llama3','gptj','qwen25'):
