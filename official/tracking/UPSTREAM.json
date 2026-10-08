@@ -8,7 +8,7 @@
   "source_preserved": true,
   "files": [
     {"path": "__init__.py", "upstream_sha256": "f7481e9203c048e2ff2935aed0cd4ebc8d040355bb7b17f15ddd01bc620da89b", "changes": ["export shared official generation-progress phase adapter"]},
-    {"path": "schema.py", "upstream_sha256": "b63cd41816f4022ff85c83130f16fff4380e7e039d0c37f6618c7d008b7aa659", "changes": ["official instruction/dataset/schema and native W0+W20 authority pair", "zsRE rejects CF generation", "official request-macro namespace and actual native denominators", "shared native W20 progress phase-only callback adapter"]},
+    {"path": "schema.py", "upstream_sha256": "b63cd41816f4022ff85c83130f16fff4380e7e039d0c37f6618c7d008b7aa659", "changes": ["official instruction/dataset/schema and native W0+W20 authority pair", "zsRE rejects CF generation", "official request-macro namespace and actual native denominators", "shared native W20 progress phase-only callback adapter", "explicit deferred CF checkpoint evaluation; no generation metadata or measurements"]},
     {"path": "method.py", "upstream_sha256": "4606fec3bb3403dc942f8308c4e53b3a576ea7c279286fde63d486450fbec173", "changes": ["official request-macro score/requests validation and edits axes", "official W0 accepts actual native prompt/token counts without changing legacy PRICE counts"]},
     {"path": "identity.py", "upstream_sha256": "ba2e33b6036a91919f85378846f7f37825cd5574814277e5ba826818ce188b5b", "changes": []},
     {"path": "client.py", "upstream_sha256": "876ec874c31ca2a2f663cabd64313c6cd7620df25af227baefd205f37084e681", "changes": ["isolated worker module official.tracking.worker and repo PYTHONPATH", "config-aware metric validation"]},
