@@ -424,6 +424,24 @@ def _log_scalar_receipt(tracker, output, label, values, source_receipt_sha256):
     """Keep local transport evidence separate from scientific completion."""
     if _logging_accepted(output, label, source_receipt_sha256):
         return True
+    config_values = getattr(tracker, "config_values", None)
+    if isinstance(config_values, dict) and config_values.get("dataset") == "zsre":
+        from official.tracking import official_zsre_metrics
+        values = dict(values)
+        for endpoint in ("current/pre", "current/post", "all_seen/post", "W0_first2000"):
+            prefix = f"official/{endpoint}/"
+            # These are the measured reducer-summary scalars already selected
+            # above. Raw cases/tokens never cross the transport boundary.
+            summary = {field: values[prefix + field] for field in
+                       ("Efficacy", "Generalization", "Specificity",
+                        "Specificity_loc_ans", "Score", "requests")
+                       if prefix + field in values}
+            if summary:
+                values.update(official_zsre_metrics(
+                    summary, config_values=config_values, endpoint=endpoint,
+                    edits=values["edits"],
+                    pre_state_edits=values.get("pre_state_edits"),
+                    post_state_edits=values.get("post_state_edits")))
     accepted = tracker.log(values)
     try:
         folder = Path(output) / "logging"

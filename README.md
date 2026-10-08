@@ -85,7 +85,22 @@ GPU0 collector **61656**은 여섯 arm 종료 후 집계하도록 PENDING이며 
 GPU job name은 `official-baselines-server2-20261008-r1-cf_checkpoint-<ARM>`이며,
 scheduler의 ARM 표기는 `FT/MEMIT/ALPHAEDIT/ALPHAEDIT_BLUE/MEMIT_FE/SPHERE`다.
 공통 factual W0를 제공하는 FT 선행 조건을 유지하고, 이후 최대4개 lane을 허용한다.
-실제 시작은 물리 자원 가용성에 따른다. zsRE 및 OURS 신규 등록을 뜻하지 않는다.
+실제 시작은 물리 자원 가용성에 따른다. OURS 신규 등록은 없다.
+
+**Server2 zsRE 6종도 별도 등록·release했다(2026-10-09 제출 직후 PENDING).**
+MEMIT61666이 기존 CF frontier 뒤에 W0 prediction reference와 1-batch smoke를 검산한 후
+fresh cold chain을 시작하며, 나머지5종은 그 actual receipt를 검증한다.
+CPU collector61672는 새6종 전체 종료 후 집계한다. CF+zsRE 합산 cap4,
+zsRE first2000/BS100×20, checkpoint latest1/finalW20 보존이며 CF FLU/CON은 적용하지 않는다.
+실행 source `ccc1f5d6` 및 exact source/config/dependency/검증 한계는
+[zsRE 제출 보고](experiment-reports/servers/server2/zsre-wandb-20261009/report-ko.md)에 기록했다.
+
+W&B: [zsRE 전용 페이지](https://forge.coreweave.com/wandb/wkdguswns2256/layer%20allocation?nw=zsreindex) ·
+[Llama3](https://forge.coreweave.com/wandb/wkdguswns2256/layer%20allocation?nw=zsrellama3) ·
+[Qwen2.5](https://forge.coreweave.com/wandb/wkdguswns2256/layer%20allocation?nw=zsreqwen25) ·
+[GPT-J](https://forge.coreweave.com/wandb/wkdguswns2256/layer%20allocation?nw=zsregptj).
+`zsre/*`는 teacher-forced E/G, W0 agreement Specificity, 별도 loc_ans 정확도를 구분한다.
+페이지 설정 원격 검증은 actual run/GPU/성능 완료 검증과 별개다.
 
 **이 CF 실행의 FLU/CON은 W0·W20 모두 `DEFERRED_CHECKPOINT_EVALUATION`이다.**
 generation 점수·count·progress를 0으로 채우지 않는다. factual 평가는 유지하고,
@@ -99,14 +114,19 @@ FLU/CON은 이후 별도 2k checkpoint 평가에서 측정하며, 그 consumer �
 [자원 변경 보고](experiment-reports/servers/server2/official-baselines-20261008/cap4-existing-dag-20261009-r1.md)에 기록했다.
 cap4 변경은 별도 scheduling override이며 기존 frozen source/manifest의 cap3 기록을 소급 변경하지 않았다.
 
+zsRE의 실제 job name은
+`official-baselines-server2-20261008-r1-zsre_pipeline-<ARM>`이며 source `ccc1f5d6`,
+sample/config/lock·dependency는 [zsRE 제출 보고서](experiment-reports/servers/server2/zsre-wandb-20261009/report-ko.md)에 있다.
+GPU qualification·온라인 startup·W20 완료는 아직 미관측이다.
+
 | Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| FT | ING: 61650 | ING: 61650 | ING: 61650 | ING: 61650 | DEFERRED | DEFERRED |  |  |  |
-| MEMIT | PENDING: 61651 | PENDING: 61651 | PENDING: 61651 | PENDING: 61651 | DEFERRED | DEFERRED |  |  |  |
-| AlphaEdit | PENDING: 61652 | PENDING: 61652 | PENDING: 61652 | PENDING: 61652 | DEFERRED | DEFERRED |  |  |  |
-| AlphaEdit-BLUE | PENDING: 61653 | PENDING: 61653 | PENDING: 61653 | PENDING: 61653 | DEFERRED | DEFERRED |  |  |  |
-| MEMIT-FE | PENDING: 61654 | PENDING: 61654 | PENDING: 61654 | PENDING: 61654 | DEFERRED | DEFERRED |  |  |  |
-| AlphaEdit+SPHERE | PENDING: 61655 | PENDING: 61655 | PENDING: 61655 | PENDING: 61655 | DEFERRED | DEFERRED |  |  |  |
+| FT | ING: 61650 | ING: 61650 | ING: 61650 | ING: 61650 | DEFERRED | DEFERRED | PENDING: 61667 | PENDING: 61667 | PENDING: 61667 |
+| MEMIT | PENDING: 61651 | PENDING: 61651 | PENDING: 61651 | PENDING: 61651 | DEFERRED | DEFERRED | PENDING: 61666 | PENDING: 61666 | PENDING: 61666 |
+| AlphaEdit | PENDING: 61652 | PENDING: 61652 | PENDING: 61652 | PENDING: 61652 | DEFERRED | DEFERRED | PENDING: 61668 | PENDING: 61668 | PENDING: 61668 |
+| AlphaEdit-BLUE | PENDING: 61653 | PENDING: 61653 | PENDING: 61653 | PENDING: 61653 | DEFERRED | DEFERRED | PENDING: 61669 | PENDING: 61669 | PENDING: 61669 |
+| MEMIT-FE | PENDING: 61654 | PENDING: 61654 | PENDING: 61654 | PENDING: 61654 | DEFERRED | DEFERRED | PENDING: 61670 | PENDING: 61670 | PENDING: 61670 |
+| AlphaEdit+SPHERE | PENDING: 61655 | PENDING: 61655 | PENDING: 61655 | PENDING: 61655 | DEFERRED | DEFERRED | PENDING: 61671 | PENDING: 61671 | PENDING: 61671 |
 | PRICE (Ours) |  |  |  |  |  |  |  |  |  |
 
 기존 연구 문서와 실험 이력은 아래에 보존합니다. 새 실험의 설정 근거는 `official/`입니다.
