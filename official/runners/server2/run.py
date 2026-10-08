@@ -175,6 +175,9 @@ def tracking_config(manifest, config, mode, out):
     if noqual.enabled(manifest):
         values['config_sha'] = digest(dict(native_config_sha256=config['config_sha256'],
             user_overlay=manifest['no_gpu_qualification_profile']))
+    if manifest.get('cf_display_repair'):
+        values['config_sha'] = digest(dict(parent_config_sha=values['config_sha'],
+            cf_display_repair=manifest['cf_display_repair']))
     return values
 
 
@@ -332,6 +335,17 @@ def evaluate_payload(observed, endpoint, edits, *, current=False, config_values=
     value = {'official/' + prefix + '/' + key:score for key, score in observed['summary'].items()
              if key in fields and type(score) in (int, float)}
     if observed.get('dataset', observed.get('identity', {}).get('dataset')) == 'cf':
+        if 'Score_AlphaEdit_display' in observed['summary']:
+            for kind, label in (('rewrite','Efficacy'),('paraphrase','Generalization'),('neighborhood','Specificity')):
+                rates = []
+                for case in observed['cases']:
+                    bits = [float(row['target_true']['mean_nll'] < row['target_new']['mean_nll']
+                        if kind == 'neighborhood' else
+                        row['target_new']['mean_nll'] < row['target_true']['mean_nll'])
+                        for row in case[kind+'_observations']]
+                    require(bool(bits), 'DISPLAY_EMPTY_REQUEST')
+                    rates.append(np.mean(bits))
+                value['official/'+prefix+'/'+label+'_AlphaEdit_display'] = float(np.around(np.mean(rates)*100,2))
         value.update(cf_diagnostics(observed['cases'], prefix))
     return dict(value, edits=edits, pre_state_edits=max(0, edits-100), post_state_edits=edits)
 
@@ -537,6 +551,9 @@ def cold_w0(model, tok, manifest, records, dataset, out, tracking):
 
 
 def read_w0(manifest, dataset, records):
+    if dataset == 'cf' and manifest.get('cf_display_repair'):
+        from official.runners.server2.cf_display_repair import reused_w0
+        return reused_w0(manifest, records), None
     path = Path(manifest['W0_'+dataset+'_ready_path'])
     ready = read(path)
     require(ready['status'] == 'READY_COLD_W0_COMPLETE' and ready['actual_GPU'] is True
@@ -570,6 +587,13 @@ def chain(model, tok, engine, manifest, records, dataset, out, tracking, resume=
     identity = checkpoint_identity(manifest, engine.method, dataset)
     endpoints, cursor, commits = {}, {}, []
     ready, reference = read_w0(manifest, dataset, records)
+    if manifest.get('cf_display_repair'):
+        require(dataset == 'cf' and not resume and not smoke, 'CF_DISPLAY_COLD_MAIN_ONLY')
+        write_new(out/'W0-provenance.json', dict(original_ready=member(manifest['W0_cf_ready_path']),
+            original_factual=ready['factual'], consumer_source=manifest['code_commit'],
+            compatibility=manifest['cf_display_repair']['W0_binding'], historical_online_overwrite=False))
+        log(tracking, evaluate_payload(read(ready['factual']['path']), 'W0', 0,
+            config_values=getattr(tracking,'config_values',None)))
     endpoints['W0'] = ready['factual']
     checkpoint_folder = Path(resume).resolve() if resume else out/'checkpoints'
     require(checkpoint_folder.name == 'checkpoints' and LOCAL in checkpoint_folder.parents

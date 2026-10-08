@@ -111,14 +111,18 @@ Archive **61744/61746/61748/61750/61752/61754/61756/61758/61760/61762/61764/6176
 SH2 직접 보고에서 CF FT **61650**은 W20 정상 완료(20 commit,
 `EDIT_FACTUAL_CHECKPOINT_COMPLETE`)로 확인되어 유지합니다.
 최종 수치 검산·게시 전이므로 아래 완료 표시는 성능값을 대신하지 않습니다.
-**CF 61651–61656 및 zsRE 61666–61672 총 13개를 취소한 뒤,
-새 CF 5종·zsRE 6종을 held 검사·release했습니다.** SH2 최초 snapshot은 모두 PENDING이며
-아래 표는 그 제출 직후 보고 기준입니다(최신 scheduler 상태를 재조회한 표가 아님).
-필수 factual W0 입력 **61723/61724**, GPU0 collector **61736**은 본실험 행에 넣지 않습니다.
-source `47846468`, official tree `41ed261d`, cap4.
-불필요한 qualification/기존 취소 ID dependency 없이 W0 입력 afterok와 4개 자원 lane afterany를 사용합니다.
-[SH2 직접 등록 영수증](audits/global/official-no-gpu-qualification-20261009/server2-registration.json).
-W&B startup·새 main 완료는 아직 미관측입니다.
+**표시값 전송 오류의 scoped 수리 중입니다.** SH2 직접 건강 확인에서 CF MEMIT **61725**는
+RUNNING·실제 4 commit·accepted scalar 존재·dropped 0으로 확인되어 그대로 유지합니다.
+이는 이후 모든 endpoint의 성공을 보장하지는 않습니다. 미시작 CF **61727/61729/61731/61733**과
+collector **61736**만 취소했고 새 4개 CF replacement는 아직 미등록입니다.
+W0 CF **61723**은 factual raw 완료와 별개로 accepted 0/rejected 1/dropped 1이 확인됐습니다.
+추가 모델 forward 없이 원 raw·provenance를 보존한 CPU 전송 복구를 준비합니다.
+zsRE **61724/61726/61728/61730/61732/61734/61735**는 유지합니다.
+마지막 pending **61735**만 교체 CF resource edge 재연결을 위해 임시 hold 중입니다.
+zsRE 표 상태는 종전 제출 snapshot을 유지하며 현재 실행 여부를 재조회한 표가 아닙니다.
+건강 확인 source `47846468`, official tree `41ed261d`, cap4.
+[건강·취소 보고](audits/global/cf-display-repair-keep-healthy-20261009/server2-health.json)와
+[원 등록 영수증](audits/global/official-no-gpu-qualification-20261009/server2-registration.json).
 
 W&B: [zsRE 전용 페이지](https://forge.coreweave.com/wandb/wkdguswns2256/layer%20allocation?nw=zsreindex) ·
 [Llama3](https://forge.coreweave.com/wandb/wkdguswns2256/layer%20allocation?nw=zsrellama3) ·
@@ -141,11 +145,11 @@ FLU/CON은 이후 별도 2k checkpoint 평가에서 측정하며, 그 consumer �
 | Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | FT | W20 DONE: 61650 | W20 DONE: 61650 | W20 DONE: 61650 | W20 DONE: 61650 | DEFERRED | DEFERRED | PENDING: 61726 | PENDING: 61726 | PENDING: 61726 |
-| MEMIT | PENDING: 61725 | PENDING: 61725 | PENDING: 61725 | PENDING: 61725 | DEFERRED | DEFERRED | PENDING: 61728 | PENDING: 61728 | PENDING: 61728 |
-| AlphaEdit | PENDING: 61727 | PENDING: 61727 | PENDING: 61727 | PENDING: 61727 | DEFERRED | DEFERRED | PENDING: 61730 | PENDING: 61730 | PENDING: 61730 |
-| AlphaEdit-BLUE | PENDING: 61729 | PENDING: 61729 | PENDING: 61729 | PENDING: 61729 | DEFERRED | DEFERRED | PENDING: 61732 | PENDING: 61732 | PENDING: 61732 |
-| MEMIT-FE | PENDING: 61731 | PENDING: 61731 | PENDING: 61731 | PENDING: 61731 | DEFERRED | DEFERRED | PENDING: 61734 | PENDING: 61734 | PENDING: 61734 |
-| AlphaEdit+SPHERE | PENDING: 61733 | PENDING: 61733 | PENDING: 61733 | PENDING: 61733 | DEFERRED | DEFERRED | PENDING: 61735 | PENDING: 61735 | PENDING: 61735 |
+| MEMIT | ING: 61725 | ING: 61725 | ING: 61725 | ING: 61725 | DEFERRED | DEFERRED | PENDING: 61728 | PENDING: 61728 | PENDING: 61728 |
+| AlphaEdit | CANCELLED: 61727 | CANCELLED: 61727 | CANCELLED: 61727 | CANCELLED: 61727 | DEFERRED | DEFERRED | PENDING: 61730 | PENDING: 61730 | PENDING: 61730 |
+| AlphaEdit-BLUE | CANCELLED: 61729 | CANCELLED: 61729 | CANCELLED: 61729 | CANCELLED: 61729 | DEFERRED | DEFERRED | PENDING: 61732 | PENDING: 61732 | PENDING: 61732 |
+| MEMIT-FE | CANCELLED: 61731 | CANCELLED: 61731 | CANCELLED: 61731 | CANCELLED: 61731 | DEFERRED | DEFERRED | PENDING: 61734 | PENDING: 61734 | PENDING: 61734 |
+| AlphaEdit+SPHERE | CANCELLED: 61733 | CANCELLED: 61733 | CANCELLED: 61733 | CANCELLED: 61733 | DEFERRED | DEFERRED | PENDING: 61735 | PENDING: 61735 | PENDING: 61735 |
 | PRICE (Ours) |  |  |  |  |  |  |  |  |  |
 
 기존 연구 문서와 실험 이력은 아래에 보존합니다. 새 실험의 설정 근거는 `official/`입니다.

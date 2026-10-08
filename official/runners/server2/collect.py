@@ -336,10 +336,18 @@ def validate_chain(value, manifest, assets, records, method, dataset, *, invento
     factual = {}
     for endpoint, count in (('W0', 2000), ('W5', 500), ('W10', 1000), ('W15', 1500), ('W20', 2000)):
         observed = read(verify_member(endpoints[endpoint], inventory))
-        factual[endpoint] = validate_factual(observed, dataset, records[:count], manifest=manifest, endpoint=endpoint)
+        origin = manifest
+        if endpoint == 'W0' and manifest.get('cf_display_repair'):
+            from official.runners.server2.cf_display_repair import reused_w0
+            reused_w0(manifest, records)
+            origin = read(verify_member(manifest['cf_display_repair']['W0_binding']['manifest'], inventory))
+        factual[endpoint] = validate_factual(observed, dataset, records[:count], manifest=origin, endpoint=endpoint)
     require(value.get('W0_READY'), 'COLLECT_CHAIN_SAME_MODEL_COLD_W0_REQUIRED')
     cold_ready = read(verify_member(value['W0_READY'], inventory))
-    validate_cold_w0(cold_ready, manifest, assets, {dataset:records},
+    origin = manifest
+    if manifest.get('cf_display_repair'):
+        origin = read(verify_member(manifest['cf_display_repair']['W0_binding']['manifest'], inventory))
+    validate_cold_w0(cold_ready, origin, assets, {dataset:records},
         role='W0_'+dataset.upper(), inventory=inventory)
     require(endpoints['W0'] == cold_ready['factual'], 'COLLECT_CHAIN_SAME_MODEL_COLD_W0_BINDING')
     generation = None

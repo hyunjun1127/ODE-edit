@@ -1,0 +1,217 @@
+{
+  "timestamp": "2026-10-08T20:17:10.087355+00:00",
+  "source": "478464689231595eb63da368cc7c376e775eb559",
+  "health": {
+    "W0_CF": {
+      "state": {
+        "JobId": "61723",
+        "JobState": "COMPLETED",
+        "accounting": [
+          "61723",
+          "janghj",
+          "COMPLETED",
+          "server2"
+        ],
+        "terminal": true
+      },
+      "commits": 0,
+      "latest_commit": null,
+      "logging": {
+        "accepted_calls": 0,
+        "bounded_finish": true,
+        "common_spool": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/W0_CF/tracking",
+        "finish_status": "BOUNDED_COMMON_FINISH_RETURNED_NOT_SCIENTIFIC_COMPLETION",
+        "immutable_identity_and_remote_readback": "COMMON_OWNER_RECEIPTS_AUTHORITATIVE",
+        "no_scientific_retry": true,
+        "rejected_calls": 1,
+        "sanitized_errors": 0,
+        "status": "LOGGING_DEGRADED"
+      },
+      "tracking": {
+        "status": "FINISHED_SDK_FLUSHED",
+        "dropped_points": 1,
+        "run_id": "d0ebe221b03a47e6",
+        "startup_readback": {
+          "status": "READY_ONLINE",
+          "run_id": "d0ebe221b03a47e6",
+          "url": "https://wandb.ai/wkdguswns2256/layer%20allocation/runs/d0ebe221b03a47e6",
+          "sdk_version": "0.30.0",
+          "run_name": "server2-W0_BASE_MODEL-W0_CF-w0-job61723",
+          "job_identity": {
+            "execution_backend": "slurm",
+            "job_id": "61723",
+            "step_id": "-5",
+            "job_display_id": "61723",
+            "identity_source": "SLURM_ENV"
+          },
+          "config": {
+            "server": "server2",
+            "task_id": "official-baselines-20261008",
+            "arm": "W0_BASE_MODEL",
+            "attempt": "W0_CF-w0",
+            "source_sha": "478464689231595eb63da368cc7c376e775eb559",
+            "config_sha": "cdc903b04487d9ad4470777b23c47b0dedbde31c85c3cb853c5d0947f7b05034",
+            "model": "gptj",
+            "model_family": "gptj",
+            "writer": "none",
+            "role": "scientific",
+            "metric_schema": "official-baselines-scalar-v1",
+            "baseline": "none",
+            "instruction_id": "USER-OFFICIAL-BASELINES-20261008-R1",
+            "dataset": "cf",
+            "generation_schedule": "DEFERRED_CHECKPOINT_EVALUATION",
+            "job_id": "61723",
+            "step_id": "-5",
+            "execution_backend": "slurm",
+            "identity_source": "SLURM_ENV",
+            "job_display_id": "61723"
+          }
+        }
+      },
+      "accepted_scalar_bytes": 33,
+      "actual_factual_endpoints": [
+        "W0.json"
+      ]
+    },
+    "CF_MEMIT": {
+      "state": {
+        "JobId": "61725",
+        "JobName": "official-baselines-server2-20261008-r1-no_gpu_qual-CF_MEMIT",
+        "JobState": "RUNNING",
+        "UserId": "janghj(1025)",
+        "Command": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/CF_MEMIT.sh",
+        "WorkDir": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/source",
+        "Dependency": "(null)",
+        "RunTime": "00:29:07",
+        "NodeList": "server2"
+      },
+      "commits": 5,
+      "latest_commit": {
+        "batch": 5,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/CF_MEMIT/commits/batch-05.json"
+      },
+      "logging": null,
+      "tracking": {
+        "status": "LOGGING_ACCEPTED",
+        "dropped_points": 0,
+        "run_id": "3394b3451ec54487",
+        "startup_readback": {
+          "status": "READY_ONLINE",
+          "run_id": "3394b3451ec54487",
+          "url": "https://wandb.ai/wkdguswns2256/layer%20allocation/runs/3394b3451ec54487",
+          "sdk_version": "0.30.0",
+          "run_name": "server2-MEMIT-CF_MEMIT-chain-job61725",
+          "job_identity": {
+            "job_id": "61725",
+            "step_id": "-5",
+            "execution_backend": "slurm",
+            "job_display_id": "61725",
+            "identity_source": "SLURM_ENV"
+          },
+          "config": {
+            "server": "server2",
+            "task_id": "official-baselines-20261008",
+            "arm": "MEMIT",
+            "attempt": "CF_MEMIT-chain",
+            "source_sha": "478464689231595eb63da368cc7c376e775eb559",
+            "config_sha": "cdc903b04487d9ad4470777b23c47b0dedbde31c85c3cb853c5d0947f7b05034",
+            "model": "gptj",
+            "model_family": "gptj",
+            "writer": "MEMIT",
+            "role": "scientific",
+            "metric_schema": "official-baselines-scalar-v1",
+            "baseline": "MEMIT",
+            "instruction_id": "USER-OFFICIAL-BASELINES-20261008-R1",
+            "dataset": "cf",
+            "generation_schedule": "DEFERRED_CHECKPOINT_EVALUATION",
+            "job_id": "61725",
+            "step_id": "-5",
+            "execution_backend": "slurm",
+            "identity_source": "SLURM_ENV",
+            "job_display_id": "61725"
+          }
+        }
+      },
+      "accepted_scalar_bytes": 83498,
+      "actual_factual_endpoints": [
+        "W5.json"
+      ]
+    },
+    "CF_SPHERE": {
+      "state": {
+        "JobId": "61733",
+        "JobName": "official-baselines-server2-20261008-r1-no_gpu_qual-CF_SPHERE",
+        "JobState": "PENDING",
+        "UserId": "janghj(1025)",
+        "Command": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/CF_SPHERE.sh",
+        "WorkDir": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/source",
+        "Dependency": "afterany:61729(unfulfilled)",
+        "RunTime": "00:00:00",
+        "NodeList": ""
+      },
+      "commits": 0,
+      "latest_commit": null,
+      "logging": null,
+      "tracking": null,
+      "accepted_scalar_bytes": 0,
+      "actual_factual_endpoints": []
+    },
+    "CF_MEMIT_FE": {
+      "state": {
+        "JobId": "61731",
+        "JobName": "official-baselines-server2-20261008-r1-no_gpu_qual-CF_MEMIT_FE",
+        "JobState": "PENDING",
+        "UserId": "janghj(1025)",
+        "Command": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/CF_MEMIT_FE.sh",
+        "WorkDir": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/source",
+        "Dependency": "afterany:61727(unfulfilled)",
+        "RunTime": "00:00:00",
+        "NodeList": ""
+      },
+      "commits": 0,
+      "latest_commit": null,
+      "logging": null,
+      "tracking": null,
+      "accepted_scalar_bytes": 0,
+      "actual_factual_endpoints": []
+    },
+    "CF_ALPHAEDIT_BLUE": {
+      "state": {
+        "JobId": "61729",
+        "JobName": "official-baselines-server2-20261008-r1-no_gpu_qual-CF_ALPHAEDIT_BLUE",
+        "JobState": "PENDING",
+        "UserId": "janghj(1025)",
+        "Command": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/CF_ALPHAEDIT_BLUE.sh",
+        "WorkDir": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/source",
+        "Dependency": "afterany:61725(unfulfilled)",
+        "RunTime": "00:00:00",
+        "NodeList": ""
+      },
+      "commits": 0,
+      "latest_commit": null,
+      "logging": null,
+      "tracking": null,
+      "accepted_scalar_bytes": 0,
+      "actual_factual_endpoints": []
+    },
+    "CF_ALPHAEDIT": {
+      "state": {
+        "JobId": "61727",
+        "JobName": "official-baselines-server2-20261008-r1-no_gpu_qual-CF_ALPHAEDIT",
+        "JobState": "PENDING",
+        "UserId": "janghj(1025)",
+        "Command": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/CF_ALPHAEDIT.sh",
+        "WorkDir": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/source",
+        "Dependency": "(null)",
+        "RunTime": "00:00:00",
+        "NodeList": ""
+      },
+      "commits": 0,
+      "latest_commit": null,
+      "logging": null,
+      "tracking": null,
+      "accepted_scalar_bytes": 0,
+      "actual_factual_endpoints": []
+    }
+  }
+}
