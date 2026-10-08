@@ -45,8 +45,9 @@ CPU 독립 reducer는 raw token/분모/순서/소스/commit hash chain/final pay
 ## 검증·등록 단계
 
 현 단계는 CPU/source 검산 및 최종 runner source 통합 준비이다.
-own runner CPU166, generation/fake-SDK CPU84, shared reader+factual+native parity+
-binding+runtime 집중 CPU64 PASS를 각각 실제 실행했다(서로 중복된 테스트를 합산하지 않음).
+own runner CPU167, common official/tests CPU77, generation/fake-SDK CPU84,
+최종 shared reader+caller parity 집중 CPU35 PASS를 각각 실제 실행했다
+(서로 중복된 테스트를 합산하지 않음).
 공유 source157 SHA/external task import0도 확인했다. CPU mock/fixture는 실제 pretrained
 GPU·native qualification·W0·온라인 readback 증거가 아니다.
 공통 원본 CF oracle main34001ec0/module SHA0473673a 및 lock SHAe8f540ee를 결속했다.
@@ -62,6 +63,12 @@ API는 `shared-W0-api-ko.md`에 기록했다. 기존 pipeline-r1을 보존하고
 이며 아직 NOT_READY다. 실제 qualification/raw/source 검산 완료 후에만 atomic 발행한다.
 실제 GPU qualification·W0·scientific 실행·온라인 readback은 아직 미관측이다.
 실제 제출 번호는 등록 후 별도 receipt에만 기록한다.
+현재 source `100f49d733649143ce0ec435cb89b3babcd219e5`, official tree
+`6981e6494103ae666f1c8a8b96028da0c175125d`를 own branch에 게시했다.
+공유 reader GH 검토/main 통합 요청은 exact active turn으로 transport 접수했으며
+그 자체를 GH review 완료나 실제 GPU PASS로 표시하지 않는다.
+SH4에는 같은 exact source/API와 pipeline-r2 NOT_READY future path를 전달했고
+bounded direct transport 접수만 확인했다. producer actual job/READY는 별도 사실 보고 대상이다.
 
 bounded admission 확인에서 현재 server1 기존 61519/61520/61521 각각 GPU1 RUNNING,
 합계3 및 admitted width3였다. 최신 직접 사용자 cap3과 own local row3을 적용한다.

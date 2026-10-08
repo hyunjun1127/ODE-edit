@@ -1,0 +1,38 @@
+{
+  "schema": "official-server1-source-review-CPU-v1",
+  "instruction_id": "USER-OFFICIAL-BASELINES-20261008-R1",
+  "relay_nonce": "GH-SH1-OFFICIAL-NATIVE-ORACLE-READY-20261009-R1",
+  "server": "server1",
+  "source_commit": "100f49d733649143ce0ec435cb89b3babcd219e5",
+  "official_tree": "6981e6494103ae666f1c8a8b96028da0c175125d",
+  "tests": {
+    "own_runner_unittest_discover": {"passed": 167, "failed": 0},
+    "official_tests_unittest_discover": {"passed": 77, "failed": 0},
+    "generation_and_fake_SDK": {"passed": 84, "failed": 0},
+    "final_shared_W0_and_caller_parity_subset": {"passed": 35, "failed": 0},
+    "counts_are_not_summed_due_to_overlap": true
+  },
+  "source_integrity": {"source_files": 157, "status": "PASS", "external_task_imports": 0},
+  "independent_reviews": {
+    "shared_W0_and_original_native_proof": "CLEAR_CPU_SOURCE_ONLY",
+    "checkpoint_ledger_recovery_and_pipeline": "CLEAR_CPU_SOURCE_ONLY"
+  },
+  "actual_pretrained_GPU": "NOT_RUN",
+  "native_qualification": "NOT_OBSERVED",
+  "full_2k_original_parity": "NOT_OBSERVED",
+  "W0_READY": "NOT_READY",
+  "online_WB_readback": "NOT_OBSERVED",
+  "submitted_job_ids": [],
+  "preparation": "pipeline-r2",
+  "effective_cap": 3,
+  "cap_authority": "LATEST_DIRECT_USER_SERVER1_GPU_CAP3_AND_OWN_LOCAL_ROW3",
+  "bounded_admission": {"allocated_GPU": 1, "admitted_DAG_width": 1, "frontier": ["61521"]},
+  "planned_DAG_jobs": 12,
+  "planned_GPU_jobs": 11,
+  "planned_scientific_rows": 6,
+  "old_jobs_mutated": false,
+  "source_raw_preserved": true,
+  "automatic_retry": false,
+  "recurring_monitor": false,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED_COMPACT_GIT_API_SHARED_LARGE_RAW_LOCAL"
+}
