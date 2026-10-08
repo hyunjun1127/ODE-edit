@@ -1,9 +1,11 @@
 """Controller CPU fixtures only: no scheduler/network/model/GPU calls."""
 import copy
+import hashlib
 import json
 from pathlib import Path
 import tempfile
 import tarfile
+from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
 
@@ -33,7 +35,287 @@ def held_detail(job, role, attempt, argv, deps, value, *, owner='fixture-user'):
         'SubmitLine='+shlex.join(argv), 'WorkDir='+str(attempt/'source')])
 
 
+def frozen_attempt(scope):
+    """Tiny CPU-only archive reproducing the exact one-held-FT failure shape."""
+    attempt = scope/'registration-qualification-r1'
+    attempt.mkdir()
+    base = scope/'base.json'
+    write_new(base, dict(manifest(), fixture=True))
+    value = dict(manifest(), model='gptj', instruction_id=controller.INSTRUCTION,
+        owner={'server':'server2', 'session':controller.SESSION}, registration_roles=list(controller.METHODS),
+        base_manifest_sha256=controller.file_sha(base))
+    source = attempt/'source'
+    git_rows, source_members = [], []
+    value['source_members'] = {}
+    for name in ('runners/server2/run.py', 'experiments/prepare.py', 'tracking/__init__.py'):
+        path = source/'official'/name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        data = ('# CPU archive fixture '+name+'\n').encode()
+        path.write_bytes(data)
+        value['source_members'][name] = hashlib.sha256(data).hexdigest()
+        source_members.append(controller.member(path))
+        checksum = hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()
+        git_rows.append('100644 blob '+checksum+'\t'+name)
+    write_new(attempt/'manifest.json', value)
+    archive = attempt/'source.tar'
+    with tarfile.open(archive, 'w') as stream:
+        for row in source_members:
+            stream.add(row['path'], arcname=str(Path(row['path']).relative_to(source)), recursive=False)
+    launchers = []
+    for role in (*controller.METHODS, 'collector'):
+        path = attempt/(role+'.sh')
+        path.write_text(controller.launcher(attempt, role, value))
+        launchers.append(controller.member(path))
+    lock = dict(code_commit=value['code_commit'], official_tree_sha256=value['official_tree_sha256'],
+        resources=value['resources'], stage='qualification', source={'code_commit':value['code_commit'],
+        'official_tree_sha256':value['official_tree_sha256']}, base_manifest=controller.member(base),
+        manifest=controller.member(attempt/'manifest.json'), archive=controller.member(archive),
+        source_members=source_members, launchers=launchers)
+    write_new(attempt/'execution.lock.json', lock)
+    deps = ['61538', '61539']
+    argv = controller.sbatch_argv(attempt, 'FT', value, deps)
+    write_new(attempt/'command-FT.json', dict(role='FT', argv=argv))
+    write_new(attempt/'sbatch-FT.json', dict(returncode=0, stdout='61619', stderr='', argv=argv))
+    write_new(attempt/'submitted-FT.json', dict(job='61619', argv=argv, dependencies=deps))
+    write_new(attempt/'submission-failure.json', dict(status='REGISTRATION_OR_RELEASE_BLOCKED',
+        error='HELD_DEPENDENCY', jobs={'FT':'61619'}, lock=controller.member(attempt/'execution.lock.json')))
+    return dict(attempt=attempt, base=base, manifest=value, argv=argv, deps=deps,
+        git_rows='\n'.join(git_rows))
+
+
+class ContinuationHarness:
+    """Mocks ALL scheduler/admission/Git processes; no production job calls."""
+    def __init__(self, fixture, *, fail_role=None, ft_state='PENDING', extra=None, race_edit=None):
+        self.fixture = fixture
+        self.fail_role, self.ft_state, self.extra, self.race_edit = fail_role, ft_state, extra, race_edit
+        self.checked_ft, self.sbatch_roles, self.released, self.inventory_calls = False, [], [], 0
+        self.jobs = {'61619':('FT', fixture['argv'], fixture['deps'])}
+        self.binding = dict(code_commit='d'*40, official_tree_sha256='e'*40, source_members={},
+            exact_official_diff_sha256='f'*64, science_or_archive_hotpatch=False)
+
+    def command(self, argv):
+        f = self.fixture
+        if argv[:3] == ['git', 'ls-tree', '-r']:
+            return f['git_rows']
+        if argv[:3] == ['scontrol', 'show', 'job']:
+            role, submitted, deps = self.jobs[argv[3]]
+            detail = held_detail(argv[3], role, f['attempt'], submitted, deps, f['manifest'])
+            # Actual Slurm formatting of a conjunction may split equal kinds.
+            rendered = 'afterany:'+':'.join(deps) if deps else '(null)'
+            expanded = ','.join('afterany:'+job+'(unfulfilled)' for job in deps) if deps else '(null)'
+            detail = detail.replace('Dependency='+rendered, 'Dependency='+expanded)
+            if role == 'FT':
+                self.checked_ft = True
+                detail = detail.replace('JobState=PENDING', 'JobState='+self.ft_state)
+            return detail
+        if argv[:3] == ['scontrol', 'write', 'batch_script']:
+            role = self.jobs[argv[3]][0]
+            return (f['attempt']/(role+'.sh')).read_text()
+        if argv[:2] == ['scontrol', 'release']:
+            self.released.append(argv[2])
+            return ''
+        if argv[0] == 'squeue':
+            return 'CPU_FIXTURE_ONLY|PENDING|Dependency'
+        raise AssertionError('Unmocked external command: '+repr(argv))
+
+    def inventory(self, *, exclude):
+        assert self.checked_ft, 'Known held job must be checked before exclusion/admission'
+        assert '61619' in set(exclude)
+        self.inventory_calls += 1
+        rows = [dict(job=job, dependency='(null)', command='/fixture/old/'+job+'.sh', workdir='/fixture/old',
+            state='RUNNING', allocated_gpus=1) for job in self.fixture['deps']]
+        if self.extra:
+            rows.append(self.extra)
+        if self.inventory_calls == 2 and self.race_edit:
+            self.race_edit()
+        return dict(project=rows, ambiguous=[], owner='fixture-user')
+
+    def sbatch(self, argv, **kwargs):
+        assert argv[0] == 'sbatch', 'All non-sbatch processes must be mocked by command'
+        role = Path(argv[-1]).stem
+        self.sbatch_roles.append(role)
+        if role == self.fail_role:
+            return SimpleNamespace(returncode=1, stdout='', stderr='fixed CPU sbatch rejection fixture')
+        job = str(62000+len(self.sbatch_roles))
+        dep = next((item.partition('=')[2] for item in argv if item.startswith('--dependency=')), '')
+        self.jobs[job] = (role, argv, controller.dependency_ids(dep))
+        return SimpleNamespace(returncode=0, stdout=job+'\n', stderr='')
+
+    def run(self, scope):
+        f = self.fixture
+        with patch.object(controller, 'OUTPUT', scope), patch.object(controller, 'command', self.command), \
+                patch.object(controller, 'published_control_binding', return_value=self.binding), \
+                patch.object(controller, 'tracking_binding', return_value={'CPU_fixture':True}), \
+                patch.object(controller, 'inventory', self.inventory), \
+                patch.object(controller, 'admission', return_value={'cap':2, 'CPU_fixture':True}), \
+                patch.object(controller.getpass, 'getuser', return_value='fixture-user'), \
+                patch.object(controller.subprocess, 'run', self.sbatch):
+            return controller.continue_held_registration(f['base'], f['attempt'], 'd'*40, 'e'*40)
+
+
 class OfficialSubmitTests(unittest.TestCase):
+    def test_dependency_conjunction_grouping_duplicate_and_index_zero_semantics(self):
+        self.assertEqual(controller.typed_dependencies('afterany:61538:61539'),
+            controller.typed_dependencies('afterany:61539(unfulfilled),afterany:61538(unfulfilled)'))
+        self.assertEqual(controller.typed_dependencies('afterany:71000_0:71001,afterany:71000_0'),
+            (('afterany', ('71000_0', '71001')),))
+        self.assertNotEqual(controller.typed_dependencies('afterany:61538:61539'),
+            controller.typed_dependencies('afterok:61538,afterany:61539'))
+        with self.assertRaisesRegex(ValueError, 'SEMANTICS'):
+            controller.typed_dependencies('afterany:61538?afterany:61539')
+
+    def test_control_source_binds_exact_import_closure_not_unrelated_live_head(self):
+        value = manifest()
+        with tempfile.TemporaryDirectory() as directory:
+            repo = Path(directory)
+            payloads = {}
+            for name in controller.CONTROL_IMPORT_PATHS:
+                data = ('# Published CPU control fixture '+name+'\n').encode()
+                path = repo/name
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_bytes(data)
+                payloads[name] = data
+            changes = 'M\t'+controller.CONTROL_PATHS[0]+'\nM\t'+controller.CONTROL_PATHS[1]
+            def run(argv):
+                if argv[1:3] == ['remote', 'get-url']:
+                    return 'https://github.com/hyunjun1127/ODE-edit.git'
+                if argv[1] == 'merge-base' or argv[1:3] == ['status', '--porcelain']:
+                    return ''
+                if argv[1] == 'diff':
+                    return changes
+                if argv == ['git', 'rev-parse', value['code_commit']+':official']:
+                    return value['official_tree_sha256']
+                if argv == ['git', 'rev-parse', 'd'*40+':official']:
+                    return 'e'*40
+                if argv == ['git', 'rev-parse', 'origin/main']:
+                    return 'f'*40
+                raise AssertionError('No live HEAD equality needed: '+repr(argv))
+            def raw(argv):
+                return payloads[argv[2].partition(':')[2]] if argv[1] == 'show' else b'EXACT_DIFF_CPU_FIXTURE\n'
+            with patch.object(controller, 'REPO', repo):
+                proof = controller.published_control_binding(value, 'd'*40, 'e'*40, run=run, raw=raw)
+                self.assertEqual(set(proof['source_members']), set(controller.CONTROL_IMPORT_PATHS))
+                self.assertFalse(proof['science_or_archive_hotpatch'])
+                (repo/'official/experiments/prepare.py').write_text('# UNBOUND helper\n')
+                with self.assertRaisesRegex(ValueError, 'IMPORTED_BYTES'):
+                    controller.published_control_binding(value, 'd'*40, 'e'*40, run=run, raw=raw)
+                (repo/'official/experiments/prepare.py').write_bytes(payloads['official/experiments/prepare.py'])
+                def dirty(argv):
+                    return ' M official/experiments/prepare.py' if argv[1:3] == ['status', '--porcelain'] else run(argv)
+                with self.assertRaisesRegex(ValueError, 'UNCOMMITTED'):
+                    controller.published_control_binding(value, 'd'*40, 'e'*40, run=dirty, raw=raw)
+                def scientific(argv):
+                    return 'M\tofficial/runners/server2/native.py' if argv[1] == 'diff' else run(argv)
+                with self.assertRaisesRegex(ValueError, 'ONLY_SUBMIT_AND_TEST'):
+                    controller.published_control_binding(value, 'd'*40, 'e'*40, run=scientific, raw=raw)
+
+    def test_exact_frozen_failure_verification_and_source_launcher_tamper_rejection(self):
+        for mutated in (None, 'source', 'launcher', 'archive', 'unknown_submission', 'released'):
+            with self.subTest(mutated=mutated), tempfile.TemporaryDirectory() as directory:
+                scope = Path(directory)
+                f = frozen_attempt(scope)
+                if mutated == 'source':
+                    (f['attempt']/'source/official/runners/server2/run.py').write_text('# CHANGED\n')
+                elif mutated == 'launcher':
+                    (f['attempt']/'MEMIT.sh').write_text('# CHANGED\n')
+                elif mutated == 'archive':
+                    (f['attempt']/'source.tar').write_bytes(b'CHANGED')
+                elif mutated == 'unknown_submission':
+                    write_new(f['attempt']/'submitted-MEMIT.json', dict(job='99999'))
+                elif mutated == 'released':
+                    write_new(f['attempt']/'released-FT.json', dict(job='61619'))
+                with patch.object(controller, 'OUTPUT', scope):
+                    if mutated:
+                        with self.assertRaises(ValueError):
+                            controller.verify_held_attempt(f['base'], f['attempt'], run=lambda argv:f['git_rows'])
+                    else:
+                        proof = controller.verify_held_attempt(f['base'], f['attempt'], run=lambda argv:f['git_rows'])
+                        self.assertEqual(proof['jobs'], {'FT':'61619'})
+                        self.assertEqual(proof['manifest']['code_commit'], 'a'*40)
+
+    def test_control_lock_is_exclusive_even_for_identical_payload(self):
+        with tempfile.TemporaryDirectory() as directory:
+            lock = Path(directory)/'control.json'
+            controller.control_lock_once(lock, {'fixture':True})
+            with self.assertRaisesRegex(ValueError, 'ALREADY_STARTED_NO_RETRY'):
+                controller.control_lock_once(lock, {'fixture':True})
+
+    def test_explicit_continuation_reuses_ft_and_preserves_science_failure_and_reverse_release(self):
+        with tempfile.TemporaryDirectory() as directory:
+            scope = Path(directory)
+            f = frozen_attempt(scope)
+            before = {path:path.read_bytes() for path in f['attempt'].rglob('*') if path.is_file()}
+            mock = ContinuationHarness(f)
+            result = mock.run(scope)
+            self.assertEqual(mock.sbatch_roles, [*controller.METHODS[1:], 'collector'])
+            self.assertEqual(mock.released, [result['jobs'][role] for role in reversed([*controller.METHODS, 'collector'])])
+            self.assertEqual(result['jobs']['FT'], '61619')
+            self.assertTrue(result['existing_FT_reused_not_resubmitted'])
+            self.assertEqual(result['source']['code_commit'], 'a'*40)
+            self.assertEqual(result['controller']['code_commit'], 'd'*40)
+            self.assertEqual(result['actual_GPU_qualification'], 'NOT_OBSERVED')
+            self.assertFalse(result['scientific_complete'])
+            for path, data in before.items():
+                self.assertEqual(path.read_bytes(), data, str(path))
+            self.assertEqual(result['dependencies']['MEMIT'], ['61538','61539'])
+            self.assertEqual(result['dependencies']['ALPHAEDIT'], ['61619'])
+            self.assertEqual(len(result['dependencies']['collector']), 6)
+            with self.assertRaisesRegex(ValueError, 'ALREADY_STARTED_OR_RELEASED'):
+                mock.run(scope)
+            self.assertEqual(len(mock.sbatch_roles), 6)
+
+    def test_continue_blocks_released_or_unknown_sameattempt_new_frontier_before_sbatch(self):
+        for kind in ('running_ft', 'unknown_sameattempt', 'new_frontier', 'missing_old_parent'):
+            with self.subTest(kind=kind), tempfile.TemporaryDirectory() as directory:
+                scope = Path(directory)
+                f = frozen_attempt(scope)
+                extra = None
+                if kind in ('unknown_sameattempt', 'new_frontier'):
+                    extra = dict(job='61699', dependency='(null)', state='PENDING',
+                        command=str(f['attempt']/'MEMIT.sh') if kind == 'unknown_sameattempt' else '/fixture/new/job.sh',
+                        workdir=str(f['attempt']/'source') if kind == 'unknown_sameattempt' else '/fixture/new')
+                mock = ContinuationHarness(f, ft_state='RUNNING' if kind == 'running_ft' else 'PENDING', extra=extra)
+                if kind == 'missing_old_parent':
+                    original_inventory = mock.inventory
+                    mock.inventory = lambda **kwargs:dict(original_inventory(**kwargs), project=[])
+                with self.assertRaises(ValueError):
+                    mock.run(scope)
+                self.assertEqual(mock.sbatch_roles, [])
+                self.assertEqual(mock.released, [])
+
+    def test_partial_control_failure_preserves_all_new_ids_and_disallows_second_pass(self):
+        with tempfile.TemporaryDirectory() as directory:
+            scope = Path(directory)
+            f = frozen_attempt(scope)
+            old_failure = (f['attempt']/'submission-failure.json').read_bytes()
+            mock = ContinuationHarness(f, fail_role='ALPHAEDIT_BLUE')
+            with self.assertRaisesRegex(ValueError, 'SBATCH_REJECTED'):
+                mock.run(scope)
+            failure = controller.read(f['attempt']/'control-repair-failure.json')
+            self.assertEqual(set(failure['jobs']), {'FT', 'MEMIT', 'ALPHAEDIT'})
+            self.assertEqual(failure['jobs']['FT'], '61619')
+            self.assertEqual(mock.released, [])
+            self.assertEqual((f['attempt']/'submission-failure.json').read_bytes(), old_failure)
+            old_calls = list(mock.sbatch_roles)
+            with self.assertRaisesRegex(ValueError, 'ALREADY_STARTED_OR_RELEASED'):
+                mock.run(scope)
+            self.assertEqual(mock.sbatch_roles, old_calls)
+
+    def test_pre_release_source_launcher_and_untracked_members_rechecked(self):
+        for kind in ('source', 'launcher', 'extra_source'):
+            with self.subTest(kind=kind), tempfile.TemporaryDirectory() as directory:
+                scope = Path(directory)
+                f = frozen_attempt(scope)
+                def edit():
+                    path = f['attempt']/({'source':'source/official/runners/server2/run.py',
+                        'launcher':'FT.sh', 'extra_source':'source/official/unknown.py'}[kind])
+                    path.write_text('# CHANGED DURING HELD INSPECTION\n')
+                mock = ContinuationHarness(f, race_edit=edit)
+                with self.assertRaises(ValueError):
+                    mock.run(scope)
+                self.assertEqual(mock.released, [])
+                self.assertTrue((f['attempt']/'control-repair-failure.json').is_file())
+
     def test_source_only_published_main_exact_tree_and_dirty_rejection(self):
         def run(argv):
             if argv[1:3] == ['remote', 'get-url']:
