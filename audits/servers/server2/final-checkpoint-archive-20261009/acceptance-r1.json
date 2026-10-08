@@ -1,0 +1,83 @@
+{
+  "schema": "server2-final-checkpoint-archive-prospective-acceptance-v1",
+  "instruction_id": "USER-GH-ALL-SH-FINAL-CHECKPOINT-ARCHIVE-SERVER1-20261009-R1",
+  "recipient_nonce": "USER-GH-ALL-SH-FINAL-CHECKPOINT-ARCHIVE-SERVER1-20261009-R1-SERVER2",
+  "server": "server2",
+  "session": "01a0493a-074c-7f91-9a13-769116326fef",
+  "actual_host": "server2",
+  "actual_owner": "janghj",
+  "app_CWD": "/mnt/raid5/janghj/ODE-edit",
+  "origin": "https://github.com/hyunjun1127/ODE-edit.git",
+  "dedicated_worktree": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-final-checkpoint-archive-20261009-r1",
+  "branch": "codex/server2-final-checkpoint-archive-20261009-r1",
+  "OWNER_ACK": "accepted=true",
+  "recorded_utc": "2026-10-08 16:40:19 UTC",
+  "canonical_input": {
+    "publication": "12eff7e36e1128dba2daa9a463ea1cc09563de46",
+    "policy": "control/final-checkpoint-archive-policy.json",
+    "policy_full_SHA256": "aa7cc7ee9bb0bf1a08a183d7807ac2699d8cc4a09b28e1b90fbf50f955a202d6",
+    "approval": "transfers/approvals/2026-10-09-final-checkpoint-to-server1.json",
+    "FULL_READ": true,
+    "duplicate_nonce_in_canonical_own_ACK_audit_status": "NOT_FOUND_AT_INITIAL_FETCH"
+  },
+  "latest_direct_USER_clarification": {
+    "user_quote": "이건 앞으로의 job에 대한 정책이다.",
+    "precedence": "최신 직접 USER 범위 정정을 정책 수신 원문보다 우선 적용",
+    "effective": "앞으로 새로 제출하는 job에만 적용",
+    "already_submitted_or_running_jobs_and_their_checkpoints": "KEEP; 이번 지시로 소급 전송 또는 삭제하지 않음",
+    "global_policy_modified_by_SH2": false
+  },
+  "stages": {
+    "policy_acceptance": "ACCEPTED_PROSPECTIVE_ONLY",
+    "receiver_API": "SH1_OWNER_ACK_RECEIVED_NOT_READY; 공유 helper 구현/독립 CPU review 중",
+    "future_caller_integration": "NOT_IMPLEMENTED_BEFORE_EXACT_SH1_API; 계획만 기록",
+    "source_final_manifest": "NOT_SEALED_NO_ELIGIBLE_FUTURE_JOB_PAYLOAD",
+    "destination_admission": "NOT_REQUESTED_FOR_EXISTING_CHECKPOINTS",
+    "transfer": "NOT_STARTED",
+    "destination_verification": "NOT_APPLICABLE_NO_TRANSFER",
+    "source_payload_removal": "NOT_STARTED"
+  },
+  "bounded_metadata_check_before_USER_clarification": {
+    "root": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-qualification-r1",
+    "coverage": "6 method checkpoints/latest.json + 지정한 method/collector 작은 receipt45 = 51 exact paths; 재귀 scan 없음",
+    "known_paths_present": 0,
+    "proven_final_W20_candidates": 0,
+    "payload_bytes_and_consumer_completion": "UNKNOWN; 내용 load나 scheduler 조회 없음",
+    "qualification_W0_B2_B3_if_later_produced": "KEEP; native/resume 증빙이며 final_W20으로 취급하지 않음",
+    "historical_checkpoints": "일괄 선별/정리하지 않았으며 KEEP"
+  },
+  "preserved_registered_jobs": ["61619", "61624", "61625", "61626", "61627", "61628", "61629", "61534", "61535", "61536", "61537", "61538", "61539", "61540", "61428"],
+  "future_storage_plan": {
+    "receiver_single_owner": "SH1",
+    "shared_namespace": "project/run_scripts/checkpoint_archive/**; SH2 읽기 전용 재사용",
+    "destination_layout": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archive/server2/<task>/<run>/<attempt>/job-<actual_job>/<fullsha>/",
+    "order": ["정확 최종 endpoint 및 final 계산/consumer 종료", "source regular-file exact allowlist/bytes/fullSHA/stat/provenance 봉인", "SH1 unique archive admission 및 최소64GiB reserve", "unique staging 1방향 전송", "SH1 독립 fullSHA/bytes/identity 및 별도 object 검증/atomic VERIFIED_DESTINATION", "source 불변/consumer 종료 재검산", "allowlist regular payload만 개별 unlink와 archive-location/삭제 receipt"],
+    "missing_receiver_or_capacity": "ARCHIVE_PENDING_KEEP_SOURCE",
+    "changed_in_use_same_object_or_alias": "HOLD; 삭제0",
+    "new_checkpoint_creation_for_noCP": false,
+    "future_source_or_collector_only": true,
+    "already_frozen_source_hotpatch": false,
+    "payload_deserialize_model_load": false,
+    "source_side_large_staging_copy": false,
+    "broadcast_recursive_delete_or_remove_source_files": false,
+    "storage_resource_ceiling": "GPU0/CPU2/4096MiB/4h 이하 또는 더 엄격한 현행 정책",
+    "receiver_default_concurrency": 1,
+    "capacity_or_API_gate_is_scientific_performance_gate": false
+  },
+  "direct_coordination": {
+    "transport": "repo app-server direct; registry SSH 안 target local socket; model/effort override 없음",
+    "SH1_READY_request": {"nonce": "SH2-SH1-FINAL-CHECKPOINT-ARCHIVE-READY-REQUEST-20261009-R1", "accepted_turn": "01a11bf8-5fd1-7db3-967d-76a755c1d603", "stage": "EXPLICIT_OWNER_ACK_RECEIVED; 전체 과학 turn 완료를 기다리지 않음", "receiver_API": "NOT_READY", "SH1_implementation": "공유 helper 구현/독립 CPU review 중; exact 게시 source/API는 후속 compact relay 예정", "scope_after_clarification": "future caller 입력만; 기존CP admission 아님"},
+    "SH1_prospective_clarification": {"nonce": "SH2-SH1-FINAL-CHECKPOINT-ARCHIVE-PROSPECTIVE-CLARIFICATION-20261009-R1", "accepted_turn": "01a11bf8-5fd1-7db3-967d-76a755c1d603", "stage": "DIRECT_ACCEPTED_NOT_COMPLETED"},
+    "GH_prospective_clarification": {"nonce": "SH2-GH-FINAL-CHECKPOINT-ARCHIVE-PROSPECTIVE-CLARIFICATION-20261009-R1", "accepted_turn": "01a11c59-f44b-7193-81f2-49eff07a7d82", "stage": "DIRECT_ACCEPTED_NOT_COMPLETED"},
+    "Git_inbox_fallback": false,
+    "terminal_WAIT_for_GPU_or_transfer": false
+  },
+  "actual_counts": {"transferred_files": 0, "transferred_bytes": 0, "verified_destination_files": 0, "deleted_files": 0, "deleted_bytes": 0, "allocated_bytes_reclaimed": 0, "new_GPU_model_or_fit_calls": 0, "new_Slurm_jobs_or_queries": 0, "checkpoint_creation": 0, "large_payload_SHA_recalculation": 0},
+  "scoped_readonly_review": {"scope": "own policy acceptance/report/status 3 문서만", "prospective_scope_or_completion_overclaim_blockers": 0, "SH1_OWNER_ACK_recording_note": "반영: 실제 owner ACK와 helper NOT_READY를 transport acceptance와 분리", "receiver_storage_CPU_fixture_or_transfer_validation": "NOT_RUN_BY_SH2"},
+  "original_source_raw_model_assets_and_dirty_root_preserved": true,
+  "Git_WB_checkpoint_RNG_tensor_upload": false,
+  "shared_helper_duplicate_implementation": false,
+  "monitoring_active": false,
+  "automatic_retry": false,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED: 이번 단계는 소형 정책 receipt만; payload 전송0"
+}
