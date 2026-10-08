@@ -441,9 +441,9 @@ class GenerationObserver:
         key = digest(identity)
         receipt = dict(identity=identity, identity_sha256=key, summary=reduce_cases(selected), rows=selected,
             RNG_restored=True, observer_no_mutation=True, raw_local_only=True)
-        for key in ('qualification_receipt_member', 'compatibility_member'):
-            if key in observed:
-                receipt[key] = copy.deepcopy(observed[key])
+        for member_name in ('qualification_receipt_member', 'compatibility_member'):
+            if member_name in observed:
+                receipt[member_name] = copy.deepcopy(observed[member_name])
         path = self.out/'endpoints'/(key+'.json')
         immutable_write(path, receipt)
         return dict(**receipt, rows_path=str(path.resolve()), work=dict(new_case_observations=0,
