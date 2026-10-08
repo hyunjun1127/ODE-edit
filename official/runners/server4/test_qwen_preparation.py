@@ -37,7 +37,7 @@ class PreparationTests(unittest.TestCase):
                         (output/'commits').mkdir()
                         for b in range(1,21):
                             (output/'commits'/f'b{b:02d}.json').write_text(json.dumps({'completed_batch':b}))
-                with patch.dict('os.environ', SLURM_JOB_ID='CPU_FIXTURE_NOT_SUBMITTED'), patch('official.runners.server4.qwen_pipeline.child', child):
+                with patch.dict('os.environ', SLURM_JOB_ID='CPU_FIXTURE_NOT_SUBMITTED'), patch('official.runners.server4.qwen_pipeline.child', child), patch('official.runners.server4.qwen_pipeline.final_evidence', return_value=({},{})):
                     run(root, logical)
                 self.assertEqual(calls, [('w0', ()), ('execute', ())])
                 self.assertFalse((root/'qualification').exists())

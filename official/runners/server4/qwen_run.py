@@ -851,6 +851,9 @@ def execute(args):
         if not start <= max_batch <= 20:
             raise ValueError("BATCH_LIMIT_NOT_FORWARD")
         for batch in range(start + 1, max_batch + 1):
+            import shutil
+            if shutil.disk_usage(out).free < 32 * 1024**3:
+                raise RuntimeError('RESOURCE_BLOCKED_STORAGE_KEEP_CHECKPOINT')
                 before = time.monotonic()
                 current = records[(batch - 1) * 100:batch * 100]
                 with torch.enable_grad():

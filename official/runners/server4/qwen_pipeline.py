@@ -16,6 +16,26 @@ def now():return datetime.now(timezone.utc).isoformat()
 def read(path):return json.loads(Path(path).read_text())
 
 
+def final_evidence(out, commits, pointer, dataset):
+    last=commits[-1]; identity=last['checkpoint_identity']
+    if any(c['checkpoint_identity']!=identity for c in commits):
+        raise RuntimeError('COMMIT_IDENTITY_CHANGED')
+    if last['checkpoint_sha256']!=pointer['sha256']:
+        raise RuntimeError('FINAL_CHECKPOINT_BINDING')
+    factual=last['factual']; path=Path(factual['cases_path'])
+    if file_sha(path)!=factual['cases_sha256'] or len(read(path))!=2000:
+        raise RuntimeError('FINAL_FACTUAL_INCOMPLETE')
+    evidence=dict(factual=dict(state='COMPLETE',observed_requests=2000,
+                              path=str(path),sha256=file_sha(path)))
+    if dataset=='cf':
+        path=Path(last['generation']['rows_path']); raw=read(path)
+        if raw['identity_sha256']!=last['generation']['identity_sha256'] or len(raw['rows'])!=2000:
+            raise RuntimeError('FINAL_GENERATION_INCOMPLETE')
+        evidence['generation']=dict(state='COMPLETE',observed_requests=2000,
+                                    path=str(path),sha256=file_sha(path))
+    return identity,evidence
+
+
 def child(root,command,output,*,dataset,config=None,extra=(),label):
     argv=[sys.executable,'-B','-m','official.runners.server4.qwen_run',command,
           '--assets',str(root/'assets.json'),'--stream',str(root/'streams'/f'{dataset}-stream.json'),
@@ -55,9 +75,11 @@ def run(root,logical):
     commits=[read(out/'commits'/f'b{b:02d}.json') for b in range(1,21)]
     if pointer['batch']!=20 or not pointer['final_W20'] or [c['completed_batch'] for c in commits]!=list(range(1,21)):
         raise RuntimeError('W20_JOIN_INCOMPLETE')
+    identity,evidence=final_evidence(out,commits,pointer,dataset)
     write_new(out/'terminal.json',dict(schema='server4-qwen-official-terminal-v1',
         logical_main_row=logical,actual_job_id=job,completed_at_utc=now(),
         status='W20_COMPLETE',completed_edits=2000,checkpoint=pointer,
+        checkpoint_identity=identity,calculation_evidence=evidence,
         commits=[dict(path=str(out/'commits'/f'b{b:02d}.json'),sha256=file_sha(out/'commits'/f'b{b:02d}.json')) for b in range(1,21)],
         config_sha256=row['config']['config_sha256'],dataset=dataset,
         qualification=QUALIFICATION_STATUS,
