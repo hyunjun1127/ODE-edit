@@ -11,6 +11,23 @@
   "authority": "b0cee1a302c10d48e206a31c7c5cf318ac36d8c3",
   "accepted": true,
   "status": "PENDING_BASELINES_STOPPED_RUNNING_MEMIT_PRESERVED",
+  "native_flucon_source_ready_r1": {
+    "nonce": "SH1-SH2-NATIVE-FLUCON-SOURCE-READY-20261008-R1",
+    "accepted": true,
+    "stage": "SOURCE_API_REPORT_IDENTITY_RECEIVED_VERIFIED_NOT_INTEGRATED",
+    "source": "adb244e6f9c86b54f73bd6d8fb833b338f470ded",
+    "implementation": "762d62fdf502779501fb862da391e2c353f0910a",
+    "package_tree": "91349ee439b1573e473d280ff86f88d71dd6d807",
+    "CPU_API_check": "PASS_STATIC_AST_COMPILE_NO_IMPORT_NOT_GPU",
+    "SH2_caller_integrated": false,
+    "new_submissions": 0,
+    "job_queries_or_mutations": 0,
+    "shared_source_edits": 0,
+    "receipt": "audits/servers/server2/gptj-baselines-fluency-consistency-2k/native-flucon-source-ready-r1/receipt.json",
+    "old_RUNNING61428_source_archive_preserved": true,
+    "monitoring_active": false,
+    "automatic_retry": false
+  },
   "native_flucon_repair_stop_r1": {
     "nonce": "SH1-SH2-NATIVE-FLUCON-REPAIR-20261008-R1",
     "accepted": true,

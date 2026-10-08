@@ -506,3 +506,44 @@ Full receipt37747B는 ignored local/gptj-baselines-fluency-consistency-2k/native
 cancellation-receipt.json, SHA `c3c6c06c5a013caf80153564a7912d6a24000f582a74aff541b603cd927ed5e4`다.
 Fullargv/source 증빙은 local에만 보존한다. `NO_BROADCAST_NOT_REQUIRED`: 소형 metadata만 Git,
 원 raw/로그/credential·prompt·tensor 전송/Git/W&B 업로드0.
+
+## 2026-10-08 native FLU/CON source/API/report 입력 수신
+
+Nonce `SH1-SH2-NATIVE-FLUCON-SOURCE-READY-20261008-R1`을 직접 수신·수락했다.
+공유 owner SH1의 branch `codex/server1-native-flucon-repair-20261008`에서 exact Git source
+`adb244e6f9c86b54f73bd6d8fb833b338f470ded`를 확보했다. Implementation은
+`762d62fdf502779501fb862da391e2c353f0910a`, package tree는
+`91349ee439b1573e473d280ff86f88d71dd6d807`이다. Branch source 확보와 main merge는 별도이며
+공유 source를 SH2 scientific caller/frozen archive에 적용하지 않았다.
+
+SH1 보고서 `experiment-reports/servers/server1/gpt2xl-baselines-native-generation-repair/report-ko.md`
+17069B/SHA `0ff995aa83774a11c9d0cdd67e6272768ce7d539ba2de105596c830bd2d3b1b3` 및
+source-audit15133B/SHA `82f2695e98bb5c291e42cb37471445b9241ada50cd1030b18ad09241dba209da`가
+전달값과 exact 일치했다. Shared README/native profile·generator·observer/strict schema registry의
+bytes/SHA와 AST signature를 확인했고 import 없는 compile 검산도 통과했다.
+이는 torch/model/GPU import·모델 forward·native apply·online smoke 없이 수행한 정적 CPU 확인이다.
+SH1의 CPU178은 SH1 published software evidence로만 기록하며 SH2 actual GPU PASS·속도/ETA·과학 완료가 아니다.
+
+명시 API는 `native_observer.NativeGenerationObserver(model,tokenizer,assets,config,out,
+state_callback=None,progress_callback=None)` 및 `observe/subset/read_observed`다.
+PROFILE은 `cf-cake-native-casebatch-kv-total100-globalrng-v1`, ROUTE는
+`NATIVE_CASE_PADDED_KV_GLOBAL_RNG`다. Source상 case별 padded KV batch/topk5/batched multinomial/
+prompt-inclusive total100/noEOS와 endpoint seed20261007 once/finally RNG·native state restore를 사용한다.
+한 생성문으로 기존 두 지표를 함께 계산하며 F/C 수식과 reference 자산은 그대로다.
+old EOS/row-seed/qualification 경로와 생성 의미가 다르므로 bitwise 동등성을 주장하지 않는다.
+완성 endpoint만 재사용하고 subset은 parent-bound CPU 집계다. partial old raw 재사용/새profile relabel0,
+`native_execution_member`는 실제 실행 증빙이며 qualification PASS가 아니다.
+
+기존 SH2 final bridge는 old qualification/link/MB를 필수로 요구하므로 단순 observer alias 교체로
+호환되지 않는다는 정적 차이를 확인했다. Package 기본 export도 legacy라 native 모듈 명시 import가 필요하다.
+새 native runtime은 old qualification/reuse/microbatch key를 거절하며 W20-only/20commit/full2000 일정은
+shared API가 아니라 caller가 결속한다. Strict tracking registry는 new profile에
+`generation_repair_instruction=USER-DIRECT-NATIVE-FLUCON-REPAIR-20261008-R1` 및
+`generation_schedule=W20_ONLY_FIRST2000`을 요구한다. 현재 caller 수정·새 sourcefreeze는 수행하지 않았다.
+
+이번에는 Slurm 조회/변경/신규 제출0, 모델/GPU/SDK smoke0, shared source 편집0이다.
+RUNNING으로 보호 지정된61428의 원 source/archive 및 절대경로 정책 member SHA는 변경하지 않았다.
+앞선61429–61434 취소 receipt와 당시 상태는 보존하며 이번 입력 수신으로 새 job 상태를 추정하지 않는다.
+입력 receipt는 `native-flucon-source-ready-r1/receipt.json`, 상태는
+`SOURCE_API_REPORT_IDENTITY_RECEIVED_VERIFIED_NOT_INTEGRATED`다. 반복 monitoring/automatic retry0.
+NO_BROADCAST_NOT_REQUIRED: 소형 Git source/metadata만 수신, model/stat/reference/raw/credential 복제0.
