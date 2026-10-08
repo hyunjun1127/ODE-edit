@@ -15,7 +15,11 @@ native sampling profile 및 reference/NLTK content를 검산한다.
 
 `make_ready(producer_execution_identity=..., fingerprint=..., members=...,
 component_validation=..., generation_runtime_member=..., source_members=...,
-dataset_members=...)`는 메타데이터만 반환한다. forward·transfer·write는 없다.
+dataset_members=..., generation_assets={"manifest": original_member,
+"asset_paths": optional_existing_reference_paths})`는 메타데이터만 반환한다.
+forward·transfer·write는 없다. `generation_assets` 누락은 fail-closed이며,
+실제 consumed reference/NLTK/versions를 fingerprint와 결속한 뒤 기존
+`verify_scored`와 observation-derived count/coverage/결측 분모를 검산한다.
 세 member는 실제 `cf_factual`, `cf_generation`, `zsre_reference`이며 각각
 cold state0·ordered2000·원 토큰/관측·독립 reducer를 검산한다.
 generation2000의 nested raw/source/runtime와 실제 qualification B3/resume/native
@@ -30,7 +34,7 @@ classic runner READY는 같은 디렉터리의 `READY.json`이며 portable READY
 ## 소비자
 
 `read_ready(path, consumer_execution_identity=..., consumer_fingerprint=...,
-member_paths=None) -> BorrowedW0`는 원 READY/raw의 size/SHA·source·token/order·분모·
+member_paths=None, generation_assets=...) -> BorrowedW0`는 원 READY/raw의 size/SHA·source·token/order·분모·
 실제 qualification을 검산한다. fingerprint 불일치면
 `ReferenceInputError.code=REFERENCE_INPUT_NOT_COMPATIBLE`, 누락이면
 `REFERENCE_INPUT_MISSING`이다. 자동 W0 중복 관측이나 전송으로 우회하지 않는다.
@@ -40,6 +44,9 @@ member_paths=None) -> BorrowedW0`는 원 READY/raw의 size/SHA·source·token/or
 consumer execution은 별도 binding에 기록한다. source override의 key는
 `source.factual.py`, `source.generation/<name>.py` 등이고 stream은
 `dataset.cf`, `dataset.zsre`다. reader가 파일을 복제하지 않는다.
+동등 reference manifest의 기존 로컬 사본은 `reference.manifest`로 명시할 수 있다.
+원 manifest member/fullSHA는 READY에 그대로 보존하며 임의 새 자산 descriptor로
+바꾸지 않는다. raw generation result를 새 source/runtime로 relabel하지 않는다.
 
 `borrowed.zsre(consumer_external_identity=...) -> PortableZSREReference`를
 `factual.evaluate(..., dataset='zsre', w0_reference=view, identity=실제consumer)`에
@@ -58,3 +65,23 @@ CF factual/generation W0도 `borrowed.values`에서 원 producer 관측과 bindi
 full2k parity는 NOT_OBSERVED다. fixed tolerance와 strict bool/count/token gate를
 완화하지 않는다. 실제 GPU 관측·qualification·W0 READY는 sealed runtime에서만
 생성되며 source 게시나 CPU fixture PASS로 대체하지 않는다.
+
+## 2026-10-09 GH retained-proof 수리
+
+source `0e7bcdb5a085085cfed8d3fbccc84312c8cae3e6`, official tree
+`354170502352f66976a14bf411c1fd2b848f217d`는 own branch의 검토 후보이며
+main 통합/실제 READY는 아직 아니다. 원 source `100f49d7` 검토 BLOCK을 보존한다.
+
+qualification stream은 cold CF fingerprint 및 verified first300 원 case/query/target/token과
+대조한다. canonical observation은 필수이며 finite per-token NLL·정확 correctness·
+reducer와 candidate/input/target/padded work를 token plan에서 재유도한다.
+실제 positive forward count/finite elapsed가 없으면 receipt를 거절하지만, 이 CPU
+일관성 검사가 GPU 실행을 독립 증명한다고 주장하지 않는다.
+execution은 producer/qualification/GPU consumer/CPU reducer의 source/config/assets/path/
+runtime/hardware/actualjob 역할 계약을 검사하고 selected W/context/RNG/checkpoint RNG의
+schema/content/hash를 검산한다. `TEST_ONLY`·label만 있는 PASS는 actual 증거가 아니다.
+
+새 caller는 CF qualification stream을 W0 관측 전에 검사하고, zsRE caller는 별도
+zsRE endpoint identity를 유지하면서 qualification만 실제 pinned CF bundle에 묶는다.
+native B3 report는 저장된 canonical proof member 및 full payload hash에 exact 결속한다.
+원 deterministic raw와 별도로 full-work proof를 보존하며 추가 model forward는 없다.

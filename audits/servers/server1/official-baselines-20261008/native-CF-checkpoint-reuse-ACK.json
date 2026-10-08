@@ -1,0 +1,21 @@
+{
+  "schema": "official-owner-scope-correction-ACK-v1",
+  "nonce": "GH-SH1-NATIVE-CF-CHECKPOINT-REUSE-20261009-R1",
+  "server": "server1",
+  "accepted": true,
+  "authority": "348d6fb3",
+  "canonical_envelope_full_read": true,
+  "canonical_report_full_read": true,
+  "excluded_new_edit_chains": [{"model":"llama3","method":"MEMIT","dataset":"cf"}],
+  "preserved_preparation": ["llama3/FT/cf","llama3/MEMIT_FE/cf","llama3/FT/zsre","llama3/MEMIT/zsre","llama3/MEMIT_FE/zsre"],
+  "excluded_CF_native_refit_disguised_as_qualification": "FORBIDDEN",
+  "old_unsubmitted_pipeline_r2": "KEEP_HISTORICAL_NOT_CURRENT_SUBMISSION_PLAN",
+  "future_historical_generation_only": {"status":"PLAN_ONLY_NO_NEW_GPU_OR_SLURM","model_revision":"8afb486c1db24fe5011ec46dfbe5b5dccdb575c2","checkpoint_bytes":1174421709,"checkpoint_sha256":"600e2260953e2f048df84f6b2d23705eeb111e8d288c28bc1eb1760b246ff26e","original_dataset_sha256":"d017056125178a13728594e66a801357a8db9ed7973a7425554bb4271de9fc6f","original_stream_seal_sha256":"5848dca7323335483039ec125b644dadfb87b0996133f9825f951088cf3a7861","original_first2000_request_order_sha256":"e220355ad9419ea93942be368804bd26b2a04747454076940206e8e063a7fad7","GH_preservation_evidence":"FULL_SHA_FILE_ONLY_NOT_ACTUAL_RESTORE_GPU_OR_FLU_CON"},
+  "common_W0_and_reader_repair": "CONTINUE_FOR_RETAINED_CF_CHAINS",
+  "future_only_archive_API": "CONTINUE_EXISTING_CP_KEEP",
+  "new_generation_GPU_or_Slurm_jobs": 0,
+  "existing_jobs_changed": 0,
+  "checkpoint_transferred_or_deleted": 0,
+  "recurring_monitor": false,
+  "automatic_retry": false
+}

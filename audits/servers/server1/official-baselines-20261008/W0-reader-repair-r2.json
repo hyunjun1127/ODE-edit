@@ -1,0 +1,33 @@
+{
+  "schema": "official-W0-reader-retained-proof-repair-v2",
+  "parent_instruction": "USER-OFFICIAL-BASELINES-20261008-R1",
+  "review_request_nonce": "SH1-GH-OFFICIAL-W0-READER-REVIEW-20261009-R1",
+  "repair_response_nonce": "GH-SH1-OFFICIAL-W0-READER-REPAIR-20261009-R1",
+  "GH_review_sha256": "2d2bb2eed49518789fea89c4422ba03421601c0d9dc63c52f2bb781e32ed4894",
+  "review_full_read": true,
+  "original_blocked_source": "100f49d733649143ce0ec435cb89b3babcd219e5",
+  "source_commit": "0e7bcdb5a085085cfed8d3fbccc84312c8cae3e6",
+  "official_tree": "354170502352f66976a14bf411c1fd2b848f217d",
+  "source_sha256": {
+    "official/evaluation/factual.py": "537d3d8d641b26075de6801dc459424fcb989c428973d62c5501a0e71809ad6f",
+    "official/evaluation/w0_reference.py": "e685c912f3f337132079cdae5a4071d8518259e24d421ace3790c5cc10579ad2",
+    "official/runners/server1/native_parity.py": "852dc143537d7d297d9a1c0a401daf01afb55546e2e400091cd03f6e5139c17c",
+    "official/runners/server1/w0_binding.py": "d402c99f16d1cfa532da288da0732fe79f785d7450fc83ccd28789f5c521f181",
+    "official/runners/server1/run.py": "0959eebb7206fcf7b4409b44793e6e682feb98cdc16a3223746f49b02a1c80b1"
+  },
+  "CPU": {"runner_suite":178,"common_suite":99,"independent_focused":92,"independent_early_caller":4,"counts_overlap":true,"result":"PASS"},
+  "source_verifier": {"upstream_members":157,"python_files":245,"external_task_imports":0,"result":"PASS"},
+  "independent_review": "CLEAR_ASSIGNED_RETAINED_PROOF_AND_CALLER_SCOPE",
+  "fixed": ["MANDATORY_CONSUMED_REFERENCE_ASSETS_AND_RECOMPUTED_SCORE_COUNTS","COLD_CF_FINGERPRINT_STREAM_AND_FIRST300_CASE_QUERY_TARGET_TOKEN_BINDING","MANDATORY_CANONICAL_OBSERVATIONS_NLL_CORRECTNESS_AND_DERIVED_WORK","ROLE_AWARE_EXECUTION_AND_SELECTED_WEIGHT_CONTEXT_RNG_CONTENT","EARLY_CALLER_CF_STREAM_AND_EXACT_B3_RAW_BINDING_WITH_ZSRE_IDENTITY_PRESERVED"],
+  "main_integration": "PENDING_GH_SHARED_SOURCE_REVIEW",
+  "actual_pretrained_GPU": "NOT_OBSERVED",
+  "actual_native_parity": "NOT_OBSERVED",
+  "actual_W0_READY": "NOT_READY",
+  "actual_WB_online_readback": "NOT_OBSERVED",
+  "new_Slurm_jobs": [],
+  "source_raw_identity_relabelled": false,
+  "math_sampler_metric_tolerance_changed": false,
+  "existing_jobs_CP_or_raw_mutated": false,
+  "recurring_monitor": false,
+  "automatic_retry": false
+}

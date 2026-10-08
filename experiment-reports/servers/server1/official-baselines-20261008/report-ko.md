@@ -2,7 +2,38 @@
 
 담당 수락: USER-OFFICIAL-BASELINES-20261008-R1 및
 GH-SH1-OFFICIAL-COMPAT-READY-20261009-R1. 모델·effort 변경 없음.
-담당 과학 행은 Llama3 FT/MEMIT/MEMIT_FE × CF/zsRE 여섯 개이며 ours 실행은 없다.
+원 담당 과학 행은 Llama3 FT/MEMIT/MEMIT_FE × CF/zsRE 여섯 개였다.
+최신 `GH-SH1-NATIVE-CF-CHECKPOINT-REUSE-20261009-R1`에 따라 Llama MEMIT CF
+신규 editing chain은 제외하며 FT/FE CF와 세 zsRE 준비만 유지한다. ours 실행은 없다.
+이번 수신에서 새 GPU/generation/Slurm 등록0, 기존 job/CP 이동·삭제0이다.
+
+## 최신 shared W0 기술 수리 상태
+
+GH review `2d2bb2ee...`의 네 retained-proof 우회를 CPU 회귀로 수리했다.
+source `0e7bcdb5a085085cfed8d3fbccc84312c8cae3e6`, official tree
+`354170502352f66976a14bf411c1fd2b848f217d`는 own branch의 재검토 후보다.
+이 source를 main 통합/PASS member 또는 실제 GPU/W0 READY로 표시하지 않는다.
+actual pretrained/GPU/native/online 검증은 모두 NOT_OBSERVED다.
+
+reference assets 없는 generation READY를 거절하고 기존 score 검증/관측 기반 count를
+재계산한다. 서로 re-sign한 다른 stream도 실제 cold CF first300 query/target/token에
+대조한다. canonical 관측·per-token NLL/strict bits/분모와 실제 work는 필수다.
+role-aware execution·actualjob·selected weight/context/RNG/checkpoint RNG의 내용과
+hash를 검사하고 synthetic label-only PASS를 거절한다. sampler/metric/math/tolerance는
+바꾸지 않았다. 실제 B3/W0 원 raw를 변경하지 않고 full-work proof와 consumer binding을 분리한다.
+
+최종 own runner CPU178, common official/tests CPU99 PASS, 별도 reviewer 집중 CPU92와
+early caller CPU4 PASS를 실제 실행했다. 중복 테스트는 합산하지 않는다.
+source verifier는 upstream157 SHA/Python245/external task import0 PASS다.
+초기 오류는 typed prerequisite 오류로 수리했고 검증 guard를 완화하지 않았다.
+이번 CPU fixture 결과는 실제 GPU 과학 관측 또는 main integration 승인이 아니다.
+
+새 MEMIT CF 제외 지시로 기존 미제출 pipeline-r2의 6-chain/3-CFqualification/12-job
+계획은 현재 제출에 사용하지 않는다. excluded CF를 qualification 명목으로 다시 fit하지
+않으며 유지 zsRE 및 FT/FE CF의 미래 정확한 qualification/DAG를 별도 source로 결속한다.
+shared W0는 유지 CF chain에 계속 필요하다. 역사 CP generation-only 후속은 원 source/
+model/hparams/salted-hash cohort를 보존하는 별도 계획이며 이번 turn에서 실행하지 않는다.
+아래 이전 단계의 숫자/경로는 역사 기록이지 최신 admission이나 READY가 아니다.
 
 ## 공통 factual 게시
 
