@@ -2,6 +2,7 @@
 import argparse
 import json
 import os
+import re
 from pathlib import Path
 import shlex
 import shutil
@@ -23,6 +24,10 @@ def read(p):return json.loads(Path(p).read_text())
 def check(ok,reason):
     if not ok:raise RuntimeError(reason)
 
+def dependency_matches(actual,expected):
+    kind,*ids=expected.split(':')
+    return set(re.findall(r'(afterok|afterany):(\d+)',actual))=={(kind,j) for j in ids}
+
 def verify(root,gpu_space=False):
     lock=read(root/'source-lock.json')
     for m in lock['members']:
@@ -31,7 +36,7 @@ def verify(root,gpu_space=False):
         check(file_sha(Path(m['path']))==m['sha256'],'FROZEN_INPUT_CHANGED')
     if gpu_space:check(shutil.disk_usage(root).free>=32*1024**3,'RESOURCE_BLOCKED_STORAGE_KEEP_SOURCE')
 
-def prepare(root,preparation):
+def prepare(root,preparation,dataset=None,frontier_binding=None):
     check(not root.exists(),'ATTEMPT_ALREADY_EXISTS')
     check(not cmd(['git','status','--porcelain'],cwd=ROOT),'SOURCE_DIRTY')
     commit=cmd(['git','rev-parse','HEAD'],cwd=ROOT)
@@ -62,6 +67,7 @@ def prepare(root,preparation):
     write_new(root/'receiver.json',dict(host='codex-server1',source=received['checkout'],policy=received['policy'],
         python=received['python'],policy_sha256=received['policy_sha256'],
         cutovers=received['cutovers'],helper_members=received['helper_members']))
+    if frontier_binding:shutil.copyfile(frontier_binding,root/'resource-frontier.json')
     os.environ['NLTK_DATA']=assets['nltk_data'];os.environ['CUDA_VISIBLE_DEVICES']=''
     write_new(root/'wandb-project-precheck.json',check_wandb(source,assets['wandb_env']))
     os.environ['ODEEDIT_WANDB_PROJECT_VERIFIED']='1'
@@ -70,7 +76,9 @@ def prepare(root,preparation):
     asset=preflight(root/'assets.json',hash_large=True)
     write_new(root/'asset-preflight.json',asset)
     check(asset['ready_to_submit'],'ASSET_PREFLIGHT_BLOCKED:'+str(asset['blockers']))
-    for row in rows():
+    selected=[r for r in rows() if dataset is None or r['config']['dataset']==dataset]
+    check(dataset in (None,'cf'),'UNAUTHORIZED_PARTIAL_SCOPE')
+    for row in selected:
         logical=row['logical_main_row'];dataset=row['config']['dataset']
         stream=read(root/'streams'/f'{dataset}-stream.lock.json')
         token=_tokenizer_receipt(asset['assets']['model_snapshot']['path'],None,stream)
@@ -91,14 +99,115 @@ def prepare(root,preparation):
             with (root/'scripts'/f'{logical}-{kind}.sh').open('x') as f:f.write(text)
     paths=[p for d in ('configs','streams','scripts') for p in (root/d).iterdir() if p.is_file()]
     paths += [root/n for n in ('assets.json','receiver.json','cutover.json','archive-policy.json')]
+    if frontier_binding:paths.append(root/'resource-frontier.json')
     write_new(root/'input-lock.json',dict(members=[dict(path=str(p),sha256=file_sha(p)) for p in paths]))
-    write_new(root/'prepared.json',dict(source=lock['code_commit'],main_cells=12,qualification='NOT_RUN_USER_DISABLED',
+    write_new(root/'prepared.json',dict(source=lock['code_commit'],main_cells=len(selected),
+        selected_cells=[r['logical_main_row'] for r in selected],qualification='NOT_RUN_USER_DISABLED',
         project_GPU_cap=2,serial_GPU_lane=1,storage_min_free_bytes=32*1024**3,
         storage_plan='Per-cell W20 final-only archive verification and reclaim before next cell; no qualification CP',
         total_final_bytes=47045410816,max_single_payload_bytes=8543797248,
         concurrent_atomic_bytes=17087594496,raw_and_error_reserve_bytes=17179869184,
         planned_checkpoint_consumers=['writer/evaluation in same GPU job'],
         archive_stage='CPU-only storage consumer, no model/resume/evaluation',job_ids=[]))
+
+def job_fields(job):
+    raw=cmd(['scontrol','show','job',job,'-o'])
+    return raw,dict(x.split('=',1) for x in raw.split() if '=' in x)
+
+def pending_original(oldroot,item,dependency=None):
+    """Fail closed if an original exact job has ever started or changed owner/source."""
+    raw,f=job_fields(item['job_id'])
+    script=oldroot/'scripts'/f"{item['logical_main_row']}-{item['kind']}.sh"
+    expected=dict(JobId=item['job_id'],JobName=item['name'],JobState='PENDING',
+                  Command=str(script),WorkDir=str(oldroot),ReqNodeList='server4',
+                  RunTime='00:00:00',StartTime='Unknown',Restarts='0',Requeue='0')
+    for key,value in expected.items():check(f.get(key)==value,'ORIGINAL_CHANGED_OR_STARTED_'+key)
+    check(f.get('UserId','').startswith('janghj('),'ORIGINAL_OWNER')
+    check(f.get('AllocTRES') in ('(null)','') and f.get('NodeList') in ('','(null)'), 'ORIGINAL_ALLOCATED')
+    check(dependency_matches(f.get('Dependency',''),dependency or item['dependency']),'ORIGINAL_DEPENDENCY')
+    return raw
+
+def cf_inventory(oldroot):
+    verify(oldroot)
+    jobs=read(oldroot/'released.json')['jobs']
+    check(len(jobs)==24 and len({j['job_id'] for j in jobs})==24,'ORIGINAL_GRAPH_NOT_24_UNIQUE')
+    check([j['job_id'] for j in jobs]==[str(i) for i in range(61743,61767)],'EXACT_DISPATCH_IDS_REQUIRED')
+    check(all(j['source']==read(oldroot/'source-lock.json')['code_commit'] for j in jobs),'SOURCE_RECEIPT_MISMATCH')
+    snapshots=[dict(job_id=j['job_id'],raw=pending_original(oldroot,j)) for j in jobs]
+    cf=[j for j in jobs if j['dataset']=='cf']; retained=[j for j in jobs if j['dataset']=='zsre']
+    check(len(cf)==len(retained)==12,'DATASET_SCOPE')
+    raw_outputs=[str(p) for directory in ('runs','shared-w0') for p in (oldroot/directory).rglob('*.json')]
+    check(not raw_outputs,'ACTUAL_PROGRESS_REQUIRES_HEALTH_TRIAGE')
+    caller=oldroot/'source/official/runners/server4/qwen_run.py'
+    check('Efficacy_AlphaEdit_display' not in caller.read_text(),'OLD_CALLER_ALREADY_REPAIRED')
+    accounting=cmd(['sacct','-X','-n','-P','-j',','.join(j['job_id'] for j in jobs),
+                    '-o','JobIDRaw,User,JobName,State,ElapsedRaw,Start,AllocTRES,NodeList'])
+    for j in jobs:
+        lines=[line.split('|') for line in accounting.splitlines() if line.startswith(j['job_id']+'|')]
+        check(len(lines)==1,'ACCOUNTING_MISSING')
+        a=lines[0]
+        check(a[1:7]==['janghj',j['name'],'PENDING','0','Unknown',''],'ACCOUNTING_STARTED_OR_ALLOCATED')
+    return dict(at=now(),oldroot=str(oldroot),source=read(oldroot/'source-lock.json')['code_commit'],
+                snapshots=snapshots,accounting=accounting,affected=cf,retained=retained,
+                reason='UNSTARTED_CF_CALLER_MISSING_NATIVE_DISPLAY_COMPANIONS',
+                actual_Qwen_failure='NOT_OBSERVED',actual_raw='NOT_OBSERVED',online='NOT_STARTED')
+
+def replace_pending_cf(root,oldroot):
+    """One explicit control pass; no science retry and no unrelated job cancellation."""
+    verify(root,gpu_space=True)
+    check(read(root/'prepared.json')['main_cells']==6,'REPLACEMENT_CF_ONLY')
+    check(not (root/'cf-repair-started.json').exists(),'NO_AUTOMATIC_RECONCILIATION_RETRY')
+    inventory=cf_inventory(oldroot);write_new(root/'cf-repair-started.json',inventory)
+    # Protect the retained first zsRE before any archive predecessor is cancelled.
+    head=inventory['retained'][0]
+    for item in [head,*reversed(inventory['affected'])]:
+        before=pending_original(oldroot,item)
+        cmd(['scontrol','hold',item['job_id']])
+        after=pending_original(oldroot,item)
+        check('Reason=JobHeldUser ' in after,'HOLD_NOT_CONFIRMED')
+        write_new(root/'repair-holds'/f"{item['job_id']}.json",dict(before=before,after=after,at=now()))
+    for item in reversed(inventory['affected']):
+        before=pending_original(oldroot,item)
+        check('Reason=JobHeldUser ' in before,'CANCEL_REQUIRES_HOLD')
+        cmd(['scancel',item['job_id']])
+        after,fields=job_fields(item['job_id'])
+        check(fields['JobState']=='CANCELLED','CANCEL_NOT_CONFIRMED')
+        write_new(root/'repair-cancellations'/f"{item['job_id']}.json",dict(before=before,after=after,at=now()))
+    write_new(root/'cf-repair.json',inventory)
+
+def retained_pending(root):
+    if not (root/'cf-repair.json').exists():return []
+    repair=read(root/'cf-repair.json');oldroot=Path(repair['oldroot'])
+    for item in repair['retained']:pending_original(oldroot,item)
+    for item in repair['affected']:
+        _,f=job_fields(item['job_id']);check(f['JobState']=='CANCELLED','OLD_CF_NOT_CANCELLED')
+    check('Reason=JobHeldUser ' in pending_original(oldroot,repair['retained'][0]),'RETAINED_HEAD_NOT_HELD')
+    return repair['retained']
+
+def bind_current_frontier():
+    specs=[('61674','qwen-price-tuning-sweep',2),('61776','qwen-heldout-memit',1),('61777','qwen-heldout-alphaedit',1)]
+    members=[]
+    for job,name,gpus in specs:
+        raw,f=job_fields(job)
+        check(f.get('UserId','').startswith('janghj(') and f.get('JobName')==name and f.get('ReqNodeList')=='server4','RESOURCE_FRONTIER_IDENTITY')
+        check(f.get('JobState') in ('RUNNING','COMPLETING','CONFIGURING'),'RESOURCE_FRONTIER_FRESH_STATE')
+        check('gres/gpu='+str(gpus) in f.get('AllocTRES',''),'RESOURCE_FRONTIER_ALLOCATION')
+        command=Path(f['Command']);check(command.is_file(),'FRONTIER_COMMAND_MISSING')
+        members.append(dict(job_id=job,name=name,command=str(command),command_sha256=file_sha(command),gpus=gpus,raw=raw))
+    return dict(at=now(),effective_cap=2,current_allocated_GPUs=4,legacy_over_cap=True,
+                new_execution='WAIT_ALL_BOUND_FRONTIER_TERMINAL',members=members)
+
+def checked_frontier(root,frontier):
+    if not (root/'resource-frontier.json').exists():return [frontier]
+    binding=read(root/'resource-frontier.json');check(binding['effective_cap']==2,'FRONTIER_CAP')
+    ids=[]
+    for m in binding['members']:
+        _,f=job_fields(m['job_id'])
+        check(f.get('UserId','').startswith('janghj(') and f.get('JobName')==m['name'] and f.get('ReqNodeList')=='server4','FRONTIER_CHANGED')
+        check(f.get('Command')==m['command'] and file_sha(Path(m['command']))==m['command_sha256'],'FRONTIER_SOURCE_CHANGED')
+        ids.append(m['job_id'])
+    check(ids==['61674','61776','61777'] and frontier==ids[0],'EXACT_RESOURCE_FRONTIER')
+    return ids
 
 def inspect(job,name,script,gpus,dependency):
     text=cmd(['scontrol','show','job',job,'-o']);fields=dict(x.split('=',1) for x in text.split() if '=' in x)
@@ -107,7 +216,7 @@ def inspect(job,name,script,gpus,dependency):
     for k,v in expected.items():check(fields.get(k)==v,'HELD_INSPECT_'+k)
     check(fields['UserId'].startswith('janghj('),'OWNER_MISMATCH')
     check(fields.get('Reason')=='JobHeldUser','NOT_USER_HELD')
-    check(dependency in fields.get('Dependency',''),'DEPENDENCY_MISMATCH')
+    check(dependency_matches(fields.get('Dependency',''),dependency),'DEPENDENCY_MISMATCH')
     check(('gres/gpu=1' in fields.get('ReqTRES','')) if gpus else ('gres/gpu' not in fields.get('ReqTRES','')),'GPU_RESOURCE_MISMATCH')
     check(fields.get('ReqTRES','').split(',')[0]==('cpu=8' if gpus else 'cpu=2'),'REQUESTED_CPU_MISMATCH')
     return text
@@ -125,15 +234,19 @@ def submit(root,frontier,continue_held=False):
         fields=dict(x.split('=',1) for x in line.split() if '=' in x)
         if fields.get('UserId','').startswith('janghj(') and (fields.get('ReqNodeList')=='server4' or fields.get('NodeList')=='server4'):
             if fields.get('JobState') in ('RUNNING','COMPLETING','CONFIGURING','PENDING'):owned.append(fields)
-    check(all(x['JobId'] in {frontier,*[j['job_id'] for j in existing]} for x in owned),'FRESH_QUEUE_RECONCILIATION_REQUIRED')
+    retained=retained_pending(root)
+    frontiers=checked_frontier(root,frontier)
+    check(all(x['JobId'] in {*frontiers,*[j['job_id'] for j in existing],*[j['job_id'] for j in retained]} for x in owned),'FRESH_QUEUE_RECONCILIATION_REQUIRED')
     tuning=cmd(['scontrol','show','job',frontier,'-o'])
     check('JobName=qwen-price-tuning-sweep ' in tuning and 'UserId=janghj(' in tuning,'FRONTIER_IDENTITY')
     check('gres/gpu=2' in tuning,'FRONTIER_RESOURCE_RECHECK')
     record=dict(at=now(),queue=queue,own_server4=owned,frontier=tuning,cap=2)
     if continue_held:write_new(root/'registration-control-reconciliation.json',record)
     else:write_new(root/'registration-started.json',record)
-    jobs=[];dependency='afterany:'+frontier
+    jobs=[];dependency='afterany:'+':'.join(frontiers)
+    selected=read(root/'prepared.json').get('selected_cells',[r['logical_main_row'] for r in rows()])
     for row in rows():
+        if row['logical_main_row'] not in selected:continue
         logical=row['logical_main_row']
         for kind in ('gpu','archive'):
             gpu=kind=='gpu';name='qwen-'+row['config']['dataset']+'-'+row['config']['method'].lower()+('-archive' if not gpu else '')
@@ -166,6 +279,16 @@ def submit(root,frontier,continue_held=False):
     write_new(root/'submission.json',dict(status='ALL_HELD_INSPECTED',jobs=jobs,qualification='NOT_RUN_USER_DISABLED'))
     for item in jobs:
         inspect(item['job_id'],item['name'],root/'scripts'/f"{item['logical_main_row']}-{item['kind']}.sh",1 if item['kind']=='gpu' else 0,item['dependency'])
+    if retained:
+        repair=read(root/'cf-repair.json');oldroot=Path(repair['oldroot']);head=retained[0]
+        before=pending_original(oldroot,head)
+        check('Reason=JobHeldUser ' in before,'RECONNECT_REQUIRES_HOLD')
+        new_dependency='afterok:'+jobs[-1]['job_id']
+        cmd(['scontrol','update','JobId='+head['job_id'],'Dependency='+new_dependency])
+        after=pending_original(oldroot,head,new_dependency)
+        write_new(root/'retained-zsre-reconnection.json',dict(job_id=head['job_id'],before=before,after=after,
+                  old_dependency=head['dependency'],new_dependency=new_dependency,at=now(),science_source_unchanged=True))
+        cmd(['scontrol','release',head['job_id']])
     for item in reversed(jobs):
         cmd(['scontrol','release',item['job_id']])
         write_new(root/'releases'/f"{item['job_id']}.json",dict(job_id=item['job_id'],released_at=now()))
@@ -174,10 +297,14 @@ def submit(root,frontier,continue_held=False):
     print(json.dumps(dict(jobs=jobs,snapshot=snapshot)))
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('command',choices=['prepare','verify','submit']);p.add_argument('--root',type=Path,required=True)
+    p=argparse.ArgumentParser();p.add_argument('command',choices=['prepare','verify','submit','replace-pending-cf','inventory-cf','bind-frontier']);p.add_argument('--root',type=Path,required=True)
     p.add_argument('--gpu-space',action='store_true')
     p.add_argument('--continue-held',action='store_true',help='explicit operator reconciliation, never automatic')
-    p.add_argument('--preparation',type=Path);p.add_argument('--frontier');args=p.parse_args()
-    if args.command=='prepare':prepare(args.root,args.preparation)
+    p.add_argument('--preparation',type=Path);p.add_argument('--frontier');p.add_argument('--dataset',choices=['cf'])
+    p.add_argument('--old-root',type=Path);p.add_argument('--frontier-binding',type=Path);args=p.parse_args()
+    if args.command=='prepare':prepare(args.root,args.preparation,args.dataset,args.frontier_binding)
     elif args.command=='verify':verify(args.root,args.gpu_space)
+    elif args.command=='inventory-cf':write_new(args.root,cf_inventory(args.old_root))
+    elif args.command=='replace-pending-cf':replace_pending_cf(args.root,args.old_root)
+    elif args.command=='bind-frontier':write_new(args.root,bind_current_frontier())
     else:submit(args.root,args.frontier,args.continue_held)

@@ -323,6 +323,24 @@ def _factual_scalars(dataset, cases, summary, prefix, edits):
                   "Score_AlphaEdit_display", "Specificity_loc_ans", "requests"):
         if field in summary:
             values[f"{group}/{field}"] = summary[field]
+    if dataset == "cf" and "Score_AlphaEdit_display" in summary:
+        # Match the native reducer's request/cohort NumPy mean and around.
+        # Rounding the already reduced Python float can change a half-cent.
+        import numpy as np
+        for kind, label in (("rewrite", "Efficacy"),
+                            ("paraphrase", "Generalization"),
+                            ("neighborhood", "Specificity")):
+            rates = []
+            for case in cases:
+                bits = [float(row["target_true"] < row["target_new"]
+                              if kind == "neighborhood" else
+                              row["target_new"] < row["target_true"])
+                        for row in case[kind + "_prompts_probs"]]
+                if not bits:
+                    raise ValueError("DISPLAY_EMPTY_REQUEST")
+                rates.append(np.mean(bits))
+            values[f"{group}/{label}_AlphaEdit_display"] = float(
+                np.around(np.mean(rates) * 100, 2))
     return values
 
 
