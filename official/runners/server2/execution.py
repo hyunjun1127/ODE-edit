@@ -7,7 +7,7 @@ from official.baselines import registry
 from official.experiments.prepare import METHODS, digest, file_sha, read, write_new
 from official.runners.server2 import assets
 from official.runners.server2.run import checkpoint_identity, configuration, tracking_config
-from official.runners.server2 import parity
+from official.runners.server2 import oracle, parity
 from official.tracking import schema as tracking_schema
 from official.runners.server2.submit import REPO, OUTPUT, SESSION, INSTRUCTION, sealed_source
 
@@ -37,7 +37,8 @@ def memory_disk_plan():
             'CF reference scoring assets at W0/W20 only'])
 
 
-def prepare(asset_manifest, out, source, official_tree, tracking_binding, local_caps):
+def prepare(asset_manifest, out, source, official_tree, tracking_binding, local_caps,
+            qualification_producer_attempt=None):
     source_binding = sealed_source(source, official_tree)
     assets.verify(asset_manifest)
     base = read(asset_manifest)
@@ -76,6 +77,10 @@ def prepare(asset_manifest, out, source, official_tree, tracking_binding, local_
                              for method in METHODS})
     value['native_parity_plans'] = {dataset:{method:parity.plan(value,dataset,method,
         read(value['streams'][dataset]['path'])) for method in METHODS} for dataset in ('cf','zsre')}
+    value['cf_native_reference_plan'] = oracle.plan(value, read(value['streams']['cf']['path'])[:4])
+    value['qualification_plan']['original_native_evaluator_parity'] = (
+        'SEPARATE_LOCKED_FIRST4_INDEPENDENT_ORIGINAL_FORWARD_IN_NEW_CF_W0; '
+        'ACTUAL_PASS_REQUIRED_BEFORE_READY; NOT_A_PREREGISTRATION_PASS')
     tracking_schema.load_env(tracking['env_file'])
     for dataset in ('cf','zsre'):
         for method in METHODS:
@@ -86,6 +91,9 @@ def prepare(asset_manifest, out, source, official_tree, tracking_binding, local_
         source_route='SHARED_OFFICIAL_TRACKING_READONLY', duplicate_logger=False)
     value['checkpoint_identities'] = {dataset:{method:checkpoint_identity(value,method,dataset)
         for method in METHODS} for dataset in ('cf','zsre')}
+    if qualification_producer_attempt is not None:
+        from official.runners.server2 import qualification_input
+        value['qualification_input_plan'] = qualification_input.plan(qualification_producer_attempt, value)
     value['qualification_plan_sha256'] = digest(value['qualification_plan'])
     out = Path(out).resolve()
     if OUTPUT not in out.parents or out.exists():
@@ -103,8 +111,10 @@ def main():
     parser.add_argument('--official-tree', required=True)
     parser.add_argument('--tracking-binding', required=True)
     parser.add_argument('--local-caps', required=True)
+    parser.add_argument('--qualification-producer-attempt')
     args=parser.parse_args()
-    prepare(args.asset_manifest,args.out,args.source,args.official_tree,args.tracking_binding,args.local_caps)
+    prepare(args.asset_manifest,args.out,args.source,args.official_tree,args.tracking_binding,args.local_caps,
+            qualification_producer_attempt=args.qualification_producer_attempt)
 
 
 if __name__=='__main__':

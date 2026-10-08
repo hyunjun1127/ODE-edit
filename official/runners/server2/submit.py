@@ -250,11 +250,29 @@ def w0_binding(path, *, manifest, dataset):
         and ready.get('tokenizer_sha256') == manifest['tokenizer_sha256']
         and ready.get('stream_sha256') == manifest['streams'][dataset]['lock']['stream_sha256'],
         'ACTUAL_W0_REFERENCE_IDENTITY')
+    if dataset == 'cf':
+        from official.runners.server2.run import verify_cf_native_oracle
+        verify_cf_native_oracle(manifest, ready.get('original_native_reference'))
     return bound
 
 
 def gate(path, *, manifest, kind):
     """Only actual model execution evidence is a scientific-stage prerequisite."""
+    if kind == 'qualification':
+        from official.runners.server2 import oracle
+        frozen = manifest.get('cf_native_reference_plan')
+        require(frozen is not None and frozen == oracle.plan(manifest,
+            read(manifest['streams']['cf']['path'])[:4]), 'FUTURE_W0_ORIGINAL_ORACLE_PLAN_REQUIRED')
+        # Original scorer evidence is produced by the new W0 job and gates its
+        # READY, not a circular prerequisite for registering that W0 producer.
+        # Resume evidence retains its own old producer source/identities.
+        if manifest.get('qualification_input_plan') is not None:
+            from official.runners.server2 import qualification_input
+            binding = qualification_input.verify(manifest['qualification_input_plan'], manifest, path)
+            require(binding.get('status') == 'VERIFIED_PRODUCER_QUALIFICATION_INPUT'
+                and binding.get('actual_GPU') is True,
+                'ACTUAL_PRODUCER_QUALIFICATION_INPUT_NOT_READY')
+            return dict(member(path), native_resume_consumer_binding=binding)
     receipt = read(path)
     require(receipt['status'] == 'PASS_ACTUAL_'+kind.upper() and receipt['actual_GPU'] is True
         and receipt['code_commit'] == manifest['code_commit']
@@ -263,8 +281,6 @@ def gate(path, *, manifest, kind):
     if kind == 'qualification':
         from official.runners.server2.run import checkpoint_identity
         require(set(receipt['methods']) == set(METHODS), 'SIX_ACTUAL_QUALIFICATIONS_REQUIRED')
-        require(receipt.get('CF_original_evaluator_parity') == 'PASS_ACTUAL_ORIGINAL_NATIVE_REFERENCE',
-                'CF_ORIGINAL_NATIVE_REFERENCE_PARITY_NOT_ESTABLISHED_BY_RESUME')
         for method, value in receipt['methods'].items():
             require(value['method'] == method and value['dataset'] == 'cf' and value['model'] == 'gptj'
                 and value['actual_GPU'] is True and value['continuous_batches'] == 3
