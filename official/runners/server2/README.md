@@ -102,3 +102,12 @@ compatibility를 봉인한다. 입력은 기존18e7fbd registration-qualificatio
 대신 사전 봉인한 oracle PLAN이 필요하고, W0 actual PASS 이후만 READY/후속이 열리며 reader와
 collector가 member SHA를 재검산한다. 원 qualification receipt가 없으면 INPUT_PENDING이며
 CPU fixture·label·단순 Slurm terminal로 성공을 만들지 않는다. 새 monitor/retry는 없다.
+## 2026-10-09 USER 별도 GPU qualification 제거
+
+`no_gpu_qualification.profile()`은 새 `no_gpu_qual` 등록에만 적용된다.
+별도 B100 smoke, 연속 B3/복원 B3, 독립 oracle 추가 forward와 old proof gate는
+`NOT_RUN_USER_DISABLED`이며 PASS가 아니다. 본실험 native guard와 체크포인트 기능은 유지한다.
+정상 완료 CF FT 61650은 재실행하지 않는다. CF 5개와 zsRE 6개는 새 cold chain이다.
+두 dataset의 실제 필수 W0 입력만 별도 노드로 만들고, W0 READY 이후 cap4의 네 lane을 사용한다.
+CF는 FLU/CON deferred, zsRE는 생성 평가 없음. 이전 source/CP/raw는 변경하지 않는다.
+아래 legacy qualification 설명은 옛 profile의 역사 계약이며 이 overlay에는 적용하지 않는다.

@@ -38,7 +38,10 @@ def memory_disk_plan():
 
 
 def prepare(asset_manifest, out, source, official_tree, tracking_binding, local_caps,
-            qualification_producer_attempt=None, checkpoint_only=False, zsre_only=False):
+            qualification_producer_attempt=None, checkpoint_only=False, zsre_only=False,
+            no_gpu_qualification=False):
+    if no_gpu_qualification and any((qualification_producer_attempt, checkpoint_only, zsre_only)):
+        raise ValueError('NEW_USER_OVERLAY_NOT_LEGACY_QUALIFICATION_PROFILE')
     if zsre_only and (checkpoint_only or qualification_producer_attempt is not None):
         raise ValueError('ZSRE_SEPARATE_PROFILE_REQUIRED')
     source_binding = sealed_source(source, official_tree)
@@ -101,6 +104,18 @@ def prepare(asset_manifest, out, source, official_tree, tracking_binding, local_
             actual_GPU='NOT_OBSERVED', W0_reference='SAME_SOURCE_NEW_TOKEN_PREDICTIONS',
             runtime_verifier='official.runners.server2.collect.validate_smoke',
             native_formula_parity=True, subsequent_chains='FRESH_COLD_W0', automatic_retry=False)
+    if no_gpu_qualification:
+        from official.runners.server2 import no_gpu_qualification as noqual
+        for key in ('qualification_plan', 'native_parity_plans', 'cf_native_reference_plan'):
+            value.pop(key)
+        value['no_gpu_qualification_profile'] = noqual.profile()
+        value['actual_GPU_qualification'] = noqual.DISABLED
+        value['checkpoint_plan']['qualification_latest_checkpoints_bytes'] = 0
+        value['checkpoint_plan']['four_lane_atomic_extra_bytes'] = 4*max(value['checkpoint_plan']['per_method_payload_bytes'].values())
+        value['checkpoint_plan']['generation_evaluation_consumer_pending'] = True
+        value['checkpoint_plan']['final_checkpoint_archive_delete_allowed'] = False
+        value['checkpoint_plan']['memory_components'] = [x for x in value['checkpoint_plan']['memory_components']
+            if not x.startswith(('qualification', 'CF reference'))]
     tracking_schema.load_env(tracking['env_file'])
     datasets = ('zsre',) if zsre_only else ('cf',) if checkpoint_only else ('cf','zsre')
     for dataset in datasets:
@@ -115,7 +130,8 @@ def prepare(asset_manifest, out, source, official_tree, tracking_binding, local_
     if qualification_producer_attempt is not None:
         from official.runners.server2 import qualification_input
         value['qualification_input_plan'] = qualification_input.plan(qualification_producer_attempt, value)
-    value['qualification_plan_sha256'] = digest(value['qualification_plan'])
+    if not no_gpu_qualification:
+        value['qualification_plan_sha256'] = digest(value['qualification_plan'])
     out = Path(out).resolve()
     if OUTPUT not in out.parents or out.exists():
         raise ValueError('NEW_IMMUTABLE_TASK_EXECUTION_PREPARATION_REQUIRED')
@@ -135,10 +151,12 @@ def main():
     parser.add_argument('--qualification-producer-attempt')
     parser.add_argument('--checkpoint-only', action='store_true')
     parser.add_argument('--zsre-only', action='store_true')
+    parser.add_argument('--no-gpu-qualification', action='store_true')
     args=parser.parse_args()
     prepare(args.asset_manifest,args.out,args.source,args.official_tree,args.tracking_binding,args.local_caps,
             qualification_producer_attempt=args.qualification_producer_attempt,
-            checkpoint_only=args.checkpoint_only, zsre_only=args.zsre_only)
+            checkpoint_only=args.checkpoint_only, zsre_only=args.zsre_only,
+            no_gpu_qualification=args.no_gpu_qualification)
 
 
 if __name__=='__main__':
