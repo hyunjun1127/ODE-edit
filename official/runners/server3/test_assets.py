@@ -4,6 +4,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import sys
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -129,6 +130,23 @@ class AssetPreflightTests(unittest.TestCase):
             self.assertFalse(report["ready_to_submit"])
             self.assertEqual(report["blockers"][0]["code"], "ASSET_MANIFEST_MISSING")
             self.assertEqual(report["blockers"][0]["path"], str(target))
+
+    def test_missing_native_nltk_resource_blocks_generation_before_model_load(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            lock = root / "generation.lock.json"
+            lock.write_text(json.dumps({"reference_identity_sha256": "identity",
+                                        "reference_files": {}}))
+            report = {"assets": {}, "blockers": [],
+                      "runtime": {"python": sys.executable}}
+            failed = type("Probe", (), {"returncode": 1, "stdout": ""})()
+            with patch.object(assets, "GENERATION", lock), \
+                 patch.object(assets.subprocess, "run", return_value=failed):
+                assets._generation(report, str(root / "missing.json"), root, False, True)
+            self.assertIn("GENERATION_TOKENIZER_UNAVAILABLE",
+                          {item["code"] for item in report["blockers"]})
+            self.assertIn("GENERATION_MANIFEST_MISSING",
+                          {item["code"] for item in report["blockers"]})
 
     def test_frozen_source_lock_must_match_actual_official_bytes(self):
         with tempfile.TemporaryDirectory() as directory:

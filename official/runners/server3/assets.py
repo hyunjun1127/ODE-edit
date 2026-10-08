@@ -408,6 +408,29 @@ def _generation(result: dict, value, base: Path, hash_large: bool,
     if not require_generation:
         generation["verification"] = "NOT_REQUIRED_FOR_THIS_STAGE"
         return
+    runtime_python = result.get("runtime", {}).get("python")
+    if runtime_python and Path(runtime_python).is_file():
+        # Probe the actual scientific interpreter with the same HOME-only
+        # resource lookup as the --export=NONE launcher.  The native generator
+        # needs punkt/punkt_tab; no downloader or fallback is permitted.
+        probe = ("import json; from official.evaluation.generation.assets "
+                 "import nltk_binding; b=nltk_binding(); "
+                 "print(json.dumps({'family':b['required_family'],"
+                 "'version':b['nltk_version']}))")
+        env = {"HOME": str(Path.home()), "USER": os.environ.get("USER", "janghj"),
+               "PATH": os.environ.get("PATH", "/usr/bin:/bin"),
+               "PYTHONPATH": str(WORKTREE), "PYTHONDONTWRITEBYTECODE": "1"}
+        try:
+            observed = subprocess.run([runtime_python, "-c", probe], cwd=WORKTREE,
+                                      env=env, capture_output=True, text=True,
+                                      timeout=30)
+            if observed.returncode:
+                raise ValueError("native tokenizer binding failed")
+            generation["tokenizer"] = json.loads(observed.stdout)
+        except (OSError, ValueError, subprocess.SubprocessError):
+            _block(result, "GENERATION_TOKENIZER_UNAVAILABLE", runtime_python,
+                   "Native NLTK tokenizer resource is not available in the sealed runtime")
+            generation["tokenizer"] = {"verification": "NOT_AVAILABLE"}
     if path is None or not path.is_file():
         _block(result, "GENERATION_MANIFEST_MISSING", path or "generation_reference_manifest",
                "FLU/CON reference manifest is absent")
@@ -635,9 +658,9 @@ def preflight(asset_manifest_path, *, hash_large=False, require_generation=True)
         member["source_provenance"] = "official stream source SHA; no dataset parse or rewrite"
         result["assets"][key] = member
     _physical(result, manifest, manifest_path.parent, historical, hash_large)
+    _runtime(result, manifest, manifest_path.parent)
     _generation(result, manifest.get("generation_reference_manifest"),
                 manifest_path.parent, hash_large, require_generation)
-    _runtime(result, manifest, manifest_path.parent)
     _storage(result, manifest, manifest_path.parent)
     _wandb(result, manifest, manifest_path.parent)
     result["ready_to_submit"] = not result["blockers"]
