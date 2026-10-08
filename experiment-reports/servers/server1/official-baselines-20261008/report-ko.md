@@ -11,6 +11,18 @@ W20 FLU/CON은 생략하고 실제 W20 checkpoint를 보존해 후속 평가에 
 generation 계약은 변경하지 않았다. deferred W20 지표·progress 업로드는 거절한다.
 변경 runner CPU181 PASS, 실제 GPU/Slurm 등록은 아직0이다. 기존 job/CP 이동·삭제0.
 
+### 현재 등록 blocker
+
+구현 source `35a6205a70ba76e71a077aa66e81aa443d4099e7` / official tree
+`68c2beb2b0968eb2fd0940bfec210aa96dee1f97`는 own branch 게시 완료다.
+CF 전용 새 config는 `local/official-baselines/server1/cf-checkpoint-r1`에 봉인했다.
+GH의 기존 shared W0 reader BLOCK 해제/main 통합이 아직 미확인이다. 정본 제출기는
+`origin/main` membership을 요구하며 이를 우회하거나 실제 검토 PASS로 표시하지 않는다.
+등록 우선 USER 지시에 따라 SH4 협조 작업은 보류했다. GH 직접 source-review 전달은
+bounded socket timeout으로 COMMUNICATION_HOLD이며 수신 완료로 표시하지 않는다.
+receipt: `local/official-baselines/server1/cf-checkpoint-r1/GH-source-review-relay.json`.
+신규 sbatch/jobID/실제 GPU qualification/online 검증은0이며 자동 전송 retry도 하지 않았다.
+
 ## 최신 shared W0 기술 수리 상태
 
 GH review `2d2bb2ee...`의 네 retained-proof 우회를 CPU 회귀로 수리했다.
