@@ -1,0 +1,156 @@
+{
+  "nonce": "SH2-GH-NO-GPU-QUAL-SUBMITTED-20261009-R1",
+  "parent": "USER-GH-SH1-SH2-OFFICIAL-NO-GPU-QUAL-RERUN-20261009-R1",
+  "evidence": "Direct SH2 submission handoff received by GH; no additional scheduler polling",
+  "source": "478464689231595eb63da368cc7c376e775eb559",
+  "official_tree": "41ed261d1fc8c7c0022366c50fa9cb1ae3c05320",
+  "lock_sha256": "ff7ee062dddb9ef2724eb0e527c46a1f1265c1f8cb56e7ad83330d1646217e07",
+  "manifest_sha256": "cf7619c3e47122d7b616253d08c76318287887dc43ef2b5cc9874d605d6aea3e",
+  "held_inspected_released": true,
+  "initial_snapshot": "All new jobs PENDING; snapshot timestamp not provided in direct handoff",
+  "GPU_cap": 4,
+  "kept": {
+    "dataset": "cf",
+    "method": "FT",
+    "job": 61650,
+    "state": "COMPLETED_W20",
+    "rerun": false
+  },
+  "input_jobs": {
+    "cf": 61723,
+    "zsre": 61724,
+    "purpose": "Actual factual W0 once per dataset, not qualification"
+  },
+  "collector": 61736,
+  "rows": [
+    {
+      "dataset": "cf",
+      "method": "MEMIT",
+      "job_id": 61725,
+      "dependency_intent": [
+        "afterok:61723"
+      ],
+      "state": "PENDING",
+      "exact_slurm_dependency": "See original owner submission receipt; edges here transcribed from direct handoff"
+    },
+    {
+      "dataset": "cf",
+      "method": "ALPHAEDIT",
+      "job_id": 61727,
+      "dependency_intent": [
+        "afterok:61723"
+      ],
+      "state": "PENDING",
+      "exact_slurm_dependency": "See original owner submission receipt; edges here transcribed from direct handoff"
+    },
+    {
+      "dataset": "cf",
+      "method": "ALPHAEDIT_BLUE",
+      "job_id": 61729,
+      "dependency_intent": [
+        "afterok:61723",
+        "afterany:61725"
+      ],
+      "state": "PENDING",
+      "exact_slurm_dependency": "See original owner submission receipt; edges here transcribed from direct handoff"
+    },
+    {
+      "dataset": "cf",
+      "method": "MEMIT_FE",
+      "job_id": 61731,
+      "dependency_intent": [
+        "afterok:61723",
+        "afterany:61727"
+      ],
+      "state": "PENDING",
+      "exact_slurm_dependency": "See original owner submission receipt; edges here transcribed from direct handoff"
+    },
+    {
+      "dataset": "cf",
+      "method": "SPHERE",
+      "job_id": 61733,
+      "dependency_intent": [
+        "afterok:61723",
+        "afterany:61729"
+      ],
+      "state": "PENDING",
+      "exact_slurm_dependency": "See original owner submission receipt; edges here transcribed from direct handoff"
+    },
+    {
+      "dataset": "zsre",
+      "method": "FT",
+      "job_id": 61726,
+      "dependency_intent": [
+        "afterok:61724"
+      ],
+      "state": "PENDING",
+      "exact_slurm_dependency": "See original owner submission receipt; edges here transcribed from direct handoff"
+    },
+    {
+      "dataset": "zsre",
+      "method": "MEMIT",
+      "job_id": 61728,
+      "dependency_intent": [
+        "afterok:61724"
+      ],
+      "state": "PENDING",
+      "exact_slurm_dependency": "See original owner submission receipt; edges here transcribed from direct handoff"
+    },
+    {
+      "dataset": "zsre",
+      "method": "ALPHAEDIT",
+      "job_id": 61730,
+      "dependency_intent": [
+        "afterok:61724",
+        "afterany:61726"
+      ],
+      "state": "PENDING",
+      "exact_slurm_dependency": "See original owner submission receipt; edges here transcribed from direct handoff"
+    },
+    {
+      "dataset": "zsre",
+      "method": "ALPHAEDIT_BLUE",
+      "job_id": 61732,
+      "dependency_intent": [
+        "afterok:61724",
+        "afterany:61728"
+      ],
+      "state": "PENDING",
+      "exact_slurm_dependency": "See original owner submission receipt; edges here transcribed from direct handoff"
+    },
+    {
+      "dataset": "zsre",
+      "method": "MEMIT_FE",
+      "job_id": 61734,
+      "dependency_intent": [
+        "afterok:61724",
+        "afterany:61730"
+      ],
+      "state": "PENDING",
+      "exact_slurm_dependency": "See original owner submission receipt; edges here transcribed from direct handoff"
+    },
+    {
+      "dataset": "zsre",
+      "method": "SPHERE",
+      "job_id": 61735,
+      "dependency_intent": [
+        "afterok:61724",
+        "afterany:61731"
+      ],
+      "state": "PENDING",
+      "exact_slurm_dependency": "See original owner submission receipt; edges here transcribed from direct handoff"
+    }
+  ],
+  "qualification": "NOT_RUN_USER_DISABLED",
+  "checkpoint_resume_GPU_equivalence": "NOT_RUN_USER_DISABLED",
+  "native_oracle_extra_forward": "NOT_RUN_USER_DISABLED",
+  "generation": {
+    "cf": "DEFERRED_CHECKPOINT_EVALUATION",
+    "zsre": "none"
+  },
+  "main_checkpoint_tracking": "preserved",
+  "WandB_startup": "NOT_OBSERVED",
+  "raw_submission": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/submission.json",
+  "old_artifacts": "KEEP",
+  "new_recurring_monitor": false
+}

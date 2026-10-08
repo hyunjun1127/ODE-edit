@@ -26,7 +26,27 @@ REFERENCE_BYTES = 7941
 SCOPE = "ACTUAL_MATCHED_SUBSET"
 REQUESTS = 300
 OCCURRENCES = list(range(1, REQUESTS + 1))
-METHODS = ("FT", "MEMIT", "MEMIT_FE")
+METHODS = ("FT", "MEMIT", "MEMIT_FE", "ALPHAEDIT", "SPHERE")
+
+
+def validate_state(value, *, method=None):
+    if value.get("method") not in ("ALPHAEDIT", "SPHERE"):
+        from official.evaluation.w0_reference import _native_state
+        return _native_state(value, method=method)
+    require(method is None or value["method"] == method, "PROJECTED_STATE_METHOD")
+    require(set(value) == {"method", "successful_calls", "cache_c", "selected_weights", "contexts_sha256", "identity_sha256"}
+            and value["successful_calls"] == 3
+            and value["identity_sha256"] == digest({k:v for k,v in value.items() if k != "identity_sha256"}),
+            "PROJECTED_STATE_DIGEST_CURSOR")
+    require(set(value["cache_c"]) == {str(i) for i in range(4,9)}
+            and set(value["selected_weights"]) == {f"model.layers.{i}.mlp.down_proj.weight" for i in range(4,9)},
+            "PROJECTED_STATE_LAYER_MAPPING")
+    for name, shape in (("cache_c", [14336,14336]), ("selected_weights", [4096,14336])):
+        for row in value[name].values():
+            require(set(row) == {"sha256","shape","dtype"} and row["shape"] == shape
+                    and row["dtype"] == "torch.float32" and re.fullmatch(r"[a-f0-9]{64}", row["sha256"]),
+                    "PROJECTED_STATE_TENSOR_IDENTITY")
+    require(re.fullmatch(r"[a-f0-9]{64}", value["contexts_sha256"]), "PROJECTED_STATE_CONTEXT")
 PLAN = dict(schema="official-server1-native-CF-parity-plan-v1", completed_batch=3,
     stage="continuous_B3", first_occurrences=OCCURRENCES, requests=REQUESTS,
     evidence_scope=SCOPE, native_reference_upstream_sha256=REFERENCE_SOURCE_SHA256,
@@ -124,8 +144,7 @@ def _state(engine):
     require(value.get("method") == engine.method and type(value.get("successful_calls")) is int
             and value["successful_calls"] == 3,
             "NATIVE_PARITY_ONLY_COMPLETED_B3")
-    from official.evaluation.w0_reference import _native_state
-    _native_state(value, method=engine.method)
+    validate_state(value, method=engine.method)
     return value
 
 
@@ -280,8 +299,7 @@ def validate_report(value, expected_external, plan):
             and value.get("canonical_payload_unchanged") is True,
             "NATIVE_PARITY_REPORT_OBSERVATION_GUARDS")
     binding, canonical, comparison = (value[name] for name in ("reference_binding", "canonical", "comparison"))
-    from official.evaluation.w0_reference import _native_state
-    _native_state(value.get("state_before"))
+    validate_state(value.get("state_before"))
     require(type(binding) is dict and set(binding) == {"model_identity", "tokenizer_identity", "state_identity"}
             and binding.get("state_identity") == value.get("state_before") == value.get("state_after")
             and binding["state_identity"].get("successful_calls") == 3

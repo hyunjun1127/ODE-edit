@@ -31,6 +31,8 @@ class FixtureEngine:
     def __init__(self, model, tokenizer, method, assets, *, source_verified=False):
         self.model, self.method = model, method
         self.selected_weights = {"W": model.W}
+        self.cache_c = ({str(i): torch.zeros(1) for i in range(4,9)}
+                        if method in common.PROJECTED_METHODS else {})
         self.successful_calls = 0
         self.context = None
 
@@ -38,6 +40,8 @@ class FixtureEngine:
         if len(records) != 100:
             raise ValueError("FIXTURE_EXPECTS_REAL_EXTERNAL_BATCH100")
         self.successful_calls += 1
+        for value in self.cache_c.values():
+            value.add_(1)
         self.context = [["native fixture. {}"]]
         with torch.no_grad():
             self.model.W.add_(torch.rand(1) + random.random() + np.random.random())
@@ -434,6 +438,31 @@ class RunnerConnectorTests(unittest.TestCase):
         self.assertEqual(len(list((output / "commits").glob("batch-*.json"))), 20)
         self.assertTrue(any(row.get("edits")==2000 and row.get("official/all_seen/post/requests")==2000 for row in tracker.payloads))
 
+    def test_projected_cold_factual_and_W20_history_without_generation(self):
+        from contextlib import ExitStack
+        for method in common.PROJECTED_METHODS:
+            output = self.root / method
+            output.mkdir()
+            config = dict(dataset="cf", projected_CF_addition=True, cf_W20_generation=common.DEFERRED_W20,
+                          scope_override=common.CF_CHECKPOINT_AUTHORITY)
+            args = self.arguments(output); args.method = method
+            tracker = FixtureTracker()
+            with ExitStack() as stack:
+                for context in self.connector_patches():stack.enter_context(context)
+                stack.enter_context(patch.object(run,"verify_qualifications"))
+                shared = stack.enter_context(patch.object(run,"read_w0",side_effect=AssertionError("NO_SHARED_GENERATION_GATE")))
+                observer = stack.enter_context(patch.object(run,"generation_observer",side_effect=AssertionError("NO_GENERATION")))
+                stack.enter_context(patch.object(run,"factual_payload",side_effect=lambda endpoint,prefix,edits:
+                    dict(edits=edits,**{"official/"+prefix+"/requests":len(endpoint["cases"])})))
+                run.chain(args,config,self.lock,output,tracker)
+                shared.assert_not_called();observer.assert_not_called()
+            saved=checkpoint.load(output/"checkpoint",self.identity)
+            self.assertEqual(saved["batch"],20)
+            self.assertEqual(set(saved["cache_c"]),{str(i) for i in range(4,9)})
+            self.assertTrue(all(value.item()==20 for value in saved["cache_c"].values()))
+            self.assertTrue((output/"own-W0-factual-local.json").is_file())
+            self.assertEqual(len(list((output/"commits").glob("batch-*.json"))),20)
+
     def test_W20_generation_failure_preserves_B19_and_resume_recovers_science(self):
         from contextlib import ExitStack
         output = self.root / "chain"
@@ -583,6 +612,7 @@ class RunnerConnectorTests(unittest.TestCase):
                 common.Tracking(config, self.root, self.identity, mode="chain", method="FT", dataset="cf")
         client = SimpleNamespace(log=lambda value: False)
         tracking = common.Tracking.__new__(common.Tracking)
+        tracking.config_values = {"dataset": "cf"}
         tracking.tracker = client
         with self.assertRaisesRegex(ValueError, "TRACKING_ACCEPTANCE_FAILURE_NOT_SILENT_DROP"):
             tracking.log({"edits": 0})

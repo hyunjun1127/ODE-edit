@@ -1,4 +1,4 @@
-"""Thin server1 adapter for official Llama FT/MEMIT/MEMIT-FE.
+"""Thin server1 adapter for the six official Llama native baselines.
 
 No scientific implementation is imported from a local EasyEdit checkout. The
 only runtime binding is native precomputed C0, native process-local context,
@@ -18,7 +18,8 @@ from official.experiments.prepare import digest, file_sha
 from official.runners.server1.assets import verify_manifest
 
 
-METHODS = ("FT", "MEMIT", "MEMIT_FE")
+METHODS = ("FT", "MEMIT", "MEMIT_FE", "ALPHAEDIT", "SPHERE", "ALPHAEDIT_BLUE")
+HISTORY_METHODS = ("ALPHAEDIT", "SPHERE", "ALPHAEDIT_BLUE")
 CONTEXT_SCHEMA = "official-server1-native-context-v1"
 
 
@@ -57,8 +58,8 @@ class NativeEngine:
     """One independent cold trajectory, one method, unchanged registry apply.
 
     ``selected_weights`` contains the actual mutable FP32 Parameters. The
-    second native return value is original weight copies, never history H.
-    FT/MEMIT/MEMIT-FE therefore always have ``cache_c == {}``.
+    FT/MEMIT/MEMIT-FE have ``cache_c == {}``. AlphaEdit/SPHERE own module-global
+    H; BLUE explicitly receives and returns caller-owned H (not weights_copy).
     """
     def __init__(self, model, tokenizer, method, asset_manifest, *, source_verified=False):
         require(method in METHODS, "SERVER1_METHOD_SCOPE", method)
@@ -107,6 +108,8 @@ class NativeEngine:
         self._freeze()
         if method != "FT":
             self._bind_C0()
+        if method in HISTORY_METHODS:
+            self._bind_projector()
         self._last_hashes = self._selected_hashes()
         self._last_metadata = _parameter_metadata(model)
 
@@ -125,6 +128,55 @@ class NativeEngine:
         for value in self.model.parameters():
             value.requires_grad_(False)
         self.model.eval()
+
+    def _bind_projector(self):
+        row = self.asset_manifest["projector"]
+        require(row["physical_layers"] == [4, 5, 6, 7, 8]
+                and self.hparams.layers == ([4,8] if self.method == "ALPHAEDIT_BLUE" else [4,5,6,7,8])
+                and row["threshold"] == self.hparams.nullspace_threshold == .02,
+                "PROJECTOR_LAYER_THRESHOLD_BINDING")
+        path = Path(row["path"])
+        require(path.is_file() and not path.is_symlink() and path.stat().st_size == row["bytes"]
+                and file_sha(path) == row["sha256"], "PROJECTOR_IMMUTABLE_SHA")
+        packed = torch.load(path, map_location="cpu", weights_only=True, mmap=True)
+        width = self.asset_manifest["model"]["identity"]["intermediate"]
+        require(torch.is_tensor(packed) and packed.dtype == torch.float32
+                and list(packed.shape) == [5, width, width], "PROJECTOR_SHAPE_DTYPE")
+        for layer in packed:
+            require(bool(torch.isfinite(layer).all()), "PROJECTOR_NONFINITE")
+        if self.method == "ALPHAEDIT_BLUE":
+            # Native BLUE takes caller-owned H/P, physical layers4/8 map to slots0/4.
+            self.blue_P = packed[[0,4]].clone()
+            self.blue_H = torch.zeros_like(self.blue_P, device="cpu")
+            self._refresh_history()
+            return
+        self.hparams.P_loc = str(path)
+        self.module.P, self.module.P_loaded = packed, True
+        # Exact native cold state, initialized before the required W0 checkpoint.
+        self.module.cache_c = torch.zeros_like(packed, device="cpu")
+        self.module.cache_c_new = True
+        self._refresh_history()
+
+    def _refresh_history(self):
+        if self.method in HISTORY_METHODS:
+            packed = self.blue_H if self.method == "ALPHAEDIT_BLUE" else self.module.cache_c
+            self.cache_c = {str(layer): packed[i]
+                            for i, layer in enumerate(self.hparams.layers)}
+
+    def history_identity(self):
+        return {key: dict(sha256=tensor_sha(value), shape=list(value.shape), dtype=str(value.dtype))
+                for key, value in self.cache_c.items()}
+
+    def restore_history(self, history):
+        if self.method not in HISTORY_METHODS:
+            require(not history, "NON_HISTORY_CHECKPOINT_REJECTED")
+            return
+        require(set(history) == set(self.cache_c), "RESTORE_NATIVE_HISTORY_LAYERS")
+        for key, target in self.cache_c.items():
+            value = history[key]
+            require(value.dtype == target.dtype == torch.float32 and value.shape == target.shape
+                    and bool(torch.isfinite(value).all()), "RESTORE_HISTORY_SHAPE_DTYPE_FINITE")
+            target.copy_(value.to(target.device))
 
     def _bind_C0(self):
         name = self.model.config._name_or_path.replace("/", "_")
@@ -219,7 +271,7 @@ class NativeEngine:
 
     def state_identity(self):
         hashes = self._selected_hashes()
-        result = dict(method=self.method, successful_calls=self.successful_calls, cache_c={},
+        result = dict(method=self.method, successful_calls=self.successful_calls, cache_c=self.history_identity(),
                       selected_weights={name: dict(sha256=hashes[name], shape=list(value.shape), dtype=str(value.dtype))
                                         for name, value in self.selected_weights.items()},
                       contexts_sha256=self.contexts()["identity_sha256"])
@@ -249,16 +301,26 @@ class NativeEngine:
         # Checkpoint restore uses restore_contexts to update this binding first.
         require(before == self._last_metadata, "NATIVE_ENTRY_STATE_CHANGED")
         original_records = digest(records)
+        history_before = self.history_identity()
         requests = registry.requests(records, self.method, "llama3")
         request_sha = digest(requests)
         caught = None
         try:
-            returned = self._native_apply(self.model, self.tokenizer, requests, self.hparams, **self.call_options)
+            options = dict(self.call_options)
+            if self.method == "ALPHAEDIT_BLUE":
+                options.update(cache_c=self.blue_H, P=self.blue_P)
+            returned = self._native_apply(self.model, self.tokenizer, requests, self.hparams, **options)
+            if self.method == "ALPHAEDIT_BLUE":
+                require(isinstance(returned, tuple) and len(returned) == 2 and returned[0] is self.model
+                        and returned[1] is self.blue_H, "BLUE_NATIVE_RETURN_HISTORY_IDENTITY")
             require(type(returned) is tuple and len(returned) == 2 and returned[0] is self.model,
                     "NATIVE_SAME_CUMULATIVE_MODEL_REQUIRED")
             # Sphere MEMIT's weights_copy may be nonempty even return_orig=False.
             # It is not edit history and is intentionally not persisted as H.
             del returned
+            self._refresh_history()
+            require(all(bool(torch.isfinite(value).all()) for value in self.cache_c.values()),
+                    "NATIVE_HISTORY_NONFINITE")
         except BaseException as error:
             caught = error
             raise
@@ -284,9 +346,12 @@ class NativeEngine:
                       frozen_source_verified_by_caller=self.source_verified,
                       asset_manifest_verification=dict(self.asset_verification),
                       same_model=True, nonselected_identity_version_unchanged=True,
-                      selected_FP32_finite=True, native_history=False, cache_c={},
+                      selected_FP32_finite=True, native_history=self.method in HISTORY_METHODS,
+                      cache_c=self.history_identity(),
                       contexts_sha256=self.contexts()["identity_sha256"],
                       quality_gate=False)
+        if self.method in HISTORY_METHODS:
+            result["entry_cache_c"] = history_before
         result["identity_sha256"] = digest(result)
         self._last_hashes, self._last_metadata = after_hashes, after
         return result

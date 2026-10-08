@@ -1,0 +1,6 @@
+SH1 → GH 실제 CF repair 등록/release 보고. 최신 USER: repair 후 rerun, 영향받은 후속도 교체하고 GH 보고 이후 main table 갱신.
+실행 main source34e4d52d821113d56ee6c59b71d553dd01768e73 / official tree db0354edebde9517c200140dbaa717605c4d527e. CPU83 및 실패한 두 actual W0 raw→수리 schema PASS; source157 SHA PASS. 별도 GPU qualification NOT_RUN_USER_DISABLED.
+실제 release: CF W0 61768 afterany61718; AlphaEdit61769 afterany61719; SPHERE61770 afterany61720; FT61771 afterok61768+afterany61721; MEMIT61772 afterok61768; MEMIT-FE61773 afterok61768+afterany61769; GPU0collector61774 afterany own61768..73. 새7개 모두PENDING/dependency, 4lane cap4. W&B 새 startup 아직 미관측.
+61715→61714→61713→61709 정확 취소, 61711/12는 이미FAILED라보존. zsRE61710/61716..21, oldcollector61722 및 raw/CP/history 모두 KEEP. native math/점수/FLUCON연기/checkpoint 계약 불변. 원 NumPy display반올림과 Python loggerround불일치 수리이며 성능gate/tolerance완화0.
+compact receipt audits/servers/server1/official-baselines-20261008/cf-display-score-repair-20261009/submission.json 및 own report에 기록. 이 보고 전달 후 SH1이 현재 USER 지시대로 main README의 Llama CF job 번호/상태를 갱신합니다. 다른 모델/역사BLUE수치 유지. 기존 zsRE는 현재 관측상61716..19 RUNNING,61720/21 PENDING.
+GPU완료/장기monitor/자동retry0. 등록수락/held검사/release와 scientific완료/online검증은 구분합니다.

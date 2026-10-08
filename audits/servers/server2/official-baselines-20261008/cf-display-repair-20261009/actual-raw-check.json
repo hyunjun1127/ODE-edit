@@ -1,0 +1,38 @@
+{
+  "SDK_online": false,
+  "compatibility": {
+    "consumed_source_sha256": {
+      "evaluation/__init__.py": "a6770d63459aa7d48f3c073554eb8e2a862072b6ce085859ce4ba76dc8b974b3",
+      "evaluation/factual.py": "537d3d8d641b26075de6801dc459424fcb989c428973d62c5501a0e71809ad6f",
+      "evaluation/reduce.py": "1e18b024ac900665b2ed7f1164b1074d3d4720ad8bde626daa23aea70609731f",
+      "hparams/cf-stream.lock.json": "42db6832eb76cf52b1b8180f3a11ca1b1935ecc094d3861817df383bc2b87b93"
+    },
+    "consumer_source": "7337967add61521ddf8cba1e339ffe924b243ce2",
+    "model_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+    "new_model_forward": 0,
+    "producer_source": "478464689231595eb63da368cc7c376e775eb559",
+    "runtime_sha256": "e02029b0ba64098256e0a8ef1680053e9d5b6a8e5a2e7bdcd477b41d302f4dd3",
+    "source_relabel": false,
+    "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+    "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+  },
+  "forwards": 0,
+  "historical_upload": false,
+  "legacy_error": "OFFICIAL_DISPLAY_SCORE_MISMATCH",
+  "model_loads": 0,
+  "official_metrics": {
+    "official/W0_first2000/Efficacy": 17,
+    "official/W0_first2000/Efficacy_AlphaEdit_display": 17,
+    "official/W0_first2000/Generalization": 19.3,
+    "official/W0_first2000/Generalization_AlphaEdit_display": 19.3,
+    "official/W0_first2000/Score": 24.43755197448481,
+    "official/W0_first2000/Score_AlphaEdit_display": 24.437698291815718,
+    "official/W0_first2000/Specificity": 82.475,
+    "official/W0_first2000/Specificity_AlphaEdit_display": 82.48,
+    "official/W0_first2000/requests": 2000
+  },
+  "raw_sha256": "e9265e1491f19c3fc3efb45cf79c483a5ad63c542028b9a09b56081a7084420b",
+  "requests": 2000,
+  "source_relabel": false,
+  "status": "ACTUAL_RAW_CPU_CALLER_SCHEMA_PASS"
+}

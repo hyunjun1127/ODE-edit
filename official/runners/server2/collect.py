@@ -336,14 +336,22 @@ def validate_chain(value, manifest, assets, records, method, dataset, *, invento
     factual = {}
     for endpoint, count in (('W0', 2000), ('W5', 500), ('W10', 1000), ('W15', 1500), ('W20', 2000)):
         observed = read(verify_member(endpoints[endpoint], inventory))
-        factual[endpoint] = validate_factual(observed, dataset, records[:count], manifest=manifest, endpoint=endpoint)
+        origin = manifest
+        if endpoint == 'W0' and manifest.get('cf_display_repair'):
+            from official.runners.server2.cf_display_repair import reused_w0
+            reused_w0(manifest, records)
+            origin = read(verify_member(manifest['cf_display_repair']['W0_binding']['manifest'], inventory))
+        factual[endpoint] = validate_factual(observed, dataset, records[:count], manifest=origin, endpoint=endpoint)
     require(value.get('W0_READY'), 'COLLECT_CHAIN_SAME_MODEL_COLD_W0_REQUIRED')
     cold_ready = read(verify_member(value['W0_READY'], inventory))
-    validate_cold_w0(cold_ready, manifest, assets, {dataset:records},
+    origin = manifest
+    if manifest.get('cf_display_repair'):
+        origin = read(verify_member(manifest['cf_display_repair']['W0_binding']['manifest'], inventory))
+    validate_cold_w0(cold_ready, origin, assets, {dataset:records},
         role='W0_'+dataset.upper(), inventory=inventory)
     require(endpoints['W0'] == cold_ready['factual'], 'COLLECT_CHAIN_SAME_MODEL_COLD_W0_BINDING')
     generation = None
-    from official.runners.server2.checkpoint_profile import deferred
+    from official.runners.server2.run import deferred
     if dataset == 'cf' and deferred(manifest):
         require(value.get('generation_status') == 'DEFERRED_NOT_MEASURED'
             and value.get('checkpoint_evaluation_consumer_pending') is True
@@ -387,15 +395,21 @@ def validate_cold_w0(value, manifest, assets, datasets, *, role=None, inventory=
     observed = read(verify_member(value['factual'], inventory))
     summary = validate_factual(observed, dataset, datasets[dataset], manifest=manifest, endpoint='W0')
     if dataset == 'cf':
+        from official.runners.server2 import no_gpu_qualification as noqual
         from official.runners.server2.run import verify_cf_native_oracle
         binding = value.get('original_native_reference')
-        summary['original_native_reference'] = verify_cf_native_oracle(manifest, binding)
-        for key in ('proof', 'canonical', 'state'):
-            verify_member(binding[key], inventory)
-        canonical = read(binding['canonical']['path'])
-        validate_factual(canonical, 'cf', datasets['cf'][:4], manifest=manifest,
-            endpoint='native-reference-canonical-first4')
-        from official.runners.server2.checkpoint_profile import deferred
+        if noqual.enabled(manifest):
+            require(binding == dict(status=noqual.DISABLED, instruction_id=noqual.INSTRUCTION),
+                'COLLECT_USER_DISABLED_ORACLE_NOT_PASS')
+            summary['original_native_reference'] = binding
+        else:
+            summary['original_native_reference'] = verify_cf_native_oracle(manifest, binding)
+            for key in ('proof', 'canonical', 'state'):
+                verify_member(binding[key], inventory)
+            canonical = read(binding['canonical']['path'])
+            validate_factual(canonical, 'cf', datasets['cf'][:4], manifest=manifest,
+                endpoint='native-reference-canonical-first4')
+        from official.runners.server2.run import deferred
         if deferred(manifest):
             require(value.get('generation_status') == 'DEFERRED_NOT_MEASURED'
                 and value.get('generation') is None and value.get('generation_READY') is None,
@@ -604,6 +618,13 @@ def collect(attempt, *, account=None):
                 if is_w0:
                     summaries[role] = validate_cold_w0(result, manifest, assets, datasets,
                         role=role if role.startswith('W0_') else None, inventory=inventory)
+                elif stage == 'no_gpu_qual':
+                    from official.runners.server2 import no_gpu_qualification as noqual
+                    require(noqual.enabled(manifest), 'COLLECT_EXPLICIT_USER_OVERLAY')
+                    dataset, method, mode = noqual.cell(role)
+                    require(mode == 'chain', 'COLLECT_MAIN_ROLE')
+                    summaries[role] = validate_chain(result, manifest, assets, datasets[dataset],
+                        method, dataset, inventory=inventory)
                 elif stage in ('cf', 'zsre') and role != 'ZSRE_SMOKE':
                     summaries[role] = validate_chain(result, manifest, assets, datasets[stage], role, stage,
                                                      inventory=inventory)
@@ -647,6 +668,7 @@ def collect(attempt, *, account=None):
         scheduler_failures=scheduler_failures, unobserved_scientific_accounting=missing_accounting,
         accounting=observed_accounting,
         scientific_complete=complete, terminal_scheduler_success_is_not_science=True,
+        qualification=('NOT_RUN_USER_DISABLED' if stage == 'no_gpu_qual' else 'LEGACY_POLICY'),
         CPU_collector_GPU=0, model_loads=0, checkpoint_tensor_loads=0,
         new_model_forwards=0, new_submissions=0, automatic_retry=False,
         monitoring_active=False, raw_originals_preserved=True)

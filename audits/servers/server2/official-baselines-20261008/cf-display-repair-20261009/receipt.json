@@ -1,0 +1,24 @@
+{
+  "timestamp": "2026-10-08T20:17:10.210968+00:00",
+  "source": "478464689231595eb63da368cc7c376e775eb559",
+  "cancelled": {
+    "collector": "61736",
+    "CF_SPHERE": "61733",
+    "CF_MEMIT_FE": "61731",
+    "CF_ALPHAEDIT_BLUE": "61729",
+    "CF_ALPHAEDIT": "61727"
+  },
+  "healthy_keep": {
+    "CF_MEMIT": "61725"
+  },
+  "protected_zsre": {
+    "ZSRE_ALPHAEDIT": "61730",
+    "ZSRE_ALPHAEDIT_BLUE": "61732",
+    "ZSRE_FT": "61726",
+    "ZSRE_MEMIT": "61728",
+    "ZSRE_MEMIT_FE": "61734",
+    "ZSRE_SPHERE": "61735"
+  },
+  "pending_control_hold": "ZSRE_SPHERE",
+  "original_raw_CP_source_KEEP": true
+}

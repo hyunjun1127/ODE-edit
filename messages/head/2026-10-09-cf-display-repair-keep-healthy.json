@@ -1,0 +1,63 @@
+{
+  "instruction_id": "USER-SH1-GH-CF-DISPLAY-REPAIR-KEEP-HEALTHY-20261009-R1",
+  "parent": "USER-OFFICIAL-BASELINES-20261008-R1",
+  "user_quote": "GH에게 전달해서 이 issue repair해서 rerun올리라고 지시해라. 이미 올라간 run들이 정상 실행중임을 확인했다면 그건 유지하는 걸로 하자.",
+  "scope": "SH2/server2 and SH4/server4 existing official CF display transport repair and only confirmed affected replacements",
+  "authority": "Implement minimal caller binding, CPU/raw validation, exact required cancellation/replacement, source freeze, held inspection and release without repeated approval",
+  "owners": {
+    "server2": {
+      "session": "01a0493a-074c-7f91-9a13-769116326fef",
+      "cwd": "/mnt/raid5/janghj/ODE-edit",
+      "source_scope": "official/runners/server2/**",
+      "latest_reported_cap": 4
+    },
+    "server4": {
+      "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+      "cwd": "/data/janghj/ODE-edit",
+      "source_scope": "official/runners/server4/** plus own project/run_scripts/server4_qwen_submit.py and server4_qwen_archive.py control/caller bindings",
+      "latest_reported_cap": 2
+    }
+  },
+  "repair_reference": {
+    "implementation": "5a942b260df6779eb52550690696cd54cd51825f",
+    "execution": "34e4d52d821113d56ee6c59b71d553dd01768e73",
+    "publication": "4ef6411bec651d31dc53bc0b52839d41a97831d2",
+    "shared": "official/tracking/method.py",
+    "caller_reference": "official/runners/server1/common.py:factual_payload",
+    "report": "experiment-reports/servers/server1/official-baselines-20261008/cf-display-score-repair-20261009/report-ko.md",
+    "requirement": "Shared helper alone is insufficient. Own caller must derive and pass the three native NumPy request/cohort mean+around display companions from actual observation bits. Preserve raw E/G/S and Score, native display Score, harmonic validation. No tolerance relaxation/scalar invention/relabel."
+  },
+  "prior_evidence": {
+    "server2": "SH1 readonly replay of actual W0_CF61723: OFFICIAL_DISPLAY_SCORE_MISMATCH; transport accepted_calls0/rejected_calls1, LOGGING_DEGRADED/dropped1 despite scheduler COMPLETED. CF MEMIT61725 was RUNNING/dropped0 at earlier observation; fresh owner verification required, not assumed failure.",
+    "server4": "Same source validation reproduced only with fixed boundary CPU scalars, NOT actual Qwen failure. Prior CF61743/45/47/49/51/53 PENDING; fresh state required.",
+    "not_current_scheduler_assertion": true
+  },
+  "reconciliation": {
+    "inventory": "Before mutation bind exact owner/task/source/Command/WorkDir/state/launchers/submission and actual progress. Inspect commit/evaluation progression and rejected/dropped/logging receipts; RUNNING alone is not health.",
+    "healthy": "Confirmed healthy existing RUNNING/completed runs KEEP, even with older common code. No frozen-source hotpatch and no duplicate fit.",
+    "affected": "Confirmed affected not-started CF and actual display-bug failed/abnormal runs only. Evidence missing is UNKNOWN, not automatic cancellation. Report exact remaining uncertainty.",
+    "W0": "Do not conceal missing summary of61723 or classify its logging healthy from COMPLETED. Preserve original raw/provenance and failed transport history; reuse exact compatible measured W0 rather than add forward only for logger verification. Separately identify any repaired delivery; do not claim previous online PASS.",
+    "cancellation": "Exact impacted pending collectors/archive/downstream held as necessary to prevent afterany race, then downstream-first. Terminal failed jobs KEEP with cancellation0. No user-wide or node-wide cancellation.",
+    "dependencies": "Preserve healthy resource frontiers and all required input/verified archive edges. No cancelled IDs left in replacement graph. Unaffected zsRE KEEP; only strictly necessary pending dependency/control reconciliation with exact before/after proof to reconnect replaced CF frontier, no zsRE scientific-source hotpatch or blanket cancellation.",
+    "artifacts": "Old source/archive/raw/CP/accounting/W&B history KEEP. No old partial checkpoint resume for newly cold rerun."
+  },
+  "preserve": [
+    "native algorithms/hparams/dtype/solver/seed/ordered sample/BS100x20/2k",
+    "main runtime identity/finite/shape/commit/nonedited guards",
+    "checkpoint final-consumer retention and verified archive policy",
+    "each owner's already-approved FLUCON schedule",
+    "qualification NOT_RUN_USER_DISABLED; no extra proof/forward/fit/solve/generation",
+    "zsRE/PRICE/OURS/tuning/oldGPT2/otherFE/other servers",
+    "current stricter memory/CPU/QoS/time and combined cap, no increase"
+  ],
+  "workflow": {
+    "worktree": "Dedicated non-main clean worktree; preserve dirty roots/unrelated changes",
+    "write_scope": "Own runner/control/tests and own task report/audit/run/status/local only; adopt already-published common repair, no duplicate shared logger",
+    "checks": "Minimal CPU + available real raw through actual caller/schema. New online/GPU PASS not implied.",
+    "publication": "Own reviewed source/compact evidence nonforce main and branch; new immutable source/config before submit",
+    "submission": "Held exact owner/source/full argv/input/resources/dependency/tracking/CP/archive inspection then release; fresh current resource admission",
+    "broadcast": "Scalar/compact source/report only in Git; no secret/text/token/tensor/raw duplication; existing artifact exceptions unchanged",
+    "report": "Direct explicit owner ACK then health KEEP/affected reason/cancelled/replacement actualID/name/dataset/source/config/dependency/snapshot/online stage. GH sole main README integration. Do not end at ACK if implementation/submission or exact blocker remains.",
+    "monitor": "Bounded health triage and postrelease snapshot only; no recurring monitor, automatic retry, GPU completion wait"
+  }
+}

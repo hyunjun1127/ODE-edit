@@ -1,0 +1,109 @@
+{
+  "W_B": "REPAIRED_DELIVERY_NOT_YET_OBSERVED_OLD_W0_REJECTION_KEPT",
+  "base_manifest_sha256": "fbabc584b47a13a911aff9fedece4d8cadb346c17fd6f2881f03065ad37f869b",
+  "cap": 4,
+  "dependencies": {
+    "CF_ALPHAEDIT": [],
+    "CF_ALPHAEDIT_BLUE": [
+      "61725"
+    ],
+    "CF_MEMIT_FE": [
+      "61778"
+    ],
+    "CF_SPHERE": [
+      "61779"
+    ],
+    "collector": [
+      "61778",
+      "61779",
+      "61780",
+      "61781",
+      "61725",
+      "61726",
+      "61728",
+      "61730",
+      "61732",
+      "61734",
+      "61735"
+    ]
+  },
+  "initial_snapshot": "61782|official-baselines-server2-20261008-r1-cf_display_repair-collector|PENDING|None\n61781|official-baselines-server2-20261008-r1-cf_display_repair-CF_SPHERE|PENDING|None\n61780|official-baselines-server2-20261008-r1-cf_display_repair-CF_MEMIT_FE|PENDING|None\n61779|official-baselines-server2-20261008-r1-cf_display_repair-CF_ALPHAEDIT_BLUE|PENDING|None\n61778|official-baselines-server2-20261008-r1-cf_display_repair-CF_ALPHAEDIT|PENDING|None\n61735|official-baselines-server2-20261008-r1-no_gpu_qual-ZSRE_SPHERE|PENDING|None\n61734|official-baselines-server2-20261008-r1-no_gpu_qual-ZSRE_MEMIT_FE|PENDING|Dependency\n61732|official-baselines-server2-20261008-r1-no_gpu_qual-ZSRE_ALPHAEDIT_BLUE|PENDING|Dependency\n61730|official-baselines-server2-20261008-r1-no_gpu_qual-ZSRE_ALPHAEDIT|PENDING|Dependency\n61728|official-baselines-server2-20261008-r1-no_gpu_qual-ZSRE_MEMIT|RUNNING|None\n61725|official-baselines-server2-20261008-r1-no_gpu_qual-CF_MEMIT|RUNNING|None\n61726|official-baselines-server2-20261008-r1-no_gpu_qual-ZSRE_FT|RUNNING|None",
+  "jobs": {
+    "CF_ALPHAEDIT": "61778",
+    "CF_ALPHAEDIT_BLUE": "61779",
+    "CF_MEMIT_FE": "61780",
+    "CF_SPHERE": "61781",
+    "collector": "61782"
+  },
+  "kept": {
+    "CF_MEMIT": "61725",
+    "ZSRE_ALPHAEDIT": "61730",
+    "ZSRE_ALPHAEDIT_BLUE": "61732",
+    "ZSRE_FT": "61726",
+    "ZSRE_MEMIT": "61728",
+    "ZSRE_MEMIT_FE": "61734",
+    "ZSRE_SPHERE": "61735"
+  },
+  "lock": {
+    "bytes": 28266,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/execution.lock.json",
+    "sha256": "7d6395a08042cf649a658507de1b6e5d72d46008f1132d773eafe70ec1f4a323"
+  },
+  "manifest": {
+    "bytes": 165284,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/manifest.json",
+    "sha256": "2753c82e21e59023dc5f031fea3fab77ddfeb76278ac013d61b1327f46a046a5"
+  },
+  "monitoring_active": false,
+  "qualification": "NOT_RUN_USER_DISABLED",
+  "resources": {
+    "collector_cpu": 6,
+    "collector_host_mib": 24576,
+    "collector_wall": "04:00:00",
+    "cpu": 6,
+    "gpu": 1,
+    "host_mib": 59392,
+    "node": "server2",
+    "partition": "gpu",
+    "qos": "lab_gpu_s2",
+    "reserve_bytes": 137438953472,
+    "wall": "2-00:00:00"
+  },
+  "source": {
+    "code_commit": "d31d582ffd425fe3a56a7d23b68d3c58e7e3d955",
+    "observed_main": "d31d582ffd425fe3a56a7d23b68d3c58e7e3d955",
+    "official_tree_sha256": "ba8f0e36d5551f3ec1d61e50c8996040a16cb6d3",
+    "only_published_official": true
+  },
+  "stage": "cf_display_repair",
+  "status": "SUBMISSION_HANDOFF",
+  "snapshot_receipt_timestamp": "2026-10-09 05:24:18.209231200 +0900",
+  "cancelled_accounting": [
+    "61727|janghj|CANCELLED by 1025|0|None assigned",
+    "61729|janghj|CANCELLED by 1025|0|None assigned",
+    "61731|janghj|CANCELLED by 1025|0|None assigned",
+    "61733|janghj|CANCELLED by 1025|0|None assigned",
+    "61736|janghj|CANCELLED by 1025|0|None assigned"
+  ],
+  "protected_zsre_control": {
+    "job": "61735",
+    "before": {
+      "JobId": "61735",
+      "JobState": "PENDING",
+      "UserId": "janghj(1025)",
+      "Command": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_SPHERE.sh",
+      "WorkDir": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/source",
+      "Dependency": "(null)"
+    },
+    "after": {
+      "JobId": "61735",
+      "JobState": "PENDING",
+      "UserId": "janghj(1025)",
+      "Command": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_SPHERE.sh",
+      "WorkDir": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/source",
+      "Dependency": "afterany:61780(unfulfilled)"
+    },
+    "scientific_source_changed": false,
+    "hold_released": true
+  }
+}

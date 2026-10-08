@@ -1,0 +1,24 @@
+{
+  "instruction_id": "USER-GH-SH4-QWEN-OFFICIAL-NO-GPU-QUAL-20261009-R1",
+  "user_quote": "server4에도 이러한 무거운 검증 자체를 없애고 run 올리라고 해라.",
+  "user_scope_clarification": "official baseline에만 적용하고 PRICE는 유지",
+  "inherits": "messages/head/2026-10-09-official-no-gpu-qualification-rerun.json",
+  "precedence": "이 추가 명령은 server4의 기존 승인 Qwen official12 제출에 같은 GPU검증제거를 적용하며 앞선 제출준비까지만 제한을 현재 제출권한으로 대체한다. original S1/S2조건중 아래서버·범위차이만대체한다.",
+  "owner": {"session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd", "cwd": "/data/janghj/ODE-edit", "repository": "hyunjun1127/ODE-edit"},
+  "scope_evidence": {
+    "thread": "01a11ce3-07af-7201-8540-707b23ad8fc2",
+    "user_quotes": ["지금 올린 tunning 실험은 별도로 두고, qwen baseline 실험들을 모두 server4에서 돌려야할 것 같다. server3에서 진행 예정이었던 run들 모두 server4에서 진행할 것이다.", "즉, qwen의 12개(6method + 2dataset) 모두 순차적으로 돌아갈 수 있도록 제출해.", "gpu-cap은 2이니 tunning 실험에 lane을 걸어서 모두 실험 올리도록 해라. 올린 이후 main의 readme에 qwen table 부분 job 번호로 최신화 해."],
+    "scope": "기존 승인된 Qwen FT/MEMIT/MEMIT_FE/AlphaEdit/AlphaEdit-BLUE/SPHERE × CF/zsRE 정확12개. 별도grid/sweep/method추가0.",
+    "hparams": "각 method 최신 USER 확정 native hparams 유지. BLUE 선택은 현재 own 준비 receipt와 실제 user 답변을 결속하며 검증제거를이유로변경0."
+  },
+  "execution": {
+    "remove": "별도GPU qualification/smoke/B1-B3와resume반복/native평가재실행 및 해당READY/PASS/dependency를 제거. NOT_RUN_USER_DISABLED 기록. 다른이름재도입0.",
+    "preserve": "본실험W0/입력identity/native수학/평가일정/checkpoint/runtime안전/W&B/seed/coldB100x20유지. 기존tuning·OURS/타task/frozenarchive변경0.",
+    "registered": "먼저현재등록상태/owner/task/source/state대조. 현재12개미제출이면취소0/새등록. 이미해당baseline이등록됐으면상속한정확대상cancel/replacement규칙만적용. tuning취소0.",
+    "resource": "현재사용자server4합산cap2와더엄격한정책준수. 기존tuning RUNNING/admittedPENDING 포함, 실제말단resource lane뒤에배치. 불필요전체groupbarrier0.",
+    "storage": "이미승인된server1 archive수신경로/정책을결속하고필수실제용량·수신승인·전송후독립검산및보존안전조건유지. 무관삭제0. 별도GPU과학검증을저장검증으로재도입0.",
+    "write_scope": "전용non-mainWT의 official/runners/server4/** 및 본Qwenwrapper에서필요한official/runners/server3/**의최소backward-compatible gate옵션만. 공통알고리즘/다른실행기본값변경0. own audit/report/run/status/local task경로.",
+    "approval": "최소CPU/static→검토source/main게시→immutablefreeze→held검사/release까지현재USER승인. 별도단계허가대기0.",
+    "reporting": "실제12개등록/release또는구체기술blocker까지진행. exact IDs/name/source/config/dependency/disabled검증상태를GH로회신. GH가README Qwen칸통합; SH동시README수정0. GPU결과장기대기·recurringmonitor·autorretry0."
+  }
+}

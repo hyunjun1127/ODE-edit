@@ -24,6 +24,7 @@ from official.experiments.prepare import build_matrix, digest, file_sha, load_pl
 from official.runners.server2 import assets, generation, oracle, parity
 from official.runners.server2.telemetry import NativeTelemetry
 from official.runners.server2.native import METHODS, NativeEngine
+from official.runners.server2 import no_gpu_qualification as noqual
 
 INSTRUCTION = 'USER-OFFICIAL-BASELINES-20261008-R1'
 LOCAL = Path('/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1')
@@ -32,7 +33,7 @@ LOCAL = Path('/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/202610
 def deferred(manifest):
     """Caller schedule only, outside the unchanged native qualification closure."""
     from official.runners.server2.checkpoint_profile import deferred as validate_schedule
-    return validate_schedule(manifest)
+    return noqual.enabled(manifest) or validate_schedule(manifest)
 
 
 def require(value, code):
@@ -161,7 +162,7 @@ def tracking_config(manifest, config, mode, out):
         instruction_id=INSTRUCTION, dataset=config['dataset'])
     if config['dataset'] == 'cf' and deferred(manifest):
         values.update(config_sha=digest(dict(native_config_sha256=config['config_sha256'],
-                      checkpoint_only_profile=manifest['checkpoint_only_profile'])),
+                      checkpoint_only_profile=manifest.get('checkpoint_only_profile'))),
                       generation_schedule='DEFERRED_CHECKPOINT_EVALUATION')
     elif config['dataset'] == 'cf':
         measured = generation.configuration(manifest)
@@ -171,6 +172,12 @@ def tracking_config(manifest, config, mode, out):
             generation_source_sha=measured['generation_source_sha'],
             generation_repair_instruction=INSTRUCTION,
             generation_schedule='W0_AND_W20_FIRST2000')
+    if noqual.enabled(manifest):
+        values['config_sha'] = digest(dict(native_config_sha256=config['config_sha256'],
+            user_overlay=manifest['no_gpu_qualification_profile']))
+    if manifest.get('cf_display_repair'):
+        values['config_sha'] = digest(dict(parent_config_sha=values['config_sha'],
+            cf_display_repair=manifest['cf_display_repair']))
     return values
 
 
@@ -328,6 +335,17 @@ def evaluate_payload(observed, endpoint, edits, *, current=False, config_values=
     value = {'official/' + prefix + '/' + key:score for key, score in observed['summary'].items()
              if key in fields and type(score) in (int, float)}
     if observed.get('dataset', observed.get('identity', {}).get('dataset')) == 'cf':
+        if 'Score_AlphaEdit_display' in observed['summary']:
+            for kind, label in (('rewrite','Efficacy'),('paraphrase','Generalization'),('neighborhood','Specificity')):
+                rates = []
+                for case in observed['cases']:
+                    bits = [float(row['target_true']['mean_nll'] < row['target_new']['mean_nll']
+                        if kind == 'neighborhood' else
+                        row['target_new']['mean_nll'] < row['target_true']['mean_nll'])
+                        for row in case[kind+'_observations']]
+                    require(bool(bits), 'DISPLAY_EMPTY_REQUEST')
+                    rates.append(np.mean(bits))
+                value['official/'+prefix+'/'+label+'_AlphaEdit_display'] = float(np.around(np.mean(rates)*100,2))
         value.update(cf_diagnostics(observed['cases'], prefix))
     return dict(value, edits=edits, pre_state_edits=max(0, edits-100), post_state_edits=edits)
 
@@ -509,7 +527,8 @@ def cold_w0(model, tok, manifest, records, dataset, out, tracking):
         factual_member = member(path)
         generation_member = None
     else:
-        native_reference = cf_native_oracle(model, tok, manifest, records, out)
+        native_reference = (dict(status=noqual.DISABLED, instruction_id=noqual.INSTRUCTION)
+            if noqual.enabled(manifest) else cf_native_oracle(model, tok, manifest, records, out))
         observed, factual_member = factual(model, tok, manifest, records, dataset, out, 'W0')
         generation_member = None
         if not deferred(manifest):
@@ -532,6 +551,9 @@ def cold_w0(model, tok, manifest, records, dataset, out, tracking):
 
 
 def read_w0(manifest, dataset, records):
+    if dataset == 'cf' and manifest.get('cf_display_repair'):
+        from official.runners.server2.cf_display_repair import reused_w0
+        return reused_w0(manifest, records), None
     path = Path(manifest['W0_'+dataset+'_ready_path'])
     ready = read(path)
     require(ready['status'] == 'READY_COLD_W0_COMPLETE' and ready['actual_GPU'] is True
@@ -543,7 +565,11 @@ def read_w0(manifest, dataset, records):
         'OFFICIAL_W0_READY_IDENTITY')
     require(member(ready['factual']['path']) == ready['factual'], 'OFFICIAL_W0_FACTUAL_RAW_CHANGED')
     if dataset == 'cf':
-        verify_cf_native_oracle(manifest, ready.get('original_native_reference'))
+        if noqual.enabled(manifest):
+            require(ready.get('original_native_reference') == dict(status=noqual.DISABLED,
+                instruction_id=noqual.INSTRUCTION), 'EXPLICIT_USER_DISABLED_ORACLE_NOT_PASS')
+        else:
+            verify_cf_native_oracle(manifest, ready.get('original_native_reference'))
         if deferred(manifest):
             require(ready.get('generation_status') == 'DEFERRED_NOT_MEASURED'
                 and ready.get('generation') is None and ready.get('generation_READY') is None,
@@ -561,6 +587,13 @@ def chain(model, tok, engine, manifest, records, dataset, out, tracking, resume=
     identity = checkpoint_identity(manifest, engine.method, dataset)
     endpoints, cursor, commits = {}, {}, []
     ready, reference = read_w0(manifest, dataset, records)
+    if manifest.get('cf_display_repair'):
+        require(dataset == 'cf' and not resume and not smoke, 'CF_DISPLAY_COLD_MAIN_ONLY')
+        write_new(out/'W0-provenance.json', dict(original_ready=member(manifest['W0_cf_ready_path']),
+            original_factual=ready['factual'], consumer_source=manifest['code_commit'],
+            compatibility=manifest['cf_display_repair']['W0_binding'], historical_online_overwrite=False))
+        log(tracking, evaluate_payload(read(ready['factual']['path']), 'W0', 0,
+            config_values=getattr(tracking,'config_values',None)))
     endpoints['W0'] = ready['factual']
     checkpoint_folder = Path(resume).resolve() if resume else out/'checkpoints'
     require(checkpoint_folder.name == 'checkpoints' and LOCAL in checkpoint_folder.parents
@@ -679,6 +712,10 @@ def main():
     started, tracking, result, error, engine = time.monotonic(), None, None, None, None
     try:
         verify_manifest(manifest)
+        noqual.check_mode(manifest, args.mode)
+        if noqual.enabled(manifest):
+            require(not args.resume, 'NEW_COLD_NO_OLD_PARTIAL_RESUME')
+            write_new(out/'qualification-status.json', noqual.profile())
         config = configuration(args.method, args.dataset)
         records = read(manifest['streams'][args.dataset]['path'])
         require(len(records) == 2000 and [r['occurrence_index'] for r in records] == list(range(1,2001)),
@@ -705,7 +742,7 @@ def main():
                         proof=verify_smoke(Path(args.manifest).resolve().parent,manifest)
                         require(read(Path(args.manifest).resolve().parent/'zsre-smoke-verified.json')==proof,
                                 'ACTUAL_ZSRE_SMOKE_REQUIRED_BEFORE_CHAIN')
-                if deferred(manifest):
+                if deferred(manifest) and not noqual.enabled(manifest):
                     require(args.mode == 'chain' and args.dataset == 'cf' and not args.resume,
                             'NEW_COLD_CHECKPOINT_PIPELINE_ONLY')
                     from official.runners.server2.checkpoint_pipeline import verify_qualification

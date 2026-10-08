@@ -1,0 +1,77 @@
+{
+  "instruction_id": "USER-SH4-GH-QWEN12-ARCHIVE-CONNECTION-20261009-R2",
+  "scope": "Existing approved Qwen official 12 future submissions; PRICE/tuning/old checkpoints unchanged",
+  "status": "RECEIVER_SOURCE_API_READY_CALLER_INTEGRATION_ONGOING",
+  "receiver_owner": {
+    "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+    "ack_nonce": "GH-SH1-QWEN12-ARCHIVE-RECEIVER-CONFIRM-20261009-R2",
+    "accepted_turn": "01a11d05-eb81-72a3-99f5-6b5321a52e6d",
+    "owner_result": "SOURCE/API_READY"
+  },
+  "source_owner": {
+    "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "ack_nonce": "GH-SH4-QWEN12-ARCHIVE-CONNECTION-20261009-R2",
+    "accepted_turn": "01a11d03-cf9c-7413-9ce6-17ca1265718c",
+    "owner_ack": true,
+    "scope": "Own caller + original evidence adapter + safe final unlink; no duplicate receiver"
+  },
+  "receiver_binding": {
+    "checkout": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-no-gpu-qual-20261009",
+    "HEAD": "c20b289ddd31be3576581f5e4b6c91933573eb88",
+    "helper_equivalent_commit": "43256a333269068879023fb36a73f564a53844a0",
+    "python": "/usr/bin/python3",
+    "python_version": "3.10.12",
+    "helper_members": {
+      "project/run_scripts/checkpoint_archive/archive.py": "e4ca00fb45925918dd6ee1c0b492e7d64a97ca2aab39c314d2220a412fede889",
+      "project/run_scripts/checkpoint_archive/__init__.py": "9be392af4aba691f9d62be95f561ff2e33cf7d24613cda23ca2f421ecec3569f",
+      "project/run_scripts/checkpoint_archive/__main__.py": "dd0aeeb45702280d45592fbbb6987e2340e2ab5630e65be252bd0d3b55d59be1"
+    },
+    "policy": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-no-gpu-qual-20261009/control/final-checkpoint-archive-policy.json",
+    "policy_sha256": "6da0d1fcb576a51610daf3a733b896cf48a373dc60a3d8aa3c2ec1405ecfd9da",
+    "cutovers": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archive/.receiver/trust/server4/4d34bad2d87f213dacd0350fe014ee772f5b27edeb77509b976cd2ee5b601ceb/members.json",
+    "cutover_bytes": 412,
+    "cutover_sha256": "4d34bad2d87f213dacd0350fe014ee772f5b27edeb77509b976cd2ee5b601ceb",
+    "task_root": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archive/server4/qwen-baselines-server4-20261009/",
+    "typed_tree_identity": "40hex git-tree-sha1 / 64hex content-sha256 without relabel"
+  },
+  "owner_observation": {
+    "at_kst": "2026-10-09 04:38:26 KST",
+    "free_bytes": 1235484909568,
+    "free_inodes": 334946024,
+    "operating_reserve_GiB": 64,
+    "receiver_concurrency": 1,
+    "lock": "ACQUIRED_AND_RELEASED",
+    "outstanding_reservations": 0,
+    "active_reservation": false,
+    "all_runs_reserved": false,
+    "payload_admissions": 0,
+    "transfers": 0,
+    "deletions": 0
+  },
+  "API": {
+    "receiver": "Receiver.from_policy_file(policy, cutover_members=trusted_map)",
+    "source": "seal_manifest(..., evidence_adapter=source_owned_frozen_replay)",
+    "flow": [
+      "receiver.admit(manifest)",
+      "exact allowlist one-way transfer to returned staging",
+      "receiver.verify(admission, manifest)",
+      "independent authenticated receiver.recheck(receipt)",
+      "source_delete_gate(receipt,manifest,fresh_companions=all_seven_roles,destination_verify=authenticated_recheck,evidence_adapter=frozen_replay)",
+      "source owner immediate dirfd/fullSHA/stat/consumer recheck then individual approved payload unlink"
+    ],
+    "fresh_proofs": "All seven roles; only writer_termination and consumer_clearance may be new post-destination files; other five retain sealed bytes",
+    "not_implied": "API readiness is not archive admission/transfer/delete/Slurm registration or scientific PASS"
+  },
+  "constraints": [
+    "No payload admission before actual final identity exists",
+    "All planned final calculations and CP consumers must actually be clear",
+    "Deferred consumers still pending require KEEP, not manufactured completion",
+    "No additional generation/GPU qualification or scientific schedule change to satisfy storage",
+    "Metadata/raw/logs/history KEEP; exact approved final payload only",
+    "Freeze caller and actual runtime bindings before new submission; archive failure keeps source and blocks unsafe next allocation",
+    "Combined server4 cap2; tuning61674 unchanged; actual scheduler frontier fresh-bind by SH4",
+    "GH updates README only from actual registration receipt"
+  ],
+  "new_baseline_job_ids_reported": [],
+  "new_recurring_monitor": false
+}

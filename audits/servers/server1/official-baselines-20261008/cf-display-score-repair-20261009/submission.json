@@ -1,0 +1,217 @@
+{
+  "at": "2026-10-08T19:57:35.347346+00:00",
+  "source": {
+    "main_commit": "34e4d52d821113d56ee6c59b71d553dd01768e73",
+    "official_tree": "db0354edebde9517c200140dbaa717605c4d527e"
+  },
+  "execution_lock": {
+    "bytes": 126317,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-display-score-repair-r1/registration-r1/execution-lock.json",
+    "sha256": "6f820fd90fcfbbf3469980ee298a13525b3bc226f6455613699f08ce06682491"
+  },
+  "jobs": [
+    {
+      "key": "cf-w0",
+      "job_id": "61768",
+      "dataset": "cf",
+      "method": null,
+      "mode": "base_w0",
+      "config": {
+        "bytes": 5931,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-display-score-repair-r1/preparation-r1/configs/cf-ft.json",
+        "sha256": "4190f86a1e9670f01e8a6f42f9c3cc26c1a6ba9f6e2dc3c6eb3db32799472d61"
+      },
+      "dependencies": [
+        [
+          "afterany",
+          "61718"
+        ]
+      ],
+      "state": "PENDING",
+      "qualification": "NOT_RUN_USER_DISABLED"
+    },
+    {
+      "key": "cf-alphaedit",
+      "job_id": "61769",
+      "dataset": "cf",
+      "method": "ALPHAEDIT",
+      "mode": "chain",
+      "config": {
+        "bytes": 6317,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-display-score-repair-r1/preparation-r1/configs/cf-alphaedit.json",
+        "sha256": "869b64bbd3d6c97dc7930539b92c9bbe9b5f602d77a27ff6e55108d5c6403120"
+      },
+      "dependencies": [
+        [
+          "afterany",
+          "61719"
+        ]
+      ],
+      "state": "PENDING",
+      "qualification": "NOT_RUN_USER_DISABLED"
+    },
+    {
+      "key": "cf-sphere",
+      "job_id": "61770",
+      "dataset": "cf",
+      "method": "SPHERE",
+      "mode": "chain",
+      "config": {
+        "bytes": 6367,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-display-score-repair-r1/preparation-r1/configs/cf-sphere.json",
+        "sha256": "292250107202494cb8392dc91abc8af75cd8fc3012acf9080f2695ea663aaa58"
+      },
+      "dependencies": [
+        [
+          "afterany",
+          "61720"
+        ]
+      ],
+      "state": "PENDING",
+      "qualification": "NOT_RUN_USER_DISABLED"
+    },
+    {
+      "key": "cf-ft",
+      "job_id": "61771",
+      "dataset": "cf",
+      "method": "FT",
+      "mode": "chain",
+      "config": {
+        "bytes": 5931,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-display-score-repair-r1/preparation-r1/configs/cf-ft.json",
+        "sha256": "4190f86a1e9670f01e8a6f42f9c3cc26c1a6ba9f6e2dc3c6eb3db32799472d61"
+      },
+      "dependencies": [
+        [
+          "afterany",
+          "61721"
+        ],
+        [
+          "afterok",
+          "61768"
+        ]
+      ],
+      "state": "PENDING",
+      "qualification": "NOT_RUN_USER_DISABLED"
+    },
+    {
+      "key": "cf-memit",
+      "job_id": "61772",
+      "dataset": "cf",
+      "method": "MEMIT",
+      "mode": "chain",
+      "config": {
+        "bytes": 6066,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-display-score-repair-r1/preparation-r1/configs/cf-memit.json",
+        "sha256": "736b75d77b6cc0e7246d57359f580a5b8390c4f5ac632e712befbbe4ff4b354b"
+      },
+      "dependencies": [
+        [
+          "afterok",
+          "61768"
+        ]
+      ],
+      "state": "PENDING",
+      "qualification": "NOT_RUN_USER_DISABLED"
+    },
+    {
+      "key": "cf-memit_fe",
+      "job_id": "61773",
+      "dataset": "cf",
+      "method": "MEMIT_FE",
+      "mode": "chain",
+      "config": {
+        "bytes": 6178,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-display-score-repair-r1/preparation-r1/configs/cf-memit_fe.json",
+        "sha256": "7ed1f70a57337832eeb2c605cb8b2358a1ce4ad739154e715218bbc8304ddf27"
+      },
+      "dependencies": [
+        [
+          "afterany",
+          "61769"
+        ],
+        [
+          "afterok",
+          "61768"
+        ]
+      ],
+      "state": "PENDING",
+      "qualification": "NOT_RUN_USER_DISABLED"
+    },
+    {
+      "key": "collector-cf-display",
+      "job_id": "61774",
+      "dataset": "cf",
+      "method": null,
+      "mode": "collect",
+      "config": {
+        "bytes": 5931,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-display-score-repair-r1/preparation-r1/configs/cf-ft.json",
+        "sha256": "4190f86a1e9670f01e8a6f42f9c3cc26c1a6ba9f6e2dc3c6eb3db32799472d61"
+      },
+      "dependencies": [
+        [
+          "afterany",
+          "61768"
+        ],
+        [
+          "afterany",
+          "61769"
+        ],
+        [
+          "afterany",
+          "61770"
+        ],
+        [
+          "afterany",
+          "61771"
+        ],
+        [
+          "afterany",
+          "61772"
+        ],
+        [
+          "afterany",
+          "61773"
+        ]
+      ],
+      "state": "PENDING",
+      "qualification": "NOT_RUN_USER_DISABLED"
+    }
+  ],
+  "status": "REGISTERED_RELEASED_BOUNDED_HANDOFF",
+  "cancelled": [
+    "61715",
+    "61714",
+    "61713",
+    "61709"
+  ],
+  "kept_terminal": [
+    {
+      "job": "61712",
+      "state": "FAILED"
+    },
+    {
+      "job": "61711",
+      "state": "FAILED"
+    }
+  ],
+  "preserved_zsre": [
+    "61710",
+    "61716",
+    "61717",
+    "61718",
+    "61719",
+    "61720",
+    "61721"
+  ],
+  "preserved_old_collector": "61722",
+  "cpu_tests": 83,
+  "actual_failed_raw_cpu_checks": 2,
+  "source_files": 157,
+  "allocated_project_GPUs": 4,
+  "admitted_DAG_width": 4,
+  "online_validation": "NEXT_ACTUAL_STARTUP_NOT_CONTROL_CERTIFICATION",
+  "GPU_qualification": "NOT_RUN_USER_DISABLED",
+  "raw": "KEEP_LOCAL_NO_BROADCAST_NOT_REQUIRED"
+}

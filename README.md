@@ -45,47 +45,99 @@ Ours 행은 결과 기록용이며 새 arm/실험을 자동 승인하지 않습�
 
 ### Llama3-8B-Instruct
 
-Server1 CF 등록 상태(2026-10-09 03:06:48 KST): FT **61661**, MEMIT **61662**,
-MEMIT-FE **61663** 모두 PENDING이다. 선행 native qualification **61657–61659**는
-RUNNING, 공통 W0 **61660**과 GPU0 collector **61664**는 PENDING이다.
-선행 검증을 본 실험의 ING/완료로 표시하지 않는다. server1 cap4이며 W20 checkpoint를
-보존하고 FLU/CON은 후속 별도 평가로 연기한다. 실행 source `ecc80fc0` 및 정확한
-config/sample identity·dependency는 [제출 보고서](experiment-reports/servers/server1/official-baselines-20261008/CF-registration-20261009.md)에 기록했다.
+**SH1 CF 수리본 held 검사·release 완료, snapshot 2026-10-09 04:57:44 KST.**
+CF AlphaEdit **61769**, SPHERE **61770**, FT **61771**, MEMIT **61772**, MEMIT-FE **61773**는 PENDING/dependency다.
+기존 zsRE **61716–61719**는 RUNNING, **61720/61721**은 PENDING으로 유지했다.
+새 CF W0 **61768**와 GPU0 collector **61774**는 PENDING이며 본실험 표에서 제외한다.
+기존 zsRE W0 **61710**은 COMPLETED, 원 공유 collector **61722**는 유지한다.
+cap4, 새 CF 실행 source `34e4d52d`, official tree `db0354ed`; 유지 zsRE source `94304dc9`.
+별도 GPU qualification·smoke·resume 반복 검증은 `NOT_RUN_USER_DISABLED`이고
+필수 W0·본실험 평가·checkpoint·runtime 안전 검사는 유지한다.
+원 26개 취소 및 완료 qualification **61657** 보존, source/config SHA·실제 job name·dependency는
+[제출 보고](experiment-reports/servers/server1/official-baselines-20261008/no-gpu-qualification-rerun-20261009/report.md)와
+[등록 영수증](audits/servers/server1/official-baselines-20261008/no-gpu-qualification-rerun-20261009/submission.json)에 있다.
+CF 61711/61712는 W0 표시용 Score 반올림 불일치로 FAILED(commit0), 영향받은 CF 61715/61714/61713/61709만 취소했다.
+원 점수·native 수학은 바꾸지 않고 표시용 구성값 검증을 수리했으며 CPU83 및 실제 실패 raw 2건 검산을 통과했다.
+[CF 수리·재등록 보고](experiment-reports/servers/server1/official-baselines-20261008/cf-display-score-repair-20261009/report-ko.md)와
+[새 등록 영수증](audits/servers/server1/official-baselines-20261008/cf-display-score-repair-20261009/submission.json)에 정확한 dependency/config/취소·보존 범위를 기록했다.
+새 CF W&B startup·최종 성능 완료는 아직 미관측이다.
 
 | Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| FT | PENDING: 61661 | PENDING: 61661 | PENDING: 61661 | PENDING: 61661 | DEFERRED | DEFERRED |  |  |  |
-| MEMIT | PENDING: 61662 | PENDING: 61662 | PENDING: 61662 | PENDING: 61662 | DEFERRED | DEFERRED |  |  |  |
-| AlphaEdit |  |  |  |  |  |  |  |  |  |
-| AlphaEdit-BLUE |  |  |  |  |  |  |  |  |  |
-| MEMIT-FE | PENDING: 61663 | PENDING: 61663 | PENDING: 61663 | PENDING: 61663 | DEFERRED | DEFERRED |  |  |  |
-| AlphaEdit+SPHERE |  |  |  |  |  |  |  |  |  |
+| FT | PENDING: 61771 | PENDING: 61771 | PENDING: 61771 | PENDING: 61771 | DEFERRED | DEFERRED | ING: 61716 | ING: 61716 | ING: 61716 |
+| MEMIT | PENDING: 61772 | PENDING: 61772 | PENDING: 61772 | PENDING: 61772 | DEFERRED | DEFERRED | ING: 61717 | ING: 61717 | ING: 61717 |
+| AlphaEdit | PENDING: 61769 | PENDING: 61769 | PENDING: 61769 | PENDING: 61769 | DEFERRED | DEFERRED | ING: 61718 | ING: 61718 | ING: 61718 |
+| AlphaEdit-BLUE | 89.84† | 99.60† | 97.15† | 76.59† |  |  | ING: 61719 | ING: 61719 | ING: 61719 |
+| MEMIT-FE | PENDING: 61773 | PENDING: 61773 | PENDING: 61773 | PENDING: 61773 | DEFERRED | DEFERRED | PENDING: 61720 | PENDING: 61720 | PENDING: 61720 |
+| AlphaEdit+SPHERE | PENDING: 61770 | PENDING: 61770 | PENDING: 61770 | PENDING: 61770 | DEFERRED | DEFERRED | PENDING: 61721 | PENDING: 61721 | PENDING: 61721 |
 | PRICE (Ours) |  |  |  |  |  |  |  |  |  |
+
+† 사용자 2026-10-09 지시에 따라 표본·순서를 대조한 기존 Llama BLUE job **39283_1**의
+**B20/2,000 edits** 결과를 반영했다(새 official 재실행 결과 아님).
+동일 fixed10k 파일의 첫2,000 순서가 현재 official lock과 일치한다.
+Eff/Gen/Loc은 기존 strict NLL preference 집계, Score는 기존 R/P/N 성공률의 조화평균이다.
+Loc은 N success 15,317/20,000 = 76.585%를 소수 둘째 자리로 반올림했다.
+Flu·Con은 미관측으로 기존 빈칸을 유지한다.
+native source/runtime·평가기 차이와 분모 및 대조 근거는
+[BLUE 2K 확인 기록](experiment-reports/servers/server1/official-baselines-20261008/llama-blue-2k-table-check.md)에 구분했다.
 
 ### Qwen2.5-7B-Instruct
 
+**CF 표시값 전송 수리 후 6개 main과 GPU0 archive 6개를 교체·held 검사·release했습니다.**
+2026-10-09 05:26:36 KST snapshot에서 새 CF와 유지 zsRE는 모두 PENDING(Dependency)입니다.
+CF 실행 source `dc80ec529c940019d1bee27a67a4e908eb37cc64`; 기존 미시작 CF/archive
+**61743–61754**는 취소하고 원 source·자료는 보존했습니다. 실제 Qwen 오류/편집 실패를 관측한 것은 아닙니다.
+zsRE **61755/61757/61759/61761/61763/61765**와 해당 archive는 원 source
+`d614add5e4c650821ed8d2503c071a1e02605ca8`·config·ID 그대로 유지합니다.
+첫 zsRE **61755**의 pending dependency만 새 CF 마지막 archive **61794**에 `afterok`로 재연결했습니다.
+
+승인 cap2는 유지합니다. 별도 tuning **61674**(GPU2), held-out **61776/61777**(각 GPU1)의
+기존 allocation 합계4는 사실대로 별도 기록하며 변경하지 않았습니다.
+새 첫 CF **61783**은 `afterany:61674:61776:61777`로 세 job 종료를 모두 기다립니다.
+그 뒤 main → `afterok` GPU0 archive → `afterok` 다음 main으로 순차 실행합니다.
+새 archive **61784/61786/61788/61790/61792/61794**는 성능표에서 제외합니다.
+별도 GPU qualification은 `NOT_RUN_USER_DISABLED`; 새 GPU/W&B 실행은 NOT_STARTED,
+실제 archive 전송·삭제는 0입니다. 제출·CPU 검사와 과학적 완료를 구분합니다.
+실제 job name·source/config/sample SHA·dependency·보존 내역은
+[교체 등록 영수증](audits/servers/server4/qwen-baselines-20261009/cf-display-repair/submission.json)과
+[수리 보고서](experiment-reports/servers/server4/qwen-baselines-20261009/cf-display-repair-ko.md)에 기록합니다.
+
 | Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| FT |  |  |  |  |  |  |  |  |  |
-| MEMIT |  |  |  |  |  |  |  |  |  |
-| AlphaEdit |  |  |  |  |  |  |  |  |  |
-| AlphaEdit-BLUE |  |  |  |  |  |  |  |  |  |
-| MEMIT-FE |  |  |  |  |  |  |  |  |  |
-| AlphaEdit+SPHERE |  |  |  |  |  |  |  |  |  |
+| FT | PENDING: 61783 | PENDING: 61783 | PENDING: 61783 | PENDING: 61783 | PENDING: 61783 | PENDING: 61783 | PENDING: 61755 | PENDING: 61755 | PENDING: 61755 |
+| MEMIT | PENDING: 61785 | PENDING: 61785 | PENDING: 61785 | PENDING: 61785 | PENDING: 61785 | PENDING: 61785 | PENDING: 61757 | PENDING: 61757 | PENDING: 61757 |
+| AlphaEdit | PENDING: 61787 | PENDING: 61787 | PENDING: 61787 | PENDING: 61787 | PENDING: 61787 | PENDING: 61787 | PENDING: 61759 | PENDING: 61759 | PENDING: 61759 |
+| AlphaEdit-BLUE | PENDING: 61789 | PENDING: 61789 | PENDING: 61789 | PENDING: 61789 | PENDING: 61789 | PENDING: 61789 | PENDING: 61761 | PENDING: 61761 | PENDING: 61761 |
+| MEMIT-FE | PENDING: 61791 | PENDING: 61791 | PENDING: 61791 | PENDING: 61791 | PENDING: 61791 | PENDING: 61791 | PENDING: 61763 | PENDING: 61763 | PENDING: 61763 |
+| AlphaEdit+SPHERE | PENDING: 61793 | PENDING: 61793 | PENDING: 61793 | PENDING: 61793 | PENDING: 61793 | PENDING: 61793 | PENDING: 61765 | PENDING: 61765 | PENDING: 61765 |
 | PRICE (Ours) |  |  |  |  |  |  |  |  |  |
 
 ### GPT-J-6B
 
-**Server2 CF 등록 현황 — 2026-10-09 03:13 KST 관측, 사용자 지정 GPU cap4.**
-official 6종 모두 등록·release했으며 CF first2000, batch100×20을 실행하는 pipeline이다.
-각 pipeline의 W0/qualification과 실제 편집 chain 단계는 구분한다. 아래 `ING`는
-Slurm 상태이며 본편집 시작·GPU 검증 통과·W20 완료를 뜻하지 않는다.
-GPU0 collector **61656**은 여섯 arm 종료 후 집계하도록 PENDING이며 성능표에는 넣지 않는다.
+SH2 직접 보고에서 CF FT **61650**은 W20 정상 완료(20 commit,
+`EDIT_FACTUAL_CHECKPOINT_COMPLETE`)로 확인되어 유지합니다.
+최종 ordered first2000 원자료의 strict NLL request-macro 재집계와 20 commit SHA 검산을 완료했습니다.
+아래 FT 수치는 W20 factual 실측(%, 소수 둘째 자리)이며
+[검산·실행 identity 보고](experiment-reports/servers/server2/official-baselines-20261008/FT-61650-W20-results.md)에 근거합니다.
+**표시값 전송 오류의 scoped 수리 중입니다.** SH2 직접 건강 확인에서 CF MEMIT **61725**는
+RUNNING·실제 4 commit·accepted scalar 존재·dropped 0으로 확인되어 그대로 유지합니다.
+이는 이후 모든 endpoint의 성공을 보장하지는 않습니다. 미시작 CF **61727/61729/61731/61733**과
+collector **61736**만 취소했고 새 4개 CF replacement는 아직 미등록입니다.
+W0 CF **61723**은 factual raw 완료와 별개로 accepted 0/rejected 1/dropped 1이 확인됐습니다.
+추가 모델 forward 없이 원 raw·provenance를 보존한 CPU 전송 복구를 준비합니다.
+zsRE **61724/61726/61728/61730/61732/61734/61735**는 유지합니다.
+마지막 pending **61735**만 교체 CF resource edge 재연결을 위해 임시 hold 중입니다.
+zsRE 표 상태는 종전 제출 snapshot을 유지하며 현재 실행 여부를 재조회한 표가 아닙니다.
+건강 확인 source `47846468`, official tree `41ed261d`, cap4.
+[건강·취소 보고](audits/global/cf-display-repair-keep-healthy-20261009/server2-health.json)와
+[원 등록 영수증](audits/global/official-no-gpu-qualification-20261009/server2-registration.json).
 
-GPU job name은 `official-baselines-server2-20261008-r1-cf_checkpoint-<ARM>`이며,
-scheduler의 ARM 표기는 `FT/MEMIT/ALPHAEDIT/ALPHAEDIT_BLUE/MEMIT_FE/SPHERE`다.
-공통 factual W0를 제공하는 FT 선행 조건을 유지하고, 이후 최대4개 lane을 허용한다.
-실제 시작은 물리 자원 가용성에 따른다. zsRE 및 OURS 신규 등록을 뜻하지 않는다.
+W&B: [zsRE 전용 페이지](https://forge.coreweave.com/wandb/wkdguswns2256/layer%20allocation?nw=zsreindex) ·
+[Llama3](https://forge.coreweave.com/wandb/wkdguswns2256/layer%20allocation?nw=zsrellama3) ·
+[Qwen2.5](https://forge.coreweave.com/wandb/wkdguswns2256/layer%20allocation?nw=zsreqwen25) ·
+[GPT-J](https://forge.coreweave.com/wandb/wkdguswns2256/layer%20allocation?nw=zsregptj).
+`zsre/*`는 teacher-forced E/G, W0 agreement Specificity, 별도 loc_ans 정확도를 구분한다.
+페이지 설정 원격 검증은 actual run/GPU/성능 완료 검증과 별개다.
 
 **이 CF 실행의 FLU/CON은 W0·W20 모두 `DEFERRED_CHECKPOINT_EVALUATION`이다.**
 generation 점수·count·progress를 0으로 채우지 않는다. factual 평가는 유지하고,
@@ -93,20 +145,19 @@ generation 점수·count·progress를 0으로 채우지 않는다. factual 평�
 FLU/CON은 이후 별도 2k checkpoint 평가에서 측정하며, 그 consumer 완료 전에는
 최종 checkpoint를 삭제하지 않는다. 아래 성능표는 미관측 수치를 채우지 않는다.
 
-실행 source `6d35c65de19ec378a30749683762eba87fee50e3` 및 manifest/lock은
-[제출 보고](experiment-reports/servers/server2/official-baselines-20261008/deferred-flucon-ready-20261009-r1.md),
-현재 cap4와 FE dependency 조정은
-[자원 변경 보고](experiment-reports/servers/server2/official-baselines-20261008/cap4-existing-dag-20261009-r1.md)에 기록했다.
-cap4 변경은 별도 scheduling override이며 기존 frozen source/manifest의 cap3 기록을 소급 변경하지 않았다.
+기존 source/config/dependency와 비용은
+[CF 기록](experiment-reports/servers/server2/official-baselines-20261008/deferred-flucon-ready-20261009-r1.md) 및
+[zsRE 기록](experiment-reports/servers/server2/zsre-wandb-20261009/report-ko.md)에 보존합니다.
+새 실행의 qualification은 `NOT_RUN_USER_DISABLED`이며 GPU 검증 PASS를 뜻하지 않습니다.
 
 | Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| FT | ING: 61650 | ING: 61650 | ING: 61650 | ING: 61650 | DEFERRED | DEFERRED |  |  |  |
-| MEMIT | PENDING: 61651 | PENDING: 61651 | PENDING: 61651 | PENDING: 61651 | DEFERRED | DEFERRED |  |  |  |
-| AlphaEdit | PENDING: 61652 | PENDING: 61652 | PENDING: 61652 | PENDING: 61652 | DEFERRED | DEFERRED |  |  |  |
-| AlphaEdit-BLUE | PENDING: 61653 | PENDING: 61653 | PENDING: 61653 | PENDING: 61653 | DEFERRED | DEFERRED |  |  |  |
-| MEMIT-FE | PENDING: 61654 | PENDING: 61654 | PENDING: 61654 | PENDING: 61654 | DEFERRED | DEFERRED |  |  |  |
-| AlphaEdit+SPHERE | PENDING: 61655 | PENDING: 61655 | PENDING: 61655 | PENDING: 61655 | DEFERRED | DEFERRED |  |  |  |
+| FT | 58.97 | 88.75 | 66.75 | 40.61 | DEFERRED | DEFERRED | PENDING: 61726 | PENDING: 61726 | PENDING: 61726 |
+| MEMIT | ING: 61725 | ING: 61725 | ING: 61725 | ING: 61725 | DEFERRED | DEFERRED | PENDING: 61728 | PENDING: 61728 | PENDING: 61728 |
+| AlphaEdit | CANCELLED: 61727 | CANCELLED: 61727 | CANCELLED: 61727 | CANCELLED: 61727 | DEFERRED | DEFERRED | PENDING: 61730 | PENDING: 61730 | PENDING: 61730 |
+| AlphaEdit-BLUE | CANCELLED: 61729 | CANCELLED: 61729 | CANCELLED: 61729 | CANCELLED: 61729 | DEFERRED | DEFERRED | PENDING: 61732 | PENDING: 61732 | PENDING: 61732 |
+| MEMIT-FE | CANCELLED: 61731 | CANCELLED: 61731 | CANCELLED: 61731 | CANCELLED: 61731 | DEFERRED | DEFERRED | PENDING: 61734 | PENDING: 61734 | PENDING: 61734 |
+| AlphaEdit+SPHERE | CANCELLED: 61733 | CANCELLED: 61733 | CANCELLED: 61733 | CANCELLED: 61733 | DEFERRED | DEFERRED | PENDING: 61735 | PENDING: 61735 | PENDING: 61735 |
 | PRICE (Ours) |  |  |  |  |  |  |  |  |  |
 
 기존 연구 문서와 실험 이력은 아래에 보존합니다. 새 실험의 설정 근거는 `official/`입니다.

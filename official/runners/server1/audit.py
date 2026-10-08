@@ -201,7 +201,7 @@ def audit_factual(endpoint, records, dataset, tokenizer, external, w0_reference=
 
 def audit_commits(folder, method, identity, expected20=20, *, records=None):
     """Check the exact ledger and current payload; old checkpoints stay deleted."""
-    require(method in ("FT", "MEMIT", "MEMIT_FE") and type(expected20) is int
+    require(method in ("FT", "MEMIT", "MEMIT_FE", "ALPHAEDIT", "SPHERE", "ALPHAEDIT_BLUE") and type(expected20) is int
             and 1 <= expected20 <= 20, "AUDIT_NATIVE_METHOD_OR_BATCH_SCOPE")
     folder = Path(folder)
     names = {f"batch-{batch:02d}.json" for batch in range(1, expected20 + 1)}
@@ -212,12 +212,16 @@ def audit_commits(folder, method, identity, expected20=20, *, records=None):
                for layer in hp.layers}
     paths = {"FT": "baselines/easyedit/models/ft/ft_main.py",
              "MEMIT": "baselines/sphere/memit/memit_main.py",
-             "MEMIT_FE": "baselines/easyedit/models/memit_FE/memit_FE_main.py"}
+             "MEMIT_FE": "baselines/easyedit/models/memit_FE/memit_FE_main.py",
+             "ALPHAEDIT": "baselines/easyedit/models/alphaedit/AlphaEdit_main.py",
+             "ALPHAEDIT_BLUE": "baselines/blue/AlphaEdit/AlphaEdit_main.py",
+             "SPHERE": "baselines/easyedit/models/SPHERE/SPHERE_main.py"}
     native_sha = file_sha(Path(__file__).resolve().parents[2] / paths[method])
     if records is not None:
         records = list(records)
         require(len(records) >= expected20 * 100, "AUDIT_REQUEST_STREAM_LENGTH")
     previous_post, last_pointer = None, None
+    previous_history = None
     for batch in range(1, expected20 + 1):
         path = folder / "commits" / f"batch-{batch:02d}.json"
         require(path.is_file() and not path.is_symlink(), "AUDIT_COMMIT_REGULAR_FILE")
@@ -247,7 +251,8 @@ def audit_commits(folder, method, identity, expected20=20, *, records=None):
         require(edit.get("same_model") is True
                 and edit.get("nonselected_identity_version_unchanged") is True
                 and edit.get("selected_FP32_finite") is True
-                and edit.get("native_history") is False and edit.get("cache_c") == {}
+                and edit.get("native_history") is (method in ("ALPHAEDIT", "SPHERE", "ALPHAEDIT_BLUE"))
+                and (bool(edit.get("cache_c")) if method in ("ALPHAEDIT", "SPHERE", "ALPHAEDIT_BLUE") else edit.get("cache_c") == {})
                 and edit.get("quality_gate") is False
                 and _sha(edit.get("contexts_sha256")), "AUDIT_NATIVE_STATE_GUARDS")
         entry, post = edit.get("entry_selected_sha256", {}), edit.get("post_selected_sha256", {})
@@ -255,6 +260,14 @@ def audit_commits(folder, method, identity, expected20=20, *, records=None):
                                                         list(post.values())), "AUDIT_NATIVE_SELECTED_HASH_SCHEMA")
         require(previous_post is None or entry == previous_post, "AUDIT_NATIVE_ENTRY_POST_WEIGHT_LINK")
         previous_post = post
+        if method in ("ALPHAEDIT", "SPHERE", "ALPHAEDIT_BLUE"):
+            for mapping in (edit.get("entry_cache_c", {}), edit["cache_c"]):
+                require(set(mapping) == {str(layer) for layer in hp.layers}, "AUDIT_HISTORY_LAYER_MAP")
+                require(all(set(row) == {"sha256","shape","dtype"} and _sha(row["sha256"])
+                            and row["shape"] == [14336,14336] and row["dtype"] == "torch.float32"
+                            for row in mapping.values()), "AUDIT_HISTORY_TENSOR_IDENTITY")
+            require(previous_history is None or edit["entry_cache_c"] == previous_history, "AUDIT_HISTORY_ENTRY_LINK")
+            previous_history = edit["cache_c"]
         if batch in (5, 10, 15, 20):
             require(cursor.get("evaluation") == "COMPLETE" and "factual" in cursor,
                     "AUDIT_SCHEDULED_FACTUAL_CURSOR")

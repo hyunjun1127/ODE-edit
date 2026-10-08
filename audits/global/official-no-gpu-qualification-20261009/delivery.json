@@ -1,0 +1,88 @@
+{
+  "instruction": "USER-GH-SH1-SH2-OFFICIAL-NO-GPU-QUAL-RERUN-20261009-R1",
+  "server4_instruction": "USER-GH-SH4-QWEN-OFFICIAL-NO-GPU-QUAL-20261009-R1",
+  "user_clarification": "official baseline에만 적용하고 PRICE는 유지",
+  "evidence_kind": "Direct owner ACK and bounded owner reports; not independent scheduler polling",
+  "servers": {
+    "server1": {
+      "turn": "01a11cf5-2043-7ba3-84eb-8219dc5d7dfb",
+      "owner_ack": true,
+      "cancelled_ranges": [
+        "61658-61664",
+        "61675-61679",
+        "61681-61694"
+      ],
+      "cancelled_count": 26,
+      "kept": [
+        {
+          "id": 61657,
+          "kind": "completed qualification, not main"
+        }
+      ],
+      "stage": "HELD_INSPECTED_RELEASED",
+      "new_job_ids": [
+        61709,
+        61710,
+        61711,
+        61712,
+        61713,
+        61714,
+        61715,
+        61716,
+        61717,
+        61718,
+        61719,
+        61720,
+        61721,
+        61722
+      ],
+      "registration_receipt": "audits/servers/server1/official-baselines-20261008/no-gpu-qualification-rerun-20261009/submission.json",
+      "registration_evidence": "Owner main-published receipt; direct transport timeout was not counted as delivery"
+    },
+    "server2": {
+      "turn": "01a11cf5-234a-7650-9c3e-d3dc1ec9fd42",
+      "owner_ack": true,
+      "cancellation_nonce": "SH2-GH-NO-GPU-QUAL-CANCELLED-20261009-R1",
+      "cancelled_ranges": [
+        "61651-61656",
+        "61666-61672"
+      ],
+      "cancelled_count": 13,
+      "kept": [
+        {
+          "id": 61650,
+          "kind": "CF FT W20 complete; EDIT_FACTUAL_CHECKPOINT_COMPLETE/20 main receipt, no rerun"
+        }
+      ],
+      "stage": "HELD_INSPECTED_RELEASED",
+      "new_job_ids": [
+        61723,
+        61724,
+        61725,
+        61726,
+        61727,
+        61728,
+        61729,
+        61730,
+        61731,
+        61732,
+        61733,
+        61734,
+        61735,
+        61736
+      ],
+      "registration_receipt": "audits/global/official-no-gpu-qualification-20261009/server2-registration.json"
+    },
+    "server4": {
+      "turn": "01a11cf9-95e7-71b2-932f-3cb9bd2713a9",
+      "owner_ack": true,
+      "nonce": "GH-SH4-QWEN-OFFICIAL-NO-GPU-QUAL-20261009-R1",
+      "scope": "Qwen official CF6+zsRE6 only; PRICE/tuning KEEP",
+      "stage": "IMPLEMENTING_AND_PREPARING_SUBMISSION",
+      "new_job_ids": []
+    }
+  },
+  "qualification": "NOT_RUN_USER_DISABLED on replacements; historical proofs preserved",
+  "source_raw_checkpoint_cost_history": "KEEP",
+  "completion": "Server1 and server2 actual replacement registration/release reported; scientific completion not claimed. Server4 unchanged in this receipt."
+}

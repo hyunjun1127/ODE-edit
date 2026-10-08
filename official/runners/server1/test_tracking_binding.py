@@ -222,6 +222,9 @@ class TrackingBinding(unittest.TestCase):
         actual = self.transport.calls[-1]["tracker"].payloads[-1]
         self.assertEqual(actual["official/all_seen/post/Specificity"], 99.0)
         self.assertEqual(actual["official/all_seen/post/Specificity_loc_ans"], 49.0)
+        self.assertEqual(actual["zsre/all_seen/post/Specificity"], 99.0)
+        self.assertEqual(actual["zsre/all_seen/post/Specificity_loc_ans"], 49.0)
+        self.assertIn("zsre/all_seen/post/Score", actual)
         self.assertFalse(any(re.search(r"/(?:R|P|N)/", key) for key in actual))
         self.assertNotIn("official/all_seen/post/Score", actual)
 

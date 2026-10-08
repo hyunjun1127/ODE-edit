@@ -66,8 +66,17 @@ string `actual_job_id`, and `registration_attempt_id`. `identity` has exactly
 `model_revision`, `tokenizer_sha256`, and `assets_sha256`. `code_commit`,
 `official_tree_sha256` (the historical field name) and `model_revision` are exact
 40-hex Git identifiers; config/stream/tokenizer/assets are exact64-hex SHA256
-content hashes. The widths cannot be interchanged. Values are full hashes, never
-dummy IDs. Paths/tree/hashes retain original provenance.
+content hashes, except that `official_tree_sha256` also accepts the existing
+server3/server4 runner's 64-hex sorted-file content SHA256. Its original value
+and the checkpoint identity digest are never converted or relabeled. New archive
+manifests bind `checkpoint_identity_types`: this field is `git-tree-sha1` for
+40 hex or `content-sha256` for 64 hex. Commit/revision remain exactly 40 hex;
+the other content fields remain exactly 64 hex. A missing or conflicting type
+binding on a 64-hex tree manifest is rejected even after manifest re-signing.
+Legacy untyped 40-hex manifests remain supported without rewriting receipts.
+This is typed provenance, not proof that a source tree was recomputed: the
+unchanged original source lock/evidence replay must still bind the exact value.
+Values are full hashes, never dummy IDs. Paths/tree/hashes retain provenance.
 
 Cutover schema is `final-checkpoint-archive-server-cutover-v1`, with `server`,
 `instruction_id`, `scope=NEW_SUBMISSIONS_ONLY`, actual policy-file `policy_sha256`,

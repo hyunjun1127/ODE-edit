@@ -1,0 +1,212 @@
+{
+  "status": "PREPARATION_ONLY_USER_HOLD",
+  "submission_enabled": false,
+  "project_GPU_cap": 2,
+  "baseline_max_concurrent_GPUs": 1,
+  "existing_tuning_keep": true,
+  "job_ids": [],
+  "main_rows": 12,
+  "nodes": [
+    {
+      "symbol": "qwen25-cf-ft",
+      "kind": "GPU_MAIN",
+      "GPUs": 1,
+      "dependency_symbol": "TUNING_FRONTIER_REVALIDATE_BEFORE_SUBMISSION",
+      "job_id": null,
+      "config_sha256": "2575c4b98a273f64b1722938d41886c8d8caad516295fc73522bb7491b9f50dd"
+    },
+    {
+      "symbol": "qwen25-cf-ft-archive",
+      "kind": "CPU_ARCHIVE_GATE",
+      "GPUs": 0,
+      "dependency_symbol": "qwen25-cf-ft",
+      "job_id": null,
+      "blocks_next_until": "VERIFIED_DESTINATION_AND_SAFE_SOURCE_DISPOSITION"
+    },
+    {
+      "symbol": "qwen25-cf-memit",
+      "kind": "GPU_MAIN",
+      "GPUs": 1,
+      "dependency_symbol": "qwen25-cf-ft-archive",
+      "job_id": null,
+      "config_sha256": "e1c5637121da69da02c041322cddb4ca4b42343aaf8abb7dc2c7d979ac4b03c6"
+    },
+    {
+      "symbol": "qwen25-cf-memit-archive",
+      "kind": "CPU_ARCHIVE_GATE",
+      "GPUs": 0,
+      "dependency_symbol": "qwen25-cf-memit",
+      "job_id": null,
+      "blocks_next_until": "VERIFIED_DESTINATION_AND_SAFE_SOURCE_DISPOSITION"
+    },
+    {
+      "symbol": "qwen25-cf-alphaedit",
+      "kind": "GPU_MAIN",
+      "GPUs": 1,
+      "dependency_symbol": "qwen25-cf-memit-archive",
+      "job_id": null,
+      "config_sha256": "94ddeb1e25ecec314903cb25cfcf10b3371eeef1c6dcf8d264dd90d4bac33dda"
+    },
+    {
+      "symbol": "qwen25-cf-alphaedit-archive",
+      "kind": "CPU_ARCHIVE_GATE",
+      "GPUs": 0,
+      "dependency_symbol": "qwen25-cf-alphaedit",
+      "job_id": null,
+      "blocks_next_until": "VERIFIED_DESTINATION_AND_SAFE_SOURCE_DISPOSITION"
+    },
+    {
+      "symbol": "qwen25-cf-alphaedit_blue",
+      "kind": "GPU_MAIN",
+      "GPUs": 1,
+      "dependency_symbol": "qwen25-cf-alphaedit-archive",
+      "job_id": null,
+      "config_sha256": "112bad4a8a7b48c1e0fac3edee9577db5b9f4701daa3276af3ed37e7ca58f783"
+    },
+    {
+      "symbol": "qwen25-cf-alphaedit_blue-archive",
+      "kind": "CPU_ARCHIVE_GATE",
+      "GPUs": 0,
+      "dependency_symbol": "qwen25-cf-alphaedit_blue",
+      "job_id": null,
+      "blocks_next_until": "VERIFIED_DESTINATION_AND_SAFE_SOURCE_DISPOSITION"
+    },
+    {
+      "symbol": "qwen25-cf-memit_fe",
+      "kind": "GPU_MAIN",
+      "GPUs": 1,
+      "dependency_symbol": "qwen25-cf-alphaedit_blue-archive",
+      "job_id": null,
+      "config_sha256": "31de46061f6708ba09e7d48f98e6192031b928fb54f3b4fa74aab5ceb0175841"
+    },
+    {
+      "symbol": "qwen25-cf-memit_fe-archive",
+      "kind": "CPU_ARCHIVE_GATE",
+      "GPUs": 0,
+      "dependency_symbol": "qwen25-cf-memit_fe",
+      "job_id": null,
+      "blocks_next_until": "VERIFIED_DESTINATION_AND_SAFE_SOURCE_DISPOSITION"
+    },
+    {
+      "symbol": "qwen25-cf-sphere",
+      "kind": "GPU_MAIN",
+      "GPUs": 1,
+      "dependency_symbol": "qwen25-cf-memit_fe-archive",
+      "job_id": null,
+      "config_sha256": "45ebf8b3f83dbe73d2b876fc569d8ad60ddd32d1c42fb9acf4b91e8fad509777"
+    },
+    {
+      "symbol": "qwen25-cf-sphere-archive",
+      "kind": "CPU_ARCHIVE_GATE",
+      "GPUs": 0,
+      "dependency_symbol": "qwen25-cf-sphere",
+      "job_id": null,
+      "blocks_next_until": "VERIFIED_DESTINATION_AND_SAFE_SOURCE_DISPOSITION"
+    },
+    {
+      "symbol": "qwen25-zsre-ft",
+      "kind": "GPU_MAIN",
+      "GPUs": 1,
+      "dependency_symbol": "qwen25-cf-sphere-archive",
+      "job_id": null,
+      "config_sha256": "33d9061fd29fb3d6039d399fa460213ff1e0e4b190cc7a5253161fc30d34fd63"
+    },
+    {
+      "symbol": "qwen25-zsre-ft-archive",
+      "kind": "CPU_ARCHIVE_GATE",
+      "GPUs": 0,
+      "dependency_symbol": "qwen25-zsre-ft",
+      "job_id": null,
+      "blocks_next_until": "VERIFIED_DESTINATION_AND_SAFE_SOURCE_DISPOSITION"
+    },
+    {
+      "symbol": "qwen25-zsre-memit",
+      "kind": "GPU_MAIN",
+      "GPUs": 1,
+      "dependency_symbol": "qwen25-zsre-ft-archive",
+      "job_id": null,
+      "config_sha256": "681fc132bbddbe48de0010bdb9c35c225a96c41b796a779de6663990aca3b8bf"
+    },
+    {
+      "symbol": "qwen25-zsre-memit-archive",
+      "kind": "CPU_ARCHIVE_GATE",
+      "GPUs": 0,
+      "dependency_symbol": "qwen25-zsre-memit",
+      "job_id": null,
+      "blocks_next_until": "VERIFIED_DESTINATION_AND_SAFE_SOURCE_DISPOSITION"
+    },
+    {
+      "symbol": "qwen25-zsre-alphaedit",
+      "kind": "GPU_MAIN",
+      "GPUs": 1,
+      "dependency_symbol": "qwen25-zsre-memit-archive",
+      "job_id": null,
+      "config_sha256": "ff50c6e6ac014ec548f0cc8a6d11696e40ed04b780923f3f4ba53bf6b54f9a8d"
+    },
+    {
+      "symbol": "qwen25-zsre-alphaedit-archive",
+      "kind": "CPU_ARCHIVE_GATE",
+      "GPUs": 0,
+      "dependency_symbol": "qwen25-zsre-alphaedit",
+      "job_id": null,
+      "blocks_next_until": "VERIFIED_DESTINATION_AND_SAFE_SOURCE_DISPOSITION"
+    },
+    {
+      "symbol": "qwen25-zsre-alphaedit_blue",
+      "kind": "GPU_MAIN",
+      "GPUs": 1,
+      "dependency_symbol": "qwen25-zsre-alphaedit-archive",
+      "job_id": null,
+      "config_sha256": "7f6dd896c9942a3bca35433ae6abf6e1f651d4cbd3970198237f89a84535bc7c"
+    },
+    {
+      "symbol": "qwen25-zsre-alphaedit_blue-archive",
+      "kind": "CPU_ARCHIVE_GATE",
+      "GPUs": 0,
+      "dependency_symbol": "qwen25-zsre-alphaedit_blue",
+      "job_id": null,
+      "blocks_next_until": "VERIFIED_DESTINATION_AND_SAFE_SOURCE_DISPOSITION"
+    },
+    {
+      "symbol": "qwen25-zsre-memit_fe",
+      "kind": "GPU_MAIN",
+      "GPUs": 1,
+      "dependency_symbol": "qwen25-zsre-alphaedit_blue-archive",
+      "job_id": null,
+      "config_sha256": "b96b7e8d301ff8c4023ff53ad44de75c004aeb840a3d046bbef472ec6691ace8"
+    },
+    {
+      "symbol": "qwen25-zsre-memit_fe-archive",
+      "kind": "CPU_ARCHIVE_GATE",
+      "GPUs": 0,
+      "dependency_symbol": "qwen25-zsre-memit_fe",
+      "job_id": null,
+      "blocks_next_until": "VERIFIED_DESTINATION_AND_SAFE_SOURCE_DISPOSITION"
+    },
+    {
+      "symbol": "qwen25-zsre-sphere",
+      "kind": "GPU_MAIN",
+      "GPUs": 1,
+      "dependency_symbol": "qwen25-zsre-memit_fe-archive",
+      "job_id": null,
+      "config_sha256": "f9b5bfcc90a1ad6c05ec6a151c09e1e460680f1835f41360eb0a6d60d775c3d8"
+    },
+    {
+      "symbol": "qwen25-zsre-sphere-archive",
+      "kind": "CPU_ARCHIVE_GATE",
+      "GPUs": 0,
+      "dependency_symbol": "qwen25-zsre-sphere",
+      "job_id": null,
+      "blocks_next_until": "VERIFIED_DESTINATION_AND_SAFE_SOURCE_DISPOSITION"
+    }
+  ],
+  "historical_frontier_hint": "61674 (not a fresh scheduler assertion)",
+  "failure_policy": "No automatic retry; no later run after failed storage gate",
+  "remaining_gates": [
+    "reviewed exact source/config freeze",
+    "native/resume qualification at authorized execution",
+    "archive caller proof integration and CPU tests",
+    "qualification checkpoint retention/storage peak budget",
+    "fresh scheduler/storage admission after USER releases hold"
+  ]
+}

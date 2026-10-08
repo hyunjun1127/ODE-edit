@@ -1,0 +1,45 @@
+{
+  "instruction_id": "USER-SH1-GH-CF-DISPLAY-REPAIR-KEEP-HEALTHY-20261009-R1",
+  "authority_commit": "7337967add61521ddf8cba1e339ffe924b243ce2",
+  "authority_path": "messages/head/2026-10-09-cf-display-repair-keep-healthy.json",
+  "scope": "Existing official CF caller/display repair only; actual healthy runs KEEP",
+  "shared_repair_source": "34e4d52d821113d56ee6c59b71d553dd01768e73",
+  "implementation": "5a942b260df6779eb52550690696cd54cd51825f",
+  "GH_review": "Read SH1 report and shared method.py/caller diff; no new GPU validation",
+  "owners": {
+    "server2": {
+      "session": "01a0493a-074c-7f91-9a13-769116326fef",
+      "turn": "01a11d28-75eb-70a1-b735-1c2ef15e0c1a",
+      "direct_nonce": "GH-SH2-CF-DISPLAY-REPAIR-KEEP-HEALTHY-20261009-R1",
+      "transport": "turn/start ACCEPTED",
+      "explicit_owner_ack": true,
+      "stage": "ACTUAL_HEALTH_RECONCILIATION_AND_CALLER_REPAIR",
+      "new_cancelled_ids_reported": [],
+      "new_replacement_ids_reported": []
+    },
+    "server4": {
+      "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+      "turn": "01a11d28-7410-7c22-b159-fd711a5a0654",
+      "direct_nonce": "GH-SH4-CF-DISPLAY-REPAIR-KEEP-HEALTHY-20261009-R1",
+      "transport": "turn/start ACCEPTED",
+      "explicit_owner_ack": true,
+      "stage": "ACTUAL_HEALTH_RECONCILIATION_AND_CALLER_REPAIR",
+      "new_cancelled_ids_reported": [],
+      "new_replacement_ids_reported": []
+    }
+  },
+  "not_claimed": [
+    "RUNNING implies healthy",
+    "all old-source jobs failed",
+    "actual replacement registration",
+    "new GPU or online PASS"
+  ],
+  "preserve": [
+    "healthy frozen source and jobs",
+    "zsRE scientific runs",
+    "PRICE/OURS/tuning",
+    "old source/raw/checkpoint/accounting/history"
+  ],
+  "followthrough": "Owners authorized to continue exact repair/replacements and report actual receipts without repeat approval; GH updates main table only from actual receipts",
+  "recurring_monitor": false
+}

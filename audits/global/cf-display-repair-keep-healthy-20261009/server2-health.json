@@ -1,0 +1,33 @@
+{
+  "nonce": "SH2-GH-CF-DISPLAY-HEALTH-20261009-R1",
+  "evidence": "SH2 direct exact owner/source/Command/state and actual progress/transport receipt report; no GH scheduler polling",
+  "source": "478464689231595eb63da368cc7c376e775eb559",
+  "healthy_keep": {
+    "job": 61725,
+    "method": "MEMIT",
+    "dataset": "cf",
+    "state": "RUNNING",
+    "actual_commits": 4,
+    "accepted_scalars_present": true,
+    "dropped_points": 0,
+    "future_endpoint_success_guaranteed": false,
+    "frozen_source_hotpatch": false
+  },
+  "W0_CF_61723": {
+    "factual_raw_completed": true,
+    "accepted_calls": 0,
+    "rejected_calls": 1,
+    "dropped_points": 1,
+    "online_PASS": false,
+    "repair": "CPU corrected delivery from original raw with separate provenance identity; no new model forward"
+  },
+  "cancelled_pending_only": [61727, 61729, 61731, 61733, 61736],
+  "kept_zsre": [61724, 61726, 61728, 61730, 61732, 61734, 61735],
+  "temporary_hold": {"job": 61735, "reason": "Reconnect exact pending resource dependency from cancelled61731 to replacement; no science change"},
+  "planned_CF_replacements": ["ALPHAEDIT", "ALPHAEDIT_BLUE", "MEMIT_FE", "SPHERE"],
+  "new_job_ids_reported": [],
+  "collector": "New mixed-source collector must retain healthy run coverage",
+  "cap": 4,
+  "raw_receipt": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/cf-display-reconcile-r1/receipt.json",
+  "status": "CALLER_REPAIR_AND_CPU_RAW_CHECKS_IN_PROGRESS"
+}
