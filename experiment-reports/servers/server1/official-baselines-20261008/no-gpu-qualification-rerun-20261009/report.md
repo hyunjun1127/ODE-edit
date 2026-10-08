@@ -86,3 +86,7 @@ Exact raw control receipt directory:
 W&B identity/remote startup readback and scientific completion have not been
 observed in this control handoff. No long GPU wait or recurring monitor.
 The GH cancellation relay was transport-accepted; owner ACK was not observed.
+The later submission relay ended with BOUNDED_TRANSPORT_TIMEOUT_NO_ACK:
+COMMUNICATION_HOLD, accepted UNKNOWN, no automatic retry. The published exact
+submission-message.txt and submission.json remain the handoff source; do not
+claim GH received the registration message or already updated README.
