@@ -116,7 +116,9 @@ zsRE **61755/61757/61759/61761/61763/61765**와 해당 archive는 원 source
 
 SH2 직접 보고에서 CF FT **61650**은 W20 정상 완료(20 commit,
 `EDIT_FACTUAL_CHECKPOINT_COMPLETE`)로 확인되어 유지합니다.
-최종 수치 검산·게시 전이므로 아래 완료 표시는 성능값을 대신하지 않습니다.
+최종 ordered first2000 원자료의 strict NLL request-macro 재집계와 20 commit SHA 검산을 완료했습니다.
+아래 FT 수치는 W20 factual 실측(%, 소수 둘째 자리)이며
+[검산·실행 identity 보고](experiment-reports/servers/server2/official-baselines-20261008/FT-61650-W20-results.md)에 근거합니다.
 **표시값 전송 오류의 scoped 수리 중입니다.** SH2 직접 건강 확인에서 CF MEMIT **61725**는
 RUNNING·실제 4 commit·accepted scalar 존재·dropped 0으로 확인되어 그대로 유지합니다.
 이는 이후 모든 endpoint의 성공을 보장하지는 않습니다. 미시작 CF **61727/61729/61731/61733**과
@@ -150,7 +152,7 @@ FLU/CON은 이후 별도 2k checkpoint 평가에서 측정하며, 그 consumer �
 
 | Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| FT | W20 DONE: 61650 | W20 DONE: 61650 | W20 DONE: 61650 | W20 DONE: 61650 | DEFERRED | DEFERRED | PENDING: 61726 | PENDING: 61726 | PENDING: 61726 |
+| FT | 58.97 | 88.75 | 66.75 | 40.61 | DEFERRED | DEFERRED | PENDING: 61726 | PENDING: 61726 | PENDING: 61726 |
 | MEMIT | ING: 61725 | ING: 61725 | ING: 61725 | ING: 61725 | DEFERRED | DEFERRED | PENDING: 61728 | PENDING: 61728 | PENDING: 61728 |
 | AlphaEdit | CANCELLED: 61727 | CANCELLED: 61727 | CANCELLED: 61727 | CANCELLED: 61727 | DEFERRED | DEFERRED | PENDING: 61730 | PENDING: 61730 | PENDING: 61730 |
 | AlphaEdit-BLUE | CANCELLED: 61729 | CANCELLED: 61729 | CANCELLED: 61729 | CANCELLED: 61729 | DEFERRED | DEFERRED | PENDING: 61732 | PENDING: 61732 | PENDING: 61732 |
