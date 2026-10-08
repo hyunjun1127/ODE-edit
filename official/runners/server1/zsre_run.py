@@ -160,7 +160,10 @@ def qualification(args,config,lock,output,tracker):
 def chain(args,config,lock,output,tracker):
     from .native import NativeEngine
     assets,records,identity,external=bindings(config,lock)
-    verify_qualification(config,identity);ref=reference(config,lock,external)
+    from .noqual import disabled
+    if not disabled(config):
+        verify_qualification(config,identity)
+    ref=reference(config,lock,external)
     model,tokenizer=load_model(assets)
     from .audit import audit_factual
     audit_factual(ref['evaluation'],records,'zsre',tokenizer,external,ref)

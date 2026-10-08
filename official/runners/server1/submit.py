@@ -318,7 +318,7 @@ def build_zsre_six(configs, output_root, *, main_commit, official_tree, inputs,
 def validate_plan(plan):
     require(plan.get("schema") == SCHEMA and plan.get("server") == "server1"
             and plan.get("model") == "llama3", "PLAN_SCOPE")
-    require(plan.get("purpose") in ("pipeline", "qualification", "resume", "cf_checkpoint", "projected_cf", "zsre_six"), "UNKNOWN_PLAN_PURPOSE")
+    require(plan.get("purpose") in ("pipeline", "qualification", "resume", "cf_checkpoint", "projected_cf", "zsre_six", "no_gpu_qualification"), "UNKNOWN_PLAN_PURPOSE")
     require(type(plan.get("cap")) is int and 1 <= plan["cap"] <= 4, "PLAN_STRICTER_CAP")
     require(not plan.get("automatic_retry") and not plan.get("recurring_monitor")
             and not plan.get("old_jobs_mutation") and plan.get("actual_GPU_qualification") is False,
@@ -347,6 +347,12 @@ def validate_plan(plan):
         require(job["gpus"] == (0 if job["mode"] == "collect" else 1), "GPU_LABEL_IDENTITY")
         require(Path(job["output"]).is_absolute(), "ABSOLUTE_LOCAL_OUTPUT")
         value = read(verify(job["config"]))
+        if plan['purpose']=='no_gpu_qualification':
+            from .noqual import validate_overlay,POLICY
+            validate_overlay(value)
+            require(job['mode'] in ('base_w0','chain','collect') and not job.get('resume'),
+                    'NOQUAL_COLD_MAIN_ONLY')
+            require(plan.get('qualification_policy')==POLICY,'NOQUAL_PLAN_POLICY')
         if plan['purpose']=='zsre_six' or plan.get('runtime_profile')=='zsre_six':
             require(value.get('zsre_six') is True and value.get('dataset')=='zsre'
                 and value.get('scope_override')=='USER-DIRECT-SERVER1-ZSRE-SIX-20261009', 'ZSRE_SIX_PROFILE')
@@ -373,6 +379,13 @@ def validate_plan(plan):
         require(sum(j['mode']=='base_w0' for j in plan['jobs'])==1
                 and sum(j['mode']=='collect' for j in plan['jobs'])==1 and len(plan['jobs'])==14,
                 'ZSRE_EXACT_W0_AND_COLLECTOR')
+    if plan['purpose']=='no_gpu_qualification':
+        from .noqual import CF_METHODS
+        for dataset,methods in (('cf',CF_METHODS),('zsre',ZSRE_METHODS)):
+            require(sorted(j['method'] for j in plan['jobs'] if j['mode']=='chain' and j['dataset']==dataset)
+                    ==sorted(methods),'NOQUAL_EXACT_PREVIOUSLY_REGISTERED_CHAINS')
+        require(len(plan['jobs'])==14 and sum(j['mode']=='base_w0' for j in plan['jobs'])==2
+                and sum(j['mode']=='collect' for j in plan['jobs'])==1,'NOQUAL_INPUTS_COLLECTOR_ONLY')
     require(graph_width(plan["jobs"]) <= plan["cap"], "NEW_DAG_EXCEEDS_CAP")
     if plan["purpose"] == "resume":
         checkpoint = verify(plan["checkpoint_latest"])
@@ -420,6 +433,7 @@ def freeze_source(plan, attempt, *, repository=None, runner=command):
 
 def runtime_argv(plan, job, lock_path):
     module='official.runners.server1.zsre_run' if plan['purpose']=='zsre_six' or plan.get('runtime_profile')=='zsre_six' else 'official.runners.server1.run'
+    if plan['purpose']=='no_gpu_qualification':module='official.runners.server1.noqual'
     argv = [plan["python"], "-B", "-u", "-m", module,
             "--mode", job["mode"], "--dataset", job["dataset"],
             "--config", job["config"]["path"], "--output", job["output"],
@@ -611,7 +625,8 @@ def register(plan, attempt, *, repository=None, runner=command, owner=None):
                 launchers=launchers, job_configs=[job["config"] for job in plan["jobs"]],
                 plan=member(attempt / "plan.json"), profiles=plan["jobs"], python=plan["python"],
                 owner=owner, server="server1", effective_cap=plan["cap"],
-                required_actual_qualification="RUNTIME_ONLY_NOT_CONTROL_PASS")
+                required_actual_qualification=("NOT_RUN_USER_DISABLED" if plan['purpose']=='no_gpu_qualification'
+                    else "RUNTIME_ONLY_NOT_CONTROL_PASS"))
     write_new(lock_path, lock)
     write_new(attempt / "registration-pass-started.json", dict(plan_sha256=digest(plan),
               automatic_retry=False, no_existing_job_mutation=True, effective_cap=plan["cap"]))

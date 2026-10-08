@@ -225,7 +225,9 @@ def generation_observer(model, tokenizer, assets, lock, output, engine=None, tra
 
 def base_w0(args, config, lock, output, tracker):
     assets, cf_records, identity, external = bindings(config, lock)
-    verify_qualifications(config, identity)
+    from .noqual import disabled
+    if not disabled(config):
+        verify_qualifications(config, identity)
     model, tokenizer = load_model(assets)
     seed_edit()
     cf = factual(model, tokenizer, cf_records, "cf", external, tracker=tracker)
@@ -250,6 +252,17 @@ def base_w0(args, config, lock, output, tracker):
     reference = build_zsre_w0_reference(model, tokenizer, zsre_records, identity=zsre_external,
                                          batch_size=16, device="cuda:0")
     write_new(output / "zsre-reference-local.json", reference)
+    if disabled(config):
+        # Actual W0 observations above, not a fabricated qualification READY.
+        write_new(output / "READY.json", dict(schema="official-server1-base-W0-READY-v1",
+            actual_model_edits=0, model_identity=assets["model"]["identity"],source=lock["source"],
+            assets_sha256=assets["assets_sha256"],cf_external_identity=external,zsre_external_identity=zsre_external,
+            cf_factual=member(output/"cf-factual-proof-local.json"),
+            cf_generation=member(output/"cf-generation-local.json"),
+            zsre_reference=member(output/"zsre-reference-local.json"),
+            CF_W0_observed_once=True,shared_across_methods=True,actual_complete=True,
+            qualification="NOT_RUN_USER_DISABLED",portable_reference_status="NOT_PUBLISHED_NO_QUALIFICATION_PROOF"))
+        return
     from .w0_binding import build_fingerprint, consumed_source_members, execution_identity
     from official.evaluation.w0_reference import make_ready
     fingerprint = build_fingerprint(assets, tokenizer, dict(cf=cf_records, zsre=zsre_records))
@@ -314,6 +327,12 @@ def read_w0(config, lock, assets):
                     and value["payload_sha256"] == factual_digest(
                         {key: item for key, item in value.items() if key != "payload_sha256"}),
                     "COMMON_W0_ZSRE_REFERENCE_PAYLOAD")
+    from .noqual import disabled
+    if disabled(config):
+        require(ready.get('qualification')=='NOT_RUN_USER_DISABLED' and
+            ready.get('portable_reference_status')=='NOT_PUBLISHED_NO_QUALIFICATION_PROOF',
+            'W0_EXPLICIT_DISABLED_PROVENANCE')
+        return ready
     portable_path = verify(ready["portable_reference"])
     require(portable_path == Path(config["base_W0_output"]) / "PORTABLE_READY.json",
             "COMMON_W0_PORTABLE_REFERENCE_OWN_MEMBER")
@@ -366,7 +385,9 @@ def recover_committed_ledger(output, payload, identity):
 def chain(args, config, lock, output, tracker):
     from .native import NativeEngine
     assets, records, identity, external = bindings(config, lock)
-    verify_qualifications(config, identity)
+    from .noqual import disabled
+    if not disabled(config):
+        verify_qualifications(config, identity)
     own_cold = config.get("projected_CF_addition") is True
     require(not own_cold or args.dataset == "cf" and args.method in PROJECTED_METHODS
             and not generation_at_W20(config), "PROJECTED_CF_DEFERRED_ONLY")
