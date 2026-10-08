@@ -1,0 +1,76 @@
+{
+  "user_quote": "gpu cap 4로 해. 전부 올려",
+  "server": "server2",
+  "effective_project_gpu_cap": 4,
+  "previous_cap": 3,
+  "scope": "existing official CF six arms; resource-only override",
+  "local_files": [
+    "/mnt/raid5/janghj/ODE-edit/servers/local/gpu-caps.tsv",
+    "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-cf-six-checkpoint-only-20261009/servers/local/gpu-caps.tsv"
+  ],
+  "local_change": "own server GPU cap column only; node/memory/pattern unchanged",
+  "scheduler_qos_gpu_max": 4,
+  "source": "6d35c65de19ec378a30749683762eba87fee50e3",
+  "historical_lock": "bdaa937820728ef7eadd6a20d20e54301ed73837a91503bcb2f5aabe60d65435",
+  "original_manifest_cap3_preserved": true,
+  "mutation": {
+    "job": 61654,
+    "role": "MEMIT_FE",
+    "owner": "janghj(1025)",
+    "node": "server2",
+    "state_before": "PENDING",
+    "dependency_before": "afterany:61651",
+    "dependency_after": "afterany:61650",
+    "exact_command": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-checkpoint-r1/MEMIT_FE.sh",
+    "source_and_workdir_verified": true,
+    "postcheck": "PENDING afterany:61650(unfulfilled)"
+  },
+  "jobs": {
+    "FT": 61650,
+    "MEMIT": 61651,
+    "ALPHAEDIT": 61652,
+    "ALPHAEDIT_BLUE": 61653,
+    "MEMIT_FE": 61654,
+    "SPHERE": 61655,
+    "collector": 61656
+  },
+  "final_dag": {
+    "FT": [],
+    "MEMIT": [
+      61650
+    ],
+    "ALPHAEDIT": [
+      61650
+    ],
+    "ALPHAEDIT_BLUE": [
+      61650
+    ],
+    "MEMIT_FE": [
+      61650
+    ],
+    "SPHERE": [
+      61652
+    ],
+    "collector": [
+      61650,
+      61651,
+      61652,
+      61653,
+      61654,
+      61655
+    ]
+  },
+  "concurrency_proof": "FT alone produces shared W0; after FT, MEMIT/ALPHAEDIT/BLUE/FE four lanes; SPHERE replaces completed ALPHAEDIT lane. Collector GPU0.",
+  "snapshot": {
+    "FT": "RUNNING",
+    "other_GPU": "PENDING",
+    "collector": "PENDING"
+  },
+  "new_submissions": 0,
+  "cancellations": 0,
+  "source_runtime_hotpatch": false,
+  "generation": "DEFERRED_CHECKPOINT_EVALUATION unchanged",
+  "final_checkpoint": "KEEP pending evaluation consumer",
+  "other_jobs_mutated": false,
+  "recurring_monitor": false
+}
