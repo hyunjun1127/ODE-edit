@@ -1,0 +1,225 @@
+{
+  "C0": [
+    {
+      "headers": {
+        "mom2.constructor.npy": {
+          "dtype": "<U43",
+          "shape": []
+        },
+        "mom2.count.npy": {
+          "dtype": "int64",
+          "shape": [],
+          "value": [
+            66019200
+          ]
+        },
+        "mom2.mom2.npy": {
+          "dtype": "float32",
+          "shape": [
+            14336,
+            14336
+          ]
+        },
+        "sample_size.npy": {
+          "dtype": "int64",
+          "shape": []
+        }
+      },
+      "layer": "4",
+      "member": {
+        "bytes": 822084814,
+        "inode": 131216626,
+        "mtime_ns": 1778400376501531975,
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "7f5fc9b194d86ce289d607a23d02de5e7d7eb5a0833aaf6ef1698d814353585e",
+        "verification": "PRIOR_SHA_PLUS_EXACT_CURRENT_STAT"
+      }
+    },
+    {
+      "headers": {
+        "mom2.constructor.npy": {
+          "dtype": "<U43",
+          "shape": []
+        },
+        "mom2.count.npy": {
+          "dtype": "int64",
+          "shape": [],
+          "value": [
+            66019200
+          ]
+        },
+        "mom2.mom2.npy": {
+          "dtype": "float32",
+          "shape": [
+            14336,
+            14336
+          ]
+        },
+        "sample_size.npy": {
+          "dtype": "int64",
+          "shape": []
+        }
+      },
+      "layer": "5",
+      "member": {
+        "bytes": 822084814,
+        "inode": 131216627,
+        "mtime_ns": 1778405783263173797,
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "a99a36207d3b27f129bb5323c11139853a7851c9788c58931621aa08c81fb435",
+        "verification": "PRIOR_SHA_PLUS_EXACT_CURRENT_STAT"
+      }
+    },
+    {
+      "headers": {
+        "mom2.constructor.npy": {
+          "dtype": "<U43",
+          "shape": []
+        },
+        "mom2.count.npy": {
+          "dtype": "int64",
+          "shape": [],
+          "value": [
+            66019200
+          ]
+        },
+        "mom2.mom2.npy": {
+          "dtype": "float32",
+          "shape": [
+            14336,
+            14336
+          ]
+        },
+        "sample_size.npy": {
+          "dtype": "int64",
+          "shape": []
+        }
+      },
+      "layer": "6",
+      "member": {
+        "bytes": 822084814,
+        "inode": 131216628,
+        "mtime_ns": 1778412013640495980,
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "3a6a0c682f09a8b725e624fec1265adb46a2f7328586acc0b77c08e587e1c495",
+        "verification": "PRIOR_SHA_PLUS_EXACT_CURRENT_STAT"
+      }
+    },
+    {
+      "headers": {
+        "mom2.constructor.npy": {
+          "dtype": "<U43",
+          "shape": []
+        },
+        "mom2.count.npy": {
+          "dtype": "int64",
+          "shape": [],
+          "value": [
+            66019200
+          ]
+        },
+        "mom2.mom2.npy": {
+          "dtype": "float32",
+          "shape": [
+            14336,
+            14336
+          ]
+        },
+        "sample_size.npy": {
+          "dtype": "int64",
+          "shape": []
+        }
+      },
+      "layer": "7",
+      "member": {
+        "bytes": 822084814,
+        "inode": 131216629,
+        "mtime_ns": 1778419071493293499,
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "a29e2d2ffb408eeba4a507d5ab9523129b2520bafc2874847f8d396796ebc830",
+        "verification": "PRIOR_SHA_PLUS_EXACT_CURRENT_STAT"
+      }
+    },
+    {
+      "headers": {
+        "mom2.constructor.npy": {
+          "dtype": "<U43",
+          "shape": []
+        },
+        "mom2.count.npy": {
+          "dtype": "int64",
+          "shape": [],
+          "value": [
+            66019200
+          ]
+        },
+        "mom2.mom2.npy": {
+          "dtype": "float32",
+          "shape": [
+            14336,
+            14336
+          ]
+        },
+        "sample_size.npy": {
+          "dtype": "int64",
+          "shape": []
+        }
+      },
+      "layer": "8",
+      "member": {
+        "bytes": 822084814,
+        "inode": 131216630,
+        "mtime_ns": 1778426959389839324,
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "f6bbc2f240343d5244730c6422743344193dc16ee6afe64dc6cd3a97497d9050",
+        "verification": "PRIOR_SHA_PLUS_EXACT_CURRENT_STAT"
+      }
+    }
+  ],
+  "C0_P_recomputed": false,
+  "GPU_qualification": "NOT_RUN",
+  "assets_manifest": "/data/janghj/ODE-edit/local/official-baselines-20261008/preparation-v1/assets.json",
+  "assets_sha256": "9312802b922a855797d35794a3e80f4940a043d77c2b8bd2147a709d1ef0fd44",
+  "members": 28,
+  "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+  "projector": {
+    "bytes": 4110419877,
+    "inode": 131216582,
+    "mtime_ns": 1778427027497441937,
+    "path": "/data/janghj/EasyEdit/examples/null_space_project_Meta-Llama-3-8B-Instruct.pt",
+    "physical_layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "provenance": "/data/janghj/ODE-edit/local/jlz-price-alpha-writer-2k/method-metrics-20261007/config.json",
+    "sha256": "6d356468c6408dca694c1907ffde31cddb99f7e67fa2e74502910d5afbede5ec",
+    "shape": [
+      5,
+      14336,
+      14336
+    ],
+    "threshold": 0.02,
+    "verification": "PRIOR_SHA_PLUS_EXACT_CURRENT_STAT"
+  },
+  "streams": {
+    "cf": {
+      "bytes": 4145654,
+      "inode": 136594994,
+      "mtime_ns": 1791471475190888106,
+      "path": "/data/janghj/ODE-edit/local/official-baselines-20261008/preparation-v1/streams/cf-stream.json",
+      "sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+      "verification": "FRESH_SHA256"
+    },
+    "zsre": {
+      "bytes": 1490821,
+      "inode": 136594996,
+      "mtime_ns": 1791471475301884067,
+      "path": "/data/janghj/ODE-edit/local/official-baselines-20261008/preparation-v1/streams/zsre-stream.json",
+      "sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+      "verification": "FRESH_SHA256"
+    }
+  }
+}
