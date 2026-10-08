@@ -103,28 +103,35 @@ def prepare(root,preparation):
 def inspect(job,name,script,gpus,dependency):
     text=cmd(['scontrol','show','job',job,'-o']);fields=dict(x.split('=',1) for x in text.split() if '=' in x)
     expected=dict(JobId=job,JobName=name,JobState='PENDING',Requeue='0',Command=str(script),ReqNodeList='server4',
-                  NumCPUs='8' if gpus else '2',MinMemoryNode='58G' if gpus else '4G')
+                  **{'CPUs/Task':'8' if gpus else '2'},MinMemoryNode='58G' if gpus else '4G')
     for k,v in expected.items():check(fields.get(k)==v,'HELD_INSPECT_'+k)
     check(fields['UserId'].startswith('janghj('),'OWNER_MISMATCH')
     check(fields.get('Reason')=='JobHeldUser','NOT_USER_HELD')
     check(dependency in fields.get('Dependency',''),'DEPENDENCY_MISMATCH')
     check(('gres/gpu=1' in fields.get('ReqTRES','')) if gpus else ('gres/gpu' not in fields.get('ReqTRES','')),'GPU_RESOURCE_MISMATCH')
+    check(fields.get('ReqTRES','').split(',')[0]==('cpu=8' if gpus else 'cpu=2'),'REQUESTED_CPU_MISMATCH')
     return text
 
-def submit(root,frontier):
+def submit(root,frontier,continue_held=False):
     verify(root,gpu_space=True);check((root/'prepared.json').exists(),'PREPARED_MISSING')
-    check(not (root/'registration-started.json').exists(),'NO_DUPLICATE_OR_AUTOMATIC_SUBMISSION_RETRY')
+    existing=[read(p) for p in (root/'registrations').glob('*.json')]
+    check(not (root/'registration-started.json').exists() or continue_held,'NO_DUPLICATE_OR_AUTOMATIC_SUBMISSION_RETRY')
+    check(not (root/'released.json').exists(),'ALREADY_RELEASED')
+    existing_by_key={(x['logical_main_row'],x['kind']):x for x in existing}
+    check(len(existing_by_key)==len(existing),'DUPLICATE_REGISTRATION_RECEIPTS')
     queue=cmd(['squeue','-u','janghj','-h','-o','%i|%j|%T|%N|%b|%E'])
     owned=[]
     for line in cmd(['scontrol','show','job','-o']).splitlines():
         fields=dict(x.split('=',1) for x in line.split() if '=' in x)
         if fields.get('UserId','').startswith('janghj(') and (fields.get('ReqNodeList')=='server4' or fields.get('NodeList')=='server4'):
             if fields.get('JobState') in ('RUNNING','COMPLETING','CONFIGURING','PENDING'):owned.append(fields)
-    check(all(x['JobId']==frontier for x in owned),'FRESH_QUEUE_RECONCILIATION_REQUIRED')
+    check(all(x['JobId'] in {frontier,*[j['job_id'] for j in existing]} for x in owned),'FRESH_QUEUE_RECONCILIATION_REQUIRED')
     tuning=cmd(['scontrol','show','job',frontier,'-o'])
     check('JobName=qwen-price-tuning-sweep ' in tuning and 'UserId=janghj(' in tuning,'FRONTIER_IDENTITY')
     check('gres/gpu=2' in tuning,'FRONTIER_RESOURCE_RECHECK')
-    write_new(root/'registration-started.json',dict(at=now(),queue=queue,own_server4=owned,frontier=tuning,cap=2))
+    record=dict(at=now(),queue=queue,own_server4=owned,frontier=tuning,cap=2)
+    if continue_held:write_new(root/'registration-control-reconciliation.json',record)
+    else:write_new(root/'registration-started.json',record)
     jobs=[];dependency='afterany:'+frontier
     for row in rows():
         logical=row['logical_main_row']
@@ -141,12 +148,18 @@ def submit(root,frontier):
             argv+=['/bin/bash',str(script)]
             # sbatch requires the script itself; its shebang provides bash.
             argv=argv[:-2]+[str(script)]
-            submitted=now();response=cmd(argv);job=response.split(';')[0];check(job.isdigit(),'SBATCH_NO_REAL_ID')
-            item=dict(logical_main_row=logical,method=row['config']['method'],dataset=row['config']['dataset'],
+            item=existing_by_key.get((logical,kind))
+            if item:
+                check(item['argv']==argv and item['dependency']==dependency,'EXISTING_JOB_CONTRACT_CHANGED')
+                job=item['job_id']
+            else:
+                submitted=now();response=cmd(argv);job=response.split(';')[0];check(job.isdigit(),'SBATCH_NO_REAL_ID')
+                item=dict(logical_main_row=logical,method=row['config']['method'],dataset=row['config']['dataset'],
                       kind=kind,job_id=job,name=name,dependency=dependency,argv=argv,submitted_at=submitted,
                       source=read(root/'source-lock.json')['code_commit'],config_sha256=row['config']['config_sha256'])
-            jobs.append(item);write_new(root/'registrations'/f'{job}.json',item)
-            if gpu:archive.registered(root,logical,job,submitted)
+                write_new(root/'registrations'/f'{job}.json',item)
+                if gpu:archive.registered(root,logical,job,submitted)
+            jobs.append(item)
             receipt=inspect(job,name,script,1 if gpu else 0,dependency)
             write_new(root/'inspections'/f'{job}.json',dict(job_id=job,raw=receipt))
             dependency='afterok:'+job
@@ -163,7 +176,8 @@ def submit(root,frontier):
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('command',choices=['prepare','verify','submit']);p.add_argument('--root',type=Path,required=True)
     p.add_argument('--gpu-space',action='store_true')
+    p.add_argument('--continue-held',action='store_true',help='explicit operator reconciliation, never automatic')
     p.add_argument('--preparation',type=Path);p.add_argument('--frontier');args=p.parse_args()
     if args.command=='prepare':prepare(args.root,args.preparation)
     elif args.command=='verify':verify(args.root,args.gpu_space)
-    else:submit(args.root,args.frontier)
+    else:submit(args.root,args.frontier,args.continue_held)
