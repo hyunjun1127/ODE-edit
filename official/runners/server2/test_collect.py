@@ -14,6 +14,8 @@ from official.runners.server2 import collect as collector
 def manifest():
     return dict(code_commit='a'*40, official_tree_sha256='b'*40, base_manifest_sha256='c'*64,
         model_revision='r'*40, tokenizer_sha256='t'*64,
+        runtime={'fixture':'CPU_JSON_COLLECTOR_NO_MODEL_OR_GPU'},
+        streams={dataset:{'lock':{'stream_sha256':'s'*64}} for dataset in ('cf','zsre')},
         checkpoint_identities={dataset: {method: {'code_commit':'a'*40, 'method':method, 'dataset':dataset}
                               for method in METHODS} for dataset in ('cf', 'zsre')},
         native_source_sha256={method:['d'*64] for method in METHODS})
@@ -25,14 +27,17 @@ def qualification(method, value=None):
         method=method, code_commit=value['code_commit'], official_tree_sha256=value['official_tree_sha256'],
         manifest_sha256=value['base_manifest_sha256'], continuous_batches=3, resume_after_batch=2,
         resumed_batches=[3], weights_equal=True, history_equal=True, contexts_equal=True,
-        rng_equal=True, metrics_equal=True, checkpoint_identity=value['checkpoint_identities']['cf'][method])
+        rng_equal=True, metrics_equal=True, checkpoint_identity=value['checkpoint_identities']['cf'][method],
+        native_owner_formula_parity=dict(path='/fixture/owner-formula-'+method+'.json', bytes=1, sha256='e'*64))
 
 
 def records(count=2000):
     return [dict(case_id=90000-index*3, occurrence_index=index+1) for index in range(count)]
 
 
-def factual(dataset, rows, endpoint='W20'):
+def factual(dataset, rows, endpoint='W20', value=None):
+    from official.evaluation.factual import SCHEMA, TOKENIZATION
+    value = manifest() if value is None else value
     cases = []
     for record in rows:
         case = dict(record)
@@ -45,9 +50,55 @@ def factual(dataset, rows, endpoint='W20'):
                 neighborhood_W0_agreement=[True, True], neighborhood_prompts_correct=[False, False])
         cases.append(case)
     reduced = factual_reduce.counterfact(cases) if dataset == 'cf' else factual_reduce.zsre(cases)
-    identity = dict(dataset=dataset, runtime='CPU_COLLECTOR_JSON_FIXTURE_ONLY')
+    identity = dict(schema=SCHEMA, dataset=dataset, tokenization=TOKENIZATION,
+        cohort_sha256=digest({'CPU_query_cohort_fixture_only':rows}),
+        ordered_occurrences=[row['occurrence_index'] for row in rows],
+        external_identity=collector.expected_factual_external_identity(value, dataset),
+        padding='RIGHT_EXPLICIT_ATTENTION_MASK', use_cache=False)
     return dict(cases=cases, summary=reduced, identity=identity, identity_sha256=digest(identity),
                 requests=len(rows), endpoint=endpoint)
+
+
+def owner_formula_fixture(value, method='MEMIT', dataset='cf'):
+    layers = [8] if method == 'FT' else [3, 8] if method == 'ALPHAEDIT_BLUE' else [3, 4, 5, 6, 7, 8]
+    plan = dict(schema='official-server2-first-trajectory-native-parity-v1',
+        status='PLAN_READY_OWNER_SOURCE_FORMULA_CONTROLS', actual_GPU=False,
+        scientific_quality_gate=False, after_result_tolerance_relaxation=False,
+        method=method, dataset=dataset, model_revision=value['model_revision'],
+        tokenizer_sha256=value['tokenizer_sha256'], stream_sha256=value['streams'][dataset]['lock']['stream_sha256'],
+        source=dict(code_commit=value['code_commit'], official_tree_sha256=value['official_tree_sha256'],
+            factual_sha256='f'*64, hparams_sha256='h'*64, parity_sha256='p'*64,nethook_sha256='n'*64,
+            native_easy_repr_sha256='e'*64,native_BLUE_repr_sha256='b'*64,native_hparams={'layers':layers}),
+        tolerance=dict(candidate_nll={'atol':1e-4, 'rtol':0.0}, affine_readout={'atol':1e-4,'rtol':1e-5}),
+        independent_public_native_evaluator='NOT_AVAILABLE_IN_OFFICIAL_DISTRIBUTION',
+        evidence_scope='OWNER_REVIEWED_NATIVE_FORMULA_PACKING_AND_SAME_CALL_MODEL_OPERATOR_CONTROLS')
+    plan['plan_sha256'] = digest(plan)
+    endpoints = list(dict.fromkeys([layers[0],layers[-1]]))
+    def affine(width):
+        return dict(shape=[2,width], dtype='float32', max_abs_error=0.0, atol=1e-4,rtol=1e-5,close=True)
+    proof = dict(schema='official-server2-first-trajectory-native-parity-v1',
+        status='PASS_ACTUAL_OWNER_FORMULA_PARITY', actual_GPU=True, method=method, dataset=dataset,
+        plan_sha256=plan['plan_sha256'], code_commit=value['code_commit'],
+        official_tree_sha256=value['official_tree_sha256'], factual_source_sha256='f'*64,
+        native_hparams_sha256='h'*64, candidate_nll_close=True, candidate_nll_abs_error=0.0,
+        candidate_token_prefix_exact=True, token_predictions_exact=True, subject_lookup_exact=True,
+        observer_no_mutation=True, RNG_restored=True, extra_LM_forward_calls=0,
+        target_fit_calls=0,optimizer_calls=0,writer_calls=0,existing_factual_forward_calls=10,
+        native_candidate_identity_sha256='a'*64,
+        fc_out={f'transformer.h.{layer}.mlp.fc_out':affine(4096) for layer in endpoints},
+        readout27=affine(50400),
+        block_output_schemas={f'transformer.h.{layer}':dict(container='Tensor',hidden_shape=[2,4096])
+            for layer in [*endpoints,27]},
+        independent_public_native_evaluator=plan['independent_public_native_evaluator'],
+        independent_oracle_PASS=False,bitwise_full_evaluator_claim=False,scientific_quality_gate=False,
+        evidence_scope=plan['evidence_scope'], fixture='CPU_JSON_ONLY_NO_REAL_MODEL_OR_GPU')
+    value.setdefault('native_parity_plans',{}).setdefault(dataset,{})[method] = plan
+    value.setdefault('source_members',{}).update({f'hparams/{method}/gptj.json':'h'*64,
+        'evaluation/factual.py':'f'*64,'runners/server2/parity.py':'p'*64,
+        'baselines/easyedit/util/nethook.py':'n'*64,
+        'baselines/easyedit/models/rome/repr_tools.py':'e'*64,
+        'baselines/blue/rome/repr_tools.py':'b'*64})
+    return proof
 
 
 class OfficialCollectorTests(unittest.TestCase):
@@ -71,17 +122,17 @@ class OfficialCollectorTests(unittest.TestCase):
         observed = factual('cf', cohort)
         observed['cases'][1]['paraphrase_prompts_probs'] = [{'target_new':1., 'target_true':1.}]*7
         observed['summary'] = factual_reduce.counterfact(observed['cases'])
-        reduced = collector.validate_factual(observed, 'cf', cohort)
+        reduced = collector.validate_factual(observed, 'cf', cohort, manifest=manifest())
         self.assertEqual(reduced['Generalization'], 50)
         self.assertEqual(reduced['Score'], 75)
         wrong = deepcopy(observed)
         wrong['summary']['Generalization'] = 100
         with self.assertRaisesRegex(ValueError, 'RAW_REDUCTION'):
-            collector.validate_factual(wrong, 'cf', cohort)
+            collector.validate_factual(wrong, 'cf', cohort, manifest=manifest())
         wrong = deepcopy(observed)
         wrong['cases'].reverse()
         with self.assertRaisesRegex(ValueError, 'CASE_ORDER'):
-            collector.validate_factual(wrong, 'cf', cohort)
+            collector.validate_factual(wrong, 'cf', cohort, manifest=manifest())
 
     def test_qualification_four_actual_source_calls_not_fake_twenty_commit_count(self):
         value = manifest()
@@ -105,10 +156,67 @@ class OfficialCollectorTests(unittest.TestCase):
     def test_zsre_W0_agreement_not_loc_ans_and_token_denominators(self):
         cohort = records(3)
         observed = factual('zsre', cohort)
-        reduced = collector.validate_factual(observed, 'zsre', cohort)
+        reduced = collector.validate_factual(observed, 'zsre', cohort, manifest=manifest())
         self.assertEqual(reduced['Specificity'], 100)
         self.assertEqual(reduced['Specificity_loc_ans'], 0)
         self.assertEqual(reduced['Efficacy'], 50)
+
+    def test_factual_exact_external_model_source_runtime_and_native_cohort_identity(self):
+        value = manifest()
+        cohort = records(3)
+        observed = factual('cf',cohort,value=value)
+        reduced = collector.validate_factual(observed,'cf',cohort,manifest=value)
+        self.assertEqual(reduced['query_cohort_sha256'],observed['identity']['cohort_sha256'])
+        mutations = [('model_revision','different-model'),('tokenizer_sha256','other-tokenizer'),
+                     ('stream_sha256','another-ordered-stream'),('runtime',{'different_runtime':True}),
+                     ('source','e'*40)]
+        for key, replacement in mutations:
+            wrong = deepcopy(observed)
+            wrong['identity']['external_identity'][key] = replacement
+            wrong['identity_sha256'] = digest(wrong['identity'])
+            with self.subTest(key=key), self.assertRaisesRegex(ValueError,'EXTERNAL_MODEL_SOURCE_RUNTIME'):
+                collector.validate_factual(wrong,'cf',cohort,manifest=value)
+        for key, replacement in [('schema','OTHER_SCHEMA'),('dataset','zsre'),
+                                 ('tokenization','different-token-definition'),('ordered_occurrences',[3,2,1]),
+                                 ('use_cache',True),('cohort_sha256','MISSING_QUERY_SHA')]:
+            wrong = deepcopy(observed)
+            wrong['identity'][key] = replacement
+            wrong['identity_sha256'] = digest(wrong['identity'])
+            with self.subTest(key=key), self.assertRaisesRegex(ValueError,'QUERY_COHORT_TOKENIZATION'):
+                collector.validate_factual(wrong,'cf',cohort,manifest=value)
+        wrong = deepcopy(observed)
+        wrong['cases'][0].pop('occurrence_index')
+        with self.assertRaisesRegex(ValueError,'OCCURRENCE_ORDER'):
+            collector.validate_factual(wrong,'cf',cohort,manifest=value)
+
+    def test_owner_formula_parity_real_member_plan_counts_source_and_scope_required(self):
+        value = manifest()
+        proof = owner_formula_fixture(value)
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory)/'formula.json'
+            path.write_text(json.dumps(proof))
+            reduced = collector.validate_owner_formula_parity(collector.member(path),value,'MEMIT')
+            self.assertFalse(reduced['independent_oracle_PASS'])
+            self.assertEqual(reduced['CF_original_evaluator_parity'],'NOT_ESTABLISHED_BY_OWNER_FORMULA_CONTROL')
+            for key, replacement in [('actual_GPU',False),('plan_sha256','b'*64),
+                    ('factual_source_sha256','c'*64),('native_hparams_sha256','d'*64),
+                    ('observer_no_mutation','PENDING_EXIT_GUARD'),('token_predictions_exact',False),
+                    ('extra_LM_forward_calls',1),('candidate_nll_abs_error',0.01),('independent_oracle_PASS',True),
+                    ('bitwise_full_evaluator_claim',True)]:
+                wrong = deepcopy(proof)
+                wrong[key] = replacement
+                path.write_text(json.dumps(wrong))
+                with self.subTest(key=key), self.assertRaises(ValueError):
+                    collector.validate_owner_formula_parity(collector.member(path),value,'MEMIT')
+            wrong = deepcopy(proof)
+            wrong['readout27']['shape'] = [2,4096]
+            path.write_text(json.dumps(wrong))
+            with self.assertRaisesRegex(ValueError,'AFFINE_READOUT'):
+                collector.validate_owner_formula_parity(collector.member(path),value,'MEMIT')
+            missing = qualification('MEMIT',value)
+            missing.pop('native_owner_formula_parity')
+            with self.assertRaisesRegex(ValueError,'FORMULA_MEMBER_REQUIRED'):
+                collector.validate_qualification(missing,value,'MEMIT')
 
     def test_raw_member_sha_mutation_rejected(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -233,16 +341,17 @@ class OfficialCollectorTests(unittest.TestCase):
             write_new(stream_path, cohort)
             stream = collector.member(stream_path)
             assets = {'streams':{'zsre':{'member':stream, 'lock':{'stream_sha256':stream['sha256']}}}}
+            value['streams']['zsre']['lock']['stream_sha256'] = stream['sha256']
             asset_path = attempt/'assets.json'
             write_new(asset_path, assets)
             value['asset_manifest'] = collector.member(asset_path)
             w0, smoke = attempt/'W0_ZSRE', attempt/'ZSRE_SMOKE'
             w0.mkdir(); smoke.mkdir()
             w0_factual, w1_factual = w0/'W0.json', smoke/'W1.json'
-            write_new(w0_factual, factual('zsre', cohort, 'W0'))
-            write_new(w1_factual, factual('zsre', cohort[:100], 'W1'))
+            write_new(w0_factual, factual('zsre', cohort, 'W0', value))
+            write_new(w1_factual, factual('zsre', cohort[:100], 'W1', value))
             reference = w0/'W0-reference.json'
-            write_new(reference, dict(evaluation=factual('zsre', cohort, 'W0')))
+            write_new(reference, dict(evaluation=factual('zsre', cohort, 'W0', value)))
             ready = dict(status='READY_COLD_W0_COMPLETE', actual_GPU=True, model='gptj', dataset='zsre',
                 code_commit=value['code_commit'], official_tree_sha256=value['official_tree_sha256'],
                 manifest_sha256=value['base_manifest_sha256'], model_revision=value['model_revision'],

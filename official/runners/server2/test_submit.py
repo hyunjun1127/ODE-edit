@@ -53,6 +53,10 @@ class OfficialSubmitTests(unittest.TestCase):
             return ' M official/runner.py' if argv[1:3] == ['status', '--porcelain'] else run(argv)
         with self.assertRaisesRegex(ValueError, 'SOURCE_UNCOMMITTED'):
             controller.sealed_source('a'*40, 'b'*40, run=dirty)
+        def different_imported_tree(argv):
+            return 'f'*40 if argv == ['git','rev-parse','HEAD:official'] else run(argv)
+        with self.assertRaisesRegex(ValueError, 'IMPORTED_OFFICIAL_TREE_NOT_SELECTED_SOURCE'):
+            controller.sealed_source('a'*40, 'b'*40, run=different_imported_tree)
 
     def test_dependency_parser_preserves_index_zero_and_uses_admitted_gpu_leaves(self):
         self.assertEqual(controller.dependency_ids('afterany:71000_0(unfulfilled):71001,afterok:71002'),
@@ -84,6 +88,7 @@ class OfficialSubmitTests(unittest.TestCase):
             self.assertIn('--cpus-per-task=6', argv)
             self.assertEqual('--gres=gpu:1' in argv, bool(gpu))
             self.assertIn('--dependency=afterany:61428:61538', argv)
+            self.assertIn('--kill-on-invalid-dep=yes', argv)
             self.assertIn('--mem=59392M' if gpu else '--mem=24576M', argv)
             self.assertIn('--time=2-00:00:00' if gpu else '--time=04:00:00', argv)
         illegal = copy.deepcopy(value)
@@ -232,9 +237,9 @@ class OfficialSubmitTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             config = Path(directory)/'wandb.env'
             config.write_text('WANDB_PROJECT=layer allocation\n')
-            value = dict(source_members={'tracking/transport.py':'a'*64}, tracking=dict(
-                namespace='official.tracking.transport', source_sha256='a'*64,
-                env_file=str(config), metric_schema='price-first2k-scalar-v1'))
+            value = dict(source_members={'tracking/__init__.py':'a'*64}, tracking=dict(
+                namespace='official.tracking', source_sha256='a'*64,
+                env_file=str(config), metric_schema='official-baselines-scalar-v1'))
             receipt = controller.tracking_binding(value)
             self.assertEqual(receipt['SDK_auth_remote_status'], 'NOT_CERTIFIED_BY_CPU_BINDING')
             value['tracking']['namespace'] = 'project.run_scripts.experiment_tracking'
@@ -252,12 +257,18 @@ class OfficialSubmitTests(unittest.TestCase):
             for method in controller.METHODS}
         receipt = dict(status='PASS_ACTUAL_QUALIFICATION', actual_GPU=True, methods=methods,
             code_commit=value['code_commit'], official_tree_sha256=value['official_tree_sha256'],
-            manifest_sha256=value['base_manifest_sha256'])
+            manifest_sha256=value['base_manifest_sha256'],
+            CF_original_evaluator_parity='PASS_ACTUAL_ORIGINAL_NATIVE_REFERENCE')
         with tempfile.TemporaryDirectory() as directory, \
                 patch('official.runners.server2.run.checkpoint_identity', return_value=checkpoint_identity):
             path = Path(directory)/'qualification.json'
             path.write_text(json.dumps(receipt))
             self.assertEqual(controller.gate(path, manifest=value, kind='qualification')['path'], str(path))
+            receipt['CF_original_evaluator_parity']='NOT_ESTABLISHED_BY_OWNER_FORMULA_CONTROL'
+            path.write_text(json.dumps(receipt))
+            with self.assertRaisesRegex(ValueError,'CF_ORIGINAL_NATIVE_REFERENCE_PARITY'):
+                controller.gate(path,manifest=value,kind='qualification')
+            receipt['CF_original_evaluator_parity']='PASS_ACTUAL_ORIGINAL_NATIVE_REFERENCE'
             receipt['actual_GPU'] = False
             path.write_text(json.dumps(receipt))
             with self.assertRaisesRegex(ValueError, 'ACTUAL_STAGE_RECEIPT'):

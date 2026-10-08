@@ -263,6 +263,19 @@ def prepare(out=DEFAULT_OUT, *, overrides=None, tokenizer_audit=True):
     return result
 
 
+def verify_official_source(row, original_root):
+    """Exact source bytes in the imported archive; inode/mtime are not portable."""
+    try:
+        relative = Path(row['path']).relative_to(original_root)
+    except ValueError as error:
+        raise AssetBindingError('OFFICIAL_SOURCE_MEMBER_SCOPE', row['path']) from error
+    require(not relative.is_absolute() and '..' not in relative.parts,
+            'OFFICIAL_SOURCE_MEMBER_SCOPE', row['path'])
+    path = ROOT/relative
+    require(path.is_file() and not path.is_symlink() and path.stat().st_size == row['bytes']
+            and file_sha(path) == row['sha256'], 'IMPORTED_OFFICIAL_SOURCE_SHA_CHANGED', path)
+
+
 def verify(manifest):
     """Cheap reentry check used by frozen runners before opening model/assets."""
     value = read(manifest) if isinstance(manifest, (str, Path)) else manifest
@@ -276,8 +289,12 @@ def verify(manifest):
         verify_member(stream['member'], hash_now=True)
         verify_member(stream['source'], hash_now=True)
         verify_member(stream['lock_member'], hash_now=True)
-    for row in value['provenance']['official_scientific_members']:
-        verify_member(row, hash_now=True)
+    # An immutable production Git archive has different source inode/mtime.
+    # Validate its actual imported relative member bytes, not a mutable WT.
+    original_root = Path(value['provenance']['official_sources']['path']).parent
+    for row in [*value['provenance']['official_scientific_members'],
+                value['provenance']['official_sources']]:
+        verify_official_source(row, original_root)
     for row in value['runtime']['members']:
         verify_member(row, hash_now=True)
     generation = value['generation']

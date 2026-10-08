@@ -74,6 +74,9 @@ def validate_qualification(value, manifest, method):
     require(value.get('contexts_equal') is True
         and value.get('checkpoint_identity') == expected_checkpoint_identity(manifest, 'cf', method),
         'COLLECT_QUALIFICATION_CHECKPOINT_CONTEXT_IDENTITY')
+    require(isinstance(value.get('native_owner_formula_parity'), dict)
+        and {'path', 'bytes', 'sha256'} <= set(value['native_owner_formula_parity']),
+        'COLLECT_QUALIFICATION_OWNER_FORMULA_MEMBER_REQUIRED')
     return dict(value)
 
 
@@ -105,6 +108,79 @@ def validate_qualification_calls(value, manifest, method):
         'COLLECT_QUALIFICATION_FOUR_SOURCE_BOUND_NATIVE_CALLS')
 
 
+def validate_owner_formula_parity(value, manifest, method, *, dataset='cf', inventory=None):
+    """Same-call owner formula controls are not an independent evaluator oracle."""
+    proof = read(verify_member(value, inventory))
+    plan = manifest['native_parity_plans'][dataset][method]
+    require(plan.get('plan_sha256') == digest({key:item for key,item in plan.items() if key != 'plan_sha256'})
+        and plan.get('schema') == 'official-server2-first-trajectory-native-parity-v1'
+        and plan.get('status') == 'PLAN_READY_OWNER_SOURCE_FORMULA_CONTROLS'
+        and plan.get('actual_GPU') is False and plan.get('scientific_quality_gate') is False
+        and plan.get('after_result_tolerance_relaxation') is False
+        and plan.get('model_revision') == manifest['model_revision']
+        and plan.get('tokenizer_sha256') == manifest['tokenizer_sha256']
+        and plan.get('stream_sha256') == manifest['streams'][dataset]['lock']['stream_sha256']
+        and plan.get('method') == method and plan.get('dataset') == dataset,
+        'COLLECT_OWNER_FORMULA_PREMEASUREMENT_PLAN_IDENTITY')
+    source = plan['source']
+    require(all(key in source and path in manifest['source_members']
+        and source[key] == manifest['source_members'][path] for key,path in (
+        ('hparams_sha256', f'hparams/{method}/gptj.json'),
+        ('factual_sha256', 'evaluation/factual.py'), ('parity_sha256', 'runners/server2/parity.py'),
+        ('nethook_sha256', 'baselines/easyedit/util/nethook.py'),
+        ('native_easy_repr_sha256', 'baselines/easyedit/models/rome/repr_tools.py'),
+        ('native_BLUE_repr_sha256', 'baselines/blue/rome/repr_tools.py'))),
+        'COLLECT_OWNER_FORMULA_SOURCE_NOT_FROZEN_MEMBER')
+    require(proof.get('schema') == 'official-server2-first-trajectory-native-parity-v1'
+        and proof.get('status') == 'PASS_ACTUAL_OWNER_FORMULA_PARITY' and proof.get('actual_GPU') is True
+        and proof.get('method') == method and proof.get('dataset') == dataset
+        and proof.get('plan_sha256') == plan['plan_sha256']
+        and proof.get('code_commit') == source['code_commit'] == manifest['code_commit']
+        and proof.get('official_tree_sha256') == source['official_tree_sha256'] == manifest['official_tree_sha256']
+        and proof.get('factual_source_sha256') == source['factual_sha256']
+        and proof.get('native_hparams_sha256') == source['hparams_sha256'],
+        'COLLECT_ACTUAL_OWNER_FORMULA_SOURCE_IDENTITY')
+    require(all(proof.get(key) is True for key in ('candidate_nll_close', 'candidate_token_prefix_exact',
+        'token_predictions_exact', 'subject_lookup_exact', 'observer_no_mutation', 'RNG_restored'))
+        and all(type(proof.get(key)) is int and proof[key] == 0 for key in
+                ('extra_LM_forward_calls', 'target_fit_calls', 'optimizer_calls', 'writer_calls'))
+        and type(proof.get('existing_factual_forward_calls')) is int and proof['existing_factual_forward_calls'] > 0
+        and type(proof.get('candidate_nll_abs_error')) in (int, float)
+        and math.isfinite(proof['candidate_nll_abs_error']) and proof['candidate_nll_abs_error'] >= 0
+        and proof['candidate_nll_abs_error'] <= plan['tolerance']['candidate_nll']['atol']
+        and plan['tolerance']['candidate_nll']['rtol'] == 0
+        and re.fullmatch(r'[0-9a-f]{64}', proof.get('native_candidate_identity_sha256', '')),
+        'COLLECT_OWNER_FORMULA_CANDIDATE_TOKEN_LOOKUP_STATE_COUNTS')
+    layers = list(dict.fromkeys((source['native_hparams']['layers'][0], source['native_hparams']['layers'][-1])))
+    fc_names = {f'transformer.h.{layer}.mlp.fc_out' for layer in layers}
+    blocks = {f'transformer.h.{layer}' for layer in [*layers, 27]}
+    require(set(proof.get('fc_out', {})) == fc_names
+        and set(proof.get('block_output_schemas', {})) == blocks, 'COLLECT_OWNER_FORMULA_GPTJ_LAYER_MAPPING')
+    affine = plan['tolerance']['affine_readout']
+    for name, check in [*proof['fc_out'].items(), ('readout27', proof.get('readout27', {}))]:
+        shape = check.get('shape')
+        require(check.get('close') is True and check.get('dtype') == 'float32'
+            and isinstance(shape, list) and len(shape) == 2 and type(shape[0]) is int and shape[0] > 0
+            and shape[1] == (50400 if name == 'readout27' else 4096)
+            and check.get('atol') == affine['atol'] and check.get('rtol') == affine['rtol']
+            and type(check.get('max_abs_error')) in (int, float)
+            and math.isfinite(check['max_abs_error']) and check['max_abs_error'] >= 0,
+            'COLLECT_OWNER_FORMULA_NATIVE_AFFINE_READOUT')
+    for block in proof['block_output_schemas'].values():
+        require(block.get('container') in ('Tensor', 'tuple', 'list')
+            and isinstance(block.get('hidden_shape'), list) and len(block['hidden_shape']) == 2
+            and type(block['hidden_shape'][0]) is int and block['hidden_shape'][0] > 0
+            and block['hidden_shape'][1] == 4096, 'COLLECT_OWNER_FORMULA_GPTJ_BLOCK_LAYOUT')
+    require(proof.get('independent_public_native_evaluator') == plan['independent_public_native_evaluator']
+        == 'NOT_AVAILABLE_IN_OFFICIAL_DISTRIBUTION' and proof.get('independent_oracle_PASS') is False
+        and proof.get('bitwise_full_evaluator_claim') is False and proof.get('scientific_quality_gate') is False
+        and proof.get('evidence_scope') == plan['evidence_scope'],
+        'COLLECT_OWNER_FORMULA_SCOPE_NOT_INDEPENDENT_EVALUATOR_PARITY')
+    return dict(member=value, status=proof['status'], actual_GPU=True, plan_sha256=plan['plan_sha256'],
+        same_existing_forward=True, extra_LM_forward_calls=0, independent_oracle_PASS=False,
+        CF_original_evaluator_parity='NOT_ESTABLISHED_BY_OWNER_FORMULA_CONTROL')
+
+
 def _compare_summary(recorded, reduced):
     require(isinstance(recorded, dict), 'COLLECT_FACTUAL_SUMMARY')
     for key, expected in reduced.items():
@@ -119,24 +195,39 @@ def _compare_summary(recorded, reduced):
                     'COLLECT_FACTUAL_RAW_REDUCTION:'+key)
 
 
-def validate_factual(value, dataset, records, *, endpoint=None):
+def expected_factual_external_identity(manifest, dataset):
+    return dict(model_revision=manifest['model_revision'], tokenizer_sha256=manifest['tokenizer_sha256'],
+        stream_sha256=manifest['streams'][dataset]['lock']['stream_sha256'],
+        runtime=manifest['runtime'], source=manifest['code_commit'])
+
+
+def validate_factual(value, dataset, records, *, manifest, endpoint=None):
+    from official.evaluation.factual import SCHEMA, TOKENIZATION
     cases = value.get('cases')
     require(isinstance(cases, list) and len(cases) == len(records), 'COLLECT_FACTUAL_REQUEST_COUNT')
     require([case.get('case_id') for case in cases] == [record['case_id'] for record in records],
             'COLLECT_FACTUAL_CASE_ORDER')
-    for case, record in zip(cases, records):
-        if 'occurrence_index' in case:
-            require(case['occurrence_index'] == record['occurrence_index'], 'COLLECT_FACTUAL_OCCURRENCE_ORDER')
-    require(isinstance(value.get('identity'), dict) and value['identity'], 'COLLECT_FACTUAL_RUNTIME_IDENTITY')
-    if 'identity_sha256' in value:
-        require(value['identity_sha256'] == digest(value['identity']), 'COLLECT_FACTUAL_IDENTITY_SHA')
+    require([case.get('occurrence_index') for case in cases] ==
+        [record['occurrence_index'] for record in records], 'COLLECT_FACTUAL_OCCURRENCE_ORDER')
+    identity = value.get('identity')
+    require(isinstance(identity, dict) and identity, 'COLLECT_FACTUAL_RUNTIME_IDENTITY')
+    require(value.get('identity_sha256') == digest(identity), 'COLLECT_FACTUAL_IDENTITY_SHA')
+    require(identity.get('schema') == SCHEMA and identity.get('dataset') == dataset
+        and identity.get('tokenization') == TOKENIZATION
+        and identity.get('ordered_occurrences') == [record['occurrence_index'] for record in records]
+        and identity.get('padding') == 'RIGHT_EXPLICIT_ATTENTION_MASK' and identity.get('use_cache') is False
+        and re.fullmatch(r'[0-9a-f]{64}', identity.get('cohort_sha256', '')),
+        'COLLECT_FACTUAL_QUERY_COHORT_TOKENIZATION_IDENTITY')
+    require(identity.get('external_identity') == expected_factual_external_identity(manifest, dataset),
+        'COLLECT_FACTUAL_EXTERNAL_MODEL_SOURCE_RUNTIME_IDENTITY')
     if endpoint is not None and 'endpoint' in value:
         require(value['endpoint'] == endpoint, 'COLLECT_FACTUAL_ENDPOINT')
     if 'requests' in value:
         require(value['requests'] == len(records), 'COLLECT_FACTUAL_DENOMINATOR')
     reduced = factual_reduce.counterfact(cases) if dataset == 'cf' else factual_reduce.zsre(cases)
     _compare_summary(value['summary'], reduced)
-    return dict(reduced, identity_sha256=digest(value['identity']), endpoint=endpoint,
+    return dict(reduced, identity_sha256=digest(identity), query_cohort_sha256=identity['cohort_sha256'],
+                external_identity_sha256=digest(identity['external_identity']), endpoint=endpoint,
                 reduction='official.evaluation.reduce request-macro stored case rows')
 
 
@@ -245,7 +336,7 @@ def validate_chain(value, manifest, assets, records, method, dataset, *, invento
     factual = {}
     for endpoint, count in (('W0', 2000), ('W5', 500), ('W10', 1000), ('W15', 1500), ('W20', 2000)):
         observed = read(verify_member(endpoints[endpoint], inventory))
-        factual[endpoint] = validate_factual(observed, dataset, records[:count], endpoint=endpoint)
+        factual[endpoint] = validate_factual(observed, dataset, records[:count], manifest=manifest, endpoint=endpoint)
     require(value.get('W0_READY'), 'COLLECT_CHAIN_SAME_MODEL_COLD_W0_REQUIRED')
     cold_ready = read(verify_member(value['W0_READY'], inventory))
     validate_cold_w0(cold_ready, manifest, assets, {dataset:records},
@@ -285,7 +376,7 @@ def validate_cold_w0(value, manifest, assets, datasets, *, role=None, inventory=
     require(value.get('stream_sha256') == assets['streams'][dataset]['lock']['stream_sha256'],
             'COLLECT_W0_STREAM_IDENTITY')
     observed = read(verify_member(value['factual'], inventory))
-    summary = validate_factual(observed, dataset, datasets[dataset], endpoint='W0')
+    summary = validate_factual(observed, dataset, datasets[dataset], manifest=manifest, endpoint='W0')
     if dataset == 'cf':
         ready = read(verify_member(value['generation_READY'], inventory))
         summary['generation'] = validate_generation_ready(ready, assets, datasets['cf'],
@@ -332,7 +423,7 @@ def validate_smoke(value, manifest, assets, records, role_out, *, inventory=None
     require(value['factual_endpoints']['W0'] == ready['factual'], 'COLLECT_SMOKE_SAME_COLD_W0_BINDING')
     for endpoint, count in (('W0', 2000), ('W1', 100)):
         observed = read(verify_member(value['factual_endpoints'][endpoint], inventory))
-        validate_factual(observed, 'zsre', records[:count], endpoint=endpoint)
+        validate_factual(observed, 'zsre', records[:count], manifest=manifest, endpoint=endpoint)
     return dict(value, W0member=ready_member, collector_checkpoint_metadata=checkpoint,
                 native_batch_calls=1, native_request_applications=100)
 
@@ -458,10 +549,12 @@ def collect(attempt, *, account=None):
                 inventory.append(member(path))
                 result = validate_qualification(read(path), manifest, role)
                 validate_qualification_calls(result, manifest, role)
+                validate_owner_formula_parity(result['native_owner_formula_parity'], manifest, role,
+                    inventory=inventory)
                 continuous = read(verify_member(result['continuous_metric'], inventory))
                 resumed = read(verify_member(result['resumed_metric'], inventory))
-                validate_factual(continuous, 'cf', datasets['cf'][200:300])
-                validate_factual(resumed, 'cf', datasets['cf'][200:300])
+                validate_factual(continuous, 'cf', datasets['cf'][200:300], manifest=manifest)
+                validate_factual(resumed, 'cf', datasets['cf'][200:300], manifest=manifest)
                 require(continuous['cases'] == resumed['cases'] and continuous['summary'] == resumed['summary'],
                         'COLLECT_QUALIFICATION_RECORDED_METRIC_PARITY')
                 checkpoint_verified = validate_checkpoint_metadata(role_out/'checkpoints',

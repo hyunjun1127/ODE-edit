@@ -99,6 +99,22 @@ class AssetControls(unittest.TestCase):
         with self.assertRaisesRegex(assets.AssetBindingError, 'ASSET_MANIFEST_IDENTITY'):
             assets.verify(value)
 
+    def test_imported_frozen_source_bytes_not_preparation_wt_inode(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            original, archive = Path(tmp)/'old-official', Path(tmp)/'archive-official'
+            original.mkdir(); archive.mkdir()
+            old = original/'source.py'; old.write_text('EXACT_PIN=1\n')
+            row = assets.member(old)
+            copied = archive/'source.py'; copied.write_text('EXACT_PIN=1\n')
+            old.unlink()  # frozen runner must not depend on live preparation WT
+            with mock.patch.object(assets,'ROOT',archive):
+                assets.verify_official_source(row,original)
+                copied.write_text('EXACT_PIN=2\n')
+                with self.assertRaisesRegex(assets.AssetBindingError,'IMPORTED_OFFICIAL_SOURCE_SHA_CHANGED'):
+                    assets.verify_official_source(row,original)
+                with self.assertRaisesRegex(assets.AssetBindingError,'OFFICIAL_SOURCE_MEMBER_SCOPE'):
+                    assets.verify_official_source(dict(row,path=str(Path(tmp)/'other.py')),original)
+
 
 if __name__ == '__main__':
     unittest.main()

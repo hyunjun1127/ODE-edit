@@ -9,8 +9,9 @@ from unittest.mock import patch
 from official.evaluation.generation.common import digest, immutable_write
 from official.evaluation.generation.metrics import MISSING_REASONS
 from official.evaluation.generation.native_profile import PROFILE, ROUTE, runtime_identity
-from official.evaluation.generation.progress import FIELDS
+from official.evaluation.generation.progress import FIELDS, GenerationProgress
 from official.runners.server2 import generation as bridge
+from official.tracking import schema as tracking_schema
 
 
 def fixture_summary():
@@ -101,6 +102,7 @@ class GenerationBridgeTests(unittest.TestCase):
         self.assertEqual(payload['edits'], 2000)
         self.assertEqual(payload['pre_state_edits'], 1900)
         self.assertEqual(len(events), 2)
+        self.assertEqual(events[0]['phase'], 'W20_generation')
         ready = bridge.read(self.root / 'W20/READY.json')
         self.assertEqual(ready['work']['physical_forward_calls'], 99)
         self.assertTrue(ready['new_generation_observation_performed'])
@@ -171,13 +173,71 @@ class GenerationBridgeTests(unittest.TestCase):
         self.assertFalse(any('job' in key or 'arm' in key for key in config['model_identity']))
 
     def test_progress_whitelist_rejects_text_and_secret(self):
-        callback = bridge._progress(None)
+        callback = bridge._progress(None, endpoint='W0')
         event = {'generation_progress/' + name: 0 for name in FIELDS}
         event['phase'] = 'W0_generation'
         callback(event)
         for key in ('text', 'API_KEY', 'case_id'):
             with self.assertRaisesRegex(Exception, 'PROGRESS_SCHEMA'):
                 callback(dict(event, **{key: 'forbidden'}))
+
+    def tracking_config(self):
+        # Validate the real shared official schema, not a duplicated logger or
+        # fake online receipt. Fixture identities are never uploaded.
+        config = dict(server='server2', task_id='official-baselines-20261008',
+            arm='MEMIT', attempt='cpu-generation-fixture', source_sha='a' * 40,
+            config_sha='b' * 64, model='gptj', model_family='gptj', writer='MEMIT',
+            baseline='MEMIT', role='scientific', metric_schema=tracking_schema.OFFICIAL_SCHEMA,
+            instruction_id=tracking_schema.OFFICIAL_INSTRUCTION, dataset='cf',
+            generation_metric_schema='counterfact-cake-generation-metrics-v1',
+            generation_profile=PROFILE, generation_eval_seed=20261007,
+            reference_assets_sha256='c' * 64,
+            generation_source_sha=digest(bridge.source_identity()),
+            generation_repair_instruction=tracking_schema.OFFICIAL_INSTRUCTION,
+            generation_schedule=tracking_schema.OFFICIAL_GENERATION_SCHEDULE)
+        return tracking_schema.config(config)
+
+    def test_real_native_progress_shared_adapter_preserves_counts_and_axis(self):
+        config = self.tracking_config()
+        for endpoint, raw_phase, published_phase in (
+                ('W0', 'W0_generation', 'W0_generation'),
+                ('W20', 'generation_evaluation', 'W20_generation')):
+            with self.subTest(endpoint=endpoint):
+                captured = []
+                progress = GenerationProgress(2000, 2000,
+                    bridge._progress(captured.append, endpoint=endpoint),
+                    phase=raw_phase, clock=lambda: 0.0, first_step=7)
+                raw = progress.emit('start', force=True)
+                expected = dict(raw, phase=published_phase)
+                self.assertEqual(captured, [expected])
+                self.assertEqual(raw['phase'], raw_phase)
+                self.assertEqual(captured[0]['generation_progress/step'], 7)
+                self.assertEqual(set(captured[0]),
+                    {'generation_progress/' + key for key in FIELDS} | {'phase'})
+                self.assertNotIn('edits', captured[0])
+                self.assertEqual(tracking_schema.metrics(captured[0], scientific=True,
+                    config_values=config), captured[0])
+
+    def test_shared_adapter_rejects_wrong_endpoint_and_noninteger_counts(self):
+        event = {'generation_progress/' + name: 0 for name in FIELDS}
+        event['phase'] = 'W0_generation'
+        with self.assertRaisesRegex(ValueError, 'CALLBACK_PHASE'):
+            bridge._progress(None, endpoint='W20')(event)
+        with self.assertRaisesRegex(ValueError, 'CALLBACK_ENDPOINT'):
+            bridge._progress(None, endpoint='W5')(event)
+        with self.assertRaisesRegex(ValueError, 'PROGRESS_INTEGER'):
+            bridge._progress(None, endpoint='W0')(
+                dict(event, **{'generation_progress/completed_cases': 0.5}))
+
+    def test_actual_bridge_endpoints_satisfy_shared_generation_schema(self):
+        config = self.tracking_config()
+        for endpoint in ('W0', 'W20'):
+            with self.subTest(endpoint=endpoint):
+                events = []
+                self.observe(endpoint, log=events.append)
+                for event in events:
+                    self.assertEqual(tracking_schema.metrics(event, scientific=True,
+                        config_values=config), event)
 
     def test_nonmutation_callback_required_before_loading_assets(self):
         with self.assertRaisesRegex(Exception, 'NONMUTATION_CALLBACK_REQUIRED'):

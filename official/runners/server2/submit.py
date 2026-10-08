@@ -71,6 +71,8 @@ def sealed_source(source, official_tree, *, run=command):
         'SOURCE_NOT_PUBLISHED_MAIN')
     require(run(['git', 'rev-parse', source+':official']) == official_tree, 'OFFICIAL_TREE_MISMATCH')
     require(not run(['git', 'status', '--porcelain', '--', 'official']), 'OFFICIAL_SOURCE_UNCOMMITTED')
+    require(run(['git', 'rev-parse', 'HEAD:official']) == official_tree,
+            'IMPORTED_OFFICIAL_TREE_NOT_SELECTED_SOURCE')
     return dict(code_commit=source, official_tree_sha256=official_tree,
         observed_main=run(['git', 'rev-parse', 'origin/main']), only_published_official=True)
 
@@ -78,10 +80,10 @@ def sealed_source(source, official_tree, *, run=command):
 def tracking_binding(manifest):
     """Cheap CPU source binding, not SDK/auth/remote-delivery certification."""
     value = manifest.get('tracking')
-    require(isinstance(value, dict) and type(value.get('namespace')) is str
-        and re.fullmatch(r'official(?:\.[A-Za-z_][A-Za-z0-9_]*)+', value['namespace'])
+    require(isinstance(value, dict) and value.get('namespace') == 'official.tracking'
         and re.fullmatch(r'[0-9a-f]{64}', value.get('source_sha256', ''))
-        and value.get('env_file') and value.get('metric_schema'), 'OFFICIAL_TRACKING_API_NOT_READY')
+        and value.get('env_file') and value.get('metric_schema') == 'official-baselines-scalar-v1',
+        'OFFICIAL_TRACKING_API_NOT_READY')
     path = value['namespace'][len('official.'):].replace('.', '/')
     matches = [item for item in (path+'.py', path+'/__init__.py') if item in manifest['source_members']]
     require(len(matches) == 1 and manifest['source_members'][matches[0]] == value['source_sha256'],
@@ -250,6 +252,8 @@ def gate(path, *, manifest, kind):
     if kind == 'qualification':
         from official.runners.server2.run import checkpoint_identity
         require(set(receipt['methods']) == set(METHODS), 'SIX_ACTUAL_QUALIFICATIONS_REQUIRED')
+        require(receipt.get('CF_original_evaluator_parity') == 'PASS_ACTUAL_ORIGINAL_NATIVE_REFERENCE',
+                'CF_ORIGINAL_NATIVE_REFERENCE_PARITY_NOT_ESTABLISHED_BY_RESUME')
         for method, value in receipt['methods'].items():
             require(value['method'] == method and value['dataset'] == 'cf' and value['model'] == 'gptj'
                 and value['actual_GPU'] is True and value['continuous_batches'] == 3
@@ -361,7 +365,8 @@ def sbatch_argv(attempt, role, manifest, dep):
         argv += ['--gres=gpu:1']
     if dep:
         typed_dependencies(dep)
-        argv += ['--dependency='+('afterany:'+':'.join(dep) if isinstance(dep, list) else dep)]
+        argv += ['--dependency='+('afterany:'+':'.join(dep) if isinstance(dep, list) else dep),
+                 '--kill-on-invalid-dep=yes']
     return argv+[str(attempt/(role+'.sh'))]
 
 

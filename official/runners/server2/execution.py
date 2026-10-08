@@ -6,7 +6,9 @@ from pathlib import Path
 from official.baselines import registry
 from official.experiments.prepare import METHODS, digest, file_sha, read, write_new
 from official.runners.server2 import assets
-from official.runners.server2.run import checkpoint_identity
+from official.runners.server2.run import checkpoint_identity, configuration, tracking_config
+from official.runners.server2 import parity
+from official.tracking import schema as tracking_schema
 from official.runners.server2.submit import REPO, OUTPUT, SESSION, INSTRUCTION, sealed_source
 
 
@@ -44,7 +46,7 @@ def prepare(asset_manifest, out, source, official_tree, tracking_binding, local_
     if not all(callable(getattr(module, key, None)) for key in require_api):
         raise ValueError('OFFICIAL_FACTUAL_API_NOT_READY')
     tracking = read(tracking_binding)
-    if not tracking['namespace'].startswith('official.'):
+    if tracking['namespace'] != 'official.tracking' or tracking['metric_schema'] != tracking_schema.OFFICIAL_SCHEMA:
         raise ValueError('OFFICIAL_COMMON_TRACKING_NAMESPACE_REQUIRED')
     transport = importlib.import_module(tracking['namespace'])
     if not callable(getattr(transport, 'init', None)) or file_sha(transport.__file__) != tracking['source_sha256']:
@@ -66,10 +68,22 @@ def prepare(asset_manifest, out, source, official_tree, tracking_binding, local_
             resume_from_actual_durable_batch=2,resumed_batches=[3], logical_batch=100,
             native_call_count_per_method=4, native_request_applications_per_method=400,
             comparison='EXACT_WEIGHTS_HISTORY_CONTEXT_RNG_CASE_METRICS',
+            native_formula_parity='PASSIVE_FIRST_EXISTING_B1_FACTUAL_FORWARD; EXTRA_LM_FORWARD0',
+            original_native_evaluator_parity='SEPARATE_REQUIRED_INPUT_NOT_REPLACED_BY_RESUME',
             quality_not_gate=True, actual_GPU_PASS=False, typed_failure_no_retry=True),
         actual_GPU_qualification='NOT_OBSERVED', ready_to_submit=True,
         native_source_sha256={method:[file_sha(registry.implementation(method,'gptj')[0].__file__)]
                              for method in METHODS})
+    value['native_parity_plans'] = {dataset:{method:parity.plan(value,dataset,method,
+        read(value['streams'][dataset]['path'])) for method in METHODS} for dataset in ('cf','zsre')}
+    tracking_schema.load_env(tracking['env_file'])
+    for dataset in ('cf','zsre'):
+        for method in METHODS:
+            tracking_schema.config(tracking_config(value,configuration(method,dataset),
+                                                   'chain',Path(method+'-'+dataset)))
+    value['tracking_preflight'] = dict(strict_twelve_cell_CPU_config='PASS',
+        credential_values_read=False, online_remote_identity='NOT_OBSERVED',
+        source_route='SHARED_OFFICIAL_TRACKING_READONLY', duplicate_logger=False)
     value['checkpoint_identities'] = {dataset:{method:checkpoint_identity(value,method,dataset)
         for method in METHODS} for dataset in ('cf','zsre')}
     value['qualification_plan_sha256'] = digest(value['qualification_plan'])

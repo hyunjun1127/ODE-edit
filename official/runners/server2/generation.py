@@ -19,6 +19,7 @@ from official.evaluation.generation.metrics import generation_payload
 from official.evaluation.generation.native_observer import NativeGenerationObserver, read_observed
 from official.evaluation.generation.native_profile import PROFILE, ROUTE, runtime_identity
 from official.evaluation.generation.progress import FIELDS, PHASES
+from official.tracking import official_generation_progress
 
 SCHEMA = 'official-server2-native-generation-v1'
 STUDY = 'USER-OFFICIAL-BASELINES-20261008-R1'
@@ -82,7 +83,7 @@ def _w0_state(manifest):
         actual_model_edits=0, actual_applied_edits=0, model_state='COLD_W0')
 
 
-def _progress(log):
+def _progress(log, *, endpoint):
     keys = {'generation_progress/' + name for name in FIELDS} | {'phase'}
     def callback(value):
         require(set(value) == keys and value['phase'] in PHASES,
@@ -90,8 +91,11 @@ def _progress(log):
         require(all(type(item) in (int, float) and math.isfinite(item) and item >= 0
                     for key, item in value.items() if key != 'phase'),
                 'OFFICIAL_GENERATION_PROGRESS_PRIVACY')
+        # The common owner adapts only W20's observational phase name. Native
+        # sampling, raw callback counts/axis and endpoint identity stay intact.
+        mapped = official_generation_progress(value, endpoint=endpoint)
         if log is not None:
-            log(dict(value))
+            log(mapped)
     return callback
 
 
@@ -144,7 +148,7 @@ def observe(model, tok, manifest, records, out, endpoint, state_identity, state_
     assets_seconds = time.monotonic() - started
     require(assets.sha == config['reference_assets_sha256'], 'OFFICIAL_GENERATION_ASSETS_IDENTITY')
     observer = NativeGenerationObserver(model, tok, assets, config, out / 'observations',
-        state_callback=state_callback, progress_callback=_progress(log))
+        state_callback=state_callback, progress_callback=_progress(log, endpoint=endpoint))
     observed = observer.observe(records, endpoint, COHORT, native_state)
     _complete(observed, records, endpoint, observer.runtime_sha)
     # Full raw/execution reader establishes completeness before publishing READY.
