@@ -1,5 +1,65 @@
 # server4 official baseline 구현·취소 기록
 
+## 최신 갱신: 원본 oracle/W0 담당 relay (2026-10-09)
+
+`GH-SH4-OFFICIAL-ORACLE-W0-BINDING-20261009-R1`를 수락하고 main
+`34001ec0950f00b61e89be753494f40b9da6f70f`를 병합했다. 두 envelope와 oracle module/lock
+SHA가 전달값과 일치한다. W0 담당 문의는 **SH1 single producer / SH4 verified reader**로
+해소됐다. 아래 이전 문의 미전달 기록은 역사다. 아직 reader API와 actual READY는
+미게시이므로 `SOURCE_INPUT_PENDING`이며 별도 full W0 job을 생성하지 않는다.
+
+자체 caller에 공통 oracle의 first4 engineering 및 Llama AlphaEdit W20 full2K 비교를
+분리해 연결했다. 전자는 qualification, 후자는 실제 W20 weights/기존 all-seen raw의
+독립 original forward 비교이며 main 시작 전 full2K 완료를 요구하지 않는다.
+canonical external identity/원 raw는 수정하지 않고 separate reference binding을 기록한다.
+새 model loader는 canonical ID+exact revision+기존 cache의 offline 로드이며 이름을
+사후 덮어쓰지 않는다. 공통 알고리즘/수식/허용오차 변경0.
+실제 AutoConfig/tokenizer의 first4 native/canonical query가 CPU에서 같음을 확인했다
+(SHA `0f8ffb6fcb36d421859c1483e612e874e60d27666833570e033cbec21e76e416`).
+pretrained model load/forward0이므로 실제 oracle 수치 parity는 아니다.
+
+연속B3/coldB2/resumeB3 세 프로세스의 actual driver 및 Slurm qualification-pipeline
+연결을 구현했다. method당 총6 batch edit calls/600 request applications는 기존 승인
+resume 검증 예산이며 새 main arm이 아니다. 이번에 실제 실행한 GPU fit은0이다.
+각 method의 두 독립 cold B1과 B2 checkpoint/RNG/state 복원 연결을 확인하도록 강화했다.
+
+### 공통 display/logger 연결 결함 — SOURCE_BLOCKED_LOGGER_DISPLAY
+
+새 reducer는 원 NumPy request/cohort mean+around를 쓰지만 공통 logger는 raw E/G/S에
+Python `round`를 적용한 값으로 display Score를 다시 검사한다. 공통 게시 test의
+fixed2000 CPU fixture를 그대로 연결했을 때 다음 실제 예외가 발생했다.
+
+| 항목 | CPU fixture 값 |
+| --- | ---: |
+| Efficacy / Generalization | 100 / 100 |
+| Specificity (raw) | 49.165 |
+| Score (raw) | 74.36847678112237 |
+| Score_AlphaEdit_display (original NumPy) | 74.37229000705858 |
+| transport | `OFFICIAL_DISPLAY_SCORE_MISMATCH` |
+
+이 값은 실험 성적이 아니라 공통 CPU regression fixture다. 원 scalar를 변조하거나
+display 필드를 누락하지 않았으며 공통 source를 직접 고치지 않았다. GH/SH1에게
+원 display 정의를 유지하는 validator 정합 수정을 요청한다. 재현은
+`official.runners.server4.test_oracle.BindingTests.test_shared_display_reducer_logger_incompatibility_is_reproduced`.
+새 own CPU19 tests PASS에는 이 실패의 재현 test가 포함되며 **실행 READY를 뜻하지 않는다**.
+공통 source157 SHA/Python234 AST/external-task imports0 PASS, 실제 GPU/native/online0.
+
+### 한정 admission 확인
+
+61418(LLAMA_REPRO),61598(Qwen OURS),61618(qwen-current-rpn-2k)은 조회 시점에 각각
+server4/GPU1 RUNNING이었다. owner1025와 본 repo local Command 및 AllocTRES를 결속했다.
+**현재 할당3 / effective cap2**(canonical2, local3)를 그대로 보고하며 누락하지 않는다.
+기존 job 취소/hold/requeue/재시작0. qualification의 계획 frontier는 세 exact ID의
+afterany이며 AE→BLUE→SPHERE serial lane이다. 현재 과할당 및 공통 source blocker 때문에
+새 Slurm 등록/dependency 생성은0, 새 job IDs는`[]`이다. Slurm PENDING이라고 부르지 않는다.
+disk available60,419,297,280bytes는 단발 관측이며 전체 checkpoint/raw/동시 reserve 봉인은
+아직 미완료다. 자원 cap 상향0, 반복조회/자동retry0.
+
+공통 portable reader/READY, display logger 정합, native/resume actual receipts,
+reviewed main freeze가 남았다. 별도 사용자 승인 요청이 아니라 input/technical gate 상태다.
+
+---
+
 ## 최신 갱신: SH1 factual API 결속 (2026-10-09)
 
 nonce `SH1-ALL-OFFICIAL-FACTUAL-PUBLISHED-20261009-R1` 및

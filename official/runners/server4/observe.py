@@ -27,7 +27,8 @@ def external_identity(assets):
     return dict(model='llama3', revision=assets['model_revision'],
                 tokenizer_sha256=assets['tokenizer_sha256'],
                 runtime_sha256=assets['runtime_sha256'], precision='FP32_EAGER_TF32_OFF',
-                evaluator_sha256=file_sha(factual.__file__))
+                evaluator_sha256=file_sha(factual.__file__),reducer_sha256=file_sha(reduce.__file__),
+                use_cache=False,padding='RIGHT_EXPLICIT_ATTENTION_MASK',autocast=False)
 
 
 def subset(observation, records, dataset):

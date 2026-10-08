@@ -3,6 +3,29 @@
 USER-OFFICIAL-BASELINES-20261008-R1. 실제 실행 준비 코드이며 현재 `READY`는 발급하지 않았다.
 새 baseline 제출 0. 기존 baseline 60917–60923은 최신 사용자 지시에 따라 취소했다.
 
+## 최신 oracle/W0 relay 반영 (2026-10-09)
+
+`GH-SH4-OFFICIAL-ORACLE-W0-BINDING-20261009-R1`, main `34001ec0` 채택.
+W0 담당 문의는 SH1 single producer / SH4 verified reader로 해소됐다.
+reader 구현과 실제 READY는 여전히 `SOURCE_INPUT_PENDING`; full W0 중복 job0.
+
+`oracle.py`는 공통 비교기만 호출한다. canonical raw identity를 그대로 두고 별도의
+model/token/state binding을 넘긴다. qualification의 AlphaEdit first4와 production
+AlphaEdit W20 full2K를 분리했으며 original forward 없는 CPU PASS를 승계하지 않는다.
+`qualify.py`는 parent가 요구한 연속B3 대 coldB2→별도 프로세스B3 세 구간을
+한 GPU에서 순차 실행하는 실제 CLI다. method당 native edit call6/batch100이며
+추가 fullW0/generation/자동retry0. **이번 갱신에서 실행한 것은 CPU wiring뿐이다.**
+
+현 blocker: 공통 원 NumPy display reducer와 Python-round logger 검산 불일치를
+동일 source의 fixed2000 CPU fixture로 재현했다(`OFFICIAL_DISPLAY_SCORE_MISMATCH`).
+원본 수치/공통 logger 수정, display 누락/가짜 READY 없이 GH/SH1 검토를 요청한다.
+19개 own CPU tests에는 이 blocker 재현 test가 포함되므로 전체 실행 READY PASS가 아니다.
+
+단발 scheduler 검산 시61418/61598/61618이 각GPU1/server4/ownrepo 할당이었다.
+canonical2/local3의 effective2보다 현재3개다. 기존 실행 그대로 보존하고 새 등록0.
+예정 qualification은 세 existing job 뒤의 serial lane이나 현재 dependency는 만들지 않았다.
+원본 parity/resume, 실제 online 및 full2K 결과는 미관측이다.
+
 ## 코드와 입력
 
 - `bind_assets.py`: 실제 EasyEdit 자산, prior SHA+현재 inode/mtime/size, CF·zsRE SHA와

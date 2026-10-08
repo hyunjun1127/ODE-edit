@@ -51,10 +51,15 @@ def main():
         parser.add_argument('--'+name,type=Path,required=True)
     parser.add_argument('--resume',action='store_true')
     parser.add_argument('--qualification',action='store_true')
+    parser.add_argument('--qualification-pipeline',action='store_true')
+    parser.add_argument('--oracle-smoke',action='store_true')
     parser.add_argument('--attempt',required=True)
     parser.add_argument('--stop-after',type=int,choices=range(1,21),default=20)
     parser.add_argument('--submit',action='store_true')
     args=parser.parse_args()
+    if args.qualification_pipeline:
+        if args.resume or args.oracle_smoke:raise ValueError('QUALIFICATION_PIPELINE_OWNS_PHASES')
+        args.qualification=True;args.stop_after=3
     from official.tracking.schema import identifier
     identifier(args.attempt)
     config, assets, ready, admission = map(read,(args.config,args.assets,args.ready,args.admission))
@@ -62,6 +67,8 @@ def main():
     validate(config, assets, ready, args.qualification)
     if args.qualification and (args.stop_after not in (2,3) or config['dataset']!='cf'):
         raise ValueError('QUALIFICATION_BUDGET')
+    if args.oracle_smoke and (not args.qualification or args.resume or args.stop_after!=3):
+        raise ValueError('ORACLE_FIRST4_QUALIFICATION_ONLY')
     if not admission['node_QoS_memory_pass'] or admission['config_sha256'] != file_sha(args.config):
         raise ValueError('RESOURCE_BINDING')
     import time
@@ -79,12 +86,16 @@ def main():
         raise ValueError('RESUME_CHECKPOINT_REQUIRED')
     if not args.resume and (args.output/'checkpoint/latest.json').exists():
         raise ValueError('EXISTING_CHAIN_REQUIRES_EXPLICIT_RESUME')
-    argv=[assets['python'],'-m','official.runners.server4.run']
+    argv=[assets['python'],'-m','official.runners.server4.'+('qualify' if args.qualification_pipeline else 'run')]
     for name in ('config','assets','ready','output'):
-        argv+=['--'+name,str(getattr(args,name).resolve())]
-    argv+=['--stop-after',str(args.stop_after),'--attempt',args.attempt]
-    if args.resume:argv+=['--resume']
-    if args.qualification:argv+=['--qualification']
+        value=getattr(args,name).resolve()
+        if name=='output' and args.qualification_pipeline:value=value/'native-qualification'
+        argv+=['--'+name,str(value)]
+    if not args.qualification_pipeline:
+        argv+=['--stop-after',str(args.stop_after),'--attempt',args.attempt]
+        if args.resume:argv+=['--resume']
+        if args.qualification:argv+=['--qualification']
+        if args.oracle_smoke:argv+=['--oracle-smoke']
     script=registration/'launch.sh'
     body='#!/bin/bash\nset -euo pipefail\n'
     body+='export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 PYTHONDONTWRITEBYTECODE=1\n'

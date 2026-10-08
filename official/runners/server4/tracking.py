@@ -4,9 +4,10 @@ from official.tracking.schema import config as validate_config
 from official.evaluation.generation.metrics import generation_payload
 
 
-def config(config, assets, ready, attempt):
+def config(config, assets, ready, attempt, *, qualification=False):
     result=dict(server='server4',task_id='official-baselines-20261008',
-        arm=config['run_id'],attempt=attempt,source_sha=ready['code_commit'],
+        arm=config['run_id']+('-qualification' if qualification else ''),
+        attempt=attempt,source_sha=ready['code_commit'],
         config_sha=ready['config_sha256'],model='llama3',model_family='llama',
         writer=config['method'],baseline=config['method'],role='scientific',
         metric_schema='official-baselines-scalar-v1',
@@ -21,9 +22,9 @@ def config(config, assets, ready, attempt):
     return validate_config(result)
 
 
-def start(configuration, assets, ready, output, attempt):
+def start(configuration, assets, ready, output, attempt, *, qualification=False):
     return init(env_file=assets['tracking_env'],spool=output/'tracking'/attempt,
-                config=config(configuration,assets,ready,attempt))
+                config=config(configuration,assets,ready,attempt,qualification=qualification))
 
 
 def generation(result, endpoint):
