@@ -116,5 +116,8 @@
   "broadcast": "NO_BROADCAST_NOT_REQUIRED; same-host originals/raw/reference KEEP; compact source/report via Git",
   "communication": "Direct owner ACK and actual submit commentary in current app turn; no cross-server task or retry issued",
   "shared_API": "task-private w20_*; common same-profile generator/qualification APIs retained; strict W20 schedule/public phase whitelist",
-  "publication": "PENDING_NONFORCE_MAIN_PUBLICATION"
+  "publication": "NONFORCE_BRANCH_AND_MAIN_VERIFIED",
+  "first_verified_main_publication_commit": "cc03e93406883b5d6c0143d3f2c8e10d5a95928d",
+  "first_verified_branch_publication_commit": "4e6fb1440474959ac2ab4e1477cf6d63a791631e",
+  "runtime_source_unchanged_after_freeze": true
 }

@@ -26,5 +26,7 @@
   "actual_GPU_qualification": "NOT_RUN",
   "job_ids": ["61436", "61437", "61438", "61439"],
   "initial": "61436/61437 PENDING ReqNodeNotAvail; 61438/61439 PENDING Dependency",
-  "monitoring": false
+  "monitoring": false,
+  "publication": "NONFORCE_MAIN_VERIFIED",
+  "first_verified_main_publication_commit": "cc03e93406883b5d6c0143d3f2c8e10d5a95928d"
 }
