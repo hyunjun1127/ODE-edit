@@ -1,0 +1,35 @@
+{
+  "schema": "official-independent-counterfact-upstream-v1",
+  "repository": "https://github.com/jianghoucheng/AlphaEdit",
+  "commit": "b84624f44dfe8fc6cd9e41df916c44124a0c46dc",
+  "existing_lock": "official/hparams/sources.lock.json",
+  "files": [
+    {
+      "upstream_path": "experiments/py/eval_utils_counterfact.py",
+      "distribution_path": "official/evaluation/reference/alphaedit_eval_utils_counterfact.py.txt",
+      "upstream_sha256": "25c3f49039e7bacb58de6d9ab8139f6f24f21532434a08690e9ec71ea939e145",
+      "distribution_sha256": "25c3f49039e7bacb58de6d9ab8139f6f24f21532434a08690e9ec71ea939e145",
+      "upstream_bytes": 7941,
+      "changes": [],
+      "execution": "Only SHA-checked, unchanged AST test_batch_prediction is extracted. Its generation code/imports are not executed."
+    },
+    {
+      "upstream_path": "experiments/summarize.py",
+      "distribution_path": "official/evaluation/reference/alphaedit_summarize.py.txt",
+      "upstream_sha256": "64f009b2fb648627a956b95abd801838d86edf04c8e1888d90ade0ec07b745c0",
+      "distribution_sha256": "dc96d2b64bb38a8a0d6446cf9e35078a740811c43d53855540c3cc0ca8cf7aa3",
+      "upstream_bytes": 7455,
+      "distribution_bytes": 7456,
+      "changes": ["Final LF appended during text adoption; no executable token change."],
+      "execution": "Documentary native request-macro/NumPy rounding/SciPy harmonic reference; not imported as a task-external module."
+    }
+  ],
+  "actual_pretrained_or_GPU_parity": "NOT_RUN_BY_GH",
+  "original_scoring_preserved": [
+    "Full prefix + space + target interleaved new/true native tokenization",
+    "Genuine Llama target BOS branch and paired original-coordinate logits shift",
+    "Original per-case independent forward and FP32 NumPy accumulation",
+    "Desired-target strict argmax booleans and exact strict NLL preference"
+  ],
+  "excluded": ["generation", "edit", "fit", "contexts", "new semantic loss", "canonical logits as oracle"]
+}

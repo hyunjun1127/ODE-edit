@@ -1,0 +1,89 @@
+{
+  "schema": "official-cf-native-reference-review-v1",
+  "parent": "USER-OFFICIAL-BASELINES-20261008-R1",
+  "nonces": [
+    "SH2-GH-OFFICIAL-NATIVE-REFERENCE-20261009-R1",
+    "SH1-GH-OFFICIAL-NATIVE-ORACLE-W0-BINDING-20261009-R1"
+  ],
+  "source_base": "1503b458a1b685e5b5918968cbc119001dfd0e90",
+  "files": [
+    {
+      "path": "official/evaluation/cf_native_reference.py",
+      "sha256": "0473673abf92e483b19d534743278ee33177ce22e66c059e9788e40ba7e12216",
+      "bytes": 29741
+    },
+    {
+      "path": "official/evaluation/CF_NATIVE_REFERENCE.md",
+      "sha256": "a1d8023575c5b493e1bcc31fc6fcd464734c262136d193b3eb9a320b1f94fd54",
+      "bytes": 8062
+    },
+    {
+      "path": "official/tests/test_cf_native_reference.py",
+      "sha256": "40e6e41c85f5d1eb8241085268e142a5bf7fe67e13d83cca0ec65b340e028486",
+      "bytes": 17898
+    },
+    {
+      "path": "official/tests/test_cf_display_rounding.py",
+      "sha256": "a1930570f9a2905339400a8401e0aacafca6b9f080814d4ea17e9aa19ac687e6",
+      "bytes": 2676
+    },
+    {
+      "path": "official/evaluation/reference/alphaedit_eval_utils_counterfact.py.txt",
+      "sha256": "25c3f49039e7bacb58de6d9ab8139f6f24f21532434a08690e9ec71ea939e145",
+      "bytes": 7941
+    },
+    {
+      "path": "official/evaluation/reference/alphaedit_summarize.py.txt",
+      "sha256": "dc96d2b64bb38a8a0d6446cf9e35078a740811c43d53855540c3cc0ca8cf7aa3",
+      "bytes": 7456
+    },
+    {
+      "path": "official/evaluation/reference/PROVENANCE.json",
+      "sha256": "4704d75ffa7b6288f53325e7c0205c82f2485d6caaa790a9b43469b3c8e1e405",
+      "bytes": 1951
+    },
+    {
+      "path": "official/hparams/cf-native-reference.lock.json",
+      "sha256": "e8f540ee60db8f2343bca99307f1ebaca51c11cf31cfe39c05bf3d808c5199ae",
+      "bytes": 4950
+    },
+    {
+      "path": "official/evaluation/reduce.py",
+      "sha256": "1e18b024ac900665b2ed7f1164b1074d3d4720ad8bde626daa23aea70609731f",
+      "bytes": 2325
+    }
+  ],
+  "CPU": {
+    "status": "PASS",
+    "tests": 49,
+    "groups": {
+      "native_reference": 17,
+      "display": 3,
+      "factual": 16,
+      "preparation": 7,
+      "runtime": 6
+    },
+    "command": "CUDA_VISIBLE_DEVICES= PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 EasyEdit/.venv/bin/python -B -m unittest official.tests.test_cf_native_reference official.tests.test_cf_display_rounding official.tests.test_factual official.tests.test_preparation official.tests.test_runtime -v"
+  },
+  "independent_review": {
+    "agent": "official_cf_parity_requirements",
+    "status": "PASS",
+    "initial_finding": "display native NumPy aggregation-order boundary mismatch",
+    "resolution": "per-request/cohort NumPy display path with exact 2000-request regression; raw metrics unchanged",
+    "actual_GPU": 0
+  },
+  "actual": {
+    "pretrained_or_GPU": 0,
+    "Slurm_queries_or_writes": 0,
+    "WandB_online": 0,
+    "original_actual_parity": "NOT_OBSERVED",
+    "full2k": "NOT_OBSERVED",
+    "W0_READY": "NOT_OBSERVED",
+    "portable_W0_reader": "IMPLEMENTATION_ASSIGNED_SH1_NOT_PUBLISHED"
+  },
+  "preservation": {
+    "old_frozen_jobs_and_raw": "UNCHANGED",
+    "dirty_root": "UNCHANGED"
+  },
+  "recurring_monitor": false
+}
