@@ -84,7 +84,7 @@ PENDING(Dependency)이다. qualification은 기존 GPU 말단 61661/61662/61663 
 
 ### GPT-J-6B
 
-**Server2 CF 등록 현황 — 2026-10-09 03:13 KST 관측, 사용자 지정 GPU cap4.**
+**Server2 CF 등록 현황 — 2026-10-09 03:31 KST 재확인, 사용자 지정 GPU cap4.**
 official 6종 모두 등록·release했으며 CF first2000, batch100×20을 실행하는 pipeline이다.
 각 pipeline의 W0/qualification과 실제 편집 chain 단계는 구분한다. 아래 `ING`는
 Slurm 상태이며 본편집 시작·GPU 검증 통과·W20 완료를 뜻하지 않는다.
@@ -95,7 +95,7 @@ scheduler의 ARM 표기는 `FT/MEMIT/ALPHAEDIT/ALPHAEDIT_BLUE/MEMIT_FE/SPHERE`�
 공통 factual W0를 제공하는 FT 선행 조건을 유지하고, 이후 최대4개 lane을 허용한다.
 실제 시작은 물리 자원 가용성에 따른다. OURS 신규 등록은 없다.
 
-**Server2 zsRE 6종도 별도 등록·release했다(2026-10-09 제출 직후 PENDING).**
+**Server2 zsRE 6종도 별도 등록·release했다(2026-10-09 03:31 KST 재확인: 모두 PENDING/Dependency).**
 MEMIT61666이 기존 CF frontier 뒤에 W0 prediction reference와 1-batch smoke를 검산한 후
 fresh cold chain을 시작하며, 나머지5종은 그 actual receipt를 검증한다.
 CPU collector61672는 새6종 전체 종료 후 집계한다. CF+zsRE 합산 cap4,
@@ -126,6 +126,11 @@ zsRE의 실제 job name은
 `official-baselines-server2-20261008-r1-zsre_pipeline-<ARM>`이며 source `ccc1f5d6`,
 sample/config/lock·dependency는 [zsRE 제출 보고서](experiment-reports/servers/server2/zsre-wandb-20261009/report-ko.md)에 있다.
 GPU qualification·온라인 startup·W20 완료는 아직 미관측이다.
+
+아래 job 번호와 상태는 `sacct`/`squeue`에서 같은 시점에 대조했다.
+CF FT **61650**만 RUNNING이며 CF **61651–61655**, zsRE **61666–61671**은
+dependency 대기다. GPU0 collectors **61656/61672**도 PENDING이다.
+[최신 scheduler snapshot](experiment-reports/servers/server2/official-baselines-20261008/README-job-refresh-20261009-0331.md).
 
 | Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
