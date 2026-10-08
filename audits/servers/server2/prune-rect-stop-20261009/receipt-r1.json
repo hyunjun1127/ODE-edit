@@ -1,0 +1,71 @@
+{
+  "schema": "server2-user-prune-rect-cancellation-and-checkpoint-status-v1",
+  "user_quote": "지금 server2에 올라간 실험들 모두 checkpoint 저장하도록 한건가? prune과 rect는 일단 job내리자",
+  "server": "server2",
+  "owner": "janghj",
+  "session": "01a0493a-074c-7f91-9a13-769116326fef",
+  "observed_post_utc": "2026-10-08 17:23:01 UTC",
+  "observed_post_kst": "2026-10-09 02:23:01 KST",
+  "cancelled_task": "gptj-baselines-native-generation-repair",
+  "native_attempt": "/mnt/raid5/janghj/ODE-edit/local/gptj-baselines-fluency-consistency-2k/native-repo-repair-r1/attempt-r1",
+  "native_source": "1db8d947ce77123599dd78003560d71facd3af68",
+  "native_config_sha256": "0df5795a4d89805620ee2271ff2b355530d0fe98ccfe5a6209160472d80afb02",
+  "native_execution_lock_sha256": "6a434b21e65314ac7a6ba18d8271b8f836b625c68b79e0ddb61159c46e7b10d2",
+  "identity_precheck": "실제 UserId janghj(1025)/ReqNodeList server2/Command/WorkDir/arm/submission/source/script/config 일치; unallocated PENDING 재확인",
+  "cancelled": {
+    "PRUNE": {"job_id": "61538", "before": "PENDING Dependency afterany:61536", "after_scontrol": "CANCELLED", "after_sacct": "CANCELLED by 1025", "Elapsed": "00:00:00", "AllocTRES": null, "script_sha256": "52ad1e5fa92b5facc1fb64df5a5eac026508a828a8306445ead1f2b591700692"},
+    "RECT": {"job_id": "61539", "before": "PENDING Dependency afterany:61537", "after_scontrol": "CANCELLED", "after_sacct": "CANCELLED by 1025", "Elapsed": "00:00:00", "AllocTRES": null, "script_sha256": "a36c2440d8ba01bd333b619660d76238fa07332ff8f7e13ffdc06cc90f182089"}
+  },
+  "scancel": {"command": "scancel 61538 61539", "exit_code": 0, "exact_target_post_active_queue_rows": 0, "other_cancelled_jobs": 0},
+  "pending_only_resource_dependency_repair": {
+    "authority": "기존 USER server2 combined cap2 및 exact own PENDING scheduling override; 이번 취소의 afterany 조기 해제 방지",
+    "jobs": ["61619", "61624"],
+    "identity": "own official qualification FT/MEMIT/source18e7fbd/Command/WorkDir/server2/unallocated PENDING 검산",
+    "before": "afterany:61538(unfulfilled),afterany:61539(unfulfilled)",
+    "requested_after": "afterany:61536:61537",
+    "actual_after": "afterany:61536(unfulfilled),afterany:61537(unfulfilled)",
+    "update_exit_codes": [0, 0],
+    "actual_after_verified_before_cancel": true,
+    "reason": "PRUNE/RECT 취소가 official 두 lane을 즉시 해제하지 않고 남은 CAKE/BLUE 종료 뒤 실행하도록 유지",
+    "science_source_config_checkpoint_WB_identity_changed": false,
+    "original_submission_receipts_overwritten": false
+  },
+  "preserved_post_queue": {
+    "61534_BASE_MEMIT": "RUNNING server2",
+    "61535_BASE_ALPHAEDIT": "RUNNING server2",
+    "61536_CAKE": "PENDING Dependency",
+    "61537_ALPHAEDIT_BLUE": "PENDING Dependency",
+    "61540_shared_native_collector": "PENDING Dependency; 네 개 유지 arm도 수집하므로 취소하지 않음",
+    "official_61619_61624_to_61629": "PENDING Dependency",
+    "other_server_OURS_W0_FE_or_unclassified_mutation": false,
+    "project_GPU_allocation_at_snapshot": 2
+  },
+  "checkpoint_settings": {
+    "not_all_registered_experiments_save": true,
+    "existing_native": {
+      "remaining_GPU_jobs": ["61534", "61535", "61536", "61537"],
+      "noCP": true,
+      "exact_resume": "NOT_AVAILABLE",
+      "source_guard": "project/run_scripts/gptj_native_baselines/generation_native_run.py lines41-42",
+      "actual_source_entrypoint": "각 arm script line15 generation_native_run",
+      "checkpoint_saved_source": "generation_native_run.py line158 checkpoint_saved=False"
+    },
+    "official_qualification": {
+      "GPU_jobs": ["61619", "61624", "61625", "61626", "61627", "61628"],
+      "source": "18e7fbd99bc2692c9da9ebdc9f4598caba79a1f8",
+      "checkpoint_latest1": true,
+      "actual_save_connection": "run.save→official.experiments.checkpoint.save→torch.save",
+      "stage": "B0/continuous B1-B2-B3/durable B2 restore-B3 qualification; W20 본실행 아님",
+      "native_selected_FP32_W_H_RNG_context_cursor_identity": true,
+      "actual_checkpoint_files_or_GPU_completion": "NOT_CHECKED_BY_THIS_SETTINGS_REVIEW",
+      "future_official_chain_code": "매 완료 batch 최신1개 및 final_W20 보존에 연결; 본 chain 신규등록 아님"
+    },
+    "independent_readonly_source_review": true,
+    "user_question_does_not_authorize_hotpatch_or_rerun_to_enable_CP": true,
+    "existing_noCP_or_official_save_policy_changed": false
+  },
+  "preservation": {"source_archive_config_raw_logs_old_checkpoint": "KEEP", "file_deletion": 0, "checkpoint_creation_by_this_action": 0, "new_Slurm_submissions": 0, "new_fit_or_model_forward": 0},
+  "monitoring_active": false,
+  "automatic_retry": false,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED: 소형 상태/취소 receipt만 Git; payload 이동0"
+}

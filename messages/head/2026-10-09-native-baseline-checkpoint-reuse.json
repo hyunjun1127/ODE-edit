@@ -1,0 +1,40 @@
+{
+  "instruction_id": "USER-GH-LLAMA-QWEN-BASELINE-CHECKPOINT-REUSE-20261009-R1",
+  "parent": "USER-OFFICIAL-BASELINES-20261008-R1",
+  "user_exact_quote": "alphaedit과 memit은 llama,qwen의 checkpoint가 있기에 4arm은 실험 안돌리고 나중에 flu와 con만 돌리면 되고 blue도 checkpoint가 있지 않나? 확인해봐.",
+  "status": "SUPERSEDED_FOR_NEW_MAIN_RESULTS",
+  "historical_status": "FOUR_CF_REFITS_EXCLUDED_CHECKPOINTS_FRESH_SHA_VERIFIED",
+  "superseded_by": "messages/head/2026-10-09-main-table-fresh-rerun.json",
+  "current_action": "아래 excluded 목록과 owner_action은 과거 기록이다. 최신 사용자 지시로 sample/order가 다른 checkpoint의 신규 CF 제외를 철회하고 fresh 재실험을 진행한다. 원 checkpoint는 KEEP.",
+  "excluded_new_edit_chains": [
+    {"model": "llama3", "method": "MEMIT", "dataset": "cf", "owner": "server1"},
+    {"model": "llama3", "method": "ALPHAEDIT", "dataset": "cf", "owner": "server4"},
+    {"model": "qwen25", "method": "MEMIT", "dataset": "cf", "owner": "server3"},
+    {"model": "qwen25", "method": "ALPHAEDIT", "dataset": "cf", "owner": "server3"}
+  ],
+  "later_work": "기존 각 W2000 checkpoint를 복원한 fluency/consistency 관측만 후속 평가 계획에 결속한다. 이번 확인 turn에서 GPU 관측이나 새 Slurm job을 제출하지 않는다.",
+  "historical_identity": {
+    "dataset_sha256": "d017056125178a13728594e66a801357a8db9ed7973a7425554bb4271de9fc6f",
+    "stream_seal_sha256": "5848dca7323335483039ec125b644dadfb87b0996133f9825f951088cf3a7861",
+    "first2000_request_order_sha256": "e220355ad9419ea93942be368804bd26b2a04747454076940206e8e063a7fad7",
+    "selection": "과거 lifelong salted-hash 선택·배제 후 고정 순서. 현재 official existing_file_first2000/edit_seed0 및 PRICE fixed10k first2000과 구별한다.",
+    "claim": "checkpoint 재사용은 과거 CF trajectory 평가이며, 현재 official 순서로 재실행한 matched chain으로 relabel하지 않는다. 원 source/runtime/hparams/cohort와 신규 평가 identity를 분리 보존한다."
+  },
+  "blue_check": {
+    "llama_alphaedit_blue": "SERVER2_W2000_PRESENT_FULL_SHA_MATCH; L4+L8/L2=1/과거 fixed10k cohort. 조사 결과이며 신규 BLUE chain 자동 취소 권한으로 확대하지 않는다.",
+    "qwen_alphaedit_blue": "지정 과거 BLUE 및 migration inventory에서 미확인. 과거 모델 config 미지원·미실행 기록 있음. 다른 Qwen JVP/PRICE checkpoint를 BLUE로 대체하지 않는다.",
+    "global_absence_claim": false
+  },
+  "scope_preservation": {
+    "zsre_chains": "UNCHANGED; CF checkpoint로 대체하지 않음",
+    "other_methods_models_jobs": "UNCHANGED",
+    "historical_replay_61618": "KEEP; 이번 지시로 조회/취소하지 않음",
+    "checkpoint_transfer_delete": "NONE; 기존 checkpoint KEEP",
+    "new_generation_jobs": 0,
+    "model_tensor_loads": 0,
+    "scheduler_queries_or_mutations": 0,
+    "recurring_monitor": false
+  },
+  "owner_action": "본 CF 4개를 미제출 계획에서 제외하고 별도 future historical-checkpoint generation-only 항목으로 남긴다. 관련 official active turn에만 직접 전달하며 무관 active turn에는 steer하지 않는다. 기존 실행을 임의 취소하거나 다른 데이터셋을 중단하지 않는다.",
+  "evidence": "experiment-reports/global/native-baseline-checkpoint-reuse-20261009/report-ko.md"
+}

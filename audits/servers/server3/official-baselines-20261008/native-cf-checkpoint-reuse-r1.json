@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "nonce": "GH-SH3-NATIVE-CF-CHECKPOINT-REUSE-20261009-R1",
+  "server": "server3",
+  "authority_main": "348d6fb3",
+  "authority_envelope_sha256": "bb6066c4a101807e1fd6eb9234e7ba52965b800535269df810912f032503a369",
+  "historical_checkpoint_evidence": "experiment-reports/global/native-baseline-checkpoint-reuse-20261009/report-ko.md",
+  "historical_checkpoint_verified_by": "GH_SERVER2_READ_ONLY_STAT_AND_FULL_SHA",
+  "server3_checkpoint_restore_or_gpu_parity": "NOT_OBSERVED",
+  "excluded_new_cf_run_ids": ["qwen25-cf-memit", "qwen25-cf-alphaedit"],
+  "future_generation_only": "SEPARATE_UNREGISTERED_HISTORICAL_COHORT_FLUENCY_CONSISTENCY",
+  "planned_physical_edits": {"cf": 8, "zsre": 6, "total": 14},
+  "planned_qualification": {"cf_shared_w0": 1, "cf_active_method_b3": 4},
+  "unchanged": ["zsre_six_methods", "cf_blue_l2_grid_three", "cf_clamp_controls_two", "other_jobs_and_raw"],
+  "cpu_checks": {"unittest_tests": 84, "result": "PASS", "source_integrity": "PASS", "source_files": 157, "external_task_imports": 0},
+  "new_gpu_or_slurm_jobs": 0,
+  "old_job_mutations": 0,
+  "checkpoint_transfers_or_deletions": 0,
+  "scientific_completion": "NOT_OBSERVED"
+}

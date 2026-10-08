@@ -3,18 +3,26 @@
   "instruction_id": "USER-GH-ALL-SH-FINAL-CHECKPOINT-ARCHIVE-SERVER1-20261009-R1",
   "date_kst": "2026-10-09",
   "status": "USER_AUTHORIZED_POLICY_NOT_TRANSFER_COMPLETION",
+  "latest_clarification": {
+    "nonce": "SH2-GH-FINAL-CHECKPOINT-ARCHIVE-PROSPECTIVE-CLARIFICATION-20261009-R1",
+    "user_quote": "이건 앞으로의 job에 대한 정책이다.",
+    "precedence": "최초 문서의 기존 완료 checkpoint 적용 가능 문구를 대체한다. 앞으로 새로 제출하는 job만 해당하고 이미 등록된 PENDING/RUNNING/완료 job과 기존 checkpoint는 모두 KEEP."
+  },
   "user_quote": "현재 각 서버별 가용 용량 자체가 server1이 가장 많기에, 각 서버들이 최종 checkpoint 연산 이후엔 server1로 전달하고 삭제하는 식으로 보존하자고 각 서버들에게 전달하자",
   "repository": "hyunjun1127/ODE-edit",
   "scope": {
+    "prospective_only": true,
+    "applicability": "최신 범위 정정 수신 이후 새로 제출하는 job의 source/config에만 정책을 결속. 각 SH는 실제 수신/cutover 시각을 기록하고 이미 등록된 job은 실행상태와 무관하게 제외한다.",
     "servers": [
       "server1",
       "server2",
       "server3",
       "server4"
     ],
-    "artifacts": "기존 승인 실험이 저장하는 정확한 최종 checkpoint와 복원/출처 검증에 필요한 작은 companion만",
+    "artifacts": "앞으로 새로 제출하는 승인 실험이 저장하는 정확한 최종 checkpoint와 복원/출처 검증에 필요한 작은 companion만",
     "new_checkpoint_creation": "기존 noCP 작업에 신규 저장 권한을 추가하지 않음",
     "not_authorized": [
+      "이미 등록된 job/기존 checkpoint의 archive admission·전송·삭제 또는 소급 source/caller 변경",
       "중간/실행 중/재개·평가·collector에 필요한 checkpoint 삭제",
       "base model·tokenizer·C0·projector·dataset·raw/log·무관 파일 전송 또는 삭제",
       "모든 checkpoint 일괄 이동·자동 과거 정리",
@@ -91,7 +99,7 @@
     "GPU": 0,
     "CPU_IO": "기존 server별 CPU/memory/I/O 정책 내 one-shot storage 작업. 기본 GPU0/CPU2/4096MiB/wall4h 이하, payload deserialize/model load 없이 streaming hash/transfer. 더 엄격한 현재 정책 우선. 기존 실험/GPU cap 변경0.",
     "Slurm": "필요하면 GPU0 archive/verification 작업을 명시 등록할 수 있음; afterany만으로 삭제하지 않고 위 gate를 파일/receipt로 강제. 신규 과학 job/agent recurring monitor/heartbeat/자동 retry 없음.",
-    "current_jobs": "실행 중 최신 checkpoint는 현재 장소에서 유지. 완료 시 archival 정책 적용; 완료 관측을 위한 새 반복 polling을 만들지 않음."
+    "current_jobs": "이미 등록된 PENDING/RUNNING/완료 job과 기존 checkpoint는 이번 정책에서 제외하여 영구 KEEP. 해당 job이 나중에 끝나도 이 정책으로 archive/삭제하지 않음. 새로 제출하는 job의 최종 계산 뒤에만 적용하며 새 반복 polling을 만들지 않음."
   },
   "reporting": {
     "initial": "각 SH 직접 OWNER_ACK와 policy 수락/수신 구현/실제 전송/검증/삭제를 구분. 이 GH turn은 bounded 직접 수락까지.",

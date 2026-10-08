@@ -1,0 +1,17 @@
+{
+  "schema": "final-checkpoint-archive-prospective-clarification-v1",
+  "nonce": "SH2-GH-FINAL-CHECKPOINT-ARCHIVE-PROSPECTIVE-CLARIFICATION-20261009-R1",
+  "parent": "USER-GH-ALL-SH-FINAL-CHECKPOINT-ARCHIVE-SERVER1-20261009-R1",
+  "date_kst": "2026-10-09",
+  "user_quote": "이건 앞으로의 job에 대한 정책이다.",
+  "canonical": "control/final-checkpoint-archive-policy.json",
+  "prospective_only": true,
+  "apply": "최신범위정정수신 이후 앞으로 새로 제출하는 job만, source/config freeze부터결속.",
+  "excluded": "이미 등록된 PENDING/RUNNING/완료 job과 기존 checkpoint. 이미등록 officialqual61619/61624..29 및old61534..40/61428 포함. 다른서버의이미등록job도동일.",
+  "revision_effect": "처음policy의현재완료checkpoint처리가능문구는철회/대체. 최초 전달원문/역사는Git에보존하지만실행권한은현재범위가우선.",
+  "SH1": "future helper/receiver준비만, oldCPadmission/이동/삭제0",
+  "SH2_SH3_SH4": "oldCPKEEP, futurecaller단일publishedAPI준비. noCP작업신규CP저장0.",
+  "GH_actual_transfer": 0,
+  "GH_actual_delete": 0,
+  "recurring_monitor": false
+}

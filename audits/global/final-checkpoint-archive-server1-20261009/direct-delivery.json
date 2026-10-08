@@ -1,0 +1,122 @@
+{
+  "schema": "final-checkpoint-archive-policy-direct-delivery-v1",
+  "instruction_id": "USER-GH-ALL-SH-FINAL-CHECKPOINT-ARCHIVE-SERVER1-20261009-R1",
+  "clarification_nonce": "SH2-GH-FINAL-CHECKPOINT-ARCHIVE-PROSPECTIVE-CLARIFICATION-20261009-R1",
+  "date_kst": "2026-10-09",
+  "policy": {
+    "main": "f9a6084ab050c1283ff3910e75c2032a81bc5997",
+    "path": "control/final-checkpoint-archive-policy.json",
+    "sha256": "6da0d1fcb576a51610daf3a733b896cf48a373dc60a3d8aa3c2ec1405ecfd9da",
+    "latest_scope": "PROSPECTIVE_ONLY"
+  },
+  "direct_delivery": [
+    {
+      "server": "server1",
+      "owner": "01a04939-f93a-7b50-bca0-65438eab2062",
+      "cwd": "/mnt/raid5/janghj/ODE-edit",
+      "relay_nonce": "GH-SH1-FINAL-CHECKPOINT-FUTURE-ONLY-20261009-R1",
+      "accepted_turn": "01a11bf8-5fd1-7db3-967d-76a755c1d603",
+      "operation": "turn/steer",
+      "transport_acceptance": "ACCEPTED",
+      "exact_relay_ACK": "PENDING",
+      "prospective_scope_owner_ACK": {
+        "item_id": "msg_09c016de10ca3dd2016ac7c7c5f5fc8191a90559ca25fe798f",
+        "source": "SH2 direct USER clarification relay nonce confirmed in SH1 actual agent message",
+        "text": "ACK nonce=SH2-SH1-FINAL-CHECKPOINT-ARCHIVE-PROSPECTIVE-CLARIFICATION-20261009-R1 server=server1\n\n최신 정정을 우선 적용합니다. archive 정책은 앞으로 새로 제출하는 job에만 적용하고, 이미 등록된 job과 기존 checkpoint는 이번 정책으로 전송·삭제하지 않습니다. helper도 future caller 전용으로 결속하겠습니다.\n"
+      },
+      "adopted_scope": "새로 제출하는 미래job만; 이미등록job/기존CP KEEP",
+      "actual_transfer_or_delete_claimed": false
+    },
+    {
+      "server": "server2",
+      "owner": "01a0493a-074c-7f91-9a13-769116326fef",
+      "cwd": "/mnt/raid5/janghj/ODE-edit",
+      "relay_nonce": "GH-SH2-FINAL-CHECKPOINT-FUTURE-ONLY-20261009-R1",
+      "accepted_turn": "01a11c61-0805-7113-81e9-1b0851c94321",
+      "operation": "turn/steer",
+      "transport_acceptance": "ACCEPTED",
+      "exact_relay_ACK": "CONFIRMED",
+      "prospective_scope_owner_ACK": {
+        "item_id": "msg_0d42b844470841a7016ac7c866f8b0819193b34f84a27b5b5f",
+        "source": "GH direct relay nonce",
+        "text": "OWNER_ACK nonce=GH-SH2-FINAL-CHECKPOINT-FUTURE-ONLY-20261009-R1 server=server2 accepted=true\n\n已发布的 SH2 记录已按该范围处理：仅未来新提交 job 适用；所有已注册 job 和既有 checkpoint 均 KEEP，即使后续完成也不追溯转移或删除。实际传输、删除均为 0。\n"
+      },
+      "adopted_scope": "새로 제출하는 미래job만; 이미등록job/기존CP KEEP",
+      "actual_transfer_or_delete_claimed": false
+    },
+    {
+      "server": "server3",
+      "owner": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+      "cwd": "/data/janghj/ODE-edit",
+      "relay_nonce": "GH-SH3-FINAL-CHECKPOINT-FUTURE-ONLY-20261009-R1",
+      "accepted_turn": "01a11c66-9a7d-7423-8b86-f012f8234764",
+      "operation": "turn/start",
+      "transport_acceptance": "ACCEPTED",
+      "exact_relay_ACK": "CONFIRMED",
+      "prospective_scope_owner_ACK": {
+        "item_id": "msg_09f67bcbfa509f19016ac7c860fb9887d0bea622cf6a7723bf",
+        "source": "GH direct relay nonce",
+        "text": "OWNER_ACK nonce=GH-SH3-FINAL-CHECKPOINT-FUTURE-ONLY-20261009-R1 server=server3 accepted=true. 최신 정정에 따라 이 정책은 **앞으로 새로 제출하는 job에만** 적용합니다. 기존 PENDING·RUNNING·완료 job과 checkpoint는 이 정책으로 전송하거나 삭제하지 않겠습니다. 수신 시각과 적용 경계를 새 영수증으로 게시하겠습니다."
+      },
+      "adopted_scope": "새로 제출하는 미래job만; 이미등록job/기존CP KEEP",
+      "actual_transfer_or_delete_claimed": false
+    },
+    {
+      "server": "server4",
+      "owner": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+      "cwd": "/data/janghj/ODE-edit",
+      "relay_nonce": "GH-SH4-FINAL-CHECKPOINT-FUTURE-ONLY-20261009-R1",
+      "accepted_turn": "01a11c66-9b0b-7cf3-bc91-65c74e934e3f",
+      "operation": "turn/start",
+      "transport_acceptance": "ACCEPTED",
+      "exact_relay_ACK": "CONFIRMED",
+      "prospective_scope_owner_ACK": {
+        "item_id": "msg_00ab4bb7b1cf2cba016ac7c85be3a487d09882f042a31b1296",
+        "source": "GH direct relay nonce",
+        "text": "OWNER_ACK nonce=GH-SH4-FINAL-CHECKPOINT-FUTURE-ONLY-20261009-R1 server=server4 accepted=true\n\n이번 수신 이후 새로 제출하는 job에만 적용하겠습니다. 기존 등록 job과 checkpoint는 KEEP하며, 전송·삭제·hotpatch하지 않겠습니다. 공유 W0 `100f49d7`도 수리 게시 전까지 source-input pending으로 유지하겠습니다.\n"
+      },
+      "adopted_scope": "새로 제출하는 미래job만; 이미등록job/기존CP KEEP",
+      "actual_transfer_or_delete_claimed": false
+    }
+  ],
+  "initial_history": {
+    "source_policy_main": "12eff7e3",
+    "SH1_SH2_SH3": "최초 직접수락 확인, 현재완료CP가능문구는 최신정정으로 철회",
+    "SH4": "최초idle상태경쟁으로write0; 최신future-only정본을새turn으로처음전달"
+  },
+  "policy_validation": {
+    "JSON_scope_approval_checks": 6,
+    "status": "PASS",
+    "artifact_source_review": "READ_ONLY_PASS_WITH_HELPER_CAVEATS",
+    "not_claimed": "실제archive helper/전송/검증/삭제기능PASS나GPU실험PASS는아님"
+  },
+  "owner_status": {
+    "SH1": "단일receiver/helper 구현중, 실제READY아직없음; userfuture-only수락",
+    "SH2": "futurecaller입력준비, 기존CP와등록jobsKEEP",
+    "SH3": "기존metadata점검결과보존, 미래job정정수락; historicalCP제외",
+    "SH4": "정정정본수락; oldsource/jobs/CPKEEP"
+  },
+  "GH_actual": {
+    "transfer": 0,
+    "deletion": 0,
+    "GPU_model": 0,
+    "Slurm_query_or_write": 0,
+    "SSH_auth_changes": 0,
+    "recurring_monitor": 0
+  },
+  "separate_W0_review": {
+    "request_nonce": "SH1-GH-OFFICIAL-W0-READER-REVIEW-20261009-R1",
+    "source": "100f49d733649143ce0ec435cb89b3babcd219e5",
+    "review": "audits/global/official-W0-reader-review-20261009/review.json",
+    "status": "BLOCK_SHARED_MAIN_INTEGRATION_PENDING_MINIMAL_TECHNICAL_REPAIR",
+    "shared_main_merged": false,
+    "delivery_to_SH1": {
+      "accepted_turn": "01a11bf8-5fd1-7db3-967d-76a755c1d603",
+      "operation": "turn/steer",
+      "repair_ACK": "PENDING_CURRENT_ACTUAL_AGENT_MESSAGE"
+    },
+    "SH4": "동일source-inputpending유지 직접수락확인",
+    "new_model_forward": 0
+  },
+  "completion": "각server실제직접전달accepted; future-onlyscope실제owner수락근거확보. policy수락≠전송삭제완료. 장기실험/복사완료대기0."
+}
