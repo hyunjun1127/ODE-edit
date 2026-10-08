@@ -15,6 +15,8 @@ def start_tracking(c,lock,out,arm):
         generation_eval_seed=gen['eval_seed'],reference_assets_sha256=gen['reference_assets_sha256'],
         generation_source_sha=gen['source_sha'])
     logger_init=init
+    if gen.get('evaluation_schedule')=='FINAL_W20_ONLY':
+        cfg['generation_schedule']='W20_ONLY_FIRST2000'
     if 'repair' in gen:
         from .generation_tracking_client import init as private_init
         from .generation_tracking_schema import REPAIR_TASK, REPAIR_ATTEMPT

@@ -9,7 +9,7 @@ import sys
 from urllib.parse import urlsplit
 from .generation_tracking_schema import (ENTITY, PROJECT, SDK_VERSION, config, metrics,
     identifier, endpoint, require, job_identity, run_name, PREFIXES,
-    GenerationProgressAxis, PROGRESS_KEYS, PROGRESS_METADATA, REPAIR_TASK)
+    GenerationProgressAxis, PROGRESS_KEYS, PROGRESS_METADATA, GEN_KEYS, REPAIR_TASK)
 from project.run_scripts.experiment_tracking.method import define_axes, AxisState
 from project.run_scripts.experiment_tracking.readback import verify_last_rows
 
@@ -84,11 +84,14 @@ def session(sdk, request, commands, emit):
     require(parsed.scheme=='https' and parsed.hostname and not parsed.username
             and not parsed.password and not parsed.query and not parsed.fragment, 'RUN_URL')
     emit(dict(status='READY_ONLINE',run_id=run.id,url=url,sdk_version=sdk.__version__,run_name=name,job_identity=identity,config=cfg))
-    failures = 0; count = 0;next_step=0;last_rows={};last_progress=None
+    failures = 0; count = 0;next_step=0;last_rows={};last_progress=None;final_generation_logged=False
     for message in commands:
         if message['op']=='log':
             payload=metrics(message['values'],scientific=scientific,
-                            canonical=(cfg['task_id']==REPAIR_TASK));step=message['step']
+                            canonical=(cfg['task_id']==REPAIR_TASK),
+                            final_only=cfg['attempt']=='final-generation-v1');step=message['step']
+            final_point=cfg['attempt']=='final-generation-v1' and bool(GEN_KEYS & payload.keys())
+            require(not final_point or not final_generation_logged,'GEN_FINAL_SINGLE_PAYLOAD_ONLY')
             require(step is None or type(step) is int and step>=0, 'INVALID_STEP')
             if scientific:
                 if PROGRESS_KEYS & payload.keys():
@@ -100,6 +103,7 @@ def session(sdk, request, commands, emit):
             if request['smoke']:
                 require(count<3 and set(payload)=={'setup_ok','step'}, 'SMOKE_THREE_SCALARS_ONLY')
             count+=1
+            if final_point:final_generation_logged=True
             try:
                 run.log(payload, step=step)
                 actual_step=next_step if step is None else step

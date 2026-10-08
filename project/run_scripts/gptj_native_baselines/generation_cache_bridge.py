@@ -217,6 +217,7 @@ class GenerationObserver(LegacyBridge):
         self.config,self.view,self.engine=config,view,engine
         self.out,self.arm,self.gen=Path(out),arm,config['generation']
         self.repair,self.tracker=self.gen['repair'],tracker
+        self.final_only=self.gen.get('evaluation_schedule')=='FINAL_W20_ONLY'
         require(self.gen['schema']==SCHEMA and self.gen['profile']==PROFILE
                 and self.gen['eval_seed']==EVAL_SEED and self.gen['W0_owner']=='BASE_MEMIT'
                 and self.gen['source_sha']==q.SHARED_SOURCE,'CACHE_BRIDGE_PROFILE_SOURCE')
@@ -263,21 +264,27 @@ class GenerationObserver(LegacyBridge):
             qualification_plan_sha256=self.plan['shared_plan_sha256'],qualification_receipt_member=shared_member)
         self.shared=SharedObserver(view.model,tokenizer,self.assets,shared_config,self.out/'generation-raw',
             state_callback=self._native_signature,progress_callback=self._progress)
-        from .generation_cache_reuse import build_compatibility
-        proof=read(verify_member(self.qualification_link['qualification']))
-        self.private_compatibility=build_compatibility(self.repair['old_complete_case_inventory'],
-            self.qualification_link['qualification'],self.shared.runtime_identity,
-            {k:proof[k] for k in ('plan_sha256','cohort_sha256','shared_source_sha',
-                'native_source_binding','selected_route','fixed_microbatch')},
-            qualification_plan_member=self.repair['qualification_plan'],
-            out=self.repair['compatibility_manifest_path'])
-        self.private_compatibility_member=member(self.repair['compatibility_manifest_path'])
+        if not getattr(self,'final_only',False):
+            from .generation_cache_reuse import build_compatibility
+            proof=read(verify_member(self.qualification_link['qualification']))
+            self.private_compatibility=build_compatibility(self.repair['old_complete_case_inventory'],
+                self.qualification_link['qualification'],self.shared.runtime_identity,
+                {k:proof[k] for k in ('plan_sha256','cohort_sha256','shared_source_sha',
+                    'native_source_binding','selected_route','fixed_microbatch')},
+                qualification_plan_member=self.repair['qualification_plan'],
+                out=self.repair['compatibility_manifest_path'])
+            self.private_compatibility_member=member(self.repair['compatibility_manifest_path'])
         self.runtime_aux=dict(self.qualification_link,source_commit=lock['source_commit'],
             config_sha256=lock['config_sha256'],shared_runtime_identity=copy.deepcopy(self.shared.runtime_identity),
             shared_runtime_sha256=self.shared.runtime_sha,qualification_link_member=self.qualification_link_member,
             shared_qualification_plan_sha256=self.plan['shared_plan_sha256'],
-            compatibility_manifest=self.private_compatibility_member,
             checkpoint_saved=False,raw_local_only=True)
+        if self.final_only:
+            self.runtime_aux.update(evaluation_schedule='FINAL_W20_ONLY',
+                W0_generation='NOT_SCHEDULED',old_W0_compatibility='NOT_APPLICABLE',
+                intermediate_generation='NOT_SCHEDULED',final_requests=2000)
+        else:
+            self.runtime_aux['compatibility_manifest']=self.private_compatibility_member
         immutable_write(self.out/'generation-repair-runtime.json',self.runtime_aux)
         self.runtime_aux_member=member(self.out/'generation-repair-runtime.json')
 
@@ -345,8 +352,11 @@ class GenerationObserver(LegacyBridge):
             shared_qualification_plan_sha256=self.plan['shared_plan_sha256'],
             qualification_link_member=self.qualification_link_member,
             qualification_plan_sha256=q.digest(self.plan),
-            compatibility_manifest=self.private_compatibility_member,
             generation_repair_runtime_member=self.runtime_aux_member)
+        if not getattr(self,'final_only',False):
+            result['compatibility_manifest']=self.private_compatibility_member
+        else:
+            result['generation_schedule']='FINAL_W20_ONLY'
         if receipt['identity']['endpoint']=='W0' and getattr(self,'_w0_progress_binding',None) is not None:
             result['generation_progress']=copy.deepcopy(self._w0_progress_binding)
         if receipt['identity']['endpoint']=='W0' and hasattr(self,'_w0_reused_ready'):
@@ -359,6 +369,7 @@ class GenerationObserver(LegacyBridge):
         return result
 
     def load_W0(self):
+        require(not getattr(self,'final_only',False),'FINAL_ONLY_W0_GENERATION_NOT_SCHEDULED')
         from .generation_cache_reuse import build_shared_compatibility, read_reusable_case, read_member
         from project.run_scripts.experiment_generation_eval.metrics import reduce_cases
         from project.run_scripts.experiment_generation_eval.observer import model_signature

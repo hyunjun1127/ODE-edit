@@ -10,6 +10,19 @@
   "origin": "hyunjun1127/ODE-edit",
   "authority": "b0cee1a302c10d48e206a31c7c5cf318ac36d8c3",
   "accepted": true,
+  "final_generation_direct_USER_ACK": {
+    "authority_kind": "DIRECT_USER_SCHEDULE_OVERRIDE",
+    "user_followup_exact": "지금 돌아가는 실험이 있으면 전부 다 수정해",
+    "accepted": true,
+    "current_stage": "최종 W20-only 소스/97 CPU 검산 완료; 정식 새 등록 진행",
+    "affected_current_six_GPU_and_collector": "61364..61370 전부 PENDING→exact CANCELLED; 비용0",
+    "generation_schedule": "W20_ONLY_FIRST2000",
+    "RPN_intermediate_schedule_unchanged": true,
+    "new_registration": "NOT_YET_SUBMITTED",
+    "actual_GPU_PASS": false,
+    "unrelated_jobs_changed": false,
+    "automatic_retry": false
+  },
   "status": "BASELINE_STOP_RECONCILED_IMPLEMENTING",
   "newly_cancelled": [],
   "previous_terminal": {

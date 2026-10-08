@@ -1,6 +1,7 @@
 # GPT-J native six-baseline fluency/consistency 준비·등록 보고
 
-최신 상태(2026-10-08): `MANUAL_R2_SUBMISSION_HANDOFF; SIX_GPU_AND_COLLECTOR_RELEASED; RESOURCE_PENDING`.
+최신 상태(2026-10-08): `FINAL_W20_ONLY_SOURCE_READY_NOT_SUBMITTED`.
+최신 USER 일정 변경에 따라 이전 r2 대기 6GPU+collector를 정확 취소했다. 최종 W20-only 새 등록은 아래 최신 절에 별도 기록한다.
 이하 기존 등록 보고는 역사 기록이며, 현재 실행 상태로 읽지 않는다.
 원 등록 상태: `SUBMISSION_HANDOFF; SIX_GPU_AND_CPU_COLLECTOR_RELEASED`.
 Instruction/nonce `USER-GH-ALL-SH-BASELINE-FLUENCY-CONSISTENCY-RERUN-20261007-R1`,
@@ -384,3 +385,49 @@ Source+compact RCA/submission/report는 own branch와 main의
 `24005002f23761d31f3d91948475f077fd4d2859`에 nonforce 게시했고 두 remote ref exact SHA를 검산했다.
 실행 sourcef979efa6/원 source2e6f6f55와 이 publication commit은 별도다.
 원 dirtyroot reset/stash/stageall/force/shared environment 변경0이다.
+
+## 2026-10-08 최신 USER: 최종 W20/2K generation 한 번만
+
+사용자 원문 “SERVER2에 올린 실험들 FLUENCY랑 CONSISTENCY 적용 되는건지 확인해보고 … 한번만 적용” 및
+“지금 돌아가는 실험이 있으면 전부 다 수정해”를 수신했다. 현재 source/owner/node 기반 한정 inventory에서
+영향받은 Server2 own GPU 작업은 위 r2 여섯 baseline뿐이며 모두 PENDING, actual allocation0이었다.
+collector61370 → RECT61369 → PRUNE61368 → BLUE61367 → CAKE61366 → AlphaEdit61365 → MEMIT61364
+순서로 각 실제 Command/WorkDir/source/owner/state 확인 후 exact 취소했다. 모두 CANCELLED by1025,
+elapsed0/AllocTRES없음/추가 GPU비용0이고 exact 대상 queue empty다. 무관 task/다른 서버·owner 수정0,
+root dirty 및 old source/raw/archive/spool/실패비용은 보존했다.
+
+기존 소스에는 두 지표가 적용돼 있었다. 같은 generated texts를 한 번 관측해 entropy
+`H2/3+2H3/3`(bits)와 기존 reference TF-IDF cosine을 계산한다. 두 지표별 재생성0이다.
+실제 이전 S2 일정은 pre20×100 + post16×100 + prefix500/1000/1500/2000 = **8600 case observation/arm**,
+추가 shared W0 2000을 포함해 전체53600이었다. 사용자 첨부6600은 post 부분에 해당한다.
+새 과학 관측은 **W20 first2000 1회/arm, 총12000**이며 full W0/current/W5·10·15 generation0이다.
+이 숫자는 평가 계획 건수이며 실제 모델 forward/시간 가속률이나 GPT-J ETA로 해석하지 않는다.
+
+새 `final-v1`은 동일 native20 commit 및 PRUNE terminal transform 이후 RAM의 실제 W20에서만 생성한다.
+R/P/N W0/current100 pre/post/W5·10·15·20 allseen/retention은 그대로다. 원 seed/profile/reference/
+샘플러/캐시 qualification PLAN/precision/fit·solver 예산 및 physical batch 설정 변경0이다.
+최초 owner의 기존 최대8 fixed prompt×3 route 기술 qualification은 별도이며 전체 W0 science 관측이 아니다.
+W0 generation READY/old compatibility gate는 제거했다. 중간 generation 미측정은 omit이며 0점/PASS로 만들지 않는다.
+Final generation 실패 시 이미 완료한20 native commits/측정 RPN/비용은 보존하고 generation 완료를 주장하지 않는다.
+
+최신 main610ac16c의 canonical generation policy SHA
+`bb147bfff33d86f9a7a31d9b3193fd00a6075b3ab2df7496cad727cd9dbcf412`를 exact 결속했다.
+공유 source1413ac0f/treee6935b9a는 read-only이며, final runner/bridge/collector/submit과 최소 task-private tracking
+확장만 새 namespace 파일로 작성했다. W&B config `generation_schedule=W20_ONLY_FIRST2000`, attempt final-generation-v1,
+actual jobID/name/newUUID, progress phase `W20_generation`의 별도 축 및 최종 all_seen/post edits2000 한 payload다.
+Shared immutable identity validator에 새 schedule key가 아직 없으므로 final profile 전용 strict identity extension을
+사용하고 실제 parent pipe-reader/sidecar fakeSDK/config echo/privacy/nooverwrite를 검사했다. 기존 profile/helper 불변이다.
+SDK 접수·원격 startup/readback·최종 science completion은 서로 다른 상태로 기록한다.
+
+변경 경로와 재사용 component 총97 CPU tests PASS(0 failure/error), 10.0827초, peak RSS840613888B,
+threads1/CUDA_initialized=false. Model/GPU/online smoke/새 target fit0이며 actual qualification은 NOT_RUN이다.
+Bounded 독립 source worker가 발견한 route/MB receipt 누락과 실제 readback 필드 연결은 수리하고 회귀를 추가했다.
+최신 config SHA `10c81ca34d2f3912249e398e4a3ae8b3e355e944d7488c976f6eb506c0e009ae`.
+이 검사는 actual GPU PASS나 pretrained 생성 검증이 아니다.
+
+Ignored 새 root는 local/gptj-baselines-fluency-consistency-2k/final-generation-v1/이며 원 preparation-r1/CPU95도 역사 보존했다.
+현재 preparation-r2/config.json와 cpu-integration-final.json를 sourcefreeze에 결속한다.
+각GPU1/CPU6/59392MiB/48h, GPU0collector CPU6/24576MiB/4h; cap2 또는 stricter 최신 정책으로 fresh 등록한다.
+FreeGPU/실험완료를 기다리지 않고 exact held검사/release 후 bounded snapshot만 수행한다.
+NoCP/raw local KEEP/NO_BROADCAST_NOT_REQUIRED, 새 recurring monitor/heartbeat/automatic retry0.
+실제 새 source/lock/jobs/dependencies는 실제 등록 이후 아래 추가하며 아직 이 준비 절에서 만들지 않는다.

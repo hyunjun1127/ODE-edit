@@ -13,12 +13,12 @@ FIELDS=('fluency/ngram_entropy','consistency/reference_score','generation/planne
 GEN_KEYS={p+'/'+f for p in PREFIXES for f in FIELDS}
 EXTRA_CONFIG={'generation_metric_schema','generation_profile','generation_eval_seed',
               'reference_assets_sha256','generation_source_sha','baseline'}
-OPTIONAL_CONFIG={'generation_qualification_plan_sha256'}
+OPTIONAL_CONFIG={'generation_qualification_plan_sha256','generation_schedule'}
 REPAIR_TASK='gptj-baselines-generation-cache-repair'
 REPAIR_ATTEMPT='cache-repair-r1'
-REPAIR_ATTEMPTS=(REPAIR_ATTEMPT, 'cache-repair-r2')
+REPAIR_ATTEMPTS=(REPAIR_ATTEMPT, 'cache-repair-r2', 'final-generation-v1')
 PROGRESS_PHASE='W0_generation'
-PROGRESS_PHASES=(PROGRESS_PHASE,'generation_evaluation')
+PROGRESS_PHASES=(PROGRESS_PHASE,'generation_evaluation','W20_generation')
 PROGRESS_ROUTES=('UNPADDED_FULL_PREFIX_NO_CACHE','UNPADDED_SINGLETON_KV_CACHE',
                  'EQUAL_TOKEN_LENGTH_KV_BATCH','UNPADDED_KV_SINGLETON','EQUAL_LENGTH_KV_BATCH')
 PROGRESS_FIELDS=('completed_cases','total_cases','completed_prompts','total_prompts',
@@ -44,13 +44,18 @@ def config(values):
     identifier(extra['baseline'])
     require(cfg['model']=='gptj' and cfg['model_family']=='gptj' and cfg['role']=='scientific','GEN_GPTJ_ROLE')
     optional={k:values[k] for k in OPTIONAL_CONFIG if k in values}
-    if optional:
+    if 'generation_qualification_plan_sha256' in optional:
         require(cfg['task_id']==REPAIR_TASK,'GEN_PLAN_SHA_REPAIR_ONLY')
         require(type(optional['generation_qualification_plan_sha256']) is str
                 and re.fullmatch(r'[a-f0-9]{64}',optional['generation_qualification_plan_sha256']),
                 'GEN_PLAN_SHA256')
     if cfg['task_id']==REPAIR_TASK:
         require(cfg['attempt'] in REPAIR_ATTEMPTS,'GEN_REPAIR_ATTEMPT')
+    if cfg.get('attempt')=='final-generation-v1':
+        require(optional.get('generation_schedule')=='W20_ONLY_FIRST2000',
+            'GEN_FINAL_SCHEDULE_CONFIG')
+    elif 'generation_schedule' in optional:
+        require(False,'GEN_SCHEDULE_FINAL_PROFILE_ONLY')
     return dict(cfg,**extra,**optional)
 def bind_job_identity(values,environ=None):
     cfg=config(values)
@@ -95,8 +100,17 @@ class GenerationProgressAxis:
             self.step=values['generation_progress/step']
 
 
-def metrics(values,*,scientific=False,canonical=False):
+def metrics(values,*,scientific=False,canonical=False,final_only=False):
+    if final_only and type(values) is dict and GEN_KEYS & values.keys():
+        require(all(k.startswith('all_seen/post/') for k in GEN_KEYS & values.keys())
+            and values.get('edits') == 2000
+            and values.get('all_seen/post/generation/planned_count') == 2000,
+            'GEN_FINAL_W20_ONLY_SCHEDULE')
     if type(values) is dict and (PROGRESS_KEYS|PROGRESS_METADATA)&values.keys():
+        if final_only:
+            require(values.get('phase') == 'W20_generation'
+                and values.get('generation_progress/total_cases') == 2000,
+                'GEN_FINAL_PROGRESS_W20_ONLY')
         return progress(values,scientific=scientific)
     # Repair canonical payloads keep the immutable shared schema's exact live
     # checks. Default historical private callers retain their original API.

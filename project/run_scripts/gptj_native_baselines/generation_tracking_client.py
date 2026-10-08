@@ -8,8 +8,8 @@ import subprocess
 import threading
 import uuid
 from .generation_tracking_schema import (bind_job_identity, job_identity, metrics, load_env,
-    GenerationProgressAxis, PROGRESS_KEYS, REPAIR_TASK)
-from project.run_scripts.experiment_tracking.identity import create as create_identity
+    GenerationProgressAxis, PROGRESS_KEYS, GEN_KEYS, REPAIR_TASK)
+from .generation_tracking_identity import create as create_identity
 from project.run_scripts.experiment_tracking.method import AxisState
 
 
@@ -26,7 +26,7 @@ class Tracker:
         self.spool=Path(spool).resolve();self.spool.mkdir(parents=True,exist_ok=False,mode=0o700)
         self.run_id=uuid.uuid4().hex[:16];self.status='STARTING';self.result={};self.startup={}
         self.ready=threading.Event();self.done=threading.Event();self.queue=queue.Queue(maxsize=1024)
-        self.dropped=0;self.closed=False
+        self.dropped=0;self.closed=False;self.final_generation_logged=False
         # Do not forward the full experiment environment or secret-rich argv to SDK.
         keys=('PATH','HOME','USER','LANG','LC_ALL','SSL_CERT_FILE','REQUESTS_CA_BUNDLE',
               'NETRC','WANDB_API_KEY','WANDB_IDENTITY_TOKEN_FILE','WANDB_CREDENTIALS_FILE','WANDB_CONFIG_DIR')
@@ -92,11 +92,15 @@ class Tracker:
         try:
             if self.closed or self.done.is_set():raise ValueError('LOGGER_CLOSED')
             cfg=getattr(self,'config_values',{})
+            final_only=cfg.get('attempt')=='final-generation-v1'
             values=metrics(values,scientific=getattr(self,'scientific',False),
-                           canonical=(cfg.get('task_id')==REPAIR_TASK))
+                           canonical=(cfg.get('task_id')==REPAIR_TASK),final_only=final_only)
             if step is not None and (type(step) is not int or step<0):raise ValueError('INVALID_STEP')
             if getattr(self,'scientific',False):
                 with self.log_lock:
+                    final_point=final_only and bool(GEN_KEYS & values.keys())
+                    if final_point and getattr(self,'final_generation_logged',False):
+                        raise ValueError('GEN_FINAL_SINGLE_PAYLOAD_ONLY')
                     if PROGRESS_KEYS & values.keys():
                         cfg=self.config_values
                         if cfg['task_id']!=REPAIR_TASK or values['job_id']!=cfg.get('job_id'):
@@ -108,6 +112,7 @@ class Tracker:
                     self.queue.put_nowait(dict(op='log',values=values,step=step))
                     self.axis.accept(values)
                     self.progress_axis.accept(values)
+                    if final_point:self.final_generation_logged=True
             else:self.queue.put_nowait(dict(op='log',values=values,step=step))
             return True
         except Exception:

@@ -107,7 +107,10 @@ def locked(attempt):
     lock = read(attempt / 'execution.lock.json')
     from .generation_cache_common import enabled, identity
     task, nonce = identity(config)
-    if enabled(config):
+    if config.get('generation',{}).get('evaluation_schedule')=='FINAL_W20_ONLY':
+        from .generation_final_common import ready as final_ready
+        final_ready(config)
+    elif enabled(config):
         from .generation_cache_common import ready as repair_ready
         repair_ready(config)
     else:
@@ -231,6 +234,10 @@ def generation_receipt(result, selected, endpoint, physical_state, raw_out, *, s
 def execute_chain(config, lock, out, arm, model, tokenizer, view, engine, bench,
                   records, generation, tracker, *, ops=None, on_stage=None, on_commit=None):
     """Persistent production loop; injectable observers are CPU-only API fixtures."""
+    if config.get('generation',{}).get('evaluation_schedule')=='FINAL_W20_ONLY':
+        from .generation_final_run import execute_chain as final_chain
+        return final_chain(config,lock,out,arm,model,tokenizer,view,engine,bench,records,
+            generation,tracker,ops=ops,on_stage=on_stage,on_commit=on_commit)
     ops = production_ops() if ops is None else ops
     native_config = arm_configuration(config, arm)
     _, normalize_requests = family_api(arm)
@@ -424,7 +431,10 @@ def main():
             native_solve_dtype='FP64' if arm in ('BASE_MEMIT', 'PRUNE', 'RECT') else 'native FP32',
             load_seconds=time.monotonic() - loading))
         from .generation_cache_common import enabled as repair_enabled
-        if repair_enabled(config):
+        if config['generation'].get('evaluation_schedule')=='FINAL_W20_ONLY':
+            stage('FINAL_GENERATION_ROUTE_QUALIFICATION')
+            from .generation_final_bridge import GenerationObserver
+        elif repair_enabled(config):
             from .generation_cache_bridge import GenerationObserver
         else:
             from .generation_bridge import GenerationObserver
@@ -462,6 +472,13 @@ def main():
             native_counts=engine.counts if engine is not None else {field: 0 for field in expected_counts(arm)},
             rollback_verified=progress_state['rollback_verified'],
             checkpoint_saved=False, exact_resume='NOT_AVAILABLE')
+        if locals().get('config',{}).get('generation',{}).get('evaluation_schedule')=='FINAL_W20_ONLY':
+            terminal.update(generation_schedule='FINAL_W20_ONLY',generation_W0_endpoints=0,
+                generation_intermediate_endpoints=0,native_scope_completed=progress_state['commits']==20,
+                native_commits_preserved=progress_state['commits']==20,
+                final_generation_completed=False,
+                final_generation_status='FAILED' if progress_state['stage']=='FINAL_W20_GENERATION'
+                    else 'NOT_COMPLETED')
         write(out / 'failure.json', terminal)
         traceback.print_exc(limit=8)
     finally:
