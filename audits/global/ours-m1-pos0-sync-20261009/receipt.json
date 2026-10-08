@@ -1,0 +1,68 @@
+{
+  "instruction_id": "USER-SH3-GH-OFFICIAL-M1-POS0-QWEN-GPTJ-20261009-R1",
+  "implementation": "dc179a0b",
+  "publication": "68b976bdfd26d792e7da74e461672521b6528ef4",
+  "official_tree": "e62561b18a6c4951797e3178b95272e9bbdd265c",
+  "reference": "93341767ccb41a4237e8a762421340622d3580f1",
+  "reference_verification": "인계 eot/prepare/run 3개 SHA/bytes 일치; 원격 frozen entry의 M1 false 경로 직접 확인",
+  "GH_CPU": {"passed": 20, "skipped": 0, "source_files": 157, "python_files": 290, "external_task_imports": 0},
+  "GH_tokenizer_revisions": {"qwen25": "a09a35458c702b33eeacc393d103063234e8bc28", "gptj": "47e169305d2e8376be1d31e765533382721b2cc1"},
+  "delivery": "공식 app-server exact idle session turn/start; readonly owner 메시지로 명시 ACK 회수. 최초 listener의 ACK_PENDING은 재전송 없이 실제 owner 메시지로 해소",
+  "servers": {
+    "server1": {
+      "accepted_turn": "01a11dd9-f5c6-7cf2-bb4e-bd87d15d4000",
+      "owner_ACK": true,
+      "status": "APPLIED",
+      "worktree": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-ours-m1-pos0-sync-20261009",
+      "branch": "codex/server1-ours-m1-pos0-sync-20261009",
+      "HEAD": "68b976bdfd26d792e7da74e461672521b6528ef4",
+      "ancestor": true,
+      "source_verify": "PASS",
+      "CPU": "20 PASS, SKIP0",
+      "owner_receipt": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/ours-m1-pos0-sync-20261009/receipt.json"
+    },
+    "server2": {
+      "accepted_turn": "01a11dd9-f8e0-7e80-96fd-c780b100d69e",
+      "owner_ACK": true,
+      "status": "APPLIED",
+      "worktree": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-ours-m1-pos0-sync-20261009",
+      "branch": "codex/server2-ours-m1-pos0-sync-20261009",
+      "source_HEAD": "68b976bdfd26d792e7da74e461672521b6528ef4",
+      "receipt_only_HEAD": "fd2fd39a",
+      "ancestor": true,
+      "source_verify": "PASS",
+      "CPU": "20 PASS, SKIP0",
+      "owner_receipt": "audits/servers/server2/ours-m1-pos0-sync-20261009/receipt.json"
+    },
+    "server3": {
+      "accepted_turn": "01a11dd9-f73f-7212-bfb5-2becefd7e57b",
+      "continuation_turn": "01a11ddb-b9bc-7b93-b81e-f6ff4f3b5ef4",
+      "owner_ACK": true,
+      "status": "APPLIED",
+      "worktree": "/data/janghj/ODE-edit/local/official-baselines-20261008/worktree",
+      "branch": "codex/server3-official-baselines-20261008",
+      "HEAD": "68b976bdfd26d792e7da74e461672521b6528ef4",
+      "ancestor": true,
+      "source_verify": "PASS",
+      "CPU": "20 PASS, SKIP0",
+      "owner_receipt": "/data/janghj/ODE-edit/local/official-m1-pos0-sync-20261009/receipt.json",
+      "transport_note": "명시 ACK/적용 commentary 및 owner 작성 receipt 회수. owner 응답 도중 model capacity 오류가 있었으나 실제 준비 WT/검사/receipt 작성은 완료; GH 모델 변경/재전송 없음"
+    },
+    "server4": {
+      "accepted_turn": "01a11dd9-f854-7720-ba8b-61d589710317",
+      "owner_ACK": true,
+      "status": "APPLIED_CPU_PARTIAL",
+      "worktree": "/data/janghj/ODE-edit/local/ours-pos0-sync-20261009/worktree",
+      "branch": "codex/server4-ours-pos0-sync-20261009",
+      "HEAD": "68b976bdfd26d792e7da74e461672521b6528ef4",
+      "ancestor": true,
+      "source_verify": "PASS",
+      "CPU": "config/numeric14 PASS; GPT-J tokenizer 로컬 캐시 없음으로 POS0 클래스6개 NOT_RUN/SKIP",
+      "owner_receipt": "/data/janghj/ODE-edit/local/ours-pos0-sync-20261009/receipt.json"
+    }
+  },
+  "model_GPU_Slurm": "0; 실제 모델 GPU 검증 PASS 아님",
+  "existing_jobs_and_frozen_sources": "KEEP; 조회/취소/재제출/hotpatch 없음",
+  "scientific_coefficients_and_Llama_baselines": "변경 없음",
+  "monitoring": "이번 source 적용 확인만 bounded; 새 반복 monitor 없음"
+}
