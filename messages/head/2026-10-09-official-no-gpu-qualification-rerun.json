@@ -1,0 +1,63 @@
+{
+  "instruction_id": "USER-GH-SH1-SH2-OFFICIAL-NO-GPU-QUAL-RERUN-20261009-R1",
+  "status": "USER_AUTHORIZED_IMPLEMENT_CANCEL_REPLACE_RELEASE",
+  "user_quote": "아래 지시문읽고 server1과 2에게 rerun 올리도록 지시하자. 검증 자체가 너무 무겁다. 현재 올라간 run들도 취소시키고 rerun올리라고 해. 그리고 올라간 run들 모두 main의 table에 최신화 하라고 해.",
+  "parent": "USER-OFFICIAL-BASELINES-20261008-R1",
+  "GH": {"session": "01a04939-8873-7673-8dca-4c7fc5e31af0", "cwd": "/mnt/raid5/janghj/ODE-edit", "role": "canonical envelope, direct dispatch, 제출 영수증 수신 및 README 통합"},
+  "owners": {
+    "server1": {"session": "01a04939-f93a-7b50-bca0-65438eab2062", "cwd": "/mnt/raid5/janghj/ODE-edit", "host": "lab120", "source_scope": "official/runners/server1/**"},
+    "server2": {"session": "01a0493a-074c-7f91-9a13-769116326fef", "cwd": "/mnt/raid5/janghj/ODE-edit", "host": "lab121", "source_scope": "official/runners/server2/**"}
+  },
+  "scope": {
+    "included": "server1·server2에서 실제 승인·등록된 현재 official CF/zsRE baseline pipeline 및 그 별도/내장 qualification과 collectors",
+    "methods_allowlist": ["FT", "MEMIT", "MEMIT_FE", "ALPHAEDIT", "ALPHAEDIT_BLUE", "SPHERE"],
+    "actual_registered_subset_required": true,
+    "exclude": ["PRICE/OURS", "이전 GPT2 baseline", "별도 W0 실험", "다른 FE task", "다른 서버", "미승인·미등록 추가 method"],
+    "scope_resolution": "owner/task/source/Command/state/제출 영수증을 현재 scheduler에서 대조해 실제 대상 목록을 먼저 봉인. MEMIT_FE 명칭만으로 다른 FE task를 포함하지 않음."
+  },
+  "remove": [
+    "별도 B1→B2→B3 및 B2저장복원→B3 반복 비교",
+    "검증용 cold B1/B2 재실행",
+    "별도 BS100/B1 smoke 및 qualification용 native evaluator 재평가",
+    "위 GPU검증 READY/receipt/PASS의 main 제출·시작 gate 및 dependency",
+    "server1 별도 qualification job과 server2 pipeline 내부 qualification/smoke"
+  ],
+  "disabled_state": "NOT_RUN_USER_DISABLED",
+  "prohibitions": ["가짜 READY/PASS", "기존 checker를 무조건True로 바꾸기", "pilot/preflight 등 다른 이름으로 GPU 검증 재도입", "검증용 추가 forward/fit/solve/generation", "과학 성능 기반 제출·재시작 gate", "무관 job 변경", "옛 partial trajectory를 새 cold rerun에 복원"],
+  "preserve": {
+    "science": "모델/native method/hparams/dtype/solver/입력순서/seed/BS100×20/2k 및 기존 factual 평가 일정·정의 그대로",
+    "generation": "각 실행의 승인 일정 유지: W20-only면그대로, DEFERRED면그대로. zsRE에CF생성추가0. 새endpoint0.",
+    "W0": "본실험에 필요한 기준 관측 유지. 동일identity의 유효raw는재사용, 없으면원승인관측만. 별도W0 task는변경하지않고 본pipeline필수W0는입력노드로정확구분.",
+    "checkpoint": "본실험 저장·복원 기능과 정책 유지. GPU resume동등성 입증용 반복실험만 제거. W20 consumerpending 및 보존 유지.",
+    "runtime_guards": "source/input/modelidentity, shape, finite, nativecommit, 비편집가중치보호 및 자원제한을 실제main계산 안에서 유지",
+    "tracking": "scalarprivacy/실jobID/runname/immutableidentity/realtime 유지",
+    "artifacts": "기존source/archive/완료검증증거/partial/CP/raw/비용/W&B/실패취소이력 모두KEEP. 삭제·hotpatch0."
+  },
+  "implementation_and_publication": {
+    "worktree": "전용non-main cleanWT. rootdirty/타owner작업보존",
+    "allowed_writes": "각owner source_scope의 launcher/runner/collector/tests, own report/audit/status/run 및 ignored local official task namespace. 신규 공통 logger/helper 배포 불필요.",
+    "minimum_checks": "CPU/static로검증경로미실행, READY gate제거, 정상main/W0/checkpoint/collector NOT_RUN처리/dependency/identity검사. GPU검증0.",
+    "approval": "이 USER envelope로 exactscope 구현·최소CPU·source검토/봉인·ownbranch/main비강제게시·Slurm취소교체/등록/release 승인. 별도단계별USER/GH승인대기를추가하지않음. 공통scope변경필요시최소exact변경을GH에보고하되새helper배포절차를선행gate로만들지않음.",
+    "scientific_contract_overlay": "이 두서버 영향받은 새attempt에서만 기존별도GPUqualification gate를 명시적USER_DISABLED로대체. 다른서버계약·본실험runtimeguard는불변."
+  },
+  "cancellation": {
+    "targets": "현재활성 qualification 및 이를포함/의존하는해당baselinepipeline. 해당RUNNING main의cold rerun도승인.",
+    "terminal_complete": "이미정상완료한main은유지하며이변경만으로중복실행0.",
+    "already_repaired": "동일검증제거source로정상등록된run유지/중복0.",
+    "ordering": "collector→먼후속→가까운후속→실행중head. exact대상PENDING을필요시먼저hold해afterany해제경합방지. 취소직전owner/source/Command/state재확인. 무관node나user전체scancel금지.",
+    "receipt": "유지/취소목록, 이유, source와전후state, 보존원자료/누적비용을기록. terminal이면취소했다고허위표기하지않음."
+  },
+  "submission": {
+    "cold": "각main은독립coldW0/native초기상태. 새immutableattempt/source/config",
+    "dependencies": "취소oldjobID와불필요qualification edge 제거. 필요한입력/유지작업resource edge만. 전체묶음불필요barrier없이cap내슬롯사용.",
+    "resource": "최신직접USER cap 및 더엄격한현정책 fresh확인. 마지막보고S1=4/S2=4는참고이며cap증액권한아님. RUNNING+admittedPENDING 합산. 각job필요GPU/CPU/mem/time/QoS명시.",
+    "sequence": "held등록→owner/source/fullargv/input/resource/dependency/tracking/checkpoint정책검사→release. GPU여유를agent가대기하지말고정상PENDING등록.",
+    "collector": "새실제jobIDs와유지완료coverage구분. USER_DISABLED검증을실패나PASS로오인하지않음."
+  },
+  "reporting": {
+    "server_reports": "각own official-baselines-20261008/no-gpu-qualification-rerun-20261009/{report,submission,cancellation} 등compact파일. exact경로owner가봉인",
+    "fields": ["method", "dataset", "kept/cancelled/new jobID", "actual jobname", "source/config", "dependency", "qualification=NOT_RUN_USER_DISABLED", "snapshot timestamp/state", "checkpoint-resume GPU equivalence NOT_RUN_USER_DISABLED"],
+    "README": "새등록/취소상태를GH에즉시전달. GH가실제CF/zsRE칸을교체하며실측수치·유지완료행·다른모델보존. 담당자README동시수정0.",
+    "completion": "ACK만으로종료하지말고actualrelease 또는구체기술blocker까지. 제출후bounded snapshot, GPU완료대기/recurringmonitor/autoretry없음."
+  }
+}
