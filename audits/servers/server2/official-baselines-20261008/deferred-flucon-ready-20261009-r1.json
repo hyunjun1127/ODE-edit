@@ -1,0 +1,101 @@
+{
+  "nonce": "GH-SH2-DEFERRED-FLUCON-READY-20261009-R1",
+  "status": "APPLIED_CPU_VERIFIED_AND_SUBMITTED",
+  "server": "server2",
+  "session": "01a0493a-074c-7f91-9a13-769116326fef",
+  "checkout": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-cf-six-checkpoint-only-20261009",
+  "branch": "codex/server2-cf-six-checkpoint-only-20261009",
+  "applied_HEAD": "a2c2a293d02a7820adcba453886c7b36730a7213",
+  "fetched_main": "6d35c65de19ec378a30749683762eba87fee50e3",
+  "execution_source": "6d35c65de19ec378a30749683762eba87fee50e3",
+  "official_tree": "21780a8a50248c61986848f7bb3a733a15ead064",
+  "ancestors": {
+    "cc2d7190e4860ae2934be86f615fef37e84ca4ba": true,
+    "6d35c65de19ec378a30749683762eba87fee50e3": true
+  },
+  "merge_conflicts": 0,
+  "CPU": {
+    "tests": 32,
+    "status": "PASS",
+    "modules": [
+      "official.tracking.test_transport",
+      "official.runners.server2.test_checkpoint_profile"
+    ],
+    "CUDA_VISIBLE_DEVICES": "",
+    "source_verify": {
+      "source_files": 157,
+      "python_files": 233,
+      "external_task_imports": 0,
+      "status": "PASS"
+    }
+  },
+  "schedule": "DEFERRED_CHECKPOINT_EVALUATION",
+  "generation_config_schedule_only": true,
+  "generation_placeholders": false,
+  "checkpoint_latest_one": true,
+  "final_W20_KEEP": true,
+  "future_evaluation_consumer_pending": true,
+  "archive_delete": false,
+  "project_cap": 3,
+  "jobs": {
+    "FT": 61650,
+    "MEMIT": 61651,
+    "ALPHAEDIT": 61652,
+    "ALPHAEDIT_BLUE": 61653,
+    "MEMIT_FE": 61654,
+    "SPHERE": 61655,
+    "collector": 61656
+  },
+  "dependencies": {
+    "FT": [],
+    "MEMIT": [
+      61650
+    ],
+    "ALPHAEDIT": [
+      61650
+    ],
+    "ALPHAEDIT_BLUE": [
+      61650
+    ],
+    "MEMIT_FE": [
+      61651
+    ],
+    "SPHERE": [
+      61652
+    ],
+    "collector": [
+      61650,
+      61651,
+      61652,
+      61653,
+      61654,
+      61655
+    ]
+  },
+  "held_inspection": "PASS_ALL_SEVEN; actual qualification NOT_OBSERVED",
+  "released": true,
+  "initial_snapshot": "ALL_PENDING; scheduler reason None at immediate snapshot",
+  "resources": {
+    "GPU": 1,
+    "CPU": 6,
+    "memory_MiB": 59392,
+    "wall_hours": 48,
+    "export": "NONE",
+    "Requeue": 0,
+    "collector_GPU": 0,
+    "collector_CPU": 6,
+    "collector_memory_MiB": 24576,
+    "collector_wall_hours": 4
+  },
+  "manifest_sha256": "d73b4fa9283b9195ffba066e23745e2652bdd138e168ed73595e4c97bba04e96",
+  "lock_sha256": "bdaa937820728ef7eadd6a20d20e54301ed73837a91503bcb2f5aabe60d65435",
+  "asset_identity": "6844c5c94b08ae92f9936f0613029e4b60e3ee4147b555569532a89fc7a8787b",
+  "attempt": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-checkpoint-r1",
+  "GPU_qualification": "NOT_OBSERVED_RUNTIME_GATE",
+  "WB_online": "STARTUP_NOT_OBSERVED; shared official transport bound",
+  "scientific_complete": false,
+  "root_dirty_preserved": true,
+  "old_archives_unchanged": true,
+  "recurring_monitor": false,
+  "automatic_retry": false
+}
