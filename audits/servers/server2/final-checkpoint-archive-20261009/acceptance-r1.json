@@ -27,6 +27,16 @@
     "already_submitted_or_running_jobs_and_their_checkpoints": "KEEP; 이번 지시로 소급 전송 또는 삭제하지 않음",
     "global_policy_modified_by_SH2": false
   },
+  "effective_canonical_after_GH_publication": {
+    "publication": "f9a6084ab050c1283ff3910e75c2032a81bc5997",
+    "policy_full_SHA256": "6da0d1fcb576a51610daf3a733b896cf48a373dc60a3d8aa3c2ec1405ecfd9da",
+    "policy_approval_and_prospective_envelope_FULL_READ": true,
+    "SH2_cutover_recorded_utc": "2026-10-08 16:40:19 UTC",
+    "SH2_cutover_recorded_kst": "2026-10-09 01:40:19 KST",
+    "after_clarification_new_submissions": 0,
+    "all_preexisting_pending_running_terminal_jobs_excluded": true,
+    "existing_checkpoint_exclusion_after_later_job_completion": "KEEP; 완성 뒤에도 이번 정책 소급 적용0"
+  },
   "stages": {
     "policy_acceptance": "ACCEPTED_PROSPECTIVE_ONLY",
     "receiver_API": "SH1_OWNER_ACK_RECEIVED_NOT_READY; 공유 helper 구현/독립 CPU review 중",

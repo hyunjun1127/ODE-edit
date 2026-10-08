@@ -8,6 +8,12 @@
 따라서 **앞으로 새로 제출하는 job에만 적용**하며 이미 등록·실행된 job과 그 checkpoint는
 이번 지시로 소급 전송하거나 삭제하지 않는다. SH2는 global policy를 편집하지 않았다.
 
+GH가 이 정정을 정본 main `f9a6084ab050c1283ff3910e75c2032a81bc5997`에 게시했다.
+새 policy/approval/정정 envelope 전체를 읽었으며 유효 policy SHA256은
+`6da0d1fcb576a51610daf3a733b896cf48a373dc60a3d8aa3c2ec1405ecfd9da`다.
+SH2 cutover 기록은2026-10-08 16:40:19 UTC(2026-10-09 01:40:19 KST)다.
+정정 이후 신규 제출0. 기존 PENDING/RUNNING/terminal job 모두 제외하며 나중에 완료돼도 KEEP이다.
+
 수락과 구현·전송·검증·삭제는 별개다. 현재는 `ACCEPTED_PROSPECTIVE_ONLY`이며,
 SH1의 직접 owner ACK는 공유 helper 구현/독립 CPU 검토 중이며 API/receiver `NOT_READY`를 확인했다. 향후 caller 결속은
 `SOURCE_INPUT_PENDING`이다. 공통 helper는 SH1 단독 소유이며 SH2 중복 구현은 없다.
