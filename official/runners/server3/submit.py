@@ -309,6 +309,43 @@ def storage_reserve(output_root, specs, assets):
             "reserve_bytes": reserve, "free_bytes": free}
 
 
+def full_program_storage_reserve(output_root, rows):
+    """Bound the complete Qwen assignment before its first GPU registration.
+
+    Qualification's two B3 branches, all CF and zsRE W20 checkpoints and the
+    independent zsRE B1 smoke remain local.  No unapproved cleanup or storage
+    migration is assumed to make a later stage fit.
+    """
+    qualify = [rows["qwen25-cf-alphaedit_blue-l2-1"] if method == "ALPHAEDIT_BLUE"
+               else rows[f"qwen25-cf-{method.lower()}"] for method in METHODS]
+    cf = [rows[f"qwen25-cf-{method.lower()}"] for method in METHODS
+          if method != "ALPHAEDIT_BLUE"]
+    cf += [rows[f"qwen25-cf-alphaedit_blue-l2-{l2}"] for l2 in GRID]
+    cf += [rows[f"qwen25-cf-{method.lower()}-clamp075"]
+           for method in ("ALPHAEDIT", "ALPHAEDIT_BLUE")]
+    zsre = [rows[f"qwen25-zsre-{method.lower()}"] for method in METHODS]
+    sizes = ([checkpoint_bytes(row) for row in qualify for _ in range(2)] +
+             [checkpoint_bytes(row) for row in cf] +
+             [checkpoint_bytes(row) for row in zsre] +
+             [checkpoint_bytes(rows["qwen25-zsre-ft"])])
+    retained = sum(sizes)
+    atomic_peak = max(sizes)
+    reserve = retained + atomic_peak + 16 * GIB
+    output_root = Path(output_root)
+    output_root.mkdir(parents=True, exist_ok=True)
+    free = shutil.disk_usage(output_root).free
+    require(free >= reserve,
+            f"FULL_PROGRAM_DISK_LOW:free={free}:reserve={reserve}")
+    return {"retained_checkpoint_bytes": retained,
+            "atomic_peak_bytes": atomic_peak,
+            "raw_and_headroom_bytes": 16 * GIB,
+            "reserve_bytes": reserve, "free_bytes": free,
+            "qualification_checkpoint_copies": 12,
+            "cf_physical_chains": 10, "zsre_physical_chains": 6,
+            "zsre_smoke_checkpoints": 1,
+            "cleanup_assumed": False}
+
+
 def bind_runtime_python(requested, assets):
     """Bind the invocation path and binary bytes to the asset manifest."""
     declared = assets.get("runtime_python")
@@ -848,6 +885,8 @@ def submit_held(args):
         stream, stream_lock = stream_member(args.matrix_root, dataset)
         policy = policy_cap(args.memory_mib, args.gpu_caps)
         storage = storage_reserve(output_root, specs, assets_data)
+        if args.stage == "qualify":
+            storage["whole_program"] = full_program_storage_reserve(output_root, rows)
         python, runtime_binary = bind_runtime_python(args.python, assets_data)
         git_main_identity()  # Ensure no attempt is made from an unmerged source.
         attempt.mkdir(parents=True)

@@ -72,6 +72,18 @@ class SubmitTests(unittest.TestCase):
         self.assertEqual(budget["planned_checkpoint_bytes"], bytes_retained)
         self.assertLess(budget["reserve_bytes"], 90 * submit.GIB)
 
+    def test_first_registration_reserves_full_program_without_checkpoint_cleanup(self):
+        with patch.object(submit.shutil, "disk_usage",
+                          return_value=SimpleNamespace(free=140 * submit.GIB)):
+            budget = submit.full_program_storage_reserve(self.root, self.rows)
+        self.assertGreater(budget["reserve_bytes"], 129 * submit.GIB)
+        self.assertEqual(budget["qualification_checkpoint_copies"], 12)
+        self.assertFalse(budget["cleanup_assumed"])
+        with patch.object(submit.shutil, "disk_usage",
+                          return_value=SimpleNamespace(free=100 * submit.GIB)):
+            with self.assertRaisesRegex(submit.Blocked, "FULL_PROGRAM_DISK_LOW"):
+                submit.full_program_storage_reserve(self.root, self.rows)
+
     def test_qualification_reserves_both_b3_checkpoints_and_atomic_temp(self):
         specs = submit.stage_specs("qualify", self.rows, self.files, self.root)
         one_each = [submit.checkpoint_bytes(submit.read(s["config"])) for s in specs
