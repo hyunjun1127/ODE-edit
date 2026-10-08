@@ -73,10 +73,18 @@ CPU/GPU/온라인 검증 구분은 [zsRE 제출 보고서](experiment-reports/se
 | FT | PENDING: 61661 | PENDING: 61661 | PENDING: 61661 | PENDING: 61661 | DEFERRED | DEFERRED | PENDING: 61683 | PENDING: 61683 | PENDING: 61683 |
 | MEMIT | PENDING: 61662 | PENDING: 61662 | PENDING: 61662 | PENDING: 61662 | DEFERRED | DEFERRED | PENDING: 61685 | PENDING: 61685 | PENDING: 61685 |
 | AlphaEdit | PENDING: 61677 | PENDING: 61677 | PENDING: 61677 | PENDING: 61677 | DEFERRED | DEFERRED | PENDING: 61687 | PENDING: 61687 | PENDING: 61687 |
-| AlphaEdit-BLUE |  |  |  |  |  |  | PENDING: 61689 | PENDING: 61689 | PENDING: 61689 |
+| AlphaEdit-BLUE | 89.84† | 99.60† | 97.15† |  |  |  | PENDING: 61689 | PENDING: 61689 | PENDING: 61689 |
 | MEMIT-FE | PENDING: 61663 | PENDING: 61663 | PENDING: 61663 | PENDING: 61663 | DEFERRED | DEFERRED | PENDING: 61691 | PENDING: 61691 | PENDING: 61691 |
 | AlphaEdit+SPHERE | PENDING: 61678 | PENDING: 61678 | PENDING: 61678 | PENDING: 61678 | DEFERRED | DEFERRED | PENDING: 61693 | PENDING: 61693 | PENDING: 61693 |
 | PRICE (Ours) |  |  |  |  |  |  |  |  |  |
+
+† 사용자 2026-10-09 지시에 따라 표본·순서를 대조한 기존 Llama BLUE job **39283_1**의
+**B20/2,000 edits** 결과를 반영했다(새 official 재실행 결과 아님).
+동일 fixed10k 파일의 첫2,000 순서가 현재 official lock과 일치한다.
+Eff/Gen은 기존 strict NLL preference 집계, Score는 기존 R/P/N 성공률의 조화평균이다.
+Flu·Loc은 사용자 요청대로 기존 빈칸을 유지하며 Con도 미관측으로 남긴다.
+native source/runtime·평가기 차이와 분모 및 대조 근거는
+[BLUE 2K 확인 기록](experiment-reports/servers/server1/official-baselines-20261008/llama-blue-2k-table-check.md)에 구분했다.
 
 ### Qwen2.5-7B-Instruct
 
