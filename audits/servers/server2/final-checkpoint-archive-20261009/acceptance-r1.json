@@ -37,6 +37,17 @@
     "all_preexisting_pending_running_terminal_jobs_excluded": true,
     "existing_checkpoint_exclusion_after_later_job_completion": "KEEP; 완성 뒤에도 이번 정책 소급 적용0"
   },
+  "formal_GH_future_only_relay": {
+    "nonce": "GH-SH2-FINAL-CHECKPOINT-FUTURE-ONLY-20261009-R1",
+    "OWNER_ACK": "server=server2 accepted=true",
+    "received_recorded_utc": "2026-10-08 16:44:37 UTC",
+    "received_recorded_kst": "2026-10-09 01:44:37 KST",
+    "canonical_publication": "f9a6084ab050c1283ff3910e75c2032a81bc5997",
+    "same_exact_policy_SHA_FULL_READ_already_recorded": true,
+    "first_direct_USER_cutover_unchanged": "2026-10-08 16:40:19 UTC",
+    "effective": "미래 신규 제출 job만; 기존 job이 나중에 끝나더라도 checkpoint KEEP",
+    "additional_science_or_storage_execution": false
+  },
   "stages": {
     "policy_acceptance": "ACCEPTED_PROSPECTIVE_ONLY",
     "receiver_API": "SH1_OWNER_ACK_RECEIVED_NOT_READY; 공유 helper 구현/독립 CPU review 중",
