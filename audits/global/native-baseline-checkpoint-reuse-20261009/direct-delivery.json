@@ -1,0 +1,39 @@
+{
+  "instruction_id": "USER-GH-LLAMA-QWEN-BASELINE-CHECKPOINT-REUSE-20261009-R1",
+  "scope_publication": "348d6fb3372bc34a1fdb185abd01d3c47c4e27b6",
+  "transport": "공식 Unix app-server direct; nonce 수신 ACK는 별도 read_thread로 확인",
+  "deliveries": [
+    {
+      "owner": "server1",
+      "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+      "operation": "turn/steer",
+      "accepted_turn": "01a11bf8-5fd1-7db3-967d-76a755c1d603",
+      "nonce": "GH-SH1-NATIVE-CF-CHECKPOINT-REUSE-20261009-R1",
+      "explicit_owner_ack": true,
+      "owner_response": "Llama MEMIT CF 신규 editing chain을 제출 계획에서 제외. FT/FE CF·세 zsRE·W0 reader 수리·미래 archive 유지. 새 GPU 등록/기존 CP 이동·삭제0."
+    },
+    {
+      "owner": "server3",
+      "session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+      "operation": "turn/start",
+      "accepted_turn": "01a11c8a-7309-7a51-be9c-6291376c7c1f",
+      "nonce": "GH-SH3-NATIVE-CF-CHECKPOINT-REUSE-20261009-R1",
+      "explicit_owner_ack": true,
+      "owner_response": "Qwen MEMIT·AlphaEdit 신규 CF chain/refit qualification 제외. zsRE/다른 범위 유지. 이번에는 CPU 계획·영수증만 수정. CP존재를 복원/FLUCON 완료로 표시하지 않음."
+    },
+    {
+      "owner": "server4",
+      "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+      "operation": "NOT_ATTEMPTED",
+      "observed_active_turn": "01a11c7c-a4f5-7cd0-8ba5-5e6d999efc0c",
+      "status": "DIRECT_DELIVERY_PENDING_UNRELATED_ACTIVE_TURN",
+      "reason": "현재 Qwen PRICE hparam Tier2 작업이 active이므로 일반 official CF 계획 수정으로 해당 turn을 침범하지 않음. 정본 게시를 직접 수신으로 표시하지 않음.",
+      "explicit_owner_ack": false,
+      "new_callback_or_monitor": false
+    }
+  ],
+  "GH_GPU_model_Slurm_transfer_delete_actions": 0,
+  "checkpoint_actual_restore_or_generation": "NOT_OBSERVED",
+  "future_fluency_consistency_jobs": "NOT_SUBMITTED",
+  "other_jobs": "KEEP"
+}
