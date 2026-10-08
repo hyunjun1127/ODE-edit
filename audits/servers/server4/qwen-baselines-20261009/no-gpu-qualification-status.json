@@ -12,6 +12,7 @@
   "CPU_tests": 33,
   "CPU_status": "PASS",
   "official_source_verification": "PASS:157 source files; external task imports 0",
+  "verification_history": "First verify failed because an official CPU test imported the project archive adapter. Moved that storage test outside official; algorithm/runtime unchanged. Subsequent exact verification is required before freeze.",
   "preserved": ["native hparams", "BLUE L2=1", "first2000 ordered streams", "cold BS100x20", "W0", "factual and generation schedule", "checkpoint", "runtime guards", "official tracking"],
   "registered_baseline_jobs": [],
   "cancelled_jobs": [],
