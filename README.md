@@ -60,14 +60,22 @@ PENDING(Dependency)이다. qualification은 기존 GPU 말단 61661/61662/61663 
 전량 held 검산·release 완료, source `509b052c`; FLU/CON은 DEFERRED이고 checkpoint를 보존한다.
 실제 GPU/온라인 PASS는 아직 미관측이며 [추가 제출 보고서](experiment-reports/servers/server1/official-baselines-20261008/alpha-sphere-CF-registration-20261009.md)에 구분했다.
 
+Server1 zsRE 6종은 2026-10-09 03:50 KST 제출 보고 기준 전량 held 검사·release 완료,
+초기 상태 PENDING이다. 본실험 FT **61683**, MEMIT **61685**, AlphaEdit **61687**,
+AlphaEdit-BLUE **61689**, MEMIT-FE **61691**, SPHERE **61693**이며,
+W0 **61681** / 방법별 smoke·resume qualification **61682/61684/61686/61688/61690/61692** /
+GPU0 collector **61694**를 별도로 구분한다. 기존 CF는 유지하고 cap4,
+zsRE FLU/CON 없음·W20 checkpoint 보존이다. source `cc50adc9`, 정확한 dependencies와
+CPU/GPU/온라인 검증 구분은 [zsRE 제출 보고서](experiment-reports/servers/server1/official-baselines-20261008/zsre-six-20261009.md)에 기록했다.
+
 | Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| FT | PENDING: 61661 | PENDING: 61661 | PENDING: 61661 | PENDING: 61661 | DEFERRED | DEFERRED |  |  |  |
-| MEMIT | PENDING: 61662 | PENDING: 61662 | PENDING: 61662 | PENDING: 61662 | DEFERRED | DEFERRED |  |  |  |
-| AlphaEdit | PENDING: 61677 | PENDING: 61677 | PENDING: 61677 | PENDING: 61677 | DEFERRED | DEFERRED |  |  |  |
-| AlphaEdit-BLUE |  |  |  |  |  |  |  |  |  |
-| MEMIT-FE | PENDING: 61663 | PENDING: 61663 | PENDING: 61663 | PENDING: 61663 | DEFERRED | DEFERRED |  |  |  |
-| AlphaEdit+SPHERE | PENDING: 61678 | PENDING: 61678 | PENDING: 61678 | PENDING: 61678 | DEFERRED | DEFERRED |  |  |  |
+| FT | PENDING: 61661 | PENDING: 61661 | PENDING: 61661 | PENDING: 61661 | DEFERRED | DEFERRED | PENDING: 61683 | PENDING: 61683 | PENDING: 61683 |
+| MEMIT | PENDING: 61662 | PENDING: 61662 | PENDING: 61662 | PENDING: 61662 | DEFERRED | DEFERRED | PENDING: 61685 | PENDING: 61685 | PENDING: 61685 |
+| AlphaEdit | PENDING: 61677 | PENDING: 61677 | PENDING: 61677 | PENDING: 61677 | DEFERRED | DEFERRED | PENDING: 61687 | PENDING: 61687 | PENDING: 61687 |
+| AlphaEdit-BLUE |  |  |  |  |  |  | PENDING: 61689 | PENDING: 61689 | PENDING: 61689 |
+| MEMIT-FE | PENDING: 61663 | PENDING: 61663 | PENDING: 61663 | PENDING: 61663 | DEFERRED | DEFERRED | PENDING: 61691 | PENDING: 61691 | PENDING: 61691 |
+| AlphaEdit+SPHERE | PENDING: 61678 | PENDING: 61678 | PENDING: 61678 | PENDING: 61678 | DEFERRED | DEFERRED | PENDING: 61693 | PENDING: 61693 | PENDING: 61693 |
 | PRICE (Ours) |  |  |  |  |  |  |  |  |  |
 
 ### Qwen2.5-7B-Instruct
