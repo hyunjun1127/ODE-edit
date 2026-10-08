@@ -690,6 +690,14 @@ def main():
                 result = qualification(model, tok, engine, manifest, records, out, tracking)
             else:
                 require(args.mode != 'smoke' or args.dataset == 'zsre', 'ZSRE_SMOKE_ONLY')
+                from official.runners.server2.zsre_profile import enabled as zsre_enabled
+                if zsre_enabled(manifest):
+                    require(args.dataset=='zsre' and not args.resume,'NEW_COLD_ZSRE_PIPELINE_ONLY')
+                    if args.mode=='chain':
+                        from official.runners.server2.zsre_pipeline import verify_smoke
+                        proof=verify_smoke(Path(args.manifest).resolve().parent,manifest)
+                        require(read(Path(args.manifest).resolve().parent/'zsre-smoke-verified.json')==proof,
+                                'ACTUAL_ZSRE_SMOKE_REQUIRED_BEFORE_CHAIN')
                 if deferred(manifest):
                     require(args.mode == 'chain' and args.dataset == 'cf' and not args.resume,
                             'NEW_COLD_CHECKPOINT_PIPELINE_ONLY')

@@ -1,5 +1,20 @@
 # server2 실행 연결
 
+## 2026-10-09 USER: zsRE 전용 지표 및 여섯 baseline
+
+`execution --zsre-only` → `submit --stage zsre_pipeline`은 CF와 별도 새 source/attempt다.
+MEMIT 첫 job 안에서 같은 모델 zsRE W0 prediction reference를 한 번 만들고
+native B100 한 번 smoke를 수행한다. CPU reducer가 native/source/factual/checkpoint 증거를
+검산한 뒤에만 새 Python/model의 cold MEMIT 20-batch chain을 시작한다.
+나머지 FT/AlphaEdit/BLUE/FE/SPHERE는 producer 종료와 실제 smoke receipt를 검산한다.
+GPU file polling/추가 자동 재시도/과학 성능 gate는 없다. 사전 계획은 actual PASS가 아니다.
+
+기존 CF frontier 전체 뒤에 새 producer를 직렬화하고 이후 최대4 lane을 허용한다.
+Server2 direct USER cap4만 적용하며 기존 CF jobs/source/archive는 불변이다.
+zsRE는 FLU/CON을 실행하거나 CF generation config/metric을 기록하지 않는다.
+W0 agreement와 loc_ans 정확도는 서로 다른 지표이며 W0 reference의 evaluation을 재사용한다.
+checkpoint는 공식 latest1/finalW20 보존 계약이다.
+
 ## 2026-10-09 직접 USER: CF six-arm checkpoint-only 준비
 
 `checkpoint_profile.py`의 명시 opt-in만 FT/MEMIT/AlphaEdit/BLUE/FE/SPHERE
