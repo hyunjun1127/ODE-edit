@@ -1,0 +1,79 @@
+# SH1 official baseline 실행 연결
+
+담당 수락: USER-OFFICIAL-BASELINES-20261008-R1 및
+GH-SH1-OFFICIAL-COMPAT-READY-20261009-R1. 모델·effort 변경 없음.
+담당 과학 행은 Llama3 FT/MEMIT/MEMIT_FE × CF/zsRE 여섯 개이며 ours 실행은 없다.
+
+## 공통 factual 게시
+
+source `596896ff82a0c0aab8f64e4920f6f09d73072c58`, main publication
+`55afa07d2555718c4ad8b2e483db8a260aa94e35`, 당시 official tree
+`e79c3939447d2fbbd536cb0449c9ed2da361fa2b`.
+`official/evaluation/factual.py` SHA256
+`2bc41883b9261d084a3b4b99e0920911789659401a6d9b2b0f0d801a446ab47b`.
+CPU16 PASS이며 실제 pretrained/GPU/native/online PASS가 아니다.
+정확 API/source를 SH2·SH3·GH에 direct steer로 전달해 transport 접수를 확인했다.
+SH4 transport는 bounded timeout이었지만 이후 owner 응답에서 API 수신을 확인했다.
+원 timeout receipt는 보존했고 자동 재전송은 하지 않았다.
+
+## 실제 구현 및 자산
+
+실행 코드는 전부 official 내부이며 알고리즘·hparams는 registry/native source를 사용한다.
+EasyEdit는 모델·tokenizer·dataset·C0·runtime 자산 경로로만 사용한다.
+공통 GH b10a87df의 hidden/KV/official tracking 수정과 다른 SH의 코드는 보존했다.
+전용 non-main WT만 수정했고 원 root의 dirty 자료/기존 frozen source/raw는 그대로다.
+
+자산 manifest:
+`/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/assets-r1.json`,
+identity SHA256 `2279beeaecf7f073d00b335df93e669a78858f266188fbaab51000adf36adbdf`.
+Llama model revision `8afb486c1db24fe5011ec46dfbe5b5dccdb575c2`, FP32/eager/TF32off.
+CF/zsRE 각각 정본 파일의 첫2000 occurrence 순서, edit seed0.
+층4..8 C0는 원 FP32 NPZ sum/count이고 실제 masked token count66019200이다.
+FT/MEMIT/MEMIT_FE에는 P/H 로드·재계산이 필요 없다.
+기존 model/stats/reference/NLTK만 재사용, 다운로드·큰 복제 없음.
+
+generation은 native CAKE case-batch/KV/globalRNG/total100/topk5/noEOS 연산을 사용한다.
+한 생성 텍스트를 FLU/CON에 공유하며 CF 모델 W0 한 번·CF chain W20 한 번만 측정한다.
+정본 official factual schedule은 all_seen W0/500/1000/1500/2000이고 unmeasured current 값은 생략한다.
+CF request-macro와 actual prompt/token diagnostics, zsRE W0 agreement와 loc_ans를 구분한다.
+
+checkpoint는 이번 공식 사용자 계약을 적용한다: W0 및 매 batch 완료 뒤 selected FP32 W,
+RNG/context/cursor/identity의 최신1개, W20 보존. 기존 noCP 작업을 변경하지 않는다.
+W20 생성 오류 시 B19를 유지하며 같은 source/config의 명시 재개만 가능하다.
+CPU 독립 reducer는 raw token/분모/순서/소스/commit hash chain/final payload SHA를 검산한다.
+
+## 검증·등록 단계
+
+현 단계는 CPU/source 검산 및 최종 runner source 통합 준비이다.
+own runner CPU166, generation/fake-SDK CPU84, shared reader+factual+native parity+
+binding+runtime 집중 CPU64 PASS를 각각 실제 실행했다(서로 중복된 테스트를 합산하지 않음).
+공유 source157 SHA/external task import0도 확인했다. CPU mock/fixture는 실제 pretrained
+GPU·native qualification·W0·온라인 readback 증거가 아니다.
+공통 원본 CF oracle main34001ec0/module SHA0473673a 및 lock SHAe8f540ee를 결속했다.
+연속 B3 first300 기존 raw와 독립 original forward의 matched-subset 대조를 연결하며,
+추가 canonical/first4 재평가 또는 full2k parity 완료 주장 없이 범위를 기록한다.
+SH1 공유 cold Llama W0 producer와 provenance-preserving portable reader를 구현했다.
+공유 reader21 CPU는 missing/mismatch, raw/source/token/probability/prediction 변경,
+실제 native proof 없는 PASS, 원 execution identity relabel을 거절한다.
+기존 plain reference exact guard와 사실·수치 계산은 유지하고 portable view만 별도 결속한다.
+API는 `shared-W0-api-ko.md`에 기록했다. 기존 pipeline-r1을 보존하고 새 pipeline-r2의
+여섯 config를 실제 parser/PLAN 검산 후 만들었다. future portable path는
+`/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/pipeline-r2/runs/base-w0/PORTABLE_READY.json`
+이며 아직 NOT_READY다. 실제 qualification/raw/source 검산 완료 후에만 atomic 발행한다.
+실제 GPU qualification·W0·scientific 실행·온라인 readback은 아직 미관측이다.
+실제 제출 번호는 등록 후 별도 receipt에만 기록한다.
+
+bounded admission 확인에서 현재 server1 기존 61519/61520/61521 각각 GPU1 RUNNING,
+합계3 및 admitted width3였다. 최신 직접 사용자 cap3과 own local row3을 적용한다.
+canonical의 과거 row2를 cap3 PASS 증거로 사용하지 않는다. QoS user GPU4,
+devbox 8 GPU/128 CPU/1500GiB·partition UP를 확인했고 실제 자원 부족은 PENDING으로 처리한다.
+요청 계획은 GPU1/CPU8/65536MiB/48h, collector GPU0/CPU8/24576MiB/4h이며 ETA가 아니다.
+최신 단발 admission에서는 기존61521만 GPU1 RUNNING/width1/frontier61521이었다.
+앞선 GPU3 snapshot을 현재 점유로 재사용하지 않는다. 새 qualification heads는 등록 직전
+fresh exact frontier를 사용하며 old job은 변경하지 않는다.
+기존 GPT2/OURS/W0/다른 서버 job 변경·취소·중복 제출 없음.
+
+원 source/raw/관측/실패 이력은 KEEP. 큰 모델·dataset·raw·checkpoint·text/token은 ignored local,
+Git/W&B에는 compact source/manifest/scalar만. NO_BROADCAST_NOT_REQUIRED: 같은 서버 자산과
+private raw의 추가 대형 복제는 필요 없으며 공유 source/API는 Git publication으로 전달한다.
+새 recurring monitor/heartbeat/automatic retry는 만들지 않았다.

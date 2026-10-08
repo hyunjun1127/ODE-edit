@@ -379,17 +379,26 @@ def evaluate(model, tokenizer, records, dataset, *, w0_reference=None,
     """Score a stream/cohort without edits. Return local raw plus scalar summary.
 
     ``identity`` should include the runner's model/revision/tokenizer/runtime
-    locks. At zsRE edited endpoints it must match the W0 external identity.
+    locks. Plain zsRE references must match the W0 external identity. An explicit
+    reviewed PortableZSREReference preserves producer raw and separately binds
+    the actual consumer identity before any forward; no implicit rebinding.
     For W0 use ``build_zsre_w0_reference`` and its already-observed ``evaluation``
     to avoid a redundant forward. A missing W0 reference is explicit/omitted.
     """
     records = list(records)
     cases, queries, signatures = _plan(records, dataset, tokenizer)
     external = json.loads(json.dumps(identity or {}, sort_keys=True, allow_nan=False))
+    reference_binding = None
     if w0_reference is not None:
         _require(dataset == "zsre", "FACTUAL_W0_REFERENCE_ZSRE_ONLY")
-        _require(w0_reference["identity"].get("external_identity", {}) == external,
-                 "FACTUAL_W0_EXTERNAL_IDENTITY")
+        from .w0_reference import PortableZSREReference, validate_zsre_reference
+        if isinstance(w0_reference, PortableZSREReference):
+            w0_reference, reference_binding = validate_zsre_reference(w0_reference,
+                consumer_external_identity=external, signatures=signatures)
+        else:
+            # Classic exact-identity reference semantics remain unchanged.
+            _require(w0_reference["identity"].get("external_identity", {}) == external,
+                     "FACTUAL_W0_EXTERNAL_IDENTITY")
         # Check before the expensive model measurement, not only after it.
         _reference_lookup(w0_reference, signatures)
     started = time.monotonic()
@@ -405,9 +414,14 @@ def evaluate(model, tokenizer, records, dataset, *, w0_reference=None,
         cohort_sha256=_digest(signatures), ordered_occurrences=[_occurrence(row) for row in records],
         external_identity=external, padding="RIGHT_EXPLICIT_ATTENTION_MASK", use_cache=False,
         W0_reference_sha256=w0_reference["identity_sha256"] if w0_reference is not None else None)
-    return dict(summary=summary, accuracy=accuracy, cases=cases, identity=endpoint_identity,
+    if reference_binding is not None:
+        endpoint_identity["W0_reference_binding_sha256"] = reference_binding["binding_sha256"]
+    value = dict(summary=summary, accuracy=accuracy, cases=cases, identity=endpoint_identity,
                 identity_sha256=_digest(endpoint_identity), work=work,
                 raw_local_only=True, model_no_mutation=True, RNG_restored=True)
+    if reference_binding is not None:
+        value["W0_reference_binding"] = reference_binding
+    return value
 
 
 def build_zsre_w0_reference(model, tokenizer, records, *, identity=None,
