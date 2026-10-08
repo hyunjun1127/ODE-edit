@@ -1,0 +1,36 @@
+{
+  "instruction_id": "USER-OFFICIAL-BASELINES-20261008-R1",
+  "server": "server2",
+  "stage": "qualification_only_not_CF_scientific_main",
+  "reviewed_implementation_commit": "881928084d88dd854663c24e6b6043ce9926994d",
+  "latest_failure_receipt_repair": "checkpoint metadata read error does not replace original exception; CPU fixture only",
+  "owner_CPU_tests": 97,
+  "source_verifier": {"source_files": 148, "python_files": 218, "source_integrity": "PASS", "external_task_imports": 0},
+  "read_only_registration_review": {
+    "reviewer": "native_flucon_runner",
+    "status": "warn",
+    "qualification_source_blockers": 0,
+    "metadata_CPU_tests": 20,
+    "scope": "submit is reviewer-authored; execution integration is separately inspected; not a fully independent native algorithm audit",
+    "finding": "six native/resume qualification paths plus GPU0 collector may register; CF main fails closed without original evaluator parity",
+    "warning": "future original oracle requires immutable source/member/SHA proof, not PASS label; new tree cannot relabel old qualification"
+  },
+  "read_only_git_protocol_review": {
+    "reviewer": "official_assets",
+    "status": "warn",
+    "scope": "본인 작성 assets/generation의 독립 논리 검토가 아니라 게시 경로·출력·보존 정책 점검",
+    "own_branch_paths_checked": 25,
+    "shared_scientific_modifications": 0,
+    "raw_model_checkpoint_fullstdout_or_credentials_found": 0,
+    "access_and_diffcheck": "PASS",
+    "historical_readiness": "scoped-source-review.json은 이전 source 시점의 factual/tracking 미봉인 기록으로 보존; 현재 입력 결속은 shared-compatibility-binding-r1.json으로 해결",
+    "current_CPU_count": 97,
+    "actual_job_query_or_mutation": false
+  },
+  "actual_model_forward": 0,
+  "actual_GPU_qualification": "NOT_OBSERVED",
+  "actual_WandB_online": "NOT_OBSERVED",
+  "existing_jobs_mutation": false,
+  "CF_main_registration_allowed_by_this_receipt": false,
+  "new_monitor_or_automatic_retry": false
+}
