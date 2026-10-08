@@ -1,0 +1,187 @@
+{
+  "branch": "codex/price-model-hparam-config-20261009",
+  "base_commit": "12eff7e36e1128dba2daa9a463ea1cc09563de46",
+  "self_excluded": "official/docs/price-hparam-config-20261009/files.sha256.json",
+  "files": {
+    "official/README.md": {
+      "sha256": "f83660a465a2a6b7c0211d9b232f46fdbf81cb63719e14d66e04398632a1da43",
+      "change": "modified"
+    },
+    "official/SOURCES.json": {
+      "sha256": "7c6d5f49ed9d98bd5ba0d5e3cd37aeb740953971f8060e2a2e79dd19997e48ec",
+      "change": "modified"
+    },
+    "official/docs/price-hparam-config-20261009/GPU-SMOKE-PLAN.md": {
+      "sha256": "eaff4b2c43fa69be09fc6d027a3728295518b894e0de86fc271fd473a006f118",
+      "change": "added"
+    },
+    "official/docs/price-hparam-config-20261009/README.md": {
+      "sha256": "9f1dbf85ff0991eb8bfbd0f114a9c8ea98eb730c1fdc28c602316379c41391ed",
+      "change": "added"
+    },
+    "official/docs/price-hparam-config-20261009/constants-audit.json": {
+      "sha256": "fbd8da0e040bfbfe85ffd94f155249d6b2b530df53c5266ddc41e8435825f19c",
+      "change": "added"
+    },
+    "official/docs/price-hparam-config-20261009/gpu-smoke-reference.json": {
+      "sha256": "f781c5220165bba2a786e62deed61695d7d3605db560d04489119eb07f6499db",
+      "change": "added"
+    },
+    "official/docs/price-hparam-config-20261009/source-changes.json": {
+      "sha256": "a0fe32b8f17b6656d9a70896165c9c41a416e56fead1e91c43bebecc88abe24f",
+      "change": "added"
+    },
+    "official/hparams/PRICE/README.md": {
+      "sha256": "20a9ef9439a4333d2a0b2f538d264994eb7636de31ea7785f06808a8b8af576c",
+      "change": "added"
+    },
+    "official/hparams/ours/README.md": {
+      "sha256": "b084905d32ef234f322cc8b83380b0492721609453d3a307fae165ff20330019",
+      "change": "added"
+    },
+    "official/hparams/ours/arms/qwen25-beta150.json": {
+      "sha256": "94ddd8e7ebee49c89e34583b02a9856f7d277ee0d4a7dd02d9cc517fd140130d",
+      "change": "added"
+    },
+    "official/hparams/ours/arms/qwen25-beta300-cap.json": {
+      "sha256": "b3d2b342b225a17bd511f6d123e6409656f50293cae3cb009a0a0a709d4fb933",
+      "change": "added"
+    },
+    "official/hparams/ours/arms/qwen25-beta300-free.json": {
+      "sha256": "fd40b0ed30cb2f7a19dc0f81d654419818f6681b1b13e4339b1e81dcfc139cdf",
+      "change": "added"
+    },
+    "official/hparams/ours/arms/qwen25-tau002-grace8.json": {
+      "sha256": "e42908e7498ec16b51f6d5dfe0ebf9173863d7ff1646794ed2d77bcc1089f928",
+      "change": "added"
+    },
+    "official/hparams/ours/gptj/price.json": {
+      "sha256": "8c99ced89ced2a5c3de4877abe96fb70661793740d6542cc861f727930ae2909",
+      "change": "added"
+    },
+    "official/hparams/ours/gptj/writer.json": {
+      "sha256": "79de72d0ba55d2ead2fb2cc48af8c6fd13bffaf045a71e3538018aa2710e0a6a",
+      "change": "added"
+    },
+    "official/hparams/ours/llama3/price.json": {
+      "sha256": "47bd1133ee168f5e2ca0312029321ffeb3ca8bbdb91742ae0a6b4186dd4f4f41",
+      "change": "added"
+    },
+    "official/hparams/ours/llama3/writer.json": {
+      "sha256": "46ad6ed01a9beca815a2c3c43f3886e78ae3b21354948cd9a093ccf6fb5ad9f9",
+      "change": "added"
+    },
+    "official/hparams/ours/qwen25/price.json": {
+      "sha256": "1936f559e5deeb573a1b2dca0f121ccffbc1847d1ce09a613477fbecbfb1850a",
+      "change": "added"
+    },
+    "official/hparams/ours/qwen25/writer.json": {
+      "sha256": "2ddf624d127198f450542d6533990a9020ed3037912d07dfdda7c2ebc448aae0",
+      "change": "added"
+    },
+    "official/hparams/ours/schema.json": {
+      "sha256": "b36f3cf05afcec3ec3d75deb9e92aed00409b9d7f23c1f10e8e837085b58efd8",
+      "change": "added"
+    },
+    "official/ours/config.py": {
+      "sha256": "f03e053c17fa81e87ebd980dac4b0a1cba0e94a14fc261db419fd979509ab978",
+      "change": "added"
+    },
+    "official/ours/core/jlz_interference_l1/cap_adapter.py": {
+      "sha256": "e99e50c07df3c27bac4f9bb9679ef9002f86f2c41cf3f638f20061cee3b8d57e",
+      "change": "modified"
+    },
+    "official/ours/core/jlz_interference_l1/cap_controller.py": {
+      "sha256": "ebcbae213b6b6adbe4370eb46cfa5e4bdc1c22a89bde53ea729b550f3f273043",
+      "change": "modified"
+    },
+    "official/ours/core/jlz_interference_l1/cap_fit.py": {
+      "sha256": "c82b9d5780edf690064cdc7413e850b190c8748a1538c16387e9f78b68c9019a",
+      "change": "modified"
+    },
+    "official/ours/core/jlz_interference_l1/cap_optimizer.py": {
+      "sha256": "08b39b25bb1b4486de8409fef78f7e1ce824250ad1075e0c7522044d49f2b4bf",
+      "change": "modified"
+    },
+    "official/ours/core/jlz_interference_l1/cap_price.py": {
+      "sha256": "7f36e178d32515826bfc3b4c48104db4247cb799760a2dff6c15f29f8d0fe9f0",
+      "change": "modified"
+    },
+    "official/ours/core/jlz_native_writer_aware/routes.py": {
+      "sha256": "b2bd7b21eb30b9ed181252efe05136786f83690e35fdb5f2f82d65ee028b8ad5",
+      "change": "modified"
+    },
+    "official/ours/core/jlz_pilot/prompts.py": {
+      "sha256": "1db8eaeaa5d391c89d51ace20e4e39e5b996313b105e23f15b5c96f9454ff319",
+      "change": "modified"
+    },
+    "official/ours/core/jlz_price_gptj/adapter.py": {
+      "sha256": "f2eba18336fcd6d676a00af10fa979920b1b1037e6e0e581004b3a5d8007119c",
+      "change": "modified"
+    },
+    "official/ours/core/jlz_price_gptj/entry.py": {
+      "sha256": "ec7a4f5c2c69e7010e9e705b578d08c657dc59c335aec0f42f73d38e3e1ce0c4",
+      "change": "modified"
+    },
+    "official/ours/core/jlz_price_gptj/fit.py": {
+      "sha256": "bdf2cd997fdca89b4b252f6a83600d2fb6a3c8f98b5879699ff3ee4b5af1bafa",
+      "change": "modified"
+    },
+    "official/ours/core/jlz_price_gptj/price.py": {
+      "sha256": "387762ab6970a5cc9cfa7e88b216f1ae737c20574293513285b68b7976263377",
+      "change": "modified"
+    },
+    "official/ours/core/jlz_realized_subject/geometry.py": {
+      "sha256": "1dfcfb77fb57b4ce47dec044515bb414cf1f8e21d3b5c7780b498a87684e9fa2",
+      "change": "modified"
+    },
+    "official/ours/core/jlz_realized_subject/subject.py": {
+      "sha256": "b87ed5939b414d68ee0823240a6c0b55aab9403990ded95145e9173cb3de373c",
+      "change": "modified"
+    },
+    "official/ours/core/jlz_v12r/engine.py": {
+      "sha256": "3002ec52dd0e0c200c15f7a4e5b7ed6ab52e13aff3490fa7e8d50bffaca27587",
+      "change": "modified"
+    },
+    "official/ours/core/jlz_v12r/entry.py": {
+      "sha256": "484d882dd9261d27ce83799a073efa54c56fd22e82e860528888c814c9f2cced",
+      "change": "modified"
+    },
+    "official/ours/core/jlz_v12r/optimizer.py": {
+      "sha256": "b32cb0aecee3240cdd38fedb30b20859631cabb1db484e789be045765850b253",
+      "change": "modified"
+    },
+    "official/ours/core/jlz_v12r/subject.py": {
+      "sha256": "8966699c2c1efac20e04b8c621c4a85be6828739968f1d6dd7451d4e938002d8",
+      "change": "modified"
+    },
+    "official/ours/core/jlz_writer_coupled/geometry.py": {
+      "sha256": "38e2486ec647c7664c302f7372f284157fac6f1ebc083a6034fecd69026d5e31",
+      "change": "modified"
+    },
+    "official/ours/core/jlz_writer_coupled/physical.py": {
+      "sha256": "18f6688e2ceae68646b332ce4fa40a7cbe3f22d1e07c58c2bcb43b098c9d2531",
+      "change": "modified"
+    },
+    "official/tests/fixtures/price_hparams_oracle.json": {
+      "sha256": "6f76a1848ebc9c3751024a047e34168f587bc05fa10ef9a937dd16d90d037866",
+      "change": "added"
+    },
+    "official/tests/price_oracle.py": {
+      "sha256": "ee3aef97a2e5f74c74326fef8b49e9de85df1ca2567b6aa20e1525f960129a26",
+      "change": "added"
+    },
+    "official/tests/test_ours_config.py": {
+      "sha256": "c842b938d2749538be7fbf790e430d76c23e09fbaa3f389ac4bc89d94e85aa6d",
+      "change": "added"
+    },
+    "official/tests/test_ours_numeric.py": {
+      "sha256": "e4e4c5d82b3df24d681de2dca4e4d7cd1d1eab3d1c32d920b806330ef2c09534",
+      "change": "added"
+    },
+    "official/tools/verify.py": {
+      "sha256": "c1d03f7b9879439352793204ff2a319ddd01e67a5615fbe00156c26fec60b090",
+      "change": "modified"
+    }
+  }
+}

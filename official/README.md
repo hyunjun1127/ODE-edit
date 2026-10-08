@@ -9,6 +9,11 @@
 PRICE(ours) 구현과 hparams도 배포하지만 이번 실행 목록에서 제외한다.
 이 문서의 준비 완료 표시는 CPU/source 확인이며 실제 모델 실험의 완료를 뜻하지 않는다.
 
+**2026-10-09 ours 설정 분리:** [`hparams/ours/`](hparams/ours/README.md)에 모델별
+`writer.json`·`price.json`과 arm override를 둔다. `official.ours.config.resolve()`가
+검증한 불변 설정 하나를 계산 경로 전체에 전달한다. 기본값은 유지하며 Qwen arm은 파일만
+준비했다. 이전 `hparams/PRICE/`는 deprecated이고 baseline 본 실험 설정은 그대로 사용한다.
+
 ## 폴더와 실행 책임
 
 ```text

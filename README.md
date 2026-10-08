@@ -25,6 +25,60 @@ python3 -m official.tools.verify
 python3 -m official.experiments.prepare matrix --output local/official-baselines/configuration
 ```
 
+## Main results
+
+모델별로 CF와 zsRE의 최종 성능을 기록합니다. 각 실험은 2,000건을 100건씩 순차 편집한
+최종 checkpoint(W20)를 기준으로 하며, 지표 정의는 [공통 실험 계약](official/hparams/contract.json)을 따릅니다.
+**이번 표는 새 cold-start 재실험 전용입니다.** 과거 완료 수치나 과거 checkpoint 재개 결과를
+새 실험으로 소급 입력하지 않습니다. checkpoint가 있어도 sample 구성·순서가 다르면 다시 실행합니다.
+미제출은 빈칸, 실제 제출 후 대기는 `PENDING: <실제 job name>`, 실행 중은
+`ING: <실제 job name>`으로 해당 dataset의 칸에만 표시합니다(CF 6칸 / zsRE 3칸).
+qualification·W0 준비·collector·tuning job은 본실험 job으로 표시하지 않습니다.
+
+GH가 서버별 제출·상태·완료 보고를 받아 이 표를 통합합니다. 각 dataset의 상태/수치에는
+server·job ID·관측 시각·실행 commit·config SHA·ordered sample identity를 담은 보고서를 연결합니다.
+새 W20 실측이 완료된 지표만 수치로 교체하며 실패·취소·결측을 0이나 완료 성능으로 쓰지 않습니다.
+사용자가 FLU/CON을 후속 checkpoint 평가로 미룬 실행은 factual W20 결과와 별도로
+CF Flu/Con을 `DEFERRED`로 표시하고 전체 평가 완료로 주장하지 않습니다.
+Ours 행은 결과 기록용이며 새 arm/실험을 자동 승인하지 않습니다.
+세부 [표 관리 정책](control/main-results-policy.json)과 [사용자 지시](messages/head/2026-10-09-main-table-fresh-rerun.json)를 따릅니다.
+
+### Llama3-8B-Instruct
+
+| Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con | zsRE Eff | zsRE Gen | zsRE Loc |
+| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| FT |  |  |  |  |  |  |  |  |  |
+| MEMIT |  |  |  |  |  |  |  |  |  |
+| AlphaEdit |  |  |  |  |  |  |  |  |  |
+| AlphaEdit-BLUE |  |  |  |  |  |  |  |  |  |
+| MEMIT-FE |  |  |  |  |  |  |  |  |  |
+| AlphaEdit+SPHERE |  |  |  |  |  |  |  |  |  |
+| PRICE (Ours) |  |  |  |  |  |  |  |  |  |
+
+### Qwen2.5-7B-Instruct
+
+| Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con | zsRE Eff | zsRE Gen | zsRE Loc |
+| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| FT |  |  |  |  |  |  |  |  |  |
+| MEMIT |  |  |  |  |  |  |  |  |  |
+| AlphaEdit |  |  |  |  |  |  |  |  |  |
+| AlphaEdit-BLUE |  |  |  |  |  |  |  |  |  |
+| MEMIT-FE |  |  |  |  |  |  |  |  |  |
+| AlphaEdit+SPHERE |  |  |  |  |  |  |  |  |  |
+| PRICE (Ours) |  |  |  |  |  |  |  |  |  |
+
+### GPT-J-6B
+
+| Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con | zsRE Eff | zsRE Gen | zsRE Loc |
+| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| FT |  |  |  |  |  |  |  |  |  |
+| MEMIT |  |  |  |  |  |  |  |  |  |
+| AlphaEdit |  |  |  |  |  |  |  |  |  |
+| AlphaEdit-BLUE |  |  |  |  |  |  |  |  |  |
+| MEMIT-FE |  |  |  |  |  |  |  |  |  |
+| AlphaEdit+SPHERE |  |  |  |  |  |  |  |  |  |
+| PRICE (Ours) |  |  |  |  |  |  |  |  |  |
+
 기존 연구 문서와 실험 이력은 아래에 보존합니다. 새 실험의 설정 근거는 `official/`입니다.
 
 <details>
