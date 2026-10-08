@@ -1,0 +1,23 @@
+{
+  "instruction": "USER-SH2-ZSRE-WANDB-LAUNCH-20261009-R1",
+  "owner": "server2",
+  "scope": "official GPTJ FT/MEMIT/AlphaEdit/BLUE/FE/SPHERE CF unchanged; new zsRE cold first2000 BS100x20",
+  "source_stage": "PREPARED_PENDING_SHARED_METRIC_API_BINDING",
+  "views": "REMOTE_SAVED_SPEC_READBACK_VERIFIED; see views-receipt.json",
+  "GH_request": "SH2-GH-ZSRE-WANDB-METRICS-20261009-R1",
+  "GH_accepted_turn": "01a11cb4-d395-7360-9c73-7bfbac88b063",
+  "GH_direct_ACK_received": true,
+  "shared_tracking_owner": "GH; no duplicate logger",
+  "narrow_CPU_tests": {"count": 61, "status": "PASS"},
+  "whole_server2_tests": {"count":146, "passed":133, "errors":13, "status":"NOT_FULL_PASS", "error":"Old qualification_input source-compatibility fixtures: QUALIFICATION_COMPUTATIONAL_MEMBER_SET_CHANGED after shared source additions. New zsRE pipeline does not reuse old qualification proof or call qualification_input; strict rejection preserved."},
+  "source_verify": {"source_files":157,"python_files":260,"status":"PASS","external_task_imports":0},
+  "runtime_gate": "New shared zsRE W0 token predictions + one actual MEMIT B100 smoke inside first allocation; verify native/factual/source/checkpoint CPU receipt before all fresh cold chains. No pre-registration actual PASS claim.",
+  "resource": "cap4 including old CF; new first producer after existing exact owned frontier, then at most4 lanes; GPU1 CPU6 59392MiB48h, CPUcollector0GPU6CPU24576MiB4h",
+  "GPU_actual": "NOT_OBSERVED",
+  "online_run_startup": "NOT_OBSERVED",
+  "new_job_ids": [],
+  "existing_CF_jobs_unchanged": true,
+  "no_CP_transfer_or_delete": true,
+  "independent_reviewer": false,
+  "recurring_monitor": false
+}

@@ -1,0 +1,77 @@
+{
+  "status": "SAVED_VIEWS_REMOTE_SPEC_READBACK_VERIFIED",
+  "views": {
+    "nw-zsreindex-v": {
+      "url": "https://forge.coreweave.com/wandb/wkdguswns2256/layer%20allocation?nw=zsreindex",
+      "model": null,
+      "response": {
+        "upsertView": {
+          "view": {
+            "id": "VmlldzoxODA3ODQwMg==",
+            "name": "nw-zsreindex-v"
+          },
+          "inserted": true
+        }
+      },
+      "spec_sha256": "1c6488a6e91b77b53eeff815fe68f283850b5b09cbcb899f6731e4d72a8f1d34"
+    },
+    "nw-zsrellama3-v": {
+      "url": "https://forge.coreweave.com/wandb/wkdguswns2256/layer%20allocation?nw=zsrellama3",
+      "model": "llama3",
+      "response": {
+        "upsertView": {
+          "view": {
+            "id": "VmlldzoxODA3ODQwMw==",
+            "name": "nw-zsrellama3-v"
+          },
+          "inserted": true
+        }
+      },
+      "spec_sha256": "30229d748a8726eba834c826b1319d310086cc941b40d5baa65e89c46929bfa5"
+    },
+    "nw-zsreqwen25-v": {
+      "url": "https://forge.coreweave.com/wandb/wkdguswns2256/layer%20allocation?nw=zsreqwen25",
+      "model": "qwen25",
+      "response": {
+        "upsertView": {
+          "view": {
+            "id": "VmlldzoxODA3ODQwNA==",
+            "name": "nw-zsreqwen25-v"
+          },
+          "inserted": true
+        }
+      },
+      "spec_sha256": "75e9a16dca376d294b99ab5eab32a3253b3ad2f14b4288097820ed6d45350249"
+    },
+    "nw-zsregptj-v": {
+      "url": "https://forge.coreweave.com/wandb/wkdguswns2256/layer%20allocation?nw=zsregptj",
+      "model": "gptj",
+      "response": {
+        "upsertView": {
+          "view": {
+            "id": "VmlldzoxODA3ODQwNQ==",
+            "name": "nw-zsregptj-v"
+          },
+          "inserted": true
+        }
+      },
+      "spec_sha256": "3a09d5ff077ae1754f7deb2a7d4e1cb89c1d78b225b4a9dd9f792cba1bcbfa22"
+    }
+  },
+  "existing_views_unchanged": [
+    "nw-oeqlkjvq8nc-v",
+    "nw-pricefirst2kqwen-v",
+    "nw-nwuserwkdguswns2256-w",
+    "nw-pricefirst2kgpt2xl-v",
+    "nw-pricefirst2kgptj-v",
+    "nw-y9vet5iwjzr-v",
+    "nw-pricefirst2kllama-v",
+    "nw-bt05p9dzs5a-v",
+    "nw-wg1noq4fcp0-v"
+  ],
+  "browser_rendering": "NOT_OBSERVED",
+  "run_history_writes": 0,
+  "run_config_writes": 0,
+  "new_science_runs": 0,
+  "empty_charts_are_not_missing_value_zero": true
+}

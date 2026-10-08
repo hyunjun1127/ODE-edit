@@ -1,0 +1,99 @@
+{
+  "W_B": "NEW_RUN_ACTUAL_STARTUP_NOT_OBSERVED",
+  "actual_GPU_qualification": "NOT_OBSERVED",
+  "automatic_retry": false,
+  "base_manifest_sha256": "aa8c9fe29edd86a07ffeacaf35bccdc4ba71d4bf5161c28db41b1eb0ce305fed",
+  "cap": 4,
+  "collector": "61672",
+  "dependencies": {
+    "ALPHAEDIT": [
+      "61666"
+    ],
+    "ALPHAEDIT_BLUE": [
+      "61666"
+    ],
+    "FT": [
+      "61666"
+    ],
+    "MEMIT": [
+      "61651",
+      "61653",
+      "61654",
+      "61655"
+    ],
+    "MEMIT_FE": [
+      "61666"
+    ],
+    "SPHERE": [
+      "61667"
+    ],
+    "collector": [
+      "61666",
+      "61667",
+      "61668",
+      "61669",
+      "61670",
+      "61671"
+    ]
+  },
+  "frontier": [
+    "61651",
+    "61653",
+    "61654",
+    "61655"
+  ],
+  "initial_snapshot": "61672|official-baselines-server2-20261008-r1-zsre_pipeline-collector|PENDING|N/A||None\n61671|official-baselines-server2-20261008-r1-zsre_pipeline-SPHERE|PENDING|gres/gpu:1||None\n61670|official-baselines-server2-20261008-r1-zsre_pipeline-MEMIT_FE|PENDING|gres/gpu:1||None\n61669|official-baselines-server2-20261008-r1-zsre_pipeline-ALPHAEDIT_BLUE|PENDING|gres/gpu:1||None\n61668|official-baselines-server2-20261008-r1-zsre_pipeline-ALPHAEDIT|PENDING|gres/gpu:1||None\n61667|official-baselines-server2-20261008-r1-zsre_pipeline-FT|PENDING|gres/gpu:1||None\n61666|official-baselines-server2-20261008-r1-zsre_pipeline-MEMIT|PENDING|gres/gpu:1||None",
+  "instruction_id": "USER-OFFICIAL-BASELINES-20261008-R1",
+  "jobs": {
+    "ALPHAEDIT": "61668",
+    "ALPHAEDIT_BLUE": "61669",
+    "FT": "61667",
+    "MEMIT": "61666",
+    "MEMIT_FE": "61670",
+    "SPHERE": "61671",
+    "collector": "61672"
+  },
+  "lock": {
+    "bytes": 103060,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-zsre-r1/execution.lock.json",
+    "sha256": "d0075387c52e2bd36202c8e0e1b8422bb862fb9e7a07e54e7f4e5c7e2c614b04"
+  },
+  "manifest": {
+    "bytes": 209543,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-zsre-r1/manifest.json",
+    "sha256": "0a0ff645db896233b6a4f3589ff244324a4e1ffd5bad95e272dac0b9bb07b4c6"
+  },
+  "monitoring_active": false,
+  "registration_roles": [
+    "MEMIT",
+    "FT",
+    "ALPHAEDIT",
+    "ALPHAEDIT_BLUE",
+    "MEMIT_FE",
+    "SPHERE"
+  ],
+  "resources": {
+    "collector_cpu": 6,
+    "collector_host_mib": 24576,
+    "collector_wall": "04:00:00",
+    "cpu": 6,
+    "gpu": 1,
+    "host_mib": 59392,
+    "node": "server2",
+    "partition": "gpu",
+    "qos": "lab_gpu_s2",
+    "reserve_bytes": 137438953472,
+    "wall": "2-00:00:00"
+  },
+  "resume_binding": null,
+  "scientific_complete": false,
+  "source": {
+    "code_commit": "ccc1f5d683349b75d1780c49bcf1116b370b91a2",
+    "observed_main": "ccc1f5d683349b75d1780c49bcf1116b370b91a2",
+    "official_tree_sha256": "7ff32ba330e661173713dcc20daaa5d0c40b052a",
+    "only_published_official": true
+  },
+  "stage": "zsre_pipeline",
+  "status": "SUBMISSION_HANDOFF",
+  "task_id": "official-baselines-server2-20261008-r1"
+}
