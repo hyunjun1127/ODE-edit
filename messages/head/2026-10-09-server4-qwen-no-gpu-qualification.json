@@ -1,6 +1,7 @@
 {
   "instruction_id": "USER-GH-SH4-QWEN-OFFICIAL-NO-GPU-QUAL-20261009-R1",
   "user_quote": "server4에도 이러한 무거운 검증 자체를 없애고 run 올리라고 해라.",
+  "user_scope_clarification": "official baseline에만 적용하고 PRICE는 유지",
   "inherits": "messages/head/2026-10-09-official-no-gpu-qualification-rerun.json",
   "precedence": "이 추가 명령은 server4의 기존 승인 Qwen official12 제출에 같은 GPU검증제거를 적용하며 앞선 제출준비까지만 제한을 현재 제출권한으로 대체한다. original S1/S2조건중 아래서버·범위차이만대체한다.",
   "owner": {"session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd", "cwd": "/data/janghj/ODE-edit", "repository": "hyunjun1127/ODE-edit"},
