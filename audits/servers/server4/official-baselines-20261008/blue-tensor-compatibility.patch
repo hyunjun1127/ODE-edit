@@ -1,34 +1,19 @@
 --- a/official/baselines/blue/AlphaEdit/compute_z.py
 +++ b/official/baselines/blue/AlphaEdit/compute_z.py
-@@ -97,15 +97,17 @@
-             if target_init is None:
-                 print("Recording initial value of v*")
-                 # Initial value is recorded for the clean sentence
+@@ -100 +100,2 @@
 -                target_init = cur_out[0][0, lookup_idxs[0]].detach().clone()
 +                hidden = cur_out[0] if isinstance(cur_out, tuple) else cur_out
 +                target_init = hidden[0, lookup_idxs[0]].detach().clone()
- 
-             # Add intervened delta
-             for i, idx in enumerate(lookup_idxs):
- 
+@@ -105,2 +106,3 @@
 -                if len(lookup_idxs)!=len(cur_out[0]):
 -                    cur_out[0][idx, i, :] += delta
 +                hidden = cur_out[0] if isinstance(cur_out, tuple) else cur_out
 +                if len(lookup_idxs)!=len(hidden):
 +                    hidden[idx, i, :] += delta
-                 else:
+@@ -108 +110 @@
 -                    cur_out[0][i, idx, :] += delta
 +                    hidden[i, idx, :] += delta
- 
-         return cur_out
- 
-@@ -143,7 +145,8 @@
-                 kl_distr_init = kl_log_probs.detach().clone()
- 
-         # Compute loss on rewriting targets
+@@ -146 +148,2 @@
 -        output=tr[hparams.layer_module_tmp.format(loss_layer)].output[0]
 +        output=tr[hparams.layer_module_tmp.format(loss_layer)].output
 +        output=output[0] if isinstance(output, tuple) else output
-         if output.shape[1]!=rewriting_targets.shape[1]:
-             output=torch.transpose(output, 0, 1)
-         full_repr = output[:len(rewriting_prompts)]
