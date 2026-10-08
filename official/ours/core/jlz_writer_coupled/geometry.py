@@ -47,7 +47,7 @@ def build_prior_from_npz(
     stat_path: str | Path,
     history: torch.Tensor,
     *,
-    lambda_c: float = 15000.0,
+    lambda_c: float,
     device: torch.device | str = "cpu",
     block_size: int = 256,
 ) -> torch.Tensor:
@@ -247,7 +247,7 @@ def solve_layer_from_npz(
     request_index: torch.Tensor,
     B: int,
     *,
-    lambda_c: float = 15000.0,
+    lambda_c: float,
     **solve_options: Any,
 ) -> tuple[torch.Tensor, dict[str, Any]]:
     """One-layer loading/solve helper; no persistent covariance/factor cache."""

@@ -1,15 +1,17 @@
 """Explicit native-row identities and exact cached nonsymmetric ridge adjoint."""
 import torch
+from official.ours.config import require_config
 from official.ours.common import require
 
-def annotate(entry):
+def annotate(entry,config):
+    config=require_config(config)
     counts={};rows=[];groups=[]
     for gi,g in enumerate(entry['groups']):
         for row in g['rows']:
             owner=row['request'];kind=row['kind']
             index=counts.get((owner,kind),0);counts[owner,kind]=index+1
             row['reduction_index']=index
-            row['role_weight']=1/entry['pack']['n_rw'] if kind=='rewrite' else .0625
+            row['role_weight']=1/entry['pack']['n_rw'] if kind=='rewrite' else config['lambda_KL']
             rows.append(row)
         tok=g['tokens'];groups.append(dict(index=gi,global_rows=[r['global_row'] for r in g['rows']],
             owners=[r['request'] for r in g['rows']],roles=[r['kind'] for r in g['rows']],

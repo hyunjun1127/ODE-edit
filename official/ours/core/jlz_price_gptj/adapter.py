@@ -5,6 +5,7 @@ FP32 `(attention + fc_out(key)) + input` order, including fc_out bias.
 Actual GPU confirmation is integrated in the real trajectory, not a toy pass.
 """
 import torch
+from official.ours.config import require_config
 import torch.nn.functional as F
 from official.ours.core.jlz_native_writer_aware.physical import Adapter as Parent
 from official.ours.core.jlz_realized_subject.profile import move
@@ -13,6 +14,7 @@ from official.ours.common import require
 
 class Adapter(Parent):
     def __init__(self, model, profile):
+        profile=require_config(profile)
         c = model.config
         require(c.model_type == 'gptj', 'GPTJ_MODEL_TYPE')
         require((c.n_embd, c.n_layer, c.n_inner or 4*c.n_embd, c.vocab_size)
@@ -21,10 +23,13 @@ class Adapter(Parent):
         self.model, self.profile = model, profile
         self.blocks = model.transformer.h
         self.sites = tuple(profile['eligible_layers'])
-        require(self.sites == (3, 4, 5, 6, 7, 8), 'GPTJ_LAYER_BINDING')
+        require(self.sites and self.sites==tuple(sorted(set(self.sites)))
+                and 0<=min(self.sites)<=max(self.sites)<len(self.blocks), 'GPTJ_LAYER_BINDING')
         self.first = min(self.sites)
-        self.nll_layer = self.final_layer = 27
-        require(profile['nll_layer'] == 27 and profile['anchor_layer'] == 8, 'GPTJ_READOUT')
+        self.nll_layer = profile['nll_layer']
+        self.final_layer = len(self.blocks)-1
+        require(max(self.sites)<=self.nll_layer<=self.final_layer
+                and 0<=profile['anchor_layer']<=self.final_layer, 'GPTJ_READOUT')
         self.weights = {l: self.projection(l).weight for l in self.sites}
         ptrs = {w.data_ptr() for w in self.weights.values()}
         require(len(ptrs) == len(self.sites) and sum(p.data_ptr() in ptrs for _, p in
@@ -74,14 +79,15 @@ class Adapter(Parent):
         return self.model.transformer(**tokens, use_cache=False).last_hidden_state
 
     def full(self, tokens):
-        saved = {}
-        handle = self.blocks[27].register_forward_hook(
-            lambda module, args, out: saved.update({27: self.unwrap(out)}))
+        saved = {}; handles = []
+        for layer in {self.nll_layer,self.final_layer}:
+            handles.append(self.blocks[layer].register_forward_hook(
+                lambda module,args,out,layer=layer: saved.update({layer:self.unwrap(out)})))
         try:
-            self.model.transformer(**tokens, use_cache=False)
-            return saved[27], saved[27]
+            self.model.transformer(**tokens,use_cache=False)
+            return saved[self.nll_layer],saved[self.final_layer]
         finally:
-            handle.remove()
+            for handle in handles:handle.remove()
 
     def masked(self, group, increments, capture=False):
         cache = move(group['cache'], self.device)
@@ -100,6 +106,7 @@ class Adapter(Parent):
         keys = {self.first: key[ix, pos]} if capture else {}
         bases = {self.first: base[ix, pos]} if capture else {}
         x = inject(base, increments[self.first])
+        nll = x if self.nll_layer==self.first else None
         for l in range(self.first + 1, len(self.blocks)):
             if l in increments:
                 def step(h, v, l=l):
@@ -113,6 +120,7 @@ class Adapter(Parent):
                 def step(h, l=l):
                     return self.unwrap(self.blocks[l](h, **kw))
                 x = self.recompute(step, x)
+            if l==self.nll_layer:nll=x
         if group.get('native_c0_pending'):
             require(all(bool((v==0).all()) for v in increments.values()),'GPTJ_FIRST_SUBJECT_C0_ZERO')
             errors=[]
@@ -122,10 +130,11 @@ class Adapter(Parent):
                 parity_pos=(torch.nonzero(row['target']!=-100).flatten().to(self.device) if row['kind']=='rewrite'
                      else torch.tensor([row['lookup']],device=self.device))
                 reference=group['native_c0_selected'][j].to(self.device)
-                error=(x[j,parity_pos].detach()-reference).abs();limit=2e-5+2e-4*reference.abs()
+                readout=nll if row['kind']=='rewrite' else x
+                error=(readout[j,parity_pos].detach()-reference).abs();limit=2e-5+2e-4*reference.abs()
                 require(bool((error<=limit).all()),'GPTJ_C0_NATIVE_MASKED_HIDDEN_PARITY')
                 errors.append(float(error.max()))
             group['native_c0_pending']=False
             group['native_c0_error_max']=max(errors)
             del group['native_c0_selected']
-        return x, x, keys, bases
+        return nll, x, keys, bases

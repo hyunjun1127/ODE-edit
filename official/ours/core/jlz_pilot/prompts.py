@@ -11,6 +11,7 @@ import hashlib
 import json
 
 import torch
+from official.ours.config import require_config
 import torch.nn.functional as F
 
 
@@ -135,7 +136,7 @@ def entry_teacher(logits, spec):
     return logits[spec["kl_rows"], spec["kl_cols"]].log_softmax(-1).detach().clone()
 
 
-def native_loss(logits, spec, teacher_logprobs, active_mask, rows=None, kl_factor=.0625):
+def native_loss(logits, spec, teacher_logprobs, active_mask, rows=None, *, config):
     """Return (smooth loss, per-request NLL, per-request unweighted native KL).
 
     ``rows`` maps local logit rows to the global prepared rows. Partial-row
@@ -148,6 +149,7 @@ def native_loss(logits, spec, teacher_logprobs, active_mask, rows=None, kl_facto
     zero placeholders and the scalar contains NLL only. Joint optimization
     must always pass the frozen entry teacher; this mode does not measure KL.
     """
+    kl_factor = require_config(config)['lambda_KL']
     if logits.ndim != 3:
         raise ValueError("Expected logits [local rows, padded sequence, vocabulary]")
     rows = list(range(len(spec["row_request"]))) if rows is None else list(rows)

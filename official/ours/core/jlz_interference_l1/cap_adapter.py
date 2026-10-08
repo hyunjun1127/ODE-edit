@@ -1,10 +1,12 @@
 """Task-local model binding; unchanged parent Llama path and Qwen2 layout."""
 import torch
+from official.ours.config import require_config
 from official.ours.core.jlz_native_writer_aware.physical import Adapter as Parent
 from official.ours.common import require
 
 class Adapter(Parent):
     def __init__(self,model,profile):
+        profile=require_config(profile)
         require(model.config.model_type==profile['model_type'],'MODEL_PROFILE_TYPE')
         require((model.config.hidden_size,model.config.intermediate_size)==
             (profile['expected_hidden'],profile['expected_intermediate']),'MODEL_PROFILE_DIMS')
@@ -22,6 +24,6 @@ class Adapter(Parent):
         require(len(ptrs)==len(self.sites) and sum(p.data_ptr() in ptrs for _,p in model.named_parameters(remove_duplicate=False))==len(self.sites),'PARAMETER_ALIAS')
         require(all(w.dtype==torch.float32 for w in self.weights.values()),'FP32_REQUIRED')
         self.device=next(model.parameters()).device;self.nll_layer=profile['nll_layer'];self.final_layer=len(self.blocks)-1
-        require(max(self.sites)<=self.nll_layer==self.final_layer==27,'QWEN_READOUT')
+        require(max(self.sites)<=self.nll_layer<=self.final_layer,'QWEN_READOUT')
         self.dims={l:tuple(w.shape) for l,w in self.weights.items()};model.eval();model.requires_grad_(False)
         self.checkpoint_enabled=True
