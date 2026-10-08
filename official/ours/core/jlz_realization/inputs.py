@@ -13,11 +13,12 @@ def version(record):
     return str(t.get('id',t['str']))
 
 class CounterFactAdapter:
-    def __init__(self, tokenizer, contexts):
+    def __init__(self, tokenizer, contexts, *, config=None):
         self.tokenizer,self.contexts=tokenizer,contexts
+        self.config=config
 
     def prepare(self, records):
-        pack=native_prepare(self.tokenizer,[r['requested_rewrite']|{'case_id':r['case_id']} for r in records],self.contexts,'cpu')
+        pack=native_prepare(self.tokenizer,[r['requested_rewrite']|{'case_id':r['case_id']} for r in records],self.contexts,'cpu',config=self.config)
         pack['record_ids']=[r['case_id'] for r in records]
         pack['records']=[{'case_id':r['case_id'],'requested_rewrite':r['requested_rewrite']} for r in records]
         proofs=[]
@@ -27,6 +28,8 @@ class CounterFactAdapter:
         pack['entry_key_prefix_exact']=all(proofs)
         require(pack['entry_key_prefix_exact'],'NATIVE_KEY_PREFIX_MISMATCH')
         pack['position_policy']='original right-padded arange; no offset or retokenization'
+        if pack['pos0_model_type']:
+            pack['position_policy']='lookup-zero document prefix; right-padded arange; explicit attention mask'
         return pack
 
     def panels(self, record):

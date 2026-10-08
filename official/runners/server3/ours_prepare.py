@@ -65,7 +65,7 @@ def prepare(assets_path, context_path, env_path, output):
     tok = AutoTokenizer.from_pretrained(a['model_snapshot'], local_files_only=True)
     tok.pad_token = tok.eos_token
     tok.padding_side = 'right'
-    bench = CounterFactAdapter(tok, contexts)
+    bench = CounterFactAdapter(tok, contexts, config=resolved)
     packs = []
     for start in range(0, 2000, 100):
         p = bench.prepare(records[start:start + 100])

@@ -178,6 +178,9 @@ def resolve(model, arm=None, *, root=ROOT):
                   lambda_C=hp["mom2_update_weight"], K_eval=price["max_updates"] + 1,
                   beta_max_native_scale=price["beta_max_scale"],
                   configuration_sources=sources, arm=arm or price["arm"])
+    if result['model_type'] in ('qwen2', 'gptj'):
+        result['price_m1_anchor_guard'] = False
+        result['subject_position_policy'] = 'LOOKUP_ZERO_DOCUMENT_PREFIX'
     result["config_sha256"] = canonical_sha256(result)
     return ResolvedConfig(_freeze(result))
 

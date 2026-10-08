@@ -38,7 +38,11 @@ class ConfigTests(unittest.TestCase):
             data = plain(config)
             identity = data.pop("config_sha256")
             self.assertEqual(identity, canonical_sha256(data))
-            self.assertEqual(identity, FIXTURE["default_config_sha256"][model])
+            legacy = dict(data)
+            if model in ('qwen25', 'gptj'):
+                self.assertIs(legacy.pop('price_m1_anchor_guard'), False)
+                self.assertEqual(legacy.pop('subject_position_policy'), 'LOOKUP_ZERO_DOCUMENT_PREFIX')
+            self.assertEqual(canonical_sha256(legacy), FIXTURE["default_config_sha256"][model])
             self.assertEqual(config["K_eval"], config["max_updates"] + 1)
             self.assertEqual(config["beta_max_scale"], config["beta_max_native_scale"])
 

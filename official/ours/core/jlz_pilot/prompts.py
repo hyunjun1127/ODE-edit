@@ -30,7 +30,7 @@ def _to_device(tokens, device):
     return {name: value.to(device) for name, value in tokens.items()}
 
 
-def prepare(tokenizer, requests, contexts, device):
+def prepare(tokenizer, requests, contexts, device, *, config=None):
     """Prepare native rewrite/KL rows and separate target-free key rows.
 
     Rows are request-major: all rewrite contexts, then one ``{} is a`` KL
@@ -42,6 +42,8 @@ def prepare(tokenizer, requests, contexts, device):
     each rewrite row receives 1/n_rw in the smooth objective. ``targets`` has
     all rows (KL rows are ignored); ``rewrite_targets`` is native-shaped.
     """
+    from official.ours.pos0 import policy, repair_prompt
+    pos0_model = policy(config)
     if tokenizer.padding_side != "right":
         raise ValueError("Native pilot requires right padding")
     if not requests or not contexts or any(not group for group in contexts):
@@ -72,8 +74,11 @@ def prepare(tokenizer, requests, contexts, device):
         if not target.numel():
             raise ValueError("Native target has no tokens after BOS/UNK removal")
         base_prompts = [context.format(request["prompt"]) for context in flat_contexts]
+        base_prompts = [repair_prompt(tokenizer, p, request['subject'], pos0_model, subject_last)
+                        for p in base_prompts]
         rewrite = [prompt + tokenizer.decode(target[:-1]) for prompt in base_prompts]
-        prompts = rewrite + ["{} is a"]
+        kl_prompt = repair_prompt(tokenizer, '{} is a', request['subject'], pos0_model, subject_last)
+        prompts = rewrite + [kl_prompt]
         positions = [subject_last(tokenizer, prompt, request["subject"]) for prompt in prompts]
         offset = len(formatted)
         specs.append(dict(target=target.to(device), lookup=positions, n_rw=n_rw,
@@ -118,6 +123,7 @@ def prepare(tokenizer, requests, contexts, device):
     for length in group_lens:
         group_bounds.append(group_bounds[-1] + length)
     return dict(tokens=tokens, specs=specs, requests=normalized, targets=targets,
+                pos0_model_type=pos0_model,
                 rewrite_targets=targets[rw_rows], n_rw=n_rw, n_requests=len(specs),
                 context_group_lens=group_lens,
                 context_group_slices=list(zip(group_bounds[:-1], group_bounds[1:])),

@@ -4,36 +4,36 @@
     "instruction": "SH2-GH-ZSRE-WANDB-METRICS-20261009-R1",
     "reason": "zsRE 전용 scalar namespace/public mapping/edits axis; evaluator 변경 없음",
     "files": [
-  {
-    "path": "tracking/__init__.py",
-    "previous_sha256": "9579cfaa99409de241105154c60542fbcb0c61ddff89bbc2a124e6e13f86dbc5",
-    "sha256": "0d05184ecc8ed7ada4a82db2e8f1eafc65163841a559ac75d766eaa370c3cc97"
-  },
-  {
-    "path": "tracking/schema.py",
-    "previous_sha256": "b955d34e67b8dbef92f781d6707a6b3f8b78b3dd44b34d20ca7dfeeff34d6b07",
-    "sha256": "24b7ba5dfa7741ad26b0b571a3e8bbe205bed57c0ae78809214844af3026268e"
-  },
-  {
-    "path": "tracking/method.py",
-    "previous_sha256": "c1ac5111314a58937560b8f9d63a3d06edeaf93753f5c1e46a4475157cc669b8",
-    "sha256": "80488b45d2529dd4496c2ff1421951dc46b82b620b4fdbeda3e821f6c8f6376b"
-  },
-  {
-    "path": "tracking/test_transport.py",
-    "previous_sha256": "128e6809bc751034db27827be7035a3e61dd5cfa905963d777b887a18651a2ec",
-    "sha256": "476f19a786295b6fe1dbd1dad593cb112442fa6ee835680f88af94c6cc74b01d"
-  },
-  {
-    "path": "tracking/README.md",
-    "previous_sha256": "8304773cab6ea37d4946dbfe661e41adfca4a939bf2d04e4e2e0277ca9370014",
-    "sha256": "1b1ece4bc9fb421d140b47e9292241b80cca5fdda158c231bbb8d83fc0026cbc"
-  },
-  {
-    "path": "tracking/UPSTREAM.json",
-    "previous_sha256": "eacc3767ac5a7d9e12edc70b6f27b9d51e8144880e353d0a3fc9e6a1bf458dbb",
-    "sha256": "8070a1b230c8811b24114c6f652b4101cbe37c3622ed81bf062e1434d0c485eb"
-  }
+      {
+        "path": "tracking/__init__.py",
+        "previous_sha256": "9579cfaa99409de241105154c60542fbcb0c61ddff89bbc2a124e6e13f86dbc5",
+        "sha256": "0d05184ecc8ed7ada4a82db2e8f1eafc65163841a559ac75d766eaa370c3cc97"
+      },
+      {
+        "path": "tracking/schema.py",
+        "previous_sha256": "b955d34e67b8dbef92f781d6707a6b3f8b78b3dd44b34d20ca7dfeeff34d6b07",
+        "sha256": "24b7ba5dfa7741ad26b0b571a3e8bbe205bed57c0ae78809214844af3026268e"
+      },
+      {
+        "path": "tracking/method.py",
+        "previous_sha256": "c1ac5111314a58937560b8f9d63a3d06edeaf93753f5c1e46a4475157cc669b8",
+        "sha256": "80488b45d2529dd4496c2ff1421951dc46b82b620b4fdbeda3e821f6c8f6376b"
+      },
+      {
+        "path": "tracking/test_transport.py",
+        "previous_sha256": "128e6809bc751034db27827be7035a3e61dd5cfa905963d777b887a18651a2ec",
+        "sha256": "476f19a786295b6fe1dbd1dad593cb112442fa6ee835680f88af94c6cc74b01d"
+      },
+      {
+        "path": "tracking/README.md",
+        "previous_sha256": "8304773cab6ea37d4946dbfe661e41adfca4a939bf2d04e4e2e0277ca9370014",
+        "sha256": "1b1ece4bc9fb421d140b47e9292241b80cca5fdda158c231bbb8d83fc0026cbc"
+      },
+      {
+        "path": "tracking/UPSTREAM.json",
+        "previous_sha256": "eacc3767ac5a7d9e12edc70b6f27b9d51e8144880e353d0a3fc9e6a1bf458dbb",
+        "sha256": "8070a1b230c8811b24114c6f652b4101cbe37c3622ed81bf062e1434d0c485eb"
+      }
     ]
   },
   "files": [
@@ -869,17 +869,23 @@
       "upstream_path": "project/run_scripts/jlz_pilot/prompts.py",
       "path": "ours/core/jlz_pilot/prompts.py",
       "upstream_sha256": "e2883bb96741395c28d87f6534a594734f94bda17ac09a45ba53fd9eab160718",
-      "sha256": "1db8eaeaa5d391c89d51ace20e4e39e5b996313b105e23f15b5c96f9454ff319",
+      "sha256": "ab395bff06438548fbe822bdac565b761c95f962a8170b76a958a67d0c67c133",
       "changes": [
         "package_namespace_only",
         "common_scalar_helpers_without_task_identity",
-        "2026-10-09: bind immutable model-specific ours config; remove knob defaults and duplicate constants; keep default numerical operations"
+        "2026-10-09: bind immutable model-specific ours config; remove knob defaults and duplicate constants; keep default numerical operations",
+        "Qwen/GPT-J only: native lookup-zero prefix and entry policy binding; no Llama or baseline change"
       ],
       "installed_revisions": [
         {
           "before_sha256": "e2883bb96741395c28d87f6534a594734f94bda17ac09a45ba53fd9eab160718",
           "after_sha256": "1db8eaeaa5d391c89d51ace20e4e39e5b996313b105e23f15b5c96f9454ff319",
           "instruction": "USER-PRICE-MODEL-HPARAM-CONFIG-20261009-R1"
+        },
+        {
+          "before_sha256": "1db8eaeaa5d391c89d51ace20e4e39e5b996313b105e23f15b5c96f9454ff319",
+          "after_sha256": "ab395bff06438548fbe822bdac565b761c95f962a8170b76a958a67d0c67c133",
+          "instruction": "USER-SH3-GH-OFFICIAL-M1-POS0-QWEN-GPTJ-20261009-R1"
         }
       ]
     },
@@ -890,17 +896,23 @@
       "upstream_path": "project/run_scripts/jlz_price_gptj/entry.py",
       "path": "ours/core/jlz_price_gptj/entry.py",
       "upstream_sha256": "b2a996e2f9a60b6b6f16388dcbbac94af523f10a98313028e2ed809d78a2b16a",
-      "sha256": "ec7a4f5c2c69e7010e9e705b578d08c657dc59c335aec0f42f73d38e3e1ce0c4",
+      "sha256": "297fbfb5a72861450d5e18f340b27d4538b3e601ee1eea17b112a3d2344d6d82",
       "changes": [
         "package_namespace_only",
         "common_scalar_helpers_without_task_identity",
-        "2026-10-09: bind immutable model-specific ours config; remove knob defaults and duplicate constants; keep default numerical operations"
+        "2026-10-09: bind immutable model-specific ours config; remove knob defaults and duplicate constants; keep default numerical operations",
+        "Qwen/GPT-J only: native lookup-zero prefix and entry policy binding; no Llama or baseline change"
       ],
       "installed_revisions": [
         {
           "before_sha256": "253be9ddc249464d8c7c747e251aaeec4e2ceb2f69314439f23314397d7f5ea3",
           "after_sha256": "ec7a4f5c2c69e7010e9e705b578d08c657dc59c335aec0f42f73d38e3e1ce0c4",
           "instruction": "USER-PRICE-MODEL-HPARAM-CONFIG-20261009-R1"
+        },
+        {
+          "before_sha256": "ec7a4f5c2c69e7010e9e705b578d08c657dc59c335aec0f42f73d38e3e1ce0c4",
+          "after_sha256": "297fbfb5a72861450d5e18f340b27d4538b3e601ee1eea17b112a3d2344d6d82",
+          "instruction": "USER-SH3-GH-OFFICIAL-M1-POS0-QWEN-GPTJ-20261009-R1"
         }
       ]
     },
@@ -1026,10 +1038,18 @@
       "upstream_path": "project/run_scripts/jlz_realization/inputs.py",
       "path": "ours/core/jlz_realization/inputs.py",
       "upstream_sha256": "9c283e30cef1900b5e6b4f2b6a751a455166f6152939955a38cf4efb0d8de0ef",
-      "sha256": "38594e315dbfdfa626b8a1c1a2c21846d8f9d88a20720d3e50d7a6f805f01d0a",
+      "sha256": "e3ab076c194dc84ffb3c96550b1f7d78f5f59a16eb9d6ea0a0c58a9b60912dc6",
       "changes": [
         "package_namespace_only",
-        "common_scalar_helpers_without_task_identity"
+        "common_scalar_helpers_without_task_identity",
+        "Qwen/GPT-J only: native lookup-zero prefix and entry policy binding; no Llama or baseline change"
+      ],
+      "installed_revisions": [
+        {
+          "before_sha256": "38594e315dbfdfa626b8a1c1a2c21846d8f9d88a20720d3e50d7a6f805f01d0a",
+          "after_sha256": "e3ab076c194dc84ffb3c96550b1f7d78f5f59a16eb9d6ea0a0c58a9b60912dc6",
+          "instruction": "USER-SH3-GH-OFFICIAL-M1-POS0-QWEN-GPTJ-20261009-R1"
+        }
       ]
     },
     {
@@ -1439,17 +1459,23 @@
       "upstream_path": "project/run_scripts/jlz_v12r/entry.py",
       "path": "ours/core/jlz_v12r/entry.py",
       "upstream_sha256": "e5e9e0b559d8460dccb8656bd2d34762d2021a50d1e55c9d84e6be41db22fd71",
-      "sha256": "484d882dd9261d27ce83799a073efa54c56fd22e82e860528888c814c9f2cced",
+      "sha256": "ac86deccb5cd84bd6493972de8c9ddcc8c54889b315cc5c93ae2dafe5d1c0832",
       "changes": [
         "package_namespace_only",
         "common_scalar_helpers_without_task_identity",
-        "2026-10-09: bind immutable model-specific ours config; remove knob defaults and duplicate constants; keep default numerical operations"
+        "2026-10-09: bind immutable model-specific ours config; remove knob defaults and duplicate constants; keep default numerical operations",
+        "Qwen/GPT-J only: native lookup-zero prefix and entry policy binding; no Llama or baseline change"
       ],
       "installed_revisions": [
         {
           "before_sha256": "0677a8164364763f07877aec00c06d6cd96d753e2c02ba91d9a83ea62fa0dccf",
           "after_sha256": "484d882dd9261d27ce83799a073efa54c56fd22e82e860528888c814c9f2cced",
           "instruction": "USER-PRICE-MODEL-HPARAM-CONFIG-20261009-R1"
+        },
+        {
+          "before_sha256": "484d882dd9261d27ce83799a073efa54c56fd22e82e860528888c814c9f2cced",
+          "after_sha256": "ac86deccb5cd84bd6493972de8c9ddcc8c54889b315cc5c93ae2dafe5d1c0832",
+          "instruction": "USER-SH3-GH-OFFICIAL-M1-POS0-QWEN-GPTJ-20261009-R1"
         }
       ]
     },

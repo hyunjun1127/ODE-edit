@@ -21,6 +21,8 @@ def native_rows(pack):
 
 @torch.no_grad()
 def prepare_entry(a,bench,pack,history,stats,requests_per_group=1):
+    from official.ours.pos0 import check_entry
+    check_entry(a.profile,pack)
     require(requests_per_group==1,'COMPLETE_SINGLE_OWNER_GRAPH')
     start=time.monotonic();rows=native_rows(pack);groups=[]
     anchor_layer=a.profile['anchor_layer'];capture_sites=sorted(set(a.sites)|{anchor_layer})
