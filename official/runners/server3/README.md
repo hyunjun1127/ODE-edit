@@ -35,9 +35,11 @@ W/history/context/RNG/cursor hashes and factual raw. CPU tests alone do not
 establish native GPU parity.
 
 The common factual forward evaluator is owned by server1 at
-`official.evaluation.factual`. Until its actual `evaluate_cases` API and raw
-schema are published and checked against this caller, server3 preflight blocks
-science. The common `official.tracking` schema accepts request-macro official
+`official.evaluation.factual`. Server3 calls its `evaluate` API and saves the
+complete zsRE W0 token-prediction reference once; edited zsRE batches pass the
+same model/tokenizer/stream identity and reference back to that API. The
+common CPU fixtures do not establish native target-model parity. The common
+`official.tracking` schema accepts request-macro official
 scores and the measured, dataset-specific W0 prompt counts. W5/W10/W15/W20
 current 100 is reduced from the same all-seen raw without another forward.
 The server3 folder does not fork either shared evaluator or logger.
