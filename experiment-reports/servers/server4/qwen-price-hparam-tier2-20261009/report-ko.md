@@ -1,4 +1,45 @@
-# Qwen PRICE hparam / Tier 1–2 — CPU 준비, 미제출
+# Qwen PRICE hparam / Tier 1–2 — 등록 및 초기 온라인 연결
+
+## 최신 실행 상태 (2026-10-09 03:21 KST)
+
+사용자 `gpu 2개 써`를 반영해 각 cold arm GPU1, 두 arm 동시 실행으로 등록했다.
+실행 source는 `f50a5c90f3f396fa4c7ce7acb6fac6686e2488b1`이며 이후 보고 commit과 구분한다.
+
+| 실제 job | 단계 | GPU / CPU / RAM MiB | dependency | 관측 상태 |
+|---|---|---|---|---|
+| 61673 | 기본값 B1 W/H 재현 → held-out W0 500 | 1 / 8 / 59392 | 없음 | RUNNING |
+| 61674 | Tier1 Q0–Q7/조건부 → 선정 → Tier2 | 2 / 16 / 118784 | afterok:61673,afterany:61618 | PENDING (Dependency) |
+
+두 job 모두 exact held owner/Command/argv/source/resources/dependency 검사 후 release했다.
+현재 own allocation은 기존 61618 GPU1과 warmup GPU1로 합계2다. sweep는 둘 종료 후
+GPU2 allocation에서 독립 arm 프로세스를 한 GPU씩 실행한다. canonical2/local3 중
+더 엄격한2를 적용했다. 기존 61618/타 작업 변경0, 중단한 61598 재개0, Tier3 제출0.
+처음 resource helper의 `*` 이름 검사는 다른 사용자까지 포함해6으로 과대계상했다.
+own queue 전체를 별도 검산하고 실제 own 이름 범위로 helper를 재검사해 cap2 PASS했다.
+첫 helper 거절 때 sbatch 호출0; 실제 deliberate registration은 위 두 ID 한 번뿐이다.
+
+공유 SH1 transport 파일을 수정/복제하지 않고 task-local strict schema adapter를 연결했다.
+held-out metadata/resolved config/validation/W0_first500을 정확히 검증하며, 원 shared
+sidecar·privacy·job identity·bounded readback 경로를 재사용한다. 공통 helper 자체에
+기능이 배포됐다는 주장은 아니다. 새로운 fake-SDK/selection CPU 5 tests PASS;
+기존 official63/source158 검산과 구분한다. 실행 archive와 11,112 source members,
+입력/런처/resolved config/선정 규칙을 봉인했다. frozen archive hotpatch0.
+
+smoke 실제 W&B startup 원격 identity readback 확인:
+[server4-QWEN_smoke_Q0-execution-r1-job61673](https://wandb.ai/wkdguswns2256/layer%20allocation/runs/5965697611e94a32).
+job/source/config/model/schema/validation 역할과 immutable identity receipt가 결속됐다.
+이는 **online 시작 확인**이며 B1 W/H 재현 PASS나 Tier1/2 완료가 아니다.
+smoke는 validation이므로 아래 tuning view에서 제외된다. 실제 tuning arm은 각자
+새 run ID로 전용 view에 기록되며 아직 그 결과/remote metric delivery는 NOT_OBSERVED다.
+
+Tier2는 state continuation 증명 대신 허용된 cold B1–B5 refit을 사용한다. Q0와 선정
+후보 비용을 포함하고 noCP를 유지한다. 미래 archive 정책은 새 CP가 없어
+NOT_APPLICABLE_NO_CHECKPOINT이며 기존 CP 이동/삭제0다. smoke 불일치면 sweep 시작0.
+12GiB storage reserve와 per-batch guard를 적용했고 등록 당시 free 약53.8GiB였다.
+원 raw/세부 receipt는 ignored `local/qwen-price-hparam-tier2-20261009/execution-r1/`에 보존한다.
+NO_BROADCAST_NOT_REQUIRED: same-host 자산 및 compact Git source/report만 전달한다.
+
+아래는 준비 단계의 역사 기록이다. 과거 미제출/schema blocker는 위 구현·등록으로 갱신됐다.
 
 ## 최신 사용자 요청: 별도 W&B tuning page
 
@@ -62,7 +103,7 @@ Tier3 추천은 W5 RS≥99%, NS 손실≤1.2pp, numeric/projection 실패0 중 P
 이번 task는 Tier3를 제출하지 않는다. continuation 증명 전에는 cold B1–B5 재실행
 방식을 사용할 수 있으나 아직 어느 Tier2 run도 시작하지 않았다.
 
-## 실제 blocker와 남은 일
+## 당시 blocker와 남은 일 (등록 전 역사 기록)
 
 공통 W&B strict schema는 필수 cohort_role/tier/slice/resolved config/hash,
 validation 역할, W0_first500을 거부한다. 500건 W0를 first2000으로 재명명하거나
