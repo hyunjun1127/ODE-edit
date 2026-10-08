@@ -1,0 +1,51 @@
+{
+  "instruction": "SH2-GH-ZSRE-WANDB-METRICS-20261009-R1",
+  "views_followup": "SH2-GH-ZSRE-WANDB-VIEWS-READY-20261009-R1",
+  "source_commit": "21a78e27",
+  "publication": "a0408faada5d493f562331609b9d19d987bee3f4",
+  "official_tree": "4c84ff06953a75a3ba88812199fd84c9881fe292",
+  "schema_sha256": "24b7ba5dfa7741ad26b0b571a3e8bbe205bed57c0ae78809214844af3026268e",
+  "method_sha256": "80488b45d2529dd4496c2ff1421951dc46b82b620b4fdbeda3e821f6c8f6376b",
+  "direct_delivery": [
+    {
+      "server": "server1",
+      "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+      "nonce": "GH-SH1-ZSRE-WANDB-METRICS-READY-20261009-R1",
+      "accepted_turn": "01a11cb9-3830-7bb2-a855-cb47ad18d6ba",
+      "operation": "turn/steer; idle race NO_WRITE 후 관련 official 준비 turn 확인",
+      "explicit_owner_ACK": true,
+      "stage": "공통 입력 수락. 향후 승인 zsRE caller 채택 예정, 현재 CF 추가 준비 유지. 실제 새 zsRE 제출을 주장하지 않음."
+    },
+    {
+      "server": "server2",
+      "session": "01a0493a-074c-7f91-9a13-769116326fef",
+      "nonce": "GH-SH2-ZSRE-WANDB-METRICS-READY-20261009-R1",
+      "accepted_turn": "01a11cb4-064d-7c22-8f68-b6e0ed8e4de7",
+      "operation": "turn/steer",
+      "explicit_owner_ACK": true,
+      "stage": "게시본 병합 및 zsRE caller 연결을 owner가 보고. 최종 CPU/freeze/6종 등록 준비 중. ACK 시점 신규 zsRE job 미제출. saved view 실제 생성·spec readback은 별도 owner 보고."
+    },
+    {
+      "server": "server3",
+      "session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+      "nonce": "GH-SH3-ZSRE-WANDB-METRICS-READY-20261009-R1",
+      "accepted_turn": "01a11cba-a7f0-7930-9aaf-9d23efa81cea",
+      "operation": "turn/start",
+      "explicit_owner_ACK": true,
+      "stage": "공통 입력 수락. 미제출 zsRE caller 연결 및 최소 CPU 검산 착수."
+    },
+    {
+      "server": "server4",
+      "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+      "stage": "DELIVERY_PENDING_UNRELATED_ACTIVE_TURN",
+      "active_turn": "01a11cb0-caa7-7843-8c6e-bfcafa9fb52e",
+      "reason": "별도 Qwen heldout tuning 구현·실행 사용자 turn 진행 중. zsRE 전달로 침범하지 않음.",
+      "app_server_write": false,
+      "explicit_owner_ACK": false,
+      "next": "idle 또는 관련 official 입력 turn에서 exact 직접 전달·ACK 회수. 자동 heartbeat/recurring monitor는 생성하지 않음."
+    }
+  ],
+  "completion_claim": "공통 구현/게시와 SH1·2·3 직접 수락 확인. 전 서버 채택 완료 아님. saved view와 실험 실제 제출·GPU·온라인 startup은 별도 상태.",
+  "GH_new_GPU_Slurm_online_operations": 0,
+  "old_frozen_jobs_changed": false
+}
