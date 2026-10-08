@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "nonce": "USER-GH-SH1-GPT2XL-BLUE-PRUNE-RECT-W20-GENERATION-20261008-R1",
+  "status": "NONFORCE_BRANCH_AND_MAIN_VERIFIED",
+  "runtime_source_commit": "9a8c7ebfae197cc0d8dba994ff1208cdb24635f8",
+  "first_verified_main_publication_commit": "cc03e93406883b5d6c0143d3f2c8e10d5a95928d",
+  "first_verified_branch_publication_commit": "4e6fb1440474959ac2ab4e1477cf6d63a791631e",
+  "remote_verification": "git ls-remote exact refs/heads/main and own branch",
+  "source_diff_after_freeze": "EMPTY own generation/caller/tracking sources",
+  "root_dirty_preserved": true,
+  "NoCP": true,
+  "monitoring_active": false,
+  "automatic_retry": false
+}

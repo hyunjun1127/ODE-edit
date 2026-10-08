@@ -1,5 +1,7 @@
 # GPT2-XL AlphaEdit-BLUE / PRUNE / RECT W20-only generation
 
+Source·compact receipt/report를 own branch와 main에 비강제 게시했고 첫 원격 main `cc03e93406883b5d6c0143d3f2c8e10d5a95928d`를 exact 확인했다. 이는 publication commit이며 실행 source `9a8c7ebf`/봉인 archive는 변경하지 않았다.
+
 현재 단계는 실제 세 GPU job+target-only CPU collector held 검사 및 release 완료다. 최종 owner preflight 122개 PASS, skip/failure/error0. 실제 GPU qualification·W20 점수·새 W&B 원격 기록은 미관측이다. Source `9a8c7ebfae197cc0d8dba994ff1208cdb24635f8`, config SHA `ea4b2aa08b99e4b5dd097855a7d006aa53df3a75402dd320a36de30af39906e0`, lock SHA `0616974ac0e809b177d58d395c6c12cfe6eb825d470162b6e7586a00a4a0e6c7`.
 
 | Method | Actual job | Resource afterany | Bounded initial state |

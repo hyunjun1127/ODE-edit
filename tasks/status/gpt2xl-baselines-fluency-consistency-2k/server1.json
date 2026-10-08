@@ -7,6 +7,8 @@
   "status": "W20_ONLY_THREE_SUBMITTED_RELEASED_RESOURCE_PENDING",
   "current_task_id": "gpt2xl-blue-prune-rect-w20-generation",
   "w20_only_three": {
+    "publication": "NONFORCE_MAIN_VERIFIED",
+    "first_verified_main_publication_commit": "cc03e93406883b5d6c0143d3f2c8e10d5a95928d",
     "nonce": "USER-GH-SH1-GPT2XL-BLUE-PRUNE-RECT-W20-GENERATION-20261008-R1",
     "source_commit": "9a8c7ebfae197cc0d8dba994ff1208cdb24635f8",
     "attempt": "attempt-w20-only-three-r1",
