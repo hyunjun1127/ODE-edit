@@ -1,6 +1,15 @@
 # GPT2-XL AlphaEdit-BLUE / PRUNE / RECT W20-only generation
 
-현재 단계는 CPU 입력 결속 및 source 검토 완료, 실제 등록 준비이다. 최종 owner preflight 122개 PASS, skip/failure/error0. 실제 GPU qualification·W20 점수·새 W&B 원격 기록은 미관측이다.
+현재 단계는 실제 세 GPU job+target-only CPU collector held 검사 및 release 완료다. 최종 owner preflight 122개 PASS, skip/failure/error0. 실제 GPU qualification·W20 점수·새 W&B 원격 기록은 미관측이다. Source `9a8c7ebfae197cc0d8dba994ff1208cdb24635f8`, config SHA `ea4b2aa08b99e4b5dd097855a7d006aa53df3a75402dd320a36de30af39906e0`, lock SHA `0616974ac0e809b177d58d395c6c12cfe6eb825d470162b6e7586a00a4a0e6c7`.
+
+| Method | Actual job | Resource afterany | Bounded initial state |
+|---|---|---|---|
+| AlphaEdit-BLUE | 61436 | 없음 | PENDING / ReqNodeNotAvail |
+| PRUNE | 61437 | 없음 | PENDING / ReqNodeNotAvail |
+| RECT | 61438 | 61436 | PENDING / Dependency |
+| GPU0 collector | 61439 | 61436,61437,61438 | PENDING / Dependency |
+
+소유 project active/admitted GPU0에서 새 DAG width2/cap2를 검산했고 release 직전 재검산도 PASS다. 모든4 owner/fullargv/script/source/input/ref/PLAN/resources/dependencies 검산 및 reverse release 성공. Fresh root available130369314816B, RAID1368186036224B, inodes335242110; reserve16GiB. 현재 물리 노드 가용성 문제로 정상 PENDING이며 완료·실패 지점 통과를 기다리지 않았다.
 
 사용자 권한 nonce `USER-GH-SH1-GPT2XL-BLUE-PRUNE-RECT-W20-GENERATION-20261008-R1`, authority `4e8a77004aef3cfff43f17b795f2b920c78e51ea`, envelope SHA `2728196c31779c98fd599ec9a5acf9ff0424c87c37dc6f24efa8fdbc5c05d54f`를 전체 읽고 검산했다. App thread/session/host와 실제 root CWD `/mnt/raid5/janghj/ODE-edit`를 확인했다. 역사 registry29e4는 강제 CWD로 쓰지 않았고, 원 dirty root는 보존했다.
 

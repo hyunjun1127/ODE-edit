@@ -1,5 +1,13 @@
 # GPT2-XL native baseline generation rerun 사실보고
 
+## 최신 2026-10-08 W20-only 세 방법 인계
+
+Nonce `USER-GH-SH1-GPT2XL-BLUE-PRUNE-RECT-W20-GENERATION-20261008-R1`에 따라 AlphaEdit-BLUE61436, PRUNE61437, RECT61438 및 target-only GPU0collector61439를 실제 held 검사·release했다. Source `9a8c7ebf`, CPU122 PASS/skip0, cap2/DAG width2. RECT afterany61436, collector afterany세target. BLUE/PRUNE는 PENDING ReqNodeNotAvail, RECT/collector는 PENDING Dependency. 실제 qualification/W20/newW&B 미시작이다. Generation은 실제 W20 first2000 한 번뿐이며 W0 generation READY gate0, RPN 일정은 그대로다.
+
+Old targets61170/61171/61172는 accounting상 이미 CANCELLED여서 이번 취소0. 공유61173은 실패 보고 COMPLETED이며 그대로 KEEP. MEMIT/AlphaEdit/CAKE/OURS/W0/다른서버 변경·재제출0. 세부 사실과 보존/자산/검산 범위는 [w20-only-three/report-ko.md](w20-only-three/report-ko.md), exact compact receipt는 `audits/servers/server1/gpt2xl-baselines-fluency-consistency-2k/w20-only-three/registration.json`이다. 이하 이전 초기 snapshot은 역사 이력이며 현재 queue를 뜻하지 않는다.
+
+## 이전 등록·수리 이력 보존
+
 현재 상태: **USER recall 후 실제 여섯 baseline + CPU collector 등록·held 검산·release 완료**. Bounded snapshot에서 MEMIT60928 RUNNING, 나머지 정상 Dependency PENDING이다. 실험 완료·B1 commit/다음 entry·metric 전체 전송은 아직 미관측이며 기다리지 않았다.
 
 ## 등록 재개 실제 근거

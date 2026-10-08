@@ -1,0 +1,117 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH1-GPT2XL-BLUE-PRUNE-RECT-W20-GENERATION-20261008-R1",
+  "task_id": "gpt2xl-blue-prune-rect-w20-generation",
+  "server": "server1",
+  "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+  "status": "SUBMITTED_RELEASED_RESOURCE_PENDING",
+  "attempt": "/mnt/raid5/janghj/ODE-edit/local/gpt2xl-baselines-fluency-consistency-2k/20261007-v1/attempt-w20-only-three-r1",
+  "source_commit": "9a8c7ebfae197cc0d8dba994ff1208cdb24635f8",
+  "source_tree": "24c11c351ed1e62857fede129367a5589679bf20",
+  "common_package_tree": "28b6423c7cabf65be5d4826d17f47821d09718ce",
+  "config": {
+    "bytes": 249839,
+    "sha256": "ea4b2aa08b99e4b5dd097855a7d006aa53df3a75402dd320a36de30af39906e0"
+  },
+  "lock": {
+    "bytes": 143847,
+    "sha256": "0616974ac0e809b177d58d395c6c12cfe6eb825d470162b6e7586a00a4a0e6c7"
+  },
+  "held": {
+    "bytes": 14556,
+    "sha256": "33a64c878890d2ef97cf4c28e7188e52b23b0dde2e15949b815b8cd0642b8bcf",
+    "status": "PASS_ALL4"
+  },
+  "release": {
+    "bytes": 195,
+    "sha256": "e6f43640d8d4e430d93e97782a37296896a215cfae046137649c104e2570eb45",
+    "status": "RELEASED_ALL4"
+  },
+  "cpu": {
+    "tests": 122,
+    "passed": 122,
+    "failed": 0,
+    "skipped": 0,
+    "seconds": 10.077442707493901,
+    "sha256": "e4d622950390580e46b9c0c8df10a3597faa72c6ce34c338bf69e5b532664516"
+  },
+  "jobs": {
+    "ALPHAEDIT_BLUE": "61436",
+    "PRUNE": "61437",
+    "RECT": "61438",
+    "collector": "61439"
+  },
+  "dependencies": {
+    "ALPHAEDIT_BLUE": [],
+    "PRUNE": [],
+    "RECT": [
+      "61436"
+    ],
+    "collector": [
+      "61436",
+      "61437",
+      "61438"
+    ]
+  },
+  "dependency_type": "afterany_resource_only",
+  "collector_coverage": [
+    "ALPHAEDIT_BLUE",
+    "PRUNE",
+    "RECT"
+  ],
+  "initial": {
+    "ALPHAEDIT_BLUE": "PENDING/ReqNodeNotAvail",
+    "PRUNE": "PENDING/ReqNodeNotAvail",
+    "RECT": "PENDING/Dependency",
+    "collector": "PENDING/Dependency"
+  },
+  "combined_GPU_cap": 2,
+  "projected_GPU_width": 2,
+  "prior_own_devbox_active_admitted_GPU": 0,
+  "resources": {
+    "gpu": 1,
+    "cpu": 8,
+    "host_MiB": 65536,
+    "wall_ceiling_hours": 48,
+    "collector_gpu": 0,
+    "collector_cpu": 8,
+    "collector_host_MiB": 24576,
+    "collector_wall_ceiling_hours": 4,
+    "partition": "gpu",
+    "qos": "lab_gpu_s1",
+    "node": "devbox",
+    "export": "NONE",
+    "requeue": 0
+  },
+  "storage": {
+    "root_available_bytes": 130369314816,
+    "RAID_available_bytes": 1368186036224,
+    "available_inodes": 335242110,
+    "reserve_bytes": 17179869184
+  },
+  "generation_schedule": "W20_ONLY_FIRST2000",
+  "generation_W0_ready_required": false,
+  "qualification_PLAN_sha256": "83cee93d1b462f8e0b503f4692dd537430ee9084971aaa3a9150bcf4a2a4590b",
+  "qualification_actual": "NOT_RUN; selected route/fixedMB/results/cost each new arm inside approved job",
+  "W_B": {
+    "stage": "NOT_STARTED; actual job startup/finish readback only",
+    "run_ID_URL": "NOT_CREATED_YET; no fake identity",
+    "SDK_acceptance_is_not_remote_readback": true
+  },
+  "scientific_completed": false,
+  "previous_failure_point_passed": "NOT_OBSERVED; resource pending",
+  "old_targets": {
+    "ALPHAEDIT_BLUE": "61170:CANCELLED",
+    "PRUNE": "61171:CANCELLED",
+    "RECT": "61172:CANCELLED"
+  },
+  "old_shared_collector": "61173:COMPLETED_FAILURE_REPORT_KEEP; not scientific success",
+  "cancelled_this_instruction": [],
+  "protected_other_methods_jobs_mutated": false,
+  "old_source_raw_cost_preserved": true,
+  "checkpoint_saved": false,
+  "exact_resume": "NOT_AVAILABLE",
+  "monitoring": false,
+  "automatic_retry": false,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED; same-host originals/raw/reference KEEP; compact source/report via Git"
+}
