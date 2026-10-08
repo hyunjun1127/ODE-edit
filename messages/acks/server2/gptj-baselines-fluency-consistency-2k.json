@@ -10,6 +10,18 @@
   "origin": "hyunjun1127/ODE-edit",
   "authority": "b0cee1a302c10d48e206a31c7c5cf318ac36d8c3",
   "accepted": true,
+  "native_flucon_repair_stop_owner_ack": {
+    "nonce": "SH1-SH2-NATIVE-FLUCON-REPAIR-20261008-R1",
+    "accepted": true,
+    "stage": "EXACT_PENDING_CANCELLED_RUNNING_MEMIT_PRESERVED",
+    "cancelled_ids": ["61434","61433","61432","61431","61430","61429"],
+    "preserved_RUNNING": ["61428"],
+    "new_submissions": 0,
+    "shared_implementation_edits": 0,
+    "new_native_source_API_report": "NOT_YET_RECEIVED",
+    "monitoring_active": false,
+    "automatic_retry": false
+  },
   "final_generation_direct_USER_ACK": {
     "authority_kind": "DIRECT_USER_SCHEDULE_OVERRIDE",
     "user_followup_exact": "지금 돌아가는 실험이 있으면 전부 다 수정해",

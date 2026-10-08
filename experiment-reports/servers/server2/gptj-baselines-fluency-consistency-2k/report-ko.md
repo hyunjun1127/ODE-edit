@@ -468,3 +468,41 @@ SDK accepted, parent local scalar journal, method/progress remote readback과 sc
 NoCP/기존 raw KEEP, 새 raw·prompt/token/전체stdout/secret Git·W&B0이다.
 Sealed runner/collector는 자연 진행하고 agent는 bounded initial snapshot 후 polling/heartbeat/retry 없이 중지한다.
 Compact 등록 receipt는 `final-generation-v1/submission.json`; sourcefreeze와 이후 main publication commit은 별도다.
+
+## 2026-10-08 SH1 USER 전달: RUNNING 보존·미시작 baseline만 취소
+
+Nonce `SH1-SH2-NATIVE-FLUCON-REPAIR-20261008-R1`을 직접 수신·수락했다.
+2026-10-08T12:37:05Z에 Server2/janghj의 정확 기존 source/lock/archive/launcher와
+현재 owner/node/Command/WorkDir/full SubmitLine을 결속했다. 취소 직전 별도 확인에서도
+61429–61434는 PENDING, StartTime=Unknown, RunTime=0이었다. collector→먼 후속→가까운 후속
+순서로만 취소했으며, RUNNING61428은 취소·hold·hotpatch·재시작 없이 보존했다.
+
+| 역할 | Job | 직전 상태 | 단발 post 상태 | 취소된 할당 GPU-sec |
+| --- | --- | --- | --- | --- |
+|MEMIT|61428|RUNNING|RUNNING, 보존|해당 없음|
+|AlphaEdit|61429|PENDING|CANCELLED by1025|0|
+|CAKE|61430|PENDING|CANCELLED by1025|0|
+|AlphaEdit-BLUE|61431|PENDING|CANCELLED by1025|0|
+|PRUNE|61432|PENDING|CANCELLED by1025|0|
+|RECT|61433|PENDING|CANCELLED by1025|0|
+|전용 collector|61434|PENDING|CANCELLED by1025|0|
+
+실제 취소 순서는 61434→61433→61432→61431→61430→61429다. 취소 대상6개는
+elapsed0/AllocTRES없음이며 exact queue에는 `61428|RUNNING|janghj|server2|None`만 남았다.
+61428의 allocation은 GPU1/CPU6/58G, accounting elapsed snapshot11077초다.
+이는 최종 비용·전체 project queue 상태·과학 진행률/완료 검산이 아니다.
+PRICE OURS/W0-only/FE/다른 서버·owner/무관 job은 조회 범위 밖이며 변경0이다.
+
+과학 source573e25c5/config10c81ca3/lock03d70323 및 원 execution worktree·archive·raw·로그·spool은 보존했다.
+현재 source에는 이전 파생 generation profile이 봉인돼 있다. SH1이 전달 예고한 새 native
+noEOS/per-case padded KVbatch source/API/report의 exact identity는 아직 `NOT_YET_RECEIVED`다.
+이번 취소로 새 native 구현 채택이나 actualGPU 검증을 주장하지 않는다. 신규 SH2 제출·fit·model load·
+science source 편집·공통 namespace 편집·삭제·자동재개 모두0이다. 반복 monitor/heartbeat도0이다.
+
+첫 local 취소-control parser가 SubmitLine 뒤 WorkDir까지 포함해 identity검산에서 멈췄으며 그때 scancel0이었다.
+SubmitLine 필드 경계만 수리해 exactargv를 검산한 뒤 위 취소를 수행했다. 과학 코드 수리는 없었다.
+Compact audit는 `native-flucon-repair-stop-r1/summary.json`이다.
+Full receipt37747B는 ignored local/gptj-baselines-fluency-consistency-2k/native-flucon-repair-stop-r1/
+cancellation-receipt.json, SHA `c3c6c06c5a013caf80153564a7912d6a24000f582a74aff541b603cd927ed5e4`다.
+Fullargv/source 증빙은 local에만 보존한다. `NO_BROADCAST_NOT_REQUIRED`: 소형 metadata만 Git,
+원 raw/로그/credential·prompt·tensor 전송/Git/W&B 업로드0.
