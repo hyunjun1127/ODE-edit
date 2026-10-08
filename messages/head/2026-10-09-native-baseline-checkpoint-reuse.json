@@ -2,7 +2,10 @@
   "instruction_id": "USER-GH-LLAMA-QWEN-BASELINE-CHECKPOINT-REUSE-20261009-R1",
   "parent": "USER-OFFICIAL-BASELINES-20261008-R1",
   "user_exact_quote": "alphaedit과 memit은 llama,qwen의 checkpoint가 있기에 4arm은 실험 안돌리고 나중에 flu와 con만 돌리면 되고 blue도 checkpoint가 있지 않나? 확인해봐.",
-  "status": "FOUR_CF_REFITS_EXCLUDED_CHECKPOINTS_FRESH_SHA_VERIFIED",
+  "status": "SUPERSEDED_FOR_NEW_MAIN_RESULTS",
+  "historical_status": "FOUR_CF_REFITS_EXCLUDED_CHECKPOINTS_FRESH_SHA_VERIFIED",
+  "superseded_by": "messages/head/2026-10-09-main-table-fresh-rerun.json",
+  "current_action": "아래 excluded 목록과 owner_action은 과거 기록이다. 최신 사용자 지시로 sample/order가 다른 checkpoint의 신규 CF 제외를 철회하고 fresh 재실험을 진행한다. 원 checkpoint는 KEEP.",
   "excluded_new_edit_chains": [
     {"model": "llama3", "method": "MEMIT", "dataset": "cf", "owner": "server1"},
     {"model": "llama3", "method": "ALPHAEDIT", "dataset": "cf", "owner": "server4"},
