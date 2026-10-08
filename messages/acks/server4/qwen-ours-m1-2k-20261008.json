@@ -1,0 +1,10 @@
+{
+  "nonce":"USER-SH4-QWEN-OURS-M1-2K-LIVE-WANDB-20261008-R1",
+  "server":"server4","session":"01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "task_id":"qwen-ours-m1-2k-20261008","accepted":true,
+  "initial_stage":"FROZEN_SOURCE_VERIFIED_NOT_SUBMITTED",
+  "source":"9ecdf8342c52ee7e6a85a6ed741fc4f5468bc1ef",
+  "authority":"현재 사용자 직접 실행 지시가 준비 당시 submission_authorized=false를 이 단일 task에 한해 대체",
+  "source_location":"지정된 preparation-v1/source 그대로. 로컬 Git object는 없으며 주어진 archive/config/lock/launcher SHA로 검산",
+  "other_jobs_mutation":false,"new_W0":false,"automatic_resubmit":false
+}
