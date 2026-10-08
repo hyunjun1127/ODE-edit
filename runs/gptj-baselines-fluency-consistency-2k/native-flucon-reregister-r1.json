@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-DIRECT-SH2-GPTJ-NATIVE-FLUCON-REREGISTER-20261008-R1",
+  "task_id": "gptj-baselines-native-generation-repair",
+  "status": "SUBMISSION_HANDOFF",
+  "jobs": {
+    "ALPHAEDIT_BLUE": "61537",
+    "BASE_ALPHAEDIT": "61535",
+    "BASE_MEMIT": "61534",
+    "CAKE": "61536",
+    "PRUNE": "61538",
+    "RECT": "61539",
+    "collector": "61540"
+  },
+  "dependencies": {
+    "ALPHAEDIT_BLUE": [
+      "61535"
+    ],
+    "BASE_ALPHAEDIT": [],
+    "BASE_MEMIT": [
+      "61428"
+    ],
+    "CAKE": [
+      "61534"
+    ],
+    "PRUNE": [
+      "61536"
+    ],
+    "RECT": [
+      "61537"
+    ],
+    "collector": [
+      "61534",
+      "61535",
+      "61536",
+      "61537",
+      "61538",
+      "61539"
+    ]
+  },
+  "source_commit": "1db8d947ce77123599dd78003560d71facd3af68",
+  "config_sha256": "0df5795a4d89805620ee2271ff2b355530d0fe98ccfe5a6209160472d80afb02",
+  "lock": {
+    "bytes": 116641,
+    "inode": 122494839,
+    "mtime_ns": 1791465268157706200,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-baselines-fluency-consistency-2k/native-repo-repair-r1/attempt-r1/execution.lock.json",
+    "sha256": "6a434b21e65314ac7a6ba18d8271b8f836b625c68b79e0ddb61159c46e7b10d2"
+  },
+  "generation_profile": "cf-cake-native-casebatch-kv-total100-globalrng-v1",
+  "generation_schedule": "W20_ONLY_FIRST2000",
+  "cap": 2,
+  "all_seven_released": true,
+  "initial_snapshot": "61540|gptj-baselines-native-generation-repair-collector|PENDING|N/A||None\n61539|gptj-baselines-native-generation-repair-RECT|PENDING|gres/gpu:1||None\n61538|gptj-baselines-native-generation-repair-PRUNE|PENDING|gres/gpu:1||None\n61537|gptj-baselines-native-generation-repair-ALPHAEDIT_BLUE|PENDING|gres/gpu:1||None\n61536|gptj-baselines-native-generation-repair-CAKE|PENDING|gres/gpu:1||None\n61535|gptj-baselines-native-generation-repair-BASE_ALPHAEDIT|PENDING|gres/gpu:1||None\n61534|gptj-baselines-native-generation-repair-BASE_MEMIT|PENDING|gres/gpu:1||None",
+  "W_B": "NEW_ACTUAL_ONLINE_STARTUP_NOT_OBSERVED",
+  "scientific_complete": false,
+  "monitoring_active": false,
+  "automatic_retry": false,
+  "receipt": "audits/servers/server2/gptj-baselines-fluency-consistency-2k/native-flucon-reregister-r1/submission.json"
+}

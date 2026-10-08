@@ -1,4 +1,77 @@
 {
+  "native_flucon_reregister_r1": {
+    "nonce": "USER-DIRECT-SH2-GPTJ-NATIVE-FLUCON-REREGISTER-20261008-R1",
+    "accepted": true,
+    "operational_task": "gptj-baselines-native-generation-repair",
+    "stage": "SUBMISSION_HANDOFF_SEVEN_HELD_INSPECTED_RELEASED_INITIAL_PENDING",
+    "source_commit": "1db8d947ce77123599dd78003560d71facd3af68",
+    "source_tree": "e7c65e367affd754f967debd17cd9863f27a6c9f",
+    "shared_source": "adb244e6f9c86b54f73bd6d8fb833b338f470ded",
+    "shared_package_tree": "91349ee439b1573e473d280ff86f88d71dd6d807",
+    "config_sha256": "0df5795a4d89805620ee2271ff2b355530d0fe98ccfe5a6209160472d80afb02",
+    "lock_sha256": "6a434b21e65314ac7a6ba18d8271b8f836b625c68b79e0ddb61159c46e7b10d2",
+    "jobs": {
+      "ALPHAEDIT_BLUE": "61537",
+      "BASE_ALPHAEDIT": "61535",
+      "BASE_MEMIT": "61534",
+      "CAKE": "61536",
+      "PRUNE": "61538",
+      "RECT": "61539",
+      "collector": "61540"
+    },
+    "dependencies": {
+      "ALPHAEDIT_BLUE": [
+        "61535"
+      ],
+      "BASE_ALPHAEDIT": [],
+      "BASE_MEMIT": [
+        "61428"
+      ],
+      "CAKE": [
+        "61534"
+      ],
+      "PRUNE": [
+        "61536"
+      ],
+      "RECT": [
+        "61537"
+      ],
+      "collector": [
+        "61534",
+        "61535",
+        "61536",
+        "61537",
+        "61538",
+        "61539"
+      ]
+    },
+    "project_cap": 2,
+    "task_cap": 2,
+    "protected_old_MEMIT": {
+      "job": "61428",
+      "observed_state": "RUNNING",
+      "mutation": false,
+      "new_MEMIT_afterany": true
+    },
+    "generation_schedule": "W20_ONLY_FIRST2000",
+    "generation_profile": "cf-cake-native-casebatch-kv-total100-globalrng-v1",
+    "W0_generation": 0,
+    "intermediate_generation": 0,
+    "final_generation_calls_per_arm": 1,
+    "final_generation_requests_per_arm": 2000,
+    "old_qualification_W0_generation_READY_gate_removed": true,
+    "CPU36": "PASS_NARROW_CPU_NOT_GPU",
+    "shared_source_edited": false,
+    "new_online_startup": "NOT_OBSERVED_AT_HANDOFF",
+    "actual_firstwrite": "NOT_OBSERVED",
+    "scientific_complete": false,
+    "noCP": true,
+    "old_source_raw_spools_cost_preserved": true,
+    "all_unrelated_jobs_unchanged": true,
+    "receipt": "audits/servers/server2/gptj-baselines-fluency-consistency-2k/native-flucon-reregister-r1/submission.json",
+    "monitoring_active": false,
+    "automatic_retry": false
+  },
   "instruction_id": "USER-GH-ALL-SH-BASELINE-FLUENCY-CONSISTENCY-RERUN-20261007-R1",
   "nonce": "USER-GH-ALL-SH-BASELINE-FLUENCY-CONSISTENCY-RERUN-20261007-R1",
   "recipient_nonce": "USER-GH-ALL-SH-BASELINE-FLUENCY-CONSISTENCY-RERUN-20261007-R1-SERVER2",
@@ -10,7 +83,7 @@
   "origin": "hyunjun1127/ODE-edit",
   "authority": "b0cee1a302c10d48e206a31c7c5cf318ac36d8c3",
   "accepted": true,
-  "status": "PENDING_BASELINES_STOPPED_RUNNING_MEMIT_PRESERVED",
+  "status": "NATIVE_FLUCON_REREGISTER_SUBMISSION_HANDOFF_INITIAL_PENDING_RUNNING_61428_PRESERVED",
   "native_flucon_source_ready_r1": {
     "nonce": "SH1-SH2-NATIVE-FLUCON-SOURCE-READY-20261008-R1",
     "accepted": true,
