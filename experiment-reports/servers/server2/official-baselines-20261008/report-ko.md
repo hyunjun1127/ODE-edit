@@ -77,7 +77,7 @@ CF 생성은 새 비교의 **모델당 W0 1회 + 각 W20 chain 2K 1회**다. 중
 
 ## 검산·등록 상태
 
-- Server2 전용 CPU fixtures: 96/96 PASS(현재 source). 실제 pretrained/GPU 관측0.
+- Server2 전용 CPU fixtures: 97/97 PASS(현재 source). 실제 pretrained/GPU 관측0.
 - official source verifier: source148, source integrity PASS, external task import0,
   GPU qualification NOT_RUN.
 - 별도 scoped independent source review: run/native/submit/collect; reviewer가 작성한 assets/generation은
@@ -110,6 +110,11 @@ source/API 및 원본 evaluator parity 범위 요청은 repo app-server direct�
 추가 USER 승인 요청은 아니다. actual held 등록은 published main/tree/현재cap/자원/input/argv를
 결속하고 수행한다. 원본 parity 입력 미결속 상태는 CF 본실행에서 정확히 차단한다.
 현재 상태를 scheduler PENDING·online verified·GPU PASS로 표시하지 않는다.
+qualification은 독립 원본 evaluator 없이도 native/resume 검산만 수행할 수 있다. 등록 단계의
+계획과 실제 측정 receipt는 구분한다. 원본 evaluator 추가로 official tree가 바뀌면 기존
+qualification을 새 source의 PASS로 재표기할 수 없다. CF 본실행에는 실제 원본 proof의
+source/member/SHA 결속이 필요하며 현재 PASS 문자열이나 owner 식 검산으로 대체하지 않는다.
+오류 기록에서 checkpoint metadata가 손상돼도 최초 scientific 예외를 유지하도록 좁게 보완했다.
 
 ## 보존·인계
 

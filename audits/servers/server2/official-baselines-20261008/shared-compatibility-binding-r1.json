@@ -16,7 +16,7 @@
   "CF_schedule": "W0_AND_W20_FIRST2000",
   "zsRE_generation": "OMITTED_NOT_APPLICABLE",
   "shared_logger_implementation_count": 1,
-  "own_CPU_tests": 96,
+  "own_CPU_tests": 97,
   "own_CPU_status": "PASS_NOT_GPU_OR_ONLINE_CERTIFICATION",
   "CF_tokenizer_candidates": 52000,
   "zsRE_tokenizer_candidates": 6000,

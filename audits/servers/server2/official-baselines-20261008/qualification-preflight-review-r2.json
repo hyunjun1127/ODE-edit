@@ -1,0 +1,24 @@
+{
+  "instruction_id": "USER-OFFICIAL-BASELINES-20261008-R1",
+  "server": "server2",
+  "stage": "qualification_only_not_CF_scientific_main",
+  "reviewed_implementation_commit": "881928084d88dd854663c24e6b6043ce9926994d",
+  "latest_failure_receipt_repair": "checkpoint metadata read error does not replace original exception; CPU fixture only",
+  "owner_CPU_tests": 97,
+  "source_verifier": {"source_files": 148, "python_files": 218, "source_integrity": "PASS", "external_task_imports": 0},
+  "read_only_registration_review": {
+    "reviewer": "native_flucon_runner",
+    "status": "warn",
+    "qualification_source_blockers": 0,
+    "metadata_CPU_tests": 20,
+    "scope": "submit is reviewer-authored; execution integration is separately inspected; not a fully independent native algorithm audit",
+    "finding": "six native/resume qualification paths plus GPU0 collector may register; CF main fails closed without original evaluator parity",
+    "warning": "future original oracle requires immutable source/member/SHA proof, not PASS label; new tree cannot relabel old qualification"
+  },
+  "actual_model_forward": 0,
+  "actual_GPU_qualification": "NOT_OBSERVED",
+  "actual_WandB_online": "NOT_OBSERVED",
+  "existing_jobs_mutation": false,
+  "CF_main_registration_allowed_by_this_receipt": false,
+  "new_monitor_or_automatic_retry": false
+}

@@ -14,6 +14,16 @@ from official.tracking import schema
 
 
 class RunConnectorTests(unittest.TestCase):
+    def test_damaged_checkpoint_metadata_does_not_hide_original_failure(self):
+        with tempfile.TemporaryDirectory() as temp:
+            self.assertIsNone(run.failure_checkpoint_metadata(temp))
+            path = Path(temp)/'latest.json'
+            path.touch()
+            with patch.object(run, 'read', side_effect=ValueError('damaged')):
+                receipt = run.failure_checkpoint_metadata(temp)
+            self.assertEqual(receipt['status'], 'CHECKPOINT_METADATA_UNREADABLE')
+            self.assertTrue(receipt['original_error_preserved'])
+
     def test_twelve_exact_gptj_configs_not_ours(self):
         configs = [run.configuration(method, dataset) for dataset in ('cf','zsre')
                    for method in run.METHODS]

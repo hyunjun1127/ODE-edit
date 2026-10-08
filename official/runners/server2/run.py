@@ -39,6 +39,18 @@ def member(path):
     return dict(path=str(path), bytes=path.stat().st_size, sha256=file_sha(path))
 
 
+def failure_checkpoint_metadata(folder):
+    """Read metadata only; a damaged receipt must not replace the first error."""
+    path = Path(folder)/'latest.json'
+    if not path.is_file():
+        return None
+    try:
+        return read(path)
+    except Exception as error:
+        return dict(status='CHECKPOINT_METADATA_UNREADABLE',
+                    exception_type=type(error).__name__, original_error_preserved=True)
+
+
 def configuration(method, dataset):
     require(method in METHODS and dataset in ('cf', 'zsre'), 'OFFICIAL_CELL_SCOPE')
     contract, profiles = load_plan()
@@ -589,8 +601,8 @@ def main():
             error_code=str(exc)[:160] if isinstance(exc, ValueError) else 'EXCEPTION_DETAILS_LOCAL_STDERR',
             elapsed_seconds=time.monotonic()-started, preserved_source_raw_checkpoint=True,
             completed_native_batches=None if engine is None else engine.batch,
-            latest_checkpoint_metadata=read((Path(args.resume) if args.resume else out/'checkpoints')/'latest.json')
-                if ((Path(args.resume) if args.resume else out/'checkpoints')/'latest.json').is_file() else None,
+            latest_checkpoint_metadata=failure_checkpoint_metadata(
+                Path(args.resume) if args.resume else out/'checkpoints'),
             new_fit_or_automatic_retry=False))
         raise
     finally:
