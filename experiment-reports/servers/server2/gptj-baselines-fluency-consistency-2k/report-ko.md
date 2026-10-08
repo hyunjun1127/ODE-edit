@@ -1,7 +1,7 @@
 # GPT-J native six-baseline fluency/consistency 준비·등록 보고
 
-최신 상태(2026-10-08): `FINAL_W20_ONLY_SUBMISSION_HANDOFF; SIX_GPU_AND_COLLECTOR_HELD_INSPECTED_RELEASED; INITIAL_PENDING`.
-최신 USER 일정 변경에 따라 이전 r2 대기 6GPU+collector를 정확 취소했다. 최종 W20-only 새 등록은 아래 최신 절에 별도 기록한다.
+최신 상태(2026-10-08): `NATIVE_FLUCON_REREGISTER_SUBMISSION_HANDOFF; 61534..61540_HELD_INSPECTED_RELEASED; INITIAL_PENDING; 61428_RUNNING_PRESERVED`.
+최신 USER 재등록 nonce에 따라 native F/C 새 profile의 여섯 cold 경로를 등록했다. 아래 마지막 절이 최신 실행 인계이며, 앞선 취소·입력·등록 절들은 보존한 역사 기록이다.
 이하 기존 등록 보고는 역사 기록이며, 현재 실행 상태로 읽지 않는다.
 원 등록 상태: `SUBMISSION_HANDOFF; SIX_GPU_AND_CPU_COLLECTOR_RELEASED`.
 Instruction/nonce `USER-GH-ALL-SH-BASELINE-FLUENCY-CONSISTENCY-RERUN-20261007-R1`,
@@ -547,3 +547,57 @@ RUNNING으로 보호 지정된61428의 원 source/archive 및 절대경로 정�
 입력 receipt는 `native-flucon-source-ready-r1/receipt.json`, 상태는
 `SOURCE_API_REPORT_IDENTITY_RECEIVED_VERIFIED_NOT_INTEGRATED`다. 반복 monitoring/automatic retry0.
 NO_BROADCAST_NOT_REQUIRED: 소형 Git source/metadata만 수신, model/stat/reference/raw/credential 복제0.
+
+## 2026-10-08 최신 USER: native FLU/CON 여섯 baseline 실제 재등록
+
+직접 담당 nonce `USER-DIRECT-SH2-GPTJ-NATIVE-FLUCON-REREGISTER-20261008-R1`을 수락하고 같은 turn에서 준비·최소 CPU·sourcefreeze·정식 Slurm 등록/release를 완료했다. Server1 cap3 변경은 Server2에 상속하지 않았다. 새 운영 task는 `gptj-baselines-native-generation-repair`, parent science는 그대로다. 기존 nonce/new native profile의 중복 등록이 없음을 own task receipt 및 exact source/owner/node admission으로 대조했다.
+
+기존 MEMIT61428은 등록 직전 actual owner janghj/node server2/Command/WorkDir/source573e25c5/lock03d70323 일치 및 **RUNNING/1GPU**를 확인하고 그대로 보호했다. 61428의 원 source/config/archive/worktree/raw/spool/cost와 61429–61434 CANCELLED 증거를 보존했다. 이번 취소0, OURS/PRICE/W0-only/FE/타서버·owner job 변경0이다. old MEMIT의 진행 상태나 결과를 새 cold trajectory 완료로 간주하지 않는다.
+
+### 실행 source와 실제 job IDs
+
+Execution source `1db8d947ce77123599dd78003560d71facd3af68`, tree `e7c65e367affd754f967debd17cd9863f27a6c9f`.
+Config665581B SHA `0df5795a4d89805620ee2271ff2b355530d0fe98ccfe5a6209160472d80afb02`.
+Lock116641B SHA `6a434b21e65314ac7a6ba18d8271b8f836b625c68b79e0ddb61159c46e7b10d2`.
+Source archive3522560B SHA `0c361fd917f4bb0c3b8e79b855487f5aea5c2d130a4995c7904a24c837574067`.
+Shared SH1 source `adb244e6f9c86b54f73bd6d8fb833b338f470ded` / package tree `91349ee439b1573e473d280ff86f88d71dd6d807`는 exact read-only 재사용이다.
+
+| 경로 | 실제 Job ID | afterany | release 직후 단발 상태 |
+| --- | --- | --- | --- |
+|MEMIT|61534|보호 기존61428|PENDING|
+|stock AlphaEdit|61535|없음|PENDING|
+|CAKE|61536|61534|PENDING|
+|AlphaEdit-BLUE|61537|61535|PENDING|
+|PRUNE|61538|61536|PENDING|
+|RECT|61539|61537|PENDING|
+|GPU0 CPU collector|61540|새 GPU61534–61539 전체|PENDING|
+
+원 61428이 lane A를 사용하는 동안 새 AlphaEdit가 lane B를 사용한다. 이후 MEMIT→CAKE→PRUNE 및 AlphaEdit→BLUE→RECT의 afterany로 합산 가능한 폭을 **cap2** 안에서 보장한다. 새7개 모두 전량 held 상태의 owner/Command/WorkDir/full argv/script/source/config/input/reference/W&B/noCP/CPU/GPU/hostmemory/wall/dependency를 검사한 뒤 후속부터 release했다. old canceled IDs를 새 의존성으로 사용하지 않았으며 성능 afterok gate0이다. 최초 snapshot Reason=None은 아직 scheduler 초기값이며 구체 pending 사유·실제 실행·완료를 증명하지 않는다.
+
+### 바뀐 평가와 그대로 둔 과학 실행
+
+각 independent cold GPT-J에서 기존 six-baseline native first2000 BS100×20 원 fit/hparams/dtype/solver/context/history/PRUNE base fix/RECT 계획·write·bias를 그대로 재사용한다. Model/C0/P/native closure/input order/token/observer/evaluator/runtime의 science identity digest가 이전 config와 동일하다. 과거 heavy fullSHA receipt+현재 stat 재사용과 작은 source 새 SHA 검증 수준을 구별하며 모델/stat/P 재계산·다운로드·대형전송0이다.
+
+새 task-private runner/bridge/collector는 옛 qualification/link/W0 generation READY 의존성을 없앴다. 매 batch current pre/post와 W5/10/15/20 all_seen **RPN 평가는 유지**한다. 생성은 persisted native commit20/source/config/actual W/H/cursor 연속성 검산 이후 **W20 first2000 한 번만** 수행한다. W0 생성·중간 생성·두 지표용 재생성·old partial generation reuse·no-cache fallback·old MB8 선택 모두0이다. 총 native edit applications12000, planned final generation case observations12000(arm별2000)이며 두 지표 때문에 이를 두 배로 세지 않는다.
+
+SH1 `NativeGenerationObserver` 명시 API의 `cf-cake-native-casebatch-kv-total100-globalrng-v1` / `NATIVE_CASE_PADDED_KV_GLOBAL_RNG`를 사용한다. Native per-case mixed-length padded KV batch/topk5/batched multinomial/prompt-inclusive total100/noEOS, endpoint global RNG seed20261007 once/finally restore를 명시한다. 새 sampling/EOS 의미가 옛 파생 profile과 다르므로 bitwise 동등성·속도 개선·ETA를 주장하지 않는다. 한 생성 text로 `H₂/3+2H₃/3` fluency와 reference TF-IDF cosine consistency를 같이 계산하며 reference identity `75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6` 및 scoring versions는 유지한다.
+
+`native_execution_member`는 실제 W20 실행 증거이지 qualification PASS가 아니다. 원 raw/rows/score sums/counts/missing reasons/actual physical work와 commit20/source/config/global RNG stream/state/hash를 독립 CPU collector가 검산한다. W/H/context/cache/nonselected weights 및 RNG 비변이 검사는 유지한다. NoCP/exact_resume=NOT_AVAILABLE, z diskcache None이며 W/H/optimizer/RNG/복원-equivalent durable payload0이다.
+
+### 좁은 검산·tracking·현재 미관측
+
+새 API/runner/bridge/collector/job identity/두 lane/6CPU launcher/strict scalar 검사 **36/36 CPU PASS**, failure/error0, 3.251초, peak RSS836198400B, threads1/CUDA_initialized=false다. 기존 과학 CPU evidence를 재사용했고 whole model/new GPU qualification/온라인 smoke/새 fit은0이다. 별도 focused source worker를 사용했으며 actual pretrained/GPU red 검증이라고 표현하지 않는다.
+
+Focused review는 stock AlphaEdit 초기 H가 B1 이전 lazy `{}`임을 지적했다. Native initialization은 그대로 유지하고 **collector cold-layout 검사만** CAKE/BLUE preallocated H와 구별하도록 수리했다. B1 이후 stock AlphaEdit six-plane H 연속성/누락 차단은 유지하며 positive/negative CPU fixture를 추가했다. 최초 control fixture가 schema.config만 호출하고 init의 실제 bind_job_identity를 생략한 test 오류도 실제 shared init 경로에 맞게 고쳤다. 과학 code/tolerance 변경이나 numerical fail의 PASS 재라벨이 아니다. 앞선 CPU97/SH1 CPU178과 이번36은 coverage가 겹칠 수 있으므로 합산 새 GPU 인증으로 쓰지 않는다.
+
+W&B는 `wkdguswns2256` / `layer allocation` online, actual Slurm job ID/name job번호/new UUID/source/config/model=gptj/writer/role scientific/schema/profile/instruction/schedule를 shared init에 결속했다. 기존 scalar-only native RPN/fit와 별도 `generation_progress/step`·`phase=W20_generation` progress, 최종 `all_seen/post/fluency/ngram_entropy`와 `all_seen/post/consistency/reference_score` 및 valid counts를 기록한다. Raw/text/token/전체env/stdout/code/tensor/model/credential 업로드0이며 consoleoff/save_codefalse/watchfalse다. SDK acceptance/local journal/remote readback/science completion은 각각 구별한다.
+
+이번 bounded handoff의 **새 online startup/runURL, 실제 첫write/W20/native generation·성능·peak·할당비용은 NOT_OBSERVED**다. 등록 성공과 CPU36은 이 결과를 대체하지 않는다. 원격 startup은 runner의 cheap online 확인 후 모델 load 전 수행되고 finish/readback은 bounded다. Network 저하는 raw/spool 보존·typed logging 상태로 남기며 science retry 사유가 아니다.
+
+### Fresh resource와 보존·인계
+
+Server2 actual RTX A6000×8/각49140MiB를 확인했다. Admission node 전체는 GPU8 allocated/CPU42 of64/AllocMem374784MiB of512000MiB였으며, own project exact frontier는 **61428 하나/allocated GPU1**이었다. 타 owner 할당은 보호하며 이 관측은 새 task의 peak 보장값이 아니다. 각 job GPU1/CPU6/59392MiB, policy ceiling60416MiB/48h/exportNONE/Requeue0, collector GPU0/CPU6/24576MiB/4h다. Requested wall은 ETA가 아니다. Two-lane requested host118784MiB, raw reserve16GiB/arm·동시32GiB, native P full6 FP32 약6GiB/CAKE H 약6GiB/BLUE H 약2GiB는 계획 구성 요소이며 actual peak로 주장하지 않는다. Free disk218759372800B/inode443230831를 확인했다.
+
+원본 root는 `/mnt/raid5/janghj/ODE-edit/local/gptj-baselines-fluency-consistency-2k/native-repo-repair-r1/`이며 full submission/held inspection/config/lock/source archive/CPU receipt를 local KEEP한다. Compact audit는 `native-flucon-reregister-r1/submission.json`, 실행 명령은 `project/run_scripts/gptj_native_baselines/README-generation-native.md`다. Runtime frozen worktree와 이후 main integration worktree를 분리하여 absolute external member의 SHA를 유지한다. `NO_BROADCAST_NOT_REQUIRED`: compact source/metadata만 Git, 생성 raw/reference/model/tensor/spool/secret 복제0.
+
+새 recurring monitor/heartbeat/automatic retry/장기 W20 wait0. Agent는 한정 release snapshot 후 중지하고 등록 runner/collector가 자연 진행한다. Sourcefreeze와 이후 report/main publication commit은 별도다.
