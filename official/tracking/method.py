@@ -27,6 +27,10 @@ OFFICIAL_GROUPS=tuple('official/'+prefix for prefix in PREFIXES)
 OFFICIAL_METRICS={f'{prefix}/{field}' for prefix in OFFICIAL_GROUPS
                   for field in OFFICIAL_FIELDS}
 METHOD_METRICS.update(OFFICIAL_METRICS)
+ZSRE_FIELDS=('Efficacy','Generalization','Specificity','Specificity_loc_ans','Score','requests')
+ZSRE_GROUPS=tuple('zsre/'+prefix for prefix in PREFIXES)
+ZSRE_METRICS={f'{prefix}/{field}' for prefix in ZSRE_GROUPS for field in ZSRE_FIELDS}
+METHOD_METRICS.update(ZSRE_METRICS)
 
 def check(ok,code):
     if not ok:raise ValueError(code)
@@ -136,7 +140,7 @@ def define_axes(run):
     run.define_metric('fit/global_candidate')
     for prefix in dict.fromkeys((*PREFIXES,*NEIGHBOR_PREFIXES,*GENERATION_PREFIXES)):
         run.define_metric(prefix+'/*',step_metric='edits',step_sync=False)
-    for prefix in OFFICIAL_GROUPS:
+    for prefix in (*OFFICIAL_GROUPS,*ZSRE_GROUPS):
         run.define_metric(prefix+'/*',step_metric='edits',step_sync=False)
     run.define_metric('fit/*',step_metric='fit/global_candidate',step_sync=False)
     run.define_metric('optimizer/*',step_metric='fit/global_candidate',step_sync=False)

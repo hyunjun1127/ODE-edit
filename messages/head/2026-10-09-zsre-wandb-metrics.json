@@ -1,0 +1,28 @@
+{
+  "instruction_id": "SH2-GH-ZSRE-WANDB-METRICS-20261009-R1",
+  "parent": "USER-OFFICIAL-BASELINES-20261008-R1",
+  "status": "OWNER_ACK_ACCEPTED_SHARED_IMPLEMENTATION",
+  "user_quote": "zsRE는 평가지표가 다르기에 wandb 에 zsRE전용 페이지를 만들고 거기에 CF실험처럼 모델들도 따로 페이지를 만들어서 볼 수 있도록 만들어라. wandb 페이지 갱신하고 zsre 전용 wandb metric을 만들어서 각 서버에 전달하라. 그리고 server2에 할당된 zsre run도 올려라.",
+  "owners": {
+    "GH": "공통 official.tracking 단일 구현·CPU 검산·main 게시·담당자 직접 source/API 전달",
+    "SH2": "zsRE index 및 llama3/qwen25/gptj saved views와 기존 승인 GPT-J zsRE6 cold2k 등록. 실제 view URL/원격 검증과 제출 job 증거를 별도로 보고",
+    "SH1_SH3_SH4": "향후 승인 zsRE caller의 같은 공통 API 채택. 이 전달로 타서버의 새 과학 범위를 추가하지 않음"
+  },
+  "api": {
+    "import": "from official.tracking import official_zsre_metrics",
+    "signature": "official_zsre_metrics(summary, *, config_values, endpoint, edits, pre_state_edits=None, post_state_edits=None)",
+    "summary": "공통 zsRE reducer의 실측 summary. raw case/token/text는 넘기지 않는다.",
+    "keys": "zsre/{current/pre,current/post,all_seen/post,W0_first2000}/{Efficacy,Generalization,Specificity,Specificity_loc_ans,Score,requests}",
+    "units": "E/G/S/loc_ans/Score는0..100 percent. requests는실제요청수.",
+    "semantics": "E/G는teacher-forced target accuracy/request macro, S는W0 prediction agreement, loc_ans정답정확도별도. Score는E/G/S 조화평균이며 loc_ans와 혼동하지 않음.",
+    "missing": "결측/None은생략. Score는세실측값이모두있을때만계산. 새forward/측정0.",
+    "validation": "official schema+dataset=zsre 전용. built-in finite scalar/정확분모/edits/state 축/score 검산. CF/FLUCON 혼용 및0placeholder금지. 기존 official/* backward compatible, dual alias 값충돌거부.",
+    "view_filters": "config.dataset=zsre; 모델별 config.model=llama3 또는 qwen25 또는 gptj. current와all_seen 패널분리."
+  },
+  "execution_bounds": {
+    "server2": "사용자 보고 cap4, 기존CF61650..61656 KEEP. 잠긴 native smoke/actual gate와 새source/manifest를 결속한 후 기존승인zsRE6 cold2k/noFLUCON/checkpoint 경로로 진행. 제출 권한과 기술gate PASS는 구별.",
+    "others": "기존 frozen CF/기존job hotpatch·취소0. 새caller sourcefreeze에만 적용. GPU smoke/sweep 자동추가0.",
+    "transport": "exact official app-server direct, related expectedTurnId 또는 idle start. 무관active turn은 HOLD로 보고하고 침범하지 않음.",
+    "recurring_monitor": false
+  }
+}

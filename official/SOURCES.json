@@ -1,5 +1,41 @@
 {
   "schema": "official-source-provenance-v1",
+  "zsre_tracking_revision": {
+    "instruction": "SH2-GH-ZSRE-WANDB-METRICS-20261009-R1",
+    "reason": "zsRE 전용 scalar namespace/public mapping/edits axis; evaluator 변경 없음",
+    "files": [
+  {
+    "path": "tracking/__init__.py",
+    "previous_sha256": "9579cfaa99409de241105154c60542fbcb0c61ddff89bbc2a124e6e13f86dbc5",
+    "sha256": "0d05184ecc8ed7ada4a82db2e8f1eafc65163841a559ac75d766eaa370c3cc97"
+  },
+  {
+    "path": "tracking/schema.py",
+    "previous_sha256": "b955d34e67b8dbef92f781d6707a6b3f8b78b3dd44b34d20ca7dfeeff34d6b07",
+    "sha256": "24b7ba5dfa7741ad26b0b571a3e8bbe205bed57c0ae78809214844af3026268e"
+  },
+  {
+    "path": "tracking/method.py",
+    "previous_sha256": "c1ac5111314a58937560b8f9d63a3d06edeaf93753f5c1e46a4475157cc669b8",
+    "sha256": "80488b45d2529dd4496c2ff1421951dc46b82b620b4fdbeda3e821f6c8f6376b"
+  },
+  {
+    "path": "tracking/test_transport.py",
+    "previous_sha256": "128e6809bc751034db27827be7035a3e61dd5cfa905963d777b887a18651a2ec",
+    "sha256": "476f19a786295b6fe1dbd1dad593cb112442fa6ee835680f88af94c6cc74b01d"
+  },
+  {
+    "path": "tracking/README.md",
+    "previous_sha256": "8304773cab6ea37d4946dbfe661e41adfca4a939bf2d04e4e2e0277ca9370014",
+    "sha256": "1b1ece4bc9fb421d140b47e9292241b80cca5fdda158c231bbb8d83fc0026cbc"
+  },
+  {
+    "path": "tracking/UPSTREAM.json",
+    "previous_sha256": "eacc3767ac5a7d9e12edc70b6f27b9d51e8144880e353d0a3fc9e6a1bf458dbb",
+    "sha256": "8070a1b230c8811b24114c6f652b4101cbe37c3622ed81bf062e1434d0c485eb"
+  }
+    ]
+  },
   "files": [
     {
       "component": "easyedit",
@@ -1733,7 +1769,7 @@
       "upstream_path": "project/run_scripts/experiment_tracking/__init__.py",
       "path": "tracking/__init__.py",
       "upstream_sha256": "f7481e9203c048e2ff2935aed0cd4ebc8d040355bb7b17f15ddd01bc620da89b",
-      "sha256": "9579cfaa99409de241105154c60542fbcb0c61ddff89bbc2a124e6e13f86dbc5",
+      "sha256": "0d05184ecc8ed7ada4a82db2e8f1eafc65163841a559ac75d766eaa370c3cc97",
       "changes": [
         "export shared official generation-progress phase adapter"
       ],
@@ -1746,7 +1782,7 @@
       "upstream_path": "project/run_scripts/experiment_tracking/schema.py",
       "path": "tracking/schema.py",
       "upstream_sha256": "b63cd41816f4022ff85c83130f16fff4380e7e039d0c37f6618c7d008b7aa659",
-      "sha256": "b955d34e67b8dbef92f781d6707a6b3f8b78b3dd44b34d20ca7dfeeff34d6b07",
+      "sha256": "24b7ba5dfa7741ad26b0b571a3e8bbe205bed57c0ae78809214844af3026268e",
       "changes": [
         "official instruction/dataset/schema and native W0+W20 authority pair",
         "zsRE rejects CF generation",
@@ -1770,7 +1806,7 @@
       "upstream_path": "project/run_scripts/experiment_tracking/method.py",
       "path": "tracking/method.py",
       "upstream_sha256": "4606fec3bb3403dc942f8308c4e53b3a576ea7c279286fde63d486450fbec173",
-      "sha256": "c1ac5111314a58937560b8f9d63a3d06edeaf93753f5c1e46a4475157cc669b8",
+      "sha256": "80488b45d2529dd4496c2ff1421951dc46b82b620b4fdbeda3e821f6c8f6376b",
       "changes": [
         "official request-macro score/requests validation and edits axes",
         "official W0 accepts actual native prompt/token counts without changing legacy PRICE counts"
@@ -1861,7 +1897,7 @@
       "upstream_path": null,
       "path": "tracking/test_transport.py",
       "upstream_sha256": null,
-      "sha256": "128e6809bc751034db27827be7035a3e61dd5cfa905963d777b887a18651a2ec",
+      "sha256": "476f19a786295b6fe1dbd1dad593cb112442fa6ee835680f88af94c6cc74b01d",
       "changes": [
         "new GH-reviewed distribution artifact; final commit recorded by publication, no fictitious upstream"
       ],
@@ -1882,7 +1918,7 @@
       "upstream_path": null,
       "path": "tracking/README.md",
       "upstream_sha256": null,
-      "sha256": "8304773cab6ea37d4946dbfe661e41adfca4a939bf2d04e4e2e0277ca9370014",
+      "sha256": "1b1ece4bc9fb421d140b47e9292241b80cca5fdda158c231bbb8d83fc0026cbc",
       "changes": [
         "new GH-reviewed distribution artifact; final commit recorded by publication, no fictitious upstream"
       ],
@@ -1903,7 +1939,7 @@
       "upstream_path": null,
       "path": "tracking/UPSTREAM.json",
       "upstream_sha256": null,
-      "sha256": "eacc3767ac5a7d9e12edc70b6f27b9d51e8144880e353d0a3fc9e6a1bf458dbb",
+      "sha256": "8070a1b230c8811b24114c6f652b4101cbe37c3622ed81bf062e1434d0c485eb",
       "changes": [
         "new GH-reviewed distribution artifact; final commit recorded by publication, no fictitious upstream"
       ],

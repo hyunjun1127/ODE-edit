@@ -73,6 +73,44 @@ receipt, never resumes, renames, or backfills an old W&B run.
 
 ## Metrics and denominators
 
+### zsRE dedicated views and mapping API
+
+For new zsRE callers use the dataset-specific namespace
+`zsre/{current/pre,current/post,all_seen/post,W0_first2000}/`
+with `Efficacy`, `Generalization`, `Specificity`, `Specificity_loc_ans`,
+`Score`, and `requests`. These keys require the official schema and
+`dataset=zsre`; CF and legacy configurations reject them. Existing `official/*`
+callers remain valid. If both aliases are logged in a row their values must agree.
+
+```python
+from official.tracking import official_zsre_metrics
+
+payload = official_zsre_metrics(
+    evaluation['summary'], config_values=bound_config,
+    endpoint='all_seen/post', edits=2000, post_state_edits=2000)
+tracker.log(payload)
+```
+
+The input is the measured zsRE reducer summary (not the full raw evaluation).
+No model forward, tensor conversion, prompt-pair relabeling or data upload occurs.
+Efficacy/Generalization are teacher-forced target token accuracy averaged within
+each request, then across requests. Specificity is agreement with the same
+cohort's W0 predictions; `Specificity_loc_ans` is separately measured neighborhood
+answer accuracy. All scores are percentages. `Score` is the harmonic mean of
+Efficacy/Generalization/Specificity, never of `loc_ans`; it is derived only when
+all three measured components exist. Missing/None fields are omitted, not zero.
+Existing denominator/state rules are unchanged: current has 100 requests;
+all_seen at W5/10/15/20 has `requests=edits`; W0_first2000 has edits0/requests2000.
+Supply both pre/post state axes for current/pre. Evaluation uses `edits`, fit
+uses the separate monotone candidate axis. CF generation fields are forbidden.
+
+SH2 owns saved-view publication: an index filtered to `config.dataset=zsre`
+and model views additionally filtered to `config.model=llama3`, `qwen25`, or
+`gptj`. Plot `zsre/*` against `edits`, and keep current and all_seen panels
+separate. Code/API availability does not prove that these views or online
+history exist. Do not rename, backfill or hotpatch old runs. Report view URLs
+and actual new-run startup/readback separately.
+
 Official paper scores are distinct from legacy prompt-pair diagnostics:
 
 ```text

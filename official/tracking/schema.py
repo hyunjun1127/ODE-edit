@@ -8,6 +8,7 @@ import shlex
 from urllib.parse import urlsplit
 from .method import (COMPARISON_SCHEMA, OFFICIAL_SCHEMA, METHOD_CONFIG,
                      METHOD_METRICS, GENERATION_METRICS, OFFICIAL_METRICS,
+                     ZSRE_METRICS, ZSRE_FIELDS, PREFIXES, harmonic,
                      validate as validate_method)
 
 ENTITY = 'wkdguswns2256'
@@ -65,6 +66,34 @@ def official_generation_progress(values, *, endpoint):
     result=dict(values);result['phase']=expected
     metrics(result,scientific=True)
     return result
+
+
+def official_zsre_metrics(summary, *, config_values, endpoint, edits,
+                          pre_state_edits=None, post_state_edits=None):
+    """Map measured request-macro zsRE summary; no evaluation or scalar coercion.
+
+    Specificity is W0 prediction agreement, not loc_ans accuracy. Missing values
+    are omitted. Score is the harmonic mean of measured E/G/Specificity only.
+    State axes must be supplied for current/all_seen observations as usual.
+    """
+    cfg=config(config_values)
+    require(cfg.get('metric_schema')==OFFICIAL_SCHEMA and cfg.get('dataset')=='zsre',
+            'ZSRE_METRIC_CONFIG_REQUIRED')
+    require(type(summary) is dict and set(summary)<=set(ZSRE_FIELDS),
+            'ZSRE_SUMMARY_FIELDS')
+    require(type(endpoint) is str and endpoint in PREFIXES,'ZSRE_ENDPOINT')
+    measured={key:value for key,value in summary.items() if value is not None}
+    require(type(measured.get('requests')) is int and measured['requests']>0,
+            'OFFICIAL_REQUEST_COUNT_REQUIRED')
+    require(all(type(v) in (int,float) and math.isfinite(v) for v in measured.values()),
+            'BUILTIN_FINITE_SCALARS_ONLY')
+    if 'Score' not in measured:
+        score=harmonic([measured.get(k) for k in ('Efficacy','Generalization','Specificity')])
+        if score is not None:measured['Score']=score
+    result={'edits':edits,**{'zsre/'+endpoint+'/'+k:v for k,v in measured.items()}}
+    if pre_state_edits is not None:result['pre_state_edits']=pre_state_edits
+    if post_state_edits is not None:result['post_state_edits']=post_state_edits
+    return metrics(result,scientific=True,config_values=cfg)
 
 
 def require(ok, code):
@@ -233,6 +262,9 @@ def metrics(values,*,scientific=False,config_values=None):
             if {'generation_progress/'+completed,'generation_progress/'+total}<=values.keys():
                 require(values['generation_progress/'+completed]<=values['generation_progress/'+total],
                     'GENERATION_PROGRESS_COVERAGE')
+    if ZSRE_METRICS & values.keys():
+        require(config_values is not None and config_values.get('metric_schema')==OFFICIAL_SCHEMA
+                and config_values.get('dataset')=='zsre','ZSRE_METRIC_CONFIG_REQUIRED')
     if OFFICIAL_METRICS & values.keys():
         require(config_values is not None and config_values.get('metric_schema')==OFFICIAL_SCHEMA,
                 'OFFICIAL_METRIC_CONFIG_REQUIRED')
@@ -263,8 +295,18 @@ def metrics(values,*,scientific=False,config_values=None):
             require(values.get('edits')==expected
                     and values.get(prefix+'/generation/planned_count')==2000,
                     'OFFICIAL_GENERATION_EXACT_ENDPOINT')
-    return validate_method(dict(values),scientific=scientific,
+    # Reuse the identical request count/percent/harmonic/edits validation while
+    # retaining the caller's namespaces on the wire. Dual logging is optional;
+    # if both aliases are supplied, contradictory values are forbidden.
+    canonical=dict(values)
+    for key in ZSRE_METRICS & values.keys():
+        alias='official/'+key[len('zsre/'):]
+        require(alias not in canonical or canonical[alias]==values[key],
+                'ZSRE_OFFICIAL_ALIAS_MISMATCH')
+        canonical[alias]=values[key]
+    validate_method(canonical,scientific=scientific,
         official=config_values is not None and config_values.get('metric_schema')==OFFICIAL_SCHEMA)
+    return dict(values)
 
 
 def endpoint(value):

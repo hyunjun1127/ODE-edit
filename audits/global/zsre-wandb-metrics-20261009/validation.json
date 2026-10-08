@@ -1,0 +1,19 @@
+{
+  "instruction": "SH2-GH-ZSRE-WANDB-METRICS-20261009-R1",
+  "base_commit": "f5a9406f",
+  "CPU": {"tracking_plus_SH2_checkpoint": "39 PASS", "official_tests": "113 PASS", "GPU_disabled": true},
+  "source_verify": {"source_files": 157, "python_files": 257, "external_task_imports": 0, "status": "PASS"},
+  "coverage": ["zsRE-only config gate", "four endpoints and three models/four servers", "missing omission and nonfinite/bool rejection", "request denominator/state axis/harmonic gates", "legacy official namespace preserved", "alias mismatch rejected", "generation forbidden", "fake SDK worker/edits axes/job identity/bounded factual readback"],
+  "GPU_online_Slurm_GH": "NOT_RUN",
+  "views_owner_report": {
+    "nonce": "SH2-GH-ZSRE-WANDB-VIEWS-READY-20261009-R1",
+    "owner": "SH2",
+    "reported_result": "실제 saved view 생성 및 remote spec readback PASS; 기존9views/history/config불변",
+    "GH_independent_remote_verification": "NOT_RUN",
+    "index": "https://forge.coreweave.com/wandb/wkdguswns2256/layer%20allocation?nw=zsreindex",
+    "llama3": "https://forge.coreweave.com/wandb/wkdguswns2256/layer%20allocation?nw=zsrellama3",
+    "qwen25": "https://forge.coreweave.com/wandb/wkdguswns2256/layer%20allocation?nw=zsreqwen25",
+    "gptj": "https://forge.coreweave.com/wandb/wkdguswns2256/layer%20allocation?nw=zsregptj",
+    "filters": "dataset=zsre AND model=<model> AND metric_schema=official-baselines-scalar-v1; index omits model clause"
+  }
+}

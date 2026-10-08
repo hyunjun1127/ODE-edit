@@ -101,6 +101,89 @@ def execute(payloads,*,cfg=None,sdk=None):
 
 
 class OfficialTransport(unittest.TestCase):
+    def test_zsre_public_mapping_all_endpoints_and_models(self):
+        from . import official_zsre_metrics
+        summary=dict(Efficacy=80.,Generalization=60.,Specificity=90.,Specificity_loc_ans=31.)
+        for model in ('llama3','qwen25','gptj'):
+            for server in ('server1','server2','server3','server4'):
+                cfg=dict(config('zsre'),model=model,server=server)
+                for prefix,edits,n in [('W0_first2000',0,2000),('current/pre',100,100),
+                        ('current/post',2000,100),('all_seen/post',2000,2000)]:
+                    raw=dict(summary,requests=n);before=copy.deepcopy(raw)
+                    result=official_zsre_metrics(raw,config_values=cfg,endpoint=prefix,
+                        edits=edits,pre_state_edits=max(0,edits-100),post_state_edits=edits)
+                    self.assertEqual(raw,before)
+                    self.assertEqual(result['zsre/'+prefix+'/Specificity'],90.)
+                    self.assertEqual(result['zsre/'+prefix+'/Specificity_loc_ans'],31.)
+                    self.assertAlmostEqual(result['zsre/'+prefix+'/Score'],harmonic([80,60,90]))
+                    self.assertFalse(any(k.startswith('official/') for k in result))
+
+    def test_zsre_missing_values_are_omitted_not_zero_filled(self):
+        from . import official_zsre_metrics
+        result=official_zsre_metrics(dict(requests=100,Efficacy=0.,Generalization=None),
+            config_values=config('zsre'),endpoint='current/post',edits=100,post_state_edits=100)
+        self.assertEqual(result['zsre/current/post/Efficacy'],0.)
+        self.assertNotIn('zsre/current/post/Generalization',result)
+        self.assertNotIn('zsre/current/post/Specificity',result)
+        self.assertNotIn('zsre/current/post/Score',result)
+
+    def test_zsre_mapping_rejects_wrong_scope_fields_and_non_scalars(self):
+        from . import official_zsre_metrics
+        args=dict(config_values=config('zsre'),endpoint='current/post',edits=100,post_state_edits=100)
+        for raw in ({},dict(requests=None),dict(requests=True),dict(requests=100,Efficacy=float('nan')),
+                    dict(requests=100,Efficacy=[1]),dict(requests=100,Efficacy=True),
+                    dict(requests=100,Score_AlphaEdit_display=90),dict(requests=100,fluency=0)):
+            with self.assertRaises(ValueError):official_zsre_metrics(raw,**args)
+        with self.assertRaisesRegex(ValueError,'ZSRE_METRIC_CONFIG_REQUIRED'):
+            official_zsre_metrics(dict(requests=100),**dict(args,config_values=config()))
+        with self.assertRaises(ValueError):
+            official_zsre_metrics(dict(requests=100),**dict(args,endpoint='all_seen/pre'))
+
+    def test_zsre_namespace_requires_zsre_official_config(self):
+        value={'edits':100,'post_state_edits':100,'zsre/current/post/requests':100}
+        for cfg in (None,config()):
+            with self.assertRaisesRegex(ValueError,'ZSRE_METRIC_CONFIG_REQUIRED'):
+                schema.metrics(value,scientific=True,config_values=cfg)
+        schema.metrics(value,scientific=True,config_values=config('zsre'))
+
+    def test_zsre_namespace_preserves_denominator_axis_score_gates(self):
+        value={'edits':2000,'post_state_edits':2000,**{'zsre/all_seen/post/'+k:v
+            for k,v in dict(requests=2000,Efficacy=80.,Generalization=60.,Specificity=90.,
+                            Score=harmonic([80,60,90])).items()}}
+        for changes in ({'zsre/all_seen/post/requests':100},{'edits':1500},
+                        {'post_state_edits':0},{'zsre/all_seen/post/Efficacy':101},
+                        {'zsre/all_seen/post/Score':1},{'zsre/all_seen/post/requests':2000.0},
+                        {'zsre/all_seen/post/Efficacy':True}):
+            with self.assertRaises(ValueError):
+                schema.metrics(dict(value,**changes),scientific=True,config_values=config('zsre'))
+        without_axis=dict(value);without_axis.pop('edits')
+        with self.assertRaises(ValueError):schema.metrics(without_axis,config_values=config('zsre'))
+
+    def test_zsre_alias_conflicts_and_generation_forbidden(self):
+        value=dict(edits=100,post_state_edits=100,**{'zsre/current/post/requests':100,
+            'zsre/current/post/Efficacy':80.,'official/current/post/requests':100,
+            'official/current/post/Efficacy':80.})
+        self.assertEqual(schema.metrics(value,config_values=config('zsre')),value)
+        with self.assertRaisesRegex(ValueError,'ZSRE_OFFICIAL_ALIAS_MISMATCH'):
+            schema.metrics(dict(value,**{'official/current/post/Efficacy':79.}),config_values=config('zsre'))
+        with self.assertRaisesRegex(ValueError,'ZSRE_GENERATION_FORBIDDEN'):
+            schema.metrics(dict(value,**generation('all_seen/post')),config_values=config('zsre'))
+
+    def test_zsre_fake_transport_axes_identity_and_readback(self):
+        from . import official_zsre_metrics
+        cfg=config('zsre')
+        value=official_zsre_metrics(dict(requests=2000,Efficacy=80,Generalization=60,
+            Specificity=90,Specificity_loc_ans=31),config_values=cfg,
+            endpoint='all_seen/post',edits=2000,post_state_edits=2000)
+        sdk,out,bound=execute([value],cfg=cfg)
+        self.assertEqual(out[-1]['method_readback']['status'],'REMOTE_BOUNDED_ROWS_VERIFIED')
+        self.assertTrue(sdk.name.endswith('job40_0'))
+        self.assertEqual(sdk.config['dataset'],'zsre')
+        self.assertEqual(sdk.points[0]['zsre/all_seen/post/requests'],2000)
+        for prefix in ('current/pre','current/post','all_seen/post','W0_first2000'):
+            self.assertIn((('zsre/'+prefix+'/*',),dict(step_metric='edits',step_sync=False)),sdk.definitions)
+        self.assertFalse(out[-1]['scientific_completion_claim'])
+
     @staticmethod
     def deferred_config():
         cfg=config('zsre');cfg['dataset']='cf'

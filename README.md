@@ -31,8 +31,8 @@ python3 -m official.experiments.prepare matrix --output local/official-baselines
 최종 checkpoint(W20)를 기준으로 하며, 지표 정의는 [공통 실험 계약](official/hparams/contract.json)을 따릅니다.
 **이번 표는 새 cold-start 재실험 전용입니다.** 과거 완료 수치나 과거 checkpoint 재개 결과를
 새 실험으로 소급 입력하지 않습니다. checkpoint가 있어도 sample 구성·순서가 다르면 다시 실행합니다.
-미제출은 빈칸, 실제 제출 후 대기는 `PENDING: <실제 job name>`, 실행 중은
-`ING: <실제 job name>`으로 해당 dataset의 칸에만 표시합니다(CF 6칸 / zsRE 3칸).
+미제출은 빈칸, 실제 제출 후 대기는 `PENDING: <실제 job ID>`, 실행 중은
+`ING: <실제 job ID>`로 해당 dataset의 칸에만 표시합니다(CF 6칸 / zsRE 3칸).
 qualification·W0 준비·collector·tuning job은 본실험 job으로 표시하지 않습니다.
 
 GH가 서버별 제출·상태·완료 보고를 받아 이 표를 통합합니다. 각 dataset의 상태/수치에는
@@ -54,11 +54,11 @@ config/sample identity·dependency는 [제출 보고서](experiment-reports/serv
 
 | Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| FT | PENDING: official-s1-cf-ft | PENDING: official-s1-cf-ft | PENDING: official-s1-cf-ft | PENDING: official-s1-cf-ft | DEFERRED | DEFERRED |  |  |  |
-| MEMIT | PENDING: official-s1-cf-memit | PENDING: official-s1-cf-memit | PENDING: official-s1-cf-memit | PENDING: official-s1-cf-memit | DEFERRED | DEFERRED |  |  |  |
+| FT | PENDING: 61661 | PENDING: 61661 | PENDING: 61661 | PENDING: 61661 | DEFERRED | DEFERRED |  |  |  |
+| MEMIT | PENDING: 61662 | PENDING: 61662 | PENDING: 61662 | PENDING: 61662 | DEFERRED | DEFERRED |  |  |  |
 | AlphaEdit |  |  |  |  |  |  |  |  |  |
 | AlphaEdit-BLUE |  |  |  |  |  |  |  |  |  |
-| MEMIT-FE | PENDING: official-s1-cf-memit_fe | PENDING: official-s1-cf-memit_fe | PENDING: official-s1-cf-memit_fe | PENDING: official-s1-cf-memit_fe | DEFERRED | DEFERRED |  |  |  |
+| MEMIT-FE | PENDING: 61663 | PENDING: 61663 | PENDING: 61663 | PENDING: 61663 | DEFERRED | DEFERRED |  |  |  |
 | AlphaEdit+SPHERE |  |  |  |  |  |  |  |  |  |
 | PRICE (Ours) |  |  |  |  |  |  |  |  |  |
 
@@ -76,20 +76,11 @@ config/sample identity·dependency는 [제출 보고서](experiment-reports/serv
 
 ### GPT-J-6B
 
-**Server2 CF 등록 현황 — 2026-10-09 03:06 KST 관측, 사용자 지정 GPU cap4.**
+**Server2 CF 등록 현황 — 2026-10-09 03:13 KST 관측, 사용자 지정 GPU cap4.**
 official 6종 모두 등록·release했으며 CF first2000, batch100×20을 실행하는 pipeline이다.
-각 pipeline의 W0/qualification과 실제 편집 chain 단계는 구분한다. 아래 `RUNNING`은
+각 pipeline의 W0/qualification과 실제 편집 chain 단계는 구분한다. 아래 `ING`는
 Slurm 상태이며 본편집 시작·GPU 검증 통과·W20 완료를 뜻하지 않는다.
-
-| Arm | 실제 job ID | Slurm 상태 | 선행 job (afterany) |
-| :--- | ---: | :--- | :--- |
-| FT | 61650 | RUNNING | 없음 |
-| MEMIT | 61651 | PENDING | 61650 |
-| AlphaEdit | 61652 | PENDING | 61650 |
-| AlphaEdit-BLUE | 61653 | PENDING | 61650 |
-| MEMIT-FE | 61654 | PENDING | 61650 |
-| AlphaEdit+SPHERE | 61655 | PENDING | 61652 |
-| CPU collector (GPU0) | 61656 | PENDING | 61650–61655 전체 |
+GPU0 collector **61656**은 여섯 arm 종료 후 집계하도록 PENDING이며 성능표에는 넣지 않는다.
 
 GPU job name은 `official-baselines-server2-20261008-r1-cf_checkpoint-<ARM>`이며,
 scheduler의 ARM 표기는 `FT/MEMIT/ALPHAEDIT/ALPHAEDIT_BLUE/MEMIT_FE/SPHERE`다.
@@ -110,12 +101,12 @@ cap4 변경은 별도 scheduling override이며 기존 frozen source/manifest의
 
 | Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| FT |  |  |  |  |  |  |  |  |  |
-| MEMIT |  |  |  |  |  |  |  |  |  |
-| AlphaEdit |  |  |  |  |  |  |  |  |  |
-| AlphaEdit-BLUE |  |  |  |  |  |  |  |  |  |
-| MEMIT-FE |  |  |  |  |  |  |  |  |  |
-| AlphaEdit+SPHERE |  |  |  |  |  |  |  |  |  |
+| FT | ING: 61650 | ING: 61650 | ING: 61650 | ING: 61650 | DEFERRED | DEFERRED |  |  |  |
+| MEMIT | PENDING: 61651 | PENDING: 61651 | PENDING: 61651 | PENDING: 61651 | DEFERRED | DEFERRED |  |  |  |
+| AlphaEdit | PENDING: 61652 | PENDING: 61652 | PENDING: 61652 | PENDING: 61652 | DEFERRED | DEFERRED |  |  |  |
+| AlphaEdit-BLUE | PENDING: 61653 | PENDING: 61653 | PENDING: 61653 | PENDING: 61653 | DEFERRED | DEFERRED |  |  |  |
+| MEMIT-FE | PENDING: 61654 | PENDING: 61654 | PENDING: 61654 | PENDING: 61654 | DEFERRED | DEFERRED |  |  |  |
+| AlphaEdit+SPHERE | PENDING: 61655 | PENDING: 61655 | PENDING: 61655 | PENDING: 61655 | DEFERRED | DEFERRED |  |  |  |
 | PRICE (Ours) |  |  |  |  |  |  |  |  |  |
 
 기존 연구 문서와 실험 이력은 아래에 보존합니다. 새 실험의 설정 근거는 `official/`입니다.
