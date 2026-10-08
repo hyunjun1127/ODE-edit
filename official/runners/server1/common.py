@@ -323,6 +323,20 @@ def factual_payload(endpoint, prefix, edits):
     # CF prompt-pair diagnostics are measured separately from request macro.
     # zsRE official token/request metrics must not masquerade as NLL preference.
     if endpoint["identity"]["dataset"] == "cf":
+        import numpy as np
+        # Preserve native request-macro NumPy rounding, not Python round of the
+        # independently fsum-reduced raw summary. No model work or score change.
+        if 'Score_AlphaEdit_display' in endpoint['summary']:
+            for kind,label in (('rewrite','Efficacy'),('paraphrase','Generalization'),('neighborhood','Specificity')):
+                rates=[]
+                for case in endpoint['cases']:
+                    bits=[float(row['target_true']['mean_nll'] < row['target_new']['mean_nll']
+                                if kind=='neighborhood' else
+                                row['target_new']['mean_nll'] < row['target_true']['mean_nll'])
+                          for row in case[kind+'_observations']]
+                    require(bool(bits),'DISPLAY_EMPTY_REQUEST')
+                    rates.append(np.mean(bits))
+                value[f'official/{prefix}/{label}_AlphaEdit_display']=float(np.around(np.mean(rates)*100,2))
         successes = []
         for kind, letter in (("rewrite", "R"), ("paraphrase", "P"), ("neighborhood", "N")):
             rows = [observation for case in endpoint["cases"] for observation in case[kind + "_observations"]]

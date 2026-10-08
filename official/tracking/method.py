@@ -21,7 +21,8 @@ GENERATION_METRICS={f'{p}/generation/{f}' for p in GENERATION_PREFIXES for f in 
 GENERATION_METRICS.update(f'{p}/{f}' for p in GENERATION_PREFIXES
                          for f in ('fluency/ngram_entropy','consistency/reference_score'))
 METHOD_METRICS.update(GENERATION_METRICS)
-OFFICIAL_FIELDS=('Efficacy','Generalization','Specificity','Score',
+DISPLAY_COMPONENTS=tuple(k+'_AlphaEdit_display' for k in ('Efficacy','Generalization','Specificity'))
+OFFICIAL_FIELDS=('Efficacy','Generalization','Specificity','Score',*DISPLAY_COMPONENTS,
                  'Score_AlphaEdit_display','Specificity_loc_ans','requests')
 OFFICIAL_GROUPS=tuple('official/'+prefix for prefix in PREFIXES)
 OFFICIAL_METRICS={f'{prefix}/{field}' for prefix in OFFICIAL_GROUPS
@@ -70,10 +71,25 @@ def validate(values,scientific=False,official=False):
             expected=harmonic([item.get(k) for k in ('Efficacy','Generalization','Specificity')])
             check(expected is not None and close(item['Score'],expected),
                   'OFFICIAL_REQUEST_MACRO_SCORE_MISMATCH')
+        display_components=[item.get(k) for k in DISPLAY_COMPONENTS]
+        if any(v is not None for v in display_components):
+            check(all(v is not None for v in display_components) and 'Score_AlphaEdit_display' in item,
+                  'OFFICIAL_DISPLAY_COMPONENT_SET')
         if 'Score_AlphaEdit_display' in item:
             scores=[item.get(k) for k in ('Efficacy','Generalization','Specificity')]
             check(all(v is not None for v in scores),'OFFICIAL_DISPLAY_SCORE_COMPONENTS')
-            check(close(item['Score_AlphaEdit_display'],harmonic([round(v,2) for v in scores])),
+            rounded=[round(v,2) for v in scores]
+            if all(v is not None for v in display_components):
+                # Native NumPy cohort means and canonical fsum means can straddle
+                # a half-cent by floating-point roundoff. Carry the actual native
+                # rounded components; accept only nearest-cent values (ULP bound),
+                # never relax the harmonic-score check or change raw E/G/S.
+                for raw,display in zip(scores,display_components):
+                    check(display==round(display,2) and
+                          abs(display-raw)<=0.005+16*math.ulp(max(1.,abs(raw))),
+                          'OFFICIAL_DISPLAY_COMPONENT_ROUNDING')
+                rounded=display_components
+            check(close(item['Score_AlphaEdit_display'],harmonic(rounded)),
                   'OFFICIAL_DISPLAY_SCORE_MISMATCH')
         if prefix=='official/W0_first2000':
             check(values['edits']==0 and item['requests']==2000,'OFFICIAL_W0_FIRST2000')

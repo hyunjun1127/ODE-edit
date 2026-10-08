@@ -9,18 +9,22 @@ ROOTS = ('cf-checkpoint-r1', 'alpha-sphere-cf-r1', 'zsre-six-r1')
 OUT = BASE/'no-gpu-qualification-r1/cancellation'
 ACTIVE = {'PENDING','RUNNING','CONFIGURING','COMPLETING','SUSPENDED'}
 
-def main():
+def main(*, roots=ROOTS, out=OUT, selected_keys=None):
+    OUT = Path(out)
     require(not OUT.exists(), 'CANCELLATION_ATTEMPT_EXISTS_RECONCILE_NO_RETRY')
     targets = {}
-    for root in ROOTS:
+    for root in roots:
         receipt = read(BASE/root/'registration-r1/submission.json')
         lock = read(verify(receipt['execution_lock']))
         for key, job in receipt['jobs'].items():
+            if selected_keys is not None and key not in selected_keys:continue
             profile = next(p for p in lock['profiles'] if p['key']==key)
             require(profile['mode'] in ('chain','qualification','base_w0','collect'), 'UNEXPECTED_OLD_ROLE')
             verify(lock['launchers'][key])
             targets[str(job)] = dict(key=key, profile=profile, launcher=lock['launchers'][key],
                 source=lock['source'], cwd=lock['frozen_source']['directory'], root=root)
+    if selected_keys is not None:
+        require({v['key'] for v in targets.values()} == set(selected_keys), 'EXACT_SELECTED_KEYS_REQUIRED')
     def inspect(job):
         expected=targets[job]
         try:row=metadata(command(['scontrol','show','job',job,'--oneliner']))

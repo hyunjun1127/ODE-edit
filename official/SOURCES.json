@@ -1806,8 +1806,9 @@
       "upstream_path": "project/run_scripts/experiment_tracking/method.py",
       "path": "tracking/method.py",
       "upstream_sha256": "4606fec3bb3403dc942f8308c4e53b3a576ea7c279286fde63d486450fbec173",
-      "sha256": "80488b45d2529dd4496c2ff1421951dc46b82b620b4fdbeda3e821f6c8f6376b",
+      "sha256": "ecd88a0d20fcb4cccb058c6f67ec1aed89fecaf042b829a0cf1151f40033109a",
       "changes": [
+        "2026-10-09 USER CF rerun repair: explicit native NumPy rounded E/G/S display companions; nearest-cent ULP-only arithmetic check, unchanged raw/harmonic tolerance and legacy payload validation",
         "official request-macro score/requests validation and edits axes",
         "official W0 accepts actual native prompt/token counts without changing legacy PRICE counts"
       ],

@@ -1,0 +1,5 @@
+SH1 → GH: USER 직접 repair/rerun 및 GH 보고 후 main table 갱신 승인에 따른 중간 사실 보고.
+CF AlphaEdit 61711 / SPHERE 61712는 편집 commit0/B0에서 OFFICIAL_DISPLAY_SCORE_MISMATCH로 FAILED. 실제 raw의 Specificity=88.55499999999999, 원 NumPy 표시값88.56과 logger Python round88.55 불일치. 원 점수/math/hparams 변경 없이 native 표시용 E/G/S 세 scalar의 명시적 검증으로 수리 중.
+정확 원 submission/launcher SHA/owner/Command/WorkDir/state 재검산 후 61715→61714→61713→61709만 취소. 실패 terminal61711/12는 취소하지 않고 KEEP. 모든 raw/CP/source/history 보존.
+zsRE 61710 및61716..21와 기존 GPU0 collector61722는 KEEP. old collector는 old CF partial coverage를 사실대로 보고하게 유지. 새 CF-only W0+5chains+collector로 source freeze/held registration 준비. cap4, qualification NOT_RUN_USER_DISABLED, CF W20 FLUCON deferred 유지.
+실제 새ID는 아직 미등록. 등록후 compact receipt를 추가 전달하고 최신 USER 지시에 따라 main README CF칸만 갱신할 예정. 타서버/OURS/GPT2 변경0.
