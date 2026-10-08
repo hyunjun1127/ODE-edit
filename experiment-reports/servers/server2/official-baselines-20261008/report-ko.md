@@ -170,6 +170,30 @@ runtime/reference의 physical 내용은 이전 manifest와 정확히 일치하�
 제한한다. 이 compatibility로 old CP를 새 source로 재개하지 않으며 새 chain은 cold W0부터 시작한다.
 실제 qualification collector aggregate가 아직 없으므로 미래 본등록은 INPUT_PENDING이다.
 
+## 새 source 게시·실행 manifest 봉인
+
+미래 CF/zsRE 실행 source는 main과 own branch에 nonforce 게시한
+`fb7caae09b6a9a311e975cb8ccd551fdb9f60c39`, official tree
+`7d172a43d6cd02391c74f6174ce26644813b815a`다. 원 qualification source `18e7fbd`와
+서로 다른 source이며 기존 archive/job에 새 oracle 코드를 hotpatch하지 않았다.
+나중의 report-only 게시 commit을 실행 source로 바꾸지 않는다.
+
+실제 CPU preparation으로 새로운 immutable manifest를 생성했다:
+`/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/execution-preparation-r2/manifest.json`.
+크기280838 bytes, SHA256
+`7bab80aa5d9d0d92ae66e5dd236cbf178fba5dc0b1cdadc4ebef68969eab3adf`다.
+원본 oracle 계획 SHA는 `b0ddd3f98467daf0a755705aea6f8ac2e10a6bdc9c0433e499165efe2ef95e60`,
+native/resume provenance input 계획 SHA는
+`2c12b055eeb1a3bb9af12192a5cc8e61f86f95077342d0c0be6b1b8fbacbd4b1`다.
+사전 source/cohort/tolerance/자산/runtime/12 cell tracking config와 checkpoint identity를 결속했다.
+
+한정 local JSON 증거 검사 결과는 `INPUT_PENDING_NOT_ACTUAL_QUALIFIED`다.
+정확히 예정된 `registration-qualification-r1/collector/qualification.json`이 아직 없었다.
+이 검사는 scheduler 조회·tensor/model load·fit·추가 scientific submit을 하지 않았다.
+따라서 등록된 qualification6개+collector7개는 유지하되 CF/zsRE12개 본실행 등록은 아직 아니다.
+GPU native/resume/original comparison과 W&B online startup은 `NOT_OBSERVED`다.
+정확한 source·manifest·계획 SHA와 미완료 gate는 `future-execution-freeze-r1.json`에 기록했다.
+
 ## 보존·인계
 
 원 dirty root/다른 worker/source/archive/raw/기존 jobs KEEP. 새 recurring monitor/heartbeat/retry는 없다.

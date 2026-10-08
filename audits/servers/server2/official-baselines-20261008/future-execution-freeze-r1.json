@@ -1,0 +1,83 @@
+{
+  "schema": "official-server2-future-execution-freeze-v1",
+  "instruction_id": "USER-OFFICIAL-BASELINES-20261008-R1",
+  "delivery_nonce": "GH-SH2-OFFICIAL-NATIVE-ORACLE-READY-20261009-R1",
+  "server": "server2",
+  "session": "01a0493a-074c-7f91-9a13-769116326fef",
+  "recorded_utc": "2026-10-08 16:26:56 UTC",
+  "worktree": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-official-native-oracle-20261009-r1",
+  "branch": "codex/server2-official-native-oracle-20261009-r1",
+  "execution_source": "fb7caae09b6a9a311e975cb8ccd551fdb9f60c39",
+  "official_tree": "7d172a43d6cd02391c74f6174ce26644813b815a",
+  "publication": {
+    "nonforce_branch_push": "PASS",
+    "nonforce_main_push": "PASS",
+    "exact_remote_branch_and_main_at_source_publication": "fb7caae09b6a9a311e975cb8ccd551fdb9f60c39",
+    "later_report_only_publication_is_not_execution_source": true
+  },
+  "manifest": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/execution-preparation-r2/manifest.json",
+    "bytes": 280838,
+    "sha256": "7bab80aa5d9d0d92ae66e5dd236cbf178fba5dc0b1cdadc4ebef68969eab3adf",
+    "immutable_new_path": true,
+    "old_execution_preparation_and_registration_unchanged": true
+  },
+  "qualification_plan_sha256": "c700d6e38e72ffe88b35dba23705cdc57533ed9fc30be86d7f728f2b85b1c903",
+  "cf_original_oracle_plan_sha256": "b0ddd3f98467daf0a755705aea6f8ac2e10a6bdc9c0433e499165efe2ef95e60",
+  "native_resume_input_plan_sha256": "2c12b055eeb1a3bb9af12192a5cc8e61f86f95077342d0c0be6b1b8fbacbd4b1",
+  "native_computational_closure_sha256": "3e6471d476bc65bc96e8b6af2f0441079562a216468e6d98cf788e8896e11a42",
+  "physical_inputs_sha256": "ede661b1dd76af30a7b5e5663534cadaceabeb50ecdf5b60ac576d5ef995b8da",
+  "cpu_source_checks": {
+    "own_tests": 137,
+    "shared_original_oracle_tests": 17,
+    "source_files_verified": 157,
+    "external_task_imports": 0,
+    "strict_twelve_cell_tracking_config": "PASS",
+    "GPU_model_forward_or_qualification_by_preparation": false,
+    "online_WB_readback_by_preparation": false
+  },
+  "one_bounded_local_proof_check": {
+    "operation": "qualification_input.verify frozen plan and local JSON metadata only",
+    "status": "INPUT_PENDING_NOT_ACTUAL_QUALIFIED",
+    "actual_GPU": false,
+    "expected_proof_path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-qualification-r1/collector/qualification.json",
+    "original_evidence": "NOT_OBSERVED",
+    "scheduler_queries": 0,
+    "tensor_or_model_loads": 0,
+    "native_fit_calls": 0,
+    "recurring_monitor": false
+  },
+  "existing_registered_qualification": {
+    "source": "18e7fbd99bc2692c9da9ebdc9f4598caba79a1f8",
+    "jobs": {"FT": "61619", "MEMIT": "61624", "ALPHAEDIT": "61625", "ALPHAEDIT_BLUE": "61626", "MEMIT_FE": "61627", "SPHERE": "61628", "collector": "61629"},
+    "released": true,
+    "last_scheduler_observation": "ONE_POST_RELEASE_SNAPSHOT_ALL_PENDING_REASON_NONE",
+    "not_a_fresh_scheduler_state_claim": true,
+    "source_archive_or_job_hotpatch": false,
+    "duplicate_submissions": 0,
+    "native_resume_actual_PASS": "NOT_OBSERVED"
+  },
+  "next_actual_gate": {
+    "CF_main_preregistration": "Actual six-method native/resume producer proof required; original oracle plan is frozen, not actual PASS",
+    "CF_W0_READY": "New cold same-model first4 canonical plus independent original actual GPU comparison required",
+    "zsRE": "Actual approved native qualification and per-model one-batch smoke required before full chain",
+    "twelve_main_2k_chains_registered": false,
+    "cold_new_source_checkpoint_identity": true,
+    "old_checkpoint_cross_source_resume": false,
+    "additional_user_approval_requested": false
+  },
+  "project_GPU_cap": 2,
+  "GPU_resources": {"per_job_GPU": 1, "CPUs": 6, "host_memory_MiB": 59392, "wall": "2-00:00:00", "export": "NONE", "Requeue": 0},
+  "collector_resources": {"GPUs": 0, "CPUs": 6, "host_memory_MiB": 24576, "wall": "04:00:00"},
+  "planned_disk_reserve_bytes": 137438953472,
+  "wall_is_ETA": false,
+  "new_scientific_jobs_by_future_preparation": 0,
+  "credential_values_read_or_uploaded": false,
+  "raw_case_token_tensor_or_log_uploaded": false,
+  "old_jobs_source_raw_dirty_root_preserved": true,
+  "checkpoint_policy": "Official latest1 after completed batch plus W20 KEEP; old checkpoints untouched",
+  "monitoring_active": false,
+  "automatic_resume": false,
+  "automatic_retry": false,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED"
+}
