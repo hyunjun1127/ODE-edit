@@ -471,6 +471,18 @@ def sbatch_argv(plan, job, script, attempt, ids):
     return argv + [str(script)], sorted(parents)
 
 
+def requested_cpu_matches(value, expected):
+    """Slurm pending NumCPUs may show a scheduler range; exact request stays in TRES."""
+    raw = value.get("NumCPUs", "")
+    if raw.isdigit():
+        return int(raw) == expected
+    match = re.fullmatch(r"(\d+)-(\d+)", raw)
+    tres = dict(token.split("=", 1) for token in value.get("ReqTRES", "").split(",") if "=" in token)
+    return bool(match and int(match[1]) == expected <= int(match[2])
+                and tres.get("cpu") == str(expected) and value.get("CPUs/Task") == str(expected)
+                and value.get("NumTasks") == "1" and value.get("MinCPUsNode") == str(expected))
+
+
 def inspect_held(plan, job, job_id, script, attempt, expected_dependencies, *, runner=command, owner=None):
     owner = owner or getpass.getuser()
     text = runner(["scontrol", "show", "job", str(job_id), "--oneliner"])
@@ -484,7 +496,7 @@ def inspect_held(plan, job, job_id, script, attempt, expected_dependencies, *, r
             and value.get("JobName") == "official-s1-" + job["key"], "HELD_FULLARGV_SOURCE")
     require(value.get("ReqNodeList") == resources["node"] and value.get("Partition") == resources["partition"]
             and value.get("QOS") == resources["qos"] and value.get("Requeue") == "0", "HELD_NODE_QOS_REQUEUE")
-    require(int(value["NumCPUs"]) == resources["cpus"] and gpu_count(value.get("ReqTRES", "")) == job["gpus"],
+    require(requested_cpu_matches(value, resources["cpus"]) and gpu_count(value.get("ReqTRES", "")) == job["gpus"],
             "HELD_EXACT_CPU_GPU")
     requested_memory = resources["memory_MiB"] if job["gpus"] else resources["collector_memory_MiB"]
     require(memory_MiB(value["MinMemoryNode"]) == requested_memory, "HELD_EXACT_MEMORY")
