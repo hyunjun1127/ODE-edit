@@ -6,9 +6,17 @@
   "type": "global-head-command",
   "worker_claimable": false,
   "authority_envelope": "messages/head/2026-10-08-gpt2xl-blue-prune-rect-w20-generation.json",
-  "status": "AUTHORIZED_AWAITING_DIRECT_OWNER_ACK",
+  "status": "DIRECT_OWNER_ACCEPTED_REGISTRATION_IN_PROGRESS",
+  "authority_commit_delivered": "4e8a77004aef3cfff43f17b795f2b920c78e51ea",
+  "accepted_turn": "01a11ab8-1d87-7483-9370-0845c4ab76ce",
+  "owner_session": "01a04939-f93a-7b50-bca0-65438eab2062",
+  "owner_ACK": "OWNER_ACK nonce=USER-GH-SH1-GPT2XL-BLUE-PRUNE-RECT-W20-GENERATION-20261008-R1 server=server1 session=01a04939-f93a-7b50-bca0-65438eab2062 accepted=true authority=4e8a77004aef3cfff43f17b795f2b920c78e51ea",
+  "delivery_audit": "audits/global/2026-10-08-w20-only-generation-and-gpt2xl-three-baselines/delivery.json",
+  "stage_at_bounded_handoff": "현재 중복 등록과 세 대상의 실제 상태 확인. 지정3method만 W20-only로 결속하고 추가 승인 없이 등록/held검사/release까지 진행.",
   "methods": ["AlphaEdit-BLUE", "PRUNE", "RECT"],
   "generation_schedule": "W20_ONLY_FIRST2000",
   "actual_job_ids": [],
+  "registration_receipt_received": false,
+  "job_id_semantics": "bounded owner ACK 시점 새 job IDs 미수신. 알려진 과거 IDs를 새 등록이나 현재 scheduler 상태로 승계하지 않는다.",
   "completion": "owner actual3target+GPU0collector등록/held검사/release 및 boundedhandoff. ACK는 submit/W20완료가 아니다."
 }

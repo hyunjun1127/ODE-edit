@@ -31,7 +31,7 @@
     "closure": "공통 cache 구현·모델 qualification 계획/API·private caller·collector·tracking·launcher를 새source/config/lock에 함께 결속. old source/archive/config/run identity hotpatch0."
   },
   "evaluation": {
-    "generation": "W0/current pre/post/W5/W10/W15/first500 generation0. 실제 W20 first2000에서만 all_seen/post fluency/consistency. 생성 W0READY prerequisite 제거. planned2000와 valid분모/결측 이유 검산. 관측 없는 key는 생략,0채움0.",
+    "generation": "W0/current pre/post/W5/W10/W15/first500 추가 generation0. 실제 W20 first2000에서만 all_seen/post fluency/consistency. W20 전량 관측의 current100/first500 CPU subset은 추가 생성 없이 endpoint/cohort/분모를 결속한 경우만 허용. 생성 W0READY prerequisite 제거. planned2000와 valid분모/결측 이유 검산. 관측 없는 key는 생략,0채움0.",
     "RPN": "기존 W0/current100 pre/post/W5·10·15·20 allseen/cohort/TF strict·token·prompt ACC/NLL/margin/조화평균 일정·정의 그대로. W20 R2000/P4000/N20000.",
     "semantics": "CAKE entropy/참조 TF-IDF 정의·sampling total100/topk5/seed/profile/참조 자산·RNG 비변이 유지. score로route/설정/승급을 선택하지 않는다.",
     "progress": "phase=W20_generation, 완료 case/prompt·tokens·시간/처리속도·물리 F 계수는 별도 작업축으로 실시간 W&B. partial완료점수0, 종료 후만 최종mean/count 발행.",

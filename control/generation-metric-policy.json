@@ -113,8 +113,8 @@
     "prefixes": [
       "all_seen/post"
     ],
-    "current": "새 generation current/pre 및 current/post 평가는 하지 않는다. 기존 R/P/N current100 pre/post 일정과 편집 전후 state 의미는 그대로 유지한다.",
-    "cumulative": "실제 W20/edits2000의 전체 ordered first2000에 대해서만 fluency/consistency를 측정한다. generation W5/W10/W15/current100/first500 subset 발행0. R/P/N의 원 milestone·cohort retention은 변경하지 않는다.",
+    "current": "새 generation current/pre 및 중간 current/post 생성은 하지 않는다. W20 전량 관측에서 current100 등을 CPU subset으로 추출하는 경우 추가 생성0과 W20 endpoint/cohort/분모를 명시한다. 기존 R/P/N current100 pre/post 일정과 편집 전후 state 의미는 그대로 유지한다.",
+    "cumulative": "실제 W20/edits2000의 전체 ordered first2000에 대해서만 fluency/consistency를 측정한다. generation W5/W10/W15 추가측정0. W20 current100/first500는 동일 전량 관측의 검산된 CPU subset만 허용하며 원 native seed/row provenance를 보존한다. R/P/N의 원 milestone·cohort retention은 변경하지 않는다.",
     "W0": "새 W0 generation 전체·부분 평가0, 생성용 W0 READY를 편집 시작/후속 dependency prerequisite로 요구하지 않는다. 기존 R/P/N W0 관측·재사용은 유지한다. 옛 W0 generation raw/source/provenance는 삭제·새run backfill 없이 보존한다.",
     "w0_subsets": "새 W0 generation subset 지표 발행0. 기존 역사 행과 허용 key는 보존하되 새run의 미측정을0으로 채우지 않는다.",
     "completion": "W20 완료 후 generation planned occurrences2000, 실제 prompt 수와 valid fluency/consistency 분모·결측 이유를 기록한다. W20 전에는 generation score/evidence0이 정상이며 40 intermediate endpoints 등 옛 collector 조건을 요구하지 않는다.",

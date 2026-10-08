@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH1-GPT2XL-BLUE-PRUNE-RECT-W20-GENERATION-20261008-R1",
+  "date_kst": "2026-10-08",
+  "user_request": "FLUENCY와 CONSISTENCY는 2K 시점에만 평가하는 것으로 했고 SERVER4와 SERVER2에서 REPAIR 중인 것을 확인해. SERVER1에는 GPT2-XL로 ALPHAEDIT-BLUE, PRUNE, RECT 올려.",
+  "delivered_authority_commit": "4e8a77004aef3cfff43f17b795f2b920c78e51ea",
+  "delivered_envelope": "messages/head/2026-10-08-gpt2xl-blue-prune-rect-w20-generation.json",
+  "delivered_envelope_sha256": "2728196c31779c98fd599ec9a5acf9ff0424c87c37dc6f24efa8fdbc5c05d54f",
+  "canonical_policy": "control/generation-metric-policy.json",
+  "schedule": "W20_ONLY_FIRST2000",
+  "schedule_clarification": "W20 전량 generation의 검산된 current100/first500 CPU subset은 추가 생성 없이 원 endpoint/cohort/분모를 표시할 경우 허용. W0/current pre/post/W5/W10/W15 새 generation0. R/P/N 원 일정 유지. 수식·입력·sampling·seed·state 비변이·privacy 변경0.",
+  "source_receipt": {
+    "path": "local/baseline-fluency-consistency-dispatch/endpoint-only-dispatch-4e8a7700.json",
+    "sha256": "5a633a38a63493061896c68eb83048620eb490f5df815a14f6718297966182f8",
+    "raw_local_only": true,
+    "elapsed_seconds": 62.539
+  },
+  "SH1_delivery": {
+    "transport": "공식 app-server direct turn/start; exact session/CWD 및 게시 authority/envelope SHA 대조 후 bounded 명시 ACK 회수. model/effort override0.",
+    "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+    "cwd": "/mnt/raid5/janghj/ODE-edit",
+    "accepted_turn": "01a11ab8-1d87-7483-9370-0845c4ab76ce",
+    "explicit_owner_ACK": "OWNER_ACK nonce=USER-GH-SH1-GPT2XL-BLUE-PRUNE-RECT-W20-GENERATION-20261008-R1 server=server1 session=01a04939-f93a-7b50-bca0-65438eab2062 accepted=true authority=4e8a77004aef3cfff43f17b795f2b920c78e51ea",
+    "owner_report": "현재 중복 등록과 세 대상의 실제 상태를 확인하는 단계입니다. MEMIT·AlphaEdit·CAKE·OURS는 보존하고, 지정된 세 방법만 W20-only generation으로 결속하겠습니다.",
+    "methods": ["AlphaEdit-BLUE", "PRUNE", "RECT"],
+    "stage": "ACCEPTED_DEDUP_AND_CURRENT_STATE_RECONCILIATION",
+    "replacement_job_ids_received": [],
+    "actual_registration_receipt_received": false,
+    "turn_completed_observed": false,
+    "continues_autonomously": "승인된 native GPT2-XL first2000 BS100x20 독립 cold3baseline 구현/최소검산/정식등록/held검사/release. ACK는 등록·actualGPU PASS·W20 완료 증거가 아니다.",
+    "cap": 2,
+    "other_GPU_methods_protected": true
+  },
+  "repair_status_read_only": {
+    "server2": {
+      "session": "01a0493a-074c-7f91-9a13-769116326fef",
+      "cwd": "/mnt/raid5/janghj/ODE-edit",
+      "active_related_turn": "01a11aae-63d8-7d83-9dfe-2268a24a7dd3",
+      "stage": "RELATED_USER_REPAIR_ACTIVE",
+      "owner_report": "R/P/N 일정은 유지하고 generation을 실제 W20/2k 한 번으로 수정하며 정확 대상 job을 교체하는 작업 진행 중.",
+      "applied_or_new_registration_receipt_observed": false,
+      "evidence_level": "app-server 관련 USER turn/owner 진행 메시지 확인. GH scheduler 조회·적용완료 검증0."
+    },
+    "server4": {
+      "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+      "cwd": "/data/janghj/ODE-edit",
+      "completed_related_turn": "01a11aac-886f-7f01-9897-aad31922b903",
+      "status_at_read": "idle",
+      "task_id": "price-ridge-m1-m3-2k-20261008",
+      "stage": "OWNER_REPORTED_W20_ONLY_REPLACEMENT_REGISTERED_RELEASED",
+      "old_job_ids_owner_reported_cancelled": [61398, 61399, 61400, 61401],
+      "replacement_jobs_owner_reported": {"llama": 61418, "gptj": 61419, "gpt2xl": 61420, "CPU_collector": 61421},
+      "owner_report": "기존3run/collector를 취소하고 W20-only cold 재제출/release. B1-B19 generation 생략, W20 전량 first2000 생성 후 current100/first500 CPU subset만 추출. R/P/N 및 baseline hold 유지. 최초 PENDING, own branch 게시.",
+      "report": "experiment-reports/servers/server4/price-ridge-m1-m3-2k-20261008/generation-w20-only-ko.md",
+      "submission": "audits/servers/server4/price-ridge-m1-m3-2k-20261008/generation-w20-submission.json",
+      "branch": "codex/server4-price-ridge-m1-m3-20261008",
+      "owner_reported_cap": 3,
+      "cap_authority_note": "해당 turn의 owner cap3 보고이며 GH read-only 상태확인에서 별도 최신 자원 override 정본은 감사하지 않았다. 중앙 cap 수정·cap 준수 선주장·scheduler mutation0.",
+      "evidence_level": "Codex app exact read_thread의 완료 USER/owner 메시지 및 submit/push exit0 확인. GH 독립 scheduler·runtime·main통합 검증0.",
+      "actual_generation_GPU_qualification_or_W20_completion_observed": false
+    }
+  },
+  "GH_actions": {"direct_dispatches": 1, "duplicate_dispatches": 0, "scheduler_mutations": 0, "GPU_or_model_evaluation": 0, "SH2_SH4_new_task_or_steer": 0, "recurring_monitors": 0},
+  "handoff": "SH1 직접 담당수락까지 bounded 확인. 새job ID/완료는 미수신이면 미수신으로 남긴다. 장기 GPU 완료 대기·heartbeat·자동retry·무관 job 변경0."
+}
