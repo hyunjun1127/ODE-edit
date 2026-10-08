@@ -1,7 +1,7 @@
 """Freeze, register, inspect and release server3 Qwen baseline Slurm jobs.
 
-There are three serial stages.  Qualification contains CF W0 and six method
-resume-parity jobs.  CF contains ten physical edit chains.  zsRE contains its
+There are three serial stages.  Qualification contains CF W0 and four method
+resume-parity jobs.  CF contains eight physical edit chains.  zsRE contains its
 own W0, a cold one-batch FT smoke, and six fresh edit chains.  The selected CF
 BLUE main row is a grid alias.  No command cancels an old job.
 
@@ -41,6 +41,10 @@ QOS = "lab_gpu_s3"
 JOB_PREFIX = "official_s3_qwen_"
 GRID = (1, 10, 95)
 METHODS = ("FT", "MEMIT", "ALPHAEDIT", "ALPHAEDIT_BLUE", "MEMIT_FE", "SPHERE")
+# Historical W2000 MEMIT and AlphaEdit CF checkpoints are reserved for a
+# separately bound generation evaluation. Their new official CF edit chains
+# and refit qualifications are excluded; zsRE and the CF clamp control remain.
+CF_NEW_CHAIN_METHODS = ("FT", "ALPHAEDIT_BLUE", "MEMIT_FE", "SPHERE")
 AGENT_SEALS = ("agents/server3/experiment-ready-paths-20260919-v1.json",
                "agents/server4/p4-hf-consumed-closure-seal.json",
                "agents/server4/alphaedit-runtime-path-seal.json")
@@ -311,7 +315,7 @@ def stage_specs(stage, rows, files, output_root, selection=None):
     if stage == "qualify":
         specs = [{"key": "qwen25-cf-w0", "kind": "w0", "dataset": "cf",
                   "output": str(output_root / "shared-w0" / "qwen25-cf")}]
-        for method in METHODS:
+        for method in CF_NEW_CHAIN_METHODS:
             run_id = ("qwen25-cf-alphaedit_blue-l2-1" if method == "ALPHAEDIT_BLUE"
                       else f"qwen25-cf-{method.lower()}")
             specs.append({"key": "qwen25-cf-qualify-" + method.lower(),
@@ -321,7 +325,7 @@ def stage_specs(stage, rows, files, output_root, selection=None):
                           "output": str(output_root / "qualification" / method)})
         return specs
     configs = []
-    for method in METHODS:
+    for method in CF_NEW_CHAIN_METHODS if stage == "cf" else METHODS:
         run_id = f"qwen25-{dataset}-{method.lower()}"
         if dataset == "cf" and method == "ALPHAEDIT_BLUE":
             continue  # Selected grid result is an alias, not a second chain.
@@ -343,7 +347,7 @@ def stage_specs(stage, rows, files, output_root, selection=None):
         for method in ("ALPHAEDIT", "ALPHAEDIT_BLUE"):
             run_id = f"qwen25-cf-{method.lower()}-clamp075"
             configs.append((run_id, rows[run_id], files[run_id]))
-    require(len(configs) == (10 if stage == "cf" else 6), "PHYSICAL_CHAIN_COUNT")
+    require(len(configs) == (8 if stage == "cf" else 6), "PHYSICAL_CHAIN_COUNT")
     specs = []
     if stage == "zsre":
         specs.append({"key": "qwen25-zsre-w0", "kind": "w0", "dataset": dataset,
@@ -421,8 +425,8 @@ def full_program_storage_reserve(output_root, rows):
     migration is assumed to make a later stage fit.
     """
     qualify = [rows["qwen25-cf-alphaedit_blue-l2-1"] if method == "ALPHAEDIT_BLUE"
-               else rows[f"qwen25-cf-{method.lower()}"] for method in METHODS]
-    cf = [rows[f"qwen25-cf-{method.lower()}"] for method in METHODS
+               else rows[f"qwen25-cf-{method.lower()}"] for method in CF_NEW_CHAIN_METHODS]
+    cf = [rows[f"qwen25-cf-{method.lower()}"] for method in CF_NEW_CHAIN_METHODS
           if method != "ALPHAEDIT_BLUE"]
     cf += [rows[f"qwen25-cf-alphaedit_blue-l2-{l2}"] for l2 in GRID]
     cf += [rows[f"qwen25-cf-{method.lower()}-clamp075"]
@@ -444,8 +448,8 @@ def full_program_storage_reserve(output_root, rows):
             "atomic_peak_bytes": atomic_peak,
             "raw_and_headroom_bytes": 16 * GIB,
             "reserve_bytes": reserve, "free_bytes": free,
-            "qualification_checkpoint_copies": 12,
-            "cf_physical_chains": 10, "zsre_physical_chains": 6,
+            "qualification_checkpoint_copies": 2 * len(qualify),
+            "cf_physical_chains": len(cf), "zsre_physical_chains": len(zsre),
             "zsre_smoke_checkpoints": 1,
             "cleanup_assumed": False}
 
@@ -796,7 +800,12 @@ def verify_qualification(output_root, source=None):
                 "CF_QUALIFICATION_SOURCE_MISMATCH")
     stream_sha = next(x["sha256"] for x in lock["inputs"]
                       if x["path"].endswith("cf-stream.json"))
-    require(len(lock["specs"]) == 7 and lock["specs"][0]["kind"] == "w0",
+    expected_specs = [("qwen25-cf-w0", "w0", None)] + [
+        ("qwen25-cf-qualify-" + method.lower(), "qualify", method)
+        for method in CF_NEW_CHAIN_METHODS]
+    actual_specs = [(item.get("key"), item.get("kind"), item.get("method"))
+                    for item in lock["specs"]]
+    require(actual_specs == expected_specs,
             "CF_QUALIFICATION_DAG_MISMATCH")
     evidence = []
     for spec in lock["specs"]:

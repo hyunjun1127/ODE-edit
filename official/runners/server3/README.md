@@ -7,10 +7,16 @@ physical L4–L8 C0/projector mapping, source streams, model revision and runtim
 `submit.py` freezes the exact published `origin/main` source and registers held
 Slurm jobs only after asset, W&B, storage and cap checks.
 
-The Qwen plan has 12 main logical rows plus five CF auxiliary rows. The CF
-BLUE main row aliases the selected L2 grid result, leaving 16 physical 2K
-editing chains. Stages are `qualify` (shared CF W0 and six B3 resume-parity
-jobs), `cf` (ten physical chains), and `zsre` (shared W0, one independent FT
+The canonical Qwen matrix has 12 main logical rows plus five CF auxiliary rows.
+Its 16 physical configurations remain readable as history. The current
+submission plan excludes **new CF MEMIT and AlphaEdit editing chains** because
+historical W2000 checkpoints exist for a different salted-hash CF cohort.
+Those checkpoints are not matched to this official stream and have not passed
+restore or GPU parity checks. Their fluency/consistency observation is separate
+future work; this runner does not submit it. The CF BLUE main row aliases the
+selected L2 grid result, leaving 14 planned physical 2K editing chains.
+Stages are `qualify` (shared CF W0 and four B3 resume-parity jobs), `cf`
+(eight physical chains), and `zsre` (shared W0, one independent FT
 B1 smoke, six physical chains). Each stage is serialized on one server3 GPU.
 The CF BLUE winner is selected from exact W20 receipts with the published
 Score/Specificity/Efficacy/Generalization/L2 tie order; zsRE uses that L2.

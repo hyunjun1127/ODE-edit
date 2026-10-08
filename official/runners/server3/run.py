@@ -25,6 +25,14 @@ METHODS = ("FT", "MEMIT", "ALPHAEDIT", "ALPHAEDIT_BLUE", "MEMIT_FE", "SPHERE")
 HISTORY = ("ALPHAEDIT", "ALPHAEDIT_BLUE", "SPHERE")
 PHASES = (0, 5, 10, 15, 20)
 L2_GRID = (1, 10, 95)
+EXCLUDED_NEW_CF_RUN_IDS = frozenset(("qwen25-cf-memit", "qwen25-cf-alphaedit"))
+
+
+def _new_edit_scope_blocker(config):
+    """Keep canonical matrix rows readable without admitting their new CF fit."""
+    if config and config.get("run_id") in EXCLUDED_NEW_CF_RUN_IDS:
+        return "CF_NEW_EDIT_EXCLUDED_HISTORICAL_CHECKPOINT_ONLY"
+    return None
 
 
 def _read(path):
@@ -458,6 +466,9 @@ def _preflight(args, *, require_frozen=False):
     source = frozen_source_identity() if require_frozen else None
     blockers = [item["code"] + (":" + str(item["path"]) if item.get("path") else "")
                 for item in asset_receipt["blockers"]]
+    scope_blocker = _new_edit_scope_blocker(config)
+    if scope_blocker:
+        blockers.append(scope_blocker)
     try:
         _require_evaluator()
     except (ModuleNotFoundError, RuntimeError) as error:
@@ -906,6 +917,9 @@ def qualify(args):
     config = validate_config(_read(args.config))
     if config["dataset"] != "cf" or config["method"] not in METHODS:
         raise ValueError("CF_NATIVE_QUALIFICATION_SCOPE")
+    scope_blocker = _new_edit_scope_blocker(config)
+    if scope_blocker:
+        raise ValueError(scope_blocker)
     _, lock, _ = validate_stream(args.stream, "cf")
     out = Path(args.output)
     receipt_path = out / "resume-parity.json"
