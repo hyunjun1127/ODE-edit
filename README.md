@@ -45,26 +45,31 @@ Ours 행은 결과 기록용이며 새 arm/실험을 자동 승인하지 않습�
 
 ### Llama3-8B-Instruct
 
-**SH1 실제 held 검사·release 완료, snapshot 2026-10-09 04:28:08 KST.**
-CF AlphaEdit **61711**, SPHERE **61712**는 RUNNING, CF FT **61713**, MEMIT **61714**,
-MEMIT-FE **61715**와 zsRE **61716–61721**은 PENDING이다.
-필수 W0 입력 **61709/61710**은 RUNNING, GPU0 collector **61722**는 PENDING이며 본실험 표에서는 제외한다.
-cap4, 실행 source `94304dc9`, official tree `4b09cc81`.
+**SH1 CF 수리본 held 검사·release 완료, snapshot 2026-10-09 04:57:44 KST.**
+CF AlphaEdit **61769**, SPHERE **61770**, FT **61771**, MEMIT **61772**, MEMIT-FE **61773**는 PENDING/dependency다.
+기존 zsRE **61716–61719**는 RUNNING, **61720/61721**은 PENDING으로 유지했다.
+새 CF W0 **61768**와 GPU0 collector **61774**는 PENDING이며 본실험 표에서 제외한다.
+기존 zsRE W0 **61710**은 COMPLETED, 원 공유 collector **61722**는 유지한다.
+cap4, 새 CF 실행 source `34e4d52d`, official tree `db0354ed`; 유지 zsRE source `94304dc9`.
 별도 GPU qualification·smoke·resume 반복 검증은 `NOT_RUN_USER_DISABLED`이고
 필수 W0·본실험 평가·checkpoint·runtime 안전 검사는 유지한다.
 원 26개 취소 및 완료 qualification **61657** 보존, source/config SHA·실제 job name·dependency는
 [제출 보고](experiment-reports/servers/server1/official-baselines-20261008/no-gpu-qualification-rerun-20261009/report.md)와
 [등록 영수증](audits/servers/server1/official-baselines-20261008/no-gpu-qualification-rerun-20261009/submission.json)에 있다.
-W&B startup·최종 성능 완료는 이 snapshot에서 미관측이다.
+CF 61711/61712는 W0 표시용 Score 반올림 불일치로 FAILED(commit0), 영향받은 CF 61715/61714/61713/61709만 취소했다.
+원 점수·native 수학은 바꾸지 않고 표시용 구성값 검증을 수리했으며 CPU83 및 실제 실패 raw 2건 검산을 통과했다.
+[CF 수리·재등록 보고](experiment-reports/servers/server1/official-baselines-20261008/cf-display-score-repair-20261009/report-ko.md)와
+[새 등록 영수증](audits/servers/server1/official-baselines-20261008/cf-display-score-repair-20261009/submission.json)에 정확한 dependency/config/취소·보존 범위를 기록했다.
+새 CF W&B startup·최종 성능 완료는 아직 미관측이다.
 
 | Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| FT | PENDING: 61713 | PENDING: 61713 | PENDING: 61713 | PENDING: 61713 | DEFERRED | DEFERRED | PENDING: 61716 | PENDING: 61716 | PENDING: 61716 |
-| MEMIT | PENDING: 61714 | PENDING: 61714 | PENDING: 61714 | PENDING: 61714 | DEFERRED | DEFERRED | PENDING: 61717 | PENDING: 61717 | PENDING: 61717 |
-| AlphaEdit | ING: 61711 | ING: 61711 | ING: 61711 | ING: 61711 | DEFERRED | DEFERRED | PENDING: 61718 | PENDING: 61718 | PENDING: 61718 |
-| AlphaEdit-BLUE | 89.84† | 99.60† | 97.15† | 76.59† |  |  | PENDING: 61719 | PENDING: 61719 | PENDING: 61719 |
-| MEMIT-FE | PENDING: 61715 | PENDING: 61715 | PENDING: 61715 | PENDING: 61715 | DEFERRED | DEFERRED | PENDING: 61720 | PENDING: 61720 | PENDING: 61720 |
-| AlphaEdit+SPHERE | ING: 61712 | ING: 61712 | ING: 61712 | ING: 61712 | DEFERRED | DEFERRED | PENDING: 61721 | PENDING: 61721 | PENDING: 61721 |
+| FT | PENDING: 61771 | PENDING: 61771 | PENDING: 61771 | PENDING: 61771 | DEFERRED | DEFERRED | ING: 61716 | ING: 61716 | ING: 61716 |
+| MEMIT | PENDING: 61772 | PENDING: 61772 | PENDING: 61772 | PENDING: 61772 | DEFERRED | DEFERRED | ING: 61717 | ING: 61717 | ING: 61717 |
+| AlphaEdit | PENDING: 61769 | PENDING: 61769 | PENDING: 61769 | PENDING: 61769 | DEFERRED | DEFERRED | ING: 61718 | ING: 61718 | ING: 61718 |
+| AlphaEdit-BLUE | 89.84† | 99.60† | 97.15† | 76.59† |  |  | ING: 61719 | ING: 61719 | ING: 61719 |
+| MEMIT-FE | PENDING: 61773 | PENDING: 61773 | PENDING: 61773 | PENDING: 61773 | DEFERRED | DEFERRED | PENDING: 61720 | PENDING: 61720 | PENDING: 61720 |
+| AlphaEdit+SPHERE | PENDING: 61770 | PENDING: 61770 | PENDING: 61770 | PENDING: 61770 | DEFERRED | DEFERRED | PENDING: 61721 | PENDING: 61721 | PENDING: 61721 |
 | PRICE (Ours) |  |  |  |  |  |  |  |  |  |
 
 † 사용자 2026-10-09 지시에 따라 표본·순서를 대조한 기존 Llama BLUE job **39283_1**의
