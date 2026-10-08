@@ -1,8 +1,10 @@
 {
   "schema": "counterfact-cake-generation-metrics-v1",
-  "instruction_id": "USER-GH-ALL-SH-BASELINE-FLUENCY-CONSISTENCY-RERUN-20261007-R1",
-  "date_kst": "2026-10-07",
-  "authority": "USER 명시: fluency/consistency 및 W&B 기록 추가, 이미 실행/종료된 6 baseline의 새로운 평가 포함 재실행. 일반 ours에는 다음 승인 source부터 동일 평가를 적용하며 현재 ours/W0 job은 변경하지 않는다.",
+  "instruction_id": "USER-GH-SH1-GPT2XL-BLUE-PRUNE-RECT-W20-GENERATION-20261008-R1",
+  "date_kst": "2026-10-08",
+  "authority": "최신 USER: fluency/consistency는 2k 시점에만 평가한다. 승인된 first2000 편집 실험의 새/수리 source부터 W20-only 일정을 적용한다. 기존 frozen archive/raw/과거 점수는 보존하며 GH 정책 변경만으로 무관한 job을 취소·재시작하지 않는다.",
+  "superseded_schedule_instruction": "USER-GH-ALL-SH-BASELINE-FLUENCY-CONSISTENCY-RERUN-20261007-R1",
+  "generation_schedule": "W20_ONLY_FIRST2000",
   "applies_to": "Future authorized ours and baseline editing experiments; setup/stats/P/storage smoke excluded. This task authorizes generation evaluation forwards inside six-baseline reruns, not additional fits or scientific pilots.",
   "inherits": [
     "control/wandb-policy.json",
@@ -109,16 +111,15 @@
   },
   "evaluation": {
     "prefixes": [
-      "current/pre",
-      "current/post",
-      "all_seen/post",
-      "W0_first2000"
+      "all_seen/post"
     ],
-    "current": "Incoming100 on real pre-write and post-write model. EasyEdit sequential pre returned after edited self.model is not a valid pre; use explicit before-write observer.",
-    "cumulative": "Actually measure W5/W10/W15/W20 prefixes only; current/post at milestones still incoming100. No invented endpoint.",
-    "W0": "Same-model/runtime/input/evaluator/gen-profile cold state. Inside first cold baseline measure first2000 generation once per model, atomically bind raw/READY; reuse exact subset/case observation in other cells. Existing R/P/N-only W0 is not generation evidence. Do not rerun unrelated standalone W0 jobs.",
-    "w0_subsets": "w0/current and w0/all_seen generation subsets may be emitted from same exact first2000 generation observations, with denominator and same immutable source identity.",
-    "existing_endpoint_reuse": "Reuse endpoint observation when state/cohort/profile/seed identity exact; no duplicate R/P/N forwarding through CAKE's whole editing evaluator."
+    "current": "새 generation current/pre 및 current/post 평가는 하지 않는다. 기존 R/P/N current100 pre/post 일정과 편집 전후 state 의미는 그대로 유지한다.",
+    "cumulative": "실제 W20/edits2000의 전체 ordered first2000에 대해서만 fluency/consistency를 측정한다. generation W5/W10/W15/current100/first500 subset 발행0. R/P/N의 원 milestone·cohort retention은 변경하지 않는다.",
+    "W0": "새 W0 generation 전체·부분 평가0, 생성용 W0 READY를 편집 시작/후속 dependency prerequisite로 요구하지 않는다. 기존 R/P/N W0 관측·재사용은 유지한다. 옛 W0 generation raw/source/provenance는 삭제·새run backfill 없이 보존한다.",
+    "w0_subsets": "새 W0 generation subset 지표 발행0. 기존 역사 행과 허용 key는 보존하되 새run의 미측정을0으로 채우지 않는다.",
+    "completion": "W20 완료 후 generation planned occurrences2000, 실제 prompt 수와 valid fluency/consistency 분모·결측 이유를 기록한다. W20 전에는 generation score/evidence0이 정상이며 40 intermediate endpoints 등 옛 collector 조건을 요구하지 않는다.",
+    "qualification": "캐시/위치/RNG/비변이의 소수 prompt 기술 qualification은 기존 사전고정 plan 범위에서 허용되나 W0/current 과학점수로 게시하지 않는다. 추가 fit 또는 성능 gate가 아니다.",
+    "existing_endpoint_reuse": "동일 W20 actual state/cohort/profile/seed/semantic identity가 검증된 관측만 재사용. endpoint는 arm별 독립 edited W/H이며 W0/다른 arm 관측으로 대신하지 않는다. R/P/N 중복 forward0."
   },
   "wandb": {
     "entity": "wkdguswns2256",
@@ -135,10 +136,11 @@
       "<prefix>/generation/generated_token_count": "continuation token count",
       "<prefix>/generation/missing_<reason>_count": "fixed typed reason counts only"
     },
-    "axis": "Same edits evaluation axis, explicit pre_state_edits/post_state_edits, W0 x=0. Fit uses separate monotonically increasing candidate axis.",
+    "axis": "새 generation 과학지표는 all_seen/post, edits=2000에서만. R/P/N edits/pre_state_edits/post_state_edits와 fit 단조 candidate 축은 그대로 유지한다. W20_generation progress는 별도 작업축으로 기록하며 부분값을 완성 W20 점수로 올리지 않는다.",
     "config": [
       "generation_metric_schema",
       "generation_profile",
+      "generation_schedule",
       "generation_eval_seed",
       "reference_assets_sha256",
       "generation_source_sha",

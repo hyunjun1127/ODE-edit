@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-GH-SH1-GPT2XL-BLUE-PRUNE-RECT-W20-GENERATION-20261008-R1",
+  "task_id": "gpt2xl-blue-prune-rect-w20-generation",
+  "owner_server": "server1",
+  "type": "global-head-command",
+  "worker_claimable": false,
+  "authority_envelope": "messages/head/2026-10-08-gpt2xl-blue-prune-rect-w20-generation.json",
+  "status": "AUTHORIZED_AWAITING_DIRECT_OWNER_ACK",
+  "methods": ["AlphaEdit-BLUE", "PRUNE", "RECT"],
+  "generation_schedule": "W20_ONLY_FIRST2000",
+  "actual_job_ids": [],
+  "completion": "owner actual3target+GPU0collector등록/held검사/release 및 boundedhandoff. ACK는 submit/W20완료가 아니다."
+}
