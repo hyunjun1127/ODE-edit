@@ -68,7 +68,8 @@ def config(values):
         elif key=='generation_repair_instruction':
             require(type(value) is str and value in (
                 'USER-GH-SH1-SH2-BASELINE-GENERATION-KV-BATCH-REPAIR-20261008-R1',
-                'USER-GH-SH1-GPT2XL-BLUE-PRUNE-RECT-W20-GENERATION-20261008-R1'),
+                'USER-GH-SH1-GPT2XL-BLUE-PRUNE-RECT-W20-GENERATION-20261008-R1',
+                'USER-GH-SH1-GPT2XL-MEMIT-ALPHAEDIT-CAKE-W20-GENERATION-20261008-R1'),
                 'GENERATION_REPAIR_INSTRUCTION')
         elif key=='generation_schedule':
             require(type(value) is str and value=='W20_ONLY_FIRST2000', 'GENERATION_SCHEDULE')
