@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-DIRECT-NATIVE-FLUCON-REPAIR-20261008-R1",
+  "task_id": "gpt2xl-baselines-native-generation-repair",
+  "owner": {"server": "server1", "session": "01a04939-f93a-7b50-bca0-65438eab2062"},
+  "user_quote": "이거 반영해서 수리하고(어떤식으로 바꿨는지 subagent에게 report로 정리하라고 시키자. 그리고 정리한건 server2에 전달해서, 올라가있는 run 제외하고 baseline run 취소하라고 전달하라.), baseline들 run 올려. 이미 올라가있는거 취소하고 repair후 재제출하라. 그리고 이 구현(FLU,CON)을 server2에 전달하라. 우선 memit, alphaedit, alphaedit-blue 만 올려봐",
+  "arms": ["BASE_MEMIT", "BASE_ALPHAEDIT", "ALPHAEDIT_BLUE"],
+  "source_scope": "Native generator and thin observation/caller/registration wrappers; original native editing algorithms and coefficients unchanged",
+  "generation_schedule": "W20_ONLY_FIRST2000",
+  "generation_override": "CAKE-native per-case padded KV batch, prompt-inclusive total100, topk5, no EOS early stop; remove derived equal-length MB8 qualification and no-cache fallback",
+  "project_GPU_cap": 2,
+  "server1_cancel_scope": [61439, 61438, 61437, 61436],
+  "server2_direction": "Deliver source/report; preserve currently RUNNING baseline; owner verifies and cancels only not-started baseline descendants/collector, no new SH2 submission ordered",
+  "protected": "PRICE OURS, W0-only, FE, assets and all unrelated jobs",
+  "noCP": true,
+  "raw_preserve": true,
+  "automatic_retry": false,
+  "monitoring": "bounded initial handoff only"
+}

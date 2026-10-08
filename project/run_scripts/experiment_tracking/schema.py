@@ -69,7 +69,8 @@ def config(values):
             require(type(value) is str and value in (
                 'USER-GH-SH1-SH2-BASELINE-GENERATION-KV-BATCH-REPAIR-20261008-R1',
                 'USER-GH-SH1-GPT2XL-BLUE-PRUNE-RECT-W20-GENERATION-20261008-R1',
-                'USER-GH-SH1-GPT2XL-MEMIT-ALPHAEDIT-CAKE-W20-GENERATION-20261008-R1'),
+                'USER-GH-SH1-GPT2XL-MEMIT-ALPHAEDIT-CAKE-W20-GENERATION-20261008-R1',
+                'USER-DIRECT-NATIVE-FLUCON-REPAIR-20261008-R1'),
                 'GENERATION_REPAIR_INSTRUCTION')
         elif key=='generation_schedule':
             require(type(value) is str and value=='W20_ONLY_FIRST2000', 'GENERATION_SCHEDULE')
@@ -94,8 +95,15 @@ def config(values):
     if generation & result.keys():
         require(generation|METHOD_CONFIG|{'baseline'}<=result.keys(),'GENERATION_CONFIG_REQUIRED')
         require(result['generation_metric_schema']=='counterfact-cake-generation-metrics-v1'
-                and result['generation_profile']=='cf-cake-prompt-inclusive-total100-eos-corrected-v1',
+                and result['generation_profile'] in (
+                    'cf-cake-prompt-inclusive-total100-eos-corrected-v1',
+                    'cf-cake-native-casebatch-kv-total100-globalrng-v1'),
                 'GENERATION_SCHEMA_PROFILE')
+        if result['generation_profile']=='cf-cake-native-casebatch-kv-total100-globalrng-v1':
+            require(result.get('generation_repair_instruction')==
+                'USER-DIRECT-NATIVE-FLUCON-REPAIR-20261008-R1'
+                and result.get('generation_schedule')=='W20_ONLY_FIRST2000',
+                'NATIVE_GENERATION_EXPLICIT_REPAIR_AUTHORITY')
     return result
 
 

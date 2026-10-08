@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-DIRECT-NATIVE-FLUCON-REPAIR-20261008-R1",
+  "owner": {"server": "server1", "session": "01a04939-f93a-7b50-bca0-65438eab2062"},
+  "stage": "SOURCE_IMPLEMENTED_CPU_PASS_PENDING_ACTUAL_REGISTRATION",
+  "arms": ["BASE_MEMIT", "BASE_ALPHAEDIT", "ALPHAEDIT_BLUE"],
+  "CPU": {"status": "PASS", "tests": 178, "failures": 0, "errors": 0, "skipped": 0, "GPU": "NOT_RUN", "online": "NOT_RUN", "receipt_path": "/mnt/raid5/janghj/ODE-edit/local/gpt2xl-baselines-fluency-consistency-2k/20261007-v1/native-repo-repair-r1/cpu-source-final-r1/cpu-preflight.json"},
+  "independent_review": {"common_native": "native_flucon_report", "caller_collector": "native_flucon_implementation", "status": "NO_UNRESOLVED_SOURCE_BLOCKER", "findings_fixed": ["endpoint RNG restoration scope", "parent-bound subset provenance", "exact cohort stream recomputation", "raw/execution physical and logical counter crosscheck"]},
+  "generation": {"profile": "cf-cake-native-casebatch-kv-total100-globalrng-v1", "route": "NATIVE_CASE_PADDED_KV_GLOBAL_RNG", "schedule": "W20_ONLY_FIRST2000", "extra_fit": 0, "extra_model_evaluation": 0, "old_MB8_qualification": "REMOVED_NEW_PROFILE_NOT_A_PASS", "no_cache_fallback": false, "bitwise_old_or_BLUE_equivalence": false, "speedup": "NOT_MEASURED"},
+  "server1_cancellation": {"order": [61439, 61438, 61437, 61436], "terminal_states": "ALL_CANCELLED", "BLUE_partial_commits_preserved": 4, "BLUE_GPU_seconds": 2240, "PRUNE_GPU_seconds": 980, "old_source_raw_preserved": true, "other_jobs_mutated": false},
+  "server2_direction": {"transport": "REGISTERED_SSH_UNIX_WEBSOCKET", "owner_ACK": true, "accepted_turn": "01a11b80-fce1-75b1-9553-632eb5dd2800", "RUNNING_61428_preserved": true, "owner_reported_not_started_cancelled": [61429, 61430, 61431, 61432, 61433, 61434], "new_submit": 0, "implementation_delivery": "PENDING_PUBLISHED_SOURCE"},
+  "project_GPU_cap": 2,
+  "NoCP": true,
+  "model_stats_P_download_recompute": false,
+  "raw_policy": "LOCAL_KEEP; NO_BROADCAST_NOT_REQUIRED; compact source/report Git only",
+  "recurring_monitor": false,
+  "automatic_retry": false,
+  "actual_GPU_native_generation": "NOT_OBSERVED",
+  "actual_new_job_ids": []
+}

@@ -31,7 +31,72 @@ Asset loader accepts a manifest path/dictionary or `{'generation_assets': manife
 
 Same-model W0 generation is fresh once in the first actual cold baseline, atomic shared READY then exact-state reuse/subsets. Prior R/P/N-only W0 is not generation evidence. Generation counts/timing/model forwards/token work and RNG/observer guard are returned separately; preserve returned phase work before proceeding. Source/helper CPU tests and remote W&B delivery are different evidence. No extra model forward for logging, no automatic scientific retry or monitor.
 
-## GPT2 / GPT-J cache-repair API (2026-10-08)
+## Original CAKE native case-batch API (2026-10-08)
+
+The user-approved native path is a separate profile, not an accelerated route of
+the EOS-corrected/per-prompt-seed profile described above. It follows clean CAKE
+`0b378234862bd76c69f58404ef84c27d5f4bf9ef` `util/generate.py:generate_fast`:
+all `generation_prompts` of each case are padded together, `use_cache=True`,
+incremental queries, CAKE cumulative attention masks, one sample per prompt,
+top-k 5, and the original padded prompt-inclusive width limit 100. Sampling uses
+one globally advancing batch RNG stream seeded once per endpoint with 20261007.
+EOS never stops generation. If any prompt in a case has width at least 100,
+that entire case batch has zero continuation, with inputs preserved.
+
+```python
+from project.run_scripts.experiment_generation_eval.native_observer import NativeGenerationObserver
+from project.run_scripts.experiment_generation_eval.native_profile import PROFILE, ROUTE
+
+observer = NativeGenerationObserver(model, tokenizer, assets, {
+    'model_identity': sealed_model_runtime_tokenizer_identity,
+    'generation_source_sha': sealed_native_generation_source_sha,
+    'profile': PROFILE,
+    'eval_seed': 20261007,
+    'generation_route': ROUTE,
+}, ignored_raw_directory, state_callback=nonmutation_signature,
+   progress_callback=approved_scalar_transport)
+endpoint = observer.observe(records, 'W20', cohort='ALL_SEEN', state_identity=actual_state)
+current = observer.subset(endpoint, current_records, 'W20_CURRENT', cohort='CURRENT')
+```
+
+`PROFILE` is `cf-cake-native-casebatch-kv-total100-globalrng-v1`; `ROUTE` is
+`NATIVE_CASE_PADDED_KV_GLOBAL_RNG`. This path has no equal-length/MB8 qualification
+gate, per-prompt seeds, cache fallback, or silent no-cache retry. Native cache,
+input, FP32/eval and finite-logit incompatibilities are typed technical failures.
+The existing model/hook/cache/native-state guards and endpoint-wide RNG isolation
+apply even on errors. `qualification_member` is `None`; successful actual
+execution creates an immutable `native_execution_member` expressly declaring
+`qualification_performed=False`, not a fabricated GPU parity PASS.
+
+CAKE decode is preserved: decode without `skip_special_tokens`, NFKD, double
+newline replacement, and literal `<|endoftext|>` removal. BLUE `311b076` differs
+in query-only masking and skip-special decode; this adapter is not claimed
+bitwise BLUE. `native_profile.source_identity()` freezes both original file
+hashes and the minimal compatibility/observation changes. Neither original
+repository is modified.
+
+Both metrics consume the same exact generated text, through the existing
+`score_case` and `ReferenceAssets`, and retain all existing denominator and
+missing-value rules. Raw tokens include true input/continuation/full tokens and
+the original padded decode tokens; these remain ignored local. Progress and
+metric transports expose only the existing approved scalar schema.
+
+Because preceding case batches affect the global RNG stream, raw identities
+add `sampling_stream_sha256` binding the full ordered prompt schedule. Only an
+exact complete endpoint is a cache hit. Isolated partial case rows are not used
+to skip sampling or resume an edited trajectory. Subsets are CPU-only, retain
+the same stream, and bind the immutable completed parent endpoint/execution
+receipt. Their identity-keyed paths cannot overwrite another slice.
+`native_observer.read_observed` and `verify_native_raw` validate this profile;
+do not apply the old EOS/per-prompt-seed raw validator to native rows.
+
+`test_native_generator` and `test_native_observer` use CPU fake models and a
+frozen CAKE loop oracle. They are software tests, not pretrained/GPU
+qualification or performance evidence. The caller owns when to observe a
+state (for the current SH1 task, W20 only); this reusable adapter does not
+schedule W0, fits, evaluations, submissions or logging retries.
+
+## Legacy GPT2 / GPT-J cache-repair API (2026-10-08)
 
 This is a qualified transport/observation repair, not a native baseline method
 change. The semantic profile, prompt seed identity, EOS/total100, CAKE metric,
