@@ -1,0 +1,38 @@
+{
+  "authority": "2026-10-08 USER: 전부 다 RERUN올리자; 직전 cap3 및 GPT2 독립 lane 유지",
+  "old_source": "e310c38b76204acbae56c3a30f00a7c8444f0a4c",
+  "old_jobs": {"LLAMA_REPRO":61356,"GPTJ_M1":61357,"GPT2XL_M1_M2":61358,"collector":61359},
+  "confirmed_defects": [
+    "shared GenerationObserver.subset의 digest 변수 key가 member 복사 loop에 의해 compatibility_member로 덮어써짐. LLAMA W2에서 W1 파일과 immutable 충돌. task-private AST adapter는 해당 loop 변수명만 member_key로 교체; shared source 수정0.",
+    "GPT2 w0_rows가 자체 module에 import한 rows_from은 parent runner rebind의 영향을 받지 않아 reference-only W0를 0행으로 읽음. task-private installer가 tracking.rows_from도 동일한 검산 reader로 연결. 원 raw/기존 source 수정0."
+  ],
+  "old_LLAMA_prefix": {"committed_batches":1,"committed_edits":100,"batch2_rollback_verified":true},
+  "CPU_actual_raw_tests": {
+    "old_subset_W1_then_W2_conflict_reproduced":true,
+    "repaired_W1_W2_distinct_hash_paths_and_idempotence":true,
+    "subset_cohort_distinct_paths":true,
+    "immutable_corruption_still_rejected":true,
+    "GPT2_original_tracking_cardinality_failure_reproduced":true,
+    "GPT2_repaired_tracking_W0_rows":26000,
+    "new_regression_tests":2,
+    "existing_narrow_regression_tests":8,
+    "result":"PASS",
+    "model_load":0,"new_forward":0,"new_W0":0
+  },
+  "review_level":"소유자 source/실제 저장행 CPU 검산. 별도 독립 reviewer 없음",
+  "actual_GPU_new_source":"NOT_OBSERVED",
+  "old_LLAMA_KV_qualification":"기존 source의 B1 MB4 실제 검산 PASS; 새 source 전체완료 증거는 아님",
+  "resources": {
+    "project_cap":3,"task_cap":3,"three_independent_GPU1_lanes":true,
+    "CPU_each":8,"host_MiB_each":59392,"hard_host_MiB":60416,"wall_hours_ceiling":48,
+    "collector_GPU":0,"collector_CPU":8,"collector_host_MiB":24576,"collector_wall_hours":4,
+    "free_bytes_at_prepare":69095600128,"planned_reserve_bytes":41716285440,
+    "generic_helper_limitation":"'*' 호출은 타사용자 포함 node 전체6GPU를 집계하고 본 WT의 과거 tracked cap2를 읽어 DENY. 이를 own 프로젝트0으로 오기하지 않음. 최신 직접 사용자 cap3와 exact own owner/node/source queue 및 held baseline 제외/3lane DAG로 별도 admission; helper/global 정책 편집0.",
+    "memory_policy_check":"ALLOW_MEMORY_POLICY 59392<=60416",
+    "live_QoS":"lab_gpu_s4 MaxTRESPU gres/gpu=4; 더 엄격한 사용자3 적용"
+  },
+  "preserved":["old source/config/archive/raw", "baseline60917-60923 hold", "원 generation 일정/분모/허용오차/수식", "신규 W0 금지", "M3 savedK 미기록 두 cell 보류"],
+  "automatic_retry":false,
+  "monitoring_active":false,
+  "broadcast":"NO_BROADCAST_NOT_REQUIRED: 원자료 동일서버 KEEP, Git 소형 source/receipt만 게시"
+}

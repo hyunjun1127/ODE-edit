@@ -1,4 +1,4 @@
-"""One exact replacement registration; two resource lanes, no broad mutation."""
+"""One exact replacement registration; explicitly bound resource lanes."""
 import argparse
 import json
 from pathlib import Path
@@ -13,6 +13,8 @@ def submit(attempt):
     target=attempt/'submission.json'
     if target.exists():raise RuntimeError('DUPLICATE_SUBMISSION_NO_AUTORETRY')
     cfg=json.loads((attempt/'config.json').read_text());lock=json.loads((attempt/'execution.lock.json').read_text())
+    cap=cfg.get('project_gpu_cap',2)
+    if cap not in (2,3) or lock['project_gpu_cap']!=cap:raise RuntimeError('PROJECT_CAP_BINDING')
     if sha(attempt/'config.json')!=lock['config_sha256']:raise RuntimeError('CONFIG_SHA')
     for row in lock['source_members']+lock['input_members']+lock['launchers']:verify(row)
     before=[];frontier=[]
@@ -30,12 +32,12 @@ def submit(attempt):
     roles=[x for x in ('LLAMA_REPRO','GPTJ_M1','GPT2XL_M1_M2','GPT2XL_M1_M3','GPT2XL_M1_M2_M3') if x in cfg['cells']]
     if set(roles)!=set(cfg['cells']):raise RuntimeError('UNKNOWN_CELL')
     data=dict(task_id=TASK,repair='USER_KV_GENERATION_AND_GPT2_INPUT',source=lock['source_commit'],
-        before=before,project_cap=2,stage='REGISTERING_HELD',jobs={},dependencies={},held_inspection={})
+        before=before,project_cap=cap,stage='REGISTERING_HELD',jobs={},dependencies={},held_inspection={})
     def persist():target.write_text(json.dumps(data,indent=2)+'\n')
-    persist();tails=list(frontier)*2 if frontier else [None,None]
+    persist();tails=list(frontier)*cap if frontier else [None]*cap
     for index,role in enumerate(roles+['collector']):
         collector=role=='collector'
-        dependencies=list(data['jobs'].values()) if collector else ([tails[index%2]] if tails[index%2] else [])
+        dependencies=list(data['jobs'].values()) if collector else ([tails[index%cap]] if tails[index%cap] else [])
         dep='afterany:'+':'.join(dependencies) if dependencies else None
         wall='04:00:00' if collector else '2-00:00:00';mem='24576M' if collector else '59392M'
         argv=['sbatch','--parsable','--hold','--partition=gpu','--qos=lab_gpu_s4','--nodelist=server4',
@@ -58,7 +60,7 @@ def submit(attempt):
         assert r['NumCPUs'] in ('8','8-14') and r['MinMemoryNode']==('24G' if collector else '58G')
         assert r['TresPerNode']==(None if collector else 'gres/gpu:1') and r['TimeLimit']==wall
         assert set(re.findall(r'afterany:(\d+)',r['Dependency']))==set(dependencies)
-        if not collector:tails[index%2]=j
+        if not collector:tails[index%cap]=j
         persist()
     for j in data['jobs'].values():subprocess.run(['scontrol','release',j],check=True)
     data.update(stage='RELEASED',initial={k:job(j) for k,j in data['jobs'].items()});persist()

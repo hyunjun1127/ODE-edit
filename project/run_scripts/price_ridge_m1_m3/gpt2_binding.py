@@ -26,7 +26,7 @@ def validate(c):
 
 
 def install_runtime_bindings(parent,c):
-    from project.run_scripts.jlz_price_gpt2xl import inputs,w0
+    from project.run_scripts.jlz_price_gpt2xl import inputs,w0,tracking
     original_rows=parent.rows_from
     def bind(config,attempt,model,tok,records):
         require(digest([r['case_id'] for r in records])==config['ordered_ids_sha256'],'REUSED_INPUT_ORDER')
@@ -65,3 +65,6 @@ def install_runtime_bindings(parent,c):
     # Only the new task process uses these imported old runner entrypoints.
     # Existing jobs/archives/shared tracking and generation modules stay intact.
     inputs.bind=bind;w0.choose_reuse=choose;w0.install=install;parent.rows_from=rows
+    # tracking imported rows_from into its own globals: rebinding the runner
+    # alone does not affect w0_rows() used by drive(). Same validated reader.
+    tracking.rows_from=rows

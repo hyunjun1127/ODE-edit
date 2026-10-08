@@ -69,5 +69,23 @@ def observer_method():
     return namespace['observe']
 
 
+def subset_method():
+    """Repair only loop-variable shadowing; keep shared identity checks intact."""
+    tree=ast.parse(textwrap.dedent(inspect.getsource(SharedObserver.subset)))
+    changed=0
+    for node in ast.walk(tree):
+        if (isinstance(node,ast.For) and isinstance(node.target,ast.Name)
+                and node.target.id=='key' and isinstance(node.iter,ast.Tuple)
+                and ast.literal_eval(node.iter)==('qualification_receipt_member','compatibility_member')):
+            for name in ast.walk(node):
+                if isinstance(name,ast.Name) and name.id=='key':name.id='member_key'
+            changed+=1
+    if changed!=1:raise RuntimeError('SHARED_SUBSET_REPAIR_SOURCE_CHANGED')
+    namespace=dict(SharedObserver.subset.__globals__)
+    exec(compile(ast.fix_missing_locations(tree),__file__+':subset','exec'),namespace)
+    return namespace['subset']
+
+
 class GenerationObserver(SharedObserver):
     observe=observer_method()
+    subset=subset_method()

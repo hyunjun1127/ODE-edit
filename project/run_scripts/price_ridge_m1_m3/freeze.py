@@ -46,7 +46,7 @@ def freeze(attempt):
         subprocess.run(['bash','-n',str(path)],check=True);launchers.append(member(path))
     lock=dict(task_id=TASK,instruction_id=NONCE,source_commit=source,archive=member(archive),
         config_sha256=member(attempt/'config.json')['sha256'],source_members=members,
-        input_members=config['input_members']+evidence,launchers=launchers,project_gpu_cap=2,
+        input_members=config['input_members']+evidence,launchers=launchers,project_gpu_cap=config.get('project_gpu_cap',2),
         CPU=8,host_memory_MiB=59392,hard_memory_MiB=60416,new_W0_allowed=False,noCP=True)
     with (attempt/'execution.lock.json').open('x') as f:json.dump(lock,f,ensure_ascii=False,sort_keys=True,indent=2)
     print(json.dumps(dict(source=source,archive=lock['archive'],lock=member(attempt/'execution.lock.json'),source_files=len(members))))
