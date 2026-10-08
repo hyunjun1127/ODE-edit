@@ -1,5 +1,30 @@
 # server2 실행 연결
 
+## 2026-10-09 직접 USER: CF six-arm checkpoint-only 준비
+
+`checkpoint_profile.py`의 명시 opt-in만 FT/MEMIT/AlphaEdit/BLUE/FE/SPHERE
+CF first2000 BS100×20, project cap3, FLU/CON W0/W20 모두 미실행을 선택한다.
+기존 profile/default와 frozen jobs는 바꾸지 않는다. factual 평가/native 수학은 유지한다.
+`execution --checkpoint-only` → `submit --stage cf_checkpoint` 경로다.
+
+각 GPU allocation의 `checkpoint_pipeline`은 실제 B3 대 B2→B3 qualification을
+별도 모델 process에서 확인한 뒤, fresh cold model의 20-batch chain을 실행한다.
+첫 FT job은 편집 전 shared factual W0와 독립 원본 scorer proof를 한 번 만든다.
+나머지는 FT 종료 후 READY를 검증하고 3-lane DAG로 진행한다. GPU file polling은 없다.
+따라서 첫 FT 동안에는 GPU1, 그 이후 최대GPU3이며 6개 scientific arm과 CPU collector다.
+qualification의 추가 B3 replay는 원 parent 기술 검증이며 실제 비용을 별도 기록한다.
+
+배치 W0..W20의 latest1 official checkpoint를 저장하며 최종 W20을 보존한다.
+평가 미측정은 `DEFERRED_NOT_MEASURED`이지 점수0/평가완료가 아니다.
+후속 2K checkpoint 평가가 예정된 consumer이므로 archive/delete gate는 닫혀 있다.
+재개용 native W/H/RNG/context/cursor와 원 base/runtime/input/source binding을 유지한다.
+
+공통 `official.tracking`은 읽기 전용이다. 이 caller는 실제 미실행을
+`generation_schedule=DEFERRED_CHECKPOINT_EVALUATION`로 기록하며,
+이를 승인하지 않는 옛 schema에서는 준비/시작을 차단한다. 켜진 schedule로 위장하거나
+logger를 복제하지 않는다. 공통 schedule 게시 전에는 **미제출**이며 CPU fixture는
+실제 native/resume/GPU/온라인 PASS가 아니다.
+
 이 폴더는 server2가 소유하는 EasyEdit 자산 연결과 runner 경로다. `assignment.json`의 모델·방법을 담당한다.
 
 - `prepare.py`는 기존 자산의 존재/선택적 SHA를 확인한다. GPU runner 완료를 뜻하지 않는다.
