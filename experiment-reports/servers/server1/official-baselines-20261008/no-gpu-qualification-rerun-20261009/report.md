@@ -49,3 +49,40 @@ manifests and raw source lineage. Storage plan512GiB; fresh node/QoS/inode/free 
 checks and held source/argv/resources/dependency verification are performed by
 the existing submit control path. Registration source and actual jobs will be
 recorded separately after submission. README is GH-owned and unchanged here.
+
+## Actual held submission / release
+
+Execution source `94304dc93db928300a71d8dcd0f87199fdb93f1f`, official tree
+`4b09cc81252f8e190621941bdd9b9234dd3013bd` was main-published before archiving.
+All14 exact jobs held-inspected and released in one deliberate registration pass.
+Current snapshot: 2026-10-09 04:28:08 KST. Qualification and checkpoint-resume
+GPU equivalence are NOT_RUN_USER_DISABLED throughout, not failed or PASS.
+
+| dataset/role | method | job | state | dependency |
+| --- | --- | ---: | --- | --- |
+| CF W0 input | none | 61709 | RUNNING | none |
+| zsRE W0 input | none | 61710 | RUNNING | none |
+| CF | AlphaEdit | 61711 | RUNNING | none |
+| CF | SPHERE | 61712 | RUNNING | none |
+| CF | FT | 61713 | PENDING | afterok61709 |
+| CF | MEMIT | 61714 | PENDING | afterok61709; afterany61710 |
+| CF | MEMIT_FE | 61715 | PENDING | afterok61709; afterany61711 |
+| zsRE | FT | 61716 | PENDING | afterok61710; afterany61712 |
+| zsRE | MEMIT | 61717 | PENDING | afterok61710; afterany61713 |
+| zsRE | AlphaEdit | 61718 | PENDING | afterok61710; afterany61714 |
+| zsRE | AlphaEdit-BLUE | 61719 | PENDING | afterok61710; afterany61715 |
+| zsRE | MEMIT_FE | 61720 | PENDING | afterok61710; afterany61716 |
+| zsRE | SPHERE | 61721 | PENDING | afterok61710; afterany61717 |
+| CPU collector | none | 61722 | PENDING | afterany61709–61721 |
+
+GPU1/CPU8/65536MiB/48h per GPU job; collectorGPU0/CPU8/24576MiB/4h.
+Current stricter local cap4, admitted DAG width4; pre-admission owner devbox queue0.
+Actual disk available1,247,462,383,616B/inodes334,947,363; planning reserve512GiB.
+Old cancelled IDs and qualification proof are absent from the new DAG.
+Job names/config SHA/source/dependencies/snapshot are in the compact
+`audits/servers/server1/official-baselines-20261008/no-gpu-qualification-rerun-20261009/submission.json`.
+Exact raw control receipt directory:
+`/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/registration-r1/`.
+W&B identity/remote startup readback and scientific completion have not been
+observed in this control handoff. No long GPU wait or recurring monitor.
+The GH cancellation relay was transport-accepted; owner ACK was not observed.

@@ -1,0 +1,321 @@
+{
+  "CPU_tests_passed": 63,
+  "README_edited": false,
+  "all_held_inspected_and_released": true,
+  "cancelled": [
+    "61694",
+    "61679",
+    "61664",
+    "61693",
+    "61691",
+    "61689",
+    "61687",
+    "61692",
+    "61690",
+    "61688",
+    "61686",
+    "61685",
+    "61683",
+    "61684",
+    "61682",
+    "61681",
+    "61678",
+    "61677",
+    "61676",
+    "61675",
+    "61663",
+    "61662",
+    "61661",
+    "61660",
+    "61659",
+    "61658"
+  ],
+  "checkpoint_resume_GPU_equivalence": "NOT_RUN_USER_DISABLED",
+  "effective_cap": 4,
+  "execution_lock": {
+    "bytes": 132597,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/registration-r1/execution-lock.json",
+    "sha256": "c0160e73df13ec89e62baae75d7de054c0fabab48e2e42dc8f6c6309f65a68b1"
+  },
+  "graph_width": 4,
+  "instruction_id": "USER-GH-SH1-SH2-OFFICIAL-NO-GPU-QUAL-RERUN-20261009-R1",
+  "observed_at_utc": "2026-10-08T19:28:08.364671+00:00",
+  "old_source_checkpoint_raw": "KEEP",
+  "preserved_completed_qualification": [
+    "61657"
+  ],
+  "qualification": "NOT_RUN_USER_DISABLED",
+  "recurring_monitor": false,
+  "rows": [
+    {
+      "W_and_metrics_GPU_equivalence": "NOT_RUN_USER_DISABLED",
+      "WandB_stage": "NOT_READ_BACK_IN_CONTROL_HANDOFF",
+      "checkpoint_resume_GPU_equivalence": "NOT_RUN_USER_DISABLED",
+      "config_sha256": "513cbfc664ea00fa05af032709d5741bce3a141c16dc67e846f832af8ded22ed",
+      "dataset": "cf",
+      "dependency": "(null)",
+      "job_id": "61709",
+      "job_name": "official-s1-cf-w0",
+      "key": "cf-w0",
+      "method": null,
+      "mode": "base_w0",
+      "qualification": "NOT_RUN_USER_DISABLED",
+      "source": {
+        "main_commit": "94304dc93db928300a71d8dcd0f87199fdb93f1f",
+        "official_tree": "4b09cc81252f8e190621941bdd9b9234dd3013bd"
+      },
+      "state": "RUNNING"
+    },
+    {
+      "W_and_metrics_GPU_equivalence": "NOT_RUN_USER_DISABLED",
+      "WandB_stage": "NOT_READ_BACK_IN_CONTROL_HANDOFF",
+      "checkpoint_resume_GPU_equivalence": "NOT_RUN_USER_DISABLED",
+      "config_sha256": "ede2ae005e65d9bc9379caa357150a7d6864405e9e903f5a5430d0e58b8855cf",
+      "dataset": "zsre",
+      "dependency": "(null)",
+      "job_id": "61710",
+      "job_name": "official-s1-zsre-w0",
+      "key": "zsre-w0",
+      "method": null,
+      "mode": "base_w0",
+      "qualification": "NOT_RUN_USER_DISABLED",
+      "source": {
+        "main_commit": "94304dc93db928300a71d8dcd0f87199fdb93f1f",
+        "official_tree": "4b09cc81252f8e190621941bdd9b9234dd3013bd"
+      },
+      "state": "RUNNING"
+    },
+    {
+      "W_and_metrics_GPU_equivalence": "NOT_RUN_USER_DISABLED",
+      "WandB_stage": "NOT_READ_BACK_IN_CONTROL_HANDOFF",
+      "checkpoint_resume_GPU_equivalence": "NOT_RUN_USER_DISABLED",
+      "config_sha256": "eb12bc04601de60765754d805d73055364cc700f304106867b863bddb4dc11be",
+      "dataset": "cf",
+      "dependency": "(null)",
+      "job_id": "61711",
+      "job_name": "official-s1-cf-alphaedit",
+      "key": "cf-alphaedit",
+      "method": "ALPHAEDIT",
+      "mode": "chain",
+      "qualification": "NOT_RUN_USER_DISABLED",
+      "source": {
+        "main_commit": "94304dc93db928300a71d8dcd0f87199fdb93f1f",
+        "official_tree": "4b09cc81252f8e190621941bdd9b9234dd3013bd"
+      },
+      "state": "RUNNING"
+    },
+    {
+      "W_and_metrics_GPU_equivalence": "NOT_RUN_USER_DISABLED",
+      "WandB_stage": "NOT_READ_BACK_IN_CONTROL_HANDOFF",
+      "checkpoint_resume_GPU_equivalence": "NOT_RUN_USER_DISABLED",
+      "config_sha256": "89ea023d26b4baeeb425ff8a07cc8b781ebea03efe9ef1b3c55b69bf6db22550",
+      "dataset": "cf",
+      "dependency": "(null)",
+      "job_id": "61712",
+      "job_name": "official-s1-cf-sphere",
+      "key": "cf-sphere",
+      "method": "SPHERE",
+      "mode": "chain",
+      "qualification": "NOT_RUN_USER_DISABLED",
+      "source": {
+        "main_commit": "94304dc93db928300a71d8dcd0f87199fdb93f1f",
+        "official_tree": "4b09cc81252f8e190621941bdd9b9234dd3013bd"
+      },
+      "state": "RUNNING"
+    },
+    {
+      "W_and_metrics_GPU_equivalence": "NOT_RUN_USER_DISABLED",
+      "WandB_stage": "NOT_READ_BACK_IN_CONTROL_HANDOFF",
+      "checkpoint_resume_GPU_equivalence": "NOT_RUN_USER_DISABLED",
+      "config_sha256": "513cbfc664ea00fa05af032709d5741bce3a141c16dc67e846f832af8ded22ed",
+      "dataset": "cf",
+      "dependency": "afterok:61709(unfulfilled)",
+      "job_id": "61713",
+      "job_name": "official-s1-cf-ft",
+      "key": "cf-ft",
+      "method": "FT",
+      "mode": "chain",
+      "qualification": "NOT_RUN_USER_DISABLED",
+      "source": {
+        "main_commit": "94304dc93db928300a71d8dcd0f87199fdb93f1f",
+        "official_tree": "4b09cc81252f8e190621941bdd9b9234dd3013bd"
+      },
+      "state": "PENDING"
+    },
+    {
+      "W_and_metrics_GPU_equivalence": "NOT_RUN_USER_DISABLED",
+      "WandB_stage": "NOT_READ_BACK_IN_CONTROL_HANDOFF",
+      "checkpoint_resume_GPU_equivalence": "NOT_RUN_USER_DISABLED",
+      "config_sha256": "e24499a77c130c25e49ee669a40af30ab13bbf0685c8287aa63da697bc13b8fb",
+      "dataset": "cf",
+      "dependency": "afterany:61710(unfulfilled),afterok:61709(unfulfilled)",
+      "job_id": "61714",
+      "job_name": "official-s1-cf-memit",
+      "key": "cf-memit",
+      "method": "MEMIT",
+      "mode": "chain",
+      "qualification": "NOT_RUN_USER_DISABLED",
+      "source": {
+        "main_commit": "94304dc93db928300a71d8dcd0f87199fdb93f1f",
+        "official_tree": "4b09cc81252f8e190621941bdd9b9234dd3013bd"
+      },
+      "state": "PENDING"
+    },
+    {
+      "W_and_metrics_GPU_equivalence": "NOT_RUN_USER_DISABLED",
+      "WandB_stage": "NOT_READ_BACK_IN_CONTROL_HANDOFF",
+      "checkpoint_resume_GPU_equivalence": "NOT_RUN_USER_DISABLED",
+      "config_sha256": "750bb7f35bdce75c60075948eebf50e66f6eb089cd90d25a2a20359fa594acc5",
+      "dataset": "cf",
+      "dependency": "afterany:61711(unfulfilled),afterok:61709(unfulfilled)",
+      "job_id": "61715",
+      "job_name": "official-s1-cf-memit_fe",
+      "key": "cf-memit_fe",
+      "method": "MEMIT_FE",
+      "mode": "chain",
+      "qualification": "NOT_RUN_USER_DISABLED",
+      "source": {
+        "main_commit": "94304dc93db928300a71d8dcd0f87199fdb93f1f",
+        "official_tree": "4b09cc81252f8e190621941bdd9b9234dd3013bd"
+      },
+      "state": "PENDING"
+    },
+    {
+      "W_and_metrics_GPU_equivalence": "NOT_RUN_USER_DISABLED",
+      "WandB_stage": "NOT_READ_BACK_IN_CONTROL_HANDOFF",
+      "checkpoint_resume_GPU_equivalence": "NOT_RUN_USER_DISABLED",
+      "config_sha256": "ede2ae005e65d9bc9379caa357150a7d6864405e9e903f5a5430d0e58b8855cf",
+      "dataset": "zsre",
+      "dependency": "afterany:61712(unfulfilled),afterok:61710(unfulfilled)",
+      "job_id": "61716",
+      "job_name": "official-s1-zsre-ft",
+      "key": "zsre-ft",
+      "method": "FT",
+      "mode": "chain",
+      "qualification": "NOT_RUN_USER_DISABLED",
+      "source": {
+        "main_commit": "94304dc93db928300a71d8dcd0f87199fdb93f1f",
+        "official_tree": "4b09cc81252f8e190621941bdd9b9234dd3013bd"
+      },
+      "state": "PENDING"
+    },
+    {
+      "W_and_metrics_GPU_equivalence": "NOT_RUN_USER_DISABLED",
+      "WandB_stage": "NOT_READ_BACK_IN_CONTROL_HANDOFF",
+      "checkpoint_resume_GPU_equivalence": "NOT_RUN_USER_DISABLED",
+      "config_sha256": "064cc31ff2e50016d249c34eac7ccf9cdb37b38f93388c28be568f14b6e39ca6",
+      "dataset": "zsre",
+      "dependency": "afterany:61713(unfulfilled),afterok:61710(unfulfilled)",
+      "job_id": "61717",
+      "job_name": "official-s1-zsre-memit",
+      "key": "zsre-memit",
+      "method": "MEMIT",
+      "mode": "chain",
+      "qualification": "NOT_RUN_USER_DISABLED",
+      "source": {
+        "main_commit": "94304dc93db928300a71d8dcd0f87199fdb93f1f",
+        "official_tree": "4b09cc81252f8e190621941bdd9b9234dd3013bd"
+      },
+      "state": "PENDING"
+    },
+    {
+      "W_and_metrics_GPU_equivalence": "NOT_RUN_USER_DISABLED",
+      "WandB_stage": "NOT_READ_BACK_IN_CONTROL_HANDOFF",
+      "checkpoint_resume_GPU_equivalence": "NOT_RUN_USER_DISABLED",
+      "config_sha256": "69d461ffedbaa7e4dc83249607abdc3d178c9a06bf20913b14a9840f12d996df",
+      "dataset": "zsre",
+      "dependency": "afterany:61714(unfulfilled),afterok:61710(unfulfilled)",
+      "job_id": "61718",
+      "job_name": "official-s1-zsre-alphaedit",
+      "key": "zsre-alphaedit",
+      "method": "ALPHAEDIT",
+      "mode": "chain",
+      "qualification": "NOT_RUN_USER_DISABLED",
+      "source": {
+        "main_commit": "94304dc93db928300a71d8dcd0f87199fdb93f1f",
+        "official_tree": "4b09cc81252f8e190621941bdd9b9234dd3013bd"
+      },
+      "state": "PENDING"
+    },
+    {
+      "W_and_metrics_GPU_equivalence": "NOT_RUN_USER_DISABLED",
+      "WandB_stage": "NOT_READ_BACK_IN_CONTROL_HANDOFF",
+      "checkpoint_resume_GPU_equivalence": "NOT_RUN_USER_DISABLED",
+      "config_sha256": "43730717aa916b21ef605717543164a9d0cc47c30ffd9a5854ffd35fca4423c9",
+      "dataset": "zsre",
+      "dependency": "afterany:61715(unfulfilled),afterok:61710(unfulfilled)",
+      "job_id": "61719",
+      "job_name": "official-s1-zsre-alphaedit_blue",
+      "key": "zsre-alphaedit_blue",
+      "method": "ALPHAEDIT_BLUE",
+      "mode": "chain",
+      "qualification": "NOT_RUN_USER_DISABLED",
+      "source": {
+        "main_commit": "94304dc93db928300a71d8dcd0f87199fdb93f1f",
+        "official_tree": "4b09cc81252f8e190621941bdd9b9234dd3013bd"
+      },
+      "state": "PENDING"
+    },
+    {
+      "W_and_metrics_GPU_equivalence": "NOT_RUN_USER_DISABLED",
+      "WandB_stage": "NOT_READ_BACK_IN_CONTROL_HANDOFF",
+      "checkpoint_resume_GPU_equivalence": "NOT_RUN_USER_DISABLED",
+      "config_sha256": "1f6746d421262333458749f5186a4076f35f6053e85f517024a399eb23f2241f",
+      "dataset": "zsre",
+      "dependency": "afterany:61716(unfulfilled),afterok:61710(unfulfilled)",
+      "job_id": "61720",
+      "job_name": "official-s1-zsre-memit_fe",
+      "key": "zsre-memit_fe",
+      "method": "MEMIT_FE",
+      "mode": "chain",
+      "qualification": "NOT_RUN_USER_DISABLED",
+      "source": {
+        "main_commit": "94304dc93db928300a71d8dcd0f87199fdb93f1f",
+        "official_tree": "4b09cc81252f8e190621941bdd9b9234dd3013bd"
+      },
+      "state": "PENDING"
+    },
+    {
+      "W_and_metrics_GPU_equivalence": "NOT_RUN_USER_DISABLED",
+      "WandB_stage": "NOT_READ_BACK_IN_CONTROL_HANDOFF",
+      "checkpoint_resume_GPU_equivalence": "NOT_RUN_USER_DISABLED",
+      "config_sha256": "dda49f56401da16cec80cc38c8e6ee7a76a49a91baf3d4ad65580d8c9130710b",
+      "dataset": "zsre",
+      "dependency": "afterany:61717(unfulfilled),afterok:61710(unfulfilled)",
+      "job_id": "61721",
+      "job_name": "official-s1-zsre-sphere",
+      "key": "zsre-sphere",
+      "method": "SPHERE",
+      "mode": "chain",
+      "qualification": "NOT_RUN_USER_DISABLED",
+      "source": {
+        "main_commit": "94304dc93db928300a71d8dcd0f87199fdb93f1f",
+        "official_tree": "4b09cc81252f8e190621941bdd9b9234dd3013bd"
+      },
+      "state": "PENDING"
+    },
+    {
+      "W_and_metrics_GPU_equivalence": "NOT_RUN_USER_DISABLED",
+      "WandB_stage": "NOT_READ_BACK_IN_CONTROL_HANDOFF",
+      "checkpoint_resume_GPU_equivalence": "NOT_RUN_USER_DISABLED",
+      "config_sha256": "513cbfc664ea00fa05af032709d5741bce3a141c16dc67e846f832af8ded22ed",
+      "dataset": "cf",
+      "dependency": "afterany:61709(unfulfilled),afterany:61710(unfulfilled),afterany:61711(unfulfilled),afterany:61712(unfulfilled),afterany:61713(unfulfilled),afterany:61714(unfulfilled),afterany:61715(unfulfilled),afterany:61716(unfulfilled),afterany:61717(unfulfilled),afterany:61718(unfulfilled),afterany:61719(unfulfilled),afterany:61720(unfulfilled),afterany:61721(unfulfilled)",
+      "job_id": "61722",
+      "job_name": "official-s1-collector-noqual",
+      "key": "collector-noqual",
+      "method": null,
+      "mode": "collect",
+      "qualification": "NOT_RUN_USER_DISABLED",
+      "source": {
+        "main_commit": "94304dc93db928300a71d8dcd0f87199fdb93f1f",
+        "official_tree": "4b09cc81252f8e190621941bdd9b9234dd3013bd"
+      },
+      "state": "PENDING"
+    }
+  ],
+  "source": {
+    "main_commit": "94304dc93db928300a71d8dcd0f87199fdb93f1f",
+    "official_tree": "4b09cc81252f8e190621941bdd9b9234dd3013bd"
+  }
+}
