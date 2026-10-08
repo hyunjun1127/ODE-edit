@@ -1,0 +1,22 @@
+{
+  "instruction_id": "USER-DIRECT-SH2-GPTJ-NATIVE-FLUCON-REREGISTER-20261008-R1",
+  "parent_instruction": "USER-GH-ALL-SH-BASELINE-FLUENCY-CONSISTENCY-RERUN-20261007-R1",
+  "parent_envelope": "messages/head/2026-10-07-baseline-fluency-consistency-rerun-server2.json",
+  "role": "server-head",
+  "agent": "head-server2-sh2",
+  "host": "server2",
+  "check": "bash scripts/check-agent-access.sh --staged",
+  "observed_exit_code": 7,
+  "denied_exact_path": "runs/gptj-baselines-fluency-consistency-2k/native-flucon-reregister-r1.json",
+  "generic_guard_result": "DENY_NOT_PASS",
+  "authority_resolution": "EXACT_USER_AUTHORIZED_OWN_TASK_WRITE_SCOPE_EXCEPTION",
+  "explicit_parent_allowed_path": "runs/gptj-baselines-fluency-consistency-2k/**",
+  "latest_USER_recall": "six cold2k native F/C reruns source/runtime/resource lock, own collector, compact own reports/nonforce publication",
+  "scope": "Only this compact task registration receipt; no broad helper/policy bypass",
+  "generic_helper_or_policy_modified": false,
+  "shared_source_modified": false,
+  "other_owner_scope_written": false,
+  "permission_expansion": false,
+  "raw_tensor_text_secret_committed": false,
+  "science_source_freeze_unchanged": "1db8d947ce77123599dd78003560d71facd3af68"
+}
