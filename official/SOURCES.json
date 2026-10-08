@@ -1746,14 +1746,22 @@
       "upstream_path": "project/run_scripts/experiment_tracking/schema.py",
       "path": "tracking/schema.py",
       "upstream_sha256": "b63cd41816f4022ff85c83130f16fff4380e7e039d0c37f6618c7d008b7aa659",
-      "sha256": "7147d38cc840e0f3592f271afdada5fd6dadfb202da4715eafacfd96eae42f63",
+      "sha256": "b955d34e67b8dbef92f781d6707a6b3f8b78b3dd44b34d20ca7dfeeff34d6b07",
       "changes": [
         "official instruction/dataset/schema and native W0+W20 authority pair",
         "zsRE rejects CF generation",
         "official request-macro namespace and actual native denominators",
         "shared native W20 progress phase-only callback adapter"
       ],
-      "review_nonce": "SH1-GH-OFFICIAL-COMPAT-REVIEW-20261008-R1"
+      "review_nonce": "SH1-GH-OFFICIAL-COMPAT-REVIEW-20261008-R1",
+      "installed_revisions": [
+        {
+          "instruction": "USER-DEFER-FLUCON-2K-CHECKPOINT-20261009",
+          "previous_sha256": "7147d38cc840e0f3592f271afdada5fd6dadfb202da4715eafacfd96eae42f63",
+          "sha256": "b955d34e67b8dbef92f781d6707a6b3f8b78b3dd44b34d20ca7dfeeff34d6b07",
+          "reason": "Support explicit deferred FLU/CON without claiming generation measurements"
+        }
+      ]
     },
     {
       "component": "tracking",
@@ -1853,11 +1861,19 @@
       "upstream_path": null,
       "path": "tracking/test_transport.py",
       "upstream_sha256": null,
-      "sha256": "3675dcba83ca4d692a57b44a1e9274bc4e021ea12f9a4cecef6678206ef73167",
+      "sha256": "128e6809bc751034db27827be7035a3e61dd5cfa905963d777b887a18651a2ec",
       "changes": [
         "new GH-reviewed distribution artifact; final commit recorded by publication, no fictitious upstream"
       ],
-      "review_nonce": "SH1-GH-OFFICIAL-COMPAT-REVIEW-20261008-R1"
+      "review_nonce": "SH1-GH-OFFICIAL-COMPAT-REVIEW-20261008-R1",
+      "installed_revisions": [
+        {
+          "instruction": "USER-DEFER-FLUCON-2K-CHECKPOINT-20261009",
+          "previous_sha256": "3675dcba83ca4d692a57b44a1e9274bc4e021ea12f9a4cecef6678206ef73167",
+          "sha256": "128e6809bc751034db27827be7035a3e61dd5cfa905963d777b887a18651a2ec",
+          "reason": "Support explicit deferred FLU/CON without claiming generation measurements"
+        }
+      ]
     },
     {
       "component": "tracking_distribution",
@@ -1866,11 +1882,19 @@
       "upstream_path": null,
       "path": "tracking/README.md",
       "upstream_sha256": null,
-      "sha256": "a55b4462f041bf6435f54d3a9285fa9d7eca9ab0d2f08b2d3f2771a9f0fa673f",
+      "sha256": "8304773cab6ea37d4946dbfe661e41adfca4a939bf2d04e4e2e0277ca9370014",
       "changes": [
         "new GH-reviewed distribution artifact; final commit recorded by publication, no fictitious upstream"
       ],
-      "review_nonce": "SH1-GH-OFFICIAL-COMPAT-REVIEW-20261008-R1"
+      "review_nonce": "SH1-GH-OFFICIAL-COMPAT-REVIEW-20261008-R1",
+      "installed_revisions": [
+        {
+          "instruction": "USER-DEFER-FLUCON-2K-CHECKPOINT-20261009",
+          "previous_sha256": "a55b4462f041bf6435f54d3a9285fa9d7eca9ab0d2f08b2d3f2771a9f0fa673f",
+          "sha256": "8304773cab6ea37d4946dbfe661e41adfca4a939bf2d04e4e2e0277ca9370014",
+          "reason": "Support explicit deferred FLU/CON without claiming generation measurements"
+        }
+      ]
     },
     {
       "component": "tracking_distribution",
@@ -1879,11 +1903,19 @@
       "upstream_path": null,
       "path": "tracking/UPSTREAM.json",
       "upstream_sha256": null,
-      "sha256": "22d7592d3d95e9aaadfe44ac11147b46c5e468eecf5a16781b0bb2f4adf404f7",
+      "sha256": "eacc3767ac5a7d9e12edc70b6f27b9d51e8144880e353d0a3fc9e6a1bf458dbb",
       "changes": [
         "new GH-reviewed distribution artifact; final commit recorded by publication, no fictitious upstream"
       ],
-      "review_nonce": "SH1-GH-OFFICIAL-COMPAT-REVIEW-20261008-R1"
+      "review_nonce": "SH1-GH-OFFICIAL-COMPAT-REVIEW-20261008-R1",
+      "installed_revisions": [
+        {
+          "instruction": "USER-DEFER-FLUCON-2K-CHECKPOINT-20261009",
+          "previous_sha256": "22d7592d3d95e9aaadfe44ac11147b46c5e468eecf5a16781b0bb2f4adf404f7",
+          "sha256": "eacc3767ac5a7d9e12edc70b6f27b9d51e8144880e353d0a3fc9e6a1bf458dbb",
+          "reason": "Support explicit deferred FLU/CON without claiming generation measurements"
+        }
+      ]
     },
     {
       "component": "CF_native_reference",

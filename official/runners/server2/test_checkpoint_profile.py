@@ -35,6 +35,14 @@ class CheckpointOnlyTests(unittest.TestCase):
         self.assertEqual(cfg['generation_schedule'],profile.SCHEDULE)
         self.assertNotIn('generation_profile',cfg)
         self.assertNotEqual(cfg['config_sha'], run.configuration('MEMIT','cf')['config_sha256'])
+        # Exercise the actual shared schema and production worker using a fake
+        # SDK, not just the caller's pre-validation config dictionary.
+        from official.tracking.test_transport import execute, official
+        sdk, receipts, bound = execute([official()], cfg=cfg)
+        self.assertEqual(bound['generation_schedule'], profile.SCHEDULE)
+        self.assertEqual(sdk.config['generation_schedule'], profile.SCHEDULE)
+        self.assertEqual(receipts[-1]['method_readback']['status'], 'REMOTE_BOUNDED_ROWS_VERIFIED')
+        self.assertFalse(receipts[-1]['scientific_completion_claim'])
 
     def test_cap3_six_pipeline_dag_and_real_collector_dependencies(self):
         roles = list(profile.METHODS); jobs = {}

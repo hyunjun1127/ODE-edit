@@ -1,0 +1,102 @@
+{
+  "nonce": "GH-SH3-OURS-HPARAMS-MAIN-SYNC-20261009-R1",
+  "server": "server3",
+  "host": "ubuntu",
+  "session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+  "checkout": "/data/janghj/ODE-edit/local/official-baselines-20261008/worktree",
+  "branch": "codex/server3-official-baselines-20261008",
+  "synced_HEAD": "67d00d4b166a9a186c898dec49f369ad081a875a",
+  "fetched_main": "67d00d4b166a9a186c898dec49f369ad081a875a",
+  "required_ancestor": "cc2d7190e4860ae2934be86f615fef37e84ca4ba",
+  "required_ancestor_pass": true,
+  "fetched_main_ancestor_pass": true,
+  "observed_at": "2026-10-08T17:53:25.952555+00:00",
+  "source_verify": {
+    "status": "PASS",
+    "source_files": 157,
+    "python_files": 233,
+    "external_task_imports": 0
+  },
+  "CPU_tests": {
+    "status": "PASS",
+    "count": 70,
+    "CUDA_VISIBLE_DEVICES": "",
+    "python": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/venv/bin/python",
+    "command": "-m unittest discover -s official/tests -q"
+  },
+  "full_read": [
+    {
+      "path": "official/docs/price-hparam-config-20261009/README.md",
+      "sha256": "9f1dbf85ff0991eb8bfbd0f114a9c8ea98eb730c1fdc28c602316379c41391ed"
+    },
+    {
+      "path": "official/ours/config.py",
+      "sha256": "f03e053c17fa81e87ebd980dac4b0a1cba0e94a14fc261db419fd979509ab978"
+    },
+    {
+      "path": "official/hparams/ours/schema.json",
+      "sha256": "b36f3cf05afcec3ec3d75deb9e92aed00409b9d7f23c1f10e8e837085b58efd8"
+    },
+    {
+      "path": "official/hparams/ours/llama3/writer.json",
+      "sha256": "46ad6ed01a9beca815a2c3c43f3886e78ae3b21354948cd9a093ccf6fb5ad9f9"
+    },
+    {
+      "path": "official/hparams/ours/llama3/price.json",
+      "sha256": "47bd1133ee168f5e2ca0312029321ffeb3ca8bbdb91742ae0a6b4186dd4f4f41"
+    },
+    {
+      "path": "official/hparams/ours/qwen25/writer.json",
+      "sha256": "2ddf624d127198f450542d6533990a9020ed3037912d07dfdda7c2ebc448aae0"
+    },
+    {
+      "path": "official/hparams/ours/qwen25/price.json",
+      "sha256": "1936f559e5deeb573a1b2dca0f121ccffbc1847d1ce09a613477fbecbfb1850a"
+    },
+    {
+      "path": "official/hparams/ours/gptj/writer.json",
+      "sha256": "79de72d0ba55d2ead2fb2cc48af8c6fd13bffaf045a71e3538018aa2710e0a6a"
+    },
+    {
+      "path": "official/hparams/ours/gptj/price.json",
+      "sha256": "8c99ced89ced2a5c3de4877abe96fb70661793740d6542cc861f727930ae2909"
+    }
+  ],
+  "frozen_jobs_unchanged": true,
+  "root_dirty_preserved": true,
+  "new_GPU_Slurm_WandB_operations": 0,
+  "GPU_qualification": "NOT_RUN",
+  "common_source_edits": 0,
+  "subsequent_syncs": [
+    {
+      "nonce": "GH-SH3-DEFERRED-FLUCON-READY-20261009-R1",
+      "observed_at": "2026-10-08T17:56:50.916660+00:00",
+      "checkout": "/data/janghj/ODE-edit/local/official-baselines-20261008/worktree",
+      "branch": "codex/server3-official-baselines-20261008",
+      "synced_HEAD": "6d35c65de19ec378a30749683762eba87fee50e3",
+      "fetched_main": "6d35c65de19ec378a30749683762eba87fee50e3",
+      "required_ancestor_pass": true,
+      "ours_merge_ancestor_pass": true,
+      "fetched_main_ancestor_pass": true,
+      "source_verify": {
+        "status": "PASS",
+        "source_files": 157,
+        "python_files": 233,
+        "external_task_imports": 0
+      },
+      "cpu_tests": {
+        "status": "PASS",
+        "count": 32,
+        "modules": [
+          "official.tracking.test_transport",
+          "official.runners.server2.test_checkpoint_profile"
+        ],
+        "CUDA_VISIBLE_DEVICES": ""
+      },
+      "server3_schedule_changed": false,
+      "frozen_runtime_changed": false,
+      "new_jobs": 0,
+      "online_GPU_validation": "NOT_RUN"
+    }
+  ]
+}
