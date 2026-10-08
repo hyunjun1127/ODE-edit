@@ -1,15 +1,19 @@
 """Unchanged absolute-R EfficiencyAdam, with weighted group-L1 projection."""
 import time
 import torch
+from official.ours.config import require_config
 from official.ours.core.jlz_v12r.optimizer import analytic_norm
 from .cap_projection import project_capped_weighted_l1
 
 
 class EfficiencyAdamAbs:
-    def __init__(self,template,lr=.1,eps=1e-8,betas=(.9,.999),endpoint_cast_mode='nearest'):
+    def __init__(self,template,config):
+        self.config = config = require_config(config)
+        lr,eps,betas = config['lr'],config['eps'],config['betas']
+        self.max_updates = config['max_updates']
         self.layers=tuple(template);first=template[self.layers[0]];self.B=first.shape[1]
         self.lr,self.eps,self.betas=float(lr),float(eps),tuple(betas)
-        self.endpoint_cast_mode=endpoint_cast_mode
+        self.endpoint_cast_mode=config['endpoint_cast_mode']
         self.m={l:torch.zeros_like(template[l],dtype=torch.float32) for l in self.layers}
         self.v={l:torch.zeros_like(template[l],dtype=torch.float32) for l in self.layers}
         self.s=torch.zeros((len(self.layers),self.B),dtype=torch.float32,device=first.device)
@@ -19,7 +23,7 @@ class EfficiencyAdamAbs:
     def step(self,R,gradients,active_mask,caps,weights,beta):
         started=time.monotonic();active=torch.as_tensor(active_mask,device=self.t.device,dtype=torch.bool)
         if active.shape!=(self.B,) or tuple(R)!=self.layers or tuple(gradients)!=self.layers:raise RuntimeError('ADAM_SHAPE')
-        if not bool(active.any()) or bool((self.t[active]>=24).any()):raise RuntimeError('ADAM_UPDATE_BUDGET')
+        if not bool(active.any()) or bool((self.t[active]>=self.max_updates).any()):raise RuntimeError('ADAM_UPDATE_BUDGET')
         b1,b2=self.betas;self.t[active]+=1;proposed={l:R[l].clone() for l in self.layers}
         for i,l in enumerate(self.layers):
             g=gradients[l].float()

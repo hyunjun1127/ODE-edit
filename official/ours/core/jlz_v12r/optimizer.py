@@ -1,15 +1,17 @@
 """Absolute-R EfficiencyAdam, analytic request norm added exactly once."""
 import torch
+from official.ours.config import require_config
 from .projection import project_capped_energy
 
 
-def analytic_norm(R, anchor_star, active=None):
+def analytic_norm(R, anchor_star, active=None, *, config):
+    config = require_config(config)
     layers = tuple(R)
     first = R[layers[0]]
     a = torch.as_tensor(anchor_star, device=first.device, dtype=torch.float64)
     if a.shape != (first.shape[1],) or not bool(torch.isfinite(a).all() and (a > 0).all()):
         raise RuntimeError('NORM_ANCHOR')
-    beta = .5 / a.square()
+    beta = config['lambda_N'] / a.square()
     mask = torch.ones_like(a, dtype=torch.bool) if active is None else torch.as_tensor(active, device=a.device, dtype=torch.bool)
     losses = torch.zeros_like(a)
     gradient = {}
@@ -23,7 +25,10 @@ def analytic_norm(R, anchor_star, active=None):
 
 
 class EfficiencyAdamAbs:
-    def __init__(self, template, lr=.1, eps=1e-8, betas=(.9, .999)):
+    def __init__(self, template, config):
+        self.config = config = require_config(config)
+        lr,eps,betas = config['lr'],config['eps'],config['betas']
+        self.max_updates = config['max_updates']
         self.layers = tuple(template)
         first = template[self.layers[0]]
         self.B = first.shape[1]
@@ -40,7 +45,7 @@ class EfficiencyAdamAbs:
             raise RuntimeError('ADAM_SHAPE')
         if not bool(active.any()):
             raise RuntimeError('ADAM_NO_ACTIVE')
-        if bool((self.t[active] >= 24).any()):
+        if bool((self.t[active] >= self.max_updates).any()):
             raise RuntimeError('ADAM_UPDATE_BUDGET')
         b1, b2 = self.betas
         self.t[active] += 1

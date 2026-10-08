@@ -30,7 +30,7 @@ class PriorProduct(torch.autograd.Function):
         return None,(ctx.A.T @ gradient.to('cpu')).to(ctx.device)
 
 @torch.no_grad()
-def prior(path,history,device,coefficient=15000.):
+def prior(path,history,device,coefficient):
     start=time.monotonic()
     A=build_prior_from_npz(path,history,lambda_c=coefficient,device='cpu')
     gpu=A.to(device);L,info=torch.linalg.cholesky_ex(gpu)

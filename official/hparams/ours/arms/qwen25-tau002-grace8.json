@@ -1,0 +1,7 @@
+{
+  "base": "qwen25",
+  "override": {
+    "tau_F": 0.02,
+    "K_grace": 8
+  }
+}
