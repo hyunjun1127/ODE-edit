@@ -1,0 +1,78 @@
+{
+  "schema": "official-portable-W0-reader-GH-review-v1",
+  "nonce": "SH1-GH-OFFICIAL-W0-READER-REVIEW-20261009-R1",
+  "response_nonce": "GH-SH1-OFFICIAL-W0-READER-REPAIR-20261009-R1",
+  "parent": "USER-OFFICIAL-BASELINES-20261008-R1",
+  "date_kst": "2026-10-09",
+  "reviewed_source": "100f49d733649143ce0ec435cb89b3babcd219e5",
+  "source_branch": "codex/server1-official-baselines-20261008",
+  "shared_reader": "official/evaluation/w0_reference.py",
+  "status": "BLOCK_COMMON_INTEGRATION_PENDING_MINIMAL_TECHNICAL_REPAIR",
+  "preserved_good": {
+    "plain_reference": "기존 factual plain reference exact external identity guard 유지",
+    "portable_reference": "별도명시 PortableZSREReference branch와 source/consumer 분리 방향은 유지",
+    "no_new_model_or_transfer": "reader 자체 model/전송0; CPU fixture와 actualGPU 분리"
+  },
+  "blockers": [
+    {
+      "id": "W0_GENERATION_SCORES_UNBOUND",
+      "file": "official/evaluation/w0_reference.py",
+      "line": 676,
+      "independent_reviewer": "portable_w0_shared_review",
+      "reproduction": "exact100f 함수의 read transport만 in-memory bytes/fullSHA 확인으로 대체하여, 한 observation의 prompt_count17, generated_token_count42(실제 continuation0), length_cap_count0(실제1), reference_score999을 raw/member/summary 재봉인했을 때 _generation이 수락. 새 모델 forward/파일/GPU0.",
+      "cause": "verify_native_raw에 assets를 넘기지 않아 기존 verify_scored가 실행되지 않고 서로같은 raw/row scalar만 인정.",
+      "required": "실제 consumed generation scoring assets/provenance를 정확히 결속해 기존 verify_scored/CAKE score 재검산을 활성화. observation-derived counts/coverage/결측·유효분모와 점수도 검증. 기존 profile/점수정의/난수/길이/tolerance 바꾸지 않음. 변조 후 hashes 재봉인한 CPU 회귀가 수신 전에 FAIL해야 함."
+    },
+    {
+      "id": "W0_NATIVE_STREAM_UNBOUND",
+      "file": "official/evaluation/w0_reference.py",
+      "line": 573,
+      "independent_reviewer": "portable_w0_native_validation_review",
+      "reproduction": "CF fingerprint stream c*64, qualification READY+B3 factual+native report stream f*64로 불일치인데 _qualification은21 proof members를 연결하고 _native_parity_proof PASS. CPU in-memory만; 파일/GPU0.",
+      "cause": "revision/tokenizer/source는 비교하나 stream_sha256 및 B3 raw/report external의 실제 CF stream/ordered first300 query와 computational fingerprint를 연결하지 않음.",
+      "required": "qualification READY/native300/canonical endpoint의 stream/source/runtime와 ordered case occurrence/query/target/token signature를 실제 locked CF first2000 fingerprint 및 prefix300에 연결. 보고서끼리 같은 다른stream 증거는 INPUT_NOT_COMPATIBLE; 새로운 model forward 없이 기존 raw/dataset/token proof로 검산."
+    },
+    {
+      "id": "W0_CANONICAL_TOKEN_EVIDENCE_ABSENT",
+      "file": "official/evaluation/w0_reference.py",
+      "line": 508,
+      "related_file": "official/runners/server1/native_parity.py",
+      "independent_reviewer": "portable_w0_native_validation_review",
+      "reproduction": "canonical *_observations 모든 row를 제거한 뒤 payload hash만 갱신해도 native_parity.validate_report와 shared _native_parity_proof가 PASS. probability 배열만 일치한 것으로 실제 token/NLL native 증거를 대체함.",
+      "required": "CF 실제 canonical observation token/query signature와 NLL·strict bit·work·분모를 기존 factual contract로 재검산해 보고된 probability와 일치해야 함. row 삭제/불일치/CPU work를 actual proof로 인정하지 않는 CPU 회귀."
+    }
+  ],
+  "additional_source_findings": [
+    {
+      "id": "EXECUTION_IDENTITY_INCOMPLETE",
+      "file": "official/evaluation/w0_reference.py",
+      "line": 165,
+      "finding": "_execution은 nonempty dict만 요구. producer/consumer source/config/assets/path/runtime/hardware/job 필수 provenance 누락을 실제실행identity로 인정하지 말고 문서계약에 맞춘 명시필드로 검사."
+    },
+    {
+      "id": "STATE_RNG_PROOF_LABEL_ONLY",
+      "file": "official/evaluation/w0_reference.py",
+      "line": 614,
+      "finding": "selected_state/contexts/RNG/checkpoint_RNG 동일label 비교만으로 실제 weight SHA/state schema를 대체하지 않음. 실제 native stage schema/sha/hash receipts 필요; fixtureTEST_ONLY_NO_REAL_NATIVE_CALLS를 actual proof로 승격금지."
+    }
+  ],
+  "repair_envelope": {
+    "owner": "SH1",
+    "allowed_paths": [
+      "official/evaluation/w0_reference.py",
+      "official/tests/test_w0_reference.py",
+      "official/evaluation/factual.py의 backward-compatible portable 분기",
+      "official/runners/server1/w0_binding.py 및 native_parity.py/관련 narrow tests",
+      "자기 report/audit/source provenance"
+    ],
+    "instructions": "동일USER parent범위 기술수리이며 추가 사용자 승인 아님. 원 producer raw/identity/old jobs 불변. score/stream/source/hash 미검증을 조용히PASS로 바꾸지 않음. 작은 CPU adversarial regression과 source diff로 다시 GH 검토/main 게시를 요청. 새 fit/eval/pilot/GPU/대형전송0.",
+    "old_sources": "100f ownbranch 보존, 아직 shared main integration0. 기존 native 준비/자산/source 검산은 계속."
+  },
+  "GH_actual": {
+    "model_GPU": 0,
+    "Slurm": 0,
+    "transfer": 0,
+    "deletion": 0
+  },
+  "recurring_monitor": false
+}
