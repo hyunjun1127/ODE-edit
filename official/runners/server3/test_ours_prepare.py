@@ -18,6 +18,11 @@ class PreparationTests(unittest.TestCase):
             environ={'SLURM_JOB_ID':'123','SLURM_ARRAY_JOB_ID':'120','SLURM_ARRAY_TASK_ID':'0'})
         self.assertEqual(c['job_id'],'123')
         self.assertTrue(run_name(c).endswith('-job120_0'))
+    def test_all_models_keep_distinct_identity(self):
+        for name,family in [('llama3','llama'),('qwen25','qwen2'),('gptj','gptj')]:
+            c=tracking_config('a'*40,resolve(name))
+            self.assertEqual((c['model'],c['model_family']),(name,family))
+            self.assertIn(name,c['task_id'])
     def test_bad_source_rejected(self):
         with self.assertRaises(ValueError):tracking_config('not-a-source',resolve('qwen25'))
 

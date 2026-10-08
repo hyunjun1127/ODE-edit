@@ -23,9 +23,9 @@ def tracking_config(source, resolved, attempt='prepared'):
     # Scalar transport binds the complete local resolved JSON by hash. Do not
     # pass nested config.ours to the strict scalar-only official transport.
     return validate_tracking_config(dict(server='server3',
-        task_id='ours-qwen-preparation-20261009', arm=resolved['arm'],
+        task_id='ours-'+resolved['model']+'-preparation-20261009', arm=resolved['arm'],
         attempt=attempt, source_sha=source, config_sha=resolved['config_sha256'],
-        model='qwen25', model_family='qwen2', writer='memit', role='scientific',
+        model=resolved['model'], model_family=resolved['model_type'], writer='memit', role='scientific',
         metric_schema='price-first2k-scalar-v1'))
 
 

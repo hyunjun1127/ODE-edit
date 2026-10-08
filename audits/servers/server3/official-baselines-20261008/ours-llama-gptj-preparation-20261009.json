@@ -1,0 +1,276 @@
+{
+  "status": "PREPARATION_COMPLETE_AWAITING_USER_RUN_SETTINGS",
+  "observed_at": "2026-10-08T22:46:07.982381+00:00",
+  "models": {
+    "llama3": {
+      "status": "ASSETS_AND_CPU_PREPARED_AWAITING_USER_SETTINGS",
+      "source_parent": "68e8892f6ad5cb0bb3510db2808db4863d804e67",
+      "model_snapshot": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+      "model_members": [
+        {
+          "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/model-00001-of-00004.safetensors",
+          "bytes": 4976698672,
+          "sha256": "d8cf9c4d0dd972e1a2131bfe656235ee98221679711a3beef6d46dadf0f20b5c",
+          "inode": 15798387,
+          "mtime_ns": 1772529059367940431
+        },
+        {
+          "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/model-00002-of-00004.safetensors",
+          "bytes": 4999802720,
+          "sha256": "8d4782b4a69ef03845159ce1a15e272aadaaf134dc138d68f616098e8531729c",
+          "inode": 15798384,
+          "mtime_ns": 1772529026979908870
+        },
+        {
+          "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/model-00003-of-00004.safetensors",
+          "bytes": 4915916176,
+          "sha256": "3acdd690e65c24f42a24581b8467af98bd3ca357444580f8012aacd2bd607921",
+          "inode": 15798380,
+          "mtime_ns": 1772529034215915640
+        },
+        {
+          "path": "/data/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2/model-00004-of-00004.safetensors",
+          "bytes": 1168138808,
+          "sha256": "67e9ad31c8c32abf3a55ee7fc7217b3ecb35fd3c74d98a5bd233e0e4d6964f46",
+          "inode": 15798382,
+          "mtime_ns": 1772528924359831993
+        }
+      ],
+      "covariance": {
+        "4": {
+          "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+          "sha256": "7f5fc9b194d86ce289d607a23d02de5e7d7eb5a0833aaf6ef1698d814353585e",
+          "bytes": 822084814,
+          "shape": [
+            14336,
+            14336
+          ],
+          "dtype": "float32",
+          "count": 66019200,
+          "provenance": "HISTORICAL_SHA_MATCH"
+        },
+        "5": {
+          "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_100000.npz",
+          "sha256": "a99a36207d3b27f129bb5323c11139853a7851c9788c58931621aa08c81fb435",
+          "bytes": 822084814,
+          "shape": [
+            14336,
+            14336
+          ],
+          "dtype": "float32",
+          "count": 66019200,
+          "provenance": "HISTORICAL_SHA_MATCH"
+        },
+        "6": {
+          "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_100000.npz",
+          "sha256": "3a6a0c682f09a8b725e624fec1265adb46a2f7328586acc0b77c08e587e1c495",
+          "bytes": 822084814,
+          "shape": [
+            14336,
+            14336
+          ],
+          "dtype": "float32",
+          "count": 66019200,
+          "provenance": "HISTORICAL_SHA_MATCH"
+        },
+        "7": {
+          "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_100000.npz",
+          "sha256": "a29e2d2ffb408eeba4a507d5ab9523129b2520bafc2874847f8d396796ebc830",
+          "bytes": 822084814,
+          "shape": [
+            14336,
+            14336
+          ],
+          "dtype": "float32",
+          "count": 66019200,
+          "provenance": "HISTORICAL_SHA_MATCH"
+        },
+        "8": {
+          "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz",
+          "sha256": "f6bbc2f240343d5244730c6422743344193dc16ee6afe64dc6cd3a97497d9050",
+          "bytes": 822084814,
+          "shape": [
+            14336,
+            14336
+          ],
+          "dtype": "float32",
+          "count": 66019200,
+          "provenance": "HISTORICAL_SHA_MATCH"
+        }
+      },
+      "context": {
+        "path": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/inputs/baseline/contexts.json",
+        "sha256": "33cec0eef9ec130f26c2f0e17f7c8be39e93c717ebb47eaa5e9f1c88b263524e",
+        "semantic_sha256": "cf14b8571136b0413ded1ea8aa283a004ecbddbd818a6a8744b0296b63f72191",
+        "status": "EXISTING_REFERENCE_CPU_CHECKED_NOT_FUTURE_RUN_LOCK"
+      },
+      "runtime": {
+        "python": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/venv/bin/python",
+        "torch": "2.9.1+cu128",
+        "transformers": "4.44.2"
+      },
+      "tracking_config": {
+        "server": "server3",
+        "task_id": "ours-llama3-preparation-20261009",
+        "arm": "CAP075",
+        "attempt": "prepared",
+        "source_sha": "68e8892f6ad5cb0bb3510db2808db4863d804e67",
+        "config_sha": "b1dc6e64e44a2bd157143281f500a3f4014b5c4526fa7e711e96f02512746d06",
+        "model": "llama3",
+        "model_family": "llama",
+        "writer": "memit",
+        "role": "scientific",
+        "metric_schema": "price-first2k-scalar-v1"
+      },
+      "W_and_H_FP32_bytes": 5284823040,
+      "remaining": [
+        "Final user method/run configuration and native context identity",
+        "Own runtime/transaction/evaluator/collector binding and source freeze",
+        "Actual model qualification and cap1 admission only under execution scope"
+      ],
+      "tokenizer_requests_checked": 2000,
+      "native_pack_batches": 20,
+      "local_receipt": "/data/janghj/ODE-edit/local/ours-llama-gptj-readiness-20261009/llama3-r2/preparation.json",
+      "receipt_sha256": "653b7aaea5c2ce60ba1120ce867c278a65629fb2089c79cf960e911ba867ee9d"
+    },
+    "gptj": {
+      "status": "ASSETS_AND_CPU_PREPARED_AWAITING_USER_SETTINGS",
+      "source_parent": "68e8892f6ad5cb0bb3510db2808db4863d804e67",
+      "model_snapshot": "/data/janghj/.cache/huggingface/hub/models--EleutherAI--gpt-j-6b/snapshots/47e169305d2e8376be1d31e765533382721b2cc1",
+      "model_members": [
+        {
+          "path": "/data/janghj/.cache/huggingface/hub/models--EleutherAI--gpt-j-6b/snapshots/47e169305d2e8376be1d31e765533382721b2cc1/pytorch_model.bin",
+          "bytes": 24207819307,
+          "sha256": "0e183edc2025ecfdba4429ba43c960224103b3c3dc26616503cdc2158a3d6c93",
+          "inode": 15798325,
+          "mtime_ns": 1772536664113856254
+        }
+      ],
+      "covariance": {
+        "3": {
+          "path": "/data/janghj/EasyEdit/examples/data/stats/gpt-j-6b/wikipedia_stats/transformer.h.3.mlp.fc_out_float32_mom2_100000.npz",
+          "sha256": "baee403704e2ddcc4c2a669064d29107273f49219a221ae447f361a76208a67f",
+          "bytes": 1073743054,
+          "shape": [
+            16384,
+            16384
+          ],
+          "dtype": "float32",
+          "count": 54924275,
+          "provenance": "LOCAL_EASYEDIT_HEADER_AND_FRESH_SHA; historical_byte_identity_not_compared"
+        },
+        "4": {
+          "path": "/data/janghj/EasyEdit/examples/data/stats/gpt-j-6b/wikipedia_stats/transformer.h.4.mlp.fc_out_float32_mom2_100000.npz",
+          "sha256": "ed2e91755e823f0907e8bc586d13e583e8e6719dd7a1df63b6060d9845455c69",
+          "bytes": 1073743054,
+          "shape": [
+            16384,
+            16384
+          ],
+          "dtype": "float32",
+          "count": 54924275,
+          "provenance": "LOCAL_EASYEDIT_HEADER_AND_FRESH_SHA; historical_byte_identity_not_compared"
+        },
+        "5": {
+          "path": "/data/janghj/EasyEdit/examples/data/stats/gpt-j-6b/wikipedia_stats/transformer.h.5.mlp.fc_out_float32_mom2_100000.npz",
+          "sha256": "483f6d905a587be38a56689f0fe9ac183c393b1ab4b7a6b011fc357f79aacf82",
+          "bytes": 1073743054,
+          "shape": [
+            16384,
+            16384
+          ],
+          "dtype": "float32",
+          "count": 54924275,
+          "provenance": "LOCAL_EASYEDIT_HEADER_AND_FRESH_SHA; historical_byte_identity_not_compared"
+        },
+        "6": {
+          "path": "/data/janghj/EasyEdit/examples/data/stats/gpt-j-6b/wikipedia_stats/transformer.h.6.mlp.fc_out_float32_mom2_100000.npz",
+          "sha256": "30658026710be43b3dda71333c00b4a79a6122849aab9a27116af5206178d430",
+          "bytes": 1073743054,
+          "shape": [
+            16384,
+            16384
+          ],
+          "dtype": "float32",
+          "count": 54924275,
+          "provenance": "LOCAL_EASYEDIT_HEADER_AND_FRESH_SHA; historical_byte_identity_not_compared"
+        },
+        "7": {
+          "path": "/data/janghj/EasyEdit/examples/data/stats/gpt-j-6b/wikipedia_stats/transformer.h.7.mlp.fc_out_float32_mom2_100000.npz",
+          "sha256": "02ad12a13213b2f2aee27aa1d2bdacb569609ce0ccc18d14a08f9904688f7cef",
+          "bytes": 1073743054,
+          "shape": [
+            16384,
+            16384
+          ],
+          "dtype": "float32",
+          "count": 54924275,
+          "provenance": "LOCAL_EASYEDIT_HEADER_AND_FRESH_SHA; historical_byte_identity_not_compared"
+        },
+        "8": {
+          "path": "/data/janghj/EasyEdit/examples/data/stats/gpt-j-6b/wikipedia_stats/transformer.h.8.mlp.fc_out_float32_mom2_100000.npz",
+          "sha256": "f362fc8b0d618ea4bc3b5ea836b1d3bfedf8e6398b8cf8ef9e2e3842479439e6",
+          "bytes": 1073743054,
+          "shape": [
+            16384,
+            16384
+          ],
+          "dtype": "float32",
+          "count": 54924275,
+          "provenance": "LOCAL_EASYEDIT_HEADER_AND_FRESH_SHA; historical_byte_identity_not_compared"
+        }
+      },
+      "context": {
+        "status": "NATIVE_COLD_CONTEXT_PENDING_FINAL_RUN_SETTINGS",
+        "borrowed_other_model_context": false
+      },
+      "runtime": {
+        "python": "/data/janghj/ODE-edit/local/runtime/server3-experiment-ready-v1/venv/bin/python",
+        "torch": "2.9.1+cu128",
+        "transformers": "4.44.2"
+      },
+      "tracking_config": {
+        "server": "server3",
+        "task_id": "ours-gptj-preparation-20261009",
+        "arm": "CAP075",
+        "attempt": "prepared",
+        "source_sha": "68e8892f6ad5cb0bb3510db2808db4863d804e67",
+        "config_sha": "f5b6888c7611b97af13470c97628528d6ec82ff08ff02debc43357541e6b09a8",
+        "model": "gptj",
+        "model_family": "gptj",
+        "writer": "memit",
+        "role": "scientific",
+        "metric_schema": "price-first2k-scalar-v1"
+      },
+      "W_and_H_FP32_bytes": 8053063680,
+      "remaining": [
+        "Final user method/run configuration and native context identity",
+        "Own runtime/transaction/evaluator/collector binding and source freeze",
+        "Actual model qualification and cap1 admission only under execution scope"
+      ],
+      "tokenizer_requests_checked": 2000,
+      "native_pack_batches": 0,
+      "local_receipt": "/data/janghj/ODE-edit/local/ours-llama-gptj-readiness-20261009/gptj-r1/preparation.json",
+      "receipt_sha256": "b94af4cd3266aca7769963fd2e79f8f99335eb31de18e709b2143ed6c9747da0"
+    }
+  },
+  "WAndB": {
+    "online_verification": "REUSED_SUCCESSFUL_SAME_SERVER_COMMON_TRANSPORT",
+    "run_id": "d4d0993f0d9d4f10",
+    "remote_points": 3,
+    "new_online_runs": 0
+  },
+  "tests": {
+    "CPU_tracking_and_identity": 40,
+    "source_SHA_files": 157,
+    "external_task_imports": 0
+  },
+  "new_model_downloads": 0,
+  "new_GPU_model_calls": 0,
+  "new_jobs": [],
+  "checkpoint_saved": false,
+  "owner_audit": true,
+  "independent_reviewer": false,
+  "preparation_correction": "Initial Llama CPU checker incorrectly expected mom2.count=100000. Corrected to positive finite integer token count; Wiki sample100000 is not accumulator token count. Source C0 untouched. Initial r1 directory preserved, successful r2 distinct.",
+  "final_run_configuration": "NOT_SELECTED; user will supply separately"
+}
