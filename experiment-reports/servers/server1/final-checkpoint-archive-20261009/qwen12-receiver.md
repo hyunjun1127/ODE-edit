@@ -4,6 +4,37 @@ Request: USER-SH4-SH1-QWEN12-CHECKPOINT-DESTINATION-20261009-R1.
 Observed UTC: 2026-10-08T19:07:44.350605+00:00.
 Status: TASK_ROOT_PREPARED; SH4_CUTOVER_REGISTRATION_PENDING. No payload admission yet.
 
+## Subsequent cutover registration and identity repair
+
+SH4 original commit `aaaa97ffb48dbc8ff52c06a5b6e2e0a7da37ff48` was fetched.
+Its `audits/servers/server4/qwen-baselines-20261009/cutover.json` was independently
+compared byte-for-byte with the receiver member: 412 bytes,
+SHA256 `4d34bad2d87f213dacd0350fe014ee772f5b27edeb77509b976cd2ee5b601ceb`.
+Actual declared cutoff is `2026-10-08T19:07:41+00:00`; no backdating.
+Receiver production constructor and lock accepted this member; outstanding reservations 0.
+Current stage supersedes the initial snapshot: **SH4_CUTOVER_TRUST_PINNED**.
+Trust map for `--cutovers`:
+`/mnt/raid5/janghj/ODE-edit/local/checkpoint-archive/.receiver/trust/server4/4d34bad2d87f213dacd0350fe014ee772f5b27edeb77509b976cd2ee5b601ceb/members.json`.
+Adjacent `cutover.json` retains original source bytes. No final payload admitted.
+
+SH4 then reported an actual archive API incompatibility. Read-only inspection of
+`official/runners/server3/submit.py:official_tree_sha256` confirms sorted-file
+content SHA256 (64 hex), whereas the old archive validator required Git SHA1
+(40 hex). Only the archive helper is repaired: preserve original identity and
+all proof bindings, accept both valid tree representations, and seal explicit
+`checkpoint_identity_types` in the archive manifest. New 64-hex manifests must
+carry `content-sha256`; old 40-hex manifests remain valid. This does not alter
+scientific source, CP bytes, source identity, consumer-clearance or unlink gates.
+
+CPU storage tests now **49 PASS**, including a 64-hex simulated allowlist
+admit/verify/recheck roundtrip, unchanged identity, re-signed missing/wrong type
+rejection, malformed tree hashes, and legacy untyped 40-hex manifests. This is
+CPU fixture evidence, not an actual checkpoint transfer or scientific proof.
+Actual payload transfer/deletion remain 0. SH4 reports CF W0/W20 generation is
+currently retained; eligibility still depends on actual completed calculations
+and all consumers, not this schedule declaration. Intermediate qualification CPs
+are not final W20 admission candidates.
+
 Created canonical task root:
 `/mnt/raid5/janghj/ODE-edit/local/checkpoint-archive/server4/qwen-baselines-server4-20261009/`
 
