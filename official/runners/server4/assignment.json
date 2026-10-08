@@ -1,0 +1,19 @@
+{
+  "model": "llama3",
+  "methods": [
+    "ALPHAEDIT",
+    "ALPHAEDIT_BLUE",
+    "SPHERE"
+  ],
+  "main_rows": 6,
+  "datasets": [
+    "cf",
+    "zsre"
+  ],
+  "scope_status": "ASSIGNED_FOR_IMPLEMENTATION",
+  "runner_owner": "server4",
+  "shared_code_root": "official",
+  "private_assets": "EasyEdit_local_paths_no_external_code_import",
+  "source_policy": "main_commit_and_official_tree_hash",
+  "gpu_cap": "read_current_server_policy_and_existing_allocations"
+}

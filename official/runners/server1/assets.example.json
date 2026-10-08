@@ -1,0 +1,8 @@
+{
+  "easyedit_root": "/path/to/EasyEdit",
+  "model_snapshot": "/path/to/pinned/HuggingFace/snapshot",
+  "cf_source": "/path/to/counterfact-fixed-10k-v1/counterfact.json",
+  "zsre_source": "/path/to/zsre_mend_eval.json",
+  "generation_reference_manifest": "/path/to/reference-ready-r1/manifest.json",
+  "output_root": "/path/to/ignored/local/official-baselines"
+}

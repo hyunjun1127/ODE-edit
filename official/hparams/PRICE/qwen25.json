@@ -1,0 +1,38 @@
+{
+  "status": "DISTRIBUTED_IMPLEMENTATION_NOT_MAIN_RUN",
+  "writer": "memit",
+  "arm": "CAP075",
+  "model": "qwen25",
+  "eligible_layers": [
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "anchor_layer": 8,
+  "nll_layer": 27,
+  "lambda_C": 15000,
+  "lambda_KL": 0.0625,
+  "lambda_N": 0.5,
+  "lr": 0.1,
+  "K_eval": 25,
+  "max_updates": 24,
+  "K_grace": 12,
+  "beta_base": 0.75,
+  "c": 0.75,
+  "beta_max_native_scale": 0.75,
+  "cap_mode": "native",
+  "n_exp": 4,
+  "tau_F": 0.05,
+  "eps": 1e-08,
+  "betas": [
+    0.9,
+    0.999
+  ],
+  "expected_hidden": 3584,
+  "expected_intermediate": 18944,
+  "M1": "helper_distributed_adoption_unfrozen",
+  "M2": false,
+  "M3": false
+}

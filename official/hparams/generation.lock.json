@@ -1,0 +1,62 @@
+{
+  "profile": {
+    "profile": "cf-cake-native-casebatch-kv-total100-globalrng-v1",
+    "reference_lock": "generation.lock.json",
+    "seed": 20261007,
+    "scope": "all_2000",
+    "W0": "once_per_model",
+    "edited_endpoints": [
+      20
+    ],
+    "max_total_tokens": 100,
+    "top_k": 5,
+    "n_gen_per_prompt": 1,
+    "EOS_stop": false,
+    "case_batching": "ALL_GENERATION_PROMPTS",
+    "sampling": "ENDPOINT_GLOBAL_BATCH_STREAM",
+    "assets_policy": "REUSE_EXISTING_EXACT_SHA_NO_REFIT",
+    "implementation_reference": "server1_jobs_61519_61520_61521",
+    "reuse_one_generation_for_both_metrics": true
+  },
+  "server1_source_commit": "adb244e6f9c86b54f73bd6d8fb833b338f470ded",
+  "server1_jobs": [
+    61519,
+    61520,
+    61521
+  ],
+  "server1_original_schedule": "W20_ONLY_FIRST2000",
+  "new_study_schedule": "W0_ONCE_PER_MODEL_AND_W20_PER_CHAIN",
+  "reference_identity_sha256": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+  "reference_files": {
+    "attribute_snippets.json": {
+      "bytes": 926285719,
+      "sha256": "10b5c1cd105e54d5983c72de1b45bfc88bc7af786f7b99def2557886ff23385b",
+      "source_url": "https://memit.baulab.info/data/dsets/attribute_snippets.json"
+    },
+    "idf.npy": {
+      "bytes": 11042168,
+      "sha256": "c073d642589d4ac6432f467230329b36364a01e72de63a77a3624b745b923dda",
+      "source_url": "https://memit.baulab.info/data/dsets/idf.npy"
+    },
+    "tfidf_vocab.json": {
+      "bytes": 31639072,
+      "sha256": "8a78c4f20d8d85dadfd14e283d71af255482ff18aa0eb8a81716024c05ff888b",
+      "source_url": "https://memit.baulab.info/data/dsets/tfidf_vocab.json"
+    }
+  },
+  "CAKE": {
+    "commit": "0b378234862bd76c69f58404ef84c27d5f4bf9ef",
+    "generator_sha256": "43d219ecc1955a4e4f82ea22edc286b4774e52e917d4b375021b8d7329b0adf3",
+    "attention_mask": "cumulative_cache_plus_query",
+    "decode": "native_no_skip_special"
+  },
+  "BLUE": {
+    "commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+    "generator_sha256": "51f41871d750a1fe86f39d4142fe8a5c12a41086c6d4a2cee98b72f809ff0366",
+    "differences": [
+      "query_only_attention_mask",
+      "skip_special_tokens_decode"
+    ]
+  },
+  "speedup": "NOT_MEASURED"
+}

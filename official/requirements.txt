@@ -1,0 +1,11 @@
+# Reuse a compatible server environment; do not mutate an active run's environment.
+torch==2.9.1
+transformers==4.57.1
+numpy==2.2.6
+scipy==1.15.3
+scikit-learn==1.7.2
+nltk==3.6.5
+PyYAML==6.0.2
+datasets==1.18.3
+einops==0.8.1
+tqdm==4.62.3

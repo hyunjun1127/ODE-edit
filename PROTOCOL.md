@@ -861,6 +861,16 @@ Rental servers should not be treated as durable storage. Important state must
 be pushed to Git, and important large artifacts must be transferred with user
 approval or explicitly marked disposable before the rental period ends.
 
+## Official distribution ownership (2026-10-08)
+
+사용자 지시에 따라 새 PRICE/baseline 배포 소스는 저장소 최상위 `official/`에 둔다.
+`global-head`가 이 경로와 main 통합을 관리한다. `server-head`는 승인된 instruction에
+따라 dedicated non-main branch에서 자신의 `official/runners/serverN/`만 수정한다.
+`USER-OFFICIAL-BASELINES-20261008-R1`의 공통 factual evaluator 최초 구현은 server1이
+`official/evaluation/factual.py`, `official/tests/test_factual.py`를 담당한다.
+다른 공통 수치 코드 수정은 GH 검토·통합 범위다. 실제 실험은 검토 후 main에 게시된
+정확한 commit과 official tree SHA를 사용한다. 기존 실행 source는 변경하지 않는다.
+
 ## Required Red/Blue Team Subagents
 
 Every server head must maintain both blue-team and red-team subagents. Blue

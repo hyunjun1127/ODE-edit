@@ -1,0 +1,232 @@
+{
+  "schema": "price-baseline-comparison-v1",
+  "date": "2026-10-08",
+  "status": "PREPARATION_NOT_GPU_QUALIFICATION",
+  "models": {
+    "llama3": {
+      "model_id": "meta-llama/Meta-Llama-3-8B-Instruct",
+      "revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+      "layers": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "hidden": 4096,
+      "intermediate": 14336
+    },
+    "qwen25": {
+      "model_id": "Qwen/Qwen2.5-7B-Instruct",
+      "revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+      "layers": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "hidden": 3584,
+      "intermediate": 18944
+    },
+    "gptj": {
+      "model_id": "EleutherAI/gpt-j-6b",
+      "revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+      "layers": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "hidden": 4096,
+      "intermediate": 16384
+    }
+  },
+  "methods": [
+    "FT",
+    "MEMIT",
+    "ALPHAEDIT",
+    "ALPHAEDIT_BLUE",
+    "MEMIT_FE",
+    "SPHERE"
+  ],
+  "excluded_from_main": [
+    "PRICE",
+    "GPT2-XL",
+    "CAKE",
+    "PRUNE",
+    "RECT"
+  ],
+  "distribution": {
+    "root": "official",
+    "require_all_experiment_python_inside_official": true,
+    "execution_commit_required": true
+  },
+  "stream": {
+    "requests": 2000,
+    "batch_size": 100,
+    "batches": 20,
+    "order": "existing_file_first2000",
+    "shuffle": false
+  },
+  "edit_seed": 0,
+  "precision": {
+    "weights": "float32",
+    "autocast": false,
+    "tf32": false,
+    "attention": "eager",
+    "native_solver_precision": "preserve_upstream"
+  },
+  "evaluation": {
+    "milestones": [
+      0,
+      500,
+      1000,
+      1500,
+      2000
+    ],
+    "scope": "all_seen",
+    "cf": {
+      "efficacy": "new_nll < true_nll",
+      "generalization": "new_nll < true_nll",
+      "specificity": "true_nll < new_nll",
+      "ties": "failure",
+      "score": "harmonic_mean_of_request_macro_means",
+      "alphaedit_rounding": "retain_raw_and_display_rounding_separately"
+    },
+    "zsre": {
+      "target": "answers[0]",
+      "efficacy": "teacher_forced_token_accuracy_request_macro",
+      "generalization": "teacher_forced_token_accuracy_request_macro",
+      "specificity": "token_prediction_agreement_with_W0",
+      "additional_metric": "loc_ans_token_accuracy_for_original_AlphaEdit_comparison",
+      "W0_predictions_required": true
+    },
+    "generation": {
+      "profile": "cf-cake-native-casebatch-kv-total100-globalrng-v1",
+      "reference_lock": "generation.lock.json",
+      "seed": 20261007,
+      "scope": "all_2000",
+      "W0": "once_per_model",
+      "edited_endpoints": [
+        20
+      ],
+      "max_total_tokens": 100,
+      "top_k": 5,
+      "n_gen_per_prompt": 1,
+      "EOS_stop": false,
+      "case_batching": "ALL_GENERATION_PROMPTS",
+      "sampling": "ENDPOINT_GLOBAL_BATCH_STREAM",
+      "assets_policy": "REUSE_EXISTING_EXACT_SHA_NO_REFIT",
+      "implementation_reference": "server1_jobs_61519_61520_61521",
+      "reuse_one_generation_for_both_metrics": true
+    }
+  },
+  "baseline_policy": {
+    "source_order": [
+      "EasyEdit",
+      "SPHERE",
+      "BLUE_for_AlphaEdit_BLUE"
+    ],
+    "FE_llama_clamp": 4,
+    "SPHERE_base": "AlphaEdit",
+    "SPHERE_eta": 0.5,
+    "SPHERE_alpha": 0.5,
+    "FT_label": "FT (prompt_last; single layer; no norm constraint)",
+    "FT_inner_batch_size": 1,
+    "FT_outer_edit_batch": 100,
+    "FT_optimizer_reset": "once_per_edit_batch",
+    "dataset_specific_hparams": false,
+    "model_name_override": "explicit_Instruct_for_llama_qwen"
+  },
+  "qwen_blue_selection": {
+    "L2_grid": [
+      1,
+      10,
+      95
+    ],
+    "clamp": 4,
+    "layers": [
+      4,
+      8
+    ],
+    "criterion": [
+      "highest_CF_W20_Score_unrounded",
+      "highest_Specificity",
+      "highest_Efficacy",
+      "highest_Generalization",
+      "lowest_L2"
+    ],
+    "winner_reused_as_main_CF": true,
+    "zsre_L2": "same_as_CF_winner",
+    "report_label": "CF-tuned custom Qwen BLUE",
+    "publish_all_grid_results": true,
+    "heldout_selection": false
+  },
+  "checkpoint": {
+    "every_batch": true,
+    "keep_latest": 1,
+    "retain_final_W20": true,
+    "precision": "float32",
+    "commit_after": "edit_and_scheduled_evaluation_complete",
+    "write": "temporary_hash_fsync_atomic_replace_then_delete_previous",
+    "identity": [
+      "config_sha256",
+      "stream_sha256",
+      "code_commit",
+      "official_tree_sha256",
+      "model_revision",
+      "tokenizer_sha256",
+      "assets_sha256"
+    ],
+    "state": [
+      "edited_weights",
+      "completed_batch",
+      "python_numpy_torch_cpu_cuda_rng",
+      "context_templates",
+      "evaluation_cursor",
+      "per_request_records"
+    ],
+    "history_methods": [
+      "ALPHAEDIT",
+      "ALPHAEDIT_BLUE",
+      "SPHERE"
+    ],
+    "history_name": "cache_c",
+    "P": "reload_pinned_fixed_projector",
+    "resume_test": "uninterrupted_B1_B2_B3_vs_stop_after_B2_resume_B3_exact_weight_hash_metrics",
+    "generation_failure": "restart_uncommitted_batch_using_previous_checkpoint"
+  },
+  "reproduction": {
+    "tolerance_pp": 1.0,
+    "tolerance_status": "preregistered_diagnostic_threshold_not_paper_equivalence",
+    "llama_gptj_methods": [
+      "MEMIT",
+      "ALPHAEDIT",
+      "ALPHAEDIT_BLUE"
+    ],
+    "qwen_alpha_1k_reference": [
+      99.2,
+      94.4,
+      69.8
+    ],
+    "require_matched_evaluator_stream_model_hparams": true
+  },
+  "execution_stages": [
+    "CPU_sources_hparams_stream_tokenizer_assets",
+    "CF_evaluator_parity_W0_resume_smoke",
+    "CF_baselines_and_Qwen_grid_controls",
+    "zsRE_one_batch_per_model_then_baselines",
+    "appendix_PRUNE_RECT_after_main"
+  ],
+  "pending": [
+    "native_GPU_smoke_each_method",
+    "checkpoint_resume_parity_each_method",
+    "CF_original_evaluator_parity",
+    "W0_predictions_and_metrics",
+    "zsRE_GPU_smoke",
+    "model_weight_identity_and_C0_projector_content_validation"
+  ]
+}

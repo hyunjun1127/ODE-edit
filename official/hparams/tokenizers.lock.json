@@ -1,0 +1,149 @@
+{
+  "schema": "official-tokenizer-cpu-audit-v1",
+  "forward_calls": 0,
+  "audits": {
+    "gptj-cf": {
+      "add_bos_token": false,
+      "bos_token_id": 50256,
+      "lookup_offset_disagreements": 0,
+      "lookup_zero_batches": [
+        3,
+        5,
+        7,
+        10,
+        17,
+        20
+      ],
+      "lookup_zero_count": 6,
+      "model": "gptj",
+      "model_forward_calls": 0,
+      "multiple_target_tokens": 0,
+      "padding_side": "right",
+      "requests": 2000,
+      "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+      "tokenizer_class": "GPT2TokenizerFast",
+      "tokenizer_files_sha256": {
+        "added_tokens.json": "bf3d6c81cc37afb73c78dda96901cf926ed21372d2d4edb718dc5387372f8c21",
+        "merges.txt": "fe36cab26d4f4421ed725e10a2e9ddb7f799449c603a96e7f29b5a3c82a95862",
+        "special_tokens_map.json": "a00e1f660c842693e7f667898759c24eb538c2dbb09b91c22dbde1b45d4cdee8",
+        "tokenizer.json": "f758fc1ee05a0775387ad8fa3983fab0c40e4a05cf6b7aea00a29e696cd6205c",
+        "tokenizer_config.json": "b00f36057bdb374232a41bf769c5e1e985fe7108355192b03f125e6f6101b2df",
+        "vocab.json": "3ba3c3109ff33976c4bd966589c11ee14fcaa1f4c9e5e154c2ed7f99d80709e7"
+      },
+      "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+    },
+    "gptj-zsre": {
+      "add_bos_token": false,
+      "bos_token_id": 50256,
+      "lookup_offset_disagreements": 0,
+      "lookup_zero_batches": [],
+      "lookup_zero_count": 0,
+      "model": "gptj",
+      "model_forward_calls": 0,
+      "multiple_target_tokens": 1374,
+      "padding_side": "right",
+      "requests": 2000,
+      "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+      "tokenizer_class": "GPT2TokenizerFast",
+      "tokenizer_files_sha256": {
+        "added_tokens.json": "bf3d6c81cc37afb73c78dda96901cf926ed21372d2d4edb718dc5387372f8c21",
+        "merges.txt": "fe36cab26d4f4421ed725e10a2e9ddb7f799449c603a96e7f29b5a3c82a95862",
+        "special_tokens_map.json": "a00e1f660c842693e7f667898759c24eb538c2dbb09b91c22dbde1b45d4cdee8",
+        "tokenizer.json": "f758fc1ee05a0775387ad8fa3983fab0c40e4a05cf6b7aea00a29e696cd6205c",
+        "tokenizer_config.json": "b00f36057bdb374232a41bf769c5e1e985fe7108355192b03f125e6f6101b2df",
+        "vocab.json": "3ba3c3109ff33976c4bd966589c11ee14fcaa1f4c9e5e154c2ed7f99d80709e7"
+      },
+      "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+    },
+    "llama3-cf": {
+      "add_bos_token": null,
+      "bos_token_id": 128000,
+      "lookup_offset_disagreements": 0,
+      "lookup_zero_batches": [],
+      "lookup_zero_count": 0,
+      "model": "llama3",
+      "model_forward_calls": 0,
+      "multiple_target_tokens": 24,
+      "padding_side": "right",
+      "requests": 2000,
+      "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+      "tokenizer_class": "PreTrainedTokenizerFast",
+      "tokenizer_files_sha256": {
+        "special_tokens_map.json": "462d91939dbc37178aa5a3eae7068d1990ccc92e09f288cc71f42cdf139d69cc",
+        "tokenizer.json": "e134af98b985517b4f068e3755ae90d4e9cd2d45d328325dc503f1c6b2d06cc7",
+        "tokenizer_config.json": "da0e3a7cce6e4d787e85eb1c24d548420e0d7fe2c7a214e192795c46e40d75bb"
+      },
+      "tokenizer_sha256": "63411f4ee2a0111d0c3902d14c85a1d003dafc765573c60282957f558bf02453"
+    },
+    "llama3-zsre": {
+      "add_bos_token": null,
+      "bos_token_id": 128000,
+      "lookup_offset_disagreements": 0,
+      "lookup_zero_batches": [],
+      "lookup_zero_count": 0,
+      "model": "llama3",
+      "model_forward_calls": 0,
+      "multiple_target_tokens": 1517,
+      "padding_side": "right",
+      "requests": 2000,
+      "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+      "tokenizer_class": "PreTrainedTokenizerFast",
+      "tokenizer_files_sha256": {
+        "special_tokens_map.json": "462d91939dbc37178aa5a3eae7068d1990ccc92e09f288cc71f42cdf139d69cc",
+        "tokenizer.json": "e134af98b985517b4f068e3755ae90d4e9cd2d45d328325dc503f1c6b2d06cc7",
+        "tokenizer_config.json": "da0e3a7cce6e4d787e85eb1c24d548420e0d7fe2c7a214e192795c46e40d75bb"
+      },
+      "tokenizer_sha256": "63411f4ee2a0111d0c3902d14c85a1d003dafc765573c60282957f558bf02453"
+    },
+    "qwen25-cf": {
+      "add_bos_token": null,
+      "bos_token_id": null,
+      "lookup_offset_disagreements": 0,
+      "lookup_zero_batches": [
+        2,
+        3,
+        7,
+        10,
+        17,
+        18,
+        20
+      ],
+      "lookup_zero_count": 7,
+      "model": "qwen25",
+      "model_forward_calls": 0,
+      "multiple_target_tokens": 24,
+      "padding_side": "right",
+      "requests": 2000,
+      "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+      "tokenizer_class": "Qwen2TokenizerFast",
+      "tokenizer_files_sha256": {
+        "merges.txt": "599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3",
+        "tokenizer.json": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539",
+        "tokenizer_config.json": "5b5d4f65d0acd3b2d56a35b56d374a36cbc1c8fa5cf3b3febbbfabf22f359583",
+        "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+      },
+      "tokenizer_sha256": "9e3c11a4a87d85a72b6f2d1e4b29ab88532f72d03189b6fa2793da735a2d98aa"
+    },
+    "qwen25-zsre": {
+      "add_bos_token": null,
+      "bos_token_id": null,
+      "lookup_offset_disagreements": 0,
+      "lookup_zero_batches": [],
+      "lookup_zero_count": 0,
+      "model": "qwen25",
+      "model_forward_calls": 0,
+      "multiple_target_tokens": 1517,
+      "padding_side": "right",
+      "requests": 2000,
+      "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+      "tokenizer_class": "Qwen2TokenizerFast",
+      "tokenizer_files_sha256": {
+        "merges.txt": "599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3",
+        "tokenizer.json": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539",
+        "tokenizer_config.json": "5b5d4f65d0acd3b2d56a35b56d374a36cbc1c8fa5cf3b3febbbfabf22f359583",
+        "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+      },
+      "tokenizer_sha256": "9e3c11a4a87d85a72b6f2d1e4b29ab88532f72d03189b6fa2793da735a2d98aa"
+    }
+  }
+}

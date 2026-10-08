@@ -41,7 +41,7 @@ is_global_head_allowed() {
     PROTOCOL.md|README.md|.gitignore|local/README.md|.codex/config.toml|.codex/agents/default.toml)
       return 0
       ;;
-    scripts/*|project/*|subagents/*|docs/*|local/templates/*|messages/templates/*|tasks/templates/*|runs/templates/*|audits/templates/*|experiment-reports/templates/*|transfers/templates/*|servers/templates/*|run-scripts/*)
+    scripts/*|project/*|official/*|subagents/*|docs/*|local/templates/*|messages/templates/*|tasks/templates/*|runs/templates/*|audits/templates/*|experiment-reports/templates/*|transfers/templates/*|servers/templates/*|run-scripts/*)
       return 0
       ;;
     plans/global/*|tasks/pending/*|tasks/done/*|tasks/failed/*|tasks/status/.gitkeep|tasks/status/*/*|messages/README.md|messages/head/*|messages/inbox/.gitkeep|messages/inbox/*|messages/server-heads/*|messages/acks/.gitkeep|messages/acks/"${agent_hostname}"/*|transfers/approvals/*|transfers/verifications/*|servers/connection-inventory.md|servers/active/*|servers/retired/*|control/*|experiment-reports/global/*|audits/*)
@@ -71,7 +71,13 @@ is_server_head_allowed() {
     servers/active/"${agent_hostname}".md)
       return 0
       ;;
-    project/run_scripts/*)
+    official/evaluation/factual.py|official/tests/test_factual.py)
+      # Shared evaluator ownership: USER-OFFICIAL-BASELINES-20261008-R1.
+      [ "${agent_hostname}" = server1 ] || return 1
+      branch="$(git symbolic-ref --quiet --short HEAD 2>/dev/null || true)"
+      case "${branch}" in ""|main|master) return 1 ;; *) return 0 ;; esac
+      ;;
+    project/run_scripts/*|official/runners/"${agent_hostname}"/*)
       branch="$(git symbolic-ref --quiet --short HEAD 2>/dev/null || true)"
       case "${branch}" in
         ""|main|master)

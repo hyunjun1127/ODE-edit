@@ -1,0 +1,120 @@
+{
+  "instruction_id": "USER-OFFICIAL-BASELINES-20261008-R1",
+  "authority": "사용자 직접 지시: official 최상위 폴더 main 배포 및 각 서버 EasyEdit 자산 runner 작성",
+  "status": "SOURCE_PREPARATION_AND_OWNER_DISPATCH",
+  "source_root": "official",
+  "source_branch": "main",
+  "source_pin_policy": "direct 인계의 publication commit 이상 main을 확인하고 실행 exact commit 및 official tree SHA 기록",
+  "main_rows": 36,
+  "qwen_auxiliary_rows": 5,
+  "physical_edit_chains": 40,
+  "ours_runs": false,
+  "scope": "Llama3/Qwen2.5/GPT-J × CF/zsRE × FT/MEMIT/AlphaEdit/BLUE/FE/SPHERE",
+  "owners": {
+    "server1": {
+      "model": "llama3",
+      "methods": [
+        "FT",
+        "MEMIT",
+        "MEMIT_FE"
+      ],
+      "main_rows": 6,
+      "datasets": [
+        "cf",
+        "zsre"
+      ],
+      "scope_status": "ASSIGNED_FOR_IMPLEMENTATION",
+      "runner_owner": "server1",
+      "shared_code_root": "official",
+      "private_assets": "EasyEdit_local_paths_no_external_code_import",
+      "source_policy": "main_commit_and_official_tree_hash",
+      "gpu_cap": "read_current_server_policy_and_existing_allocations"
+    },
+    "server2": {
+      "model": "gptj",
+      "methods": [
+        "FT",
+        "MEMIT",
+        "ALPHAEDIT",
+        "ALPHAEDIT_BLUE",
+        "MEMIT_FE",
+        "SPHERE"
+      ],
+      "main_rows": 12,
+      "datasets": [
+        "cf",
+        "zsre"
+      ],
+      "scope_status": "ASSIGNED_FOR_IMPLEMENTATION",
+      "runner_owner": "server2",
+      "shared_code_root": "official",
+      "private_assets": "EasyEdit_local_paths_no_external_code_import",
+      "source_policy": "main_commit_and_official_tree_hash",
+      "gpu_cap": "read_current_server_policy_and_existing_allocations"
+    },
+    "server3": {
+      "model": "qwen25",
+      "methods": [
+        "FT",
+        "MEMIT",
+        "ALPHAEDIT",
+        "ALPHAEDIT_BLUE",
+        "MEMIT_FE",
+        "SPHERE"
+      ],
+      "main_rows": 12,
+      "qwen_auxiliary_rows": 5,
+      "datasets": [
+        "cf",
+        "zsre"
+      ],
+      "scope_status": "ASSIGNED_FOR_IMPLEMENTATION",
+      "runner_owner": "server3",
+      "shared_code_root": "official",
+      "private_assets": "EasyEdit_local_paths_no_external_code_import",
+      "source_policy": "main_commit_and_official_tree_hash",
+      "gpu_cap": "read_current_server_policy_and_existing_allocations"
+    },
+    "server4": {
+      "model": "llama3",
+      "methods": [
+        "ALPHAEDIT",
+        "ALPHAEDIT_BLUE",
+        "SPHERE"
+      ],
+      "main_rows": 6,
+      "datasets": [
+        "cf",
+        "zsre"
+      ],
+      "scope_status": "ASSIGNED_FOR_IMPLEMENTATION",
+      "runner_owner": "server4",
+      "shared_code_root": "official",
+      "private_assets": "EasyEdit_local_paths_no_external_code_import",
+      "source_policy": "main_commit_and_official_tree_hash",
+      "gpu_cap": "read_current_server_policy_and_existing_allocations"
+    }
+  },
+  "write_scope": [
+    "official/runners/<own-server>/",
+    "experiment-reports/servers/<own-server>/official-baselines-20261008/",
+    "audits/servers/<own-server>/official-baselines-20261008/"
+  ],
+  "additional_owner_scope": {
+    "server1": [
+      "official/evaluation/factual.py",
+      "official/tests/test_factual.py"
+    ]
+  },
+  "shared_code_changes": "GH 검토 후 공통 official 코드로 통합; 서버별 수치 fork 금지",
+  "implementation": "각 담당자는 실제 native runner·checkpoint·평가기·Slurm 연결을 구현하고 CPU 및 실제 smoke/resume 검증을 수행",
+  "scientific_execution": "검토된 runner main 통합 및 고정 계약 검증 후 담당 CF 실행, 이후 zsRE smoke와 본 실행",
+  "gpu_policy": "각 서버 최신 사용자 cap 및 기존 allocation 준수; 기존 job 취소/변경 없음",
+  "generation_policy": "참조 자산 SHA 유지; server1 현재 61519/61520/61521 source와 CAKE/BLUE 연산 방식 참고; official native case-batched KV evaluator 사용",
+  "checkpoint_policy": "기존 noCP보다 이번 사용자 checklist 우선: W0 및 각 batch 후 최신1개, FP32 W/cache_c/RNG/context/cursor, 최종W20 보존",
+  "data_policy": "EasyEdit 경로는 자산만 사용; external EasyEdit algorithm import 금지; raw/model/dataset/CP Git 금지",
+  "review": "수치·입력·평가·resume·source 검토, 실제 GPU 검증과 CPU mock 분리",
+  "artifact_broadcast": "기존 승인 helper 범위와 정책 유지; 신규 대형 자산복사 승인 추론 없음",
+  "report_path": "experiment-reports/servers/<own-server>/official-baselines-20261008/report-ko.md",
+  "communication": "등록된 direct request-response로 전달; canonical message만 작성한 것을 실제 전달 완료로 표현하지 않음"
+}

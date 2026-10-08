@@ -1,0 +1,291 @@
+{
+  "files": [
+    {
+      "repository": "easyedit",
+      "repo": "zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "path": "hparams/FT/llama3-8b.yaml",
+      "sha256": "c54a1619c99089565e8fd4e5543e3b82a5bb1d5e1b2386e3239ebd7312372bed",
+      "bytes": 942,
+      "url": "https://github.com/zjunlp/EasyEdit/blob/4c109870955a4522ac3d7cf10ad00f34de8e4f0d/hparams/FT/llama3-8b.yaml",
+      "id": "easyedit:hparams/FT/llama3-8b.yaml",
+      "local_copy": "upstream/easyedit/hparams/FT/llama3-8b.yaml"
+    },
+    {
+      "repository": "easyedit",
+      "repo": "zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "path": "hparams/FT/gpt-j-6B.yaml",
+      "sha256": "81bf96583db0eef71015493621977e3e7a7a599ae6dc3e68ac8f4a9e47c31c2b",
+      "bytes": 935,
+      "url": "https://github.com/zjunlp/EasyEdit/blob/4c109870955a4522ac3d7cf10ad00f34de8e4f0d/hparams/FT/gpt-j-6B.yaml",
+      "id": "easyedit:hparams/FT/gpt-j-6B.yaml",
+      "local_copy": "upstream/easyedit/hparams/FT/gpt-j-6B.yaml"
+    },
+    {
+      "repository": "easyedit",
+      "repo": "zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "path": "hparams/FT/qwen2.5-7b.yaml",
+      "sha256": "5e5b7c6936f6a0a8eb5fe14b0b38bbaf165a28396ee627388cbbf8a238b24ee6",
+      "bytes": 942,
+      "url": "https://github.com/zjunlp/EasyEdit/blob/4c109870955a4522ac3d7cf10ad00f34de8e4f0d/hparams/FT/qwen2.5-7b.yaml",
+      "id": "easyedit:hparams/FT/qwen2.5-7b.yaml",
+      "local_copy": "upstream/easyedit/hparams/FT/qwen2.5-7b.yaml"
+    },
+    {
+      "repository": "easyedit",
+      "repo": "zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "path": "hparams/MEMIT/gpt-j-6B.yaml",
+      "sha256": "0ea8e57d60f0d0732314c66d204f9a8ebe5f9c465b7e4bdfed681a21237d49d1",
+      "bytes": 646,
+      "url": "https://github.com/zjunlp/EasyEdit/blob/4c109870955a4522ac3d7cf10ad00f34de8e4f0d/hparams/MEMIT/gpt-j-6B.yaml",
+      "id": "easyedit:hparams/MEMIT/gpt-j-6B.yaml",
+      "local_copy": "upstream/easyedit/hparams/MEMIT/gpt-j-6B.yaml"
+    },
+    {
+      "repository": "easyedit",
+      "repo": "zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "path": "hparams/MEMIT/qwen2.5-7b.yaml",
+      "sha256": "505708bcb115ab096e94de15b9c0b5a06802fa4295ca6393c3e4e8efbe0173d5",
+      "bytes": 641,
+      "url": "https://github.com/zjunlp/EasyEdit/blob/4c109870955a4522ac3d7cf10ad00f34de8e4f0d/hparams/MEMIT/qwen2.5-7b.yaml",
+      "id": "easyedit:hparams/MEMIT/qwen2.5-7b.yaml",
+      "local_copy": "upstream/easyedit/hparams/MEMIT/qwen2.5-7b.yaml"
+    },
+    {
+      "repository": "easyedit",
+      "repo": "zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "path": "hparams/AlphaEdit/llama3-8b.yaml",
+      "sha256": "25a2cb68257fca38aa0ac78e318f79a6c15d83737f26a54b63e21874e9905b6b",
+      "bytes": 1113,
+      "url": "https://github.com/zjunlp/EasyEdit/blob/4c109870955a4522ac3d7cf10ad00f34de8e4f0d/hparams/AlphaEdit/llama3-8b.yaml",
+      "id": "easyedit:hparams/AlphaEdit/llama3-8b.yaml",
+      "local_copy": "upstream/easyedit/hparams/AlphaEdit/llama3-8b.yaml"
+    },
+    {
+      "repository": "easyedit",
+      "repo": "zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "path": "hparams/AlphaEdit/gpt-j-6B.yaml",
+      "sha256": "1caeb5d5095460a381186720e8a1f29aed768460c31be404714f8e9246beb337",
+      "bytes": 1103,
+      "url": "https://github.com/zjunlp/EasyEdit/blob/4c109870955a4522ac3d7cf10ad00f34de8e4f0d/hparams/AlphaEdit/gpt-j-6B.yaml",
+      "id": "easyedit:hparams/AlphaEdit/gpt-j-6B.yaml",
+      "local_copy": "upstream/easyedit/hparams/AlphaEdit/gpt-j-6B.yaml"
+    },
+    {
+      "repository": "easyedit",
+      "repo": "zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "path": "hparams/AlphaEdit/qwen2.5-7b.yaml",
+      "sha256": "3c6eca1f3578d473f5c9c68cd2eb970036d255ae080bcfec5451786605f14349",
+      "bytes": 687,
+      "url": "https://github.com/zjunlp/EasyEdit/blob/4c109870955a4522ac3d7cf10ad00f34de8e4f0d/hparams/AlphaEdit/qwen2.5-7b.yaml",
+      "id": "easyedit:hparams/AlphaEdit/qwen2.5-7b.yaml",
+      "local_copy": "upstream/easyedit/hparams/AlphaEdit/qwen2.5-7b.yaml"
+    },
+    {
+      "repository": "easyedit",
+      "repo": "zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "path": "hparams/MEMIT-FE/llama3-8b.yaml",
+      "sha256": "2d224c47d4c5c8703cfe355c4b54a8e5794c28a01cc079b71436b59eec359e93",
+      "bytes": 651,
+      "url": "https://github.com/zjunlp/EasyEdit/blob/4c109870955a4522ac3d7cf10ad00f34de8e4f0d/hparams/MEMIT-FE/llama3-8b.yaml",
+      "id": "easyedit:hparams/MEMIT-FE/llama3-8b.yaml",
+      "local_copy": "upstream/easyedit/hparams/MEMIT-FE/llama3-8b.yaml"
+    },
+    {
+      "repository": "easyedit",
+      "repo": "zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "path": "hparams/MEMIT-FE/gpt-j-6B.yaml",
+      "sha256": "96d78e0aa46ec458f89f9137cef64969c789719b5a2fb176d26fe6925877f1de",
+      "bytes": 649,
+      "url": "https://github.com/zjunlp/EasyEdit/blob/4c109870955a4522ac3d7cf10ad00f34de8e4f0d/hparams/MEMIT-FE/gpt-j-6B.yaml",
+      "id": "easyedit:hparams/MEMIT-FE/gpt-j-6B.yaml",
+      "local_copy": "upstream/easyedit/hparams/MEMIT-FE/gpt-j-6B.yaml"
+    },
+    {
+      "repository": "easyedit",
+      "repo": "zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "path": "hparams/MEMIT-FE/qwen2.5-7b.yaml",
+      "sha256": "5819e522582b83976cccf42d4f2bfaf5d2866dd1789c6eb1837eef1db1e948f0",
+      "bytes": 644,
+      "url": "https://github.com/zjunlp/EasyEdit/blob/4c109870955a4522ac3d7cf10ad00f34de8e4f0d/hparams/MEMIT-FE/qwen2.5-7b.yaml",
+      "id": "easyedit:hparams/MEMIT-FE/qwen2.5-7b.yaml",
+      "local_copy": "upstream/easyedit/hparams/MEMIT-FE/qwen2.5-7b.yaml"
+    },
+    {
+      "repository": "easyedit",
+      "repo": "zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "path": "hparams/SPHERE/llama3-8b.yaml",
+      "sha256": "243f1f3188bbbfba18227ee4786d1286ed454004f10a97314550de1ebf81df3f",
+      "bytes": 1149,
+      "url": "https://github.com/zjunlp/EasyEdit/blob/4c109870955a4522ac3d7cf10ad00f34de8e4f0d/hparams/SPHERE/llama3-8b.yaml",
+      "id": "easyedit:hparams/SPHERE/llama3-8b.yaml",
+      "local_copy": "upstream/easyedit/hparams/SPHERE/llama3-8b.yaml"
+    },
+    {
+      "repository": "easyedit",
+      "repo": "zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "path": "hparams/SPHERE/gpt-j-6B.yaml",
+      "sha256": "70c7e3b900d581bb27fe27fec33ce8a99a709050574fb1b1bac1e51feb709e8e",
+      "bytes": 1148,
+      "url": "https://github.com/zjunlp/EasyEdit/blob/4c109870955a4522ac3d7cf10ad00f34de8e4f0d/hparams/SPHERE/gpt-j-6B.yaml",
+      "id": "easyedit:hparams/SPHERE/gpt-j-6B.yaml",
+      "local_copy": "upstream/easyedit/hparams/SPHERE/gpt-j-6B.yaml"
+    },
+    {
+      "repository": "easyedit",
+      "repo": "zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "path": "hparams/SPHERE/qwen2.5-7b.yaml",
+      "sha256": "b88db533d5101cf814d4b318db63be6e7763af86dc5965256e744410d16f3b74",
+      "bytes": 732,
+      "url": "https://github.com/zjunlp/EasyEdit/blob/4c109870955a4522ac3d7cf10ad00f34de8e4f0d/hparams/SPHERE/qwen2.5-7b.yaml",
+      "id": "easyedit:hparams/SPHERE/qwen2.5-7b.yaml",
+      "local_copy": "upstream/easyedit/hparams/SPHERE/qwen2.5-7b.yaml"
+    },
+    {
+      "repository": "sphere",
+      "repo": "PlusLabNLP/SPHERE",
+      "commit": "0c28c000a1482e73573928f63a66e0b1b88ac949",
+      "path": "hparams/MEMIT/Llama3-8B.json",
+      "sha256": "7dbe03a346265a9d63d2b5042b445b73d84f66eb261e263bab9c0638c6c619fe",
+      "bytes": 700,
+      "url": "https://github.com/PlusLabNLP/SPHERE/blob/0c28c000a1482e73573928f63a66e0b1b88ac949/hparams/MEMIT/Llama3-8B.json",
+      "id": "sphere:hparams/MEMIT/Llama3-8B.json",
+      "local_copy": "upstream/sphere/hparams/MEMIT/Llama3-8B.json"
+    },
+    {
+      "repository": "blue",
+      "repo": "xpq-tech/BLUE",
+      "commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+      "path": "hparams/AlphaEdit/Llama3-8B-blue.json",
+      "sha256": "c4186ff61c11daaf6f5f6ad3cdc3dbc3b94aec42b4874c4cee9af3648f428275",
+      "bytes": 753,
+      "url": "https://github.com/xpq-tech/BLUE/blob/311b076a92e4ed0f14f5c8b4909732da781bc5f7/hparams/AlphaEdit/Llama3-8B-blue.json",
+      "id": "blue:hparams/AlphaEdit/Llama3-8B-blue.json",
+      "local_copy": "upstream/blue/hparams/AlphaEdit/Llama3-8B-blue.json"
+    },
+    {
+      "repository": "blue",
+      "repo": "xpq-tech/BLUE",
+      "commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+      "path": "hparams/AlphaEdit/EleutherAI_gpt-j-6B-blue.json",
+      "sha256": "afc9ae1ffd7a6f9d1d6aa04bc2d19b11684bea69ebd51ef0d515d2b073d066e2",
+      "bytes": 783,
+      "url": "https://github.com/xpq-tech/BLUE/blob/311b076a92e4ed0f14f5c8b4909732da781bc5f7/hparams/AlphaEdit/EleutherAI_gpt-j-6B-blue.json",
+      "id": "blue:hparams/AlphaEdit/EleutherAI_gpt-j-6B-blue.json",
+      "local_copy": "upstream/blue/hparams/AlphaEdit/EleutherAI_gpt-j-6B-blue.json"
+    },
+    {
+      "repository": "alphaedit",
+      "repo": "jianghoucheng/AlphaEdit",
+      "commit": "b84624f44dfe8fc6cd9e41df916c44124a0c46dc",
+      "path": "experiments/summarize.py",
+      "sha256": "64f009b2fb648627a956b95abd801838d86edf04c8e1888d90ade0ec07b745c0",
+      "bytes": 7455,
+      "url": "https://github.com/jianghoucheng/AlphaEdit/blob/b84624f44dfe8fc6cd9e41df916c44124a0c46dc/experiments/summarize.py",
+      "id": "alphaedit:experiments/summarize.py"
+    },
+    {
+      "repository": "alphaedit",
+      "repo": "jianghoucheng/AlphaEdit",
+      "commit": "b84624f44dfe8fc6cd9e41df916c44124a0c46dc",
+      "path": "dsets/zsre.py",
+      "sha256": "a6281375afd9983337c154095fe9aba59c74c36fa34ecfb12838c7b5c341670e",
+      "bytes": 2237,
+      "url": "https://github.com/jianghoucheng/AlphaEdit/blob/b84624f44dfe8fc6cd9e41df916c44124a0c46dc/dsets/zsre.py",
+      "id": "alphaedit:dsets/zsre.py"
+    },
+    {
+      "repository": "alphaedit",
+      "repo": "jianghoucheng/AlphaEdit",
+      "commit": "b84624f44dfe8fc6cd9e41df916c44124a0c46dc",
+      "path": "experiments/py/eval_utils_zsre.py",
+      "sha256": "4370a3b2c7eff88bfeffd6412be485c0195bae794f7c7a6d39b9dd9e01299d97",
+      "bytes": 4168,
+      "url": "https://github.com/jianghoucheng/AlphaEdit/blob/b84624f44dfe8fc6cd9e41df916c44124a0c46dc/experiments/py/eval_utils_zsre.py",
+      "id": "alphaedit:experiments/py/eval_utils_zsre.py"
+    },
+    {
+      "repository": "alphaedit",
+      "repo": "jianghoucheng/AlphaEdit",
+      "commit": "b84624f44dfe8fc6cd9e41df916c44124a0c46dc",
+      "path": "experiments/py/eval_utils_counterfact.py",
+      "sha256": "25c3f49039e7bacb58de6d9ab8139f6f24f21532434a08690e9ec71ea939e145",
+      "bytes": 7941,
+      "url": "https://github.com/jianghoucheng/AlphaEdit/blob/b84624f44dfe8fc6cd9e41df916c44124a0c46dc/experiments/py/eval_utils_counterfact.py",
+      "id": "alphaedit:experiments/py/eval_utils_counterfact.py"
+    },
+    {
+      "repository": "easyedit",
+      "repo": "zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "path": "easyeditor/models/memit_FE/compute_z.py",
+      "sha256": "40c418d27f0825f287c4c37031d637ab4f5740a9346a47f63995ef298e1fff64",
+      "bytes": 15802,
+      "url": "https://github.com/zjunlp/EasyEdit/blob/4c109870955a4522ac3d7cf10ad00f34de8e4f0d/easyeditor/models/memit_FE/compute_z.py",
+      "id": "easyedit:easyeditor/models/memit_FE/compute_z.py"
+    },
+    {
+      "repository": "easyedit",
+      "repo": "zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "path": "easyeditor/models/ft/ft_main.py",
+      "sha256": "96f74bfa49bc2ed3b8899858441672dd105ce3b20cdfb4ed2ecc668852efa22a",
+      "bytes": 11757,
+      "url": "https://github.com/zjunlp/EasyEdit/blob/4c109870955a4522ac3d7cf10ad00f34de8e4f0d/easyeditor/models/ft/ft_main.py",
+      "id": "easyedit:easyeditor/models/ft/ft_main.py"
+    },
+    {
+      "repository": "easyedit",
+      "repo": "zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "path": "easyeditor/models/memit_FE/memit_FE_main.py",
+      "sha256": "3139543c4a0b24b7be797010fc9a86b5aa184161acb54776b01caa6b965ccd86",
+      "bytes": 12387,
+      "url": "https://github.com/zjunlp/EasyEdit/blob/4c109870955a4522ac3d7cf10ad00f34de8e4f0d/easyeditor/models/memit_FE/memit_FE_main.py",
+      "id": "easyedit:easyeditor/models/memit_FE/memit_FE_main.py"
+    },
+    {
+      "repository": "easyedit",
+      "repo": "zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "path": "easyeditor/models/memit_FE/memit_FE_hparams.py",
+      "sha256": "feba2972716c707d37026fe23c0cb4a73d6664f17c76721707f7b7794872f182",
+      "bytes": 1585,
+      "url": "https://github.com/zjunlp/EasyEdit/blob/4c109870955a4522ac3d7cf10ad00f34de8e4f0d/easyeditor/models/memit_FE/memit_FE_hparams.py",
+      "id": "easyedit:easyeditor/models/memit_FE/memit_FE_hparams.py"
+    },
+    {
+      "repository": "easyedit",
+      "repo": "zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "path": "easyeditor/models/SPHERE/SPHERE_main.py",
+      "sha256": "19934699a4604ad5ea87f5ad897d09514b0684b48b8f9fd88a9fc6750f0b208d",
+      "bytes": 14813,
+      "url": "https://github.com/zjunlp/EasyEdit/blob/4c109870955a4522ac3d7cf10ad00f34de8e4f0d/easyeditor/models/SPHERE/SPHERE_main.py",
+      "id": "easyedit:easyeditor/models/SPHERE/SPHERE_main.py"
+    },
+    {
+      "repository": "easyedit",
+      "repo": "zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "path": "easyeditor/models/SPHERE/SPHERE_hparams.py",
+      "sha256": "9177f3178bd2d5016d3a08b1706b0970d7c4c117945248fa78b961e663107549",
+      "bytes": 1704,
+      "url": "https://github.com/zjunlp/EasyEdit/blob/4c109870955a4522ac3d7cf10ad00f34de8e4f0d/easyeditor/models/SPHERE/SPHERE_hparams.py",
+      "id": "easyedit:easyeditor/models/SPHERE/SPHERE_hparams.py"
+    }
+  ]
+}

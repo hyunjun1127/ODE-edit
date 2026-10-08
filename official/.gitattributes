@@ -1,0 +1,4 @@
+# Preserve pinned upstream bytes, including existing whitespace.
+baselines/** whitespace=-blank-at-eol
+hparams/upstream/** whitespace=-blank-at-eol
+ours/core/jlz_price_gptj/price.py whitespace=-blank-at-eof

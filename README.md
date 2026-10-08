@@ -1,4 +1,34 @@
-# ODE-Edit
+# ODE-Edit / PRICE
+
+**2026-10-08: 공식 배포·실험 기준은 저장소 최상위 [official/](official/README.md)입니다.**
+CAKE 형식을 참고해 ours·baseline 구현, hparams, 공통 평가기와 서버별 runner를 한 폴더에서 관리합니다.
+새 baseline 실험은 `main`에 게시한 `official/` 코드와 설정을 사용하고 commit/tree SHA를 기록합니다.
+
+현재 준비 범위는 **FT·MEMIT·AlphaEdit·AlphaEdit-BLUE·MEMIT-FE·AlphaEdit+SPHERE ×
+Llama3-8B-Instruct·Qwen2.5-7B-Instruct·GPT-J-6B × CF·zsRE = 36개 본 실험 행**입니다.
+각각 2,000건을 100건씩 20 batch 순차 편집합니다. Qwen BLUE 격자·강도 대조 5개 행을 추가하며,
+선택된 격자 실행의 본문 재사용을 포함하면 전체 편집 chain은 40개입니다.
+ours 구현은 배포 폴더에 포함하되 이번 실행 목록에서는 제외합니다.
+
+- [전체 체크리스트·설정·평가·checkpoint·실행 순서](official/README.md)
+- [방법별 hparams와 공통 실험 계약](official/hparams/contract.json), [원본 설정 SHA](official/hparams/sources.lock.json)
+- [서버별 EasyEdit 자산 연결과 runner](official/runners/README.md)
+- [배포 source provenance](official/SOURCES.json), [CPU 준비 결과](official/PREPARATION.md)
+
+**FLU/CON 참조 자산은 기존 SHA 그대로 유지합니다.** 코드는 현재 server1 baseline
+job 61519·61520·61521의 실행본을 기준으로 CAKE·BLUE의 연산 방식을 참고합니다.
+case별 prompt batching과 KV cache를 사용하고, 한 번 생성한 원문을 FLU/CON이 함께 평가합니다.
+자세한 source pin과 생성 규칙은 [공통 FLU/CON 설명](official/README.md#flucon-기존-자산-유지-현재-server1-코드-기준)에 기록합니다.
+
+```bash
+python3 -m official.tools.verify
+python3 -m official.experiments.prepare matrix --output local/official-baselines/configuration
+```
+
+기존 연구 문서와 실험 이력은 아래에 보존합니다. 새 실험의 설정 근거는 `official/`입니다.
+
+<details>
+<summary>이전 연구 방향과 저장소 기록</summary>
 
 **2026-09-18 최신 설계:** [Base-choice constrained L4 write](plans/global/2026-09-18-base-choice-constrained-write-v2.md).
 전체 reference512의 W0 답변 선택을 제약으로 사용하고 현재 L4 편집 response를 보존하는 최소 보정을 설계한다.
@@ -127,3 +157,5 @@ FzCB의 hypothesis support로 자동 승계하지 않는다.
 
 원격 서버 접속 정보, raw IP, username, port, key, token, password와 private dataset
 secret은 저장소에 기록하지 않는다.
+
+</details>

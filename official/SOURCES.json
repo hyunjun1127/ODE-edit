@@ -1,0 +1,1533 @@
+{
+  "schema": "official-source-provenance-v1",
+  "files": [
+    {
+      "component": "easyedit",
+      "repository": "https://github.com/zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "upstream_path": "LICENSE",
+      "path": "baselines/easyedit/LICENSE",
+      "upstream_sha256": "e36f811f31f3ad9d2ba68230258747bcb868ab59e8640fab3733fbe179bb7cf4",
+      "sha256": "e36f811f31f3ad9d2ba68230258747bcb868ab59e8640fab3733fbe179bb7cf4",
+      "changes": []
+    },
+    {
+      "component": "easyedit",
+      "repository": "https://github.com/zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "upstream_path": "easyeditor/models/SPHERE/SPHERE_hparams.py",
+      "path": "baselines/easyedit/models/SPHERE/SPHERE_hparams.py",
+      "upstream_sha256": "9177f3178bd2d5016d3a08b1706b0970d7c4c117945248fa78b961e663107549",
+      "sha256": "9177f3178bd2d5016d3a08b1706b0970d7c4c117945248fa78b961e663107549",
+      "changes": []
+    },
+    {
+      "component": "easyedit",
+      "repository": "https://github.com/zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "upstream_path": "easyeditor/models/SPHERE/SPHERE_main.py",
+      "path": "baselines/easyedit/models/SPHERE/SPHERE_main.py",
+      "upstream_sha256": "19934699a4604ad5ea87f5ad897d09514b0684b48b8f9fd88a9fc6750f0b208d",
+      "sha256": "19934699a4604ad5ea87f5ad897d09514b0684b48b8f9fd88a9fc6750f0b208d",
+      "changes": []
+    },
+    {
+      "component": "easyedit",
+      "repository": "https://github.com/zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "upstream_path": "easyeditor/models/SPHERE/compute_ks.py",
+      "path": "baselines/easyedit/models/SPHERE/compute_ks.py",
+      "upstream_sha256": "e35d9630783d22ee59885eab766b275a3f05bb0e0b2106b02bb59eae935fedd6",
+      "sha256": "e35d9630783d22ee59885eab766b275a3f05bb0e0b2106b02bb59eae935fedd6",
+      "changes": []
+    },
+    {
+      "component": "easyedit",
+      "repository": "https://github.com/zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "upstream_path": "easyeditor/models/SPHERE/compute_z.py",
+      "path": "baselines/easyedit/models/SPHERE/compute_z.py",
+      "upstream_sha256": "07386d622b976f451a7ffe9955c444a73aa1662d072f8008ee3ff315f7757e12",
+      "sha256": "07386d622b976f451a7ffe9955c444a73aa1662d072f8008ee3ff315f7757e12",
+      "changes": []
+    },
+    {
+      "component": "easyedit",
+      "repository": "https://github.com/zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "upstream_path": "easyeditor/models/alphaedit/AlphaEdit_hparams.py",
+      "path": "baselines/easyedit/models/alphaedit/AlphaEdit_hparams.py",
+      "upstream_sha256": "b8813427b01d60b9d065db40d597ce086c14387eaccb92c53bc7ad14b0a9ce59",
+      "sha256": "b8813427b01d60b9d065db40d597ce086c14387eaccb92c53bc7ad14b0a9ce59",
+      "changes": []
+    },
+    {
+      "component": "easyedit",
+      "repository": "https://github.com/zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "upstream_path": "easyeditor/models/alphaedit/AlphaEdit_main.py",
+      "path": "baselines/easyedit/models/alphaedit/AlphaEdit_main.py",
+      "upstream_sha256": "1016bf13b4521dddd134f54884f00c1a7fb95c33e477c9ba2fe9e0f275e2fb9a",
+      "sha256": "1016bf13b4521dddd134f54884f00c1a7fb95c33e477c9ba2fe9e0f275e2fb9a",
+      "changes": []
+    },
+    {
+      "component": "easyedit",
+      "repository": "https://github.com/zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "upstream_path": "easyeditor/models/alphaedit/compute_ks.py",
+      "path": "baselines/easyedit/models/alphaedit/compute_ks.py",
+      "upstream_sha256": "6c5b53d4a1fae02d7b303fe67acc724b31261e2a82b915de4c3862661023bdba",
+      "sha256": "6c5b53d4a1fae02d7b303fe67acc724b31261e2a82b915de4c3862661023bdba",
+      "changes": []
+    },
+    {
+      "component": "easyedit",
+      "repository": "https://github.com/zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "upstream_path": "easyeditor/models/alphaedit/compute_z.py",
+      "path": "baselines/easyedit/models/alphaedit/compute_z.py",
+      "upstream_sha256": "f6fd935b1fbbb05cd656618414f8b71f45d2d0458f617de85c40d6013d84234a",
+      "sha256": "f6fd935b1fbbb05cd656618414f8b71f45d2d0458f617de85c40d6013d84234a",
+      "changes": []
+    },
+    {
+      "component": "easyedit",
+      "repository": "https://github.com/zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "upstream_path": "easyeditor/models/ft/ft_hparams.py",
+      "path": "baselines/easyedit/models/ft/ft_hparams.py",
+      "upstream_sha256": "2995711a5c6f2ac74ada34572779781d1c3bcdc2e437e882615ff6f25bc1fcbb",
+      "sha256": "2995711a5c6f2ac74ada34572779781d1c3bcdc2e437e882615ff6f25bc1fcbb",
+      "changes": []
+    },
+    {
+      "component": "easyedit",
+      "repository": "https://github.com/zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "upstream_path": "easyeditor/models/ft/ft_main.py",
+      "path": "baselines/easyedit/models/ft/ft_main.py",
+      "upstream_sha256": "96f74bfa49bc2ed3b8899858441672dd105ce3b20cdfb4ed2ecc668852efa22a",
+      "sha256": "96f74bfa49bc2ed3b8899858441672dd105ce3b20cdfb4ed2ecc668852efa22a",
+      "changes": []
+    },
+    {
+      "component": "easyedit",
+      "repository": "https://github.com/zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "upstream_path": "easyeditor/models/memit/compute_ks.py",
+      "path": "baselines/easyedit/models/memit/compute_ks.py",
+      "upstream_sha256": "0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7",
+      "sha256": "0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7",
+      "changes": []
+    },
+    {
+      "component": "easyedit",
+      "repository": "https://github.com/zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "upstream_path": "easyeditor/models/memit/compute_z.py",
+      "path": "baselines/easyedit/models/memit/compute_z.py",
+      "upstream_sha256": "a293bf042fba463e5060887160a6c8453b427b91a6c9a6061b5a8cce5ca0187e",
+      "sha256": "a293bf042fba463e5060887160a6c8453b427b91a6c9a6061b5a8cce5ca0187e",
+      "changes": []
+    },
+    {
+      "component": "easyedit",
+      "repository": "https://github.com/zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "upstream_path": "easyeditor/models/memit/memit_hparams.py",
+      "path": "baselines/easyedit/models/memit/memit_hparams.py",
+      "upstream_sha256": "223dc4e663a049214c0528a02eff8c066413fbee9bce98735a2ce8d1c6585f41",
+      "sha256": "223dc4e663a049214c0528a02eff8c066413fbee9bce98735a2ce8d1c6585f41",
+      "changes": []
+    },
+    {
+      "component": "easyedit",
+      "repository": "https://github.com/zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "upstream_path": "easyeditor/models/memit/memit_main.py",
+      "path": "baselines/easyedit/models/memit/memit_main.py",
+      "upstream_sha256": "39b0c91b586a136be2b6bdfabbcc17705fb3cc07e7f17e739fe565906d9d6ea7",
+      "sha256": "39b0c91b586a136be2b6bdfabbcc17705fb3cc07e7f17e739fe565906d9d6ea7",
+      "changes": []
+    },
+    {
+      "component": "easyedit",
+      "repository": "https://github.com/zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "upstream_path": "easyeditor/models/memit_FE/compute_ks.py",
+      "path": "baselines/easyedit/models/memit_FE/compute_ks.py",
+      "upstream_sha256": "928861217697402b230b90d0357fe1e08b87b000d12fddc53f73b3dde9bf6354",
+      "sha256": "928861217697402b230b90d0357fe1e08b87b000d12fddc53f73b3dde9bf6354",
+      "changes": []
+    },
+    {
+      "component": "easyedit",
+      "repository": "https://github.com/zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "upstream_path": "easyeditor/models/memit_FE/compute_z.py",
+      "path": "baselines/easyedit/models/memit_FE/compute_z.py",
+      "upstream_sha256": "40c418d27f0825f287c4c37031d637ab4f5740a9346a47f63995ef298e1fff64",
+      "sha256": "40c418d27f0825f287c4c37031d637ab4f5740a9346a47f63995ef298e1fff64",
+      "changes": []
+    },
+    {
+      "component": "easyedit",
+      "repository": "https://github.com/zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "upstream_path": "easyeditor/models/memit_FE/memit_FE_hparams.py",
+      "path": "baselines/easyedit/models/memit_FE/memit_FE_hparams.py",
+      "upstream_sha256": "feba2972716c707d37026fe23c0cb4a73d6664f17c76721707f7b7794872f182",
+      "sha256": "feba2972716c707d37026fe23c0cb4a73d6664f17c76721707f7b7794872f182",
+      "changes": []
+    },
+    {
+      "component": "easyedit",
+      "repository": "https://github.com/zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "upstream_path": "easyeditor/models/memit_FE/memit_FE_main.py",
+      "path": "baselines/easyedit/models/memit_FE/memit_FE_main.py",
+      "upstream_sha256": "3139543c4a0b24b7be797010fc9a86b5aa184161acb54776b01caa6b965ccd86",
+      "sha256": "3139543c4a0b24b7be797010fc9a86b5aa184161acb54776b01caa6b965ccd86",
+      "changes": []
+    },
+    {
+      "component": "easyedit",
+      "repository": "https://github.com/zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "upstream_path": "easyeditor/models/rome/compute_u.py",
+      "path": "baselines/easyedit/models/rome/compute_u.py",
+      "upstream_sha256": "f3323088775f82313a4a8d068a890f67feb6acccb35974c9d7e24aeaa30fa857",
+      "sha256": "f3323088775f82313a4a8d068a890f67feb6acccb35974c9d7e24aeaa30fa857",
+      "changes": []
+    },
+    {
+      "component": "easyedit",
+      "repository": "https://github.com/zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "upstream_path": "easyeditor/models/rome/compute_v.py",
+      "path": "baselines/easyedit/models/rome/compute_v.py",
+      "upstream_sha256": "ad6aeaa54c1ffd12e8ca32138f48ef91ce6c90fdd005338534e502963a837461",
+      "sha256": "ad6aeaa54c1ffd12e8ca32138f48ef91ce6c90fdd005338534e502963a837461",
+      "changes": []
+    },
+    {
+      "component": "easyedit",
+      "repository": "https://github.com/zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "upstream_path": "easyeditor/models/rome/layer_stats.py",
+      "path": "baselines/easyedit/models/rome/layer_stats.py",
+      "upstream_sha256": "9383d05dd831cb1d3080b904dda4b11c1408af23fe1760fa5111d4e0615621d0",
+      "sha256": "9383d05dd831cb1d3080b904dda4b11c1408af23fe1760fa5111d4e0615621d0",
+      "changes": []
+    },
+    {
+      "component": "easyedit",
+      "repository": "https://github.com/zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "upstream_path": "easyeditor/models/rome/repr_tools.py",
+      "path": "baselines/easyedit/models/rome/repr_tools.py",
+      "upstream_sha256": "5dd25904bd31b30a1f04def57c94d2b92250df3085bb32189f2e7da4011dea22",
+      "sha256": "5dd25904bd31b30a1f04def57c94d2b92250df3085bb32189f2e7da4011dea22",
+      "changes": []
+    },
+    {
+      "component": "easyedit",
+      "repository": "https://github.com/zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "upstream_path": "easyeditor/models/rome/rome_hparams.py",
+      "path": "baselines/easyedit/models/rome/rome_hparams.py",
+      "upstream_sha256": "be8affcc526a2acccb068a134fe76a4833cf4a91e7db7183858d6830fc5a8099",
+      "sha256": "be8affcc526a2acccb068a134fe76a4833cf4a91e7db7183858d6830fc5a8099",
+      "changes": []
+    },
+    {
+      "component": "easyedit",
+      "repository": "https://github.com/zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "upstream_path": "easyeditor/models/rome/rome_main.py",
+      "path": "baselines/easyedit/models/rome/rome_main.py",
+      "upstream_sha256": "19355eae01b9de0655c857a201bbef93e910f4fbc9087ebfdf362ffc648166e0",
+      "sha256": "19355eae01b9de0655c857a201bbef93e910f4fbc9087ebfdf362ffc648166e0",
+      "changes": []
+    },
+    {
+      "component": "easyedit",
+      "repository": "https://github.com/zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "upstream_path": "easyeditor/models/rome/tok_dataset.py",
+      "path": "baselines/easyedit/models/rome/tok_dataset.py",
+      "upstream_sha256": "9b60fed19c73cc276964b7fac063db7cb6f085d0e048e8f1891afbdf751dc669",
+      "sha256": "9b60fed19c73cc276964b7fac063db7cb6f085d0e048e8f1891afbdf751dc669",
+      "changes": []
+    },
+    {
+      "component": "easyedit",
+      "repository": "https://github.com/zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "upstream_path": "easyeditor/util/device.py",
+      "path": "baselines/easyedit/util/device.py",
+      "upstream_sha256": "e67f0c34c52dda457468e0e51cfb7792156eea1af756d73132a2694593e4117b",
+      "sha256": "e67f0c34c52dda457468e0e51cfb7792156eea1af756d73132a2694593e4117b",
+      "changes": []
+    },
+    {
+      "component": "easyedit",
+      "repository": "https://github.com/zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "upstream_path": "easyeditor/util/generate.py",
+      "path": "baselines/easyedit/util/generate.py",
+      "upstream_sha256": "e4d5528923bc0643e3d6bed12c5bba534d69b2f69ab5f18403b317bc2e35fc38",
+      "sha256": "e4d5528923bc0643e3d6bed12c5bba534d69b2f69ab5f18403b317bc2e35fc38",
+      "changes": []
+    },
+    {
+      "component": "easyedit",
+      "repository": "https://github.com/zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "upstream_path": "easyeditor/util/globals.py",
+      "path": "baselines/easyedit/util/globals.py",
+      "upstream_sha256": "fdb1cbed3ff82eb87b26bced5bb4f2f43e8d8cb76c81b1cd5d83a3b3cd830ed1",
+      "sha256": "fdb1cbed3ff82eb87b26bced5bb4f2f43e8d8cb76c81b1cd5d83a3b3cd830ed1",
+      "changes": [
+        "resolve_globals_relative_to_package"
+      ]
+    },
+    {
+      "component": "easyedit",
+      "repository": "https://github.com/zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "upstream_path": "easyeditor/util/hparams.py",
+      "path": "baselines/easyedit/util/hparams.py",
+      "upstream_sha256": "bf6d80b716da986980499125909fc7060dc04e1a52f16690fced96b5372869b3",
+      "sha256": "bf6d80b716da986980499125909fc7060dc04e1a52f16690fced96b5372869b3",
+      "changes": []
+    },
+    {
+      "component": "easyedit",
+      "repository": "https://github.com/zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "upstream_path": "easyeditor/util/logit_lens.py",
+      "path": "baselines/easyedit/util/logit_lens.py",
+      "upstream_sha256": "02910f92e9c2a5cc3968b408a68d60f79ed35cebcf3656663e121920a6c41bd0",
+      "sha256": "02910f92e9c2a5cc3968b408a68d60f79ed35cebcf3656663e121920a6c41bd0",
+      "changes": []
+    },
+    {
+      "component": "easyedit",
+      "repository": "https://github.com/zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "upstream_path": "easyeditor/util/nethook.py",
+      "path": "baselines/easyedit/util/nethook.py",
+      "upstream_sha256": "6bff0c78aab0cd69e51447dc7616bb1897c4679557528be55c8e72f089146e1f",
+      "sha256": "6bff0c78aab0cd69e51447dc7616bb1897c4679557528be55c8e72f089146e1f",
+      "changes": []
+    },
+    {
+      "component": "easyedit",
+      "repository": "https://github.com/zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "upstream_path": "easyeditor/util/perplexity.py",
+      "path": "baselines/easyedit/util/perplexity.py",
+      "upstream_sha256": "9f3ba5cc6e07b9ee0845d83dc71d0b973a40b950dda828f90565bfec714ba363",
+      "sha256": "9f3ba5cc6e07b9ee0845d83dc71d0b973a40b950dda828f90565bfec714ba363",
+      "changes": []
+    },
+    {
+      "component": "easyedit",
+      "repository": "https://github.com/zjunlp/EasyEdit",
+      "commit": "4c109870955a4522ac3d7cf10ad00f34de8e4f0d",
+      "upstream_path": "easyeditor/util/runningstats.py",
+      "path": "baselines/easyedit/util/runningstats.py",
+      "upstream_sha256": "cae826b6471b6b5a4dd1f5da3adbd9cf697b01ae80585d59e727ca64f4ec47ae",
+      "sha256": "cae826b6471b6b5a4dd1f5da3adbd9cf697b01ae80585d59e727ca64f4ec47ae",
+      "changes": []
+    },
+    {
+      "component": "sphere",
+      "repository": "https://github.com/PlusLabNLP/SPHERE",
+      "commit": "0c28c000a1482e73573928f63a66e0b1b88ac949",
+      "upstream_path": "globals.yml",
+      "path": "baselines/sphere/globals.yml",
+      "upstream_sha256": "41f77160ea401cc61e95f78738ee2911d73ee1997204d4a52df727221f4c5478",
+      "sha256": "41f77160ea401cc61e95f78738ee2911d73ee1997204d4a52df727221f4c5478",
+      "changes": []
+    },
+    {
+      "component": "sphere",
+      "repository": "https://github.com/PlusLabNLP/SPHERE",
+      "commit": "0c28c000a1482e73573928f63a66e0b1b88ac949",
+      "upstream_path": "memit/compute_ks.py",
+      "path": "baselines/sphere/memit/compute_ks.py",
+      "upstream_sha256": "0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7",
+      "sha256": "0b039be47c548f046b71cad4efce63414f53edbaa657bde868a20cdd35a2f5c7",
+      "changes": []
+    },
+    {
+      "component": "sphere",
+      "repository": "https://github.com/PlusLabNLP/SPHERE",
+      "commit": "0c28c000a1482e73573928f63a66e0b1b88ac949",
+      "upstream_path": "memit/compute_z.py",
+      "path": "baselines/sphere/memit/compute_z.py",
+      "upstream_sha256": "cc6884dd66b58de0647b3ad47d2d5daa4db99b7157b464dbd2c62db52e47421a",
+      "sha256": "ca7b3de306396f31a9c870efca135489ee6da9bbf11baa31d4409fe4e5560c42",
+      "changes": [
+        "package_namespace_only"
+      ]
+    },
+    {
+      "component": "sphere",
+      "repository": "https://github.com/PlusLabNLP/SPHERE",
+      "commit": "0c28c000a1482e73573928f63a66e0b1b88ac949",
+      "upstream_path": "memit/memit_hparams.py",
+      "path": "baselines/sphere/memit/memit_hparams.py",
+      "upstream_sha256": "5930c2ee1634726fb4d1dd1b950133a783a18dce78fe26d4a3bea21d274c89bb",
+      "sha256": "bcb0f25ffd4cbb533e6f01a312dc40ed9761f3def0709b7409d23e828dfcf0bd",
+      "changes": [
+        "package_namespace_only"
+      ]
+    },
+    {
+      "component": "sphere",
+      "repository": "https://github.com/PlusLabNLP/SPHERE",
+      "commit": "0c28c000a1482e73573928f63a66e0b1b88ac949",
+      "upstream_path": "memit/memit_main.py",
+      "path": "baselines/sphere/memit/memit_main.py",
+      "upstream_sha256": "3a0492274c2319a6b948cf41521c12de9baeb4a2c61d3747f058f33550bc265c",
+      "sha256": "62673febab917557e94244099a1f5d745a6ec3d2f6e25746103c00dfc8864f65",
+      "changes": [
+        "package_namespace_only"
+      ]
+    },
+    {
+      "component": "sphere",
+      "repository": "https://github.com/PlusLabNLP/SPHERE",
+      "commit": "0c28c000a1482e73573928f63a66e0b1b88ac949",
+      "upstream_path": "memit/memit_rect_main.py",
+      "path": "baselines/sphere/memit/memit_rect_main.py",
+      "upstream_sha256": "6234d1dca3da04c0f36ff1c023bd0e4420f0dce390c871944ec5d2f535d8fb75",
+      "sha256": "71c4eeaaae534c69a149a05fb06885127f824b3a1dbb0f433e18e622ab3d62e9",
+      "changes": [
+        "package_namespace_only"
+      ]
+    },
+    {
+      "component": "sphere",
+      "repository": "https://github.com/PlusLabNLP/SPHERE",
+      "commit": "0c28c000a1482e73573928f63a66e0b1b88ac949",
+      "upstream_path": "memit/memit_seq_main.py",
+      "path": "baselines/sphere/memit/memit_seq_main.py",
+      "upstream_sha256": "851da6452cec99414e7280d753921a034e0623c1e71be1982f697f8fb3564b06",
+      "sha256": "d0f477ca6e93ccdf5b097a5d0ac76d643bcfa9e70e1fa418cda0f3f377e03d94",
+      "changes": [
+        "package_namespace_only"
+      ]
+    },
+    {
+      "component": "sphere",
+      "repository": "https://github.com/PlusLabNLP/SPHERE",
+      "commit": "0c28c000a1482e73573928f63a66e0b1b88ac949",
+      "upstream_path": "rome/compute_u.py",
+      "path": "baselines/sphere/rome/compute_u.py",
+      "upstream_sha256": "31d08c6f584eeb490631b693caf9c6e0ea02521436616efdc4bd7565d8a6469a",
+      "sha256": "53eefd54194a5bdbef0cd1381240387a8518367265e7ff88d85e84c5e583fc24",
+      "changes": [
+        "package_namespace_only"
+      ]
+    },
+    {
+      "component": "sphere",
+      "repository": "https://github.com/PlusLabNLP/SPHERE",
+      "commit": "0c28c000a1482e73573928f63a66e0b1b88ac949",
+      "upstream_path": "rome/compute_v.py",
+      "path": "baselines/sphere/rome/compute_v.py",
+      "upstream_sha256": "0d5243dd7081a4599b359125932c4f090586676bf6a54cf6c7911c7475055009",
+      "sha256": "2ea46722c061d2b9a92697171b06e9bf4c217353de62dbef7b5a943b88414037",
+      "changes": [
+        "package_namespace_only"
+      ]
+    },
+    {
+      "component": "sphere",
+      "repository": "https://github.com/PlusLabNLP/SPHERE",
+      "commit": "0c28c000a1482e73573928f63a66e0b1b88ac949",
+      "upstream_path": "rome/layer_stats.py",
+      "path": "baselines/sphere/rome/layer_stats.py",
+      "upstream_sha256": "fa4e985af3823b114d17e4de098b15c386beb885adf290ad5d84bb376189d15f",
+      "sha256": "bbd96650f9f67fe84bcd660299c82d068facc57ad4f3b5fbca265712261f08d0",
+      "changes": [
+        "package_namespace_only"
+      ]
+    },
+    {
+      "component": "sphere",
+      "repository": "https://github.com/PlusLabNLP/SPHERE",
+      "commit": "0c28c000a1482e73573928f63a66e0b1b88ac949",
+      "upstream_path": "rome/repr_tools.py",
+      "path": "baselines/sphere/rome/repr_tools.py",
+      "upstream_sha256": "b3f7f07358437e7927d556b64666bf0e67d03eb6489c00613a8865e83372849f",
+      "sha256": "2943c58c57da2488152616cc0aeb750eb6c2b5bf9f28d0d1d12b45a2e93e58d5",
+      "changes": [
+        "package_namespace_only"
+      ]
+    },
+    {
+      "component": "sphere",
+      "repository": "https://github.com/PlusLabNLP/SPHERE",
+      "commit": "0c28c000a1482e73573928f63a66e0b1b88ac949",
+      "upstream_path": "rome/rome_hparams.py",
+      "path": "baselines/sphere/rome/rome_hparams.py",
+      "upstream_sha256": "93f17d64346179a4ef101eac182b82e46a98919dcdee7bb34b0e3b0c8c62a853",
+      "sha256": "2b85b9b78b9809b82fdb72520b1ecd1a5856e58709370aa605fd35a6f00e7459",
+      "changes": [
+        "package_namespace_only"
+      ]
+    },
+    {
+      "component": "sphere",
+      "repository": "https://github.com/PlusLabNLP/SPHERE",
+      "commit": "0c28c000a1482e73573928f63a66e0b1b88ac949",
+      "upstream_path": "rome/rome_main.py",
+      "path": "baselines/sphere/rome/rome_main.py",
+      "upstream_sha256": "5a4be24e06b6adcec4cfe0706e8d8d3ed6e87fc0dc174346e91d4c1ad9b8984e",
+      "sha256": "2df51fc66c369de02588ab7a53f625b312afe3428a4244e44ca58bfede7bd85c",
+      "changes": [
+        "package_namespace_only"
+      ]
+    },
+    {
+      "component": "sphere",
+      "repository": "https://github.com/PlusLabNLP/SPHERE",
+      "commit": "0c28c000a1482e73573928f63a66e0b1b88ac949",
+      "upstream_path": "rome/tok_dataset.py",
+      "path": "baselines/sphere/rome/tok_dataset.py",
+      "upstream_sha256": "3dd4815dd6d15e0727939f38e8a8f8ddfaea56f10b700249334982c56e4883b4",
+      "sha256": "3dd4815dd6d15e0727939f38e8a8f8ddfaea56f10b700249334982c56e4883b4",
+      "changes": []
+    },
+    {
+      "component": "sphere",
+      "repository": "https://github.com/PlusLabNLP/SPHERE",
+      "commit": "0c28c000a1482e73573928f63a66e0b1b88ac949",
+      "upstream_path": "util/generate.py",
+      "path": "baselines/sphere/util/generate.py",
+      "upstream_sha256": "3764cb8a0a1b3f28c17d8aab3028b33d2127ba4e02e8dbc253025791a9ab2514",
+      "sha256": "ddc195162e9f257a49ff37ebd7a5377f1ef31d6470b2e3a88d3a220aea14ecf5",
+      "changes": [
+        "package_namespace_only"
+      ]
+    },
+    {
+      "component": "sphere",
+      "repository": "https://github.com/PlusLabNLP/SPHERE",
+      "commit": "0c28c000a1482e73573928f63a66e0b1b88ac949",
+      "upstream_path": "util/globals.py",
+      "path": "baselines/sphere/util/globals.py",
+      "upstream_sha256": "ae25580435585acafce49511abbba6b545dbfb3f5865147d79bd383a050bf8c2",
+      "sha256": "5849f199d7d10895489ab413ae327bb97a74dded22f993841278e452e70307fb",
+      "changes": [
+        "resolve_globals_relative_to_package"
+      ]
+    },
+    {
+      "component": "sphere",
+      "repository": "https://github.com/PlusLabNLP/SPHERE",
+      "commit": "0c28c000a1482e73573928f63a66e0b1b88ac949",
+      "upstream_path": "util/hparams.py",
+      "path": "baselines/sphere/util/hparams.py",
+      "upstream_sha256": "09e9fec3f476ff68009230f1251044bec21aa71797d484033f736057bbe294b0",
+      "sha256": "09e9fec3f476ff68009230f1251044bec21aa71797d484033f736057bbe294b0",
+      "changes": []
+    },
+    {
+      "component": "sphere",
+      "repository": "https://github.com/PlusLabNLP/SPHERE",
+      "commit": "0c28c000a1482e73573928f63a66e0b1b88ac949",
+      "upstream_path": "util/logit_lens.py",
+      "path": "baselines/sphere/util/logit_lens.py",
+      "upstream_sha256": "0c35d203c511327e5c839ea0c06408f23dd6969402dce4be02f4e3160c88e6a4",
+      "sha256": "c63d10862f4d5237564a148eebe8f2a55cad72dd5a8981b6ad997a756ac4032f",
+      "changes": [
+        "package_namespace_only"
+      ]
+    },
+    {
+      "component": "sphere",
+      "repository": "https://github.com/PlusLabNLP/SPHERE",
+      "commit": "0c28c000a1482e73573928f63a66e0b1b88ac949",
+      "upstream_path": "util/nethook.py",
+      "path": "baselines/sphere/util/nethook.py",
+      "upstream_sha256": "75d1b6353aae539f56aed3f721fdae9762776414e7a97f2c13734fc77bb29ce1",
+      "sha256": "75d1b6353aae539f56aed3f721fdae9762776414e7a97f2c13734fc77bb29ce1",
+      "changes": []
+    },
+    {
+      "component": "sphere",
+      "repository": "https://github.com/PlusLabNLP/SPHERE",
+      "commit": "0c28c000a1482e73573928f63a66e0b1b88ac949",
+      "upstream_path": "util/perplexity.py",
+      "path": "baselines/sphere/util/perplexity.py",
+      "upstream_sha256": "e0dc2678eb331aba94d70bddad30ce983b3a062c35d180d1f524835f2966161e",
+      "sha256": "e0dc2678eb331aba94d70bddad30ce983b3a062c35d180d1f524835f2966161e",
+      "changes": []
+    },
+    {
+      "component": "sphere",
+      "repository": "https://github.com/PlusLabNLP/SPHERE",
+      "commit": "0c28c000a1482e73573928f63a66e0b1b88ac949",
+      "upstream_path": "util/runningstats.py",
+      "path": "baselines/sphere/util/runningstats.py",
+      "upstream_sha256": "7b3a05de007733ec3243c13362d3c24b6cb9c09f32eedbcf36de02c98a49ac97",
+      "sha256": "7b3a05de007733ec3243c13362d3c24b6cb9c09f32eedbcf36de02c98a49ac97",
+      "changes": []
+    },
+    {
+      "component": "blue",
+      "repository": "https://github.com/xpq-tech/BLUE",
+      "commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+      "upstream_path": "AlphaEdit/AlphaEdit_hparams.py",
+      "path": "baselines/blue/AlphaEdit/AlphaEdit_hparams.py",
+      "upstream_sha256": "bffe280e509c1d699d39a6ea6457ec521954278e574006f9f46ef766d77c990e",
+      "sha256": "7356e7996842aea8ae00f2079d9997978df7a800143baea3a7b88665c3083436",
+      "changes": [
+        "package_namespace_only"
+      ]
+    },
+    {
+      "component": "blue",
+      "repository": "https://github.com/xpq-tech/BLUE",
+      "commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+      "upstream_path": "AlphaEdit/AlphaEdit_main.py",
+      "path": "baselines/blue/AlphaEdit/AlphaEdit_main.py",
+      "upstream_sha256": "79da927aad5ab817fd008c5958768adcd00556989a8efbaa2c4bdc80d8fc842e",
+      "sha256": "41aafa05ca9fd0e475011ccb63acfbddd9257bdb85e5c7e97e36d587fb40a27b",
+      "changes": [
+        "package_namespace_only"
+      ]
+    },
+    {
+      "component": "blue",
+      "repository": "https://github.com/xpq-tech/BLUE",
+      "commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+      "upstream_path": "AlphaEdit/compute_ks.py",
+      "path": "baselines/blue/AlphaEdit/compute_ks.py",
+      "upstream_sha256": "6c5b53d4a1fae02d7b303fe67acc724b31261e2a82b915de4c3862661023bdba",
+      "sha256": "6c5b53d4a1fae02d7b303fe67acc724b31261e2a82b915de4c3862661023bdba",
+      "changes": []
+    },
+    {
+      "component": "blue",
+      "repository": "https://github.com/xpq-tech/BLUE",
+      "commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+      "upstream_path": "AlphaEdit/compute_z.py",
+      "path": "baselines/blue/AlphaEdit/compute_z.py",
+      "upstream_sha256": "a941a492d9e9e45f2aa7b88ab0137ae20910b423d7e59186b20c85bb285ff79f",
+      "sha256": "9ce6cddb251b4d27cde1f89c4570f25d556fbdba0ecfd55bb8b115e65d7cef8f",
+      "changes": [
+        "package_namespace_only"
+      ]
+    },
+    {
+      "component": "blue",
+      "repository": "https://github.com/xpq-tech/BLUE",
+      "commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+      "upstream_path": "LICENSE",
+      "path": "baselines/blue/LICENSE",
+      "upstream_sha256": "27d22d85132168b14b5bc061ea5d8741100e79536bb752aef9dc3cf4b6a9f775",
+      "sha256": "27d22d85132168b14b5bc061ea5d8741100e79536bb752aef9dc3cf4b6a9f775",
+      "changes": []
+    },
+    {
+      "component": "blue",
+      "repository": "https://github.com/xpq-tech/BLUE",
+      "commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+      "upstream_path": "globals.yml",
+      "path": "baselines/blue/globals.yml",
+      "upstream_sha256": "71f94f33216aaac82bc6e0085608dd4b74a3d40f57ce800c5479b44294625232",
+      "sha256": "71f94f33216aaac82bc6e0085608dd4b74a3d40f57ce800c5479b44294625232",
+      "changes": []
+    },
+    {
+      "component": "blue",
+      "repository": "https://github.com/xpq-tech/BLUE",
+      "commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+      "upstream_path": "rome/compute_u.py",
+      "path": "baselines/blue/rome/compute_u.py",
+      "upstream_sha256": "31d08c6f584eeb490631b693caf9c6e0ea02521436616efdc4bd7565d8a6469a",
+      "sha256": "0dc9598d59b82f066053f686c734db08b819d8ccd2ac2800a28066983b33db64",
+      "changes": [
+        "package_namespace_only"
+      ]
+    },
+    {
+      "component": "blue",
+      "repository": "https://github.com/xpq-tech/BLUE",
+      "commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+      "upstream_path": "rome/compute_v.py",
+      "path": "baselines/blue/rome/compute_v.py",
+      "upstream_sha256": "0d5243dd7081a4599b359125932c4f090586676bf6a54cf6c7911c7475055009",
+      "sha256": "96d9dffc018c34d2be46da7a7ab836f9f043e34780feead4c3ec41376dad1214",
+      "changes": [
+        "package_namespace_only"
+      ]
+    },
+    {
+      "component": "blue",
+      "repository": "https://github.com/xpq-tech/BLUE",
+      "commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+      "upstream_path": "rome/layer_stats.py",
+      "path": "baselines/blue/rome/layer_stats.py",
+      "upstream_sha256": "9e384df5fe59bbc2a38bb82245c64ff2f69bfac18ca6584033797c063839e693",
+      "sha256": "5f1b14c74e2f482fe3381b448b9ed880146adab23f830523f06507bf690f4a93",
+      "changes": [
+        "package_namespace_only"
+      ]
+    },
+    {
+      "component": "blue",
+      "repository": "https://github.com/xpq-tech/BLUE",
+      "commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+      "upstream_path": "rome/repr_tools.py",
+      "path": "baselines/blue/rome/repr_tools.py",
+      "upstream_sha256": "b3f7f07358437e7927d556b64666bf0e67d03eb6489c00613a8865e83372849f",
+      "sha256": "96f5bc2b8ce1f1c94053cc51fc2bf6ade11c762a6cd66d27844295d55555186b",
+      "changes": [
+        "package_namespace_only"
+      ]
+    },
+    {
+      "component": "blue",
+      "repository": "https://github.com/xpq-tech/BLUE",
+      "commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+      "upstream_path": "rome/rome_hparams.py",
+      "path": "baselines/blue/rome/rome_hparams.py",
+      "upstream_sha256": "1037cd56d2cfc92db212f5f4344477c5732a809dfd745c04e8e5742e925c98a5",
+      "sha256": "a4478f7939aad3e696297ccd2f9da9c14434d7b59e6252152d06f09d1c550b29",
+      "changes": [
+        "package_namespace_only"
+      ]
+    },
+    {
+      "component": "blue",
+      "repository": "https://github.com/xpq-tech/BLUE",
+      "commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+      "upstream_path": "rome/rome_main.py",
+      "path": "baselines/blue/rome/rome_main.py",
+      "upstream_sha256": "9ec79e3f0d3af55ba9347e33bea7eb80a7a6a7f206d1cb0b66c2fbdd5eb6de2f",
+      "sha256": "cb6120d55e04392d9a071459e2216317a79138c81cbdcae92d4d8eb71fcd033c",
+      "changes": [
+        "package_namespace_only"
+      ]
+    },
+    {
+      "component": "blue",
+      "repository": "https://github.com/xpq-tech/BLUE",
+      "commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+      "upstream_path": "rome/tok_dataset.py",
+      "path": "baselines/blue/rome/tok_dataset.py",
+      "upstream_sha256": "3dd4815dd6d15e0727939f38e8a8f8ddfaea56f10b700249334982c56e4883b4",
+      "sha256": "3dd4815dd6d15e0727939f38e8a8f8ddfaea56f10b700249334982c56e4883b4",
+      "changes": []
+    },
+    {
+      "component": "blue",
+      "repository": "https://github.com/xpq-tech/BLUE",
+      "commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+      "upstream_path": "util/generate.py",
+      "path": "baselines/blue/util/generate.py",
+      "upstream_sha256": "51f41871d750a1fe86f39d4142fe8a5c12a41086c6d4a2cee98b72f809ff0366",
+      "sha256": "ce53fdbd927e43d736cdb4bbd165ef853e975c865f84fa44be7e0f54841f120a",
+      "changes": [
+        "package_namespace_only"
+      ]
+    },
+    {
+      "component": "blue",
+      "repository": "https://github.com/xpq-tech/BLUE",
+      "commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+      "upstream_path": "util/globals.py",
+      "path": "baselines/blue/util/globals.py",
+      "upstream_sha256": "ae25580435585acafce49511abbba6b545dbfb3f5865147d79bd383a050bf8c2",
+      "sha256": "5849f199d7d10895489ab413ae327bb97a74dded22f993841278e452e70307fb",
+      "changes": [
+        "resolve_globals_relative_to_package"
+      ]
+    },
+    {
+      "component": "blue",
+      "repository": "https://github.com/xpq-tech/BLUE",
+      "commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+      "upstream_path": "util/hparams.py",
+      "path": "baselines/blue/util/hparams.py",
+      "upstream_sha256": "09e9fec3f476ff68009230f1251044bec21aa71797d484033f736057bbe294b0",
+      "sha256": "09e9fec3f476ff68009230f1251044bec21aa71797d484033f736057bbe294b0",
+      "changes": []
+    },
+    {
+      "component": "blue",
+      "repository": "https://github.com/xpq-tech/BLUE",
+      "commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+      "upstream_path": "util/logit_lens.py",
+      "path": "baselines/blue/util/logit_lens.py",
+      "upstream_sha256": "0c35d203c511327e5c839ea0c06408f23dd6969402dce4be02f4e3160c88e6a4",
+      "sha256": "d9172611fc9db5c4adac1c6790d5dd4ecfe9e221e496801bfeae15415c48fe94",
+      "changes": [
+        "package_namespace_only"
+      ]
+    },
+    {
+      "component": "blue",
+      "repository": "https://github.com/xpq-tech/BLUE",
+      "commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+      "upstream_path": "util/nethook.py",
+      "path": "baselines/blue/util/nethook.py",
+      "upstream_sha256": "75d1b6353aae539f56aed3f721fdae9762776414e7a97f2c13734fc77bb29ce1",
+      "sha256": "75d1b6353aae539f56aed3f721fdae9762776414e7a97f2c13734fc77bb29ce1",
+      "changes": []
+    },
+    {
+      "component": "blue",
+      "repository": "https://github.com/xpq-tech/BLUE",
+      "commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+      "upstream_path": "util/perplexity.py",
+      "path": "baselines/blue/util/perplexity.py",
+      "upstream_sha256": "e0dc2678eb331aba94d70bddad30ce983b3a062c35d180d1f524835f2966161e",
+      "sha256": "e0dc2678eb331aba94d70bddad30ce983b3a062c35d180d1f524835f2966161e",
+      "changes": []
+    },
+    {
+      "component": "blue",
+      "repository": "https://github.com/xpq-tech/BLUE",
+      "commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+      "upstream_path": "util/runningstats.py",
+      "path": "baselines/blue/util/runningstats.py",
+      "upstream_sha256": "7b3a05de007733ec3243c13362d3c24b6cb9c09f32eedbcf36de02c98a49ac97",
+      "sha256": "7b3a05de007733ec3243c13362d3c24b6cb9c09f32eedbcf36de02c98a49ac97",
+      "changes": []
+    },
+    {
+      "component": "ours",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/jlz_realized_subject/inputs.py",
+      "path": "ours/core/jlz_realized_subject/inputs.py",
+      "upstream_sha256": "9c283e30cef1900b5e6b4f2b6a751a455166f6152939955a38cf4efb0d8de0ef",
+      "sha256": "38594e315dbfdfa626b8a1c1a2c21846d8f9d88a20720d3e50d7a6f805f01d0a",
+      "changes": [
+        "package_namespace_only",
+        "common_scalar_helpers_without_task_identity"
+      ]
+    },
+    {
+      "component": "ours",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/jlz_pilot/prompts.py",
+      "path": "ours/core/jlz_pilot/prompts.py",
+      "upstream_sha256": "e2883bb96741395c28d87f6534a594734f94bda17ac09a45ba53fd9eab160718",
+      "sha256": "e2883bb96741395c28d87f6534a594734f94bda17ac09a45ba53fd9eab160718",
+      "changes": [
+        "package_namespace_only",
+        "common_scalar_helpers_without_task_identity"
+      ]
+    },
+    {
+      "component": "ours",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/jlz_price_gptj/entry.py",
+      "path": "ours/core/jlz_price_gptj/entry.py",
+      "upstream_sha256": "b2a996e2f9a60b6b6f16388dcbbac94af523f10a98313028e2ed809d78a2b16a",
+      "sha256": "253be9ddc249464d8c7c747e251aaeec4e2ceb2f69314439f23314397d7f5ea3",
+      "changes": [
+        "package_namespace_only",
+        "common_scalar_helpers_without_task_identity"
+      ]
+    },
+    {
+      "component": "ours",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/jlz_native_writer_aware/routes.py",
+      "path": "ours/core/jlz_native_writer_aware/routes.py",
+      "upstream_sha256": "1a3b3e00f52179095f137f010979c13c11b1286f3aea09b46051619f55f7e304",
+      "sha256": "08f56ad1807f90439441477bb6b64ca0493c27cb68dd9a01851f4b884d61ac5e",
+      "changes": [
+        "package_namespace_only",
+        "common_scalar_helpers_without_task_identity"
+      ]
+    },
+    {
+      "component": "ours",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/jlz_price_gptj/geometry.py",
+      "path": "ours/core/jlz_price_gptj/geometry.py",
+      "upstream_sha256": "53507eee749396b5fc7084f6e57cc33b4edbd8c80e8be33268af4a1ad6a9931f",
+      "sha256": "28e02879368c32c83ead2379c7b33de5ffbd229455b32585cff98877a1278b9c",
+      "changes": [
+        "package_namespace_only",
+        "common_scalar_helpers_without_task_identity"
+      ]
+    },
+    {
+      "component": "ours",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/jlz_price_gptj/alpha_geometry.py",
+      "path": "ours/core/jlz_price_gptj/alpha_geometry.py",
+      "upstream_sha256": "f1a060ad42eebd03a4b93f4328aaebd6682ddedb16fb160dfa2e5a47837599a6",
+      "sha256": "39800846bc23ce2014a61f58016893c513bfc25ba29628bb6496c24e9a688420",
+      "changes": [
+        "package_namespace_only",
+        "common_scalar_helpers_without_task_identity"
+      ]
+    },
+    {
+      "component": "ours",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/jlz_realized_subject/geometry.py",
+      "path": "ours/core/jlz_realized_subject/geometry.py",
+      "upstream_sha256": "c80317b3ae8f60afcbe3f605b9d25c23db35b2aa6e5cbcb80d646c43a634fe9b",
+      "sha256": "bcbd02bc7916c1cdb1c68f379f0a00824be2c7a548f3f82e681494401de01d4b",
+      "changes": [
+        "package_namespace_only",
+        "common_scalar_helpers_without_task_identity"
+      ]
+    },
+    {
+      "component": "ours",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/jlz_writer_coupled/geometry.py",
+      "path": "ours/core/jlz_writer_coupled/geometry.py",
+      "upstream_sha256": "1fba8bdc828c35459305228ba929a46593a67a87d642189fec8eae17deb59909",
+      "sha256": "1fba8bdc828c35459305228ba929a46593a67a87d642189fec8eae17deb59909",
+      "changes": [
+        "package_namespace_only",
+        "common_scalar_helpers_without_task_identity"
+      ]
+    },
+    {
+      "component": "ours",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/jlz_writer_coupled/entry.py",
+      "path": "ours/core/jlz_writer_coupled/entry.py",
+      "upstream_sha256": "3d7e8b39c76fdd442daf5c1882fb271f1c16dbc5674a75a176278975ab365a13",
+      "sha256": "bdc9afcf45487db72576da0278e18da29897f01f21a5e65a25a98a1a7c9bd366",
+      "changes": [
+        "package_namespace_only",
+        "common_scalar_helpers_without_task_identity"
+      ]
+    },
+    {
+      "component": "ours",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/jlz_writer_coupled/inputs.py",
+      "path": "ours/core/jlz_writer_coupled/inputs.py",
+      "upstream_sha256": "9c283e30cef1900b5e6b4f2b6a751a455166f6152939955a38cf4efb0d8de0ef",
+      "sha256": "38594e315dbfdfa626b8a1c1a2c21846d8f9d88a20720d3e50d7a6f805f01d0a",
+      "changes": [
+        "package_namespace_only",
+        "common_scalar_helpers_without_task_identity"
+      ]
+    },
+    {
+      "component": "ours",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/jlz_realization/inputs.py",
+      "path": "ours/core/jlz_realization/inputs.py",
+      "upstream_sha256": "9c283e30cef1900b5e6b4f2b6a751a455166f6152939955a38cf4efb0d8de0ef",
+      "sha256": "38594e315dbfdfa626b8a1c1a2c21846d8f9d88a20720d3e50d7a6f805f01d0a",
+      "changes": [
+        "package_namespace_only",
+        "common_scalar_helpers_without_task_identity"
+      ]
+    },
+    {
+      "component": "ours",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/jlz_price_gptj/adapter.py",
+      "path": "ours/core/jlz_price_gptj/adapter.py",
+      "upstream_sha256": "45497855c1ce58bfbea98b87568645d925642edae87ce6c0039665025a9008b2",
+      "sha256": "f87ef48f04da33dbc09e00771d970b1cc36d6ebe088994acaeccd624f76a4b95",
+      "changes": [
+        "package_namespace_only",
+        "common_scalar_helpers_without_task_identity"
+      ]
+    },
+    {
+      "component": "ours",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/jlz_realized_subject/profile.py",
+      "path": "ours/core/jlz_realized_subject/profile.py",
+      "upstream_sha256": "3f34fe932930d5656201de5f0d1a7e8b210d50f1f7c8221e69892a6ed4afedb0",
+      "sha256": "ebb29affcc7d59242a788f1356858572a44c70a7a68c9548d1cb095d9c13e7f5",
+      "changes": [
+        "package_namespace_only",
+        "common_scalar_helpers_without_task_identity"
+      ]
+    },
+    {
+      "component": "ours",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/jlz_realized_subject/physical_linear.py",
+      "path": "ours/core/jlz_realized_subject/physical_linear.py",
+      "upstream_sha256": "fa9a5727b2c6d43b20d1fbaa36beb1025536ad671db7e859e8a082d4acf962e8",
+      "sha256": "fa9a5727b2c6d43b20d1fbaa36beb1025536ad671db7e859e8a082d4acf962e8",
+      "changes": [
+        "package_namespace_only",
+        "common_scalar_helpers_without_task_identity"
+      ]
+    },
+    {
+      "component": "ours",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/jlz_writer_coupled/physical.py",
+      "path": "ours/core/jlz_writer_coupled/physical.py",
+      "upstream_sha256": "7a26524e2e26c3ccce023784492cc6a137f39c10c4009515337391c337b4352f",
+      "sha256": "5c2757b48f61a5bca5a57751946787923f870201c2c1e75145777d420f16349f",
+      "changes": [
+        "package_namespace_only",
+        "common_scalar_helpers_without_task_identity"
+      ]
+    },
+    {
+      "component": "ours",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/jlz_native_writer_aware/physical.py",
+      "path": "ours/core/jlz_native_writer_aware/physical.py",
+      "upstream_sha256": "7218bd17a9393b224e464e206c09046e354a14fb92bcefdaf76e88eb92b5ac0c",
+      "sha256": "e0549f9754285abe2a49c5e8e5f773e1bccc73e0d480efe361331724ea3407cf",
+      "changes": [
+        "package_namespace_only",
+        "common_scalar_helpers_without_task_identity"
+      ]
+    },
+    {
+      "component": "ours",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/jlz_price_gptj/fit.py",
+      "path": "ours/core/jlz_price_gptj/fit.py",
+      "upstream_sha256": "48569c71b857a5d19887cfc152939d4c85dc76bd9f96152ad14d307bf2f739d8",
+      "sha256": "25108eec31ae2c4436fc1a8efcb8d1f279c25f42a83ae10c26a1a0545854efb0",
+      "changes": [
+        "package_namespace_only",
+        "common_scalar_helpers_without_task_identity"
+      ]
+    },
+    {
+      "component": "ours",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/jlz_price_gptj/dispatch.py",
+      "path": "ours/core/jlz_price_gptj/dispatch.py",
+      "upstream_sha256": "db26d88ffd8707b0dd0de74d86a4766dfe6a5d65c941a157f7c8e661aa6bcb9a",
+      "sha256": "ecc1f0c25e1a433fff6a7b67d9cd05da9ce96518f93f204f36dfd616c27c6416",
+      "changes": [
+        "package_namespace_only",
+        "common_scalar_helpers_without_task_identity"
+      ]
+    },
+    {
+      "component": "ours",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/jlz_price_gptj/alpha_telemetry.py",
+      "path": "ours/core/jlz_price_gptj/alpha_telemetry.py",
+      "upstream_sha256": "ddf56b2c2ca7491febe89a454f84ebafcb0f86c41499957601cc3bb73c2bb085",
+      "sha256": "9a2affb005b821031d4e164f92f9de20d1babaf6796aaf3e309cf298b457ae04",
+      "changes": [
+        "package_namespace_only",
+        "common_scalar_helpers_without_task_identity"
+      ]
+    },
+    {
+      "component": "ours",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/jlz_price_gptj/memit_telemetry.py",
+      "path": "ours/core/jlz_price_gptj/memit_telemetry.py",
+      "upstream_sha256": "11e41d9262ba3a14b04bce7bee37d2e4bca4757f7640421113e5d33c088d5660",
+      "sha256": "732523969a77acf4ea1d1e777602c1bcca6686c6a7487de6a3ce28f64108bffc",
+      "changes": [
+        "package_namespace_only",
+        "common_scalar_helpers_without_task_identity"
+      ]
+    },
+    {
+      "component": "ours",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/jlz_price_gptj/price.py",
+      "path": "ours/core/jlz_price_gptj/price.py",
+      "upstream_sha256": "82f1922592feed586a97ba4a72bce7964cce3337aa5b07e51ac8a4401a963cd5",
+      "sha256": "bef0d7ca5707b077f357d4a58875f89d9ab92c3ae144ba97a7fd5280f3ee2501",
+      "changes": [
+        "package_namespace_only",
+        "common_scalar_helpers_without_task_identity"
+      ]
+    },
+    {
+      "component": "ours",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/jlz_interference_l1/cap_price.py",
+      "path": "ours/core/jlz_interference_l1/cap_price.py",
+      "upstream_sha256": "1c573982fbe02553de8a8caa402de9f08bbfcbe7684e70e2a5887ab450a5c9e3",
+      "sha256": "3e28379cb5cef64b04d663972fc18c959237e3cf4cf28caa880b1113401508cb",
+      "changes": [
+        "package_namespace_only",
+        "common_scalar_helpers_without_task_identity"
+      ]
+    },
+    {
+      "component": "ours",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/jlz_interference_l1/cap_optimizer.py",
+      "path": "ours/core/jlz_interference_l1/cap_optimizer.py",
+      "upstream_sha256": "70826aea7ab2b16794dc7205e7ead53bb7c092129661a98487529368e64b91fa",
+      "sha256": "ceaecff394a8a2a227268b3845fdd1d62dbf0c12104112bf093505a9ca76d289",
+      "changes": [
+        "package_namespace_only",
+        "common_scalar_helpers_without_task_identity"
+      ]
+    },
+    {
+      "component": "ours",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/jlz_interference_l1/cap_projection.py",
+      "path": "ours/core/jlz_interference_l1/cap_projection.py",
+      "upstream_sha256": "ab16e5f91f006f103cedaee4879d44ef51be74770cc6e1683a3875f2455925c6",
+      "sha256": "ab16e5f91f006f103cedaee4879d44ef51be74770cc6e1683a3875f2455925c6",
+      "changes": [
+        "package_namespace_only",
+        "common_scalar_helpers_without_task_identity"
+      ]
+    },
+    {
+      "component": "ours",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/jlz_interference_l1/projection.py",
+      "path": "ours/core/jlz_interference_l1/projection.py",
+      "upstream_sha256": "30e7a3c4e9711ab744bc0641af38887398c873613ea850e9b7af83c8860930f4",
+      "sha256": "30e7a3c4e9711ab744bc0641af38887398c873613ea850e9b7af83c8860930f4",
+      "changes": [
+        "package_namespace_only",
+        "common_scalar_helpers_without_task_identity"
+      ]
+    },
+    {
+      "component": "ours",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/jlz_v12r/optimizer.py",
+      "path": "ours/core/jlz_v12r/optimizer.py",
+      "upstream_sha256": "3cbb75711a48f0ce9df1d10f2fcf4666a9a6dacde4e0066b7702bc5a8788369e",
+      "sha256": "3cbb75711a48f0ce9df1d10f2fcf4666a9a6dacde4e0066b7702bc5a8788369e",
+      "changes": [
+        "package_namespace_only",
+        "common_scalar_helpers_without_task_identity"
+      ]
+    },
+    {
+      "component": "ours",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/jlz_v12r/projection.py",
+      "path": "ours/core/jlz_v12r/projection.py",
+      "upstream_sha256": "daa79e4edfdd01288d47b1deb1ce53117bfa9336bcc1e80c8e2ad5eeccd39d44",
+      "sha256": "daa79e4edfdd01288d47b1deb1ce53117bfa9336bcc1e80c8e2ad5eeccd39d44",
+      "changes": [
+        "package_namespace_only",
+        "common_scalar_helpers_without_task_identity"
+      ]
+    },
+    {
+      "component": "ours",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/jlz_interference_l1/cap_controller.py",
+      "path": "ours/core/jlz_interference_l1/cap_controller.py",
+      "upstream_sha256": "6fb46e8120e1b93368d760b97cf266d5dadd32c2766e5e2ade0db3082270a33d",
+      "sha256": "6fb46e8120e1b93368d760b97cf266d5dadd32c2766e5e2ade0db3082270a33d",
+      "changes": [
+        "package_namespace_only",
+        "common_scalar_helpers_without_task_identity"
+      ]
+    },
+    {
+      "component": "ours",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/jlz_price_gptj/engine.py",
+      "path": "ours/core/jlz_price_gptj/engine.py",
+      "upstream_sha256": "0ce8af61d1e5859682e6c2a8cf15c115b8f2b471ad4b9b51b02e95d1aeb7d266",
+      "sha256": "7606fb629b95596f194a59d4048b16a63740347822c6173677cd0c53a4e15da8",
+      "changes": [
+        "package_namespace_only",
+        "common_scalar_helpers_without_task_identity"
+      ]
+    },
+    {
+      "component": "ours",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/jlz_price_gptj/builder.py",
+      "path": "ours/core/jlz_price_gptj/builder.py",
+      "upstream_sha256": "7e37cb4652817d20c59683c587d1134e8ea5caf257db8b4ed044fd7dcabb9a2d",
+      "sha256": "2d973e954b4d097315b6bdfd144d6db36cbb0e463e51da56164a26190dc3e047",
+      "changes": [
+        "package_namespace_only",
+        "common_scalar_helpers_without_task_identity"
+      ]
+    },
+    {
+      "component": "ours",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/jlz_v12r/engine.py",
+      "path": "ours/core/jlz_v12r/engine.py",
+      "upstream_sha256": "5409a137cad1f940118d7ce6a7fa6fa2661fcbf1fda33d8d75b9850f84c73c98",
+      "sha256": "8e97981f82445bad54e3d1a2490f3377203b3fda368e476583bf2f07bd8f9e7f",
+      "changes": [
+        "package_namespace_only",
+        "common_scalar_helpers_without_task_identity"
+      ]
+    },
+    {
+      "component": "ours",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/jlz_v12r/subject.py",
+      "path": "ours/core/jlz_v12r/subject.py",
+      "upstream_sha256": "56834e9af320429722faab8159126e089f99e2efed4253e87bcf5c9b66aca870",
+      "sha256": "5637f56d4d99178e0555380eed7d594a1852148a3593df7377b8bfb5d971249b",
+      "changes": [
+        "package_namespace_only",
+        "common_scalar_helpers_without_task_identity"
+      ]
+    },
+    {
+      "component": "ours",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/jlz_realized_subject/subject.py",
+      "path": "ours/core/jlz_realized_subject/subject.py",
+      "upstream_sha256": "ac2e72d60588b7d72c2e7a3cd9ce938479a5381bb506dbb3481a26568de9c81c",
+      "sha256": "5ee6bbcc2ff6fea62824ecc139aa5050acca6d28aaedd3169753748810a375c7",
+      "changes": [
+        "package_namespace_only",
+        "common_scalar_helpers_without_task_identity"
+      ]
+    },
+    {
+      "component": "ours",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/jlz_realized_subject/allocation.py",
+      "path": "ours/core/jlz_realized_subject/allocation.py",
+      "upstream_sha256": "bd7e4eaaab9e14edebc2ca90c117eff5d4949c997b8e4cbce29ce0c0c874382a",
+      "sha256": "77d99ba8473f454cc255b385b1436621ccd996c2cc5692783723e381ce14fc56",
+      "changes": [
+        "package_namespace_only",
+        "common_scalar_helpers_without_task_identity"
+      ]
+    },
+    {
+      "component": "ours",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/jlz_native_writer_aware/builder.py",
+      "path": "ours/core/jlz_native_writer_aware/builder.py",
+      "upstream_sha256": "b9b67fea1291933c913f1ee23f18159a6fe3e3ad15ebf74a447b80a1aa79eee5",
+      "sha256": "b0b634e2ef762b987ab2d93b6d0dcd9d77c81baebc98bf96ba9ab89a80ec27dc",
+      "changes": [
+        "package_namespace_only",
+        "common_scalar_helpers_without_task_identity"
+      ]
+    },
+    {
+      "component": "ours",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/jlz_v12r/entry.py",
+      "path": "ours/core/jlz_v12r/entry.py",
+      "upstream_sha256": "e5e9e0b559d8460dccb8656bd2d34762d2021a50d1e55c9d84e6be41db22fd71",
+      "sha256": "0677a8164364763f07877aec00c06d6cd96d753e2c02ba91d9a83ea62fa0dccf",
+      "changes": [
+        "package_namespace_only",
+        "common_scalar_helpers_without_task_identity"
+      ]
+    },
+    {
+      "component": "ours",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/jlz_interference_l1/cap_adapter.py",
+      "path": "ours/core/jlz_interference_l1/cap_adapter.py",
+      "upstream_sha256": "3a2a344da2cbbbde199f0ee0dd48f34d26e06cbd38b5db0ec3d69e99ba281215",
+      "sha256": "9834f4e8020c5c88806ca2b82445d11a37abdaf99f0bcbf84d9a228e70cfbb8d",
+      "changes": [
+        "package_namespace_only",
+        "common_scalar_helpers_without_task_identity"
+      ]
+    },
+    {
+      "component": "ours",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/jlz_interference_l1/cap_fit.py",
+      "path": "ours/core/jlz_interference_l1/cap_fit.py",
+      "upstream_sha256": "80670d669c122c10b2b8f96def970744ad3ab17783ae6d99384ecc5b54b15771",
+      "sha256": "23f41f804d66c827d3fdbab6ae4eb0121d7437765349ed5dc2b52e18578d3759",
+      "changes": [
+        "package_namespace_only",
+        "common_scalar_helpers_without_task_identity"
+      ]
+    },
+    {
+      "component": "ours",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/jlz_interference_l1/cap_telemetry.py",
+      "path": "ours/core/jlz_interference_l1/cap_telemetry.py",
+      "upstream_sha256": "af788cba0043debada2b6fdd1ce5e1d125afd098fcdcd2b1eff47cf30d555aa5",
+      "sha256": "568f74c93a0bfffa75589d3ddfb1e6aad1d765b54eca26945d930af66434353b",
+      "changes": [
+        "package_namespace_only",
+        "common_scalar_helpers_without_task_identity"
+      ]
+    },
+    {
+      "component": "ours",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/jlz_interference_l1/engine.py",
+      "path": "ours/core/jlz_interference_l1/engine.py",
+      "upstream_sha256": "87b0e98b11c04039b7a1efc077181da42259c9fe0f1ef49817633f16756ff67b",
+      "sha256": "e3b38a934144920a0579cba5172571723e3aa251193c82dfa701faa9ce56f4a1",
+      "changes": [
+        "package_namespace_only",
+        "common_scalar_helpers_without_task_identity"
+      ]
+    },
+    {
+      "component": "ours",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/jlz_realization/common.py",
+      "path": "ours/common.py",
+      "upstream_sha256": "73b43462f8be9482389796b3fcc3623e30fefd9a9cd0edd76619202f2b1a59f2",
+      "sha256": "8d9da0cb2599a93170a1ed9f5b9034bc9ac512f167157d882e0e003f1fb7232b",
+      "changes": [
+        "remove_server_task_constants"
+      ]
+    },
+    {
+      "component": "ours_m1",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "4d651a4be4e4b5748ce9e16d634b56311dae92fe",
+      "upstream_path": "project/run_scripts/price_ridge_m1_m3/anchor.py",
+      "path": "ours/anchor.py",
+      "upstream_sha256": "4586ac15254f102142ed8f64f5e71d2096b97210e8aa7cd853a30116f2e3f571",
+      "sha256": "4586ac15254f102142ed8f64f5e71d2096b97210e8aa7cd853a30116f2e3f571",
+      "changes": []
+    },
+    {
+      "component": "generation",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "adb244e6f9c86b54f73bd6d8fb833b338f470ded",
+      "upstream_path": "project/run_scripts/experiment_generation_eval/common.py",
+      "path": "evaluation/generation/common.py",
+      "upstream_sha256": "b09cb5b30f45150a7c042353a41c6b28ca31b4695884fd27135e0e2a69f9282c",
+      "sha256": "b09cb5b30f45150a7c042353a41c6b28ca31b4695884fd27135e0e2a69f9282c",
+      "changes": []
+    },
+    {
+      "component": "generation",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "adb244e6f9c86b54f73bd6d8fb833b338f470ded",
+      "upstream_path": "project/run_scripts/experiment_generation_eval/assets.py",
+      "path": "evaluation/generation/assets.py",
+      "upstream_sha256": "0648c9c6dfb05cf753c35fa6c2dc86d31fe1c6190e16703a0b5fd0a14689f11a",
+      "sha256": "0648c9c6dfb05cf753c35fa6c2dc86d31fe1c6190e16703a0b5fd0a14689f11a",
+      "changes": []
+    },
+    {
+      "component": "generation",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "adb244e6f9c86b54f73bd6d8fb833b338f470ded",
+      "upstream_path": "project/run_scripts/experiment_generation_eval/metrics.py",
+      "path": "evaluation/generation/metrics.py",
+      "upstream_sha256": "c9152f5889bf42ca5761d9dd974ec6676f974eff006b8c38b0c934dccb6dfce9",
+      "sha256": "c9152f5889bf42ca5761d9dd974ec6676f974eff006b8c38b0c934dccb6dfce9",
+      "changes": []
+    },
+    {
+      "component": "generation",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "adb244e6f9c86b54f73bd6d8fb833b338f470ded",
+      "upstream_path": "project/run_scripts/experiment_generation_eval/generator.py",
+      "path": "evaluation/generation/generator.py",
+      "upstream_sha256": "0b151a0546e2b16ca46276ed9feebc08fc719f024b45f945d5a18d5d5147dacf",
+      "sha256": "0b151a0546e2b16ca46276ed9feebc08fc719f024b45f945d5a18d5d5147dacf",
+      "changes": []
+    },
+    {
+      "component": "generation",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "adb244e6f9c86b54f73bd6d8fb833b338f470ded",
+      "upstream_path": "project/run_scripts/experiment_generation_eval/observer.py",
+      "path": "evaluation/generation/observer.py",
+      "upstream_sha256": "829f279f14d21afc50789ecc32dfa9a9ba3d53ceb629cfb1bb2da24844e5c75c",
+      "sha256": "829f279f14d21afc50789ecc32dfa9a9ba3d53ceb629cfb1bb2da24844e5c75c",
+      "changes": []
+    },
+    {
+      "component": "generation",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "adb244e6f9c86b54f73bd6d8fb833b338f470ded",
+      "upstream_path": "project/run_scripts/experiment_generation_eval/progress.py",
+      "path": "evaluation/generation/progress.py",
+      "upstream_sha256": "59e33e185a36d70fa4e9bb37e29484334b2a7b99c3359adc6d5841aec42c7027",
+      "sha256": "59e33e185a36d70fa4e9bb37e29484334b2a7b99c3359adc6d5841aec42c7027",
+      "changes": []
+    },
+    {
+      "component": "generation",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "adb244e6f9c86b54f73bd6d8fb833b338f470ded",
+      "upstream_path": "project/run_scripts/experiment_generation_eval/native_generator.py",
+      "path": "evaluation/generation/native_generator.py",
+      "upstream_sha256": "ef3d3daf20c174cfa3627a3852e2d593eb506718ac8ddde62a909a26c87bd2c3",
+      "sha256": "ef3d3daf20c174cfa3627a3852e2d593eb506718ac8ddde62a909a26c87bd2c3",
+      "changes": []
+    },
+    {
+      "component": "generation",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "adb244e6f9c86b54f73bd6d8fb833b338f470ded",
+      "upstream_path": "project/run_scripts/experiment_generation_eval/native_observer.py",
+      "path": "evaluation/generation/native_observer.py",
+      "upstream_sha256": "09f8f4915d848dcd820ff4ffc382871f457c107098102bfb8d1a682ff321653a",
+      "sha256": "09f8f4915d848dcd820ff4ffc382871f457c107098102bfb8d1a682ff321653a",
+      "changes": []
+    },
+    {
+      "component": "generation",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "adb244e6f9c86b54f73bd6d8fb833b338f470ded",
+      "upstream_path": "project/run_scripts/experiment_generation_eval/native_profile.py",
+      "path": "evaluation/generation/native_profile.py",
+      "upstream_sha256": "ddd3d6266a02a613beaea052920da763c721990a6f9228bb257ad988156fb0c4",
+      "sha256": "ddd3d6266a02a613beaea052920da763c721990a6f9228bb257ad988156fb0c4",
+      "changes": []
+    },
+    {
+      "component": "generation",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "adb244e6f9c86b54f73bd6d8fb833b338f470ded",
+      "upstream_path": "project/run_scripts/experiment_generation_eval/compatibility.py",
+      "path": "evaluation/generation/compatibility.py",
+      "upstream_sha256": "e551d41de018d8d2e4a35832a20134f6ca805c58becb1b6c90152b3fa366ee5d",
+      "sha256": "e551d41de018d8d2e4a35832a20134f6ca805c58becb1b6c90152b3fa366ee5d",
+      "changes": []
+    },
+    {
+      "component": "generation",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "adb244e6f9c86b54f73bd6d8fb833b338f470ded",
+      "upstream_path": "project/run_scripts/experiment_generation_eval/kv_qualification.py",
+      "path": "evaluation/generation/kv_qualification.py",
+      "upstream_sha256": "17b282daf9a531eeed4c980afa44a78db30891bd110d5ecae8ecfd552bdc15b8",
+      "sha256": "17b282daf9a531eeed4c980afa44a78db30891bd110d5ecae8ecfd552bdc15b8",
+      "changes": []
+    },
+    {
+      "component": "generation_tests",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/experiment_generation_eval/test_native_generator.py",
+      "path": "evaluation/generation/test_native_generator.py",
+      "upstream_sha256": "d80bd33330af38fd121caf2354cffdffce884517bb58442fa088d61ad7f5cae8",
+      "sha256": "d80bd33330af38fd121caf2354cffdffce884517bb58442fa088d61ad7f5cae8",
+      "changes": [
+        "package_namespace_only"
+      ]
+    },
+    {
+      "component": "generation_tests",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/experiment_generation_eval/test_native_observer.py",
+      "path": "evaluation/generation/test_native_observer.py",
+      "upstream_sha256": "d580513275bd2e1c38cb9b829196204885bb53fd02271aee2ac01c045e8c86d1",
+      "sha256": "d580513275bd2e1c38cb9b829196204885bb53fd02271aee2ac01c045e8c86d1",
+      "changes": [
+        "package_namespace_only"
+      ]
+    },
+    {
+      "component": "generation_tests",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/experiment_generation_eval/test_generator.py",
+      "path": "evaluation/generation/test_generator.py",
+      "upstream_sha256": "933508383f4a58e56219ca25ac5eb038954d1b32a9742dab7c3ae688329863b3",
+      "sha256": "933508383f4a58e56219ca25ac5eb038954d1b32a9742dab7c3ae688329863b3",
+      "changes": [
+        "package_namespace_only"
+      ]
+    },
+    {
+      "component": "generation_tests",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/experiment_generation_eval/test_observer.py",
+      "path": "evaluation/generation/test_observer.py",
+      "upstream_sha256": "3c4caa1bd7a8d01a6886447db437590930b9170cccf41592fcf4b16474bc20dc",
+      "sha256": "3c4caa1bd7a8d01a6886447db437590930b9170cccf41592fcf4b16474bc20dc",
+      "changes": [
+        "package_namespace_only"
+      ]
+    },
+    {
+      "component": "generation_tests",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/experiment_generation_eval/test_metrics.py",
+      "path": "evaluation/generation/test_metrics.py",
+      "upstream_sha256": "b9dc0b03331c7296c8dde6d09c5bc45ce111fd2eb7896f7c84a228f57ff9320f",
+      "sha256": "b9dc0b03331c7296c8dde6d09c5bc45ce111fd2eb7896f7c84a228f57ff9320f",
+      "changes": [
+        "package_namespace_only"
+      ]
+    },
+    {
+      "component": "generation_tests",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": "b6f317f83cf8dd80f5f8d8966986872276adae1f",
+      "upstream_path": "project/run_scripts/experiment_generation_eval/test_assets.py",
+      "path": "evaluation/generation/test_assets.py",
+      "upstream_sha256": "7283fac4cce6dd82cb3147fae05c677532ba7c1d54f3ada2ed910ab081b47230",
+      "sha256": "7283fac4cce6dd82cb3147fae05c677532ba7c1d54f3ada2ed910ab081b47230",
+      "changes": [
+        "package_namespace_only"
+      ]
+    }
+  ]
+}
