@@ -1,5 +1,24 @@
 # Qwen PRICE hparam / Tier 1–2 — CPU 준비, 미제출
 
+## 최신 사용자 요청: 별도 W&B tuning page
+
+`Qwen Tuning — Held-out 500` saved view를 실제 생성하고 원격 readback으로
+이름·12 sections·task/cohort 필터를 확인했다.
+[전용 view](https://wandb.ai/wkdguswns2256/layer%20allocation?nw=oeqlkjvq8nc).
+프로젝트는 사용자 지정 `wkdguswns2256/layer allocation`을 유지한다.
+`task_id=qwen-price-hparam-tier2-20261009`와 `cohort_role=heldout_tuning`을 동시에
+요구하므로 기존 first2K/baseline/validation run을 가져오지 않는다.
+Current pre/post, W5 all-seen500, matched W0_first500 및 별도 fit 축을 준비했다.
+
+새 run·업로드 metric 0, 기존 run/다른 saved view 수정0, GPU/Slurm0.
+아직 실제 tuning 결과가 없어 빈 그래프이며 0점/성공으로 대체하지 않는다.
+전용 page 생성은 공통 logger의 held-out schema 허용과 별개다. SH1 소유 helper를
+복제하거나 `W0_first500`을 first2000으로 바꾸지 않았으므로 기존 schema 미지원은
+여전히 남는다. 실제 GPU smoke/Tier1/Tier2 및 실시간 업로드 완료가 아니다.
+기존 SDK/UI 환경을 재사용했고 과학 환경이나 credential은 변경하지 않았다.
+ignored receipt: `local/qwen-price-hparam-tier2-20261009/tuning-view-receipt.json`.
+운영 source: `project/run_scripts/qwen_price_hparam_tier2/tuning_view.py`.
+
 수신 nonce: USER-SH4-QWEN-PRICE-HPARAM-TIER2-20261009-R1 및 동일 R1-SCOPE.
 branch: codex/server4-qwen-price-hparam-tier2-20261009.
 main 직접 수정/게시 없음. 이전 실행과 신규 sweep을 분리한다.
