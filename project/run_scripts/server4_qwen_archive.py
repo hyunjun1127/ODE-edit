@@ -56,12 +56,12 @@ def replay(kind,subject,doc,expected,original_member,contract):
     return a._replay_result(dict(kind=kind,subject=subject,member=original_member,expected=expected),doc,contract)
 
 
-def adopt(root,logical,identity):
+def adopt(root,logical,identity,*,adapter_source=None):
     root=Path(root).resolve();folder=root/'archive'/logical
     cutover=member(root/'cutover.json');policy=member(root/'archive-policy.json')
     candidate=dict(origin_server='server4',task_id=TASK,run_id=logical,attempt=root.name,
                    registration_attempt_id=root.name+'-'+logical)
-    contract=dict(module=ADAPTER_MODULE,function='replay',source_member=member(Path(__file__).absolute()))
+    contract=dict(module=ADAPTER_MODULE,function='replay',source_member=member(Path(adapter_source) if adapter_source else Path(__file__).absolute()))
     authority=dict(schema='server4-qwen-new-submission-authority-v1',candidate_identity=candidate,
                    checkpoint_identity=identity,endpoint='W20',checkpoint_creation_authorized=True,
                    instruction='USER transfers Qwen twelve cold2k baselines to server4; archive on server1')

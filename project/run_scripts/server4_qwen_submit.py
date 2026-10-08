@@ -74,7 +74,8 @@ def prepare(root,preparation):
         logical=row['logical_main_row'];dataset=row['config']['dataset']
         stream=read(root/'streams'/f'{dataset}-stream.lock.json')
         token=_tokenizer_receipt(asset['assets']['model_snapshot']['path'],None,stream)
-        archive.adopt(root,logical,checkpoint_identity(row['config'],stream,lock,asset,token))
+        archive.adopt(root,logical,checkpoint_identity(row['config'],stream,lock,asset,token),
+                      adapter_source=source/'project/run_scripts/server4_qwen_archive.py')
         for kind in ('gpu','archive'):
             env=dict(PYTHONPATH=str(source),PYTHONDONTWRITEBYTECODE='1',PYTHONUNBUFFERED='1',
                      HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1',TOKENIZERS_PARALLELISM='false',
