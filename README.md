@@ -46,7 +46,9 @@ Ours 행은 결과 기록용이며 새 arm/실험을 자동 승인하지 않습�
 ### Llama3-8B-Instruct
 
 **SH1 CF 수리본 held 검사·release 완료, snapshot 2026-10-09 04:57:44 KST.**
-CF AlphaEdit **61769**, SPHERE **61770**, FT **61771**, MEMIT **61772**, MEMIT-FE **61773**는 PENDING/dependency다.
+당시 CF AlphaEdit **61769**, SPHERE **61770**, FT **61771**, MEMIT **61772**, MEMIT-FE **61773**는 PENDING/dependency였다.
+최신 사용자 지시로 AlphaEdit **61769**·MEMIT **61772**만 취소 처리 중이며, 아래 두 행의 수치는
+그 신규 job의 결과가 아닌 과거 **42657/42658 B020/2,000 edits** 결과다(‡).
 기존 zsRE **61716–61719**는 RUNNING, **61720/61721**은 PENDING으로 유지했다.
 새 CF W0 **61768**와 GPU0 collector **61774**는 PENDING이며 본실험 표에서 제외한다.
 기존 zsRE W0 **61710**은 COMPLETED, 원 공유 collector **61722**는 유지한다.
@@ -65,8 +67,8 @@ CF 61711/61712는 W0 표시용 Score 반올림 불일치로 FAILED(commit0), 영
 | Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | FT | PENDING: 61771 | PENDING: 61771 | PENDING: 61771 | PENDING: 61771 | DEFERRED | DEFERRED | ING: 61716 | ING: 61716 | ING: 61716 |
-| MEMIT | PENDING: 61772 | PENDING: 61772 | PENDING: 61772 | PENDING: 61772 | DEFERRED | DEFERRED | ING: 61717 | ING: 61717 | ING: 61717 |
-| AlphaEdit | PENDING: 61769 | PENDING: 61769 | PENDING: 61769 | PENDING: 61769 | DEFERRED | DEFERRED | ING: 61718 | ING: 61718 | ING: 61718 |
+| MEMIT | 58.88‡ | 64.75‡ | 61.70‡ | 51.83‡ | DEFERRED | DEFERRED | ING: 61717 | ING: 61717 | ING: 61717 |
+| AlphaEdit | 84.80‡ | 99.30‡ | 93.23‡ | 68.59‡ | DEFERRED | DEFERRED | ING: 61718 | ING: 61718 | ING: 61718 |
 | AlphaEdit-BLUE | 89.84† | 99.60† | 97.15† | 76.59† |  |  | ING: 61719 | ING: 61719 | ING: 61719 |
 | MEMIT-FE | PENDING: 61773 | PENDING: 61773 | PENDING: 61773 | PENDING: 61773 | DEFERRED | DEFERRED | PENDING: 61720 | PENDING: 61720 | PENDING: 61720 |
 | AlphaEdit+SPHERE | PENDING: 61770 | PENDING: 61770 | PENDING: 61770 | PENDING: 61770 | DEFERRED | DEFERRED | PENDING: 61721 | PENDING: 61721 | PENDING: 61721 |
@@ -80,6 +82,14 @@ Loc은 N success 15,317/20,000 = 76.585%를 소수 둘째 자리로 반올림했
 Flu·Con은 미관측으로 기존 빈칸을 유지한다.
 native source/runtime·평가기 차이와 분모 및 대조 근거는
 [BLUE 2K 확인 기록](experiment-reports/servers/server1/official-baselines-20261008/llama-blue-2k-table-check.md)에 구분했다.
+
+‡ 사용자 `USER-SIDE-GH-LLAMA-CF-MEMIT-ALPHA-2K-TABLE-20261009-R1`의 명시 예외로
+기존 native MEMIT **42658**, native AlphaEdit **42657**의 **B020/2,000 edits**를 반영했다.
+새 official rerun 완료 또는 최종 10K 결과가 아니다. R/P/N 분모는 2,000/4,000/20,000,
+Score는 반올림 전 성공률의 조화평균이며 표시는 소수 둘째 자리 decimal half-up이다.
+Flu/Con은 미평가·DEFERRED이며 zsRE는 별도 기존 상태를 유지한다.
+동일 표본·순서는 runtime·hparams·평가기 완전동등을 뜻하지 않는다.
+[원 raw SHA·분자/분모·사용자 예외 및 취소 처리 근거](experiment-reports/global/llama-native-cf-historical-b020-20261009.md).
 
 ### Qwen2.5-7B-Instruct
 

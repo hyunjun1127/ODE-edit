@@ -30,6 +30,21 @@
     "SH_writes": "자신의 기존 허용 scope에 compact receipt/report를 남기며 README를 동시에 직접 편집하지 않는다.",
     "new_recurring_monitor": false
   },
+  "explicit_historical_exceptions": [
+    {
+      "instruction_id": "USER-SIDE-GH-LLAMA-CF-MEMIT-ALPHA-2K-TABLE-20261009-R1",
+      "model": "Llama3-8B-Instruct",
+      "dataset": "CF",
+      "methods": ["MEMIT", "AlphaEdit"],
+      "source_jobs": ["42658", "42657"],
+      "endpoint": "B020/2000 edits",
+      "columns": ["Score", "Eff", "Gen", "Loc"],
+      "label": "historical ‡, 새 official rerun 완료 아님",
+      "generation": "미관측/DEFERRED 그대로, 0 invent 금지",
+      "report": "experiment-reports/global/llama-native-cf-historical-b020-20261009.md",
+      "scope": "이 두 결과만 fresh-only 원칙 예외. 기존 BLUE † 예외 보존, 다른 모델/방법/zsRE 자동 예외 없음"
+    }
+  ],
   "preservation": {
     "historical_checkpoints_and_raw": "KEEP",
     "automatic_job_cancellation": false,
