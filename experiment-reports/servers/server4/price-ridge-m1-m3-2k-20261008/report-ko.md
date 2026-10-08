@@ -1,5 +1,7 @@
 # PRICE ridge M1–M3 실행 준비
 
+**현재 2026-10-08 W20-only 재제출:** 사용자 승인으로61398/61399/61400/61401을 취소하고 fluency/consistency 최종W20-only source `cb64820d`로 Llama61418/GPTJ61419/GPT2XL61420/collector61421을 release했다. R/P/N 중간 관측·cap3·baseline hold·W0 신규금지는 유지했다. [현재 보고](generation-w20-only-ko.md). 아래 재제출 이력은 보존 기록이다.
+
 **최신 2026-10-08 전체 재제출:** endpoint 파일명 충돌 및 GPT2 W0 reader 교정 source `10fa1f6a`로 Llama61398/GPTJ61399/GPT2XL M1+M2 61400/collector61401을 held검사 후 release했다. cap3·독립 세 lane·baseline hold·신규 W0 금지를 유지했다. 초기 상태 PENDING. [최신 교정 보고](subset-repair-ko.md)와 [현재 status](../../../../../tasks/status/price-ridge-m1-m3-2k-20261008/server4.json)가 이전 기록보다 우선한다.
 
 이전 generation 경로 수리 source `e310c38b`의 Llama61356은 B1 실제 KV/MB4 검산과100edit커밋 후 B2 저장 충돌로 실패했다. GPT2 61358은 W0 reader 연결 오류로 실패했다. GPTJ61357과collector61359는 이번 재제출 승인에 따라 취소했다. [이전 수리 기록](generation-repair-ko.md)은 역사로 보존한다. M3 저장 K가 없는 두 cell은 계속 보류한다.

@@ -1,0 +1,22 @@
+{
+  "authority":"사용자 세 run 취소 후 W20-only cold 재제출 명시 승인",
+  "source":"cb64820d93d975dc9dae9299c500e46d0da4da79",
+  "attempt":"/data/janghj/ODE-edit/local/price-ridge-m1-m3-2k-20261008/attempt-generation-w20-only-r1",
+  "config_sha256":"d650246f8dc1fc81e10843adc96903322cd68c5bfb23b96c1703eafca1f20302",
+  "lock_sha256":"925fbfaaed280c88583077e194617f7ea77d21af1c25171a875838fc3a9c562e",
+  "archive_sha256":"a20cce5a923c088b4223ec94890f7a470e5ea0eab9082f0adafaf45c3aa3218a",
+  "raw_submission_sha256":"ec8ea6e535d69efc861322ac8dd14409592661ca1288faef257599992e539cdb",
+  "cancellation_receipt_sha256":"bd2321c8d5d944d58d7819dc1ec9f9ba342c911d9256333292d165f75d52d73c",
+  "jobs":{"LLAMA_REPRO":61418,"GPTJ_M1":61419,"GPT2XL_M1_M2":61420,"collector":61421},
+  "dependencies":{"LLAMA_REPRO":null,"GPTJ_M1":null,"GPT2XL_M1_M2":null,"collector":"afterany:61418:61419:61420"},
+  "held_checks":"owner/name/Command/WorkDir/source/config/full argv/CPU/mem/GPU/wall/exportNONE/Requeue0/dependency PASS 후 release",
+  "initial_states":{"61418":"PENDING","61419":"PENDING","61420":"PENDING","61421":"PENDING"},
+  "project_cap":3,
+  "baseline_holds_preserved":[60917,60918,60919,60920,60921,60922,60923],
+  "generation_schedule":"W20_ONLY",
+  "RPN_schedule":"기존 그대로",
+  "new_W0":0,
+  "new_source_GPU_validation":"NOT_OBSERVED",
+  "WandB_identity":"실제 startup에서 새 ID/URL 생성; 아직 원격 PASS 주장 없음",
+  "monitoring_active":false,"automatic_retry":false,"science_complete":false
+}

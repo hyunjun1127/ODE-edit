@@ -10,4 +10,6 @@ B1–B19 generation은 실행하지 않고 NOT_SCHEDULED를 기록한다. W&B에
 
 일정/제어 mock2개와 기존 좁은 regression5개(실제 저장행 검산 포함), 총7개 CPU 검사가 통과했다. 실행 중 원 archive는 수정하지 않았다. collector와 producer를 동일 source에 봉인한다. 신규 실제GPU/원격W&B/W20 완료는 제출과 구분한다.
 
-등록 결과는 후속 receipt로 남긴다. 합산cap3·GPU1 독립3lane·GPU0 afterany collector를 유지하고, GPU가용성/완료를 반복 대기하지 않는다.
+source `cb64820d93d975dc9dae9299c500e46d0da4da79`로 Llama61418/GPTJ61419/GPT2XL61420 및 CPUcollector61421을 held검사 후 release했다. collector는 `afterany:61418:61419:61420`, GPU 세 job은 서로 독립이다. 초기 snapshot 모두 PENDING이다. [봉인/등록 receipt](../../../../../audits/servers/server4/price-ridge-m1-m3-2k-20261008/generation-w20-submission.json).
+
+합산cap3·GPU1 독립3lane·GPU0 collector를 유지하고 GPU가용성/완료를 반복 대기하지 않는다. 새 source 실제 GPU/W&B remote/W20 완료는 아직 NOT_OBSERVED다. own branch 게시만 수행하고 main 통합은 GH 절차다.
