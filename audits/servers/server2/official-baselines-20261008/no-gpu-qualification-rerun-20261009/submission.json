@@ -1,0 +1,92 @@
+{
+  "source": {
+    "code_commit": "478464689231595eb63da368cc7c376e775eb559",
+    "observed_main": "478464689231595eb63da368cc7c376e775eb559",
+    "official_tree_sha256": "41ed261d1fc8c7c0022366c50fa9cb1ae3c05320",
+    "only_published_official": true
+  },
+  "stage": "no_gpu_qual",
+  "status": "SUBMISSION_HANDOFF",
+  "jobs": {
+    "CF_ALPHAEDIT": "61727",
+    "CF_ALPHAEDIT_BLUE": "61729",
+    "CF_MEMIT": "61725",
+    "CF_MEMIT_FE": "61731",
+    "CF_SPHERE": "61733",
+    "W0_CF": "61723",
+    "W0_ZSRE": "61724",
+    "ZSRE_ALPHAEDIT": "61730",
+    "ZSRE_ALPHAEDIT_BLUE": "61732",
+    "ZSRE_FT": "61726",
+    "ZSRE_MEMIT": "61728",
+    "ZSRE_MEMIT_FE": "61734",
+    "ZSRE_SPHERE": "61735",
+    "collector": "61736"
+  },
+  "dependencies": {
+    "CF_ALPHAEDIT": "afterok:61723",
+    "CF_ALPHAEDIT_BLUE": "afterok:61723,afterany:61725",
+    "CF_MEMIT": "afterok:61723",
+    "CF_MEMIT_FE": "afterok:61723,afterany:61727",
+    "CF_SPHERE": "afterok:61723,afterany:61729",
+    "W0_CF": [],
+    "W0_ZSRE": [],
+    "ZSRE_ALPHAEDIT": "afterok:61724,afterany:61726",
+    "ZSRE_ALPHAEDIT_BLUE": "afterok:61724,afterany:61728",
+    "ZSRE_FT": "afterok:61724",
+    "ZSRE_MEMIT": "afterok:61724",
+    "ZSRE_MEMIT_FE": "afterok:61724,afterany:61730",
+    "ZSRE_SPHERE": "afterok:61724,afterany:61731",
+    "collector": [
+      "61723",
+      "61724",
+      "61725",
+      "61726",
+      "61727",
+      "61728",
+      "61729",
+      "61730",
+      "61731",
+      "61732",
+      "61733",
+      "61734",
+      "61735"
+    ]
+  },
+  "lock": {
+    "bytes": 113084,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/execution.lock.json",
+    "sha256": "ff7ee062dddb9ef2724eb0e527c46a1f1265c1f8cb56e7ad83330d1646217e07"
+  },
+  "manifest": {
+    "bytes": 162677,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/manifest.json",
+    "sha256": "cf7619c3e47122d7b616253d08c76318287887dc43ef2b5cc9874d605d6aea3e"
+  },
+  "base_manifest_sha256": "1131722709554392d29f59ec6770b3dcd891482d7d89943f583e9808fabb8a6a",
+  "cap": 4,
+  "frontier": [],
+  "resources": {
+    "collector_cpu": 6,
+    "collector_host_mib": 24576,
+    "collector_wall": "04:00:00",
+    "cpu": 6,
+    "gpu": 1,
+    "host_mib": 59392,
+    "node": "server2",
+    "partition": "gpu",
+    "qos": "lab_gpu_s2",
+    "reserve_bytes": 137438953472,
+    "wall": "2-00:00:00"
+  },
+  "initial_snapshot": "61736|official-baselines-server2-20261008-r1-no_gpu_qual-collector|PENDING|N/A||None\n61735|official-baselines-server2-20261008-r1-no_gpu_qual-ZSRE_SPHERE|PENDING|gres/gpu:1||None\n61734|official-baselines-server2-20261008-r1-no_gpu_qual-ZSRE_MEMIT_FE|PENDING|gres/gpu:1||None\n61733|official-baselines-server2-20261008-r1-no_gpu_qual-CF_SPHERE|PENDING|gres/gpu:1||None\n61732|official-baselines-server2-20261008-r1-no_gpu_qual-ZSRE_ALPHAEDIT_BLUE|PENDING|gres/gpu:1||None\n61731|official-baselines-server2-20261008-r1-no_gpu_qual-CF_MEMIT_FE|PENDING|gres/gpu:1||None\n61730|official-baselines-server2-20261008-r1-no_gpu_qual-ZSRE_ALPHAEDIT|PENDING|gres/gpu:1||None\n61729|official-baselines-server2-20261008-r1-no_gpu_qual-CF_ALPHAEDIT_BLUE|PENDING|gres/gpu:1||None\n61728|official-baselines-server2-20261008-r1-no_gpu_qual-ZSRE_MEMIT|PENDING|gres/gpu:1||None\n61727|official-baselines-server2-20261008-r1-no_gpu_qual-CF_ALPHAEDIT|PENDING|gres/gpu:1||None\n61726|official-baselines-server2-20261008-r1-no_gpu_qual-ZSRE_FT|PENDING|gres/gpu:1||None\n61725|official-baselines-server2-20261008-r1-no_gpu_qual-CF_MEMIT|PENDING|gres/gpu:1||None\n61724|official-baselines-server2-20261008-r1-no_gpu_qual-W0_ZSRE|PENDING|gres/gpu:1||None\n61723|official-baselines-server2-20261008-r1-no_gpu_qual-W0_CF|PENDING|gres/gpu:1||None",
+  "actual_GPU_qualification": "NOT_RUN_USER_DISABLED",
+  "W_B": "NEW_RUN_ACTUAL_STARTUP_NOT_OBSERVED",
+  "monitoring_active": false,
+  "snapshot_observed_at": "2026-10-09T04:32:25.304522343+09:00",
+  "snapshot_timestamp_basis": "submission receipt file mtime immediately after bounded squeue; exact per-job scheduler SubmitTime retained locally",
+  "kept_completed": {
+    "CF_FT": "61650"
+  },
+  "no_broadcast": "NO_BROADCAST_NOT_REQUIRED; compact Git only; raw/CP stay local"
+}
