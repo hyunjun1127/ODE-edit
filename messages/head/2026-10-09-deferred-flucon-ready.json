@@ -1,0 +1,24 @@
+{
+  "instruction_id": "USER-GH-DEFERRED-FLUCON-READY-20261009-R1",
+  "status": "OWNER_ACK_ACCEPTED",
+  "related_sync": "USER-GH-OURS-HPARAMS-MAIN-SYNC-20261009-R1",
+  "required_commit": "6d35c65de19ec378a30749683762eba87fee50e3",
+  "scope": "기존 main 최신화에 공통 deferred 입력을 추가하고 담당 caller에 결속한다. source 수신과 실제 실행/평가는 구분한다.",
+  "api": {
+    "module": "official.tracking",
+    "dataset": "cf",
+    "generation_schedule": "DEFERRED_CHECKPOINT_EVALUATION",
+    "omit": "schedule 외 generation_* 설정 및 reference_assets_sha256",
+    "forbidden_metrics": "FLU/CON score/count/progress/phase 전부, 0 placeholder 포함",
+    "allowed": "실측 factual/fit 및 실제 checkpoint 보존 상태. 기존 official identity와 privacy 규칙 유지.",
+    "retention": "최종 W20 checkpoint와 provenance/consumer pending 보존. 후속 소비자 완료 전 삭제하지 않고 별도 실제 평가에서 FLU/CON을 기록한다."
+  },
+  "owner_action": {
+    "server1": "최신 사용자 CF 연기 scope의 caller를 공통 API에 결속하며 기존 own 수정과 checkpoint 보존을 유지한다.",
+    "server2": "기존 cf_checkpoint caller 형식을 재사용한다. source 입력 차단을 해소하고 최소 CPU 검산·exact source/manifest freeze 후 기존 승인 CF6 등록을 계속한다. 추가 단계별 사용자 승인 대기 없음.",
+    "server3": "공통 코드 최신화, source/CPU 검산. 이번 API 지원만으로 기존 평가 스케줄을 변경하지 않는다.",
+    "server4": "공통 코드 최신화, source/CPU 검산. 이번 API 지원만으로 기존 평가 스케줄을 변경하지 않는다."
+  },
+  "GH_checks_at_6d35c65d": {"tracking_and_SH2_checkpoint_tests": "32 PASS", "source_verify": "157 SHA PASS / Python233 / external task imports0", "GPU_or_online_or_Slurm": "NOT_RUN"},
+  "bounds": "현재 승인한 task와 자원 내에서 계속하며 새 smoke/sweep/후속 GPU evaluator를 이번 코드 전달만으로 추가하지 않는다. 기존 frozen source/config/archive/job 불변. README fresh/DEFERRED 규칙 유지."
+}
