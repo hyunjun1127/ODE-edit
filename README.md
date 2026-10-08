@@ -78,17 +78,27 @@ native source/runtime·평가기 차이와 분모 및 대조 근거는
 
 ### Qwen2.5-7B-Instruct
 
-SH4가 official 6종×CF/zsRE 12개에 같은 검증 제거를 수락했습니다. PRICE/tuning은 유지합니다.
-현재 구현·등록 준비 단계이며 신규 job ID는 아직 보고되지 않았으므로 표는 비워 둡니다.
+**SH4 official 6종×CF/zsRE 12개 held 검사·release 완료.** 제출 직후
+2026-10-09 04:46:46 KST snapshot은 전부 PENDING이며 아래 표는 그 시점 기준입니다.
+실행 source `d614add5e4c650821ed8d2503c071a1e02605ca8`, server4 합산 GPU cap2.
+PRICE/tuning **61674**는 유지하며 첫 main **61743**이 `afterany:61674`로 대기합니다.
+이후 각 main → `afterok` GPU0 archive → `afterok` 다음 main의 단일 baseline lane입니다.
+Archive **61744/61746/61748/61750/61752/61754/61756/61758/61760/61762/61764/61766**은
+저장·검증·정리 단계로, 아래 성능표의 실험 행에는 넣지 않습니다.
+별도 GPU qualification은 `NOT_RUN_USER_DISABLED`; 실제 GPU 결과·W&B startup은 미관측이고
+실제 checkpoint 전송·삭제도 아직 0입니다. 과거 성능값을 새 결과로 옮겨 쓰지 않았습니다.
+실제 job name·config/ordered stream SHA·dependency는
+[등록 영수증](audits/servers/server4/qwen-baselines-20261009/submission.json)과
+[SH4 보고서](experiment-reports/servers/server4/qwen-baselines-20261009/report-ko.md)에 기록합니다.
 
 | Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| FT |  |  |  |  |  |  |  |  |  |
-| MEMIT |  |  |  |  |  |  |  |  |  |
-| AlphaEdit |  |  |  |  |  |  |  |  |  |
-| AlphaEdit-BLUE |  |  |  |  |  |  |  |  |  |
-| MEMIT-FE |  |  |  |  |  |  |  |  |  |
-| AlphaEdit+SPHERE |  |  |  |  |  |  |  |  |  |
+| FT | PENDING: 61743 | PENDING: 61743 | PENDING: 61743 | PENDING: 61743 | PENDING: 61743 | PENDING: 61743 | PENDING: 61755 | PENDING: 61755 | PENDING: 61755 |
+| MEMIT | PENDING: 61745 | PENDING: 61745 | PENDING: 61745 | PENDING: 61745 | PENDING: 61745 | PENDING: 61745 | PENDING: 61757 | PENDING: 61757 | PENDING: 61757 |
+| AlphaEdit | PENDING: 61747 | PENDING: 61747 | PENDING: 61747 | PENDING: 61747 | PENDING: 61747 | PENDING: 61747 | PENDING: 61759 | PENDING: 61759 | PENDING: 61759 |
+| AlphaEdit-BLUE | PENDING: 61749 | PENDING: 61749 | PENDING: 61749 | PENDING: 61749 | PENDING: 61749 | PENDING: 61749 | PENDING: 61761 | PENDING: 61761 | PENDING: 61761 |
+| MEMIT-FE | PENDING: 61751 | PENDING: 61751 | PENDING: 61751 | PENDING: 61751 | PENDING: 61751 | PENDING: 61751 | PENDING: 61763 | PENDING: 61763 | PENDING: 61763 |
+| AlphaEdit+SPHERE | PENDING: 61753 | PENDING: 61753 | PENDING: 61753 | PENDING: 61753 | PENDING: 61753 | PENDING: 61753 | PENDING: 61765 | PENDING: 61765 | PENDING: 61765 |
 | PRICE (Ours) |  |  |  |  |  |  |  |  |  |
 
 ### GPT-J-6B
