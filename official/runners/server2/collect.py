@@ -343,7 +343,16 @@ def validate_chain(value, manifest, assets, records, method, dataset, *, invento
         role='W0_'+dataset.upper(), inventory=inventory)
     require(endpoints['W0'] == cold_ready['factual'], 'COLLECT_CHAIN_SAME_MODEL_COLD_W0_BINDING')
     generation = None
-    if dataset == 'cf':
+    from official.runners.server2.checkpoint_profile import deferred
+    if dataset == 'cf' and deferred(manifest):
+        require(value.get('generation_status') == 'DEFERRED_NOT_MEASURED'
+            and value.get('checkpoint_evaluation_consumer_pending') is True
+            and value.get('completion_scope') == 'EDIT_FACTUAL_CHECKPOINT_ONLY'
+            and not any(value.get(key) for key in ('generation_ready', 'generation_endpoint', 'w0_ready')),
+            'COLLECT_DEFERRED_GENERATION_NOT_COMPLETED')
+        generation = dict(status='DEFERRED_NOT_MEASURED', evaluation_consumer_pending=True,
+                          source_checkpoint_KEEP=True, archive_delete_allowed=False)
+    elif dataset == 'cf':
         require(value.get('generation_ready') and value.get('w0_ready'), 'COLLECT_CF_W0_W20_GENERATION_REQUIRED')
         require(value['w0_ready'] == cold_ready['generation_READY'], 'COLLECT_CHAIN_COLD_GENERATION_BINDING')
         generation = {}
@@ -386,10 +395,17 @@ def validate_cold_w0(value, manifest, assets, datasets, *, role=None, inventory=
         canonical = read(binding['canonical']['path'])
         validate_factual(canonical, 'cf', datasets['cf'][:4], manifest=manifest,
             endpoint='native-reference-canonical-first4')
-        ready = read(verify_member(value['generation_READY'], inventory))
-        summary['generation'] = validate_generation_ready(ready, assets, datasets['cf'],
-            endpoint='W0', inventory=inventory)
-        require(value['generation'] == ready['endpoint_member'], 'COLLECT_W0_GENERATION_ENDPOINT_BINDING')
+        from official.runners.server2.checkpoint_profile import deferred
+        if deferred(manifest):
+            require(value.get('generation_status') == 'DEFERRED_NOT_MEASURED'
+                and value.get('generation') is None and value.get('generation_READY') is None,
+                'COLLECT_DEFERRED_W0_NO_GENERATION')
+            summary['generation'] = dict(status='DEFERRED_NOT_MEASURED')
+        else:
+            ready = read(verify_member(value['generation_READY'], inventory))
+            summary['generation'] = validate_generation_ready(ready, assets, datasets['cf'],
+                endpoint='W0', inventory=inventory)
+            require(value['generation'] == ready['endpoint_member'], 'COLLECT_W0_GENERATION_ENDPOINT_BINDING')
     else:
         require(not value.get('generation') and not value.get('generation_READY'),
                 'COLLECT_ZSRE_W0_NO_GENERATION')

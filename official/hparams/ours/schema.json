@@ -1,0 +1,433 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$ref": "#/$defs/price",
+  "description": "PRICE model configuration; cross-field constraints are checked by official.ours.config.",
+  "$defs": {
+    "price": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "beta_base",
+        "tau_F",
+        "lr",
+        "eps",
+        "beta_max_scale",
+        "lambda_N",
+        "lambda_KL",
+        "c",
+        "cap_mode",
+        "n_exp",
+        "K_grace",
+        "max_updates",
+        "betas",
+        "expected_hidden",
+        "expected_intermediate",
+        "M1",
+        "M2",
+        "M3",
+        "model",
+        "model_type",
+        "model_profile",
+        "arm",
+        "endpoint_cast_mode",
+        "blind",
+        "model_dtype",
+        "geometry_dtype",
+        "TF32",
+        "autocast",
+        "request_gradient",
+        "constraint",
+        "price_scope",
+        "projector_schema"
+      ],
+      "properties": {
+        "beta_base": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "tau_F": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "lr": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "eps": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "beta_max_scale": {
+          "type": "number",
+          "minimum": 0
+        },
+        "lambda_N": {
+          "type": "number",
+          "minimum": 0
+        },
+        "lambda_KL": {
+          "type": "number",
+          "minimum": 0
+        },
+        "c": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "cap_mode": {
+          "enum": [
+            "native",
+            "none"
+          ]
+        },
+        "n_exp": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "K_grace": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "max_updates": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "betas": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "type": "number",
+            "minimum": 0,
+            "exclusiveMaximum": 1
+          }
+        },
+        "expected_hidden": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "expected_intermediate": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "M1": {
+          "const": "helper_distributed_adoption_unfrozen"
+        },
+        "M2": {
+          "const": false
+        },
+        "M3": {
+          "const": false
+        },
+        "model": {
+          "enum": [
+            "llama3",
+            "qwen25",
+            "gptj"
+          ]
+        },
+        "model_type": {
+          "enum": [
+            "llama",
+            "qwen2",
+            "gptj"
+          ]
+        },
+        "model_profile": {
+          "enum": [
+            "LLAMA",
+            "QWEN",
+            "GPTJ"
+          ]
+        },
+        "arm": {
+          "const": "CAP075"
+        },
+        "endpoint_cast_mode": {
+          "const": "nearest"
+        },
+        "blind": {
+          "const": false
+        },
+        "model_dtype": {
+          "const": "FP32"
+        },
+        "geometry_dtype": {
+          "const": "FP64"
+        },
+        "TF32": {
+          "const": false
+        },
+        "autocast": {
+          "const": false
+        },
+        "request_gradient": {
+          "const": "SUM_OF_CURRENT_ACTIVE_REQUEST_LOSSES"
+        },
+        "constraint": {
+          "const": "ABSOLUTE_R_WEIGHTED_GROUP_L1"
+        },
+        "price_scope": {
+          "const": "OWN_BATCH_C0_ONCE"
+        },
+        "projector_schema": {
+          "const": "PRICE_CAP_BASE_PROJECTION_V1"
+        }
+      }
+    },
+    "writer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "hparams"
+      ],
+      "properties": {
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "path",
+            "sha256"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          }
+        },
+        "hparams": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "attn_module_tmp",
+            "clamp_norm_factor",
+            "fact_token",
+            "kl_factor",
+            "layer_module_tmp",
+            "layer_selection",
+            "layers",
+            "lm_head_module",
+            "ln_f_module",
+            "mlp_module_tmp",
+            "model_name",
+            "mom2_adjustment",
+            "mom2_dataset",
+            "mom2_dtype",
+            "mom2_n_samples",
+            "mom2_update_weight",
+            "rewrite_module_tmp",
+            "v_loss_layer",
+            "v_lr",
+            "v_num_grad_steps",
+            "v_weight_decay"
+          ],
+          "properties": {
+            "model_name": {
+              "type": "string"
+            },
+            "layers": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "clamp_norm_factor": {
+              "type": "number"
+            },
+            "layer_selection": {
+              "type": "string"
+            },
+            "fact_token": {
+              "type": "string"
+            },
+            "v_num_grad_steps": {
+              "type": "integer",
+              "exclusiveMinimum": 0
+            },
+            "v_lr": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "v_loss_layer": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "v_weight_decay": {
+              "type": "number"
+            },
+            "kl_factor": {
+              "type": "number"
+            },
+            "mom2_adjustment": {
+              "type": "boolean"
+            },
+            "mom2_update_weight": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "rewrite_module_tmp": {
+              "type": "string"
+            },
+            "layer_module_tmp": {
+              "type": "string"
+            },
+            "mlp_module_tmp": {
+              "type": "string"
+            },
+            "attn_module_tmp": {
+              "type": "string"
+            },
+            "ln_f_module": {
+              "type": "string"
+            },
+            "lm_head_module": {
+              "type": "string"
+            },
+            "mom2_dataset": {
+              "type": "string"
+            },
+            "mom2_n_samples": {
+              "type": "integer",
+              "exclusiveMinimum": 0
+            },
+            "mom2_dtype": {
+              "type": "string"
+            },
+            "alg_name": {
+              "type": "string"
+            },
+            "stats_dir": {
+              "type": "string"
+            },
+            "device": {
+              "type": "integer"
+            },
+            "model_parallel": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "arm": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "base",
+        "override"
+      ],
+      "properties": {
+        "base": {
+          "enum": [
+            "llama3",
+            "qwen25",
+            "gptj"
+          ]
+        },
+        "override": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "beta_base": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "tau_F": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "lr": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "eps": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "beta_max_scale": {
+              "type": "number",
+              "minimum": 0
+            },
+            "lambda_N": {
+              "type": "number",
+              "minimum": 0
+            },
+            "lambda_KL": {
+              "type": "number",
+              "minimum": 0
+            },
+            "c": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "cap_mode": {
+              "enum": [
+                "native",
+                "none"
+              ]
+            },
+            "n_exp": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "K_grace": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "max_updates": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "betas": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 2,
+              "items": {
+                "type": "number",
+                "minimum": 0,
+                "exclusiveMaximum": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-model-bindings": {
+    "llama3": {
+      "model_type": "llama",
+      "model_profile": "LLAMA",
+      "expected_hidden": 4096,
+      "expected_intermediate": 14336,
+      "model_name": "meta-llama/Meta-Llama-3-8B-Instruct"
+    },
+    "qwen25": {
+      "model_type": "qwen2",
+      "model_profile": "QWEN",
+      "expected_hidden": 3584,
+      "expected_intermediate": 18944,
+      "model_name": "Qwen/Qwen2.5-7B-Instruct"
+    },
+    "gptj": {
+      "model_type": "gptj",
+      "model_profile": "GPTJ",
+      "expected_hidden": 4096,
+      "expected_intermediate": 16384,
+      "model_name": "EleutherAI/gpt-j-6b"
+    }
+  }
+}

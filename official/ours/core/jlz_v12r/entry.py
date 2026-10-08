@@ -69,4 +69,4 @@ def prepare_entry(a,bench,pack,history,stats,requests_per_group=1):
         history_entry={l:history[l] for l in a.sites},teacher_hash={r:tensor_sha(t) for r,t in teachers.items()},
         seconds=time.monotonic()-start,capture_sites=capture_sites,
         input_policy='ORIGINAL_NATIVE_FULL_REWRITE_AND_KL_COMPLETE_OWNER')
-    return annotate(entry)
+    return annotate(entry,a.profile)

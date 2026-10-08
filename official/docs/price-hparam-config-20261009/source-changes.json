@@ -1,0 +1,102 @@
+[
+  {
+    "path": "ours/core/jlz_pilot/prompts.py",
+    "before_sha256": "e2883bb96741395c28d87f6534a594734f94bda17ac09a45ba53fd9eab160718",
+    "after_sha256": "1db8eaeaa5d391c89d51ace20e4e39e5b996313b105e23f15b5c96f9454ff319"
+  },
+  {
+    "path": "ours/core/jlz_price_gptj/entry.py",
+    "before_sha256": "253be9ddc249464d8c7c747e251aaeec4e2ceb2f69314439f23314397d7f5ea3",
+    "after_sha256": "ec7a4f5c2c69e7010e9e705b578d08c657dc59c335aec0f42f73d38e3e1ce0c4"
+  },
+  {
+    "path": "ours/core/jlz_native_writer_aware/routes.py",
+    "before_sha256": "08f56ad1807f90439441477bb6b64ca0493c27cb68dd9a01851f4b884d61ac5e",
+    "after_sha256": "b2bd7b21eb30b9ed181252efe05136786f83690e35fdb5f2f82d65ee028b8ad5"
+  },
+  {
+    "path": "ours/core/jlz_realized_subject/geometry.py",
+    "before_sha256": "bcbd02bc7916c1cdb1c68f379f0a00824be2c7a548f3f82e681494401de01d4b",
+    "after_sha256": "1dfcfb77fb57b4ce47dec044515bb414cf1f8e21d3b5c7780b498a87684e9fa2"
+  },
+  {
+    "path": "ours/core/jlz_writer_coupled/geometry.py",
+    "before_sha256": "1fba8bdc828c35459305228ba929a46593a67a87d642189fec8eae17deb59909",
+    "after_sha256": "38e2486ec647c7664c302f7372f284157fac6f1ebc083a6034fecd69026d5e31"
+  },
+  {
+    "path": "ours/core/jlz_price_gptj/adapter.py",
+    "before_sha256": "f87ef48f04da33dbc09e00771d970b1cc36d6ebe088994acaeccd624f76a4b95",
+    "after_sha256": "f2eba18336fcd6d676a00af10fa979920b1b1037e6e0e581004b3a5d8007119c"
+  },
+  {
+    "path": "ours/core/jlz_writer_coupled/physical.py",
+    "before_sha256": "5c2757b48f61a5bca5a57751946787923f870201c2c1e75145777d420f16349f",
+    "after_sha256": "18f6688e2ceae68646b332ce4fa40a7cbe3f22d1e07c58c2bcb43b098c9d2531"
+  },
+  {
+    "path": "ours/core/jlz_price_gptj/fit.py",
+    "before_sha256": "25108eec31ae2c4436fc1a8efcb8d1f279c25f42a83ae10c26a1a0545854efb0",
+    "after_sha256": "bdf2cd997fdca89b4b252f6a83600d2fb6a3c8f98b5879699ff3ee4b5af1bafa"
+  },
+  {
+    "path": "ours/core/jlz_price_gptj/price.py",
+    "before_sha256": "bef0d7ca5707b077f357d4a58875f89d9ab92c3ae144ba97a7fd5280f3ee2501",
+    "after_sha256": "387762ab6970a5cc9cfa7e88b216f1ae737c20574293513285b68b7976263377"
+  },
+  {
+    "path": "ours/core/jlz_interference_l1/cap_price.py",
+    "before_sha256": "3e28379cb5cef64b04d663972fc18c959237e3cf4cf28caa880b1113401508cb",
+    "after_sha256": "7f36e178d32515826bfc3b4c48104db4247cb799760a2dff6c15f29f8d0fe9f0"
+  },
+  {
+    "path": "ours/core/jlz_interference_l1/cap_optimizer.py",
+    "before_sha256": "ceaecff394a8a2a227268b3845fdd1d62dbf0c12104112bf093505a9ca76d289",
+    "after_sha256": "08b39b25bb1b4486de8409fef78f7e1ce824250ad1075e0c7522044d49f2b4bf"
+  },
+  {
+    "path": "ours/core/jlz_v12r/optimizer.py",
+    "before_sha256": "3cbb75711a48f0ce9df1d10f2fcf4666a9a6dacde4e0066b7702bc5a8788369e",
+    "after_sha256": "b32cb0aecee3240cdd38fedb30b20859631cabb1db484e789be045765850b253"
+  },
+  {
+    "path": "ours/core/jlz_interference_l1/cap_controller.py",
+    "before_sha256": "6fb46e8120e1b93368d760b97cf266d5dadd32c2766e5e2ade0db3082270a33d",
+    "after_sha256": "ebcbae213b6b6adbe4370eb46cfa5e4bdc1c22a89bde53ea729b550f3f273043"
+  },
+  {
+    "path": "ours/core/jlz_v12r/engine.py",
+    "before_sha256": "8e97981f82445bad54e3d1a2490f3377203b3fda368e476583bf2f07bd8f9e7f",
+    "after_sha256": "3002ec52dd0e0c200c15f7a4e5b7ed6ab52e13aff3490fa7e8d50bffaca27587"
+  },
+  {
+    "path": "ours/core/jlz_v12r/subject.py",
+    "before_sha256": "5637f56d4d99178e0555380eed7d594a1852148a3593df7377b8bfb5d971249b",
+    "after_sha256": "8966699c2c1efac20e04b8c621c4a85be6828739968f1d6dd7451d4e938002d8"
+  },
+  {
+    "path": "ours/core/jlz_realized_subject/subject.py",
+    "before_sha256": "5ee6bbcc2ff6fea62824ecc139aa5050acca6d28aaedd3169753748810a375c7",
+    "after_sha256": "b87ed5939b414d68ee0823240a6c0b55aab9403990ded95145e9173cb3de373c"
+  },
+  {
+    "path": "ours/core/jlz_v12r/entry.py",
+    "before_sha256": "0677a8164364763f07877aec00c06d6cd96d753e2c02ba91d9a83ea62fa0dccf",
+    "after_sha256": "484d882dd9261d27ce83799a073efa54c56fd22e82e860528888c814c9f2cced"
+  },
+  {
+    "path": "ours/core/jlz_interference_l1/cap_adapter.py",
+    "before_sha256": "9834f4e8020c5c88806ca2b82445d11a37abdaf99f0bcbf84d9a228e70cfbb8d",
+    "after_sha256": "e99e50c07df3c27bac4f9bb9679ef9002f86f2c41cf3f638f20061cee3b8d57e"
+  },
+  {
+    "path": "ours/core/jlz_interference_l1/cap_fit.py",
+    "before_sha256": "23f41f804d66c827d3fdbab6ae4eb0121d7437765349ed5dc2b52e18578d3759",
+    "after_sha256": "c82b9d5780edf690064cdc7413e850b190c8748a1538c16387e9f78b68c9019a"
+  },
+  {
+    "path": "README.md",
+    "before_sha256": "e302631cdf303ca63b7511fe8781adc316d598e72614ee931094f40bc1c236ce",
+    "after_sha256": "f83660a465a2a6b7c0211d9b232f46fdbf81cb63719e14d66e04398632a1da43"
+  }
+]
