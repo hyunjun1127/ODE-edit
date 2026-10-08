@@ -2,9 +2,11 @@
 import time
 import torch
 from official.ours.common import require
+from official.ours.config import knobs
 from .allocation import loss as allocation
 
-COEF = dict(nll=1., kl=.0625, norm=.5, allocation=.1)
+# This historical diagnostic is not the production PRICE gradient.
+# Allocation .1 is retained only for callers explicitly invoking this diagnostic.
 
 
 def row_logprobs(a, rows, nll, final):
@@ -41,6 +43,8 @@ def row_terms(a, entry, group, v):
 def evaluate(a, entry, R, built, arm, components=False, dense=False):
     """Return gradients of full request MEAN; optimizer applies B and scale once."""
     start=time.monotonic(); sites=tuple(R); originals=[built['v'][l] for l in sites]
+    config=knobs(a.profile)
+    COEF=dict(nll=1.,kl=config['lambda_KL'],norm=config['lambda_N'],allocation=.1)
     v={l:x if dense else x.detach().requires_grad_(True) for l,x in zip(sites,originals)}
     leaves=tuple(v.values()); totals=dict(nll=0.,kl=0.,norm=0.); B=entry['pack']['n_requests']; n=entry['pack']['n_rw']
     nll=torch.zeros(B,n,dtype=torch.float64); kl=torch.zeros(B,dtype=torch.float64)

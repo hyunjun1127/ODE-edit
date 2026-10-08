@@ -1,0 +1,20 @@
+{
+  "nonce": "USER-SH4-QWEN-PRICE-HPARAM-TIER2-20261009-R1-SCOPE",
+  "direct_user_request": "qwen ours 실험 중단하자.",
+  "job_id": "61598",
+  "owner": "janghj",
+  "node": "server4",
+  "job_name": "qwen-ours-m1-2k-20261008",
+  "command": "/data/janghj/ODE-edit/local/qwen-ours-m1-2k-20261008/execution-v1/launch.sh",
+  "state_before": "RUNNING",
+  "action": "scancel 61598",
+  "command_exit_code": 0,
+  "accounting_after": "CANCELLED by 1025",
+  "accounting_end_scheduler_time": "2026-10-09T02:19:07",
+  "immediate_queue_after": "COMPLETING",
+  "preserved_running_jobs": ["61618", "61418"],
+  "old_source_raw_preserved": true,
+  "restart_requested": false,
+  "new_sweep_job_ids": [],
+  "new_sweep_stage": "IMPLEMENTING_NOT_SUBMITTED"
+}

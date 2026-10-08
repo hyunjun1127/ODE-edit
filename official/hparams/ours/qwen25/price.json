@@ -1,0 +1,18 @@
+{
+  "beta_base": 0.75,
+  "c": 0.75,
+  "beta_max_scale": 0.75,
+  "cap_mode": "native",
+  "n_exp": 4,
+  "K_grace": 12,
+  "tau_F": 0.05,
+  "lr": 0.1,
+  "eps": 1e-8,
+  "betas": [
+    0.9,
+    0.999
+  ],
+  "lambda_N": 0.5,
+  "lambda_KL": 0.0625,
+  "max_updates": 24
+}

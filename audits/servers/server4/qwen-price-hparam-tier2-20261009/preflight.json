@@ -1,0 +1,72 @@
+{
+  "task_id": "qwen-price-hparam-tier2-20261009",
+  "nonce": "USER-SH4-QWEN-PRICE-HPARAM-TIER2-20261009-R1",
+  "scope_correction": "USER-SH4-QWEN-PRICE-HPARAM-TIER2-20261009-R1-SCOPE",
+  "base_commit": "9236f61055ff7eaaeffaad1130c62959e0117262",
+  "branch": "codex/server4-qwen-price-hparam-tier2-20261009",
+  "owner": "server4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "source_stage": "CPU_VERIFIED_IMPLEMENTATION_IN_PROGRESS",
+  "dispatch_sha256": {
+    "prompt.md": "8754a7763650f7eb99a8f2f8d25f62d6e1b79b1eb0c1505076935a107c0ccb89",
+    "qwen-sweep-design.md": "198d833b274b402dea418899ac61bb87c6443b889115b0287533e9b9019412ad",
+    "tier2-user-command.txt": "4cef1ab072778e769c69678e7afc651ae44df81a0216bf148dacdea13e91fe68",
+    "manifest.json": "68ad6e52c887769631247dbca2ef361e992bb6948593eb48d0437762ee8659f7"
+  },
+  "CPU": {
+    "new_tests": 7,
+    "official_tests_total_including_new": 63,
+    "status": "PASS",
+    "frozen_reference": "/data/janghj/ODE-edit/local/qwen-ours-m1-2k-20261008/preparation-v1/source",
+    "bit_exact": ["controller", "projection", "EfficiencyAdamAbs", "analytic_norm", "subject_F_NLL_KL_active_mask_adjoint"],
+    "models": ["llama3", "qwen25", "gptj"],
+    "actual_model_or_GPU": false,
+    "review_level": "OWNER; independent reviewer not used"
+  },
+  "official_verify": {"source_files":158,"python_files":228,"source_integrity":"PASS","external_task_imports":0,"GPU_qualification":"NOT_RUN"},
+  "heldout": {
+    "slice": [2000,2500],
+    "records": 500,
+    "native_packs": 5,
+    "slice_identity": "8506cc980595dbaa170052e83e30af231606ea57f2e6c1377cb5c5d1be2a81ba",
+    "case_overlap_first2k": 0,
+    "request_overlap_first2k": 0,
+    "lookup_zero_count": 2,
+    "lookup_zero_batch_owner": [[3,10],[3,84]],
+    "native_pack_old_new_token_target_lookup_identity": "PASS",
+    "model_loaded": false,
+    "W0": "NOT_MEASURED",
+    "local_preparation": "/data/janghj/ODE-edit/local/qwen-price-hparam-tier2-20261009/preparation-v1/preparation.json"
+  },
+  "predeclared_Q7_extreme_exclusion": "matched W0 current NS loss >5 percentage points; ordinary Tier2 admission remains <=1.5pp plus PS improvement over heldout Q0",
+  "selection_rules_sha256": "04ce18ff5ba1e608951ed40e8e208855ea84e4c2d10a801fb96121b41d08986a",
+  "GPU_smoke_W_H": "NOT_RUN",
+  "Tier1": "NOT_SUBMITTED",
+  "Tier2": "NOT_SUBMITTED",
+  "Tier3_submission_authorized": false,
+  "new_job_ids": [],
+  "tracking": "SHARED_SCHEMA_INPUT_PENDING; no new online run",
+  "communication": {
+    "target_session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "request_nonce": "SH4-GH-QWEN-TUNING-TRACKING-SCHEMA-20261009-R1",
+    "policy": "messages/head/2026-08-29-app-server-direct-protocol.md",
+    "transport": "SSH_UNIX_WEBSOCKET_APP_SERVER_DIRECT",
+    "status": "COMMUNICATION_HOLD",
+    "reason": "SSH authentication rejected before WebSocket initialization",
+    "target_turn_started": false,
+    "message_sha256": "3179f3b491ec62c37dceb16afa1ac86dbb252f47cc0a7575cec22f93b78d2cdb",
+    "Git_inbox_fallback": false
+  },
+  "resource": {
+    "user_dispatch_reference_cap":3,
+    "current_canonical_cap":2,
+    "local_cap":3,
+    "effective_cap":2,
+    "retained_running_ids":["61418","61618"],
+    "note":"Use stricter actual admission. No new submission/hold/release or unrelated mutation."
+  },
+  "old61598_stop": "CANCELLED; separate old-run-stop.json",
+  "checkpoint": "No new checkpoint created. Future archive API adoption pending; old source/raw/checkpoints KEEP.",
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED: same-host CPU inputs; compact source/receipts only",
+  "main_push": false
+}

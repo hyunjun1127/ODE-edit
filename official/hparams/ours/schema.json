@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PRICE knobs; cross-field checks in official.ours.config.validate_price",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["beta_base","c","beta_max_scale","cap_mode","n_exp","K_grace","tau_F","lr","eps","betas","lambda_N","lambda_KL","max_updates"],
+  "properties": {
+    "beta_base": {"type":"number","exclusiveMinimum":0},
+    "c": {"type":["number","null"],"exclusiveMinimum":0},
+    "beta_max_scale": {"type":"number","minimum":0},
+    "cap_mode": {"enum":["native","none"]},
+    "n_exp": {"type":"integer","minimum":0},
+    "K_grace": {"type":"integer","minimum":0},
+    "tau_F": {"type":"number","exclusiveMinimum":0},
+    "lr": {"type":"number","exclusiveMinimum":0},
+    "eps": {"type":"number","exclusiveMinimum":0},
+    "betas": {"type":"array","minItems":2,"maxItems":2,"items":{"type":"number","minimum":0,"exclusiveMaximum":1}},
+    "lambda_N": {"type":"number","minimum":0},
+    "lambda_KL": {"type":"number","minimum":0},
+    "max_updates": {"type":"integer","minimum":1}
+  },
+  "allOf": [
+    {"if":{"properties":{"cap_mode":{"const":"native"}}},"then":{"properties":{"c":{"type":"number"}}}},
+    {"if":{"properties":{"cap_mode":{"const":"none"}}},"then":{"properties":{"c":{"type":"null"}}}}
+  ]
+}

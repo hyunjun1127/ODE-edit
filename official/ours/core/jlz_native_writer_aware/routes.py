@@ -2,14 +2,17 @@
 import torch
 from official.ours.common import require
 
-def annotate(entry):
+def annotate(entry,lambda_KL=None):
+    if lambda_KL is None:lambda_KL=entry['lambda_KL']
+    if 'lambda_KL' in entry and entry['lambda_KL']!=lambda_KL:raise RuntimeError('ROW_KL_BINDING')
+    entry['lambda_KL']=lambda_KL
     counts={};rows=[];groups=[]
     for gi,g in enumerate(entry['groups']):
         for row in g['rows']:
             owner=row['request'];kind=row['kind']
             index=counts.get((owner,kind),0);counts[owner,kind]=index+1
             row['reduction_index']=index
-            row['role_weight']=1/entry['pack']['n_rw'] if kind=='rewrite' else .0625
+            row['role_weight']=1/entry['pack']['n_rw'] if kind=='rewrite' else lambda_KL
             rows.append(row)
         tok=g['tokens'];groups.append(dict(index=gi,global_rows=[r['global_row'] for r in g['rows']],
             owners=[r['request'] for r in g['rows']],roles=[r['kind'] for r in g['rows']],

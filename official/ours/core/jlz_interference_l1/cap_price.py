@@ -3,6 +3,7 @@ import hashlib
 import json
 import time
 import torch
+from official.ours.config import knobs,plain
 from official.ours.common import require,tensor_sha
 
 
@@ -110,12 +111,14 @@ def initialize(a,entry,built,arm,batch=1):
             sum_computed=float(torch.sort(computed[:,r]).values.sum()),sum_effective=float(torch.sort(effective[:,r]).values.sum())))
     price_seconds=time.monotonic()-start
     loo=leave_one_out(a,entry,built) if batch==1 else dict(status='NOT_REQUESTED_AFTER_B1',pairs=[],seconds=0.,extra_solves=0,extra_model_calls=0,transfer_bytes=0)
-    cap_mode=a.profile['cap_mode'];base=float(a.profile['beta_base'])
-    ceiling=torch.maximum(torch.full((B,),base,dtype=torch.float64),.75*effective.max(0).values)
-    record=dict(schema='PRICE_CAP_BASE_ENTRY_V1',cap_mode=cap_mode,native_c=.75,beta_max_native_scale=.75,
-        ceiling_raised_to_base=(base>.75*effective.max(0).values).tolist(),arm=arm,batch=int(batch),B=B,layers=list(layers),
+    config=knobs(a.profile);cap_mode=config['cap_mode'];base=float(config['beta_base'])
+    c=config['c'];scale=config['beta_max_scale']
+    ceiling=torch.maximum(torch.full((B,),base,dtype=torch.float64),scale*effective.max(0).values)
+    record=dict(schema='PRICE_CAP_BASE_ENTRY_V1',cap_mode=cap_mode,native_c=c,beta_max_native_scale=scale,
+        resolved_config=plain(a.profile['resolved_config']),resolved_config_sha256=a.profile['resolved_config_sha256'],
+        ceiling_raised_to_base=(base>scale*effective.max(0).values).tolist(),arm=arm,batch=int(batch),B=B,layers=list(layers),
         anchors=anchors.tolist(),anchor_star=entry['anchors'][a.profile['anchor_layer']].detach().cpu().double().tolist(),
-        local_caps=(.75*anchors).tolist() if cap_mode=='native' else None,raw_kappa=raw.tolist(),floored_kappa=floored.tolist(),
+        local_caps=(c*anchors).tolist() if cap_mode=='native' else None,raw_kappa=raw.tolist(),floored_kappa=floored.tolist(),
         max_raw=maximum.tolist(),min_floored=floored.min(0).values.tolist(),relative_floor=relative_floor.tolist(),
         absolute_floor=absolute_floor.tolist(),floor_mask=(floored>raw).tolist(),zero_score_mask=(raw==0).tolist(),
         allzero_request=allzero.tolist(),request_status=['SINGLE_REQUEST_NEUTRAL_PRICE' if B==1 else

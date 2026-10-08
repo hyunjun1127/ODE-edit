@@ -3,13 +3,13 @@ import torch
 from .projection import project_capped_energy
 
 
-def analytic_norm(R, anchor_star, active=None):
+def analytic_norm(R, anchor_star, active=None, *, lambda_N):
     layers = tuple(R)
     first = R[layers[0]]
     a = torch.as_tensor(anchor_star, device=first.device, dtype=torch.float64)
     if a.shape != (first.shape[1],) or not bool(torch.isfinite(a).all() and (a > 0).all()):
         raise RuntimeError('NORM_ANCHOR')
-    beta = .5 / a.square()
+    beta = lambda_N / a.square()
     mask = torch.ones_like(a, dtype=torch.bool) if active is None else torch.as_tensor(active, device=a.device, dtype=torch.bool)
     losses = torch.zeros_like(a)
     gradient = {}

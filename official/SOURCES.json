@@ -846,10 +846,11 @@
       "upstream_path": "project/run_scripts/jlz_price_gptj/entry.py",
       "path": "ours/core/jlz_price_gptj/entry.py",
       "upstream_sha256": "b2a996e2f9a60b6b6f16388dcbbac94af523f10a98313028e2ed809d78a2b16a",
-      "sha256": "253be9ddc249464d8c7c747e251aaeec4e2ceb2f69314439f23314397d7f5ea3",
+      "sha256": "b6015762a686628e9970c4e9aff43f24921e10ee4806d6b6c870387a73e82b36",
       "changes": [
         "package_namespace_only",
-        "common_scalar_helpers_without_task_identity"
+        "common_scalar_helpers_without_task_identity",
+        "Qwen Tier2: immutable PRICE resolver binding; default CPU bit-exact regression, no baseline method change"
       ]
     },
     {
@@ -859,10 +860,11 @@
       "upstream_path": "project/run_scripts/jlz_native_writer_aware/routes.py",
       "path": "ours/core/jlz_native_writer_aware/routes.py",
       "upstream_sha256": "1a3b3e00f52179095f137f010979c13c11b1286f3aea09b46051619f55f7e304",
-      "sha256": "08f56ad1807f90439441477bb6b64ca0493c27cb68dd9a01851f4b884d61ac5e",
+      "sha256": "61e6926607860d4e9a601a617ffa8557b6210f7d081cc99f150b8253f5917003",
       "changes": [
         "package_namespace_only",
-        "common_scalar_helpers_without_task_identity"
+        "common_scalar_helpers_without_task_identity",
+        "Qwen Tier2: immutable PRICE resolver binding; default CPU bit-exact regression, no baseline method change"
       ]
     },
     {
@@ -1028,10 +1030,11 @@
       "upstream_path": "project/run_scripts/jlz_price_gptj/fit.py",
       "path": "ours/core/jlz_price_gptj/fit.py",
       "upstream_sha256": "48569c71b857a5d19887cfc152939d4c85dc76bd9f96152ad14d307bf2f739d8",
-      "sha256": "25108eec31ae2c4436fc1a8efcb8d1f279c25f42a83ae10c26a1a0545854efb0",
+      "sha256": "e28a026dacbf29cbbe6b5838d13f42c2a31699eadfbfd6f829148a57143d950b",
       "changes": [
         "package_namespace_only",
-        "common_scalar_helpers_without_task_identity"
+        "common_scalar_helpers_without_task_identity",
+        "Qwen Tier2: immutable PRICE resolver binding; default CPU bit-exact regression, no baseline method change"
       ]
     },
     {
@@ -1080,10 +1083,11 @@
       "upstream_path": "project/run_scripts/jlz_price_gptj/price.py",
       "path": "ours/core/jlz_price_gptj/price.py",
       "upstream_sha256": "82f1922592feed586a97ba4a72bce7964cce3337aa5b07e51ac8a4401a963cd5",
-      "sha256": "bef0d7ca5707b077f357d4a58875f89d9ab92c3ae144ba97a7fd5280f3ee2501",
+      "sha256": "5ab32d54a37047d1d20cdb728debc3e0d023496ed373960755d7bf9f3dda0b44",
       "changes": [
         "package_namespace_only",
-        "common_scalar_helpers_without_task_identity"
+        "common_scalar_helpers_without_task_identity",
+        "Qwen Tier2: immutable PRICE resolver binding; default CPU bit-exact regression, no baseline method change"
       ]
     },
     {
@@ -1093,10 +1097,11 @@
       "upstream_path": "project/run_scripts/jlz_interference_l1/cap_price.py",
       "path": "ours/core/jlz_interference_l1/cap_price.py",
       "upstream_sha256": "1c573982fbe02553de8a8caa402de9f08bbfcbe7684e70e2a5887ab450a5c9e3",
-      "sha256": "3e28379cb5cef64b04d663972fc18c959237e3cf4cf28caa880b1113401508cb",
+      "sha256": "4dc49a819ba92e939cd5c7cc642064ef689dcfdefe68402db6ab5de3fde05033",
       "changes": [
         "package_namespace_only",
-        "common_scalar_helpers_without_task_identity"
+        "common_scalar_helpers_without_task_identity",
+        "Qwen Tier2: immutable PRICE resolver binding; default CPU bit-exact regression, no baseline method change"
       ]
     },
     {
@@ -1106,10 +1111,11 @@
       "upstream_path": "project/run_scripts/jlz_interference_l1/cap_optimizer.py",
       "path": "ours/core/jlz_interference_l1/cap_optimizer.py",
       "upstream_sha256": "70826aea7ab2b16794dc7205e7ead53bb7c092129661a98487529368e64b91fa",
-      "sha256": "ceaecff394a8a2a227268b3845fdd1d62dbf0c12104112bf093505a9ca76d289",
+      "sha256": "cc111cdfb89079035b3b054fadcab392923f34e9e7e2269bb73d9979f9541fc9",
       "changes": [
         "package_namespace_only",
-        "common_scalar_helpers_without_task_identity"
+        "common_scalar_helpers_without_task_identity",
+        "Qwen Tier2: immutable PRICE resolver binding; default CPU bit-exact regression, no baseline method change"
       ]
     },
     {
@@ -1145,10 +1151,11 @@
       "upstream_path": "project/run_scripts/jlz_v12r/optimizer.py",
       "path": "ours/core/jlz_v12r/optimizer.py",
       "upstream_sha256": "3cbb75711a48f0ce9df1d10f2fcf4666a9a6dacde4e0066b7702bc5a8788369e",
-      "sha256": "3cbb75711a48f0ce9df1d10f2fcf4666a9a6dacde4e0066b7702bc5a8788369e",
+      "sha256": "ee63ce4a3ee36c5a28aab92814d2ffae4448970c4df8bf892b42c459e278f2aa",
       "changes": [
         "package_namespace_only",
-        "common_scalar_helpers_without_task_identity"
+        "common_scalar_helpers_without_task_identity",
+        "Qwen Tier2: immutable PRICE resolver binding; default CPU bit-exact regression, no baseline method change"
       ]
     },
     {
@@ -1171,10 +1178,11 @@
       "upstream_path": "project/run_scripts/jlz_interference_l1/cap_controller.py",
       "path": "ours/core/jlz_interference_l1/cap_controller.py",
       "upstream_sha256": "6fb46e8120e1b93368d760b97cf266d5dadd32c2766e5e2ade0db3082270a33d",
-      "sha256": "6fb46e8120e1b93368d760b97cf266d5dadd32c2766e5e2ade0db3082270a33d",
+      "sha256": "5b71e27ac71ee880e2ed36bb783690a2132c2ebf603acf608e888abe88f5277a",
       "changes": [
         "package_namespace_only",
-        "common_scalar_helpers_without_task_identity"
+        "common_scalar_helpers_without_task_identity",
+        "Qwen Tier2: immutable PRICE resolver binding; default CPU bit-exact regression, no baseline method change"
       ]
     },
     {
@@ -1223,10 +1231,11 @@
       "upstream_path": "project/run_scripts/jlz_v12r/subject.py",
       "path": "ours/core/jlz_v12r/subject.py",
       "upstream_sha256": "56834e9af320429722faab8159126e089f99e2efed4253e87bcf5c9b66aca870",
-      "sha256": "5637f56d4d99178e0555380eed7d594a1852148a3593df7377b8bfb5d971249b",
+      "sha256": "664bdd58faa19ea43b651ef9e0572044f93ddbb8a5319827dad5915bbb3c21a9",
       "changes": [
         "package_namespace_only",
-        "common_scalar_helpers_without_task_identity"
+        "common_scalar_helpers_without_task_identity",
+        "Qwen Tier2: immutable PRICE resolver binding; default CPU bit-exact regression, no baseline method change"
       ]
     },
     {
@@ -1236,10 +1245,11 @@
       "upstream_path": "project/run_scripts/jlz_realized_subject/subject.py",
       "path": "ours/core/jlz_realized_subject/subject.py",
       "upstream_sha256": "ac2e72d60588b7d72c2e7a3cd9ce938479a5381bb506dbb3481a26568de9c81c",
-      "sha256": "5ee6bbcc2ff6fea62824ecc139aa5050acca6d28aaedd3169753748810a375c7",
+      "sha256": "6b402baf5ebdbf141b4643a61602bb134b1a698005ec2eb33b34e5bd14fb1287",
       "changes": [
         "package_namespace_only",
-        "common_scalar_helpers_without_task_identity"
+        "common_scalar_helpers_without_task_identity",
+        "Qwen Tier2: immutable PRICE resolver binding; default CPU bit-exact regression, no baseline method change"
       ]
     },
     {
@@ -1275,10 +1285,11 @@
       "upstream_path": "project/run_scripts/jlz_v12r/entry.py",
       "path": "ours/core/jlz_v12r/entry.py",
       "upstream_sha256": "e5e9e0b559d8460dccb8656bd2d34762d2021a50d1e55c9d84e6be41db22fd71",
-      "sha256": "0677a8164364763f07877aec00c06d6cd96d753e2c02ba91d9a83ea62fa0dccf",
+      "sha256": "46437c6b47054b4913da5ee740f6a4e51629724f3ffdad62754f742f9e838ea3",
       "changes": [
         "package_namespace_only",
-        "common_scalar_helpers_without_task_identity"
+        "common_scalar_helpers_without_task_identity",
+        "Qwen Tier2: immutable PRICE resolver binding; default CPU bit-exact regression, no baseline method change"
       ]
     },
     {
@@ -1301,10 +1312,11 @@
       "upstream_path": "project/run_scripts/jlz_interference_l1/cap_fit.py",
       "path": "ours/core/jlz_interference_l1/cap_fit.py",
       "upstream_sha256": "80670d669c122c10b2b8f96def970744ad3ab17783ae6d99384ecc5b54b15771",
-      "sha256": "23f41f804d66c827d3fdbab6ae4eb0121d7437765349ed5dc2b52e18578d3759",
+      "sha256": "be1bec536cb0953c79fb30b945b7d7933ca387ad130c0e63b7fc17981da30c3d",
       "changes": [
         "package_namespace_only",
-        "common_scalar_helpers_without_task_identity"
+        "common_scalar_helpers_without_task_identity",
+        "Qwen Tier2: immutable PRICE resolver binding; default CPU bit-exact regression, no baseline method change"
       ]
     },
     {
@@ -1841,6 +1853,18 @@
         "display-only Score_AlphaEdit_display now follows upstream NumPy per-request/cohort averaging and np.around; raw E/G/S, raw Score and zsRE unchanged"
       ],
       "review_nonce": "SH2-GH-OFFICIAL-NATIVE-REFERENCE-20261009-R1"
+    },
+    {
+      "component": "ours",
+      "repository": "hyunjun1127/ODE-edit",
+      "commit": "WORKTREE_PENDING_COMMIT",
+      "upstream_path": null,
+      "path": "ours/config.py",
+      "upstream_sha256": null,
+      "sha256": "dd57d334ba538b87412f584c8a63b32f34fa3a0cde25fdf8ce49d88174883d27",
+      "changes": [
+        "New immutable PRICE resolver, USER-SH4-QWEN-PRICE-HPARAM-TIER2-20261009-R1"
+      ]
     }
   ]
 }

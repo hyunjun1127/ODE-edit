@@ -1,6 +1,8 @@
 """Fresh native complete-owner entry capture; capture L8 even for L4-only."""
 import time
 import torch
+from official.ours.config import knobs
+from official.ours.anchor import guarded_anchor
 from official.ours.core.jlz_realization.inputs import batches
 from official.ours.core.jlz_writer_coupled.entry import cpu
 from official.ours.core.jlz_realized_subject.geometry import prior, mean_keys
@@ -22,10 +24,11 @@ def native_rows(pack):
 @torch.no_grad()
 def prepare_entry(a,bench,pack,history,stats,requests_per_group=1):
     require(requests_per_group==1,'COMPLETE_SINGLE_OWNER_GRAPH')
+    config=knobs(a.profile)
     start=time.monotonic();rows=native_rows(pack);groups=[]
     anchor_layer=a.profile['anchor_layer'];capture_sites=sorted(set(a.sites)|{anchor_layer})
     anchors={l:[] for l in capture_sites};hidden={l:[] for l in capture_sites}
-    raw={l:[] for l in a.sites};teachers={};kl_inputs={}
+    raw={l:[] for l in a.sites};teachers={};kl_inputs={};anchor_diagnostics=[]
     for rowgroup,tokens in batches(rows,pack['n_rw']+1,bench.tokenizer.pad_token_id,a.device):
         require(len({r['request'] for r in rowgroup})==1,'COMPLETE_OWNER_GROUP')
         first={};found={};keys={};handles=[]
@@ -44,7 +47,13 @@ def prepare_entry(a,bench,pack,history,stats,requests_per_group=1):
                     for l in capture_sites:
                         h=found[l][j,r['lookup']].detach().clone()
                         require(h.dtype==torch.float32,'NATIVE_ANCHOR_FP32')
-                        hidden[l].append(h.cpu());anchors[l].append(h.norm().cpu())
+                        value=guarded_anchor(found[l],rowgroup,pack['canonical_rows'],j,a.profile.get('price_m1_anchor_guard',False))
+                        hidden[l].append(h.cpu());anchors[l].append(value.cpu())
+                        if a.profile.get('price_m1_anchor_guard',False) and r['lookup']==0:
+                            norms=[float(found[l][i,x['lookup']].detach().norm()) for i,x in enumerate(rowgroup)
+                                if x['kind']=='rewrite' and x['request']==r['request'] and x['global_row'] not in pack['canonical_rows']]
+                            anchor_diagnostics.append(dict(layer=l,owner=r['request'],canonical_lookup=0,canonical_norm=float(h.norm()),
+                                prefix_norms=norms,effective_norm=float(value),extra_forward=0))
                 if r['kind']=='kl':
                     teachers[r['request']]=a.head(final[j,r['lookup']]).log_softmax(-1).cpu()
                     kl_inputs[r['request']]=dict(input_ids=r['tokens']['input_ids'].tolist(),
@@ -69,4 +78,5 @@ def prepare_entry(a,bench,pack,history,stats,requests_per_group=1):
         history_entry={l:history[l] for l in a.sites},teacher_hash={r:tensor_sha(t) for r,t in teachers.items()},
         seconds=time.monotonic()-start,capture_sites=capture_sites,
         input_policy='ORIGINAL_NATIVE_FULL_REWRITE_AND_KL_COMPLETE_OWNER')
-    return annotate(entry)
+    entry['anchor_guard_diagnostics']=anchor_diagnostics
+    return annotate(entry,config['lambda_KL'])

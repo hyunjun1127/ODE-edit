@@ -1,6 +1,8 @@
 """Fresh native complete-owner entry capture; capture L8 even for L4-only."""
 import time
 import torch
+from official.ours.config import knobs
+from official.ours.anchor import guarded_anchor
 from official.ours.core.jlz_realization.inputs import batches
 from official.ours.core.jlz_writer_coupled.entry import cpu
 from official.ours.core.jlz_realized_subject.geometry import mean_keys
@@ -23,6 +25,7 @@ def native_rows(pack):
 @torch.no_grad()
 def prepare_entry(a,bench,pack,history,stats,requests_per_group=1):
     require(requests_per_group==1,'COMPLETE_SINGLE_OWNER_GRAPH')
+    config=knobs(a.profile)
     start=time.monotonic();rows=native_rows(pack);groups=[]
     anchor_layer=a.profile['anchor_layer'];capture_sites=sorted(set(a.sites)|{anchor_layer})
     anchors={l:[] for l in capture_sites};hidden={l:[] for l in capture_sites}
@@ -45,7 +48,8 @@ def prepare_entry(a,bench,pack,history,stats,requests_per_group=1):
                     for l in capture_sites:
                         h=found[l][j,r['lookup']].detach().clone()
                         require(h.dtype==torch.float32,'NATIVE_ANCHOR_FP32')
-                        hidden[l].append(h.cpu());anchors[l].append(h.norm().cpu())
+                        value=guarded_anchor(found[l],rowgroup,pack['canonical_rows'],j,a.profile.get('price_m1_anchor_guard',False))
+                        hidden[l].append(h.cpu());anchors[l].append(value.cpu())
                 if r['kind']=='kl':
                     teachers[r['request']]=a.head(final[j,r['lookup']]).log_softmax(-1).cpu()
                     kl_inputs[r['request']]=dict(input_ids=r['tokens']['input_ids'].tolist(),
@@ -76,4 +80,4 @@ def prepare_entry(a,bench,pack,history,stats,requests_per_group=1):
         history_entry={l:history[l] for l in a.sites},teacher_hash={r:tensor_sha(t) for r,t in teachers.items()},
         seconds=time.monotonic()-start,capture_sites=capture_sites,
         input_policy='ORIGINAL_NATIVE_FULL_REWRITE_AND_KL_COMPLETE_OWNER')
-    return annotate(entry)
+    return annotate(entry,config['lambda_KL'])

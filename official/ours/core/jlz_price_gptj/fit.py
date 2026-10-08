@@ -4,6 +4,7 @@ import json
 import time
 import torch
 from official.ours.common import require
+from official.ours.config import knobs,plain
 from .engine import CandidateObjective
 from .dispatch import initialize
 from official.ours.core.jlz_interference_l1.cap_controller import RequestController
@@ -19,6 +20,9 @@ def emit(events,kind,payload):
 
 def fit(a,entry,arm_profile,events=None,built0=None,price=None,event_sink=None):
     start=time.monotonic();events=events if event_sink is None else event_sink
+    config=knobs(a.profile)
+    require(knobs(arm_profile)==config,'SINGLE_RESOLVED_PRICE_CONFIG')
+    budget=config['max_updates']
     mark=events.mark() if events is not None and hasattr(events,'mark') else None
     engine=CandidateObjective(a,entry,events);R=engine.zeros();sites=tuple(a.sites)
     arm=arm_profile.get('arm','PRICE');anchor_star=entry['anchors'][a.profile['anchor_layer']]
@@ -29,19 +33,19 @@ def fit(a,entry,arm_profile,events=None,built0=None,price=None,event_sink=None):
     if price is None:price=initialize(a,entry,built0,arm,batch=entry.get('batch',getattr(events,'batch',arm_profile.get('batch',1))))
     emit(events,'entry_price',dict(**price['record'],record_sha256=price['sha256']))
     controller=RequestController(torch.stack([entry['anchors'][l] for l in sites]),anchor_star,sites,
-        price['effective_pi'],n_exp=arm_profile.get('n_exp',4),grace=arm_profile.get('K_grace',12),threshold=arm_profile.get('tau_F',.05),c=arm_profile['c'],
-        beta_base=arm_profile['beta_base'],cap_mode=arm_profile['cap_mode'],beta_max_native_scale=arm_profile['beta_max_native_scale'])
-    optimizer=EfficiencyAdamAbs(R,lr=arm_profile['lr'],eps=arm_profile['eps'],betas=arm_profile['betas'],
+        price['effective_pi'],n_exp=config['n_exp'],grace=config['K_grace'],threshold=config['tau_F'],c=config['c'],
+        beta_base=config['beta_base'],cap_mode=config['cap_mode'],beta_max_native_scale=config['beta_max_scale'],max_updates=budget)
+    optimizer=EfficiencyAdamAbs(R,lr=config['lr'],eps=config['eps'],betas=config['betas'],max_updates=budget,
         endpoint_cast_mode=arm_profile.get('endpoint_cast_mode','nearest'))
     logical_backwards=updates=candidates=0;digest=hashlib.sha256()
     optimizer_seconds=projection_seconds=pullback_seconds=build_seconds=subject_seconds=telemetry_seconds=io_seconds=0.
-    for k in range(25):
-        result=engine.evaluate(R,k,active_previous=controller.active,terminal=k==24,capture=True,
+    for k in range(budget+1):
+        result=engine.evaluate(R,k,active_previous=controller.active,terminal=k==budget,capture=True,
                                built=built0 if k==0 else None,blind=False)
         if k==0:built0=None  # Do not retain a second full FP32 payload through the remaining candidates.
         F=result['F'];active,terminal=controller.observe(F,k)
         require(torch.equal(active.cpu(),result['active_mask']),'ACTIVE_FORWARD_BACKWARD_MASK_IDENTITY')
-        built=result['built'];observed=result['observed'];norm,gn=analytic_norm(R,anchor_star,active)
+        built=result['built'];observed=result['observed'];norm,gn=analytic_norm(R,anchor_star,active,lambda_N=config['lambda_N'])
         scalar=candidate_telemetry(a,entry,R,built,F,controller);telemetry_seconds+=scalar['seconds']
         row=dict(candidate=k,ordinal=k+1,entry_price_sha256=price['sha256'],F=F.tolist(),
             nll=observed['nll'].tolist(),KL=observed['kl'].tolist(),full_task_sum=float(F.sum()),
@@ -69,12 +73,13 @@ def fit(a,entry,arm_profile,events=None,built0=None,price=None,event_sink=None):
         io_start=time.monotonic();emit(events,'candidate',row);io_seconds+=time.monotonic()-io_start;candidates+=1
         if terminal:break
         R=Rnext
-    require(candidates<=25 and updates<=24 and logical_backwards<=24,'25_24_BUDGET')
+    require(candidates<=budget+1 and updates<=budget and logical_backwards<=budget,'RESOLVED_CANDIDATE_UPDATE_BUDGET')
     require(terminal and not row['backward'],'LAST_EVALUATED_TERMINAL')
     stream=events.reference_since(mark) if events is not None and hasattr(events,'reference_since') else dict(
         path=None,line_count=candidates,record_sha256=digest.hexdigest(),status='NOT_PERSISTED_NO_EVENT_SINK')
     require(stream['line_count']==candidates,'AUTHORITATIVE_CANDIDATE_STREAM_COUNT')
     receipt=dict(status='LAST_EVALUATED_FINITE_TERMINAL',arm=arm,candidates=candidates,updates=updates,
+        resolved_config=plain(a.profile['resolved_config']),resolved_config_sha256=a.profile['resolved_config_sha256'],
         logical_builds=engine.calls['logical_builds'],logical_subject_forwards=engine.calls['logical_subject_forwards'],
         logical_subject_backwards=logical_backwards,request_updates=int(optimizer.t.sum()),terminal_candidate=built['candidate'],
         terminal_no_backward=True,terminal_extra_forward=0,requested_gradient='FP64_Lambda_M_rows_T',
