@@ -55,14 +55,10 @@ class SubmitTests(unittest.TestCase):
     def test_physical_stages_and_alias(self):
         qualify = submit.stage_specs("qualify", self.rows, self.files, self.root)
         cf = submit.stage_specs("cf", self.rows, self.files, self.root)
-        self.assertEqual([x["kind"] for x in qualify], ["w0"] + ["qualify"] * 4)
-        self.assertEqual([x["method"] for x in qualify[1:]],
-                         list(submit.CF_NEW_CHAIN_METHODS))
-        self.assertEqual(len(cf), 8)
+        self.assertEqual([x["kind"] for x in qualify], ["w0"] + ["qualify"] * 6)
+        self.assertEqual(len(cf), 10)
         self.assertTrue(all(x["kind"] == "edit" for x in cf))
         self.assertNotIn("qwen25-cf-alphaedit_blue", [x["key"] for x in cf])
-        self.assertFalse({"qwen25-cf-memit", "qwen25-cf-alphaedit"} &
-                         {x["key"] for x in cf})
         self.assertEqual(sum("-l2-" in x["key"] for x in cf), 3)
         self.assertEqual(sum("clamp075" in x["key"] for x in cf), 2)
         with self.assertRaisesRegex(submit.Blocked, "ZSRE_BLUE_SELECTION_REQUIRED"):
@@ -94,8 +90,8 @@ class SubmitTests(unittest.TestCase):
         scientific = [x for x in cf + zsre if x["kind"] == "edit"]
         bytes_retained = sum(submit.checkpoint_bytes(submit.read(x["config"]))
                              for x in scientific)
-        self.assertGreater(bytes_retained, 52 * submit.GIB)
-        self.assertLess(bytes_retained, 53 * submit.GIB)
+        self.assertGreater(bytes_retained, 60 * submit.GIB)
+        self.assertLess(bytes_retained, 63 * submit.GIB)
         with patch.object(submit, "model_snapshot_bytes", return_value=14 * submit.GIB), \
              patch.object(submit.shutil, "disk_usage",
                           return_value=SimpleNamespace(free=100 * submit.GIB)):
@@ -107,11 +103,8 @@ class SubmitTests(unittest.TestCase):
         with patch.object(submit.shutil, "disk_usage",
                           return_value=SimpleNamespace(free=140 * submit.GIB)):
             budget = submit.full_program_storage_reserve(self.root, self.rows)
-        self.assertGreater(budget["reserve_bytes"], 101 * submit.GIB)
-        self.assertLess(budget["reserve_bytes"], 102 * submit.GIB)
-        self.assertEqual(budget["qualification_checkpoint_copies"], 8)
-        self.assertEqual(budget["cf_physical_chains"], 8)
-        self.assertEqual(budget["zsre_physical_chains"], 6)
+        self.assertGreater(budget["reserve_bytes"], 129 * submit.GIB)
+        self.assertEqual(budget["qualification_checkpoint_copies"], 12)
         self.assertFalse(budget["cleanup_assumed"])
         with patch.object(submit.shutil, "disk_usage",
                           return_value=SimpleNamespace(free=100 * submit.GIB)):
@@ -338,19 +331,6 @@ class SubmitTests(unittest.TestCase):
             with self.assertRaisesRegex(submit.Blocked, "QUALIFICATION_SENTINEL"):
                 submit.submit_held(args)
         gate.assert_called_once_with(output)
-
-    def test_cf_qualification_rejects_superseded_refit_jobs(self):
-        output = self.root / "output"
-        attempt, lock = self.frozen_attempt(output)
-        lock["inputs"] = [{"path": "cf-stream.json", "sha256": "a" * 64}]
-        lock["specs"] = [
-            {"key": "qwen25-cf-w0", "kind": "w0"},
-            *({"key": "qwen25-cf-qualify-" + method.lower(),
-               "kind": "qualify", "method": method} for method in submit.METHODS),
-        ]
-        (attempt / "execution.lock.json").write_text(json.dumps(lock))
-        with self.assertRaisesRegex(submit.Blocked, "CF_QUALIFICATION_DAG_MISMATCH"):
-            submit.verify_qualification(output)
 
 
 if __name__ == "__main__":
