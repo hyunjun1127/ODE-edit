@@ -4,7 +4,10 @@
   "date_kst": "2026-10-09",
   "user_quote": "현재 각 서버별 가용 용량 자체가 server1이 가장 많기에, 각 서버들이 최종 checkpoint 연산 이후엔 server1로 전달하고 삭제하는 식으로 보존하자고 각 서버들에게 전달하자",
   "policy": "control/final-checkpoint-archive-policy.json",
-  "authorization": "사용자 직접 승인에 따라 server2/3/4의 정확한 완료 최종 checkpoint를 server1에 보존하고, SH1 fullSHA/size/identity 독립검증 및 별도사본 영수증 뒤 source payload만 개별 삭제. 매run exact allowlist/경로/bytes/fullSHA를 source SH가 기록하고 SH1이 수신용량을 확인해야 하며 같은범위 추가 사용자 승인을 반복 요청하지 않음.",
+  "prospective_only": true,
+  "latest_user_quote": "이건 앞으로의 job에 대한 정책이다.",
+  "clarification_nonce": "SH2-GH-FINAL-CHECKPOINT-ARCHIVE-PROSPECTIVE-CLARIFICATION-20261009-R1",
+  "authorization": "최신 사용자 범위에 따라 앞으로 새로 제출하는 server2/3/4 job의 정확한 완료 최종 checkpoint만 server1에 보존하고, SH1 fullSHA/size/identity 독립검증 및 별도사본 영수증 뒤 source payload만 개별 삭제. 이미 등록된 모든 job 및 기존 checkpoint는 제외/KEEP. 매run exact allowlist/경로/bytes/fullSHA를 source SH가 기록하고 SH1이 수신용량을 확인해야 하며 같은범위 추가 사용자 승인을 반복 요청하지 않음.",
   "large_transfer_exception": "이 정책의 선별 최종 checkpoint만 1방향 server1로 허용. model/data/credential/무관 tensor/broadcast는 미승인.",
   "source_deletion_condition": "VERIFIED_DESTINATION 없으면 삭제권한 발동0. 실행/재개/평가/collector 사용중·source변경·sameobject는 KEEP/HOLD.",
   "approved_executor": {
