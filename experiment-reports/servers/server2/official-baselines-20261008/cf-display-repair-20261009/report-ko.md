@@ -61,5 +61,7 @@ SDK 접수나 CPU 통과를 remote PASS로 표기하지 않는다.
 `/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/`.
 CPU collector는 새 CF와 보존 source별 실제 raw/CP를 별도로 검산하고 logging 문제도 따로 기록한다.
 raw/CP/old history 이동·삭제0, NO_BROADCAST_NOT_REQUIRED(compact Git만 게시).
-GH에 `SH2-GH-CF-DISPLAY-SUBMITTED-20261009-R1`로 실제 ID와 scope를 직접 전달했다.
+GH direct `SH2-GH-CF-DISPLAY-SUBMITTED-20261009-R1` 시도는 transport TimeoutError로
+COMMUNICATION_HOLD이며 직접 수신 ACK를 확인하지 못했다. 자동 재전송하지 않았다.
+실제 ID/source/dependency의 compact 영수증은 main에 게시해 회수 가능하게 했다.
 이후 GPU완료 대기/반복 monitor/자동재시도 없이 sealed runner/collector가 진행한다.
