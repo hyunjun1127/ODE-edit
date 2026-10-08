@@ -45,16 +45,18 @@ Ours 행은 결과 기록용이며 새 arm/실험을 자동 승인하지 않습�
 
 ### Llama3-8B-Instruct
 
-Server1 CF 등록 상태(2026-10-09 03:06:48 KST): FT **61661**, MEMIT **61662**,
-MEMIT-FE **61663** 모두 PENDING이다. 선행 native qualification **61657–61659**는
-RUNNING, 공통 W0 **61660**과 GPU0 collector **61664**는 PENDING이다.
+Server1 실제 scheduler/accounting 재확인(2026-10-09 03:31:11 KST): FT **61661**, MEMIT **61662**,
+MEMIT-FE **61663** 모두 PENDING(Dependency)이다. 선행 native qualification
+FT **61657** / MEMIT **61658** / MEMIT-FE **61659**는 RUNNING이며,
+공통 W0 **61660**과 GPU0 collector **61664**는 PENDING(Dependency)이다.
 선행 검증을 본 실험의 ING/완료로 표시하지 않는다. server1 cap4이며 W20 checkpoint를
 보존하고 FLU/CON은 후속 별도 평가로 연기한다. 실행 source `ecc80fc0` 및 정확한
 config/sample identity·dependency는 [제출 보고서](experiment-reports/servers/server1/official-baselines-20261008/CF-registration-20261009.md)에 기록했다.
 
-Server1 추가 CF(2026-10-09 03:28 KST 등록 직후): AlphaEdit **61677**, AlphaEdit+SPHERE
-**61678** PENDING. 선행 qualification **61675/61676**은 기존 GPU 말단
-61661/61662/61663 afterany, 본실험은 두 qualification afterok, GPU0 collector는 **61679**다.
+같은 시각 추가 CF: AlphaEdit **61677**, AlphaEdit+SPHERE **61678** 모두 PENDING(Dependency).
+선행 qualification AlphaEdit **61675** / SPHERE **61676**, GPU0 collector **61679**도
+PENDING(Dependency)이다. qualification은 기존 GPU 말단 61661/61662/61663 afterany,
+본실험은 두 qualification afterok로 연결되어 있다.
 전량 held 검산·release 완료, source `509b052c`; FLU/CON은 DEFERRED이고 checkpoint를 보존한다.
 실제 GPU/온라인 PASS는 아직 미관측이며 [추가 제출 보고서](experiment-reports/servers/server1/official-baselines-20261008/alpha-sphere-CF-registration-20261009.md)에 구분했다.
 
