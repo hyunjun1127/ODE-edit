@@ -1,0 +1,22 @@
+{
+  "observed_at": "2026-10-08T23:23:12.594797+00:00",
+  "events": [
+    {
+      "stage": "TURN_ACCEPTED",
+      "nonce": "USER-SH3-GH-OFFICIAL-M1-POS0-QWEN-GPTJ-20261009-R1",
+      "target": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+      "turn": "01a11dd3-66d5-7351-94e9-ccb53b0192b2"
+    },
+    {
+      "stage": "OWNER_ACK_RECEIVED",
+      "target": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+      "turn": "01a11dd3-66d5-7351-94e9-ccb53b0192b2",
+      "text": "OWNER_ACK nonce=USER-SH3-GH-OFFICIAL-M1-POS0-QWEN-GPTJ-20261009-R1"
+    }
+  ],
+  "initial_attempt": "thread/resume timed out before turn/start; no instruction sent in attempt1",
+  "second_attempt": "same nonce one turn/start; owner ACK received; connection closed after bounded ACK only",
+  "new_scientific_jobs": 0,
+  "official_implementation_by_SH3": false,
+  "GH_completion_not_claimed": true
+}
