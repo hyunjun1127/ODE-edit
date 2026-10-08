@@ -37,7 +37,7 @@ class Wiring(unittest.TestCase):
             root=Path(folder);config=root/'config.json'
             write_new(config,{'run_id':'llama3-cf-alphaedit'})
             args=types.SimpleNamespace(config=config,output=root)
-            admission=dict(cpus=8,memory_MiB=59392,effective_project_cap=3,
+            admission=dict(cpus=8,memory_MiB=59392,effective_project_cap=2,
                 combined_DAG_cap_pass=True,wall_hours=48,dependency_job_ids=[61598],qos='lab_gpu_s4')
             argv=command(args,admission,root/'launch.sh')
             self.assertIn('--hold',argv);self.assertIn('--dependency=afterany:61598',argv)

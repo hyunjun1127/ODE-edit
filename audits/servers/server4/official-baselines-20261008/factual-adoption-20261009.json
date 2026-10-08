@@ -1,0 +1,47 @@
+{
+  "schema": "server4-official-factual-adoption-v1",
+  "nonce": "SH1-ALL-OFFICIAL-FACTUAL-PUBLISHED-20261009-R1",
+  "parent": "USER-OFFICIAL-BASELINES-20261008-R1",
+  "server": "server4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "shared_publication": "55afa07d2555718c4ad8b2e483db8a260aa94e35",
+  "factual_source": "596896ff82a0c0aab8f64e4920f6f09d73072c58",
+  "shared_official_tree": "e79c3939447d2fbbd536cb0449c9ed2da361fa2b",
+  "factual_sha256": "2bc41883b9261d084a3b4b99e0920911789659401a6d9b2b0f0d801a446ab47b",
+  "test_sha256": "6eababac9556f758ee4f31f8342500674081aa102515d464871458cdbed0c999",
+  "CPU_checks": {
+    "own_caller": 9,
+    "own_wiring": 3,
+    "published_factual": 16,
+    "common_fake_SDK": 24,
+    "total_pass": 52,
+    "initial_harness_error": "metrics() unexpected official keyword; fixed caller test to published config_values API",
+    "tolerance_change": false,
+    "independent_reviewer": "NOT_PERFORMED"
+  },
+  "source_verifier": {"source_files": 148, "python_files": 209, "external_task_imports": 0, "status": "PASS"},
+  "token_plan": {
+    "CF_requests": 2000,
+    "CF_candidate_sequences_both_targets": 52000,
+    "CF_cohort_sha256": "d38cb5516007830e6576217180b5eb0d732ccdbfade274b93a31a721ff155173",
+    "zsRE_requests": 2000,
+    "zsRE_candidate_sequences": 6000,
+    "zsRE_cohort_sha256": "172cb5f0270c8b8bd837665ee3a09c144c40f259780adcf0f0acc63be1a67720",
+    "pretrained_model_forward": 0,
+    "status": "TOKEN_PLAN_PASS_NOT_MEASURED_SCORES"
+  },
+  "GH_W0_request": {
+    "delivered": false,
+    "status": "COMMUNICATION_HOLD",
+    "reasons": ["app tool unavailable", "SSH alias resolution", "SSH host-key/authentication rejection"],
+    "security_bypass": false,
+    "message_sha256": "1aee760d63470d05b859ee98949bd4410438a0ea8d45719b90f57b79e5e13d91"
+  },
+  "remaining": ["shared model W0 ownership and exact receipt", "actual native parity and B3 resume", "zsRE GPU smoke", "reviewed main freeze and fresh resource admission"],
+  "new_job_ids": [],
+  "Slurm_mutation": false,
+  "actual_GPU": "NOT_RUN",
+  "actual_online": "NOT_RUN",
+  "readiness": "CPU_CALLER_BOUND_NOT_EXECUTION_READY",
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED"
+}

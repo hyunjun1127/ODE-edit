@@ -19,16 +19,37 @@ USER-OFFICIAL-BASELINES-20261008-R1. 실제 실행 준비 코드이며 현재 `R
 - `resume_check.py`: 실제 독립 cold 연속 B3와 B2→B3 receipt의 W/cache/context/RNG와
   factual 결과를 비교한다. CPU fixture를 실제 native receipt로 사용하지 않는다.
 
-## 실행을 막는 미결 항목
+## 2026-10-09 공유 입력 결속
 
-1. SH1 `official.evaluation.factual` 및 실제 API 미게시. 현재 caller는 제안 API를 표시하고
-   fail-closed한다. SH1이 게시한 실제 API에 맞춰 변경해야 한다. 임의 evaluator 복제 없음.
-2. 공유 `native_generator.py`의 model_type guard가 gpt2/gptj만 허용한다. Llama는 현재
-   `NATIVE_GENERATION_MODEL_FAMILY_UNSUPPORTED`. 공통 소유자의 Llama 검증/수정 필요.
-3. BLUE compute_z의 tuple 전제. 감사 폴더의 검토용 patch는 적용하지 않았다.
-4. 새 CF W0 모델당1회 공유 producer/receipt와 zsRE W0 예측 identity 미결속.
-5. official-only W&B adapter 연결, native 실제 smoke/CF parity/B2→B3 resume 미실행.
-6. 소스 검토/main 통합 및 정확 commit/tree freeze, 동시 checkpoint/output 용량 reserve 미봉인.
+main `55afa07d2555718c4ad8b2e483db8a260aa94e35`와 GH 공통 `b10a87df`를 병합했다.
+SH1 factual source `596896ff`의 실제 evaluate/build_zsre_w0_reference signature와
+SHA를 `observe.verify_api()`로 확인하며 READY에 동일 receipt를 요구한다.
+BLUE hidden/KV 및 Llama native generation 수정은 공통 게시본 그대로 사용한다.
+기존 proposal patch를 별도로 적용하거나 evaluator/logger를 복제하지 않았다.
+
+- `observe.py`: 실제 SH1 API 호출, current100의 occurrence/case identity 검산 및
+  all-seen으로부터 독립 request-macro 재집계, W0 row/token/runtime identity 결속.
+  zsRE는 reference의 `evaluation`을 그대로 재사용한다. W0 추가 forward 없음.
+- `tracking.py`: 공통 `official.tracking` init/log/finish만 사용. request-macro는
+  `official/*`, CF generation은 W0/W20 전용, zsRE는 generation config/metric 없음.
+  GPU model load 전에 online startup을 확인한다. CPU adapter PASS는 remote PASS가 아니다.
+- observer raw는 attempt별 local 경로, 재개 시 다른 시도의 timing/raw를 덮어쓰지 않는다.
+- `check_factual_inputs.py`: 실제 Llama tokenizer로 두 first2K의 정본 token plan을
+  CPU에서 확인. GPU/model forward 0, 입력 계획은 측정 성적이 아니다.
+- CPU 52 PASS = 새 caller9 + 기존 own wiring3 + SH1 factual16 + 공통 fake SDK24.
+  source148 SHA/209 Python AST/external-task imports0 PASS.
+
+## 남은 실행 gate
+
+1. CF 모델 공통 W0 factual/generation 및 zsRE W0 prediction producer/receipt 미결속.
+   사용자 지시로 GH 직접 문의했으나 앱 tool unavailable/SSH 인증 제약으로 미전달.
+   원격 credential/known_hosts 변경 또는 검증 우회는 하지 않았다.
+2. 실제 native CF parity/B3 대 B2-resume 및 zsRE smoke는 NOT_RUN.
+3. production main integration/exact freeze와 현재 admission/disk reserve 봉인은 미완료.
+   준비 manifest는 READY가 아니며 boolean을 임의 PASS로 채우지 않는다.
+
+현재 준비 자산은 ignored `local/official-baselines-20261008/preparation-v2/`.
+v1 및 원 archive/raw는 보존했다. 정책 작업에서 GPU/Slurm/W&B 새 run을 만들지 않았다.
 
 예전 CP·W0·source/raw를 삭제/전송/재계산하지 않았다. source/static/CPU wiring PASS는
 실제 GPU qualification이 아니다. 허위 READY 파일로 위 gate를 우회하지 않는다.

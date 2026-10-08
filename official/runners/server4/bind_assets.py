@@ -1,5 +1,8 @@
 """Bind actual local assets, reuse prior SHA only with unchanged stat; no downloads."""
 import argparse
+import importlib.metadata
+import platform
+import sys
 from pathlib import Path
 from official.experiments.prepare import read, write_new, file_sha, digest, ROOT, prepare_stream, load_plan, build_matrix
 
@@ -32,7 +35,14 @@ def bind(path, prior):
 
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True)
+    p.add_argument('--tracking-env',type=Path,required=True);a=p.parse_args()
+    from official.tracking.schema import load_env
+    from .observe import verify_api
+    load_env(a.tracking_env)  # Nonsecret whitelist config only; never print values.
+    runtime=dict(python=platform.python_version(),executable=sys.executable,
+        versions={name:importlib.metadata.version(name) for name in
+                  ('torch','transformers','numpy','tokenizers','scipy','scikit-learn','nltk')})
     prior=list(members(read(PRIOR)));bound=[]
     projector=read(PRIOR)['alpha_binding']['projectors']['LLAMA']
     p_member=bind(projector['path'],prior);bound.append(p_member)
@@ -72,9 +82,12 @@ def main():
         tokenizer_sha256=digest(token),tokenizer_files=token,stats_dir=str(stats),C0=c0,
         projector=dict(p_member,physical_layers=projector['physical_layers'],shape=projector['shape'],
             threshold=.02,provenance=str(PRIOR)),streams=streams,members=bound,
-        generation=gen,nltk_data=str(genroot/'nltk_data'),w0={'cf':None,'zsre':None},
-        ready_to_submit=False,remaining=['SH1 factual API and model-shared W0 identity',
-            'BLUE tensor/tuple shared patch review','native GPU resume/parity',
+        generation=gen,generation_identity_sha256=read(manifest)['identity_sha256'],
+        nltk_data=str(genroot/'nltk_data'),w0={'cf':None,'zsre':None},
+        runtime=runtime,runtime_sha256=digest(runtime),factual_api=verify_api(),
+        tracking_env=str(a.tracking_env.resolve()),
+        ready_to_submit=False,remaining=['model-shared W0 identity/ownership',
+            'native GPU resume/parity',
             'main integration + tracking adapter + fresh admission'])
     write_new(a.output/'assets.json',result)
     contract,profiles=load_plan()

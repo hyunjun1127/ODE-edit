@@ -13,11 +13,20 @@ from official.experiments.prepare import read, file_sha, write_new, ROOT
 from .run import validate
 
 
+def canonical_cap():
+    rows=[]
+    for line in (ROOT.parent/'control/gpu-concurrency-policy.tsv').read_text().splitlines():
+        fields=line.split()
+        if fields and fields[0]=='server4':rows.append(int(fields[1]))
+    if len(rows)!=1:raise ValueError('CANONICAL_SERVER4_CAP_IDENTITY')
+    return rows[0]
+
+
 def command(args, admission, script):
     cpus, memory = admission['cpus'], admission['memory_MiB']
     if not 1 <= cpus <= 8 or not 1 <= memory <= 60416:
         raise ValueError('SERVER4_CPU_MEMORY_LIMIT')
-    if not 1 <= admission['effective_project_cap'] <= 3 or not admission['combined_DAG_cap_pass']:
+    if not 1 <= admission['effective_project_cap'] <= min(3,canonical_cap()) or not admission['combined_DAG_cap_pass']:
         raise ValueError('PROJECT_ADMISSION_NOT_VERIFIED')
     if not 1 <= admission['wall_hours'] <= 48:
         raise ValueError('WALL_LIMIT')
@@ -41,12 +50,18 @@ def main():
     for name in ('config','assets','ready','admission','output'):
         parser.add_argument('--'+name,type=Path,required=True)
     parser.add_argument('--resume',action='store_true')
+    parser.add_argument('--qualification',action='store_true')
+    parser.add_argument('--attempt',required=True)
     parser.add_argument('--stop-after',type=int,choices=range(1,21),default=20)
     parser.add_argument('--submit',action='store_true')
     args=parser.parse_args()
+    from official.tracking.schema import identifier
+    identifier(args.attempt)
     config, assets, ready, admission = map(read,(args.config,args.assets,args.ready,args.admission))
     config['_path']=str(args.config)
-    validate(config, assets, ready)
+    validate(config, assets, ready, args.qualification)
+    if args.qualification and (args.stop_after not in (2,3) or config['dataset']!='cf'):
+        raise ValueError('QUALIFICATION_BUDGET')
     if not admission['node_QoS_memory_pass'] or admission['config_sha256'] != file_sha(args.config):
         raise ValueError('RESOURCE_BINDING')
     import time
@@ -55,15 +70,22 @@ def main():
     if args.stop_after==20 and not ready.get('native_resume_and_parity_pass'):
         raise ValueError('ACTUAL_NATIVE_RESUME_PARITY_REQUIRED')
     args.output.mkdir(parents=True,exist_ok=True)
-    receipt=args.output/'submission.json'
+    registration=args.output/'registrations'/args.attempt
+    registration.mkdir(parents=True,exist_ok=True)
+    receipt=registration/'submission.json'
     if receipt.exists():
         raise ValueError('DUPLICATE_SUBMISSION_RECEIPT')
+    if args.resume and not (args.output/'checkpoint/latest.json').is_file():
+        raise ValueError('RESUME_CHECKPOINT_REQUIRED')
+    if not args.resume and (args.output/'checkpoint/latest.json').exists():
+        raise ValueError('EXISTING_CHAIN_REQUIRES_EXPLICIT_RESUME')
     argv=[assets['python'],'-m','official.runners.server4.run']
     for name in ('config','assets','ready','output'):
         argv+=['--'+name,str(getattr(args,name).resolve())]
-    argv+=['--stop-after',str(args.stop_after)]
+    argv+=['--stop-after',str(args.stop_after),'--attempt',args.attempt]
     if args.resume:argv+=['--resume']
-    script=args.output/'launch.sh'
+    if args.qualification:argv+=['--qualification']
+    script=registration/'launch.sh'
     body='#!/bin/bash\nset -euo pipefail\n'
     body+='export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 PYTHONDONTWRITEBYTECODE=1\n'
     body+='export OMP_NUM_THREADS='+str(admission['cpus'])+' MKL_NUM_THREADS='+str(admission['cpus'])+'\n'
@@ -73,7 +95,7 @@ def main():
     if not script.exists():
         with script.open('x') as stream:stream.write(body)
     submit=command(args,admission,script)
-    write_new(args.output/'registration-plan.json',dict(argv=submit,ready=ready,admission=admission))
+    write_new(registration/'registration-plan.json',dict(argv=submit,ready=ready,admission=admission))
     if not args.submit:
         print('PLAN_ONLY_NOT_SUBMITTED');return
     out=subprocess.check_output(submit,text=True).strip()
@@ -95,9 +117,9 @@ def main():
     deps=admission['dependency_job_ids']
     if deps and not all('afterany:'+str(j) in fields.get('Dependency','') for j in deps):
         raise ValueError('HELD_DEPENDENCY_MISMATCH_KEEP_HELD')
-    write_new(args.output/'held-inspection.json',dict(job_id=job,scontrol=held))
+    write_new(registration/'held-inspection.json',dict(job_id=job,scontrol=held))
     subprocess.run(['scontrol','release',job],check=True)
-    write_new(args.output/'released.json',dict(job_id=job,status='RELEASED_NOT_COMPLETE'))
+    write_new(registration/'released.json',dict(job_id=job,status='RELEASED_NOT_COMPLETE'))
     print(job)
 
 

@@ -1,5 +1,61 @@
 # server4 official baseline 구현·취소 기록
 
+## 최신 갱신: SH1 factual API 결속 (2026-10-09)
+
+nonce `SH1-ALL-OFFICIAL-FACTUAL-PUBLISHED-20261009-R1` 및
+`USER-GH-SH4-OFFICIAL-BASELINES-CONTINUE-20261009-R1` 입력을 채택했다.
+main `55afa07d2555718c4ad8b2e483db8a260aa94e35`, factual source
+`596896ff82a0c0aab8f64e4920f6f09d73072c58`, official tree
+`e79c3939447d2fbbd536cb0449c9ed2da361fa2b`를 전용 WT에 병합했다.
+아래의 최초 API 미게시/BLUE/Llama generation blocker 기록은 **역사적 상태**이며
+공통 게시본 수신으로 source 수준에서 해소됐다. 실제 GPU parity 해소 주장은 아니다.
+
+factual.py SHA `2bc41883b9261d084a3b4b99e0920911789659401a6d9b2b0f0d801a446ab47b`,
+test SHA `6eababac9556f758ee4f31f8342500674081aa102515d464871458cdbed0c999` 일치.
+게시 evaluate 및 build_zsre_w0_reference의 exact signature에 own caller를 연결했다.
+공유 evaluator/tracking/algorithm bytes는 수정하지 않았다.
+
+### 실제로 수행한 검산
+
+- CPU 52 PASS: own caller9/wiring3, 공통 factual16/fakeSDK24. 최초 테스트 실행의
+  own test harness가 잘못된 `metrics(..., official=True)`를 사용해 1건 실패했으며,
+  게시 API의 `config_values`로 수정 후 52개 전부 재검산했다. 공통 구현/허용오차 변경0.
+- source148 SHA 검증, Python209 AST, external-task imports0, diffcheck PASS.
+- 실제 Llama tokenizer로 CF/zsRE 각 first2000 계획 검산 PASS, 모델 forward0.
+  CF target candidate-sequence 52,000(두 target 합산), zsRE sequence6,000이다.
+  이는 입력계획 count이며 W0 성적 또는 GPU 관측 건수가 아니다.
+- current100은 milestone에서도100, all-seen은 실제 누적 endpoint만이다.
+  official E/G/S/Score를 PRICE R/P/N pair count로 relabel하지 않는다.
+  zsRE W0 `evaluation` 재사용/row 순서/외부 identity, loc_ans와 W0 agreement를 구분한다.
+- 런처의 attempt/qualification 전달을 연결했다. 동일 shared logger가 실제 Slurm
+  identity와 immutable run receipt를 맡는다. 이번 CPU 작업에서 online run 생성0.
+
+새 자산 manifest와 6개 config:
+`/data/janghj/ODE-edit/local/official-baselines-20261008/preparation-v2/`.
+v1/원본 자산/이전 source와 raw를 보존했다. runtime/SDK 경로만 결속하며 환경 pin 변경0.
+
+### 미완료 및 GH 공유 입력 문의
+
+CF 모델 공통 W0 factual+generation 및 zsRE W0 prediction receipt/담당이 아직 미결속이다.
+사용자 요청으로 GH 직접 문의를 시도했으나 앱 메시지 도구 미지원, SSH alias 해석 및
+기존 인증 제약으로 **전달되지 않았다**. 호스트 키 검증을 끄거나 credential을 복제하지 않았다.
+문의 원문과 실패 receipt는 ignored local에 보존한다. zsRE 기존 자산이 있다고 추정하지 않는다.
+
+native CF parity, 실제 연속B3 대 B2-resume, zsRE GPU smoke, production READY/freeze와
+6개 신규 제출은 **NOT_RUN / NOT_SUBMITTED**. 기존 Qwen/OURS 및 scheduler job 변경0.
+이번 작업의 신규 job IDs는 `[]`이다. main 배포용 READY가 아닌 검토용 own branch 게시다.
+
+자원은 현재 canonical server4=2와 local3 중 더 엄격한2를 admission 상한으로 판단한다.
+이번 turn에는 scheduler 재조회/변경을 하지 않았다. 과거 running snapshot을 현재 상태로
+주장하지 않는다. disk available 관측60,700,098,560bytes는 예약/메모리 PASS가 아니다.
+
+검토 수준: SH4 owner CPU/source audit, 별도 independent reviewer/GPU/online PASS 없음.
+NO_BROADCAST_NOT_REQUIRED: 같은 host의 기존 자산과 Git 소형 source/receipt만 사용.
+
+---
+
+아래는 최초 구현/취소 시점의 보존 기록이다.
+
 권한: `USER-OFFICIAL-BASELINES-20261008-R1` 및 후속 사용자
 “baseline run들은 일단 전부 취소하고 task 이어서 진행해”.
 
