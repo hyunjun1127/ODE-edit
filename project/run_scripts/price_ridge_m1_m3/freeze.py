@@ -17,6 +17,7 @@ def freeze(attempt):
     evidence=[]
     evidence_names=['token-binding.json','source-review.json']
     if config.get('repair'):evidence_names.append('generation-repair.json')
+    if config.get('repair')=='USER_ALL_THREE_SUBSET_IDENTITY_REPAIR':evidence_names.append('subset-repair.json')
     for name in evidence_names:
         p=root/'audits/servers/server4'/TASK/name
         value=json.loads(p.read_text())
