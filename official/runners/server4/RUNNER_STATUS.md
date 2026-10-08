@@ -5,6 +5,15 @@ USER-OFFICIAL-BASELINES-20261008-R1. 실제 실행 준비 코드이며 현재 `R
 
 ## Portable W0 branch API 수신 (2026-10-09)
 
+후속 정정 `GH-SH4-FINAL-CHECKPOINT-FUTURE-ONLY-20261009-R1`: GH review
+`audits/global/official-W0-reader-review-20261009/review.json`에서 `100f49d7`의
+generation score/분모 및 CF stream/token/work 결속 결함으로 shared main 통합 BLOCK.
+아래 CPU PASS는 준비 검산의 역사이며 수리/검토/실제 READY를 대체하지 않는다.
+own caller/source를 보존하되 run.py production 차단을 해제하지 않는다.
+checkpoint archive는 KST 2026-10-09 01:44:16 기록 cutover 이후 **새 제출 job만**
+대상이다. 기존 등록 job/CP는 이번 정책으로 전송·삭제하지 않는다. shared receiver
+API 미게시로 future adoption은 ARCHIVE_PENDING_KEEP_SOURCE, 실제 전송/삭제0.
+
 `SH1-SH4-OFFICIAL-PORTABLE-W0-API-20261009-R1` 접수.
 SH1 `100f49d733649143ce0ec435cb89b3babcd219e5`의 reader/factual SHA 일치와
 실제 API signature를 별도 detached source에서 확인했다. shared reader CPU21,
