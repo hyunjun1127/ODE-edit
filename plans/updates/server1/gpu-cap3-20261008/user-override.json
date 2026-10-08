@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-DIRECT-SERVER1-GPU-CAP3-20261008-R1",
+  "user_quote": "server1 gpu cap 3으로 늘려. 그리고 server2에게 gpt-j baseline들 실험 다시 올리라고 해",
+  "owner": {"server": "server1", "session": "01a04939-f93a-7b50-bca0-65438eab2062"},
+  "server1_combined_project_GPU_cap": 3,
+  "supersedes": "Previous server1 combined cap2; global and other-server caps are not changed",
+  "pending_resource_only_adjustment": {"job_id": "61521", "per_job_GPU": 1, "remove_only_resource_afterany_parent": "61519", "exact_owner_source_pending_no_allocation_required": true},
+  "existing_scientific_source_config_archive_WB_identity": "IMMUTABLE",
+  "RUNNING_mutation": false,
+  "old_science_input_hparams_precision": "UNCHANGED",
+  "NoCP": true,
+  "server2_instruction": "Use delivered native F/C implementation to register approved GPT-J six baselines; preserve already RUNNING61428 and schedule renewed MEMIT without overlapping duplicate; fresh owner/source/state/resource admission required",
+  "server2_project_GPU_cap": 2,
+  "automatic_retry": false,
+  "recurring_monitor": false
+}

@@ -29,3 +29,22 @@ terminal scheduler state without GPU allocation or retry. The CPU failure
 collector remains `afterany` all six. Exact dependency types, argv and source
 bytes are inspected while held; unknown/OR syntax receives no concurrency
 credit. The combined project/task GPU limit remains 2.
+
+## Latest server1 resource-only cap3 (2026-10-08)
+
+The direct USER server1 cap3 override is stored separately in
+`plans/updates/server1/gpu-cap3-20261008/user-override.json`. It does not rewrite
+the historical cap2 scientific config, runtime archive, run identity or native
+algorithm. Other servers and independently stricter task limits are unchanged.
+
+For this exact three-arm native-generation task, a future authorized registration
+can explicitly use `repo_native_submit --user-cap3-override`. Its pinned
+`repo_native_admission` resolver verifies the authority, enabled local row,
+node/memory and scope; full fresh owner queue/DAG and Slurm physical constraints
+are still required. This flag grants no new science or duplicate registration.
+Without it the old admission remains cap2. The historical general cap helper
+still reads canonical cap2; do not report that helper as a cap3 or DAG PASS.
+
+The existing 61519/61520/61521 scientific archives remain immutable. The separate
+`repo_native_cap3` control receipt records the one exact pending-only resource
+dependency adjustment; it is not a source hotpatch or scientific restart.

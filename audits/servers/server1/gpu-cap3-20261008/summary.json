@@ -1,0 +1,137 @@
+{
+  "schema": 1,
+  "date_kst": "2026-10-08",
+  "task": "server1-gpu-cap3-resource-only-override",
+  "status": "ROOT_CAP3_AND_EXACT_PENDING_RESOURCE_DEPENDENCY_APPLIED_THREE_RUNNING_SH2_FULL_OWNER_ACK_REGISTRATION_IN_PROGRESS_NOT_COMPLETE",
+  "instruction_id": "USER-DIRECT-SERVER1-GPU-CAP3-20261008-R1",
+  "authority_member": {
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-native-flucon-repair-20261008/plans/updates/server1/gpu-cap3-20261008/user-override.json",
+    "sha256": "f1db5f8aa6dd578eaf45ac939e01a9df05b14d2b7ffff1da642a4e5728ce334c"
+  },
+  "authority": "Latest direct USER: server1 GPU cap3 and tell server2 to re-register GPT-J baselines with new FLU/CON",
+  "reporter": "native_flucon_report",
+  "reporter_owned_files": [
+    "experiment-reports/servers/server1/gpu-cap3-20261008/report-ko.md",
+    "audits/servers/server1/gpu-cap3-20261008/summary.json"
+  ],
+  "resource_override": {
+    "server": "server1",
+    "current_and_future_own_project_GPU_cap": 3,
+    "supersedes_previous_project_GPU_cap": 2,
+    "per_job_GPU": 1,
+    "type": "RESOURCE_ONLY_NOT_SCIENTIFIC_SOURCE_REVISION",
+    "effective_limit": "Minimum of user cap3 and stricter QoS/physical/memory restrictions",
+    "GPU_available_or_runtime_speed_claim": false,
+    "server2_GPU_cap_changed": false
+  },
+  "immutable_scientific_boundary": {
+    "existing_runtime_source": "adb244e6f9c86b54f73bd6d8fb833b338f470ded",
+    "old_source_config_archive_lock_W_B_identity": "KEEP_IMMUTABLE; resource override receipt separate, no retrospective cap2/DAG rewrite",
+    "native_hparams_solver_history_precision": "UNCHANGED",
+    "edit_schedule": "UNCHANGED_BS100x20_FIXED_FIRST2000",
+    "generation_schedule_profile_seed_references": "UNCHANGED_W20_ONLY_FIRST2000_NEW_NATIVE_FLUCON_PROFILE",
+    "RPN_schedule_and_definitions": "UNCHANGED",
+    "per_job_CPU_memory_time_ceilings": "UNCHANGED",
+    "NoCP": true,
+    "raw_local_privacy": "KEEP; no text/token/case/reference/secret/model upload",
+    "extra_fit_pilot": 0
+  },
+  "root_supplied_pre_adjustment_snapshot_not_reporter_live_query": {
+    "61519": {"arm": "BASE_MEMIT", "state": "RUNNING"},
+    "61520": {"arm": "BASE_ALPHAEDIT", "state": "RUNNING"},
+    "61521": {"arm": "ALPHAEDIT_BLUE", "state": "PENDING_DEPENDENCY", "afterany": [61519]},
+    "61522": {"role": "own_collector", "GPU": 0, "afterany": [61519, 61520, 61521]}
+  },
+  "permitted_root_resource_control": {
+    "target": 61521,
+    "only_exact_unallocated_PENDING_BLUE": true,
+    "required_fresh_checks": ["owner", "source", "script", "full_argv", "WorkDir", "state", "allocation", "all_owned_project_admission_and_DAG", "cap_QoS_physical_memory"],
+    "purpose": "Resource-only dependency adjustment may allow width3; no change to scientific argv/source/input",
+    "if_identity_or_state_changed": "Do not apply the pending-only adjustment",
+    "preserved_RUNNING": [61519, 61520],
+    "collector_exact_three_target_dependency_preserved": true,
+    "OURS_PRICE_other_owner_unrelated_jobs_preserved": true,
+    "actual_local_cap_row_change": "APPLIED_SERVER1_ROW3_IN_WT_AND_ACTUAL_APP_IGNORED_CONFIG; node/memory/other rows preserved",
+    "actual_scheduler_dependency_action": "REMOVE_RESOURCE_ONLY_AFTERANY_61519_FROM_UNALLOCATED_PENDING_61521",
+    "actual_followup_snapshot": "ROOT_BOUNDED_QUEUE_CONFIRMED61519_61520_61521_RUNNING;61522_PENDING_OWN_THREE",
+    "RUNNING_or_other_jobs_mutated": false,
+    "scientific_source_config_archive_W_B_identity_changed": false,
+    "actual_resource_receipt": {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/gpt2xl-baselines-fluency-consistency-2k/20261007-v1/native-repo-repair-r1/cap3/receipt.json",
+      "sha256": "c86a18aaff94761b4ab5fee47217a102f3de5b48386726cdfce8356c2186316e",
+      "at_utc": "2026-10-08T13:02:54.910564+00:00",
+      "effective_cap": 3,
+      "projected_GPU_width": 3,
+      "per_job_GPU": 1,
+      "qos": "lab_gpu_s1",
+      "qos_user_GPU_ceiling": 4,
+      "partition": "UP",
+      "reserve_inode_checks": "ROOT_CONFIRMED_PASS",
+      "immediate_after_state": "PENDING_DEPENDENCY_NULL; later RUNNING root bounded snapshot is separate"
+    },
+    "local_cap_members": [
+      {"path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-native-flucon-repair-20261008/servers/local/gpu-caps.tsv", "sha256": "05cb400d41b4dc271685c18de967dc4e7676325e09a31c096ed18de92368eeb1"},
+      {"path": "/mnt/raid5/janghj/ODE-edit/servers/local/gpu-caps.tsv", "sha256": "3d13877a1fbfc491cd5c4dbf85ef568ea44802da8cd70bfcc0d453cdb0e46b05"}
+    ],
+    "resource_control_CPU_checks": {
+      "status": "PASS",
+      "tests": 3,
+      "evidence": "ROOT_ACTUAL_CONFIRMATION",
+      "scope": "Narrow explicit null allocation parser guard and resource-only script; not model/GPU/scientific verification",
+      "missing_or_ambiguous_GPU_requests_not_silently_zeroed": true
+    },
+    "prospective_own_native_submission": {
+      "entrypoint": "repo_native_submit --user-cap3-override",
+      "admission_resolver": "pinned repo_native_admission",
+      "authority_binding": "Latest explicit USER cap3 override receipt for current/future own-native3 scope",
+      "with_flag_projected_roots_width": 3,
+      "without_flag_original_cap": 2,
+      "focused_cap3_admission_original_control_CPU": {"status": "PASS", "tests": 30, "evidence": "ROOT_ACTUAL_CONFIRMATION", "GPU_Slurm_tests": "NOT_RUN"},
+      "legacy_general_checker": "Still reads historical canonical2/jobpatterns; not claimed cap3PASS or current DAG proof",
+      "global_policy_modified": false,
+      "frozen_runtime_source_bytes_modified": false
+    }
+  },
+  "server2_latest_direction": {
+    "instruction": "Re-register approved GPT-J six baselines plus CPU collector with new FLU/CON implementation",
+    "instruction_id": "USER-DIRECT-SH2-GPTJ-NATIVE-FLUCON-REREGISTER-20261008-R1",
+    "official_transport_owner": "ROOT",
+    "exact_method_source_owner_dependency_running_boundary": "SH2_OWNER_FRESH_CONFIRMATION_AND_OFFICIAL_ROOT_RECEIPT",
+    "latest_direction_delivery_ACK": "OFFICIAL_TURN_START_ACCEPTED_AND_FULL_OWNER_ACK_CONFIRMED_BY_EXACT_TURN_READBACK",
+    "new_source_job_registration": "NOT_YET_OBSERVED_SH2_ADAPTER_BINDING_IN_PROGRESS; no same native-profile new attempt registered at readback",
+    "server2_project_GPU_cap": 2,
+    "preserved_old_RUNNING_MEMIT": 61428,
+    "renewed_MEMIT_no_duplicate_overlap": "Serial/resource-after-old-running direction",
+    "existing_jobs_cancelled_by_this_latest_direction": false,
+    "directive_receipt": {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/gpt2xl-baselines-fluency-consistency-2k/20261007-v1/native-repo-repair-r1/server2-reregister-directive.json",
+      "sha256": "ba5d70ec950e23b2971a20a221125925d66b3e2d8aee4934c4be2b61e4cd5f47",
+      "transport": "REGISTERED_SSH_UNIX_WEBSOCKET",
+      "method": "turn/start",
+      "accepted": true,
+      "turn": "01a11b97-f23f-7411-ba9b-6010c1640d7b",
+      "prefix_OWNER_ACK_observed_not_used_as_full_completion_proof": true
+    },
+    "full_owner_readback_receipt": {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/gpt2xl-baselines-fluency-consistency-2k/20261007-v1/native-repo-repair-r1/server2-reregister-owner-readback.json",
+      "sha256": "8d16cff1f84ccb39bcf7dba35a0ab359dc24504cfe8ab80d4fb721dab966b4fd",
+      "transport": "REGISTERED_SSH_UNIX_WEBSOCKET",
+      "method": "thread/resume",
+      "thread": "01a0493a-074c-7f91-9a13-769116326fef",
+      "turn": "01a11b97-f23f-7411-ba9b-6010c1640d7b",
+      "turn_status": "inProgress",
+      "full_OWNER_ACK_confirmed": true,
+      "sourcefreeze_jobIDs_held_inspection_release": "NOT_YET_OBSERVED",
+      "ACK_and_registration_intent_not_claimed_as_completion": true
+    },
+    "previous_ACK_or_cancel_not_relabelled_as_latest_registration": true,
+    "frozen_running_source_overwrite_claim": false
+  },
+  "reporter_actions": {
+    "source_and_prior_execution_report_read_only": true,
+    "Slurm_model_GPU_network_config_commit_push": "NOT_RUN",
+    "dirty_root_and_others_edits_preserved": true,
+    "monitoring_or_automatic_retry_created": false,
+    "report_JSON_diffcheck": "PASS; no scientific or GPU verification claimed"
+  }
+}

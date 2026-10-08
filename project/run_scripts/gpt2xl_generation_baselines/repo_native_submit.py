@@ -10,12 +10,13 @@ import subprocess
 import tarfile
 from .repo_native_common import *
 from .submit import command,resource_inventory as inherited_resource_inventory,width,dependencies,held_dependency_conditions
+from .repo_native_admission import resolve_admission,order as admission_order
 from project.run_scripts.gpt2xl_prune_rect.submit import SOURCES as NATIVE_SOURCES
 
 ROLES=(*ARMS,'collector')
 SOURCES=list(dict.fromkeys(NATIVE_SOURCES+[
     'project/run_scripts/gpt2xl_generation_baselines','project/run_scripts/experiment_generation_eval',
-    ENVELOPE,CONTRACT,*POLICY_SHA]))
+    ENVELOPE,'plans/updates/server1/gpu-cap3-20261008/user-override.json',CONTRACT,*POLICY_SHA]))
 
 def resource_inventory(exclude=(),runner=command,owner=None):
     """Task-private Slurm present-empty pending NodeList compatibility.
@@ -205,7 +206,7 @@ def inspect(job,role,dep,argv,attempt,resources):
         'W20_HELD_SCRIPT_BYTES')
     return dict(job=job,role=role,dependency=dep,argv=argv,resource_detail=detail,launcher=member(script))
 
-def submit(config,attempt):
+def submit(config,attempt,apply_user_cap3_override=False):
     authority();require(not registered_attempts(),'W20_NO_DUPLICATE_NONCE')
     names=','.join(TASK+'-'+role for role in ROLES)
     require(not command(['squeue','-h','-u',getpass.getuser(),'--name='+names,'-o','%i|%j']),
@@ -213,10 +214,12 @@ def submit(config,attempt):
     before=resource_inventory();existing=list(before['jobs'])
     local=next(row for row in (ROOT/'servers/local/gpu-caps.tsv').read_text().splitlines()
         if row.startswith('server1\t')).split('\t')
-    canonical=int(next(row for row in (ROOT/'control/gpu-concurrency-policy.tsv').read_text().splitlines()
-        if row.startswith('server1\t')).split('\t')[1])
-    cap=min(2,int(local[2]),canonical);require(cap>=1 and width(existing)<=cap,'W20_EXISTING_COMBINED_CAP')
-    frontier=validate_frontier(existing,dependencies(existing));parents=order(cap);virtual=list(existing);fake={}
+    admission=resolve_admission(ROOT,task_cap=2,
+        apply_user_override=apply_user_cap3_override,
+        current_three_arm_scope=apply_user_cap3_override,per_job_gpus=1,
+        expected_node='devbox',expected_memory_mib=183296)
+    cap=admission['effective_cap'];require(width(existing)<=cap,'W20_EXISTING_COMBINED_CAP')
+    frontier=validate_frontier(existing,dependencies(existing));parents=admission_order(cap);virtual=list(existing);fake={}
     require(not set(frontier)&{'61436','61437','61438','61439'},'W20_CANCELLED_ID_NOT_FRONTIER')
     for index,role in enumerate(ARMS):
         fake[role]=str(999999980+index);dep=role_dependencies(role,frontier,parents,fake)
@@ -234,6 +237,7 @@ def submit(config,attempt):
         and fs.f_favail>32 and root.free>0,'W20_MEMORY_STORAGE_INODES')
     write(attempt/'resource-preflight.json',dict(before=before,node=node,partition=partition,qos=qos,
         effective_cap=cap,projected_GPU_width=projected,frontier=frontier,memory_policy=memory,
+        admission_authority=admission,
         root_available_bytes=root.free,RAID_available_bytes=raid.free,available_inodes=fs.f_favail,
         canonical_policy=member(ROOT/'control/gpu-concurrency-policy.tsv'),protected_jobs_mutated=False,
         generation_schedule=SCHEDULE,W0_generation_prerequisite=False))
@@ -280,6 +284,9 @@ def submit(config,attempt):
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser();parser.add_argument('--config',type=Path,required=True)
-    parser.add_argument('--attempt',type=Path,required=True);args=parser.parse_args()
-    print(json.dumps(submit(args.config.resolve(),args.attempt.resolve()),ensure_ascii=False))
-
+    parser.add_argument('--attempt',type=Path,required=True)
+    parser.add_argument('--user-cap3-override',action='store_true',
+        help='Explicit resource-only USER override; old submitted archives are untouched')
+    args=parser.parse_args()
+    print(json.dumps(submit(args.config.resolve(),args.attempt.resolve(),
+        apply_user_cap3_override=args.user_cap3_override),ensure_ascii=False))

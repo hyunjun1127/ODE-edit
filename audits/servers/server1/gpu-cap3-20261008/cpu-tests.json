@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "instruction_id": "USER-DIRECT-SERVER1-GPU-CAP3-20261008-R1",
+  "status": "PASS",
+  "tests": 30,
+  "errors": 0,
+  "failures": 0,
+  "skipped": 0,
+  "suites": [
+    "test_repo_native_cap3",
+    "test_repo_native_admission",
+    "test_repo_native_control"
+  ],
+  "coverage": [
+    "Explicit Slurm null allocation fields are not missing or allocated",
+    "Started, allocated, missing or unknown pending metadata fails closed",
+    "Pinned direct USER authority and exact server/task/per-job scope",
+    "Independent stricter limits, disabled registration and other servers preserved",
+    "Original cap1/cap2 DAG and explicit cap3 three-root order",
+    "Original owner/node/GPU-request metadata guards"
+  ],
+  "GPU_model_Slurm_network_test_operations": 0,
+  "GPU_generation_or_scientific_completion_PASS_claim": false,
+  "existing_scientific_runtime_source": "adb244e6f9c86b54f73bd6d8fb833b338f470ded",
+  "existing_scientific_source_config_archive_identity_modified": false
+}
