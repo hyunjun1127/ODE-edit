@@ -1,0 +1,183 @@
+{
+  "actions": [
+    {
+      "job": 61672,
+      "role": null,
+      "source": null,
+      "action": "hold",
+      "state_before": "PENDING"
+    },
+    {
+      "job": 61656,
+      "role": null,
+      "source": null,
+      "action": "hold",
+      "state_before": "PENDING"
+    },
+    {
+      "job": 61671,
+      "role": null,
+      "source": null,
+      "action": "hold",
+      "state_before": "PENDING"
+    },
+    {
+      "job": 61670,
+      "role": null,
+      "source": null,
+      "action": "hold",
+      "state_before": "PENDING"
+    },
+    {
+      "job": 61669,
+      "role": null,
+      "source": null,
+      "action": "hold",
+      "state_before": "PENDING"
+    },
+    {
+      "job": 61668,
+      "role": null,
+      "source": null,
+      "action": "hold",
+      "state_before": "PENDING"
+    },
+    {
+      "job": 61667,
+      "role": null,
+      "source": null,
+      "action": "hold",
+      "state_before": "PENDING"
+    },
+    {
+      "job": 61666,
+      "role": null,
+      "source": null,
+      "action": "hold",
+      "state_before": "PENDING"
+    },
+    {
+      "job": 61655,
+      "role": null,
+      "source": null,
+      "action": "hold",
+      "state_before": "PENDING"
+    },
+    {
+      "job": 61654,
+      "role": null,
+      "source": null,
+      "action": "hold",
+      "state_before": "PENDING"
+    },
+    {
+      "job": 61653,
+      "role": null,
+      "source": null,
+      "action": "hold",
+      "state_before": "PENDING"
+    },
+    {
+      "job": 61672,
+      "role": "collector",
+      "source": "ccc1f5d683349b75d1780c49bcf1116b370b91a2",
+      "action": "cancel",
+      "state_before": "PENDING"
+    },
+    {
+      "job": 61656,
+      "role": "collector",
+      "source": "6d35c65de19ec378a30749683762eba87fee50e3",
+      "action": "cancel",
+      "state_before": "PENDING"
+    },
+    {
+      "job": 61671,
+      "role": "SPHERE",
+      "source": "ccc1f5d683349b75d1780c49bcf1116b370b91a2",
+      "action": "cancel",
+      "state_before": "PENDING"
+    },
+    {
+      "job": 61670,
+      "role": "MEMIT_FE",
+      "source": "ccc1f5d683349b75d1780c49bcf1116b370b91a2",
+      "action": "cancel",
+      "state_before": "PENDING"
+    },
+    {
+      "job": 61669,
+      "role": "ALPHAEDIT_BLUE",
+      "source": "ccc1f5d683349b75d1780c49bcf1116b370b91a2",
+      "action": "cancel",
+      "state_before": "PENDING"
+    },
+    {
+      "job": 61668,
+      "role": "ALPHAEDIT",
+      "source": "ccc1f5d683349b75d1780c49bcf1116b370b91a2",
+      "action": "cancel",
+      "state_before": "PENDING"
+    },
+    {
+      "job": 61667,
+      "role": "FT",
+      "source": "ccc1f5d683349b75d1780c49bcf1116b370b91a2",
+      "action": "cancel",
+      "state_before": "PENDING"
+    },
+    {
+      "job": 61666,
+      "role": "MEMIT",
+      "source": "ccc1f5d683349b75d1780c49bcf1116b370b91a2",
+      "action": "cancel",
+      "state_before": "PENDING"
+    },
+    {
+      "job": 61655,
+      "role": "SPHERE",
+      "source": "6d35c65de19ec378a30749683762eba87fee50e3",
+      "action": "cancel",
+      "state_before": "PENDING"
+    },
+    {
+      "job": 61654,
+      "role": "MEMIT_FE",
+      "source": "6d35c65de19ec378a30749683762eba87fee50e3",
+      "action": "cancel",
+      "state_before": "PENDING"
+    },
+    {
+      "job": 61653,
+      "role": "ALPHAEDIT_BLUE",
+      "source": "6d35c65de19ec378a30749683762eba87fee50e3",
+      "action": "cancel",
+      "state_before": "PENDING"
+    },
+    {
+      "job": 61652,
+      "role": "ALPHAEDIT",
+      "source": "6d35c65de19ec378a30749683762eba87fee50e3",
+      "action": "cancel",
+      "state_before": "RUNNING"
+    },
+    {
+      "job": 61651,
+      "role": "MEMIT",
+      "source": "6d35c65de19ec378a30749683762eba87fee50e3",
+      "action": "cancel",
+      "state_before": "RUNNING"
+    },
+    {
+      "job": 61650,
+      "role": "FT",
+      "source": "6d35c65de19ec378a30749683762eba87fee50e3",
+      "action": "KEEP_TERMINAL",
+      "state_before": "COMPLETED"
+    }
+  ],
+  "original_receipt": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/no-gpu-qualification-stop-r2/receipt.json",
+  "post_exact_queue_active_count": 0,
+  "preserved": "source/raw/CP/logs/history/cost",
+  "repeated_monitor": false
+}
