@@ -31,8 +31,8 @@ python3 -m official.experiments.prepare matrix --output local/official-baselines
 최종 checkpoint(W20)를 기준으로 하며, 지표 정의는 [공통 실험 계약](official/hparams/contract.json)을 따릅니다.
 **이번 표는 새 cold-start 재실험 전용입니다.** 과거 완료 수치나 과거 checkpoint 재개 결과를
 새 실험으로 소급 입력하지 않습니다. checkpoint가 있어도 sample 구성·순서가 다르면 다시 실행합니다.
-미제출은 빈칸, 실제 제출 후 대기는 `PENDING: <실제 job name>`, 실행 중은
-`ING: <실제 job name>`으로 해당 dataset의 칸에만 표시합니다(CF 6칸 / zsRE 3칸).
+미제출은 빈칸, 실제 제출 후 대기는 `PENDING: <실제 job ID>`, 실행 중은
+`ING: <실제 job ID>`로 해당 dataset의 칸에만 표시합니다(CF 6칸 / zsRE 3칸).
 qualification·W0 준비·collector·tuning job은 본실험 job으로 표시하지 않습니다.
 
 GH가 서버별 제출·상태·완료 보고를 받아 이 표를 통합합니다. 각 dataset의 상태/수치에는
@@ -54,11 +54,11 @@ config/sample identity·dependency는 [제출 보고서](experiment-reports/serv
 
 | Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| FT | PENDING: official-s1-cf-ft | PENDING: official-s1-cf-ft | PENDING: official-s1-cf-ft | PENDING: official-s1-cf-ft | DEFERRED | DEFERRED |  |  |  |
-| MEMIT | PENDING: official-s1-cf-memit | PENDING: official-s1-cf-memit | PENDING: official-s1-cf-memit | PENDING: official-s1-cf-memit | DEFERRED | DEFERRED |  |  |  |
+| FT | PENDING: 61661 | PENDING: 61661 | PENDING: 61661 | PENDING: 61661 | DEFERRED | DEFERRED |  |  |  |
+| MEMIT | PENDING: 61662 | PENDING: 61662 | PENDING: 61662 | PENDING: 61662 | DEFERRED | DEFERRED |  |  |  |
 | AlphaEdit |  |  |  |  |  |  |  |  |  |
 | AlphaEdit-BLUE |  |  |  |  |  |  |  |  |  |
-| MEMIT-FE | PENDING: official-s1-cf-memit_fe | PENDING: official-s1-cf-memit_fe | PENDING: official-s1-cf-memit_fe | PENDING: official-s1-cf-memit_fe | DEFERRED | DEFERRED |  |  |  |
+| MEMIT-FE | PENDING: 61663 | PENDING: 61663 | PENDING: 61663 | PENDING: 61663 | DEFERRED | DEFERRED |  |  |  |
 | AlphaEdit+SPHERE |  |  |  |  |  |  |  |  |  |
 | PRICE (Ours) |  |  |  |  |  |  |  |  |  |
 
