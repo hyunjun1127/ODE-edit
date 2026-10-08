@@ -1,4 +1,4 @@
-"""Thin server1 adapter for official Llama FT/MEMIT/MEMIT-FE.
+"""Thin server1 adapter for the six official Llama native baselines.
 
 No scientific implementation is imported from a local EasyEdit checkout. The
 only runtime binding is native precomputed C0, native process-local context,
@@ -18,8 +18,8 @@ from official.experiments.prepare import digest, file_sha
 from official.runners.server1.assets import verify_manifest
 
 
-METHODS = ("FT", "MEMIT", "MEMIT_FE", "ALPHAEDIT", "SPHERE")
-HISTORY_METHODS = ("ALPHAEDIT", "SPHERE")
+METHODS = ("FT", "MEMIT", "MEMIT_FE", "ALPHAEDIT", "SPHERE", "ALPHAEDIT_BLUE")
+HISTORY_METHODS = ("ALPHAEDIT", "SPHERE", "ALPHAEDIT_BLUE")
 CONTEXT_SCHEMA = "official-server1-native-context-v1"
 
 
@@ -58,8 +58,8 @@ class NativeEngine:
     """One independent cold trajectory, one method, unchanged registry apply.
 
     ``selected_weights`` contains the actual mutable FP32 Parameters. The
-    second native return value is original weight copies, never history H.
-    FT/MEMIT/MEMIT-FE therefore always have ``cache_c == {}``.
+    FT/MEMIT/MEMIT-FE have ``cache_c == {}``. AlphaEdit/SPHERE own module-global
+    H; BLUE explicitly receives and returns caller-owned H (not weights_copy).
     """
     def __init__(self, model, tokenizer, method, asset_manifest, *, source_verified=False):
         require(method in METHODS, "SERVER1_METHOD_SCOPE", method)
@@ -131,7 +131,8 @@ class NativeEngine:
 
     def _bind_projector(self):
         row = self.asset_manifest["projector"]
-        require(row["physical_layers"] == self.hparams.layers == [4, 5, 6, 7, 8]
+        require(row["physical_layers"] == [4, 5, 6, 7, 8]
+                and self.hparams.layers == ([4,8] if self.method == "ALPHAEDIT_BLUE" else [4,5,6,7,8])
                 and row["threshold"] == self.hparams.nullspace_threshold == .02,
                 "PROJECTOR_LAYER_THRESHOLD_BINDING")
         path = Path(row["path"])
@@ -143,6 +144,12 @@ class NativeEngine:
                 and list(packed.shape) == [5, width, width], "PROJECTOR_SHAPE_DTYPE")
         for layer in packed:
             require(bool(torch.isfinite(layer).all()), "PROJECTOR_NONFINITE")
+        if self.method == "ALPHAEDIT_BLUE":
+            # Native BLUE takes caller-owned H/P, physical layers4/8 map to slots0/4.
+            self.blue_P = packed[[0,4]].clone()
+            self.blue_H = torch.zeros_like(self.blue_P, device="cpu")
+            self._refresh_history()
+            return
         self.hparams.P_loc = str(path)
         self.module.P, self.module.P_loaded = packed, True
         # Exact native cold state, initialized before the required W0 checkpoint.
@@ -152,7 +159,8 @@ class NativeEngine:
 
     def _refresh_history(self):
         if self.method in HISTORY_METHODS:
-            self.cache_c = {str(layer): self.module.cache_c[i]
+            packed = self.blue_H if self.method == "ALPHAEDIT_BLUE" else self.module.cache_c
+            self.cache_c = {str(layer): packed[i]
                             for i, layer in enumerate(self.hparams.layers)}
 
     def history_identity(self):
@@ -298,7 +306,13 @@ class NativeEngine:
         request_sha = digest(requests)
         caught = None
         try:
-            returned = self._native_apply(self.model, self.tokenizer, requests, self.hparams, **self.call_options)
+            options = dict(self.call_options)
+            if self.method == "ALPHAEDIT_BLUE":
+                options.update(cache_c=self.blue_H, P=self.blue_P)
+            returned = self._native_apply(self.model, self.tokenizer, requests, self.hparams, **options)
+            if self.method == "ALPHAEDIT_BLUE":
+                require(isinstance(returned, tuple) and len(returned) == 2 and returned[0] is self.model
+                        and returned[1] is self.blue_H, "BLUE_NATIVE_RETURN_HISTORY_IDENTITY")
             require(type(returned) is tuple and len(returned) == 2 and returned[0] is self.model,
                     "NATIVE_SAME_CUMULATIVE_MODEL_REQUIRED")
             # Sphere MEMIT's weights_copy may be nonempty even return_orig=False.

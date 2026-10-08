@@ -16,11 +16,17 @@ from official.experiments.prepare import digest, file_sha, load_plan, write_new
 
 METHODS = ("FT", "MEMIT", "MEMIT_FE")
 PROJECTED_METHODS = ("ALPHAEDIT", "SPHERE")
-SUPPORTED_METHODS = METHODS + PROJECTED_METHODS
+HISTORY_METHODS = PROJECTED_METHODS + ("ALPHAEDIT_BLUE",)
+SUPPORTED_METHODS = METHODS + HISTORY_METHODS
 LOCAL_ROOT = Path("/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1")
 MILESTONES = (5, 10, 15, 20)
 DEFERRED_W20 = "DEFERRED_TO_SAVED_W20_CHECKPOINT"
 CF_CHECKPOINT_AUTHORITY = "USER-DIRECT-SERVER1-CF-CHECKPOINT-20261009"
+ZSRE_PLAN = dict(schema="official-server1-zsre-resume-plan-v1", dataset="zsre",
+    batches=[1,2,3], external_batch_size=100, split_after_batch=2,
+    selected_weight_comparison="EXACT_SHA256", RNG_comparison="EXACT", context_comparison="EXACT",
+    factual_comparison="EXACT_VALUES_WITHOUT_ELAPSED_WORK", batch1_smoke=True,
+    extra_generation=False, native_CF_parity_claim=False)
 
 
 def generation_at_W20(config):
@@ -75,7 +81,10 @@ def validate_config(value):
     require(value.get("schema") == "official-server1-runtime-v1", "RUNTIME_CONFIG_SCHEMA")
     require(value.get("model") == "llama3" and value.get("method") in SUPPORTED_METHODS
             and value.get("dataset") in ("cf", "zsre"), "SERVER1_OFFICIAL_SCOPE")
-    if value.get("method") in PROJECTED_METHODS:
+    if value.get("zsre_six") is True:
+        require(value["dataset"] == "zsre" and value.get("scope_override") ==
+                "USER-DIRECT-SERVER1-ZSRE-SIX-20261009", "ZSRE_SIX_EXACT_SCOPE")
+    elif value.get("method") in HISTORY_METHODS:
         require(value.get("projected_CF_addition") is True and value["dataset"] == "cf"
                 and not generation_at_W20(value), "PROJECTED_CF_EXACT_ADDITION_SCOPE")
     require(value.get("stream") == dict(requests=2000, batch_size=100, batches=20,
@@ -93,6 +102,9 @@ def validate_config(value):
             value.get("evaluation") == evaluation, "OFFICIAL_PRECISION_OR_EVALUATION_CHANGED")
     unsigned = {key: item for key, item in value.items() if key != "config_sha256"}
     require(value.get("config_sha256") == digest(unsigned), "CONFIG_DIGEST")
+    if value.get("zsre_six") is True:
+        require(value.get("qualification_plan") == ZSRE_PLAN, "ZSRE_QUALIFICATION_PLAN_CHANGED")
+        return value
     from .native_parity import PLAN as native_reference_plan
     require(value.get("qualification_plan") == dict(schema="official-native-resume-plan-v1",
             batches=[1, 2, 3], external_batch_size=100, split_after_batch=2,
@@ -225,7 +237,7 @@ def restore_checkpoint(model, engine, payload, identity):
     require(payload["identity"] == identity and payload["method"] == engine.method,
             "RESUME_NATIVE_IDENTITY")
     require(set(payload["weights"]) == set(engine.selected_weights)
-            and bool(payload["cache_c"]) == (engine.method in PROJECTED_METHODS),
+            and bool(payload["cache_c"]) == (engine.method in HISTORY_METHODS),
             "RESUME_SELECTED_WEIGHT_OR_NON_HISTORY_SCHEMA")
     with torch.no_grad():
         for name, tensor in payload["weights"].items():
@@ -233,7 +245,7 @@ def restore_checkpoint(model, engine, payload, identity):
             require(target.shape == tensor.shape and tensor.dtype == target.dtype == torch.float32
                     and torch.isfinite(tensor).all().item(), "RESUME_TENSOR_SHAPE_DTYPE_FINITE")
             target.copy_(tensor.to(target.device))
-    if engine.method in PROJECTED_METHODS:
+    if engine.method in HISTORY_METHODS:
         engine.restore_history(payload["cache_c"])
     engine.restore_contexts(payload["contexts"])
     require(engine.successful_calls == payload["batch"], "RESUME_NATIVE_CONTEXT_BATCH_CURSOR")
@@ -297,7 +309,9 @@ class Tracking:
 
 
 def factual_payload(endpoint, prefix, edits):
-    require(prefix in ("W0_first2000", "all_seen/post"), "OFFICIAL_ENDPOINT_PREFIX")
+    require(prefix in ("W0_first2000", "all_seen/post") or
+            (endpoint["identity"]["dataset"] == "zsre" and prefix in ("current/pre","current/post")),
+            "OFFICIAL_ENDPOINT_PREFIX")
     value = {"edits": edits, "pre_state_edits": edits, "post_state_edits": edits}
     for key, item in endpoint["summary"].items():
         if type(item) in (int, float):

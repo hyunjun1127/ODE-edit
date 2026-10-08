@@ -23,6 +23,7 @@ from official.experiments.prepare import digest, file_sha, write_new
 SCHEMA = "official-server1-slurm-plan-v1"
 METHODS = ("FT", "MEMIT", "MEMIT_FE")
 PROJECTED_METHODS = ("ALPHAEDIT", "SPHERE")
+ZSRE_METHODS = ("FT", "MEMIT", "ALPHAEDIT", "ALPHAEDIT_BLUE", "MEMIT_FE", "SPHERE")
 ACTIVE = {"PENDING", "RUNNING", "COMPLETING", "CONFIGURING", "SUSPENDED"}
 DEFAULT_PYTHON = "/mnt/raid5/janghj/EasyEdit/.venv/bin/python"
 DEFAULT_RESOURCES = dict(node="devbox", partition="gpu", qos="lab_gpu_s1",
@@ -266,7 +267,10 @@ def build_resume(config, output, *, method, dataset, main_commit, official_tree,
                  checkpoint_identity, checkpoint_latest, inputs, existing_frontier=(),
                  cap=3, resources=None, python=DEFAULT_PYTHON, collector_output=None):
     """New control attempt, same science/output/source/checkpoint identity."""
-    require(method in METHODS and dataset in ("cf", "zsre"), "RESUME_PROFILE")
+    config_value=read(config)
+    zsre_profile=config_value.get('zsre_six') is True
+    require((method in ZSRE_METHODS if zsre_profile else method in METHODS)
+            and dataset in ("cf", "zsre") and (not zsre_profile or dataset=='zsre'), "RESUME_PROFILE")
     jobs = [_job("resume-" + method.lower(), "chain", method, dataset, config, output)]
     jobs[0]["resume"] = True
     jobs.append(_job("collector", "collect", None, dataset, config,
@@ -280,14 +284,41 @@ def build_resume(config, output, *, method, dataset, main_commit, official_tree,
                 python=str(Path(python).absolute()), actual_GPU_qualification=False,
                 checkpoint_policy="LATEST_ONE_FP32_W_NATIVE_STATE_RNG_CURSOR_W20_KEEP",
                 automatic_retry=False, recurring_monitor=False, old_jobs_mutation=False)
+    if zsre_profile:
+        plan['runtime_profile']='zsre_six'
     validate_plan(plan)
     return plan
+
+
+def build_zsre_six(configs, output_root, *, main_commit, official_tree, inputs,
+                   existing_frontier=(), cap=4, resources=None, python=DEFAULT_PYTHON):
+    """W0 once, six actual B1/B3-resume qualifications, six cold chains; width <= cap."""
+    root=Path(output_root).absolute()
+    jobs=[_job('zsre-w0','base_w0',None,'zsre',configs[('FT','zsre')],root/'base-w0')]
+    for index,method in enumerate(ZSRE_METHODS):
+        key=method.lower();parents=['zsre-w0'];resource=[]
+        if index>=cap:
+            resource=['zsre-'+ZSRE_METHODS[index-cap].lower()];parents+=resource
+        qual=_job('qual-zsre-'+key,'qualification',method,'zsre',configs[(method,'zsre')],
+                  root/('qualification-'+key),parents)
+        qual['resource_parents']=resource;jobs.append(qual)
+        jobs.append(_job('zsre-'+key,'chain',method,'zsre',configs[(method,'zsre')],
+                         root/('zsre-'+key),[qual['key']]))
+    jobs.append(_job('collector-zsre','collect',None,'zsre',configs[('FT','zsre')],root/'collector',
+                     [job['key'] for job in jobs],gpus=0))
+    plan=dict(schema=SCHEMA,purpose='zsre_six',server='server1',model='llama3',cap=cap,
+        source=dict(main_commit=main_commit,official_tree=official_tree),inputs=list(inputs),
+        existing_frontier=list(map(str,existing_frontier)),resources=dict(DEFAULT_RESOURCES,**(resources or {})),
+        jobs=jobs,python=str(Path(python).absolute()),actual_GPU_qualification=False,
+        checkpoint_policy='LATEST_ONE_FP32_W_NATIVE_STATE_RNG_CURSOR_W20_KEEP',
+        automatic_retry=False,recurring_monitor=False,old_jobs_mutation=False)
+    validate_plan(plan);return plan
 
 
 def validate_plan(plan):
     require(plan.get("schema") == SCHEMA and plan.get("server") == "server1"
             and plan.get("model") == "llama3", "PLAN_SCOPE")
-    require(plan.get("purpose") in ("pipeline", "qualification", "resume", "cf_checkpoint", "projected_cf"), "UNKNOWN_PLAN_PURPOSE")
+    require(plan.get("purpose") in ("pipeline", "qualification", "resume", "cf_checkpoint", "projected_cf", "zsre_six"), "UNKNOWN_PLAN_PURPOSE")
     require(type(plan.get("cap")) is int and 1 <= plan["cap"] <= 4, "PLAN_STRICTER_CAP")
     require(not plan.get("automatic_retry") and not plan.get("recurring_monitor")
             and not plan.get("old_jobs_mutation") and plan.get("actual_GPU_qualification") is False,
@@ -311,11 +342,15 @@ def validate_plan(plan):
         keys.add(job["key"])
         require(job["dataset"] in ("cf", "zsre") and job["mode"] in
                 ("qualification", "base_w0", "chain", "smoke", "collect"), "RUNNER_MODE")
-        require(job["method"] in METHODS + PROJECTED_METHODS or (job["method"] is None and
+        require(job["method"] in ZSRE_METHODS or (job["method"] is None and
                 job["mode"] in ("base_w0", "collect")), "METHOD_NOT_OURS")
         require(job["gpus"] == (0 if job["mode"] == "collect" else 1), "GPU_LABEL_IDENTITY")
         require(Path(job["output"]).is_absolute(), "ABSOLUTE_LOCAL_OUTPUT")
         value = read(verify(job["config"]))
+        if plan['purpose']=='zsre_six' or plan.get('runtime_profile')=='zsre_six':
+            require(value.get('zsre_six') is True and value.get('dataset')=='zsre'
+                and value.get('scope_override')=='USER-DIRECT-SERVER1-ZSRE-SIX-20261009', 'ZSRE_SIX_PROFILE')
+        require(set(job.get('resource_parents',[])) <= set(job['parents']), 'RESOURCE_EDGE_SUBSET')
         if plan["purpose"] == "projected_cf":
             require(value.get("projected_CF_addition") is True and value.get("method") in PROJECTED_METHODS
                     and value.get("dataset") == "cf" and value.get("cf_W20_generation") == "DEFERRED_TO_SAVED_W20_CHECKPOINT"
@@ -331,6 +366,13 @@ def validate_plan(plan):
                 and stream.get("batches") == 20, "EXACT_2K_20B_CONFIG")
     for row in plan["inputs"]:
         verify(row)
+    if plan['purpose']=='zsre_six':
+        for mode in ('qualification','chain'):
+            require(sorted(j['method'] for j in plan['jobs'] if j['mode']==mode)==sorted(ZSRE_METHODS),
+                    'ZSRE_EXACT_SIX_METHODS')
+        require(sum(j['mode']=='base_w0' for j in plan['jobs'])==1
+                and sum(j['mode']=='collect' for j in plan['jobs'])==1 and len(plan['jobs'])==14,
+                'ZSRE_EXACT_W0_AND_COLLECTOR')
     require(graph_width(plan["jobs"]) <= plan["cap"], "NEW_DAG_EXCEEDS_CAP")
     if plan["purpose"] == "resume":
         checkpoint = verify(plan["checkpoint_latest"])
@@ -377,7 +419,8 @@ def freeze_source(plan, attempt, *, repository=None, runner=command):
 
 
 def runtime_argv(plan, job, lock_path):
-    argv = [plan["python"], "-B", "-u", "-m", "official.runners.server1.run",
+    module='official.runners.server1.zsre_run' if plan['purpose']=='zsre_six' or plan.get('runtime_profile')=='zsre_six' else 'official.runners.server1.run'
+    argv = [plan["python"], "-B", "-u", "-m", module,
             "--mode", job["mode"], "--dataset", job["dataset"],
             "--config", job["config"]["path"], "--output", job["output"],
             "--source-lock", str(lock_path)]
@@ -455,7 +498,7 @@ def resource_preflight(plan, *, runner=command):
 
 def sbatch_argv(plan, job, script, attempt, ids):
     resources = plan["resources"]
-    parents = [("afterany" if job["mode"] in ("collect", "smoke") else "afterok", ids[parent])
+    parents = [("afterany" if job["mode"] in ("collect", "smoke") or parent in job.get('resource_parents',[]) else "afterok", ids[parent])
                for parent in job["parents"]]
     if not job["parents"]:
         parents += [("afterany", old) for old in plan["existing_frontier"]]
