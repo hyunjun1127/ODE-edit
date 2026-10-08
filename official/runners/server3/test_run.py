@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 
 from official.experiments.prepare import build_matrix, digest, load_plan
 from official.runners.server3 import run
@@ -97,6 +98,25 @@ class Server3RunTests(unittest.TestCase):
             cases_path.write_text("changed")
             with self.assertRaisesRegex(ValueError, "RECEIPT_FACTUAL_HASH_MISMATCH"):
                 run._recover_batch_receipts(out, payload, ref, config, lock, source, identity)
+
+    def test_actual_tokenizer_properties_must_match_pinned_cpu_audit(self):
+        audit = run._read(run.ROOT / "official/hparams/tokenizers.lock.json")["audits"][
+            "qwen25-cf"]
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            for name in audit["tokenizer_files_sha256"]:
+                (root / name).write_text("fixture")
+            tok = type("Qwen2TokenizerFast", (), dict(
+                add_bos_token=None, bos_token_id=None, padding_side="right"))()
+            with patch.object(run, "_sha", side_effect=lambda path:
+                              audit["tokenizer_files_sha256"][path.name]):
+                receipt = run._tokenizer_receipt(root, tok, {"dataset": "cf",
+                                                    "stream_sha256": "stream"})
+                self.assertEqual(receipt["tokenizer_sha256"], audit["tokenizer_sha256"])
+                tok.padding_side = "left"
+                with self.assertRaisesRegex(ValueError, "TOKENIZER_RUNTIME_CONTRACT_MISMATCH"):
+                    run._tokenizer_receipt(root, tok, {"dataset": "cf",
+                                                        "stream_sha256": "stream"})
 
 
 if __name__ == "__main__":

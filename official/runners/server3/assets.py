@@ -408,6 +408,17 @@ def _generation(result: dict, value, base: Path, hash_large: bool,
     if not require_generation:
         generation["verification"] = "NOT_REQUIRED_FOR_THIS_STAGE"
         return
+    native_generator = OFFICIAL / "evaluation/generation/native_generator.py"
+    native_sha = _sha(native_generator)
+    generation["native_generator_sha256"] = native_sha
+    # The distributed native case-batched generator currently has an explicit
+    # model_type gate for GPT-2/GPT-J.  Qwen's qwen2 type must not get as far as
+    # a costly W0 load only to fail at the first generation call.  A changed
+    # shared source still needs a reviewed Qwen qualification, not silent PASS.
+    known_gpt_only_sha = "ef3d3daf20c174cfa3627a3852e2d593eb506718ac8ddde62a909a26c87bd2c3"
+    _block(result, "QWEN_GENERATION_MODEL_FAMILY_UNSUPPORTED" if native_sha == known_gpt_only_sha
+           else "QWEN_GENERATION_SOURCE_NOT_QUALIFIED", native_generator,
+           "NativeGenerationObserver's case generator has no qualified qwen2 path")
     runtime_python = result.get("runtime", {}).get("python")
     if runtime_python and Path(runtime_python).is_file():
         # Probe the actual scientific interpreter with the same HOME-only

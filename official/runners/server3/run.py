@@ -388,6 +388,16 @@ def _tokenizer_receipt(snapshot, tokenizer, stream_lock):
             files[name] = _sha(path)
     if not files:
         raise ValueError("TOKENIZER_FILES_MISSING")
+    audited = _read(ROOT / "official/hparams/tokenizers.lock.json")["audits"][
+        "qwen25-" + stream_lock["dataset"]]
+    if files != audited["tokenizer_files_sha256"] or \
+            digest(files) != audited["tokenizer_sha256"]:
+        raise ValueError("TOKENIZER_FILE_SHA_MISMATCH")
+    if tokenizer is not None and (type(tokenizer).__name__ != audited["tokenizer_class"] or
+            getattr(tokenizer, "add_bos_token", None) != audited["add_bos_token"] or
+            tokenizer.bos_token_id != audited["bos_token_id"] or
+            tokenizer.padding_side != audited["padding_side"]):
+        raise ValueError("TOKENIZER_RUNTIME_CONTRACT_MISMATCH")
     return dict(tokenizer_sha256=digest(files), files=files,
                 tokenizer_class=type(tokenizer).__name__ if tokenizer is not None else None,
                 add_bos_token=getattr(tokenizer, "add_bos_token", None),

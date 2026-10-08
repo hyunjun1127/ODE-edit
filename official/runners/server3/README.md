@@ -42,6 +42,12 @@ and cannot truthfully accept zsRE's distinct W0 counts; the zsRE stage blocks
 until a shared schema extension is published. The server3 folder does not
 fork either shared evaluator or logger.
 
+The currently distributed native case-batched generator rejects Qwen's
+`qwen2` model type (its guard admits GPT-2/GPT-J). CF preflight therefore
+also blocks pending a reviewed common Qwen path and target-model qualification;
+it never silently substitutes Hugging Face `generate` or a different RNG/KV
+schedule. The native NLTK tokenizer resource is checked before model load.
+
 Failed physical edit jobs have an identity-checked, held checkpoint-resume
 path. A failed shared W0, qualification or zsRE smoke prerequisite requires a
 separately reviewed immutable retry and dependency repair; this submitter
