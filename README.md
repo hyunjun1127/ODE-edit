@@ -114,14 +114,10 @@ FLU/CON은 이후 별도 2k checkpoint 평가에서 측정하며, 그 consumer �
 [자원 변경 보고](experiment-reports/servers/server2/official-baselines-20261008/cap4-existing-dag-20261009-r1.md)에 기록했다.
 cap4 변경은 별도 scheduling override이며 기존 frozen source/manifest의 cap3 기록을 소급 변경하지 않았다.
 
-**Server2 zsRE 등록 직후 owner snapshot: 6개 pipeline 모두 PENDING.**
-MEMIT61666 → FT61667/AlphaEdit61668/BLUE61669/FE61670, SPHERE61671은 FT 뒤에 연결했다.
-첫 MEMIT job은 기존 CF frontier 이후 W0·native smoke를 검증한 뒤 별도 cold main으로 진행한다.
-CPU collector61672는 표에서 제외한다. 실제 job name은
+zsRE의 실제 job name은
 `official-baselines-server2-20261008-r1-zsre_pipeline-<ARM>`이며 source `ccc1f5d6`,
 sample/config/lock·dependency는 [zsRE 제출 보고서](experiment-reports/servers/server2/zsre-wandb-20261009/report-ko.md)에 있다.
-[zsRE W&B index](https://forge.coreweave.com/wandb/wkdguswns2256/layer%20allocation?nw=zsreindex)에서
-모델별 실측 지표를 분리하며 GPU qualification·온라인 startup·W20 완료는 아직 미관측이다.
+GPU qualification·온라인 startup·W20 완료는 아직 미관측이다.
 
 | Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |

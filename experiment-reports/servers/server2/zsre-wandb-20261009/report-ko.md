@@ -23,6 +23,11 @@ GH direct request/ACK turn `01a11cb4-d395-7360-9c73-7bfbac88b063`에서
 `GH-SH2-ZSRE-WANDB-METRICS-READY-20261009-R1`을 수신했다.
 서버별 수신 완료 여부는 GH 직접 전달 영수증과 구분한다. logger 복제/기존 job hotpatch0.
 
+최신 `audits/global/zsre-wandb-metrics-20261009/delivery.json` 확인: SH1/SH2/SH3
+explicit owner ACK 수신. SH3는 실제 caller CPU55 검산/채택 receipt도 게시했다.
+SH4는 별도 Qwen tuning active turn이므로 `DELIVERY_PENDING_UNRELATED_ACTIVE_TURN`이며
+직접 전달 write0/ACK없음이다. 전체4서버 전달 완료로 주장하지 않으며 비간섭 규칙을 지킨다.
+
 ## 실제 등록
 
 | Arm | Job | afterany |
