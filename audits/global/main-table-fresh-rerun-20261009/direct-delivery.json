@@ -1,0 +1,33 @@
+{
+  "instruction_id": "USER-GH-MAIN-TABLE-FRESH-RERUN-20261009-R1",
+  "authority_commit": "1bedeaf067cfc82af40e769eebace7703f0df558",
+  "table_source_commit": "221b2aeb",
+  "GH": "OWNER_ACK_ACCEPTED",
+  "server1": {"delivery": "USER_REPORTED_ALREADY_DELIVERED", "GH_redispatch": false, "last_thread_observation": "공통 W0 검증 수정본 main 통합 대기. 본 관측에서 신규 main job ID 미확인."},
+  "server2": {"delivery": "USER_REPORTED_ALREADY_DELIVERED", "GH_redispatch": false, "last_thread_observation": "담당자가 새 job 미제출을 명시. CF 생성 평가 DEFERRED 공통 W&B 일정 연결 준비 중."},
+  "server3": {
+    "nonce": "GH-SH3-MAIN-TABLE-FRESH-RERUN-20261009-R1",
+    "session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+    "cwd": "/data/janghj/ODE-edit",
+    "operation": "turn/start",
+    "accepted_turn": "01a11ca0-8ec9-7253-861a-5ae4f4810b3f",
+    "owner_ack": "OWNER_ACK nonce=GH-SH3-MAIN-TABLE-FRESH-RERUN-20261009-R1 server=server3 accepted=true",
+    "stage": "Qwen MEMIT·AlphaEdit CF 제외 gate 제거 및 own 준비 상태 확인 착수. 실제 신규 main 제출은 이 ACK에서 확인되지 않음."
+  },
+  "server4": {
+    "nonce": "GH-SH4-MAIN-TABLE-FRESH-RERUN-20261009-R1",
+    "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+    "cwd": "/data/janghj/ODE-edit",
+    "operation": "turn/start",
+    "accepted_turn": "01a11ca0-8e9d-7fb0-8962-2848bb489fff",
+    "owner_ack": "OWNER_ACK nonce=GH-SH4-MAIN-TABLE-FRESH-RERUN-20261009-R1 server=server4 accepted=true",
+    "stage": "정본 및 official 상태 확인 착수. Qwen tuning·61618 replay 변경 없음. 실제 신규 main 제출은 이 ACK에서 확인되지 않음."
+  },
+  "evidence_method": "정확 app-server socket thread/CWD 검증 후 idle turn/start. transport accepted와 명시 owner ACK를 분리했으며 ACK는 후속 readonly read_thread agentMessage에서 직접 확인.",
+  "README_update": "세 모델 21행/9지표 열 보존, 새 실행과 상태·완료 규칙 반영. eligible main job ID/name/state 또는 새 W20 근거 없는 칸은 빈칸 유지.",
+  "checks": ["session boundary PASS", "JSON 3파일 parse PASS", "README 3모델/21행/9metric 열 PASS", "diff/access PASS", "authority main remote SHA exact 확인"],
+  "GH_scheduler_queries": 0,
+  "GH_job_mutations": 0,
+  "checkpoint_transfer_or_delete": 0,
+  "new_recurring_monitor": false
+}

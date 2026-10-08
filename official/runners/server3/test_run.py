@@ -29,22 +29,6 @@ class Server3RunTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "CF_BLUE_ALIAS_NOT_PHYSICAL_CHAIN"):
             run.validate_config(self.rows["qwen25-cf-alphaedit_blue"])
 
-    def test_historical_cf_rows_remain_canonical_but_new_fit_is_blocked(self):
-        for method in ("memit", "alphaedit"):
-            cf = self.rows[f"qwen25-cf-{method}"]
-            zsre = self.rows[f"qwen25-zsre-{method}"]
-            self.assertEqual(run.validate_config(cf), cf)
-            self.assertEqual(run._new_edit_scope_blocker(cf),
-                             "CF_NEW_EDIT_EXCLUDED_HISTORICAL_CHECKPOINT_ONLY")
-            self.assertIsNone(run._new_edit_scope_blocker(zsre))
-        self.assertIsNone(run._new_edit_scope_blocker(
-            self.rows["qwen25-cf-alphaedit-clamp075"]))
-        with tempfile.TemporaryDirectory() as folder:
-            config = Path(folder) / "cf-memit.json"
-            config.write_text(json.dumps(self.rows["qwen25-cf-memit"]))
-            with self.assertRaisesRegex(ValueError, "CF_NEW_EDIT_EXCLUDED"):
-                run.qualify(SimpleNamespace(config=config))
-
     def test_only_blue_zsre_selected_l2_may_change(self):
         original = self.rows["qwen25-zsre-alphaedit_blue"]
         selected = copy.deepcopy(original)

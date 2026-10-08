@@ -1,0 +1,21 @@
+{
+  "instruction_id": "USER-GH-OURS-HPARAMS-MAIN-SYNC-20261009-R1",
+  "status": "OWNER_ACK_ACCEPTED_DISPATCHING",
+  "user_exact_quote": "GH에게 전달해서 각 서버 최신화 시키라고 해",
+  "required_ancestor": "cc2d7190e4860ae2934be86f615fef37e84ca4ba",
+  "implementation_commit": "4e00968e6ecffae5085420bce7aa50dc08b58c85",
+  "source_session": "01a11bcb-1c1a-7812-8937-20c003dfaf93",
+  "owners": ["GH", "SH1", "SH2", "SH3", "SH4"],
+  "scope": "각 서버의 공식 실행 준비용 checkout/worktree에 최신 origin/main을 안전하게 통합하고 적용 증거를 회신한다. 코드 최신화이며 새 과학 실험 지시가 아니다.",
+  "procedure": [
+    "실제 session/CWD/origin을 확인하고 현재 작업을 보존한다. dirty root에 reset/stash/revert/일괄 stage하지 않는다.",
+    "origin/main을 fetch한다. clean dedicated worktree 또는 기존 own branch의 안전한 merge/ff-only로 최신 main을 반영한다. 충돌은 기록하고 임의 덮어쓰지 않는다.",
+    "반영 HEAD가 required_ancestor와 fetch한 main을 포함하는지 확인하고 실제 checkout 경로/HEAD/관측 main SHA를 보고한다.",
+    "python3 -m official.tools.verify를 실행하고 결과를 기록한다. 기존 CPU 환경이 준비돼 있으면 official/tests CPU 검사를 실행한다. 설치/환경 변경 없이 미실행 사유를 명시한다.",
+    "향후 source freeze에 실제 새로운 source/config SHA를 기록한다. 동기화 대상과 frozen runtime archive를 혼동하지 않는다."
+  ],
+  "write_scope": "기존 owner 공식 실행 준비 worktree의 main 통합 및 own audit/report/status. 공통 source의 임의 재구현/수학 변경 없음. GH 정본 README 관리 규칙 유지.",
+  "forbidden": ["기존 RUNNING/PENDING job frozen source/config 변경", "이번 지시로 GPU smoke/Qwen sweep 제출", "무관 job 취소·재시작", "과거 결과를 새 main 결과로 relabel", "신규 recurring monitor"],
+  "receipt_fields": ["nonce", "server", "session", "checkout", "branch", "HEAD", "fetched_main", "required_ancestor_pass", "fetched_main_ancestor_pass", "source_verify", "CPU_tests_or_not_run_reason", "frozen_jobs_unchanged"],
+  "completion": "직접 담당 수락과 실제 적용은 분리한다. GH 포함 5개 owner 적용 receipt를 확보하기 전 전체 완료로 보고하지 않는다."
+}

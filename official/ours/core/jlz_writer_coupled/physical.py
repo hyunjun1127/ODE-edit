@@ -1,6 +1,7 @@
 """One actual modified linear, exact accepted FP32 weights, direct-D VJP."""
 from contextlib import contextmanager
 import torch
+from official.ours.config import require_config
 import torch.nn.functional as F
 from official.ours.common import require
 
@@ -23,6 +24,7 @@ def materialize(entry,D,P):
 
 class LlamaAdapter:
     def __init__(self,model,profile):
+        profile=require_config(profile)
         self.model,self.profile=model,profile
         require(model.config.model_type=='llama','UNSUPPORTED_MODEL_ADAPTER')
         self.blocks=model.model.layers;self.sites=tuple(profile['eligible_layers'])

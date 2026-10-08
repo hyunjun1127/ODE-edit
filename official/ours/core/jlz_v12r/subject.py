@@ -1,6 +1,7 @@
 """Same-mask request SUM subject loss; owner groups backward immediately."""
 import time
 import torch
+from official.ours.config import require_config
 from official.ours.core.jlz_realized_subject.subject import row_logprobs
 from official.ours.common import require
 from official.ours.core.jlz_native_writer_aware.routes import annotate
@@ -8,7 +9,8 @@ from official.ours.core.jlz_native_writer_aware.routes import annotate
 
 def evaluate(a,entry,built,backward=False,capture=False,active_previous=None,
              fixed_mask=None,terminal=False,owner_subset=None):
-    annotate(entry);start=time.monotonic();B=entry['pack']['n_requests'];n=entry['pack']['n_rw']
+    config=require_config(a.profile)
+    annotate(entry,config);start=time.monotonic();B=entry['pack']['n_requests'];n=entry['pack']['n_rw']
     previous=torch.zeros(B,dtype=torch.bool) if active_previous is None else torch.as_tensor(active_previous,dtype=torch.bool).cpu().clone()
     require(previous.shape==(B,),'ACTIVE_MASK_SHAPE')
     fixed=None if fixed_mask is None else torch.as_tensor(fixed_mask,dtype=torch.bool).cpu()
@@ -33,9 +35,9 @@ def evaluate(a,entry,built,backward=False,capture=False,active_previous=None,
                     nll[owner,row['reduction_index']]=float(value.detach())
                 else:
                     teacher=entry['teachers'][owner].to(a.device)
-                    value=(lp.exp()*(lp-teacher)).sum();loss=loss+.0625*value;kl[owner]=float(value.detach())
+                    value=(lp.exp()*(lp-teacher)).sum();loss=loss+config['lambda_KL']*value;kl[owner]=float(value.detach())
             require(bool(torch.isfinite(loss)),'NONFINITE_NATIVE_SUBJECT');F[owner]=float(loss.detach())
-            active[owner]=bool(fixed[owner]) if fixed is not None else bool(previous[owner] or F[owner]>=.05)
+            active[owner]=bool(fixed[owner]) if fixed is not None else bool(previous[owner] or F[owner]>=config['tau_F'])
             if active[owner]:masked_sum+=float(loss.detach())
             if backward and not terminal and active[owner]:
                 gradients=torch.autograd.grad(loss,tuple(v.values()),allow_unused=False)

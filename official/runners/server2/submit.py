@@ -18,6 +18,7 @@ import subprocess
 import tarfile
 
 from official.experiments.prepare import METHODS, digest, file_sha, read, write_new
+from official.runners.server2.checkpoint_profile import deferred
 
 REPO = Path(__file__).resolve().parents[3]
 OUTPUT = Path('/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1')
@@ -211,8 +212,10 @@ def admission(manifest, out, *, run=command, inspect_inventory=inventory):
     local = [line.split('\t') for line in Path(manifest['local_caps_file']).read_text().splitlines()
         if line.startswith('server2\t')]
     require(len(tracked) == len(local) == 1, 'UNIQUE_LOCAL_TRACKED_SERVER2_CAP')
-    cap = min(2, int(tracked[0]), int(local[0][2]))
-    require(1 <= cap <= 2 and local[0][1] == 'server2' and r['host_mib'] <= int(local[0][3]),
+    # Exact direct USER cap3 overrides the historical tracked cap2 only for
+    # this new profile. Other tasks retain their previous admission semantics.
+    cap = min(3, int(local[0][2])) if deferred(manifest) else min(2, int(tracked[0]), int(local[0][2]))
+    require(1 <= cap <= (3 if deferred(manifest) else 2) and local[0][1] == 'server2' and r['host_mib'] <= int(local[0][3]),
         'CAP_DISABLED_OR_MEMORY_CEILING')
     before = inspect_inventory()
     require(not before.get('ambiguous'), 'PROJECT_GPU_CLASSIFICATION_UNRESOLVED')
@@ -303,7 +306,7 @@ def gate(path, *, manifest, kind):
 
 
 def roles(stage, resume_method=None, smoke_only=False):
-    require(stage in ('qualification', 'cf', 'zsre'), 'UNKNOWN_REGISTRATION_STAGE')
+    require(stage in ('qualification', 'cf', 'zsre', 'cf_checkpoint'), 'UNKNOWN_REGISTRATION_STAGE')
     if resume_method:
         require(resume_method in METHODS and stage in ('cf', 'zsre'), 'RESUME_EXACT_MAIN_METHOD')
         return [resume_method]
@@ -314,7 +317,7 @@ def roles(stage, resume_method=None, smoke_only=False):
 
 
 def dependencies(role, ordered, jobs, external, cap):
-    require(1 <= cap <= 2 and len(set(external)) == len(external)
+    require(1 <= cap <= 3 and len(set(external)) == len(external)
         and all(job.isdigit() for job in external), 'EXACT_FRONTIER_CAP')
     if role == 'collector':
         require(set(jobs) == set(ordered), 'COLLECTOR_AFTER_ALL_OWN_GPU')
@@ -326,6 +329,15 @@ def dependencies(role, ordered, jobs, external, cap):
 
 def stage_dependencies(role, stage, ordered, jobs, external, cap):
     """W0 is an actual technical READY, not a scientific-quality afterok gate."""
+    if stage == 'cf_checkpoint' and role != 'collector':
+        # FT produces the one shared cold factual W0 before its own native
+        # qualification/chain. No GPU file polling: consumers run after FT,
+        # verify READY, and fail closed if the producer did not persist it.
+        index = ordered.index(role)
+        require(list(jobs) == ordered[:index], 'CHECKPOINT_PIPELINE_REGISTRATION_ORDER')
+        if index == 0:
+            return list(external)
+        return [jobs[ordered[0]]] if index <= cap else [jobs[ordered[index-cap]]]
     if stage == 'zsre' and 'W0_ZSRE' in ordered and role != 'collector':
         if role == 'W0_ZSRE':
             require(not jobs, 'ZSRE_W0_FIRST_REGISTRATION')
@@ -349,6 +361,10 @@ def stage_dependencies(role, stage, ordered, jobs, external, cap):
 def runner_argv(manifest_path, role, stage, out, manifest, *, resume=None):
     require(role in (*METHODS, 'ZSRE_SMOKE', 'W0_CF', 'W0_ZSRE'), 'EXACT_RUNNER_ROLE')
     method = manifest.get('smoke_method', 'MEMIT') if role == 'ZSRE_SMOKE' else 'MEMIT' if role.startswith('W0_') else role
+    if stage == 'cf_checkpoint':
+        require(deferred(manifest) and role in METHODS and resume is None, 'CHECKPOINT_PIPELINE_PROFILE')
+        return [manifest['runtime']['python'], '-u', '-m', 'official.runners.server2.checkpoint_pipeline',
+                '--manifest', str(manifest_path), '--method', role, '--out', str(out/role)]
     mode = 'w0' if role.startswith('W0_') else 'smoke' if role == 'ZSRE_SMOKE' else 'qualification' if stage == 'qualification' else 'chain'
     argv = [manifest['runtime']['python'], '-u', '-m', 'official.runners.server2.run',
         '--manifest', str(manifest_path), '--method', method,
@@ -367,7 +383,9 @@ def launcher(attempt, role, manifest, *, resume=None):
         OFFICIAL_CODE_COMMIT=manifest['code_commit'], OFFICIAL_TREE_SHA256=manifest['official_tree_sha256'])
     if role == 'collector':
         env['CUDA_VISIBLE_DEVICES'] = ''
-        argv = [manifest['runtime']['python'], '-u', '-m', 'official.runners.server2.collect',
+        argv = [manifest['runtime']['python'], '-u', '-m',
+            'official.runners.server2.checkpoint_pipeline' if manifest['registration_stage'] == 'cf_checkpoint'
+            else 'official.runners.server2.collect',
             '--attempt', str(attempt)]
     else:
         argv = runner_argv(attempt/'manifest.json', role, manifest['registration_stage'], attempt,
@@ -814,6 +832,9 @@ def submit(manifest_path, out, stage, *, qualification_receipt=None, smoke_recei
     manifest = dict(base, registration_stage=stage, base_manifest_sha256=base_sha)
     require(method is None or resume is not None, 'METHOD_ONLY_WITH_EXPLICIT_RESUME')
     ordered = roles(stage, method if resume else None, smoke_only)
+    if stage == 'cf_checkpoint':
+        require(deferred(manifest) and not any((resume, method, smoke_only, qualification_receipt)),
+                'EXACT_CF_CHECKPOINT_PIPELINE_ONLY')
     if stage == 'cf':
         require(qualification_receipt is not None, 'ACTUAL_QUALIFICATION_NOT_AVAILABLE')
         manifest['qualification_receipt'] = gate(qualification_receipt, manifest=manifest, kind='qualification')
@@ -835,6 +856,9 @@ def submit(manifest_path, out, stage, *, qualification_receipt=None, smoke_recei
     attempt = out/attempt_name
     require(not attempt.exists(), 'ATTEMPT_ALREADY_EXISTS_NO_AUTORETRY')
     if stage == 'cf' and not resume:
+        manifest['W0_cf_ready_path'] = str(attempt/'W0_CF'/'READY.json')
+        manifest['w0_cf_output'] = str(attempt/'W0_CF')
+    elif stage == 'cf_checkpoint':
         manifest['W0_cf_ready_path'] = str(attempt/'W0_CF'/'READY.json')
         manifest['w0_cf_output'] = str(attempt/'W0_CF')
     elif stage == 'cf':
@@ -867,7 +891,7 @@ def submit(manifest_path, out, stage, *, qualification_receipt=None, smoke_recei
         archive=member(archive), source_members=[member(path) for path in sorted((attempt/'source').rglob('*')) if path.is_file()],
         launchers=[member(attempt/(role+'.sh')) for role in [*ordered, 'collector']],
         resources=manifest['resources'], stage=stage, checkpoint_latest1=True, tracking=bound_tracking,
-        actual_qualification='NOT_OBSERVED_AT_REGISTRATION' if stage == 'qualification' else 'ACTUAL_RECEIPT_BOUND',
+        actual_qualification='NOT_OBSERVED_AT_REGISTRATION' if stage in ('qualification','cf_checkpoint') else 'ACTUAL_RECEIPT_BOUND',
         all_existing_jobs_preserved=True, source_freeze_distinct_from_publication=True)
     write_new(attempt/'execution.lock.json', lock)
     jobs, deps, inspections = {}, {}, []
@@ -917,7 +941,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--manifest', type=Path, required=True)
     parser.add_argument('--out', type=Path, default=OUTPUT)
-    parser.add_argument('--stage', choices=('qualification', 'cf', 'zsre'), required=True)
+    parser.add_argument('--stage', choices=('qualification', 'cf', 'zsre', 'cf_checkpoint'), required=True)
     parser.add_argument('--qualification-receipt', type=Path)
     parser.add_argument('--smoke-receipt', type=Path)
     parser.add_argument('--smoke-only', action='store_true')
