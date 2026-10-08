@@ -1,6 +1,6 @@
 # GPT-J native six-baseline fluency/consistency 준비·등록 보고
 
-최신 상태(2026-10-08): `FINAL_W20_ONLY_SOURCE_READY_NOT_SUBMITTED`.
+최신 상태(2026-10-08): `FINAL_W20_ONLY_SUBMISSION_HANDOFF; SIX_GPU_AND_COLLECTOR_HELD_INSPECTED_RELEASED; INITIAL_PENDING`.
 최신 USER 일정 변경에 따라 이전 r2 대기 6GPU+collector를 정확 취소했다. 최종 W20-only 새 등록은 아래 최신 절에 별도 기록한다.
 이하 기존 등록 보고는 역사 기록이며, 현재 실행 상태로 읽지 않는다.
 원 등록 상태: `SUBMISSION_HANDOFF; SIX_GPU_AND_CPU_COLLECTOR_RELEASED`.
@@ -431,3 +431,40 @@ Ignored 새 root는 local/gptj-baselines-fluency-consistency-2k/final-generation
 FreeGPU/실험완료를 기다리지 않고 exact held검사/release 후 bounded snapshot만 수행한다.
 NoCP/raw local KEEP/NO_BROADCAST_NOT_REQUIRED, 새 recurring monitor/heartbeat/automatic retry0.
 실제 새 source/lock/jobs/dependencies는 실제 등록 이후 아래 추가하며 아직 이 준비 절에서 만들지 않는다.
+
+### 최종 W20-only 실제 재등록·release
+
+Execution source `573e25c58e0a351e7cf88998e9916ff7ef32686f`,
+tree `123097904528a6645d6aa8489c21985d5c043e07`, config SHA
+`10c81ca34d2f3912249e398e4a3ae8b3e355e944d7488c976f6eb506c0e009ae`.
+Lock110717B SHA `03d703230492ed2f85c5ba373c0e916aa17aca97aebca3562bf7b56070766125`.
+Source tar3317760B/310 regular source members SHA
+`b13836a6593c520e3d819e4134258234ea3844c45981ff213883384bc135c377`.
+모든7개 held 등록 뒤 실제 owner/node/Command/WorkDir/fullargv/source/script/config/
+input/reference/PLAN/W&B/noCP/resources/dependencies를 검사하고 후속부터 모두 release했다.
+
+| Arm/역할 | Actual job ID | afterany | 최초 release snapshot |
+| --- | --- | --- | --- |
+|MEMIT|61428|없음|PENDING|
+|AlphaEdit|61429|61428|PENDING|
+|CAKE|61430|61428|PENDING|
+|AlphaEdit-BLUE|61431|61429|PENDING|
+|PRUNE|61432|61430|PENDING|
+|RECT|61433|61431|PENDING|
+|GPU0 collector|61434|새 GPU6개 전체|PENDING|
+
+동시 폭은 최대2GPU이며 old cancelled IDs dependency0이다. BASE_MEMIT의 작은 기술 qualification receipt만
+다른 arm이 exact 검산하며, shared full W0 generation READY 의존성은 없다.
+정상 afterany 일정이며 성능 afterok/gate0. 최초 snapshot Reason=None은 scheduler 초기값으로
+현재 GPU 가용·실행 시작·resourcepending 원인 확정·미래 완료를 주장하는 값이 아니다.
+등록 전 fresh own source-based allocation0/frontier0을 확인했다. 실제 RTX A6000 8개/각49140MiB,
+host request59392MiB/ceiling60416MiB, free disk299261681664B/inode443261774를 결속했다.
+이는 과학 peak/ETA나 타 owner resource에 대한 변경 권한이 아니다.
+
+새 W&B 실제 startup/URL 및 실제 GPU qualification·첫 native write·W20 완료는 `NOT_OBSERVED`다.
+각 arm의 새 online run은 실제jobID/name/source/config/schedule 및 scalar realtime 기록을 실행내부에서 시작한다.
+원격 startup을 cheap 확인한 뒤 모델을 load하며, final generation receipt는 실제 selected route/MB를 보존한다.
+SDK accepted, parent local scalar journal, method/progress remote readback과 science 완료는 분리 기록한다.
+NoCP/기존 raw KEEP, 새 raw·prompt/token/전체stdout/secret Git·W&B0이다.
+Sealed runner/collector는 자연 진행하고 agent는 bounded initial snapshot 후 polling/heartbeat/retry 없이 중지한다.
+Compact 등록 receipt는 `final-generation-v1/submission.json`; sourcefreeze와 이후 main publication commit은 별도다.

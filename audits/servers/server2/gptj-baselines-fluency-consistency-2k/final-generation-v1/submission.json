@@ -1,0 +1,125 @@
+{
+  "W0_generation_calls": 0,
+  "W_B": "ACTUAL_ONLINE_STARTUP_IN_SEALED_RUNNER_NOT_OBSERVED",
+  "actual_qualification": "NOT_OBSERVED",
+  "automatic_retry": false,
+  "cap": 2,
+  "config_sha256": "10c81ca34d2f3912249e398e4a3ae8b3e355e944d7488c976f6eb506c0e009ae",
+  "dependencies": {
+    "ALPHAEDIT_BLUE": [
+      "61429"
+    ],
+    "BASE_ALPHAEDIT": [
+      "61428"
+    ],
+    "BASE_MEMIT": [],
+    "CAKE": [
+      "61428"
+    ],
+    "PRUNE": [
+      "61430"
+    ],
+    "RECT": [
+      "61431"
+    ],
+    "collector": [
+      "61428",
+      "61429",
+      "61430",
+      "61431",
+      "61432",
+      "61433"
+    ]
+  },
+  "final_generation_calls_per_arm": 1,
+  "final_generation_requests_per_arm": 2000,
+  "frontier": [],
+  "generation_schedule": "FINAL_W20_ONLY",
+  "initial_snapshot": "61434|gptj-baselines-generation-cache-repair-collector|PENDING|N/A||None\n61433|gptj-baselines-generation-cache-repair-RECT|PENDING|gres/gpu:1||None\n61432|gptj-baselines-generation-cache-repair-PRUNE|PENDING|gres/gpu:1||None\n61431|gptj-baselines-generation-cache-repair-ALPHAEDIT_BLUE|PENDING|gres/gpu:1||None\n61430|gptj-baselines-generation-cache-repair-CAKE|PENDING|gres/gpu:1||None\n61429|gptj-baselines-generation-cache-repair-BASE_ALPHAEDIT|PENDING|gres/gpu:1||None\n61428|gptj-baselines-generation-cache-repair-BASE_MEMIT|PENDING|gres/gpu:1||None",
+  "instruction_id": "USER-GH-SH1-SH2-BASELINE-GENERATION-KV-BATCH-REPAIR-20261008-R1",
+  "intermediate_generation_calls": 0,
+  "jobs": {
+    "ALPHAEDIT_BLUE": "61431",
+    "BASE_ALPHAEDIT": "61429",
+    "BASE_MEMIT": "61428",
+    "CAKE": "61430",
+    "PRUNE": "61432",
+    "RECT": "61433",
+    "collector": "61434"
+  },
+  "lock": {
+    "bytes": 110717,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-baselines-fluency-consistency-2k/final-generation-v1/attempt-r1/execution.lock.json",
+    "sha256": "03d703230492ed2f85c5ba373c0e916aa17aca97aebca3562bf7b56070766125"
+  },
+  "monitoring_active": false,
+  "qualification_status": "PLAN_BOUND_NOT_ACTUAL_PASS",
+  "reference_identity": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+  "resources": {
+    "collector_cpu": 6,
+    "collector_host_mib": 24576,
+    "collector_wall": "04:00:00",
+    "cpu": 6,
+    "fresh_admission_required": true,
+    "generation_peak_not_yet_measured": true,
+    "gpu": 1,
+    "host_mib": 59392,
+    "project_cap": 2,
+    "reserve_bytes": 17179869184,
+    "simultaneous_host_requested_mib": 118784,
+    "source_old_defaults_reused": true,
+    "task_cap": 2,
+    "wall": "2-00:00:00",
+    "wall_is_eta": false
+  },
+  "scientific_complete": false,
+  "shared_generation_source": "1413ac0ff550f2132feda355e44519506fc0eb84",
+  "source_commit": "573e25c58e0a351e7cf88998e9916ff7ef32686f",
+  "source_tree": "123097904528a6645d6aa8489c21985d5c043e07",
+  "status": "SUBMISSION_HANDOFF",
+  "task_id": "gptj-baselines-generation-cache-repair",
+  "owner_notes": "신규 여섯 GPU 및 전용 collector 전량 held 검산 후 release. 최초 PENDING/Reason=None은 초기 scheduler snapshot이며 resource 가용·성공·실행 시작으로 해석하지 않는다.",
+  "authority_kind": "DIRECT_USER_SCHEDULE_OVERRIDE",
+  "registration_profile": "final-v1",
+  "tracking_attempt": "final-generation-v1",
+  "W_B_config_schedule": "W20_ONLY_FIRST2000",
+  "W_B_progress_phase": "W20_generation",
+  "held_inspection_all_seven": true,
+  "all_seven_released": true,
+  "previous_exact_pending_jobs_cancelled": [
+    "61370",
+    "61369",
+    "61368",
+    "61367",
+    "61366",
+    "61365",
+    "61364"
+  ],
+  "previous_allocated_GPU_seconds": 0,
+  "RPN_intermediate_schedule_unchanged": true,
+  "native_math_budget_precision_input_unchanged": true,
+  "raw_source_spools_preserved": true,
+  "noCP": true,
+  "exact_resume": "NOT_AVAILABLE",
+  "source_archive": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-baselines-fluency-consistency-2k/final-generation-v1/attempt-r1/source.tar",
+    "bytes": 3317760,
+    "sha256": "b13836a6593c520e3d819e4134258234ea3844c45981ff213883384bc135c377",
+    "regular_source_members": 310
+  },
+  "fresh_resources": {
+    "own_allocated_GPUs_before": 0,
+    "hardware": "8x NVIDIA RTX A6000, each49140MiB",
+    "disk_free_bytes": 299261681664,
+    "inode_free": 443261774,
+    "host_request_MiB": 59392,
+    "hard_ceiling_MiB": 60416,
+    "peak_RAM_VRAM": "NOT_MEASURED",
+    "max_new_DAG_concurrency": 2
+  },
+  "CPU_tests": 97,
+  "CPU_status": "PASS_CPU_INTEGRATION_NOT_GPU",
+  "old_attempt_cost_not_added": true,
+  "unrelated_jobs_changed": false,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED"
+}
