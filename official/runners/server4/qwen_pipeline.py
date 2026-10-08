@@ -9,6 +9,7 @@ from datetime import datetime,timezone
 
 from official.experiments.prepare import file_sha,write_new
 from official.runners.server4.qwen_plan import rows
+from official.runners.server4.qwen_submission_plan import require_execution_enabled
 
 
 def now():return datetime.now(timezone.utc).isoformat()
@@ -31,6 +32,7 @@ def child(root,command,output,*,dataset,config=None,extra=(),label):
 
 
 def run(root,logical):
+    require_execution_enabled()
     root=Path(root).resolve(); row=next(r for r in rows() if r['logical_main_row']==logical)
     config=root/'configs'/f'{logical}.json'
     if read(config)!=row['config']:raise ValueError('CELL_CONFIG_CHANGED')
@@ -48,22 +50,8 @@ def run(root,logical):
         child(root,'qualify',qualification,dataset='cf',config=config,label=f'qual-{method}')
         receipt=read(qualification/'resume-parity.json')
         if receipt['status']!='PASS':raise RuntimeError('ACTUAL_PARITY_REQUIRED')
-        # Successful qualification state is disposable test scratch, declared
-        # before submission. Preserve all raw/hash/receipt evidence. Never touch
-        # failed/interrupted scratch, original runs, or a final W20 checkpoint.
-        removed=[]
-        for name in ('continuous','resumed'):
-            folder=qualification/name/'checkpoint'; pointer=read(folder/'latest.json')
-            if pointer['batch']!=3 or pointer.get('final_W20'):raise RuntimeError('QUAL_SCRATCH_SCOPE')
-            payload=folder/pointer['file']
-            if payload.parent!=folder or payload.is_symlink():raise RuntimeError('QUAL_SCRATCH_PATH')
-            stat=payload.stat()
-            if stat.st_nlink!=1 or file_sha(payload)!=pointer['sha256']:raise RuntimeError('QUAL_SCRATCH_CHANGED')
-            removed.append(dict(path=str(payload),sha256=pointer['sha256'],bytes=stat.st_size))
-            payload.unlink()
-        write_new(qualification/'scratch-disposition.json',dict(
-            status='SUCCESSFUL_DISPOSABLE_QUALIFICATION_STATE_REMOVED',job_id=job,
-            raw_and_hash_evidence_preserved=True,final_W20_removed=False,files=removed))
+        # Qualification checkpoints are not final W20 archive candidates.
+        # Keep them; their peak/retention budget remains a pre-submission gate.
     elif not (qualification/'resume-parity.json').is_file():
         raise RuntimeError('CF_METHOD_QUALIFICATION_REQUIRED')
     if dataset=='zsre' and method=='FT':
