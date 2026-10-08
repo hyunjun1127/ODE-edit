@@ -376,7 +376,7 @@ def stage_dependencies(role, stage, ordered, jobs, external, cap):
 
 
 def runner_argv(manifest_path, role, stage, out, manifest, *, resume=None):
-    if stage == 'no_gpu_qual':
+    if stage in ('no_gpu_qual', 'cf_display_repair'):
         require(noqual.enabled(manifest) and resume is None, 'EXPLICIT_USER_DISABLED_COLD_MAIN')
         dataset, method, mode = noqual.cell(role)
         return [manifest['runtime']['python'], '-u', '-m', 'official.runners.server2.run',
@@ -416,6 +416,9 @@ def launcher(attempt, role, manifest, *, resume=None):
             else 'official.runners.server2.zsre_pipeline' if manifest['registration_stage'] == 'zsre_pipeline'
             else 'official.runners.server2.collect',
             '--attempt', str(attempt)]
+        if manifest['registration_stage'] == 'cf_display_repair':
+            argv = [manifest['runtime']['python'], '-u', '-m', 'official.runners.server2.cf_display_repair',
+                '--attempt', str(attempt), '--collect']
     else:
         argv = runner_argv(attempt/'manifest.json', role, manifest['registration_stage'], attempt,
             manifest, resume=resume)
