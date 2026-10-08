@@ -42,3 +42,5 @@ Qwen BLUE는 지정 BLUE/migration inventory에서 확인하지 못했다. 과�
 사용자 지시대로 Llama·Qwen × MEMIT/AlphaEdit의 **신규 CF 편집 네 chain을 제외**하고, 기존 checkpoint 기반 fluency/consistency 후속 관측으로 분리한다. 이번 확인에서 관측 job을 제출하지 않았다. CF checkpoint로 zsRE 편집을 대체하지 않으며 FT/FE/SPHERE/GPT-J 및 무관한 job은 변경하지 않는다. BLUE는 보존 확인 결과를 제공한 것이며 신규 BLUE chain을 자동 취소하지 않았다. 기존 checkpoint 중앙 보존 정책은 forward-only이므로 이 파일을 이동·삭제하지 않았다.
 
 원 보존 근거: [Sep18 checkpoint index](../checkpoint-location-index-2026-09-18-v1/checkpoint-index.csv), [BLUE inventory](../../../audits/servers/server4/2026-09-09-blue-downstream-transfer/checkpoint-inventory.csv). 새 현재 파일 검산은 위 정확한 최종 server2 경로의 stat와 sha256sum이다. 실제 복원·GPU parity·fluency/consistency 완료는 모두 NOT_OBSERVED다.
+
+정본 게시 commit `348d6fb3`. SH1은 Llama MEMIT CF 제외, SH3는 Qwen MEMIT/AlphaEdit CF 제외를 직접 nonce ACK했다. SH4는 Qwen PRICE Tier2의 무관 active turn이어서 직접 전달을 보류했으며, 정본 게시를 수신 ACK로 간주하지 않는다. [전달 영수증](../../../audits/global/native-baseline-checkpoint-reuse-20261009/direct-delivery.json)에 accepted turn과 보류 사유를 분리했다. 신규 GPU 관측 job은 제출하지 않았다.
