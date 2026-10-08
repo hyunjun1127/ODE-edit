@@ -196,3 +196,22 @@ tokenizer 점검은 `official.experiments.prepare audit-tokenizer --stream ... -
 server runner는 여기서 로드한 함수에 동일 모델을 순차 전달하고 native history/context를
 관리한다. BLUE tensor/tuple 호환, C0/P layer 매핑, zsRE token-prefix 평가와 실제 resume의
 GPU 검증은 runner 통합 항목이다. CPU import 성공을 실제 2K 실행 성공으로 표시하지 않는다.
+
+## 공통 호환성 보완 (2026-10-09)
+
+`SH1-GH-OFFICIAL-COMPAT-REVIEW-20261008-R1`에 따라 SPHERE의 Tensor/tuple/list
+hidden container 호환과 누적 KV attention mask를 보완했다. FE의 별도 native context
+generator와 loss/target-fit 수학은 바꾸지 않았다. 공식 generation은 GPT2/GPT-J에 더해
+Llama/Qwen2의 full-context native cache 및 연속 position/cache 좌표를 지원한다.
+top-k 5, case-batch, endpoint global RNG, padded 총길이 100, no-EOS, CAKE decode 정의는
+그대로다. 지원하지 않는 cache/API는 typed failure이며 다른 생성 방법으로 대체하지 않는다.
+
+공통 W&B API는 `official.tracking.init` → `Tracker.log` → `Tracker.finish`다.
+각 서버는 [tracking 계약](tracking/README.md)의 동일 implementation을 읽기 전용으로
+사용하고 서버별 logger를 복제하지 않는다. 공식 request-macro 점수는 기존 PRICE의
+prompt-pair R/P/N scalar와 별도 namespace/schema로 기록한다. CF generation은 모델별
+W0 한 번 및 chain별 W20 한 번이며 zsRE에 CF generation 지표를 넣지 않는다.
+
+정확한 upstream bytes와 변경 후 SHA는 `SOURCES.json`에 결속한다. CPU fixture와
+fake SDK 검산은 실제 pretrained/GPU qualification 또는 W&B online/readback PASS가
+아니다. 기존 봉인 job/source는 hotpatch·취소·재시작하지 않는다.
