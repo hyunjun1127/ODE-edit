@@ -23,6 +23,7 @@ from .common import (METHODS, MILESTONES, Tracking, bindings, factual_payload,
                      generation_payload, immutable_observation, load_model, local_output, member, read,
                      require, restore_checkpoint, rng_digest, rng_content, seed_edit,
                      source_binding, validate_config, verify, generation_at_W20)
+from .common import SUPPORTED_METHODS, PROJECTED_METHODS
 
 
 def factual(model, tokenizer, records, dataset, external, reference=None, tracker=None, edits=0):
@@ -36,7 +37,7 @@ def factual(model, tokenizer, records, dataset, external, reference=None, tracke
 
 def checkpoint_save(output, batch, engine, identity, cursor):
     return checkpoint.save(output / "checkpoint", batch=batch,
-        weights=engine.selected_weights, cache_c={}, contexts=engine.contexts(),
+        weights=engine.selected_weights, cache_c=engine.cache_c, contexts=engine.contexts(),
         evaluation_cursor=cursor, identity=identity, method=engine.method, evaluation_complete=True)
 
 
@@ -44,7 +45,7 @@ def stage(args, config, lock, output):
     """One subprocess, genuine cold load or pinned checkpoint restore."""
     from .native import NativeEngine
     assets, records, identity, external = bindings(config, lock)
-    require(args.dataset == "cf" and args.method in METHODS, "CF_NATIVE_B3_QUALIFICATION_SCOPE")
+    require(args.dataset == "cf" and args.method in SUPPORTED_METHODS, "CF_NATIVE_B3_QUALIFICATION_SCOPE")
     model, tokenizer = load_model(assets)
     engine = NativeEngine(model, tokenizer, args.method, assets, source_verified=True)
     seed_edit()
@@ -168,7 +169,9 @@ def verify_qualifications(config, identity):
         require(cf_member["sha256"] == assets["streams"]["cf"]["stream_sha256"],
                 "QUALIFICATION_ACTUAL_CF_STREAM_ASSET_IDENTITY")
         expected_identity["stream_sha256"] = cf_member["sha256"]
-    for method in METHODS:
+    expected_methods = PROJECTED_METHODS if config.get("projected_CF_addition") is True else METHODS
+    require(set(config["qualification_outputs"]) == set(expected_methods), "QUALIFICATION_METHOD_SET")
+    for method in expected_methods:
         value = read(config["qualification_outputs"][method] + "/READY.json")
         verify_qualification(value, method, expected_identity, config.get("qualification_plan"))
 
@@ -364,7 +367,10 @@ def chain(args, config, lock, output, tracker):
     from .native import NativeEngine
     assets, records, identity, external = bindings(config, lock)
     verify_qualifications(config, identity)
-    ready = read_w0(config, lock, assets)
+    own_cold = config.get("projected_CF_addition") is True
+    require(not own_cold or args.dataset == "cf" and args.method in PROJECTED_METHODS
+            and not generation_at_W20(config), "PROJECTED_CF_DEFERRED_ONLY")
+    ready = None if own_cold else read_w0(config, lock, assets)
     if args.dataset == "zsre" and args.mode == "chain":
         smoke = read(Path(config["zsre_smoke_output"]) / "READY.json")
         require(smoke.get("actual_batch100_completed") is True and smoke["source"] == lock["source"]
@@ -373,7 +379,9 @@ def chain(args, config, lock, output, tracker):
     model, tokenizer = load_model(assets)
     engine = NativeEngine(model, tokenizer, args.method, assets, source_verified=True)
     seed_edit()
-    start, cursor = 0, dict(completed_batch=0, W0_ready_member=member(Path(config["base_W0_output"]) / "READY.json"))
+    start, cursor = 0, dict(completed_batch=0)
+    if not own_cold:
+        cursor["W0_ready_member"] = member(Path(config["base_W0_output"]) / "READY.json")
     if args.resume:
         payload = checkpoint.load(output / "checkpoint", identity)
         start = restore_checkpoint(model, engine, payload, identity)
@@ -383,7 +391,11 @@ def chain(args, config, lock, output, tracker):
     else:
         require(not (output / "checkpoint" / "latest.json").exists(), "EXISTING_CHECKPOINT_USE_EXPLICIT_RESUME")
         checkpoint_save(output, 0, engine, identity, cursor)
-        W0_endpoint = reference["evaluation"] if reference else read(ready["cf_factual"]["path"])
+        if own_cold:
+            W0_endpoint = factual(model, tokenizer, records, "cf", external, tracker=tracker)
+            immutable_observation(output / "own-W0-factual-local.json", W0_endpoint)
+        else:
+            W0_endpoint = reference["evaluation"] if reference else read(ready["cf_factual"]["path"])
         tracker.log(factual_payload(W0_endpoint, "W0_first2000", 0))
     stop = 1 if args.mode == "smoke" else 20
     require(start < stop, "CHAIN_ALREADY_COMPLETED_NO_DUPLICATE_EXECUTION")
@@ -570,7 +582,7 @@ def _collect_profile(profile, profile_config, lock, folder, assets, records, ide
                     portable_reference=ready["portable_reference"],
                     portable_binding_sha256=borrowed.binding["binding_sha256"])
     require(mode in ("chain", "smoke"), "COLLECTOR_UNSUPPORTED_ACTUAL_PROFILE")
-    ready = read_w0(profile_config, lock, assets)
+    ready = None if profile_config.get("projected_CF_addition") is True else read_w0(profile_config, lock, assets)
     reference = read(verify(ready["zsre_reference"])) if dataset == "zsre" else None
     expected_batches = 1 if mode == "smoke" else 20
     if mode == "smoke":
@@ -589,6 +601,9 @@ def _collect_profile(profile, profile_config, lock, folder, assets, records, ide
     ledger = audit_commits(folder, method, identity, expected20=expected_batches, records=records)
     batches = (1,) if mode == "smoke" else MILESTONES
     factual_checks = []
+    if profile_config.get("projected_CF_addition") is True:
+        factual_checks.append(audit_factual(read(folder / "own-W0-factual-local.json"), records,
+                                           "cf", tokenizer, external, None))
     for batch in batches:
         commit = read(folder / "commits" / f"batch-{batch:02d}.json")
         factual_member = commit["cursor"]["factual"]
@@ -672,7 +687,8 @@ def collect(args, config, lock, output):
                     require(tokenizer.eos_token_id is not None, "COLLECTOR_PINNED_TOKENIZER_EOS")
                     tokenizer.pad_token, tokenizer.padding_side = tokenizer.eos_token, "right"
                     tokens[token_key] = tokenizer
-                if (profile["mode"] == "base_w0" or profile["mode"] == "chain" and profile["dataset"] == "cf"):
+                if (profile["mode"] == "base_w0" or profile["mode"] == "chain" and profile["dataset"] == "cf"
+                        and generation_at_W20(profile_config)):
                     if assets["assets_sha256"] not in references_cache:
                         verify(assets["generation_reference"]["manifest"])
                         references_cache[assets["assets_sha256"]] = load_assets(
@@ -706,7 +722,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--mode", choices=("qualification", "qualification_stage", "base_w0", "chain", "smoke", "collect"), required=True)
     parser.add_argument("--qualification-stage", choices=("continuous", "stop", "resume"))
-    parser.add_argument("--method", choices=METHODS)
+    parser.add_argument("--method", choices=SUPPORTED_METHODS)
     parser.add_argument("--dataset", choices=("cf", "zsre"), required=True)
     parser.add_argument("--config", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)

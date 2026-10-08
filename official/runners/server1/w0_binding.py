@@ -90,7 +90,7 @@ def execution_identity(config, lock, assets, *, output, role="GPU_PRODUCER"):
     identity = dict(server="server1", role=role, source=lock["source"], config_sha256=config["config_sha256"],
         assets_manifest=config["assets_member"], runtime=assets["runtime"],
         input_stream_bundle=config["stream_bundle_member"], output=str(Path(output).absolute()),
-        base_W0_input=config["base_W0_output"],
+        base_W0_input=(None if config.get("projected_CF_addition") is True else config["base_W0_output"]),
         hardware=dict(device="CPU" if role == "CPU_REDUCER" else torch.cuda.get_device_name(0),
             capability=[] if role == "CPU_REDUCER" else list(torch.cuda.get_device_capability(0)), cross_hardware_bitwise_claim=False))
     # Whitelist metadata only. No entire environment or credential is read.

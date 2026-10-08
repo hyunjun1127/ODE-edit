@@ -15,6 +15,8 @@ import uuid
 from official.experiments.prepare import digest, file_sha, load_plan, write_new
 
 METHODS = ("FT", "MEMIT", "MEMIT_FE")
+PROJECTED_METHODS = ("ALPHAEDIT", "SPHERE")
+SUPPORTED_METHODS = METHODS + PROJECTED_METHODS
 LOCAL_ROOT = Path("/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1")
 MILESTONES = (5, 10, 15, 20)
 DEFERRED_W20 = "DEFERRED_TO_SAVED_W20_CHECKPOINT"
@@ -71,8 +73,11 @@ def local_output(path):
 
 def validate_config(value):
     require(value.get("schema") == "official-server1-runtime-v1", "RUNTIME_CONFIG_SCHEMA")
-    require(value.get("model") == "llama3" and value.get("method") in METHODS
+    require(value.get("model") == "llama3" and value.get("method") in SUPPORTED_METHODS
             and value.get("dataset") in ("cf", "zsre"), "SERVER1_OFFICIAL_SCOPE")
+    if value.get("method") in PROJECTED_METHODS:
+        require(value.get("projected_CF_addition") is True and value["dataset"] == "cf"
+                and not generation_at_W20(value), "PROJECTED_CF_EXACT_ADDITION_SCOPE")
     require(value.get("stream") == dict(requests=2000, batch_size=100, batches=20,
             order="existing_file_first2000", shuffle=False), "FIXED_NATIVE_STREAM")
     contract, profiles = load_plan()
@@ -219,7 +224,8 @@ def restore_checkpoint(model, engine, payload, identity):
     from official.experiments.checkpoint import rng_restore
     require(payload["identity"] == identity and payload["method"] == engine.method,
             "RESUME_NATIVE_IDENTITY")
-    require(set(payload["weights"]) == set(engine.selected_weights) and not payload["cache_c"],
+    require(set(payload["weights"]) == set(engine.selected_weights)
+            and bool(payload["cache_c"]) == (engine.method in PROJECTED_METHODS),
             "RESUME_SELECTED_WEIGHT_OR_NON_HISTORY_SCHEMA")
     with torch.no_grad():
         for name, tensor in payload["weights"].items():
@@ -227,6 +233,8 @@ def restore_checkpoint(model, engine, payload, identity):
             require(target.shape == tensor.shape and tensor.dtype == target.dtype == torch.float32
                     and torch.isfinite(tensor).all().item(), "RESUME_TENSOR_SHAPE_DTYPE_FINITE")
             target.copy_(tensor.to(target.device))
+    if engine.method in PROJECTED_METHODS:
+        engine.restore_history(payload["cache_c"])
     engine.restore_contexts(payload["contexts"])
     require(engine.successful_calls == payload["batch"], "RESUME_NATIVE_CONTEXT_BATCH_CURSOR")
     # Loading a fresh model/C0 must not change the resumed native edit RNG.
@@ -264,11 +272,22 @@ class Tracking:
                 generation_source_sha=identity["code_commit"],
                 generation_repair_instruction="USER-OFFICIAL-BASELINES-20261008-R1")
         # Parent process passes only whitelisted identity metadata, never full env.
+        self.config_values = values
         self.tracker = transport.init(env_file=contract["env_file"],
             spool=Path(output) / "tracking" / invocation, config=values)
         require(bool(self.tracker), "OFFICIAL_TRACKING_INIT_FAILED")
 
     def log(self, payload):
+        if self.config_values["dataset"] == "zsre":
+            from official.tracking import official_zsre_metrics
+            payload = dict(payload)
+            for endpoint in ("current/pre", "current/post", "all_seen/post", "W0_first2000"):
+                prefix = "official/" + endpoint + "/"
+                summary = {key[len(prefix):]: value for key,value in payload.items() if key.startswith(prefix)}
+                if summary:
+                    payload.update(official_zsre_metrics(summary, config_values=self.config_values,
+                        endpoint=endpoint, edits=payload["edits"], pre_state_edits=payload.get("pre_state_edits"),
+                        post_state_edits=payload.get("post_state_edits")))
         require(all(type(value) in (int, float, str, bool) for value in payload.values()),
                 "SCALAR_ONLY_TRACKING")
         require(self.tracker.log(payload) is not False, "TRACKING_ACCEPTANCE_FAILURE_NOT_SILENT_DROP")

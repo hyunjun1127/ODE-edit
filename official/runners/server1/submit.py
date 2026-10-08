@@ -22,6 +22,7 @@ from official.experiments.prepare import digest, file_sha, write_new
 
 SCHEMA = "official-server1-slurm-plan-v1"
 METHODS = ("FT", "MEMIT", "MEMIT_FE")
+PROJECTED_METHODS = ("ALPHAEDIT", "SPHERE")
 ACTIVE = {"PENDING", "RUNNING", "COMPLETING", "CONFIGURING", "SUSPENDED"}
 DEFAULT_PYTHON = "/mnt/raid5/janghj/EasyEdit/.venv/bin/python"
 DEFAULT_RESOURCES = dict(node="devbox", partition="gpu", qos="lab_gpu_s1",
@@ -225,11 +226,15 @@ def build_pipeline(configs, output_root, *, main_commit, official_tree, inputs,
                    existing_frontier=(), cap=3, resources=None, purpose="pipeline",
                    python=DEFAULT_PYTHON):
     """Prepare only; GPU receipts/READY do not exist until sealed jobs run."""
-    require(purpose in ("pipeline", "qualification", "cf_checkpoint"), "UNKNOWN_PLAN_PURPOSE")
+    require(purpose in ("pipeline", "qualification", "cf_checkpoint", "projected_cf"), "UNKNOWN_PLAN_PURPOSE")
     output_root = Path(output_root).absolute()
     jobs = [_job("qual-" + method.lower(), "qualification", method, "cf",
                  configs[(method, "cf")], output_root / ("qualification-" + method.lower()))
-            for method in METHODS]
+            for method in (PROJECTED_METHODS if purpose == "projected_cf" else METHODS)]
+    if purpose == "projected_cf":
+        for method in PROJECTED_METHODS:
+            jobs.append(_job("cf-" + method.lower(), "chain", method, "cf", configs[(method,"cf")],
+                output_root / ("cf-" + method.lower()), ["qual-" + m.lower() for m in PROJECTED_METHODS]))
     if purpose in ("pipeline", "cf_checkpoint"):
         qual = [job["key"] for job in jobs]
         jobs.append(_job("base-w0", "base_w0", None, "cf", configs[("FT", "cf")],
@@ -244,7 +249,7 @@ def build_pipeline(configs, output_root, *, main_commit, official_tree, inputs,
         for method in METHODS:
             jobs.append(_job("zsre-" + method.lower(), "chain", method, "zsre",
                              configs[(method, "zsre")], output_root / ("zsre-" + method.lower()), ["zsre-smoke"]))
-    jobs.append(_job("collector", "collect", None, "cf", configs[("FT", "cf")],
+    jobs.append(_job("collector", "collect", None, "cf", configs[("ALPHAEDIT" if purpose == "projected_cf" else "FT", "cf")],
                      output_root / "collector", [job["key"] for job in jobs], gpus=0))
     plan = dict(schema=SCHEMA, purpose=purpose, server="server1", model="llama3", cap=cap,
                 source=dict(main_commit=main_commit, official_tree=official_tree),
@@ -282,7 +287,7 @@ def build_resume(config, output, *, method, dataset, main_commit, official_tree,
 def validate_plan(plan):
     require(plan.get("schema") == SCHEMA and plan.get("server") == "server1"
             and plan.get("model") == "llama3", "PLAN_SCOPE")
-    require(plan.get("purpose") in ("pipeline", "qualification", "resume", "cf_checkpoint"), "UNKNOWN_PLAN_PURPOSE")
+    require(plan.get("purpose") in ("pipeline", "qualification", "resume", "cf_checkpoint", "projected_cf"), "UNKNOWN_PLAN_PURPOSE")
     require(type(plan.get("cap")) is int and 1 <= plan["cap"] <= 4, "PLAN_STRICTER_CAP")
     require(not plan.get("automatic_retry") and not plan.get("recurring_monitor")
             and not plan.get("old_jobs_mutation") and plan.get("actual_GPU_qualification") is False,
@@ -306,11 +311,15 @@ def validate_plan(plan):
         keys.add(job["key"])
         require(job["dataset"] in ("cf", "zsre") and job["mode"] in
                 ("qualification", "base_w0", "chain", "smoke", "collect"), "RUNNER_MODE")
-        require(job["method"] in METHODS or (job["method"] is None and
+        require(job["method"] in METHODS + PROJECTED_METHODS or (job["method"] is None and
                 job["mode"] in ("base_w0", "collect")), "METHOD_NOT_OURS")
         require(job["gpus"] == (0 if job["mode"] == "collect" else 1), "GPU_LABEL_IDENTITY")
         require(Path(job["output"]).is_absolute(), "ABSOLUTE_LOCAL_OUTPUT")
         value = read(verify(job["config"]))
+        if plan["purpose"] == "projected_cf":
+            require(value.get("projected_CF_addition") is True and value.get("method") in PROJECTED_METHODS
+                    and value.get("dataset") == "cf" and value.get("cf_W20_generation") == "DEFERRED_TO_SAVED_W20_CHECKPOINT"
+                    and value.get("scope_override") == "USER-DIRECT-SERVER1-CF-CHECKPOINT-20261009", "PROJECTED_CF_EXACT_PROFILE")
         require(value.get("model") == "llama3" and value.get("dataset") == job["dataset"]
                 and (job["method"] is None or value.get("method") == job["method"]), "CONFIG_PROFILE")
         stream = value.get("stream", {})
