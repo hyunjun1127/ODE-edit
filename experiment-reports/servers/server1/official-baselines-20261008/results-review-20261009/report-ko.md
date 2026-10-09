@@ -17,13 +17,13 @@
 | zsRE | MEMIT-FE | 61720 | — | 14.947381 | 13.711012 | 0.965650 |
 | zsRE | SPHERE | 61721 | — | 98.517123 | 94.718710 | 50.220332 |
 
-各 endpoint は ordered first2000/20batch、実測 requests=2000。CF Scoreは生E/G/Sの調和平均で、AlphaEdit表示用round済ScoreはJSON内の別フィールド。CF Flu/Conは未測定DEFERRED、ゼロ補完なし。zsREはteacher-forced request macroで、SpecificityはW0予測一致率。loc_ans正答率は別フィールドとしてJSON/CSVに保存し、READMEのLocへ代入しない。オンラインremote検証をこのCPUレビューで代替したとは主張しない。
+각 endpoint는 ordered first2000/20batch, 실측 requests=2000이다. CF Score는 원 E/G/S의 조화평균이며 AlphaEdit 표시용 반올림 Score는 JSON의 별도 필드다. CF Flu/Con은 미측정 DEFERRED이고 0으로 채우지 않는다. zsRE는 teacher-forced request macro이며 Specificity는 W0 예측 일치율이다. loc_ans 정답률은 JSON/CSV에 별도 저장하고 README Loc에 대입하지 않는다. 이 CPU 리뷰로 온라인 remote 검증을 대체했다고 주장하지 않는다.
 
-## 維持/未完了
+## 유지/미완료
 
-- CF MEMIT-FE 61773はRUNNING、レビュー時点でcommit14/20、W20 terminalなし。完成値なし、状態のみ。
-- CF AlphaEdit61769/MEMIT61772はCANCELLED、過去42657/42658のユーザー承認済み表例外を維持。今回新W20結果とはしない。
-- CF BLUE歴史39283_1例外も維持。復元/追加評価なし。
-- 旧failed/cancelled試行・raw・CP・source・費用は全てKEEP。現GPU0collector61774は未完了chainを待つため、この8件の検算を全pipeline完了とはしない。
+- CF MEMIT-FE 61773은 RUNNING, 리뷰 시점 commit14/20이며 W20 terminal이 없다. 완료값 없이 상태만 제출한다.
+- CF AlphaEdit61769/MEMIT61772는 CANCELLED이며 과거42657/42658의 사용자 승인 표 예외를 유지한다. 이번 새 W20 결과로 표시하지 않는다.
+- CF BLUE 역사39283_1 예외도 유지한다. 복원/추가 평가는 없다.
+- 옛 failed/cancelled 시도·raw·CP·source·비용은 모두 KEEP. GPU0collector61774는 미완료 chain을 기다리므로 8건 검산을 전체 pipeline 완료로 표시하지 않는다.
 
-CF実行source34e4d52d821113d56ee6c59b71d553dd01768e73、zsRE実行source94304dc93db928300a71d8dcd0f87199fdb93f1f。各config/source/endpoint/terminal/checkpoint metadata SHAと実測分母は `audits/servers/server1/official-baselines-20261008/results-review-20261009/results.json`、README用行は `table-rows.csv`。raw/CPはlocalのみ、NO_BROADCAST_NOT_REQUIRED。独立別agentなし、既存独立CPU reducerをownerが実行。周期monitorなし。
+CF 실행 source34e4d52d821113d56ee6c59b71d553dd01768e73, zsRE 실행 source94304dc93db928300a71d8dcd0f87199fdb93f1f. 각 config/source/endpoint/terminal/checkpoint metadata SHA와 실측 분모는 `audits/servers/server1/official-baselines-20261008/results-review-20261009/results.json`, README용 행은 `table-rows.csv`에 있다. raw/CP는 local-only, NO_BROADCAST_NOT_REQUIRED. 별도 독립 agent 없이 기존 독립 CPU reducer를 owner가 실행했다. 주기 monitor 없음.
