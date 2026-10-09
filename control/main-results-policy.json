@@ -128,6 +128,24 @@
       "scope": "이 두 결과만 fresh-only 원칙 예외. 기존 BLUE † 예외 보존, 다른 모델/방법/zsRE 자동 예외 없음"
     }
   ],
+  "explicit_resume_exceptions": [
+    {
+      "instruction_id": "USER-SH2-QWEN-ZSRE-SPHERE-B9-RESUME-20261010-R1",
+      "model": "Qwen2.5-7B-Instruct",
+      "dataset": "zsRE",
+      "method": "AlphaEdit+SPHERE",
+      "parent_job": "62087",
+      "parent_checkpoint_batch": 9,
+      "parent_checkpoint_edits": 900,
+      "parent_checkpoint_sha256": "7e44f382ba1f3befcb9f4429f42fd328d55422306f9cef868a920c8bf7ec17b8",
+      "superseded_cold_job": "62534",
+      "child_execution": "B10..B20 only; native W/history/contexts/RNG/cursor restore",
+      "final_evaluation": "동일 first2000 전체 public-query E/G/Loc; W20 실측 확인 후에만 수치 반영",
+      "provenance": "B1..B9 parent source/config/raw 보존. child source/config/ancestry 별도 기록하며 fresh cold 결과로 바꾸지 않는다.",
+      "report": "experiment-reports/global/qwen-zsre-sphere-b9-resume-20261010/report-ko.md",
+      "scope": "이 parent SHA의 1chain에만 사용자 승인 예외. sample/order 불일치, 다른 모델/방법, prefix 재편집의 자동 승인 없음."
+    }
+  ],
   "preservation": {
     "historical_checkpoints_and_raw": "KEEP",
     "automatic_job_cancellation": false,

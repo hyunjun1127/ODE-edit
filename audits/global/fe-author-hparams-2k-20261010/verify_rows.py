@@ -24,6 +24,14 @@ def main():
     # Separate subsequent USER authority permits only Qwen SPHERE zsRE status.
     sphere_path = ROOT / "audits/global/qwen-zsre-sphere-oom-rerun-20261010/coordination.json"
     sphere = json.loads(sphere_path.read_text()).get("job") if sphere_path.exists() else None
+    # Later USER replaces only this cold SPHERE job with the exact B9 continuation.
+    resume_path = ROOT / "audits/global/qwen-zsre-sphere-b9-resume-20261010/coordination.json"
+    if resume_path.exists():
+        resume = json.loads(resume_path.read_text())
+        if resume.get("job"):
+            assert resume["nonce"] == "USER-SH2-QWEN-ZSRE-SPHERE-B9-RESUME-20261010-R1"
+            assert resume["parent"]["batch"] == 9 and resume["parent"]["edits"] == 900
+            sphere = resume["job"]
     protected = [list(r) for r in current if r[0] != LABEL]
     old_protected = [r for r in original if r[0] != LABEL]
     if sphere:

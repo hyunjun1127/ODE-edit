@@ -1,6 +1,11 @@
 # Qwen zsRE SPHERE OOM 수리 및 cold 재등록
 
 Nonce `USER-SH2-QWEN-ZSRE-SPHERE-OOM-RERUN-20261010-R1`.
+이 문서는 최초 cold 등록 당시 기록이다. 이후 사용자 지시
+`USER-SH2-QWEN-ZSRE-SPHERE-B9-RESUME-20261010-R1`가 이 한 건의 cold-only 조건을 대체했다.
+62534는 실행 전에 취소됐고, 원62087 B9에서 B10–B20을 이어가는
+[후속 재개 기록](../qwen-zsre-sphere-b9-resume-20261010/report-ko.md)을 따른다.
+아래 최초 제출 snapshot/source/CPU 기록은 지우거나 새 재개 결과로 바꾸지 않는다.
 같은 사용자 메시지를 부모가 SH2에 직접 전달했고, SH2는 기존 accepted turn
 `01a122f4-e240-7532-91fd-5295daaa902a`에서 별도 수리 범위를 명시 수락했다.
 GH는 추가 독립 배정/중복 제출을 하지 않았다. FE author 네 chain은 그대로 유지한다.

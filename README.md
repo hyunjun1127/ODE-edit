@@ -31,6 +31,10 @@ python3 -m official.experiments.prepare matrix --output local/official-baselines
 최종 checkpoint(W20)를 기준으로 하며, 지표 정의는 [공통 실험 계약](official/hparams/contract.json)을 따릅니다.
 **이번 표는 새 cold-start 재실험 전용입니다.** 과거 완료 수치나 과거 checkpoint 재개 결과를
 새 실험으로 소급 입력하지 않습니다. checkpoint가 있어도 sample 구성·순서가 다르면 다시 실행합니다.
+**사용자 승인 재개 예외(2026-10-10):** Qwen zsRE AlphaEdit+SPHERE 한 chain은 원62087의
+durable B9(900건)에서 B10–B20만 이어간다. B1–B9와 재개 구간의 source/config 출처를 분리하며
+새 cold 결과라고 부르지 않는다. 최종 W20에서 같은 first2K 전체를 평가한다.
+[정확한 parent SHA·재개 등록 이력](experiment-reports/global/qwen-zsre-sphere-b9-resume-20261010/report-ko.md).
 미제출은 빈칸, 실제 제출 후 대기는 `PENDING: <실제 job ID>`, 실행 중은
 `ING: <실제 job ID>`로 해당 dataset의 칸에만 표시합니다(CF 6칸 / zsRE 3칸).
 qualification·W0 준비·collector·tuning job은 본실험 job으로 표시하지 않습니다.
@@ -55,7 +59,8 @@ Llama Loc loader BOS 차이를 확인하여 저장된 W20 checkpoint의 최종2K
 Qwen FT/BLUE 2종**의 총13개 완료 행은 공개-query 최종 평가 수치다.
 GPT-J SPHERE **61947**은 PENDING이다. 수정 Qwen zsRE MEMIT **62081**·MEMIT-FE **62085**는
 RUNNING, AlphaEdit **62083**은 PENDING이다. SPHERE **62087**은 B10 OOM/W20 없음으로 보존하고,
-수리 cold rerun **62534**는 08:33 KST 제출 snapshot에서 PENDING이다.
+수리 cold job **62534**는 실행 전 취소했다. 사용자 승인 B9 재개 **62538**는
+08:51 KST 제출 snapshot에서 PENDING(`afterany:62532`)이다.
 깨진 편집 context를 사용한 과거 MEMIT/AlphaEdit 값은 철회하고 수정 cold run 상태를 표시한다.
 입력 CPU 일치가 pretrained 출력의 bitwise 논문 재현을 뜻하지는 않는다.
 기존 값·raw와 CF/FLUCON 일정은 보존한다. 사용자 명시 삭제로 오류 Qwen
@@ -179,9 +184,13 @@ MEMIT/AlphaEdit/MEMIT-FE/SPHERE의 CF·zsRE 8개 chain은 **cold rerun 대상**�
 BLUE61962와 수정 MEMIT62073/MEMIT-FE62077/SPHERE62079의 CF W20/2K 수치를 반영했다.
 CF AlphaEdit62075는 PENDING이다. zsRE62081/62085는 RUNNING, 62083은 PENDING,
 62087은 B10 `eigh` CUDA OOM으로 FAILED/W20 없음이며 B9 checkpoint를 보존한다.
-이전 layer buffer 수명 수리 후 별도 cold **62534**를 held 검사/release했다(08:33 KST PENDING,
-`afterany:62532`). 원 hparams/FP32 GPU eigh 유지, CPU4 PASS이며 실제 GPU 해결/W20은 미관측이다.
-[수리·등록 근거](experiment-reports/global/qwen-zsre-sphere-oom-rerun-20261010/report-ko.md).
+최신 사용자 지시로 cold **62534**는 PENDING/실행시간0에서 취소하고, **62538**
+`s2-qwen25-zsre-sphere-resume-b9`를 held 검사 후 release했다(08:51 KST PENDING,
+`afterany:62532`). 원62087의 B1–B9(900건) 출처는 보존하고 수리 source78017702에서
+B10–B20(1,100건)만 이어간다. W/H/context/RNG/cursor를 복원하며 새 W0/첫900건 재편집은 없다.
+이 한 건만 fresh-only의 사용자 승인 예외다. 원 hparams/FP32 GPU eigh 및 buffer 수명 수리 유지,
+CPU17 PASS이며 실제 GPU 복원/OOM 해결/W20은 미관측이다.
+[parent SHA·취소·재개 등록 근거](experiment-reports/global/qwen-zsre-sphere-b9-resume-20261010/report-ko.md).
 [최신 원자료·query·상태 검산](experiment-reports/servers/server2/baseline-completed-zsre-audit-20261010/report-ko.md).
 context 판정은 [실제 context 감사](experiment-reports/servers/server2/qwen-context-audit-20261010/report-ko.md)에 구분했다.
 CF 네 rerun의 FLU/CON은 DEFERRED이며 최종 checkpoint를 보존한다.
@@ -247,7 +256,7 @@ SH3 최신 CPU 재검산에서도 위 네 지표 delta0, 신규 본표 적격 �
 | AlphaEdit | PENDING: s2-qwen25-cf-alphaedit-gpu (62075) | PENDING: s2-qwen25-cf-alphaedit-gpu (62075) | PENDING: s2-qwen25-cf-alphaedit-gpu (62075) | PENDING: s2-qwen25-cf-alphaedit-gpu (62075) | DEFERRED | DEFERRED | PENDING: s2-qwen25-zsre-alphaedit-gpu (62083) | PENDING: s2-qwen25-zsre-alphaedit-gpu (62083) | PENDING: s2-qwen25-zsre-alphaedit-gpu (62083) |
 | AlphaEdit-BLUE | 77.98 | 97.70 | 96.75 | 55.86 | 602.99 | 37.43 | 58.62 | 53.66 | 5.73 |
 | MEMIT-FE | 50.59 | 51.05 | 51.23 | 49.53 | DEFERRED | DEFERRED | ING: s2-qwen25-zsre-memit_fe-gpu (62085) | ING: s2-qwen25-zsre-memit_fe-gpu (62085) | ING: s2-qwen25-zsre-memit_fe-gpu (62085) |
-| AlphaEdit+SPHERE | 83.73 | 99.40 | 97.70 | 64.37 | DEFERRED | DEFERRED | PENDING: s2-qwen25-zsre-sphere-oom-r1 (62534) | PENDING: s2-qwen25-zsre-sphere-oom-r1 (62534) | PENDING: s2-qwen25-zsre-sphere-oom-r1 (62534) |
+| AlphaEdit+SPHERE | 83.73 | 99.40 | 97.70 | 64.37 | DEFERRED | DEFERRED | PENDING: s2-qwen25-zsre-sphere-resume-b9 (62538) | PENDING: s2-qwen25-zsre-sphere-resume-b9 (62538) | PENDING: s2-qwen25-zsre-sphere-resume-b9 (62538) |
 | PRICE (Ours) |  |  |  |  |  |  |  |  |  |
 
 ### GPT-J-6B
