@@ -41,44 +41,45 @@ server·job ID·관측 시각·실행 commit·config SHA·ordered sample identit
 사용자가 FLU/CON을 후속 checkpoint 평가로 미룬 실행은 factual W20 결과와 별도로
 CF Flu/Con을 `DEFERRED`로 표시하고 전체 평가 완료로 주장하지 않습니다.
 Ours 행은 결과 기록용이며 새 arm/실험을 자동 승인하지 않습니다.
-2026-10-10 01:48 KST SH2 원자료 검산으로 Qwen 3개·GPT-J 4개 dataset 결과(24개 metric 셀)를 추가 갱신했습니다.
-[7개 완료 결과와 상태·원자료 SHA](audits/servers/server2/qwen-broken-checkpoint-delete-20261010/table-rows.json) ·
-[검산 보고](experiment-reports/servers/server2/qwen-broken-checkpoint-delete-20261010/report-ko.md).
-다른 서버 행은 기존 2026-10-09 23:05–23:08 KST 완료 검산을 유지합니다.
-[최신 통합 내역](experiment-reports/global/main-table-refresh-20261009.md): 신규 본표7개 결과 및 별도 history1개,
-나머지 상태·기존 historical 예외는 실측 근거에 따라 유지합니다.
+2026-10-10 07:37–07:38 KST 서버별 단발 관측과 CPU 검산을 반영했다.
+Qwen CF BLUE/MEMIT/MEMIT-FE/SPHERE 4개, GPT-J zsRE MEMIT 및 별도 Qwen FE_HISTORY의
+새 완료 수치를 추가했다. SH3/SH4는 신규 본표 적격 완료 baseline이 없다.
+[최신 통합·검증 범위](experiment-reports/global/baseline-completed-zsre-audit-20261010/report-ko.md) ·
+[SH1 원자료·상태](audits/servers/server1/baseline-completed-zsre-audit-20261010/table-rows.json) ·
+[SH2 원자료·상태](audits/servers/server2/baseline-completed-zsre-audit-20261010/audited-final.json).
 세부 [표 관리 정책](control/main-results-policy.json)과 [사용자 지시](messages/head/2026-10-09-main-table-fresh-rerun.json)를 따릅니다.
 
 **zsRE 재평가 안내 (2026-10-09):** 기존 evaluator에서 Eff/Gen decode-retokenize 및
 Llama Loc loader BOS 차이를 확인하여 저장된 W20 checkpoint의 최종2K E/G/Loc만 재평가한다.
-23:05 KST owner 검산 기준 **Llama FT/MEMIT/BLUE/SPHERE 4개**는 새 공개-query 점수로 갱신했다.
-Llama AlphaEdit/MEMIT-FE **61934/61936**은 기존 관측 상태를 유지한다.
-GPT-J FT/AlphaEdit/BLUE/MEMIT-FE **61942/61944/61945/61946**은 공개-query 완료 수치로 갱신했고,
-MEMIT/SPHERE **61943/61947**은 10월10일 01:48 KST 기준 PENDING이다.
-Qwen은 FT 평가-only **62072**와 정상 BLUE **61964**의 완료 수치를 반영했다.
+2026-10-10 07:38 KST owner 검산 기준 **Llama 6종, GPT-J FT/MEMIT/AlphaEdit/BLUE/MEMIT-FE 5종,
+Qwen FT/BLUE 2종**의 총13개 완료 행은 공개-query 최종 평가 수치다.
+GPT-J SPHERE **61947**은 PENDING이다. 수정 Qwen zsRE MEMIT **62081**·MEMIT-FE **62085**는
+RUNNING, AlphaEdit **62083**은 PENDING, SPHERE **62087**은 FAILED/W20 없음이다.
 깨진 편집 context를 사용한 과거 MEMIT/AlphaEdit 값은 철회하고 수정 cold run 상태를 표시한다.
 입력 CPU 일치가 pretrained 출력의 bitwise 논문 재현을 뜻하지는 않는다.
 기존 값·raw와 CF/FLUCON 일정은 보존한다. 사용자 명시 삭제로 오류 Qwen
 61956/61960/61968의 전용 checkpoint payload 3개(11,251,362,043 bytes)만 삭제했다.
 로그/source/manifest는 보존하며 [삭제 영수증](audits/servers/server2/qwen-broken-checkpoint-delete-20261010/deletion.json)에 구분했다.
 [공통 평가·최초 등록 기록](experiment-reports/global/zsre-2k-reeval-20261009/report-ko.md) ·
-[SH1 최신 완료 검산](experiment-reports/servers/server1/main-table-refresh-20261009/report-ko.md) ·
-[SH2 최신 완료 검산](experiment-reports/servers/server2/main-table-refresh-20261009/report-ko.md).
+[SH1 최신 완료 검산](experiment-reports/servers/server1/baseline-completed-zsre-audit-20261010/report-ko.md) ·
+[SH2 최신 완료 검산](experiment-reports/servers/server2/baseline-completed-zsre-audit-20261010/report-ko.md).
 
 별도 사용자 승인 **MEMIT-FE + history** CF 실험은 native MEMIT-FE 행과 합치지 않는다.
 SH1이 세 모델을 source `eaf78c33`으로 등록했다. Qwen 61929는 B1 FP64 history 선형계의
 임시 행렬 메모리 부족으로 실패하여 메모리 수리 source `5d6dfd58`의 61975로 cold 재제출했다.
-이는 새 3개 편집 chain이며 zsRE eval-only 작업과 구분한다.
+이후 61975의 context-mask 오류로 다시 cold 제출한 **62061**의 완료값을 사용한다.
+오류가 있던 61975 값은 제외하며 zsRE eval-only 작업과 구분한다.
 
 | 별도 variant | 모델 | server | 상태 / job name (ID) | CF Score | CF Eff | CF Gen | CF Loc | CF Flu ×100 | CF Con ×100 |
 | :--- | :--- | :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: |
 | MEMIT_FE_HISTORY | GPT-J | server1 | W20 COMPLETE: official-s1-cf-gptj-memit-fe-history (61927) | 50.18 | 50.35 | 49.90 | 50.28 | PENDING: official-s1-flucon-eval-gptj-memit_fe_history (62262) | PENDING: official-s1-flucon-eval-gptj-memit_fe_history (62262) |
 | MEMIT_FE_HISTORY | Llama3 | server1 | W20 COMPLETE: official-s1-cf-llama3-memit-fe-history (61928) | 64.66 | 80.10 | 74.10 | 48.99 | PENDING: official-s1-flucon-eval-llama3-memit_fe_history (62263) | PENDING: official-s1-flucon-eval-llama3-memit_fe_history (62263) |
-| MEMIT_FE_HISTORY | Qwen2.5 | server1 | ING: official-s1-cf-qwen25-memit-fe-history (62061; old61975 context-mask cold replacement) | — | — | — | — | DEFERRED | DEFERRED |
+| MEMIT_FE_HISTORY | Qwen2.5 | server1 | W20 COMPLETE: official-s1-cf-qwen25-memit-fe-history (62061) | 49.43 | 48.45 | 48.18 | 51.83 | DEFERRED | DEFERRED |
 
-2026-10-10 SH1 bounded 검산: GPT-J와 Llama는 실제20 commit/2,000건과 history once·최종CP·raw를
-대조한 완료값이며 native MEMIT-FE 본표 값이 아니다. 수정 Qwen은 이번 inventory에서 W20 미완료다.
-저장 checkpoint의 FLU/CON 평가 job은 별도로 등록했으며 위 PENDING은 제출 직후 상태다.
+2026-10-10 SH1 bounded 검산: 세 모델 모두 실제20 commit/2,000건과 history once·최종CP·raw를
+대조한 완료값이며 native MEMIT-FE 본표 값이 아니다. 수정 Qwen62061의 생성 평가는 DEFERRED다.
+GPT-J/Llama의 FLU/CON 평가 job은 위 단발 관측에서 PENDING이다.
+[최신 history 및 zsRE 검산](experiment-reports/servers/server1/baseline-completed-zsre-audit-20261010/report-ko.md).
 [완료 결과와 평가 등록](experiment-reports/servers/server1/flucon-paper-scale-20261010/report-ko.md).
 [최신 SH1 결과](experiment-reports/servers/server1/main-table-refresh-20261009/report-ko.md) ·
 [정확한 수치·source/config·raw SHA](audits/servers/server1/main-table-refresh-20261009/table-rows.json) ·
@@ -122,12 +123,12 @@ zsRE Loc은 **loc_ans 정답 token 정확도의 요청별 평균**이다. 이전
 | Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu ×100 | CF Con ×100 | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | [W0 (편집 전)](experiment-reports/global/w0-main-table-20261009.md) | 13.36 | 8.20 | 10.95 | 88.56 | 635.22 | 24.64 | 38.10 | 37.61 | 38.59 |
-| FT | 56.59 | 89.25 | 73.30 | 35.50 | PENDING: official-s1-flucon-eval-llama3-ft (62259) | PENDING: official-s1-flucon-eval-llama3-ft (62259) | 14.63 | 11.82 | 25.25 |
+| FT | 56.59 | 89.25 | 73.30 | 35.50 | ING: official-s1-flucon-eval-llama3-ft (62259) | ING: official-s1-flucon-eval-llama3-ft (62259) | 14.63 | 11.82 | 25.25 |
 | MEMIT | 58.88‡ | 64.75‡ | 61.70‡ | 51.83‡ | DEFERRED | DEFERRED | 44.30 | 39.95 | 22.30 |
 | AlphaEdit | 84.80‡ | 99.30‡ | 93.23‡ | 68.59‡ | DEFERRED | DEFERRED | 95.18 | 91.40 | 31.10 |
 | AlphaEdit-BLUE | 89.84† | 99.60† | 97.15† | 76.59† |  |  | 95.87 | 92.28 | 32.83 |
-| MEMIT-FE | 64.55 | 80.45 | 73.68 | 48.85 | PENDING: official-s1-flucon-eval-llama3-memit_fe (62261) | PENDING: official-s1-flucon-eval-llama3-memit_fe (62261) | 14.81 | 13.57 | 0.56 |
-| AlphaEdit+SPHERE | 86.87 | 99.50 | 94.95 | 71.68 | PENDING: official-s1-flucon-eval-llama3-sphere (62260) | PENDING: official-s1-flucon-eval-llama3-sphere (62260) | 95.13 | 91.36 | 31.38 |
+| MEMIT-FE | 64.55 | 80.45 | 73.68 | 48.85 | ING: official-s1-flucon-eval-llama3-memit_fe (62261) | ING: official-s1-flucon-eval-llama3-memit_fe (62261) | 14.81 | 13.57 | 0.56 |
+| AlphaEdit+SPHERE | 86.87 | 99.50 | 94.95 | 71.68 | ING: official-s1-flucon-eval-llama3-sphere (62260) | ING: official-s1-flucon-eval-llama3-sphere (62260) | 95.13 | 91.36 | 31.38 |
 | PRICE (Ours) | 90.98§ | 99.70§ | 92.78§ | 82.21§ |  |  |  |  |  |
 
 § 사용자 2026-10-09 지시에 따라 이전 **FREE100 / MEMIT writer**, Llama job **60103**의
@@ -160,11 +161,12 @@ Flu/Con은 미평가·DEFERRED이며 zsRE는 별도 새 W20 결과다.
 MEMIT/AlphaEdit/MEMIT-FE/SPHERE의 CF·zsRE 8개 chain은 **cold rerun 대상**이다.
 기존 zsRE61956/61960 점수는 당시 잘못된 context로 편집한 가중치의 측정값으로 원 보고서에 보존하고,
 수정된 baseline 성능으로 제시하지 않는다. 평가-only로 편집 입력 오류를 복구할 수 없다.
-상태 셀은 2026-10-10 02:43:21 KST owner 단발 snapshot을 반영하며,
-context 판정 근거는 [실제 context 감사](experiment-reports/servers/server2/qwen-context-audit-20261010/report-ko.md)다.
-수정 MEMIT62073/SPHERE62079 및 BLUE61962/61964의 실제 context 문자열·token ID는 새 Qwen 기준과 일치한다.
-62077은 RUNNING으로 갱신했고, 62075/62081/62083/62085/62087은 PENDING이다.
-상태 갱신만으로 추가 context 일치 검증을 주장하지 않는다.
+상태 셀은 **2026-10-10 07:38:08 KST** owner 단발 snapshot이다.
+BLUE61962와 수정 MEMIT62073/MEMIT-FE62077/SPHERE62079의 CF W20/2K 수치를 반영했다.
+CF AlphaEdit62075는 PENDING이다. zsRE62081/62085는 RUNNING, 62083은 PENDING,
+62087은 FAILED/W20 없음이며 실패를 완료값으로 채우지 않는다.
+[최신 원자료·query·상태 검산](experiment-reports/servers/server2/baseline-completed-zsre-audit-20261010/report-ko.md).
+context 판정은 [실제 context 감사](experiment-reports/servers/server2/qwen-context-audit-20261010/report-ko.md)에 구분했다.
 CF 네 rerun의 FLU/CON은 DEFERRED이며 최종 checkpoint를 보존한다.
 FT/BLUE는 이번 mask 오류 재편집 대상이 아니다. FT CF61898, FT zsRE61900의 평가-only62072,
 BLUE zsRE61964는 완료 원자료 검산 수치를 아래 표에 반영했다.
@@ -172,7 +174,7 @@ BLUE zsRE61964는 완료 원자료 검산 수치를 아래 표에 반영했다.
 이 기존 FT에서 실제 측정한 generation 점수를 DEFERRED 상태인 새 rerun에 복사하지 않는다.
 [사용자 실행 계약](messages/head/2026-10-10-qwen-baseline-mask-cold-rerun.md) ·
 [수리·재제출 진행](experiment-reports/global/qwen-baseline-mask-cold-rerun-20261010/report-ko.md).
-아래 10월9일 검산 내역은 원 관측 이력이다; 61956/61960 숫자는 이번 supersession 이전 기록이다.
+아래 10월9일 상태·등록·dependency는 현재 상태가 아닌 원 관측 이력이다; 61956/61960 숫자는 이번 supersession 이전 기록이다.
 
 **Server2 원 결과 이력: 2026-10-09 23:05:48 KST SH2 단발 snapshot/CPU 검산 기준.**
 zsRE **MEMIT 61956·AlphaEdit 61960**의 공개-query W20/2,000건 평가는 완료됐으나,
@@ -224,11 +226,11 @@ SH3 최신 CPU 재검산에서도 위 네 지표 delta0, 신규 본표 적격 �
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | [W0 (편집 전)](experiment-reports/global/w0-main-table-20261009.md) | 20.88 | 13.95 | 16.60 | 85.14 | 625.21 | 25.91 | 36.42 | 35.26 | 38.40 |
 | FT | 57.45 | 85.50 | 67.50 | 38.90 | 471.02 | 3.01 | 23.25 | 18.54 | 2.34 |
-| MEMIT | ING: s2-qwen25-cf-memit-gpu (62073) | ING: s2-qwen25-cf-memit-gpu (62073) | ING: s2-qwen25-cf-memit-gpu (62073) | ING: s2-qwen25-cf-memit-gpu (62073) | DEFERRED | DEFERRED | PENDING: s2-qwen25-zsre-memit-gpu (62081) | PENDING: s2-qwen25-zsre-memit-gpu (62081) | PENDING: s2-qwen25-zsre-memit-gpu (62081) |
+| MEMIT | 62.23 | 68.50 | 65.83 | 54.30 | DEFERRED | DEFERRED | ING: s2-qwen25-zsre-memit-gpu (62081) | ING: s2-qwen25-zsre-memit-gpu (62081) | ING: s2-qwen25-zsre-memit-gpu (62081) |
 | AlphaEdit | PENDING: s2-qwen25-cf-alphaedit-gpu (62075) | PENDING: s2-qwen25-cf-alphaedit-gpu (62075) | PENDING: s2-qwen25-cf-alphaedit-gpu (62075) | PENDING: s2-qwen25-cf-alphaedit-gpu (62075) | DEFERRED | DEFERRED | PENDING: s2-qwen25-zsre-alphaedit-gpu (62083) | PENDING: s2-qwen25-zsre-alphaedit-gpu (62083) | PENDING: s2-qwen25-zsre-alphaedit-gpu (62083) |
-| AlphaEdit-BLUE | ING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | ING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | ING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | ING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | ING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | ING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | 58.62 | 53.66 | 5.73 |
-| MEMIT-FE | ING: s2-qwen25-cf-memit_fe-gpu (62077) | ING: s2-qwen25-cf-memit_fe-gpu (62077) | ING: s2-qwen25-cf-memit_fe-gpu (62077) | ING: s2-qwen25-cf-memit_fe-gpu (62077) | DEFERRED | DEFERRED | PENDING: s2-qwen25-zsre-memit_fe-gpu (62085) | PENDING: s2-qwen25-zsre-memit_fe-gpu (62085) | PENDING: s2-qwen25-zsre-memit_fe-gpu (62085) |
-| AlphaEdit+SPHERE | ING: s2-qwen25-cf-sphere-gpu (62079) | ING: s2-qwen25-cf-sphere-gpu (62079) | ING: s2-qwen25-cf-sphere-gpu (62079) | ING: s2-qwen25-cf-sphere-gpu (62079) | DEFERRED | DEFERRED | PENDING: s2-qwen25-zsre-sphere-gpu (62087) | PENDING: s2-qwen25-zsre-sphere-gpu (62087) | PENDING: s2-qwen25-zsre-sphere-gpu (62087) |
+| AlphaEdit-BLUE | 77.98 | 97.70 | 96.75 | 55.86 | 602.99 | 37.43 | 58.62 | 53.66 | 5.73 |
+| MEMIT-FE | 50.59 | 51.05 | 51.23 | 49.53 | DEFERRED | DEFERRED | ING: s2-qwen25-zsre-memit_fe-gpu (62085) | ING: s2-qwen25-zsre-memit_fe-gpu (62085) | ING: s2-qwen25-zsre-memit_fe-gpu (62085) |
+| AlphaEdit+SPHERE | 83.73 | 99.40 | 97.70 | 64.37 | DEFERRED | DEFERRED | FAILED: s2-qwen25-zsre-sphere-gpu (62087) | FAILED: s2-qwen25-zsre-sphere-gpu (62087) | FAILED: s2-qwen25-zsre-sphere-gpu (62087) |
 | PRICE (Ours) |  |  |  |  |  |  |  |  |  |
 
 ### GPT-J-6B
@@ -271,7 +273,7 @@ FLU/CON은 이후 별도 2k checkpoint 평가에서 측정하며, 그 consumer �
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | [W0 (편집 전)](experiment-reports/global/w0-main-table-20261009.md) | 24.44 | 17.00 | 19.30 | 82.48 | DEFERRED | DEFERRED | 27.83 | 27.15 | 27.59 |
 | FT | 58.97 | 88.75 | 66.75 | 40.61 | DEFERRED | DEFERRED | 23.15 | 17.95 | 0.62 |
-| MEMIT | 80.63 | 97.90 | 95.38 | 60.58 | DEFERRED | DEFERRED | PENDING: s2-zsre-reeval-memit (61943) | PENDING: s2-zsre-reeval-memit (61943) | PENDING: s2-zsre-reeval-memit (61943) |
+| MEMIT | 80.63 | 97.90 | 95.38 | 60.58 | DEFERRED | DEFERRED | 93.52 | 88.86 | 30.81 |
 | AlphaEdit | 88.22 | 99.70 | 96.33 | 73.56 | DEFERRED | DEFERRED | 99.69 | 96.45 | 27.94 |
 | AlphaEdit-BLUE | 89.23 | 99.55 | 97.53 | 75.06 | DEFERRED | DEFERRED | 99.75 | 95.71 | 28.83 |
 | MEMIT-FE | 73.85 | 87.15 | 85.70 | 57.22 | DEFERRED | DEFERRED | 29.20 | 27.65 | 8.45 |
