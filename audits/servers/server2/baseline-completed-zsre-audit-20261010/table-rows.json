@@ -1,0 +1,628 @@
+{
+  "GH_sole_README": true,
+  "GPU": 0,
+  "accounting": "61898|s2-qwen25-cf-ft-gpu|janghj|COMPLETED|server2|/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-r1\n61942|s2-zsre-reeval-ft|janghj|COMPLETED|server2|/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1\n61943|s2-zsre-reeval-memit|janghj|COMPLETED|server2|/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1\n61944|s2-zsre-reeval-alphaedit|janghj|COMPLETED|server2|/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1\n61945|s2-zsre-reeval-alphaedit_blue|janghj|COMPLETED|server2|/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1\n61946|s2-zsre-reeval-memit_fe|janghj|COMPLETED|server2|/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1\n61947|s2-zsre-reeval-sphere|janghj|PENDING|None assigned|/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1\n61962|s2-qwen25-cf-alphaedit_blue-gpu|janghj|COMPLETED|server2|/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-native-eval-r2\n61964|s2-qwen25-zsre-alphaedit_blue-gpu|janghj|COMPLETED|server2|/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-native-eval-r2\n62072|s2-qwen25-zsre-ft-eval-gpu|janghj|COMPLETED|server2|/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1\n62073|s2-qwen25-cf-memit-gpu|janghj|COMPLETED|server2|/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1\n62075|s2-qwen25-cf-alphaedit-gpu|janghj|PENDING|None assigned|/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1\n62077|s2-qwen25-cf-memit_fe-gpu|janghj|COMPLETED|server2|/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1\n62079|s2-qwen25-cf-sphere-gpu|janghj|COMPLETED|server2|/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1\n62081|s2-qwen25-zsre-memit-gpu|janghj|RUNNING|server2|/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1\n62083|s2-qwen25-zsre-alphaedit-gpu|janghj|PENDING|None assigned|/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1\n62085|s2-qwen25-zsre-memit_fe-gpu|janghj|RUNNING|server2|/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1\n62087|s2-qwen25-zsre-sphere-gpu|janghj|FAILED|server2|/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1\n",
+  "at": "2026-10-09T22:38:08.468436+00:00",
+  "checkpoint_loads": 0,
+  "online_history_changes": 0,
+  "reducer_sha256": "7fd2fb1b65a5620235b77545bde41180046cb6f0a1845f5ac24ffb37b0383a2c",
+  "rows": [
+    {
+      "Con": 0.030072135827285053,
+      "Flu": 4.71017497777678,
+      "cold_state_identity": {
+        "assets_sha256": "11fbe79a7784817f8fb0e1164df936dab7ed1c7480bddc923c509aec58e380ec",
+        "code_commit": "69bfbb2cdffe24072733950c671e47597ff9fbd5",
+        "config_sha256": "2575c4b98a273f64b1722938d41886c8d8caad516295fc73522bb7491b9f50dd",
+        "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+        "official_tree_sha256": "86f613646c263cffc044507185b45e256a9735caafd74573aa19a7a14cf8797d",
+        "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "tokenizer_sha256": "9e3c11a4a87d85a72b6f2d1e4b29ab88532f72d03189b6fa2793da735a2d98aa"
+      },
+      "config_sha256": "2575c4b98a273f64b1722938d41886c8d8caad516295fc73522bb7491b9f50dd",
+      "dataset": "cf",
+      "denominators": {
+        "Con": 2000,
+        "Flu": 2000,
+        "neighborhood": 20000,
+        "paraphrase": 4000,
+        "rewrite": 2000
+      },
+      "generation_prompts": 20000,
+      "generation_raw": {
+        "observed_requests": 2000,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-r1/runs/qwen25-cf-ft/generation/endpoints/9686a26a2ef66a495c2a45495e50de2f89089c8ea4a55ee1fd7be2f26e13950d.json",
+        "sha256": "21c6011a88a8edf6005965461bd479f7e6ced4b665c0b0a3af219339db43956c",
+        "state": "COMPLETE"
+      },
+      "generation_requests": 2000,
+      "generation_tokens": 1815707,
+      "job_id": "61898",
+      "job_name": "s2-qwen25-cf-ft-gpu",
+      "method": "FT",
+      "metrics": {
+        "Efficacy": 85.5,
+        "Generalization": 67.5,
+        "Score": 57.45182526582473,
+        "Score_AlphaEdit_display": 57.45182526582473,
+        "Specificity": 38.9,
+        "requests": 2000
+      },
+      "model": "qwen25",
+      "numeric_eligible": true,
+      "observed_at": "2026-10-09T22:38:08.468436+00:00",
+      "observed_state": "COMPLETED",
+      "online_delivery": "NOT_REQUERIED",
+      "ordered_cohort_sha256": "b63e14222c3e7f1bd3b78a7b50be24e110a59b15208cda664b3603596668cb84",
+      "ordered_sample_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+      "raw": {
+        "observed_requests": 2000,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-r1/runs/qwen25-cf-ft/evaluations/w20-cases.json",
+        "sha256": "4dd319c2d6d0a9969d0e4f8a998004619aaa22252c7be3e22a9b0781377e096a",
+        "state": "COMPLETE"
+      },
+      "requests": 2000,
+      "rerun_attempt": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-r1",
+      "server": "server2",
+      "source_commit": "69bfbb2cdffe24072733950c671e47597ff9fbd5",
+      "status": "W20_RAW_CPU_VERIFIED",
+      "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+      "terminal": {
+        "bytes": 6663,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-r1/runs/qwen25-cf-ft/terminal.json",
+        "sha256": "a52028e34b6ff4bb8dfeddb8cb79f11141236a5c2f50d03df5efdb8f1e4712ef"
+      }
+    },
+    {
+      "Con": 0.37431408204466576,
+      "Flu": 6.029855922995685,
+      "cold_state_identity": {
+        "assets_sha256": "11fbe79a7784817f8fb0e1164df936dab7ed1c7480bddc923c509aec58e380ec",
+        "code_commit": "5503935821b0ececb4aef09a5bccb5308879a6b5",
+        "config_sha256": "75eda8349ee37245ff224d7e79381bea38b1b43edf4bfedebc4c5ee33cfae1d1",
+        "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+        "official_tree_sha256": "a66c769f77d6070b35ff85b37351ba3406c39cb86b827611ee9634b92dbd2bde",
+        "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "tokenizer_sha256": "9e3c11a4a87d85a72b6f2d1e4b29ab88532f72d03189b6fa2793da735a2d98aa"
+      },
+      "config_sha256": "75eda8349ee37245ff224d7e79381bea38b1b43edf4bfedebc4c5ee33cfae1d1",
+      "dataset": "cf",
+      "denominators": {
+        "Con": 2000,
+        "Flu": 2000,
+        "neighborhood": 20000,
+        "paraphrase": 4000,
+        "rewrite": 2000
+      },
+      "generation_prompts": 20000,
+      "generation_raw": {
+        "observed_requests": 2000,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-native-eval-r2/runs/qwen25-cf-alphaedit_blue/generation/endpoints/d3e82cdf19dc2115c2fcee94816006c3ae65e43ef197c84195bceb49b666b6c6.json",
+        "sha256": "b408ec7ec1ab2edd2c7026655a749a86327c90e3479c579b2754b72370cce071",
+        "state": "COMPLETE"
+      },
+      "generation_requests": 2000,
+      "generation_tokens": 1815707,
+      "job_id": "61962",
+      "job_name": "s2-qwen25-cf-alphaedit_blue-gpu",
+      "method": "ALPHAEDIT_BLUE",
+      "metrics": {
+        "Efficacy": 97.7,
+        "Generalization": 96.75,
+        "Score": 77.97629788389074,
+        "Score_AlphaEdit_display": 77.97629788389074,
+        "Specificity": 55.86,
+        "requests": 2000
+      },
+      "model": "qwen25",
+      "numeric_eligible": true,
+      "observed_at": "2026-10-09T22:38:08.468436+00:00",
+      "observed_state": "COMPLETED",
+      "online_delivery": "NOT_REQUERIED",
+      "ordered_cohort_sha256": "b63e14222c3e7f1bd3b78a7b50be24e110a59b15208cda664b3603596668cb84",
+      "ordered_sample_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+      "raw": {
+        "observed_requests": 2000,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-native-eval-r2/runs/qwen25-cf-alphaedit_blue/evaluations/w20-cases.json",
+        "sha256": "f0130cf958cf220a5e5e73a076564e2cbf0cc55324cff15705c4a7a6c5dbcb9e",
+        "state": "COMPLETE"
+      },
+      "requests": 2000,
+      "rerun_attempt": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-native-eval-r2",
+      "server": "server2",
+      "source_commit": "5503935821b0ececb4aef09a5bccb5308879a6b5",
+      "status": "W20_RAW_CPU_VERIFIED",
+      "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+      "terminal": {
+        "bytes": 7203,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-native-eval-r2/runs/qwen25-cf-alphaedit_blue/terminal.json",
+        "sha256": "1afbf670ba624799cade967f8842063be3a39aa0c962546ff1de7176bf906583"
+      }
+    },
+    {
+      "cold_state_identity": {
+        "assets_sha256": "11fbe79a7784817f8fb0e1164df936dab7ed1c7480bddc923c509aec58e380ec",
+        "code_commit": "5503935821b0ececb4aef09a5bccb5308879a6b5",
+        "config_sha256": "50f602127849c8d634a3a455b26d1c346221d06fda48f83713a5b283fbf844c5",
+        "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+        "official_tree_sha256": "a66c769f77d6070b35ff85b37351ba3406c39cb86b827611ee9634b92dbd2bde",
+        "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+        "tokenizer_sha256": "9e3c11a4a87d85a72b6f2d1e4b29ab88532f72d03189b6fa2793da735a2d98aa"
+      },
+      "config_sha256": "50f602127849c8d634a3a455b26d1c346221d06fda48f83713a5b283fbf844c5",
+      "dataset": "zsre",
+      "denominators": {
+        "neighborhood": 11476,
+        "paraphrase": 6691,
+        "rewrite": 6691
+      },
+      "job_id": "61964",
+      "job_name": "s2-qwen25-zsre-alphaedit_blue-gpu",
+      "method": "ALPHAEDIT_BLUE",
+      "metrics": {
+        "Efficacy": 58.616865079365084,
+        "Generalization": 53.6624007936508,
+        "Specificity": 5.727470490106537
+      },
+      "model": "qwen25",
+      "numeric_eligible": true,
+      "observed_at": "2026-10-09T22:38:08.468436+00:00",
+      "observed_state": "COMPLETED",
+      "online_delivery": "NOT_REQUERIED",
+      "ordered_cohort_sha256": "add0c4de5ef09a497ebb87b8b7c0852fe715e6a193c18ec3482c80411ca6c1ef",
+      "ordered_sample_sha256": "494b15107deb77d9741606b7bddfecb8b350a486bb5a751655b294d4ebc6f1a4",
+      "raw": {
+        "observed_requests": 2000,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-native-eval-r2/runs/qwen25-zsre-alphaedit_blue/evaluations/w20-cases.json",
+        "sha256": "e1ebf9d524c57b681682de96e77efb2164f1b4b9faa4405ebe27352b36330319",
+        "state": "COMPLETE"
+      },
+      "requests": 2000,
+      "rerun_attempt": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-native-eval-r2",
+      "server": "server2",
+      "source_commit": "5503935821b0ececb4aef09a5bccb5308879a6b5",
+      "status": "W20_RAW_CPU_VERIFIED",
+      "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+      "terminal": {
+        "bytes": 6848,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-native-eval-r2/runs/qwen25-zsre-alphaedit_blue/terminal.json",
+        "sha256": "46c53086233d8dd40c5fe8829b64cdda7536699c29960368cad1872070140e5a"
+      }
+    },
+    {
+      "checkpoint_provenance": {
+        "bytes": 271632161,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-r1/runs/qwen25-zsre-ft/checkpoint/batch-20-55657ef22edfc8b8.pt",
+        "sha256": "55657ef22edfc8b8eead2912bdd716bbef7957989a384fcb32d19de435b2f932"
+      },
+      "config_sha256": "93f630caf6d4ed0c6ef47d5bc1e148d624c3bc36cf6e9364650c09f2372e6b3c",
+      "dataset": "zsre",
+      "denominators": {
+        "neighborhood": 11476,
+        "paraphrase": 6691,
+        "rewrite": 6691
+      },
+      "job_id": "62072",
+      "job_name": "s2-qwen25-zsre-ft-eval-gpu",
+      "method": "FT",
+      "metrics": {
+        "Efficacy": 23.246031746031747,
+        "Generalization": 18.544821428571428,
+        "Specificity": 2.3364180206369682
+      },
+      "model": "qwen25",
+      "numeric_eligible": true,
+      "observed_at": "2026-10-09T22:38:08.468436+00:00",
+      "observed_state": "COMPLETED",
+      "online_delivery": "NOT_REQUERIED",
+      "ordered_cohort_sha256": "add0c4de5ef09a497ebb87b8b7c0852fe715e6a193c18ec3482c80411ca6c1ef",
+      "query_sha256": "6c8111384789cec7059ea1b3c2b1083d761ade2b360c99db3e5c4f1ef4941d78",
+      "raw": {
+        "bytes": 5439917,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/ft-eval/evaluation.json",
+        "sha256": "fe5d0be44c0f2926465d16a351a02f9b8115a5d2ba82294e2ed2bf8588ba5629"
+      },
+      "requests": 2000,
+      "rerun_attempt": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1",
+      "server": "server2",
+      "source_commit": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "status": "W20_PUBLIC_QUERY_CPU_VERIFIED",
+      "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+      "terminal": {
+        "bytes": 942,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/ft-eval/result.json",
+        "sha256": "2e4c33bd59d03e6dbb143f3d08d1ab03622f78d0beb3ab898df9c893eeeaac85"
+      }
+    },
+    {
+      "checkpoint_provenance": {
+        "bytes": 268474909,
+        "device": 2304,
+        "inode": 122767339,
+        "mtime_ns": "1791494259527925474",
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_FT/checkpoints/batch-20-3247882fc1004710.pt",
+        "sha256": "3247882fc10047104b90e93b6b7a3d5e4357de99361c686d6268d1c9cc2131ba"
+      },
+      "config_sha256": "d3ad9e3164e09e869eda32124888a6ec313101694ec221d96c49f4e64c5e1f01",
+      "dataset": "zsre",
+      "denominators": {
+        "neighborhood": 9694,
+        "paraphrase": 5557,
+        "rewrite": 5557
+      },
+      "job_id": "61942",
+      "job_name": "s2-zsre-reeval-ft",
+      "method": "FT",
+      "metrics": {
+        "Efficacy": 23.146349206349203,
+        "Generalization": 17.9478373015873,
+        "Specificity": 0.6249613700323515
+      },
+      "model": "gptj",
+      "numeric_eligible": true,
+      "observed_at": "2026-10-09T22:38:08.468436+00:00",
+      "observed_state": "COMPLETED",
+      "online_delivery": "NOT_REQUERIED",
+      "ordered_cohort_sha256": "add0c4de5ef09a497ebb87b8b7c0852fe715e6a193c18ec3482c80411ca6c1ef",
+      "query_sha256": "2d27e4fc4445e709586e2d80f92dee76dfc1b6ce6cd7d333b6ca318ccb328a4b",
+      "raw": {
+        "bytes": 4657443,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/outputs/FT/evaluation.json",
+        "sha256": "1c3285f44fa7f3ea6153dcbb23b05ddaf0a25123727e4ae7f3d1add8181e73f8"
+      },
+      "requests": 2000,
+      "rerun_attempt": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1",
+      "server": "server2",
+      "source_commit": "ce8d536fa7eb4dfdd38f7024381e68d212f44ea0",
+      "status": "W20_PUBLIC_QUERY_CPU_VERIFIED",
+      "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+      "terminal": {
+        "bytes": 2795,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/outputs/FT/result.json",
+        "sha256": "4e543055477cd73c0056b19eb5b8859dad5aba0fa2bc71e833f6a5b839a604e0"
+      }
+    },
+    {
+      "checkpoint_provenance": {
+        "bytes": 1610637581,
+        "device": 2304,
+        "inode": 122767374,
+        "mtime_ns": "1791494657184127153",
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_MEMIT/checkpoints/batch-20-fdab7aeaba960372.pt",
+        "sha256": "fdab7aeaba960372d52170a79fe023f8f825058d9c5a4c8f344470cfa94c135c"
+      },
+      "config_sha256": "6a34f7210f0e5af52c26e4e906de837aa50b9deb3890edcac742905a2ebc6f9e",
+      "dataset": "zsre",
+      "denominators": {
+        "neighborhood": 9694,
+        "paraphrase": 5557,
+        "rewrite": 5557
+      },
+      "job_id": "61943",
+      "job_name": "s2-zsre-reeval-memit",
+      "method": "MEMIT",
+      "metrics": {
+        "Efficacy": 93.51850732600732,
+        "Generalization": 88.86412545787546,
+        "Specificity": 30.80990243838416
+      },
+      "model": "gptj",
+      "numeric_eligible": true,
+      "observed_at": "2026-10-09T22:38:08.468436+00:00",
+      "observed_state": "COMPLETED",
+      "online_delivery": "NOT_REQUERIED",
+      "ordered_cohort_sha256": "add0c4de5ef09a497ebb87b8b7c0852fe715e6a193c18ec3482c80411ca6c1ef",
+      "query_sha256": "2d27e4fc4445e709586e2d80f92dee76dfc1b6ce6cd7d333b6ca318ccb328a4b",
+      "raw": {
+        "bytes": 4645817,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/outputs/MEMIT/evaluation.json",
+        "sha256": "e21b15c49944d4b9f1d7ced6b44e0b674b28f659d59a6b34c22d433864d759e6"
+      },
+      "requests": 2000,
+      "rerun_attempt": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1",
+      "server": "server2",
+      "source_commit": "ce8d536fa7eb4dfdd38f7024381e68d212f44ea0",
+      "status": "W20_PUBLIC_QUERY_CPU_VERIFIED",
+      "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+      "terminal": {
+        "bytes": 2808,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/outputs/MEMIT/result.json",
+        "sha256": "577280d21187ae76eaf1d69a7988431f669a76b14663bb8249491901e7388a91"
+      }
+    },
+    {
+      "checkpoint_provenance": {
+        "bytes": 8053090197,
+        "device": 2304,
+        "inode": 122767498,
+        "mtime_ns": "1791502521970827935",
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_ALPHAEDIT/checkpoints/batch-20-2b1ea832469fbee3.pt",
+        "sha256": "2b1ea832469fbee3b3331fb518126889c0d3d6bd29f16924892254cd216a37c5"
+      },
+      "config_sha256": "19fc9d468a736d6cc736e25032bd67c0e33b6797e9ac3c27333e4e64c3f2f9d9",
+      "dataset": "zsre",
+      "denominators": {
+        "neighborhood": 9694,
+        "paraphrase": 5557,
+        "rewrite": 5557
+      },
+      "job_id": "61944",
+      "job_name": "s2-zsre-reeval-alphaedit",
+      "method": "ALPHAEDIT",
+      "metrics": {
+        "Efficacy": 99.6918315018315,
+        "Generalization": 96.45428113553113,
+        "Specificity": 27.9417010245744
+      },
+      "model": "gptj",
+      "numeric_eligible": true,
+      "observed_at": "2026-10-09T22:38:08.468436+00:00",
+      "observed_state": "COMPLETED",
+      "online_delivery": "NOT_REQUERIED",
+      "ordered_cohort_sha256": "add0c4de5ef09a497ebb87b8b7c0852fe715e6a193c18ec3482c80411ca6c1ef",
+      "query_sha256": "2d27e4fc4445e709586e2d80f92dee76dfc1b6ce6cd7d333b6ca318ccb328a4b",
+      "raw": {
+        "bytes": 4643957,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/outputs/ALPHAEDIT/evaluation.json",
+        "sha256": "82eb5b2929680f2dae2fcd405fdba7072a2338849ca11cb76060fb150f3a58d6"
+      },
+      "requests": 2000,
+      "rerun_attempt": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1",
+      "server": "server2",
+      "source_commit": "ce8d536fa7eb4dfdd38f7024381e68d212f44ea0",
+      "status": "W20_PUBLIC_QUERY_CPU_VERIFIED",
+      "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+      "terminal": {
+        "bytes": 2822,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/outputs/ALPHAEDIT/result.json",
+        "sha256": "a0f537919407efc920d8c51b899ec7000b335e345976e9243f9a0179da0f045f"
+      }
+    },
+    {
+      "checkpoint_provenance": {
+        "bytes": 2684378777,
+        "device": 2304,
+        "inode": 122768929,
+        "mtime_ns": "1791504878856258948",
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_ALPHAEDIT_BLUE/checkpoints/batch-20-4f8e35034122ae8b.pt",
+        "sha256": "4f8e35034122ae8b041e73db9f920cdba8dd1980cdb77d18f91f596e3d8aaffb"
+      },
+      "config_sha256": "2e7c15f7b4ed9b46b599cfb703096fdde9c651870ff12b29978abab46438d54e",
+      "dataset": "zsre",
+      "denominators": {
+        "neighborhood": 9694,
+        "paraphrase": 5557,
+        "rewrite": 5557
+      },
+      "job_id": "61945",
+      "job_name": "s2-zsre-reeval-alphaedit_blue",
+      "method": "ALPHAEDIT_BLUE",
+      "metrics": {
+        "Efficacy": 99.75147435897436,
+        "Generalization": 95.708894993895,
+        "Specificity": 28.834338825411812
+      },
+      "model": "gptj",
+      "numeric_eligible": true,
+      "observed_at": "2026-10-09T22:38:08.468436+00:00",
+      "observed_state": "COMPLETED",
+      "online_delivery": "NOT_REQUERIED",
+      "ordered_cohort_sha256": "add0c4de5ef09a497ebb87b8b7c0852fe715e6a193c18ec3482c80411ca6c1ef",
+      "query_sha256": "2d27e4fc4445e709586e2d80f92dee76dfc1b6ce6cd7d333b6ca318ccb328a4b",
+      "raw": {
+        "bytes": 4643909,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/outputs/ALPHAEDIT_BLUE/evaluation.json",
+        "sha256": "859d17b6c23aed520a5b2acb1bd635f8e9cad05f2f9d26907967a9baab55b804"
+      },
+      "requests": 2000,
+      "rerun_attempt": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1",
+      "server": "server2",
+      "source_commit": "ce8d536fa7eb4dfdd38f7024381e68d212f44ea0",
+      "status": "W20_PUBLIC_QUERY_CPU_VERIFIED",
+      "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+      "terminal": {
+        "bytes": 2843,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/outputs/ALPHAEDIT_BLUE/result.json",
+        "sha256": "c4cdbbb5df211710ae6dbb5619c7f3f27f97472a1defaaaeb3e128e043329662"
+      }
+    },
+    {
+      "checkpoint_provenance": {
+        "bytes": 1610637709,
+        "device": 2304,
+        "inode": 122825961,
+        "mtime_ns": "1791513540745992308",
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_MEMIT_FE/checkpoints/batch-20-199a4175bd7bb425.pt",
+        "sha256": "199a4175bd7bb425b088afafd27a5e9aa6812a4061a6eca930899bcaca4f41a5"
+      },
+      "config_sha256": "b770e743f47cce52665291eab6d0cb438e8f61bbb3f749cf358130fb7050d0ca",
+      "dataset": "zsre",
+      "denominators": {
+        "neighborhood": 9694,
+        "paraphrase": 5557,
+        "rewrite": 5557
+      },
+      "job_id": "61946",
+      "job_name": "s2-zsre-reeval-memit_fe",
+      "method": "MEMIT_FE",
+      "metrics": {
+        "Efficacy": 29.1998778998779,
+        "Generalization": 27.648009768009768,
+        "Specificity": 8.449205017109922
+      },
+      "model": "gptj",
+      "numeric_eligible": true,
+      "observed_at": "2026-10-09T22:38:08.468436+00:00",
+      "observed_state": "COMPLETED",
+      "online_delivery": "NOT_REQUERIED",
+      "ordered_cohort_sha256": "add0c4de5ef09a497ebb87b8b7c0852fe715e6a193c18ec3482c80411ca6c1ef",
+      "query_sha256": "2d27e4fc4445e709586e2d80f92dee76dfc1b6ce6cd7d333b6ca318ccb328a4b",
+      "raw": {
+        "bytes": 4653606,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/outputs/MEMIT_FE/evaluation.json",
+        "sha256": "6d3c2b8417db21fcd2ecc904638f83c215ccbbe5492a73df480bed123624e7de"
+      },
+      "requests": 2000,
+      "rerun_attempt": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1",
+      "server": "server2",
+      "source_commit": "ce8d536fa7eb4dfdd38f7024381e68d212f44ea0",
+      "status": "W20_PUBLIC_QUERY_CPU_VERIFIED",
+      "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+      "terminal": {
+        "bytes": 2820,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/outputs/MEMIT_FE/result.json",
+        "sha256": "6089fc5aadc1a8cb411e065d5d784dc5d4b2440c8713405a947e6a1af6aa882b"
+      }
+    },
+    {
+      "dataset": "zsre",
+      "job_id": "61947",
+      "job_name": "s2-zsre-reeval-sphere",
+      "method": "SPHERE",
+      "metrics": {},
+      "model": "gptj",
+      "numeric_eligible": false,
+      "observed_at": "2026-10-09T22:38:08.468436+00:00",
+      "observed_state": "PENDING",
+      "online_delivery": "NOT_REQUERIED",
+      "server": "server2",
+      "status": "PENDING"
+    },
+    {
+      "config_sha256": "f6877eb7c243a4d6817ba4613132a9688ff56e48889ae6f4f22978673a94f946",
+      "dataset": "cf",
+      "generation_schedule": "DEFERRED_CHECKPOINT_EVALUATION",
+      "job_id": "62073",
+      "job_name": "s2-qwen25-cf-memit-gpu",
+      "method": "MEMIT",
+      "metrics": {},
+      "model": "qwen25",
+      "numeric_eligible": false,
+      "observed_at": "2026-10-09T22:38:08.468436+00:00",
+      "observed_state": "COMPLETED",
+      "online_delivery": "NOT_REQUERIED",
+      "server": "server2",
+      "source_commit": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "status": "COMPLETED"
+    },
+    {
+      "config_sha256": "4db616aad47772619ad502628ed124c29268b9c32b256c6875a4fc8fb1fc061d",
+      "dataset": "cf",
+      "generation_schedule": "DEFERRED_CHECKPOINT_EVALUATION",
+      "job_id": "62075",
+      "job_name": "s2-qwen25-cf-alphaedit-gpu",
+      "method": "ALPHAEDIT",
+      "metrics": {},
+      "model": "qwen25",
+      "numeric_eligible": false,
+      "observed_at": "2026-10-09T22:38:08.468436+00:00",
+      "observed_state": "PENDING",
+      "online_delivery": "NOT_REQUERIED",
+      "server": "server2",
+      "source_commit": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "status": "PENDING"
+    },
+    {
+      "config_sha256": "9a5ab5a117288655361b8b0c7881b9fb8653f1aa1082699c4dd94c19f33a488e",
+      "dataset": "cf",
+      "generation_schedule": "DEFERRED_CHECKPOINT_EVALUATION",
+      "job_id": "62077",
+      "job_name": "s2-qwen25-cf-memit_fe-gpu",
+      "method": "MEMIT_FE",
+      "metrics": {},
+      "model": "qwen25",
+      "numeric_eligible": false,
+      "observed_at": "2026-10-09T22:38:08.468436+00:00",
+      "observed_state": "COMPLETED",
+      "online_delivery": "NOT_REQUERIED",
+      "server": "server2",
+      "source_commit": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "status": "COMPLETED"
+    },
+    {
+      "config_sha256": "9696fd995705458292900358c4765902ffdb3c988035d6a30627eed930e223ae",
+      "dataset": "cf",
+      "generation_schedule": "DEFERRED_CHECKPOINT_EVALUATION",
+      "job_id": "62079",
+      "job_name": "s2-qwen25-cf-sphere-gpu",
+      "method": "SPHERE",
+      "metrics": {},
+      "model": "qwen25",
+      "numeric_eligible": false,
+      "observed_at": "2026-10-09T22:38:08.468436+00:00",
+      "observed_state": "COMPLETED",
+      "online_delivery": "NOT_REQUERIED",
+      "server": "server2",
+      "source_commit": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "status": "COMPLETED"
+    },
+    {
+      "config_sha256": "93e6f98a2a1c06e7da4320c6b5cd7837396781c6a377c8199cd8fb86f018a5c0",
+      "dataset": "zsre",
+      "generation_schedule": "NOT_APPLICABLE",
+      "job_id": "62081",
+      "job_name": "s2-qwen25-zsre-memit-gpu",
+      "method": "MEMIT",
+      "metrics": {},
+      "model": "qwen25",
+      "numeric_eligible": false,
+      "observed_at": "2026-10-09T22:38:08.468436+00:00",
+      "observed_state": "RUNNING",
+      "online_delivery": "NOT_REQUERIED",
+      "server": "server2",
+      "source_commit": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "status": "RUNNING"
+    },
+    {
+      "config_sha256": "b0e17e76bba6bc28f09cb776da3d61d811d1e5736fce7fd4ef2bfceb324ba342",
+      "dataset": "zsre",
+      "generation_schedule": "NOT_APPLICABLE",
+      "job_id": "62083",
+      "job_name": "s2-qwen25-zsre-alphaedit-gpu",
+      "method": "ALPHAEDIT",
+      "metrics": {},
+      "model": "qwen25",
+      "numeric_eligible": false,
+      "observed_at": "2026-10-09T22:38:08.468436+00:00",
+      "observed_state": "PENDING",
+      "online_delivery": "NOT_REQUERIED",
+      "server": "server2",
+      "source_commit": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "status": "PENDING"
+    },
+    {
+      "config_sha256": "848bbc9855cc4c3bcac196bb2c4213ff83e47a98338a130a782ca0da4fb69e88",
+      "dataset": "zsre",
+      "generation_schedule": "NOT_APPLICABLE",
+      "job_id": "62085",
+      "job_name": "s2-qwen25-zsre-memit_fe-gpu",
+      "method": "MEMIT_FE",
+      "metrics": {},
+      "model": "qwen25",
+      "numeric_eligible": false,
+      "observed_at": "2026-10-09T22:38:08.468436+00:00",
+      "observed_state": "RUNNING",
+      "online_delivery": "NOT_REQUERIED",
+      "server": "server2",
+      "source_commit": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "status": "RUNNING"
+    },
+    {
+      "config_sha256": "dcc7018f54b1f63c8c295ebe5d82b32fb933856e0d0b94b8659c9238ef41a814",
+      "dataset": "zsre",
+      "generation_schedule": "NOT_APPLICABLE",
+      "job_id": "62087",
+      "job_name": "s2-qwen25-zsre-sphere-gpu",
+      "method": "SPHERE",
+      "metrics": {},
+      "model": "qwen25",
+      "numeric_eligible": false,
+      "observed_at": "2026-10-09T22:38:08.468436+00:00",
+      "observed_state": "FAILED",
+      "online_delivery": "NOT_REQUERIED",
+      "server": "server2",
+      "source_commit": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "status": "FAILED"
+    }
+  ]
+}
