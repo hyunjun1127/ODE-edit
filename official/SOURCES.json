@@ -314,8 +314,8 @@
       "upstream_path": "easyeditor/util/generate.py",
       "path": "baselines/easyedit/util/generate.py",
       "upstream_sha256": "e4d5528923bc0643e3d6bed12c5bba534d69b2f69ab5f18403b317bc2e35fc38",
-      "sha256": "e4d5528923bc0643e3d6bed12c5bba534d69b2f69ab5f18403b317bc2e35fc38",
-      "changes": []
+      "sha256": "35506690c41ecb7d59f11660da41dde50338f5a2ba9613735e045a8c7ab98db4",
+      "changes": ["2026-10-10 USER-GH-QWEN-BASELINE-MASK-COLD-RERUN-20261010-R1: cached context generation uses full-prefix attention mask; hparams and sampling unchanged"]
     },
     {
       "component": "easyedit",

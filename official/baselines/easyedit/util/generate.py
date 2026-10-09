@@ -121,7 +121,9 @@ def generate_fast(
         while input_ids.size(1) < max_out_len:  # while not exceeding max output length
             model_out = model(
                 input_ids=input_ids[:, cur_context],
-                attention_mask=None if 'llama' in model.name_or_path.lower() or 'baichuan' in model.name_or_path.lower() or 'internlm' in model.name_or_path.lower() else attention_mask[:, cur_context],
+                # Cached inputs contain only new tokens, but the mask must
+                # cover cached keys plus those inputs (CAKE prefix convention).
+                attention_mask=attention_mask[:, :cur_context.stop],
                 past_key_values=past_key_values,
                 use_cache=True,
             )
