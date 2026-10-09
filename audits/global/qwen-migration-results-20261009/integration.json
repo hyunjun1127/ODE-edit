@@ -42,5 +42,24 @@
     "new_GPU_or_forward": 0,
     "online_readback_revalidation": "NOT_RUN"
   },
+  "destination_submission_final": {
+    "status": "REGISTERED_HELD_INSPECTED_RELEASED",
+    "receipt": "audits/servers/server2/qwen-migration-results-20261009/submission.json",
+    "source": "69bfbb2cdffe24072733950c671e47597ff9fbd5",
+    "CF_jobs": [61898,61902,61906,61910,61914,61918],
+    "zsRE_jobs": [61900,61904,61908,61912,61916,61920],
+    "archive_jobs": [61899,61901,61903,61905,61907,61909,61911,61913,61915,61917,61919,61921],
+    "collector": 61922,
+    "snapshot_utc": "2026-10-09T08:16:34.896906+00:00",
+    "snapshot_state": "ALL_PENDING",
+    "GPU_completion": "NOT_OBSERVED",
+    "archive": "ARCHIVE_PENDING_KEEP_SOURCE; receiver trust arrived after freeze; no source hotpatch or transfer/delete"
+  },
+  "zsre_correction": {
+    "instruction_id": "USER-GH-ZSRE-LOC-RECALCULATE-MAIN-20261009-R1",
+    "corrected_rows": 12,
+    "report": "experiment-reports/global/zsre-loc-correction-20261009.md",
+    "W0_agreement": "auxiliary only, original frozen raw preserved"
+  },
   "monitoring": "no recurring monitor; bounded submission handoff only"
 }

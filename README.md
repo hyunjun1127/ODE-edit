@@ -52,19 +52,21 @@ CF source `34e4d52d`, zsRE source `94304dc9`; CF Flu/Con은 DEFERRED다.
 CF MEMIT-FE **61773**는 검토 시 RUNNING/14 commit이며 최종 수치는 아직 없다.
 AlphaEdit **61769**·MEMIT **61772**는 사용자 지시로 CANCELLED; 아래 CF 두 수치는
 그 신규 job 결과가 아닌 과거 **42657/42658 B020** 결과다(‡).
-zsRE Loc은 **W0 prediction agreement**이며 별도 `Specificity_loc_ans`가 아니다.
+zsRE Loc은 **loc_ans 정답 token 정확도의 요청별 평균**이다. 이전 W0 prediction agreement는
+본표에서 제외하고 별도 보조지표로 보존했다.
+[Loc 정정·원 token ID 재집계](experiment-reports/servers/server1/official-baselines-20261008/zsre-loc-recalculate-20261009/report-ko.md).
 [W20 검산 보고](experiment-reports/servers/server1/official-baselines-20261008/results-review-20261009/report-ko.md) ·
 [job/source/config/raw SHA·정확한 수치](audits/servers/server1/official-baselines-20261008/results-review-20261009/results.json).
 별도 GPU qualification은 `NOT_RUN_USER_DISABLED`로 유지하며, CPU 결과 검산을 GPU 검증이나 온라인 전송 검증으로 표시하지 않는다.
 
 | Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| FT | 56.59 | 89.25 | 73.30 | 35.50 | DEFERRED | DEFERRED | 14.84 | 11.99 | 1.42 |
-| MEMIT | 58.88‡ | 64.75‡ | 61.70‡ | 51.83‡ | DEFERRED | DEFERRED | 46.71 | 42.07 | 37.25 |
-| AlphaEdit | 84.80‡ | 99.30‡ | 93.23‡ | 68.59‡ | DEFERRED | DEFERRED | 98.74 | 94.60 | 51.22 |
-| AlphaEdit-BLUE | 89.84† | 99.60† | 97.15† | 76.59† |  |  | 99.41 | 95.85 | 66.69 |
-| MEMIT-FE | ING: 61773 | ING: 61773 | ING: 61773 | ING: 61773 | DEFERRED | DEFERRED | 14.95 | 13.71 | 0.97 |
-| AlphaEdit+SPHERE | 86.87 | 99.50 | 94.95 | 71.68 | DEFERRED | DEFERRED | 98.52 | 94.72 | 50.22 |
+| FT | 56.59 | 89.25 | 73.30 | 35.50 | DEFERRED | DEFERRED | 14.84 | 11.99 | 1.59 |
+| MEMIT | 58.88‡ | 64.75‡ | 61.70‡ | 51.83‡ | DEFERRED | DEFERRED | 46.71 | 42.07 | 30.49 |
+| AlphaEdit | 84.80‡ | 99.30‡ | 93.23‡ | 68.59‡ | DEFERRED | DEFERRED | 98.74 | 94.60 | 44.85 |
+| AlphaEdit-BLUE | 89.84† | 99.60† | 97.15† | 76.59† |  |  | 99.41 | 95.85 | 42.31 |
+| MEMIT-FE | ING: 61773 | ING: 61773 | ING: 61773 | ING: 61773 | DEFERRED | DEFERRED | 14.95 | 13.71 | 0.60 |
+| AlphaEdit+SPHERE | 86.87 | 99.50 | 94.95 | 71.68 | DEFERRED | DEFERRED | 98.52 | 94.72 | 44.31 |
 | PRICE (Ours) | 90.98§ | 99.70§ | 92.78§ | 82.21§ |  |  |  |  |  |
 
 § 사용자 2026-10-09 지시에 따라 이전 **FREE100 / MEMIT writer**, Llama job **60103**의
@@ -93,17 +95,25 @@ Flu/Con은 미평가·DEFERRED이며 zsRE는 별도 새 W20 결과다.
 
 ### Qwen2.5-7B-Instruct
 
-**Server4 → Server2 이전 준비 중: 새 SH2 job은 아직 미제출이며 아래 칸은 비워 둔다.**
+**Server4 → Server2 이전 등록 완료: 2026-10-09 17:16:34 KST 단발 snapshot은 모두 PENDING.**
 Server4 첫 CF FT **61783**은 2026-10-09 12:31:29 KST에 디스크 여유 32GiB 검사
 `RESOURCE_BLOCKED_STORAGE_KEEP_SOURCE`로 FAILED(1초, 모델/편집 시작 전).
 archive **61784**와 후속 `afterok` 연결이 막혔다. SH4는 정확히 남은 미시작 GPU/archive
 **23개**를 downstream-first 취소했고 실패 job·source·raw·checkpoint는 보존했다.
-기존 PRICE/OURS/tuning은 변경하지 않았다. SH2가 기존 6방법 × CF/zsRE의 12개 cold chain을
-이어 맡으며 자산·host binding 중이다. 전달 수락을 Slurm PENDING으로 표시하지 않는다.
+기존 PRICE/OURS/tuning은 변경하지 않았다. SH2가 기존 6방법 × CF/zsRE의 12개 cold chain과
+GPU0 archive 12개·collector **61922**를 실제 held 검사 후 release했다.
+실행 source `69bfbb2c`, source-lock `2c368505e34e89e51e178ef59410dad5a44d9cde488ec3a0810758e930442b70`.
+cap4와 필요한 입력/자원 dependency를 적용했고, 원 loop의 도달 불가 들여쓰기만 최소 수리했다.
+실제 model/GPU·W&B startup·W20은 미관측이며, project 접근 확인과 구분한다.
+SH1 archive trust가 freeze 후 도착했으므로 이번 frozen 실행은 **ARCHIVE_PENDING_KEEP_SOURCE**:
+receiver 입력 hotpatch·payload 전송·원본 삭제 없이 충분한 local 공간에 보존한다.
 원 CF 일정 **W0_AND_W20_FIRST2000**과 zsRE 생성 없음, 별도 qualification
 `NOT_RUN_USER_DISABLED`는 유지한다. GPT-J의 DEFERRED 일정을 이식하지 않는다.
 [실패·23개 취소·전달 보고](experiment-reports/servers/server4/qwen-migration-20261009/report-ko.md) ·
-[SH2 준비 상태](experiment-reports/servers/server2/qwen-migration-results-20261009/report-ko.md).
+[SH2 실제 등록 보고](experiment-reports/servers/server2/qwen-migration-results-20261009/report-ko.md) ·
+[실제 job name/config/dependency 영수증](audits/servers/server2/qwen-migration-results-20261009/submission.json).
+이번 12개 frozen source는 Loc 정정 전 버전이며 변경하지 않는다. 이후 완료 raw는 새 정의로
+CPU 후처리하고 source/provenance를 분리해 기록한다.
 
 별도 SH3 **61813 Q3-beta250** cold 최종 W20은 E98.05/G89.95/S68.985/Score83.770638%로
 [CPU 검산 완료](experiment-reports/servers/server3/official-baselines-20261008/qwen-61813-review/report-ko.md).
@@ -112,12 +122,12 @@ archive **61784**와 후속 `afterok` 연결이 막혔다. SH4는 정확히 남�
 
 | Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| FT |  |  |  |  |  |  |  |  |  |
-| MEMIT |  |  |  |  |  |  |  |  |  |
-| AlphaEdit |  |  |  |  |  |  |  |  |  |
-| AlphaEdit-BLUE |  |  |  |  |  |  |  |  |  |
-| MEMIT-FE |  |  |  |  |  |  |  |  |  |
-| AlphaEdit+SPHERE |  |  |  |  |  |  |  |  |  |
+| FT | PENDING: 61898 | PENDING: 61898 | PENDING: 61898 | PENDING: 61898 | PENDING: 61898 | PENDING: 61898 | PENDING: 61900 | PENDING: 61900 | PENDING: 61900 |
+| MEMIT | PENDING: 61902 | PENDING: 61902 | PENDING: 61902 | PENDING: 61902 | PENDING: 61902 | PENDING: 61902 | PENDING: 61904 | PENDING: 61904 | PENDING: 61904 |
+| AlphaEdit | PENDING: 61906 | PENDING: 61906 | PENDING: 61906 | PENDING: 61906 | PENDING: 61906 | PENDING: 61906 | PENDING: 61908 | PENDING: 61908 | PENDING: 61908 |
+| AlphaEdit-BLUE | PENDING: 61910 | PENDING: 61910 | PENDING: 61910 | PENDING: 61910 | PENDING: 61910 | PENDING: 61910 | PENDING: 61912 | PENDING: 61912 | PENDING: 61912 |
+| MEMIT-FE | PENDING: 61914 | PENDING: 61914 | PENDING: 61914 | PENDING: 61914 | PENDING: 61914 | PENDING: 61914 | PENDING: 61916 | PENDING: 61916 | PENDING: 61916 |
+| AlphaEdit+SPHERE | PENDING: 61918 | PENDING: 61918 | PENDING: 61918 | PENDING: 61918 | PENDING: 61918 | PENDING: 61918 | PENDING: 61920 | PENDING: 61920 | PENDING: 61920 |
 | PRICE (Ours) |  |  |  |  |  |  |  |  |  |
 
 ### GPT-J-6B
@@ -126,7 +136,10 @@ archive **61784**와 후속 `afterok` 연결이 막혔다. SH4는 정확히 남�
 방법 순서 FT/MEMIT/AlphaEdit/BLUE/MEMIT-FE/SPHERE의 CF job은
 **61650/61725/61778/61779/61780/61781**, zsRE는 **61726/61728/61730/61732/61734/61735**다.
 각 원 raw SHA·20 commit·ordered cohort·source/config를 결속하고 CPU 재집계를 대조했다.
-CF 분모 R2,000/P4,000/N20,000, zsRE는 request-macro이며 Loc은 W0 prediction agreement다.
+CF 분모 R2,000/P4,000/N20,000, zsRE는 request-macro이며 Loc은 **loc_ans 정답 정확도**다.
+이전 W0 prediction agreement는 보조지표로 분리했고, 저장 predicted/target token ID에서
+6개 행을 독립 재집계했다. Eff/Gen 표시는 그대로다.
+[zsRE Loc 정정 보고](experiment-reports/servers/server2/zsre-loc-recalculate-20261009/report-ko.md).
 CF Score는 반올림 전 E/G/S의 조화평균이다. 소수 둘째 자리 표시는 decimal half-up이며,
 CF 비율의 이진 부동소수점 꼬리는 고정 분모의 정수 분자로 정합화한다.
 [완료 결과 보고](experiment-reports/servers/server2/qwen-migration-results-20261009/report-ko.md) ·
@@ -137,7 +150,8 @@ W&B: [zsRE 전용 페이지](https://forge.coreweave.com/wandb/wkdguswns2256/lay
 [Llama3](https://forge.coreweave.com/wandb/wkdguswns2256/layer%20allocation?nw=zsrellama3) ·
 [Qwen2.5](https://forge.coreweave.com/wandb/wkdguswns2256/layer%20allocation?nw=zsreqwen25) ·
 [GPT-J](https://forge.coreweave.com/wandb/wkdguswns2256/layer%20allocation?nw=zsregptj).
-`zsre/*`는 teacher-forced E/G, W0 agreement Specificity, 별도 loc_ans 정확도를 구분한다.
+새 `zsre/*`의 Specificity는 teacher-forced loc_ans 정확도다. 기존 frozen run의 W0-agreement
+Specificity 기록은 수정하지 않으며, 별도 CPU 후처리 결과와 새 source의 지표를 구분한다.
 페이지 설정 원격 검증은 actual run/GPU/성능 완료 검증과 별개다.
 
 **이 CF 실행의 FLU/CON은 W0·W20 모두 `DEFERRED_CHECKPOINT_EVALUATION`이다.**
@@ -153,12 +167,12 @@ FLU/CON은 이후 별도 2k checkpoint 평가에서 측정하며, 그 consumer �
 
 | Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| FT | 58.97 | 88.75 | 66.75 | 40.61 | DEFERRED | DEFERRED | 23.15 | 17.95 | 0.52 |
-| MEMIT | 80.63 | 97.90 | 95.38 | 60.58 | DEFERRED | DEFERRED | 93.61 | 88.95 | 55.92 |
-| AlphaEdit | 88.22 | 99.70 | 96.33 | 73.56 | DEFERRED | DEFERRED | 99.79 | 96.55 | 84.76 |
-| AlphaEdit-BLUE | 89.23 | 99.55 | 97.53 | 75.06 | DEFERRED | DEFERRED | 99.85 | 95.81 | 86.49 |
-| MEMIT-FE | 73.85 | 87.15 | 85.70 | 57.22 | DEFERRED | DEFERRED | 29.23 | 27.67 | 29.46 |
-| AlphaEdit+SPHERE | 88.39 | 99.70 | 95.73 | 74.27 | DEFERRED | DEFERRED | 99.77 | 96.39 | 86.23 |
+| FT | 58.97 | 88.75 | 66.75 | 40.61 | DEFERRED | DEFERRED | 23.15 | 17.95 | 0.62 |
+| MEMIT | 80.63 | 97.90 | 95.38 | 60.58 | DEFERRED | DEFERRED | 93.61 | 88.95 | 30.87 |
+| AlphaEdit | 88.22 | 99.70 | 96.33 | 73.56 | DEFERRED | DEFERRED | 99.79 | 96.55 | 27.99 |
+| AlphaEdit-BLUE | 89.23 | 99.55 | 97.53 | 75.06 | DEFERRED | DEFERRED | 99.85 | 95.81 | 28.90 |
+| MEMIT-FE | 73.85 | 87.15 | 85.70 | 57.22 | DEFERRED | DEFERRED | 29.23 | 27.67 | 8.46 |
+| AlphaEdit+SPHERE | 88.39 | 99.70 | 95.73 | 74.27 | DEFERRED | DEFERRED | 99.77 | 96.39 | 28.06 |
 | PRICE (Ours) |  |  |  |  |  |  |  |  |  |
 
 기존 연구 문서와 실험 이력은 아래에 보존합니다. 새 실험의 설정 근거는 `official/`입니다.
