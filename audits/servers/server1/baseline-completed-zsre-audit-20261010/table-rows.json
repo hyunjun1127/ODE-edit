@@ -1,0 +1,1250 @@
+{
+  "README_owner": "GH",
+  "README_snapshot": {
+    "bytes": 40433,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-baseline-zsre-audit-20261010/README.md",
+    "sha256": "601fa7f47db3c0d1f2750e8ed290af6a8eb467bbce8c11a04703ef6d1039663a"
+  },
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "checkpoint_loads": 0,
+  "completed_rows": 12,
+  "generation_jobs": [
+    {
+      "completed_receipt_exists": false,
+      "final_scores": "NOT_OBSERVED",
+      "job_id": "62264",
+      "job_name": "official-s1-flucon-eval-collector",
+      "source": "61ab70384bc909d359537f14a3bbb3691f5c9ce5",
+      "state": "PENDING"
+    },
+    {
+      "completed_receipt_exists": false,
+      "final_scores": "NOT_OBSERVED",
+      "job_id": "62262",
+      "job_name": "official-s1-flucon-eval-gptj-memit_fe_history",
+      "source": "61ab70384bc909d359537f14a3bbb3691f5c9ce5",
+      "state": "PENDING"
+    },
+    {
+      "completed_receipt_exists": false,
+      "final_scores": "NOT_OBSERVED",
+      "job_id": "62259",
+      "job_name": "official-s1-flucon-eval-llama3-ft",
+      "source": "61ab70384bc909d359537f14a3bbb3691f5c9ce5",
+      "state": "RUNNING"
+    },
+    {
+      "completed_receipt_exists": false,
+      "final_scores": "NOT_OBSERVED",
+      "job_id": "62261",
+      "job_name": "official-s1-flucon-eval-llama3-memit_fe",
+      "source": "61ab70384bc909d359537f14a3bbb3691f5c9ce5",
+      "state": "RUNNING"
+    },
+    {
+      "completed_receipt_exists": false,
+      "final_scores": "NOT_OBSERVED",
+      "job_id": "62263",
+      "job_name": "official-s1-flucon-eval-llama3-memit_fe_history",
+      "source": "61ab70384bc909d359537f14a3bbb3691f5c9ce5",
+      "state": "PENDING"
+    },
+    {
+      "completed_receipt_exists": false,
+      "final_scores": "NOT_OBSERVED",
+      "job_id": "62260",
+      "job_name": "official-s1-flucon-eval-llama3-sphere",
+      "source": "61ab70384bc909d359537f14a3bbb3691f5c9ce5",
+      "state": "RUNNING"
+    }
+  ],
+  "new_GPU_forwards": 0,
+  "nonce": "USER-GH-ALL-SH-BASELINE-COMPLETED-ZSRE-AUDIT-20261010-R1",
+  "old_wrong_context_61975_excluded": true,
+  "query_parity": "PASS_CPU_ONLY_NOT_PRETRAINED_FORWARD_PARITY",
+  "recorded_at": "2026-10-09T22:41:10.937204+00:00",
+  "reducer": {
+    "bytes": 7797,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-baseline-zsre-audit-20261010/audits/servers/server1/baseline-completed-zsre-audit-20261010/reduce.py",
+    "sha256": "a4fb7d3d7f5bb55047e28f26a883d2df2d6517081c71201223a682791da44d63"
+  },
+  "rows": [
+    {
+      "checkpoint_SHA_verified": true,
+      "checkpoint_metadata": {
+        "bytes": 237,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-display-score-repair-r1/preparation-r1/runs/cf-sphere/checkpoint/latest.json",
+        "sha256": "8824778db5517a6a4e8009b8799be2ca7f72e8ae017891aebcaca4976aabcdd6"
+      },
+      "commit_audit": {
+        "GPU_resume_parity_claim": false,
+        "actual_applied_requests": 2000,
+        "actual_model_forward_calls": 0,
+        "actual_native_apply_receipts": 20,
+        "final_checkpoint_payload_SHA_verified": true,
+        "historical_checkpoint_payloads_reloaded": false,
+        "method": "SPHERE",
+        "native_request_digest_checked_against_stream": true,
+        "native_source_sha256": "19934699a4604ad5ea87f5ad897d09514b0684b48b8f9fd88a9fc6750f0b208d",
+        "schema": "official-native-commit-CPU-audit-v1",
+        "selected_weight_hash_chain": true
+      },
+      "complete": true,
+      "config": {
+        "bytes": 6367,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-display-score-repair-r1/preparation-r1/configs/cf-sphere.json",
+        "sha256": "292250107202494cb8392dc91abc8af75cd8fc3012acf9080f2695ea663aaa58"
+      },
+      "dataset": "cf",
+      "delta_pp": {
+        "Efficacy": 0.0,
+        "Generalization": 0.0,
+        "Score": 0.0,
+        "Specificity": 0.0
+      },
+      "eligible_metrics": true,
+      "endpoint": {
+        "bytes": 64105073,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-display-score-repair-r1/preparation-r1/runs/cf-sphere/factual/batch-20.json",
+        "sha256": "52cd9c31f7cd1d5b7c827ce0e304c7c8a9085e1edbdfaf8400d5825565d469c8"
+      },
+      "evidence_reused": {
+        "bytes": 48200,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-flucon-paper-scale-20261010/audits/servers/server1/main-table-refresh-20261009/table-rows.json",
+        "sha256": "68db47bb6e9499a96e80d75fffad1f83b1c7b06a867fbb72b30349759d5780e2"
+      },
+      "generation": "DEFERRED",
+      "identity": {
+        "assets_sha256": "542be599e62a454f52eb4ed299f8cdfd79072d532bb292d43669195845534705",
+        "code_commit": "34e4d52d821113d56ee6c59b71d553dd01768e73",
+        "config_sha256": "117c3236d9c343053c5aace941d0246e171952fa75cb3c6b468982e4345bdfe4",
+        "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+        "official_tree_sha256": "db0354edebde9517c200140dbaa717605c4d527e",
+        "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "tokenizer_sha256": "63411f4ee2a0111d0c3902d14c85a1d003dafc765573c60282957f558bf02453"
+      },
+      "job_id": "61770",
+      "job_name": "official-s1-cf-sphere",
+      "method": "SPHERE",
+      "metrics": {
+        "Efficacy": 99.5,
+        "Generalization": 94.95,
+        "Score": 86.87096971885978,
+        "Specificity": 71.675
+      },
+      "model": "llama3",
+      "ordered_case_ids_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+      "previous_metrics": {
+        "Efficacy": 99.5,
+        "Generalization": 94.95,
+        "Score": 86.87096971885978,
+        "Score_AlphaEdit_display": 86.8734179060957,
+        "Specificity": 71.675,
+        "requests": 2000
+      },
+      "raw_audit": {
+        "GPU_parity_claim": false,
+        "actual_model_forward_calls": 0,
+        "candidate_sequences": 52000,
+        "dataset": "cf",
+        "endpoint_identity_sha256": "709a5b4b91bcbc9fdf315ebb73ade7c1fc3c55372b409b0a5a144c189c41a881",
+        "groups": {
+          "neighborhood": {
+            "prompt_acc_pct": 18.2525,
+            "prompt_count": 20000,
+            "strict_acc_pct": 17.625,
+            "token_acc_pct": 18.68771583621115,
+            "token_correct_count": 3788,
+            "token_count": 20270
+          },
+          "paraphrase": {
+            "prompt_acc_pct": 72.9125,
+            "prompt_count": 4000,
+            "strict_acc_pct": 72.6,
+            "token_acc_pct": 72.87549407114625,
+            "token_correct_count": 2950,
+            "token_count": 4048
+          },
+          "rewrite": {
+            "prompt_acc_pct": 98.2,
+            "prompt_count": 2000,
+            "strict_acc_pct": 98.2,
+            "token_acc_pct": 98.22134387351778,
+            "token_correct_count": 1988,
+            "token_count": 2024
+          }
+        },
+        "independent_raw_reduction": true,
+        "ordered_stream_and_token_identity": true,
+        "prompt_pairs": 26000,
+        "requests": 2000,
+        "schema": "official-factual-CPU-audit-v1"
+      },
+      "report_path": "experiment-reports/servers/server1/main-table-refresh-20261009/report-ko.md",
+      "reused_audit": {
+        "bytes": 42901,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-baseline-zsre-audit-20261010/audits/servers/server1/flucon-paper-scale-20261010/completed-rows.json",
+        "sha256": "a88a99c7c5d7450f62a6ec9d1098b61b153bcdb83cb609033cab451d837e7820"
+      },
+      "scheduler_state": "COMPLETED",
+      "server": "server1",
+      "source": {
+        "main_commit": "34e4d52d821113d56ee6c59b71d553dd01768e73",
+        "official_tree": "db0354edebde9517c200140dbaa717605c4d527e"
+      },
+      "state_basis": "IMMUTABLE_W20_RAW_AND_TERMINAL_REVERIFIED_NO_NEW_SCHEDULER_QUERY",
+      "status": "W20_FACTUAL_CPU_VERIFIED_UNCHANGED",
+      "summary": {
+        "Efficacy": 99.5,
+        "Generalization": 94.95,
+        "Score": 86.87096971885978,
+        "Score_AlphaEdit_display": 86.8734179060957,
+        "Specificity": 71.675,
+        "requests": 2000
+      },
+      "terminal": {
+        "bytes": 6536,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-display-score-repair-r1/preparation-r1/runs/cf-sphere/COMPLETE.json",
+        "sha256": "cb53c4a2eca39d48d4fd3a3734703bd9a437fc0005abbd8e789346af965c39cb"
+      }
+    },
+    {
+      "checkpoint_SHA_verified": true,
+      "checkpoint_metadata": {
+        "bytes": 237,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-display-score-repair-r1/preparation-r1/runs/cf-ft/checkpoint/latest.json",
+        "sha256": "91c348c865f7a53e2761539b2c58e24c34013b176becdff65142756e590d5430"
+      },
+      "commit_audit": {
+        "GPU_resume_parity_claim": false,
+        "actual_applied_requests": 2000,
+        "actual_model_forward_calls": 0,
+        "actual_native_apply_receipts": 20,
+        "final_checkpoint_payload_SHA_verified": true,
+        "historical_checkpoint_payloads_reloaded": false,
+        "method": "FT",
+        "native_request_digest_checked_against_stream": true,
+        "native_source_sha256": "96f74bfa49bc2ed3b8899858441672dd105ce3b20cdfb4ed2ecc668852efa22a",
+        "schema": "official-native-commit-CPU-audit-v1",
+        "selected_weight_hash_chain": true
+      },
+      "complete": true,
+      "config": {
+        "bytes": 5931,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-display-score-repair-r1/preparation-r1/configs/cf-ft.json",
+        "sha256": "4190f86a1e9670f01e8a6f42f9c3cc26c1a6ba9f6e2dc3c6eb3db32799472d61"
+      },
+      "dataset": "cf",
+      "delta_pp": {
+        "Efficacy": 0.0,
+        "Generalization": 0.0,
+        "Score": 0.0,
+        "Specificity": 0.0
+      },
+      "eligible_metrics": true,
+      "endpoint": {
+        "bytes": 64146085,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-display-score-repair-r1/preparation-r1/runs/cf-ft/factual/batch-20.json",
+        "sha256": "d4cb9c185f6d9c145d0df9ed483acda863393f0ab86e04d81d305166379f7141"
+      },
+      "evidence_reused": {
+        "bytes": 48200,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-flucon-paper-scale-20261010/audits/servers/server1/main-table-refresh-20261009/table-rows.json",
+        "sha256": "68db47bb6e9499a96e80d75fffad1f83b1c7b06a867fbb72b30349759d5780e2"
+      },
+      "generation": "DEFERRED",
+      "identity": {
+        "assets_sha256": "2279beeaecf7f073d00b335df93e669a78858f266188fbaab51000adf36adbdf",
+        "code_commit": "34e4d52d821113d56ee6c59b71d553dd01768e73",
+        "config_sha256": "7a50a35275c1eda21551d87c7f76b9dcc8611acfbdaecb6ed9a6c6141d14b84c",
+        "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+        "official_tree_sha256": "db0354edebde9517c200140dbaa717605c4d527e",
+        "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "tokenizer_sha256": "63411f4ee2a0111d0c3902d14c85a1d003dafc765573c60282957f558bf02453"
+      },
+      "job_id": "61771",
+      "job_name": "official-s1-cf-ft",
+      "method": "FT",
+      "metrics": {
+        "Efficacy": 89.25,
+        "Generalization": 73.3,
+        "Score": 56.5866260441582,
+        "Specificity": 35.5
+      },
+      "model": "llama3",
+      "ordered_case_ids_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+      "previous_metrics": {
+        "Efficacy": 89.25,
+        "Generalization": 73.3,
+        "Score": 56.5866260441582,
+        "Score_AlphaEdit_display": 56.5866260441582,
+        "Specificity": 35.5,
+        "requests": 2000
+      },
+      "raw_audit": {
+        "GPU_parity_claim": false,
+        "actual_model_forward_calls": 0,
+        "candidate_sequences": 52000,
+        "dataset": "cf",
+        "endpoint_identity_sha256": "30ab947f16734f336e282518b173792b67d9a5cf119238aae68ba43f5d0b1125",
+        "groups": {
+          "neighborhood": {
+            "prompt_acc_pct": 0.315,
+            "prompt_count": 20000,
+            "strict_acc_pct": 0.315,
+            "token_acc_pct": 0.3108041440552541,
+            "token_correct_count": 63,
+            "token_count": 20270
+          },
+          "paraphrase": {
+            "prompt_acc_pct": 2.475,
+            "prompt_count": 4000,
+            "strict_acc_pct": 2.475,
+            "token_acc_pct": 2.4456521739130435,
+            "token_correct_count": 99,
+            "token_count": 4048
+          },
+          "rewrite": {
+            "prompt_acc_pct": 10.85,
+            "prompt_count": 2000,
+            "strict_acc_pct": 10.85,
+            "token_acc_pct": 10.721343873517787,
+            "token_correct_count": 217,
+            "token_count": 2024
+          }
+        },
+        "independent_raw_reduction": true,
+        "ordered_stream_and_token_identity": true,
+        "prompt_pairs": 26000,
+        "requests": 2000,
+        "schema": "official-factual-CPU-audit-v1"
+      },
+      "report_path": "experiment-reports/servers/server1/main-table-refresh-20261009/report-ko.md",
+      "reused_audit": {
+        "bytes": 42901,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-baseline-zsre-audit-20261010/audits/servers/server1/flucon-paper-scale-20261010/completed-rows.json",
+        "sha256": "a88a99c7c5d7450f62a6ec9d1098b61b153bcdb83cb609033cab451d837e7820"
+      },
+      "scheduler_state": "COMPLETED",
+      "server": "server1",
+      "source": {
+        "main_commit": "34e4d52d821113d56ee6c59b71d553dd01768e73",
+        "official_tree": "db0354edebde9517c200140dbaa717605c4d527e"
+      },
+      "state_basis": "IMMUTABLE_W20_RAW_AND_TERMINAL_REVERIFIED_NO_NEW_SCHEDULER_QUERY",
+      "status": "W20_FACTUAL_CPU_VERIFIED_UNCHANGED",
+      "summary": {
+        "Efficacy": 89.25,
+        "Generalization": 73.3,
+        "Score": 56.5866260441582,
+        "Score_AlphaEdit_display": 56.5866260441582,
+        "Specificity": 35.5,
+        "requests": 2000
+      },
+      "terminal": {
+        "bytes": 3356,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-display-score-repair-r1/preparation-r1/runs/cf-ft/COMPLETE.json",
+        "sha256": "41a14f6d068f880b5c8ccd00fae768b5471f86c2ce963b1f02674cbc89d41a79"
+      }
+    },
+    {
+      "checkpoint_SHA_verified": true,
+      "checkpoint_metadata": {
+        "bytes": 237,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-display-score-repair-r1/preparation-r1/runs/cf-memit_fe/checkpoint/latest.json",
+        "sha256": "cace8c72786ca903706f6a6061bf6389f9e6935be1660bb9e678d705c4bcc5d1"
+      },
+      "commit_audit": {
+        "GPU_resume_parity_claim": false,
+        "actual_applied_requests": 2000,
+        "actual_model_forward_calls": 0,
+        "actual_native_apply_receipts": 20,
+        "final_checkpoint_payload_SHA_verified": true,
+        "historical_checkpoint_payloads_reloaded": false,
+        "method": "MEMIT_FE",
+        "native_request_digest_checked_against_stream": true,
+        "native_source_sha256": "3139543c4a0b24b7be797010fc9a86b5aa184161acb54776b01caa6b965ccd86",
+        "schema": "official-native-commit-CPU-audit-v1",
+        "selected_weight_hash_chain": true
+      },
+      "complete": true,
+      "config": {
+        "bytes": 6178,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-display-score-repair-r1/preparation-r1/configs/cf-memit_fe.json",
+        "sha256": "7ed1f70a57337832eeb2c605cb8b2358a1ce4ad739154e715218bbc8304ddf27"
+      },
+      "dataset": "cf",
+      "delta_pp": null,
+      "eligible_metrics": true,
+      "endpoint": {
+        "bytes": 64097358,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-display-score-repair-r1/preparation-r1/runs/cf-memit_fe/factual/batch-20.json",
+        "sha256": "91316cbda09d88ce2a52f72638e926971bd9d32afaa5943d96cb36ed001acad7"
+      },
+      "evidence_reused": {
+        "bytes": 48200,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-flucon-paper-scale-20261010/audits/servers/server1/main-table-refresh-20261009/table-rows.json",
+        "sha256": "68db47bb6e9499a96e80d75fffad1f83b1c7b06a867fbb72b30349759d5780e2"
+      },
+      "generation": "DEFERRED",
+      "identity": {
+        "assets_sha256": "2279beeaecf7f073d00b335df93e669a78858f266188fbaab51000adf36adbdf",
+        "code_commit": "34e4d52d821113d56ee6c59b71d553dd01768e73",
+        "config_sha256": "e89943e199d032fe935976801d0965d1a950ac8bec602c250e6df7781c8e757a",
+        "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+        "official_tree_sha256": "db0354edebde9517c200140dbaa717605c4d527e",
+        "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "tokenizer_sha256": "63411f4ee2a0111d0c3902d14c85a1d003dafc765573c60282957f558bf02453"
+      },
+      "job_id": "61773",
+      "job_name": "official-s1-cf-memit_fe",
+      "method": "MEMIT_FE",
+      "metrics": {
+        "Efficacy": 80.45,
+        "Generalization": 73.675,
+        "Score": 64.55217402754575,
+        "Specificity": 48.85
+      },
+      "model": "llama3",
+      "ordered_case_ids_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+      "previous_metrics": null,
+      "raw_audit": {
+        "GPU_parity_claim": false,
+        "actual_model_forward_calls": 0,
+        "candidate_sequences": 52000,
+        "dataset": "cf",
+        "endpoint_identity_sha256": "30ab947f16734f336e282518b173792b67d9a5cf119238aae68ba43f5d0b1125",
+        "groups": {
+          "neighborhood": {
+            "prompt_acc_pct": 2.875,
+            "prompt_count": 20000,
+            "strict_acc_pct": 2.875,
+            "token_acc_pct": 2.836704489393192,
+            "token_correct_count": 575,
+            "token_count": 20270
+          },
+          "paraphrase": {
+            "prompt_acc_pct": 23.275,
+            "prompt_count": 4000,
+            "strict_acc_pct": 23.25,
+            "token_acc_pct": 23.048418972332016,
+            "token_correct_count": 933,
+            "token_count": 4048
+          },
+          "rewrite": {
+            "prompt_acc_pct": 38.2,
+            "prompt_count": 2000,
+            "strict_acc_pct": 38.15,
+            "token_acc_pct": 37.79644268774704,
+            "token_correct_count": 765,
+            "token_count": 2024
+          }
+        },
+        "independent_raw_reduction": true,
+        "ordered_stream_and_token_identity": true,
+        "prompt_pairs": 26000,
+        "requests": 2000,
+        "schema": "official-factual-CPU-audit-v1"
+      },
+      "report_path": "experiment-reports/servers/server1/main-table-refresh-20261009/report-ko.md",
+      "reused_audit": {
+        "bytes": 42901,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-baseline-zsre-audit-20261010/audits/servers/server1/flucon-paper-scale-20261010/completed-rows.json",
+        "sha256": "a88a99c7c5d7450f62a6ec9d1098b61b153bcdb83cb609033cab451d837e7820"
+      },
+      "scheduler_state": "COMPLETED",
+      "server": "server1",
+      "source": {
+        "main_commit": "34e4d52d821113d56ee6c59b71d553dd01768e73",
+        "official_tree": "db0354edebde9517c200140dbaa717605c4d527e"
+      },
+      "state_basis": "IMMUTABLE_W20_RAW_AND_TERMINAL_REVERIFIED_NO_NEW_SCHEDULER_QUERY",
+      "status": "W20_FACTUAL_CPU_VERIFIED_UNCHANGED",
+      "summary": {
+        "Efficacy": 80.45,
+        "Generalization": 73.675,
+        "Score": 64.55217402754575,
+        "Score_AlphaEdit_display": 64.55345343637067,
+        "Specificity": 48.85,
+        "requests": 2000
+      },
+      "terminal": {
+        "bytes": 4310,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-display-score-repair-r1/preparation-r1/runs/cf-memit_fe/COMPLETE.json",
+        "sha256": "a7789ed3f6095de3890f60502aa38415b2cd90d2c25d17be5bcc047bcc23d507"
+      }
+    },
+    {
+      "checkpoint_SHA_verified": true,
+      "checkpoint_metadata": {
+        "bytes": 237,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/runs/gptj/checkpoint/latest.json",
+        "sha256": "720f9ffe55e9259bc72fe6f84061ed3fd1e8cb8f87a526bfb2c78834ed948476"
+      },
+      "commits": 20,
+      "complete": true,
+      "config": {
+        "bytes": 3318,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/configs/gptj.json",
+        "sha256": "8c3dec291369262ee0d60a0236617f070c4ba6dfd73fc035d350d94ae8e4c0a6"
+      },
+      "dataset": "cf",
+      "eligible_metrics": true,
+      "endpoint": {
+        "bytes": 62933378,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/runs/gptj/factual/batch-20.json",
+        "sha256": "bf244bb1a6e14c407fcfa4c71739edb0d41ad4ca1754348ea14f0a988dfbbe68"
+      },
+      "evidence_reused": {
+        "bytes": 48200,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-flucon-paper-scale-20261010/audits/servers/server1/main-table-refresh-20261009/table-rows.json",
+        "sha256": "68db47bb6e9499a96e80d75fffad1f83b1c7b06a867fbb72b30349759d5780e2"
+      },
+      "generation": "DEFERRED",
+      "identity": {
+        "assets_sha256": "7cbf34bcad3bd053ead5c78b76ebfcec147d6d193f2c961d67f727942224b710",
+        "code_commit": "eaf78c331dee72093b2ccdf29f31962799475e34",
+        "config_sha256": "619e77c946a662d7d9a9690c0083326bb76584f15d55ed3c0aba191b026b300f",
+        "model_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+        "official_tree_sha256": "5a270b0fc7800f75dd7321d53d738e2be2840bed",
+        "stream_sha256": "39bbd2215177d2aabeb3bd5c2e7f088b454479bf567b3b16f9da70bd0b28c95e",
+        "tokenizer_sha256": "2aa4f890df82b69576bf881449a8d15c3997db0a3445699e157f81d59e1dad7b"
+      },
+      "job_id": "61927",
+      "job_name": "official-s1-cf-gptj-memit-fe-history",
+      "method": "MEMIT_FE_HISTORY",
+      "metrics": {
+        "Efficacy": 50.349999999999994,
+        "Generalization": 49.9,
+        "Score": 50.17588566715234,
+        "Specificity": 50.28
+      },
+      "model": "gptj",
+      "ordered_case_ids_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+      "raw_audit": {
+        "GPU_parity_claim": false,
+        "actual_model_forward_calls": 0,
+        "candidate_sequences": 52000,
+        "dataset": "cf",
+        "endpoint_identity_sha256": "44a4ab398f08bf7724c3c0a3d94222afbb39e2da4f671999921823014b066f5e",
+        "groups": {
+          "neighborhood": {
+            "prompt_acc_pct": 0.0,
+            "prompt_count": 20000,
+            "strict_acc_pct": 0.0,
+            "token_acc_pct": 0.0,
+            "token_correct_count": 0,
+            "token_count": 20000
+          },
+          "paraphrase": {
+            "prompt_acc_pct": 0.0,
+            "prompt_count": 4000,
+            "strict_acc_pct": 0.0,
+            "token_acc_pct": 0.0,
+            "token_correct_count": 0,
+            "token_count": 4000
+          },
+          "rewrite": {
+            "prompt_acc_pct": 0.0,
+            "prompt_count": 2000,
+            "strict_acc_pct": 0.0,
+            "token_acc_pct": 0.0,
+            "token_correct_count": 0,
+            "token_count": 2000
+          }
+        },
+        "independent_raw_reduction": true,
+        "ordered_stream_and_token_identity": true,
+        "prompt_pairs": 26000,
+        "requests": 2000,
+        "schema": "official-factual-CPU-audit-v1"
+      },
+      "report_path": "experiment-reports/servers/server1/main-table-refresh-20261009/report-ko.md",
+      "reused_audit": {
+        "bytes": 42901,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-baseline-zsre-audit-20261010/audits/servers/server1/flucon-paper-scale-20261010/completed-rows.json",
+        "sha256": "a88a99c7c5d7450f62a6ec9d1098b61b153bcdb83cb609033cab451d837e7820"
+      },
+      "scheduler_state": "COMPLETED",
+      "server": "server1",
+      "source": "eaf78c331dee72093b2ccdf29f31962799475e34",
+      "state_basis": "IMMUTABLE_W20_RAW_AND_TERMINAL_REVERIFIED_NO_NEW_SCHEDULER_QUERY",
+      "status": "W20_FACTUAL_CPU_VERIFIED_UNCHANGED",
+      "summary": {
+        "Efficacy": 50.349999999999994,
+        "Generalization": 49.9,
+        "Score": 50.17588566715234,
+        "Score_AlphaEdit_display": 50.17588566715234,
+        "Specificity": 50.28,
+        "requests": 2000
+      },
+      "terminal": {
+        "bytes": 4375,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/runs/gptj/COMPLETE.json",
+        "sha256": "b18f422e32411401c03b522b34e58f1a19ea7b84bd391c64d6ddd247f649a298"
+      },
+      "variant_separate_from_native_FE": true
+    },
+    {
+      "commits": 20,
+      "complete": true,
+      "config": {
+        "bytes": 3325,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/configs/llama3.json",
+        "sha256": "c4543cb0124539d6e73858ce8d7f6c906688709811ee63403afb75ba9538f982"
+      },
+      "dataset": "cf",
+      "endpoint": {
+        "bytes": 64087890,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/runs/llama3/factual/batch-20.json",
+        "sha256": "5f6890446af61209caa658d034a943fe45d47901f13ceac9145474eec0abd25f"
+      },
+      "generation": "DEFERRED",
+      "identity": {
+        "assets_sha256": "d03386c2a10978fb66984cc81df43d83a4a145e74be6aa84bb7b395acfc088f3",
+        "code_commit": "eaf78c331dee72093b2ccdf29f31962799475e34",
+        "config_sha256": "f6e97420d91acbeb17b4c1fe86b0ca9af94029bf7dfe8565c608a39f2f604472",
+        "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+        "official_tree_sha256": "5a270b0fc7800f75dd7321d53d738e2be2840bed",
+        "stream_sha256": "39bbd2215177d2aabeb3bd5c2e7f088b454479bf567b3b16f9da70bd0b28c95e",
+        "tokenizer_sha256": "5def14f0398b34af845724d57933cb300ae606e3e4b039366e1fdbd81fbcc521"
+      },
+      "job_id": "61928",
+      "job_name": "official-s1-cf-llama3-memit-fe-history",
+      "method": "MEMIT_FE_HISTORY",
+      "model": "llama3",
+      "ordered_case_ids_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+      "raw_audit": {
+        "GPU_parity_claim": false,
+        "actual_model_forward_calls": 0,
+        "candidate_sequences": 52000,
+        "dataset": "cf",
+        "endpoint_identity_sha256": "6d21089c099f6956b4e194f4f8854117309fd4d70c21bd3942ed3137336ca8b5",
+        "groups": {
+          "neighborhood": {
+            "prompt_acc_pct": 2.76,
+            "prompt_count": 20000,
+            "strict_acc_pct": 2.74,
+            "token_acc_pct": 2.742969906265417,
+            "token_correct_count": 556,
+            "token_count": 20270
+          },
+          "paraphrase": {
+            "prompt_acc_pct": 29.95,
+            "prompt_count": 4000,
+            "strict_acc_pct": 29.85,
+            "token_acc_pct": 29.693675889328063,
+            "token_correct_count": 1202,
+            "token_count": 4048
+          },
+          "rewrite": {
+            "prompt_acc_pct": 42.75,
+            "prompt_count": 2000,
+            "strict_acc_pct": 42.65,
+            "token_acc_pct": 42.440711462450594,
+            "token_correct_count": 859,
+            "token_count": 2024
+          }
+        },
+        "independent_raw_reduction": true,
+        "ordered_stream_and_token_identity": true,
+        "prompt_pairs": 26000,
+        "requests": 2000,
+        "schema": "official-factual-CPU-audit-v1"
+      },
+      "reused_audit": {
+        "bytes": 42901,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-baseline-zsre-audit-20261010/audits/servers/server1/flucon-paper-scale-20261010/completed-rows.json",
+        "sha256": "a88a99c7c5d7450f62a6ec9d1098b61b153bcdb83cb609033cab451d837e7820"
+      },
+      "scheduler_state": "COMPLETED",
+      "source": "eaf78c331dee72093b2ccdf29f31962799475e34",
+      "status": "W20_FACTUAL_CPU_VERIFIED_UNCHANGED",
+      "summary": {
+        "Efficacy": 80.10000000000001,
+        "Generalization": 74.1,
+        "Score": 64.6634173683734,
+        "Score_AlphaEdit_display": 64.660512913358,
+        "Specificity": 48.985,
+        "requests": 2000
+      },
+      "terminal": {
+        "bytes": 4003,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/runs/llama3/COMPLETE.json",
+        "sha256": "74296884723d843ad61767122a5348d669e7d678826bedcc0a66fd1ae51040cd"
+      },
+      "variant_separate_from_native_FE": true
+    },
+    {
+      "README_match": true,
+      "README_values": [
+        "95.18",
+        "91.40",
+        "31.10"
+      ],
+      "complete": true,
+      "config": {
+        "bytes": 5984,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/preparation-r2/configs/alphaedit.json",
+        "sha256": "afea43aef0222e738addc99746f3f05d10167c622b86478a3debafbcaca2bed6"
+      },
+      "counts": {
+        "neighborhood": {
+          "correct": 4861,
+          "missing_requests": 0,
+          "requests": 2000,
+          "tokens": 12465
+        },
+        "paraphrase": {
+          "correct": 5493,
+          "missing_requests": 0,
+          "requests": 2000,
+          "tokens": 6035
+        },
+        "rewrite": {
+          "correct": 5689,
+          "missing_requests": 0,
+          "requests": 2000,
+          "tokens": 6035
+        }
+      },
+      "dataset": "zsre",
+      "delta_vs_previous_pp": {
+        "Efficacy": 0.0,
+        "Generalization": 0.0,
+        "Specificity": 0.0
+      },
+      "endpoint": {
+        "bytes": 5366328,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/preparation-r2/runs/alphaedit/W20-evaluation.json",
+        "sha256": "16721b1f2e58f6c1d8c03b1d74fec3b0f99c29eab36dfbe990a8b1a9e815c5c3"
+      },
+      "evaluation_not_new_edit_chain": true,
+      "evaluation_profile": "zsre-public-query-W20-only-v1",
+      "generation": "NOT_APPLICABLE",
+      "job_id": "61934",
+      "job_name": "official-s1-zsre-reeval-alphaedit",
+      "method": "ALPHAEDIT",
+      "metrics": {
+        "Efficacy": 95.18200396825397,
+        "Generalization": 91.4040873015873,
+        "Specificity": 31.098955955537328
+      },
+      "model": "llama3",
+      "ordered_case_ids_sha256": "494b15107deb77d9741606b7bddfecb8b350a486bb5a751655b294d4ebc6f1a4",
+      "original_checkpoint": {
+        "bytes": 5284844677,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/runs/zsre-alphaedit/checkpoint/batch-20-21825e91fdef0aa2.pt",
+        "sha256": "21825e91fdef0aa2664653c4e4e90e5406ff7bdc9b25d05e109c5bb5c6d155f5"
+      },
+      "original_edit_job": "61718",
+      "previous_endpoint_status": "PUBLIC_QUERY_REEVALUATION_REQUIRED_SUPERSEDED",
+      "query_proof": {
+        "bytes": 2350,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-baseline-zsre-audit-20261010/audits/servers/server1/baseline-completed-zsre-audit-20261010/query-proof.json",
+        "sha256": "73250fee1572782047e61971b9564a27aaf98bce0e8f4eddfbe0cba161a3fa2a"
+      },
+      "scheduler_state": "COMPLETED",
+      "source": "b2806a6081d66fc585db970595c4b86a71f5aafd",
+      "status": "W20_PUBLIC_QUERY_CPU_VERIFIED",
+      "terminal": {
+        "bytes": 1135,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/preparation-r2/runs/alphaedit/COMPLETE.json",
+        "sha256": "78f01377ce8a1e86c03567cf951a1b39e8b1d76ce055431223791a02a300e903"
+      }
+    },
+    {
+      "README_match": true,
+      "README_values": [
+        "95.87",
+        "92.28",
+        "32.83"
+      ],
+      "complete": true,
+      "config": {
+        "bytes": 5884,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/preparation-r2/configs/alphaedit_blue.json",
+        "sha256": "b2f9c2303f2b63fcc56139cc5912f36d196317dc2a47e5b95b6927abefd1a48d"
+      },
+      "counts": {
+        "neighborhood": {
+          "correct": 5128,
+          "missing_requests": 0,
+          "requests": 2000,
+          "tokens": 12465
+        },
+        "paraphrase": {
+          "correct": 5555,
+          "missing_requests": 0,
+          "requests": 2000,
+          "tokens": 6035
+        },
+        "rewrite": {
+          "correct": 5743,
+          "missing_requests": 0,
+          "requests": 2000,
+          "tokens": 6035
+        }
+      },
+      "dataset": "zsre",
+      "delta_vs_previous_pp": {
+        "Efficacy": 0.0,
+        "Generalization": 0.0,
+        "Specificity": 0.0
+      },
+      "endpoint": {
+        "bytes": 5364947,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/preparation-r2/runs/alphaedit_blue/W20-evaluation.json",
+        "sha256": "2ddad65b054ead4998c9cb12064f8d52aa010aafc38d5ffb121552cc98339135"
+      },
+      "evaluation_not_new_edit_chain": true,
+      "evaluation_profile": "zsre-public-query-W20-only-v1",
+      "generation": "NOT_APPLICABLE",
+      "job_id": "61935",
+      "job_name": "official-s1-zsre-reeval-alphaedit_blue",
+      "method": "ALPHAEDIT_BLUE",
+      "metrics": {
+        "Efficacy": 95.8722619047619,
+        "Generalization": 92.28218253968254,
+        "Specificity": 32.828486570334576
+      },
+      "model": "llama3",
+      "ordered_case_ids_sha256": "494b15107deb77d9741606b7bddfecb8b350a486bb5a751655b294d4ebc6f1a4",
+      "original_checkpoint": {
+        "bytes": 2113948569,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/runs/zsre-alphaedit_blue/checkpoint/batch-20-8677f04285d6d2dc.pt",
+        "sha256": "8677f04285d6d2dc9570abeb0cbb49397753389bab50b7bf07f877d05db61a41"
+      },
+      "original_edit_job": "61719",
+      "previous_endpoint_status": "PUBLIC_QUERY_REEVALUATION_REQUIRED_SUPERSEDED",
+      "query_proof": {
+        "bytes": 2350,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-baseline-zsre-audit-20261010/audits/servers/server1/baseline-completed-zsre-audit-20261010/query-proof.json",
+        "sha256": "73250fee1572782047e61971b9564a27aaf98bce0e8f4eddfbe0cba161a3fa2a"
+      },
+      "scheduler_state": "COMPLETED",
+      "source": "b2806a6081d66fc585db970595c4b86a71f5aafd",
+      "status": "W20_PUBLIC_QUERY_CPU_VERIFIED",
+      "terminal": {
+        "bytes": 1150,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/preparation-r2/runs/alphaedit_blue/COMPLETE.json",
+        "sha256": "bc59e0cfa9c26a077dd28072e965182da5c26c26c23ff42cfba04866c80d6298"
+      }
+    },
+    {
+      "README_match": true,
+      "README_values": [
+        "14.63",
+        "11.82",
+        "25.25"
+      ],
+      "complete": true,
+      "config": {
+        "bytes": 5613,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/preparation-r2/configs/ft.json",
+        "sha256": "c991b2a837cbb2f9e9df66b3373df734de6a01084aa7c14ebe219b2faf67db53"
+      },
+      "counts": {
+        "neighborhood": {
+          "correct": 2213,
+          "missing_requests": 0,
+          "requests": 2000,
+          "tokens": 12465
+        },
+        "paraphrase": {
+          "correct": 777,
+          "missing_requests": 0,
+          "requests": 2000,
+          "tokens": 6035
+        },
+        "rewrite": {
+          "correct": 873,
+          "missing_requests": 0,
+          "requests": 2000,
+          "tokens": 6035
+        }
+      },
+      "dataset": "zsre",
+      "delta_vs_previous_pp": {
+        "Efficacy": 0.0,
+        "Generalization": 0.0,
+        "Specificity": 0.0
+      },
+      "endpoint": {
+        "bytes": 5413756,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/preparation-r2/runs/ft/W20-evaluation.json",
+        "sha256": "df0574ba77bfd59fddd12de43463ee684d205e2dc72f58d25753e864fa57699d"
+      },
+      "evaluation_not_new_edit_chain": true,
+      "evaluation_profile": "zsre-public-query-W20-only-v1",
+      "generation": "NOT_APPLICABLE",
+      "job_id": "61932",
+      "job_name": "official-s1-zsre-reeval-ft",
+      "method": "FT",
+      "metrics": {
+        "Efficacy": 14.632400793650794,
+        "Generalization": 11.816567460317462,
+        "Specificity": 25.251387670596298
+      },
+      "model": "llama3",
+      "ordered_case_ids_sha256": "494b15107deb77d9741606b7bddfecb8b350a486bb5a751655b294d4ebc6f1a4",
+      "original_checkpoint": {
+        "bytes": 234898913,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/runs/zsre-ft/checkpoint/batch-20-a190f827ffd2b1c3.pt",
+        "sha256": "a190f827ffd2b1c377497a0c6e47b4d27c0b5e0021cc978e7e1cf9e8a29d8708"
+      },
+      "original_edit_job": "61716",
+      "previous_endpoint_status": "PUBLIC_QUERY_REEVALUATION_REQUIRED_SUPERSEDED",
+      "query_proof": {
+        "bytes": 2350,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-baseline-zsre-audit-20261010/audits/servers/server1/baseline-completed-zsre-audit-20261010/query-proof.json",
+        "sha256": "73250fee1572782047e61971b9564a27aaf98bce0e8f4eddfbe0cba161a3fa2a"
+      },
+      "scheduler_state": "COMPLETED",
+      "source": "b2806a6081d66fc585db970595c4b86a71f5aafd",
+      "status": "W20_PUBLIC_QUERY_CPU_VERIFIED",
+      "terminal": {
+        "bytes": 1113,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/preparation-r2/runs/ft/COMPLETE.json",
+        "sha256": "2906895b74609a0941c0264c257e172f525c27b8d778f370b208706fce537c6c"
+      }
+    },
+    {
+      "README_match": true,
+      "README_values": [
+        "44.30",
+        "39.95",
+        "22.30"
+      ],
+      "complete": true,
+      "config": {
+        "bytes": 5776,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/preparation-r2/configs/memit.json",
+        "sha256": "1c34cf06279ab8460235dd520c3b704cf83ed480142b53bb36aa2820d54be36a"
+      },
+      "counts": {
+        "neighborhood": {
+          "correct": 3868,
+          "missing_requests": 0,
+          "requests": 2000,
+          "tokens": 12465
+        },
+        "paraphrase": {
+          "correct": 2399,
+          "missing_requests": 0,
+          "requests": 2000,
+          "tokens": 6035
+        },
+        "rewrite": {
+          "correct": 2597,
+          "missing_requests": 0,
+          "requests": 2000,
+          "tokens": 6035
+        }
+      },
+      "dataset": "zsre",
+      "delta_vs_previous_pp": {
+        "Efficacy": 0.0,
+        "Generalization": 0.0,
+        "Specificity": 0.0
+      },
+      "endpoint": {
+        "bytes": 5374014,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/preparation-r2/runs/memit/W20-evaluation.json",
+        "sha256": "bcf5105bc3028a12dfca9832bbc17522d8a134ff779c70c82bcc507b9e8a5e6c"
+      },
+      "evaluation_not_new_edit_chain": true,
+      "evaluation_profile": "zsre-public-query-W20-only-v1",
+      "generation": "NOT_APPLICABLE",
+      "job_id": "61933",
+      "job_name": "official-s1-zsre-reeval-memit",
+      "method": "MEMIT",
+      "metrics": {
+        "Efficacy": 44.30071428571429,
+        "Generalization": 39.94732142857143,
+        "Specificity": 22.30491261977676
+      },
+      "model": "llama3",
+      "ordered_case_ids_sha256": "494b15107deb77d9741606b7bddfecb8b350a486bb5a751655b294d4ebc6f1a4",
+      "original_checkpoint": {
+        "bytes": 1174424977,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/runs/zsre-memit/checkpoint/batch-20-e7981b8bd87b5ccc.pt",
+        "sha256": "e7981b8bd87b5ccc74c8ff48764918ac96cf96434d174abb459a01ebf953862e"
+      },
+      "original_edit_job": "61717",
+      "previous_endpoint_status": "PUBLIC_QUERY_REEVALUATION_REQUIRED_SUPERSEDED",
+      "query_proof": {
+        "bytes": 2350,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-baseline-zsre-audit-20261010/audits/servers/server1/baseline-completed-zsre-audit-20261010/query-proof.json",
+        "sha256": "73250fee1572782047e61971b9564a27aaf98bce0e8f4eddfbe0cba161a3fa2a"
+      },
+      "scheduler_state": "COMPLETED",
+      "source": "b2806a6081d66fc585db970595c4b86a71f5aafd",
+      "status": "W20_PUBLIC_QUERY_CPU_VERIFIED",
+      "terminal": {
+        "bytes": 1123,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/preparation-r2/runs/memit/COMPLETE.json",
+        "sha256": "37a3487fa66d80172e6aa9f90074a231c7eb9015d9c0bfe690481b3f1e964ea8"
+      }
+    },
+    {
+      "README_match": true,
+      "README_values": [
+        "14.81",
+        "13.57",
+        "0.56"
+      ],
+      "complete": true,
+      "config": {
+        "bytes": 5911,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/preparation-r2/configs/memit_fe.json",
+        "sha256": "be7679fd93dce88774307b76bbcc063b5ac8174a26aad829aeda6e615ae0d332"
+      },
+      "counts": {
+        "neighborhood": {
+          "correct": 104,
+          "missing_requests": 0,
+          "requests": 2000,
+          "tokens": 12465
+        },
+        "paraphrase": {
+          "correct": 750,
+          "missing_requests": 0,
+          "requests": 2000,
+          "tokens": 6035
+        },
+        "rewrite": {
+          "correct": 822,
+          "missing_requests": 0,
+          "requests": 2000,
+          "tokens": 6035
+        }
+      },
+      "dataset": "zsre",
+      "delta_vs_previous_pp": {
+        "Efficacy": 0.0,
+        "Generalization": 0.0,
+        "Specificity": 0.0
+      },
+      "endpoint": {
+        "bytes": 5387664,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/preparation-r2/runs/memit_fe/W20-evaluation.json",
+        "sha256": "39effb05194cf5a8894c6edeee1986626fdb7d4a4e4df313c5969ebec25dfc0c"
+      },
+      "evaluation_not_new_edit_chain": true,
+      "evaluation_profile": "zsre-public-query-W20-only-v1",
+      "generation": "NOT_APPLICABLE",
+      "job_id": "61936",
+      "job_name": "official-s1-zsre-reeval-memit_fe",
+      "method": "MEMIT_FE",
+      "metrics": {
+        "Efficacy": 14.805357142857142,
+        "Generalization": 13.574107142857141,
+        "Specificity": 0.5551871722320902
+      },
+      "model": "llama3",
+      "ordered_case_ids_sha256": "494b15107deb77d9741606b7bddfecb8b350a486bb5a751655b294d4ebc6f1a4",
+      "original_checkpoint": {
+        "bytes": 1174424785,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/runs/zsre-memit_fe/checkpoint/batch-20-6fc4a968859a87d5.pt",
+        "sha256": "6fc4a968859a87d5361153929fbd4012a03d5971832528cf9cdc4d30bd26fb28"
+      },
+      "original_edit_job": "61720",
+      "previous_endpoint_status": "PUBLIC_QUERY_REEVALUATION_REQUIRED_SUPERSEDED",
+      "query_proof": {
+        "bytes": 2350,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-baseline-zsre-audit-20261010/audits/servers/server1/baseline-completed-zsre-audit-20261010/query-proof.json",
+        "sha256": "73250fee1572782047e61971b9564a27aaf98bce0e8f4eddfbe0cba161a3fa2a"
+      },
+      "scheduler_state": "COMPLETED",
+      "source": "b2806a6081d66fc585db970595c4b86a71f5aafd",
+      "status": "W20_PUBLIC_QUERY_CPU_VERIFIED",
+      "terminal": {
+        "bytes": 1132,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/preparation-r2/runs/memit_fe/COMPLETE.json",
+        "sha256": "10b3303fb60f1870d32a4f6d2159a6bd7a353133423feef511b3de931829f79b"
+      }
+    },
+    {
+      "README_match": true,
+      "README_values": [
+        "95.13",
+        "91.36",
+        "31.38"
+      ],
+      "complete": true,
+      "config": {
+        "bytes": 6023,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/preparation-r2/configs/sphere.json",
+        "sha256": "5840ad510908b46abdfad654adf36155d7bd2d5cd1776dc228b8ee967f4bbfa7"
+      },
+      "counts": {
+        "neighborhood": {
+          "correct": 4904,
+          "missing_requests": 0,
+          "requests": 2000,
+          "tokens": 12465
+        },
+        "paraphrase": {
+          "correct": 5493,
+          "missing_requests": 0,
+          "requests": 2000,
+          "tokens": 6035
+        },
+        "rewrite": {
+          "correct": 5683,
+          "missing_requests": 0,
+          "requests": 2000,
+          "tokens": 6035
+        }
+      },
+      "dataset": "zsre",
+      "delta_vs_previous_pp": {
+        "Efficacy": 0.0,
+        "Generalization": 0.0,
+        "Specificity": 0.0
+      },
+      "endpoint": {
+        "bytes": 5366245,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/preparation-r2/runs/sphere/W20-evaluation.json",
+        "sha256": "873668f1cc95b0902bd1ebfab1fe1b039f24a44127ece60a74f9389d30bc6d0d"
+      },
+      "evaluation_not_new_edit_chain": true,
+      "evaluation_profile": "zsre-public-query-W20-only-v1",
+      "generation": "NOT_APPLICABLE",
+      "job_id": "61937",
+      "job_name": "official-s1-zsre-reeval-sphere",
+      "method": "SPHERE",
+      "metrics": {
+        "Efficacy": 95.12626984126985,
+        "Generalization": 91.36148809523809,
+        "Specificity": 31.381720284338897
+      },
+      "model": "llama3",
+      "ordered_case_ids_sha256": "494b15107deb77d9741606b7bddfecb8b350a486bb5a751655b294d4ebc6f1a4",
+      "original_checkpoint": {
+        "bytes": 5284844677,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/runs/zsre-sphere/checkpoint/batch-20-1287e2dd2c64de84.pt",
+        "sha256": "1287e2dd2c64de84790a307d8f88ce4c5d666e8b6379048e648479164607b788"
+      },
+      "original_edit_job": "61721",
+      "previous_endpoint_status": "PUBLIC_QUERY_REEVALUATION_REQUIRED_SUPERSEDED",
+      "query_proof": {
+        "bytes": 2350,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-baseline-zsre-audit-20261010/audits/servers/server1/baseline-completed-zsre-audit-20261010/query-proof.json",
+        "sha256": "73250fee1572782047e61971b9564a27aaf98bce0e8f4eddfbe0cba161a3fa2a"
+      },
+      "scheduler_state": "COMPLETED",
+      "source": "b2806a6081d66fc585db970595c4b86a71f5aafd",
+      "status": "W20_PUBLIC_QUERY_CPU_VERIFIED",
+      "terminal": {
+        "bytes": 1126,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/preparation-r2/runs/sphere/COMPLETE.json",
+        "sha256": "4b8c0106016c1808c6e1d3e6409cfdc9285dd1d8fc27819665d60fcda23e6c01"
+      }
+    },
+    {
+      "checkpoint": {
+        "bytes": 8535429071,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/server1/preparation-r1/runs/qwen25/checkpoint/batch-20-6fe6a1f7ef8f7333.pt",
+        "sha256": "6fe6a1f7ef8f73336069373a9c370366f87e9cc7bd0a7bbc1e5660c18a08f903"
+      },
+      "checkpoint_receipt": {
+        "bytes": 237,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/server1/preparation-r1/runs/qwen25/checkpoint/latest.json",
+        "sha256": "0fbbf953b832aa28bb51cef11cb37940b3f2bc089b2a25b525edef39da54da9b"
+      },
+      "commits": 20,
+      "complete": true,
+      "config": {
+        "bytes": 3632,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/server1/preparation-r1/configs/qwen25.json",
+        "sha256": "a172c29d3b61b417f115da3cb581bbda606768f72a43871fdb3db6c9a534ef34"
+      },
+      "dataset": "cf",
+      "endpoint": {
+        "bytes": 63187092,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/server1/preparation-r1/runs/qwen25/factual/batch-20.json",
+        "sha256": "7e88fd915e8886bfe5dbfc25535938970433fe0d247a13d5a49260e5a2a56ade"
+      },
+      "generation": "DEFERRED",
+      "generator": {
+        "bytes": 7367,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/server1/registration-r1/source/official/baselines/easyedit/util/generate.py",
+        "sha256": "35506690c41ecb7d59f11660da41dde50338f5a2ba9613735e045a8c7ab98db4"
+      },
+      "identity": {
+        "assets_sha256": "b4213d8386b27ae3615db0d3041a52eb70f5d8c175f5bbcff0ff745b0ac2aa20",
+        "code_commit": "8da621a9e12fd341a4a70fba95531af6fe4fdb80",
+        "config_sha256": "002dfd21372eaed6439743c474ce381ee9ce44dd8a9cd14995893cda8f22095d",
+        "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+        "official_tree_sha256": "e475f8c01919b675a80122ecf70a0a1293fdfd75",
+        "stream_sha256": "39bbd2215177d2aabeb3bd5c2e7f088b454479bf567b3b16f9da70bd0b28c95e",
+        "tokenizer_sha256": "77c1b476d460584ec70f2781826fda122c953ccd019399343a8efc440c3f75ae"
+      },
+      "job_id": "62061",
+      "job_name": "official-s1-cf-qwen25-memit-fe-history",
+      "method": "MEMIT_FE_HISTORY",
+      "metrics": {
+        "Efficacy": 48.449999999999996,
+        "Generalization": 48.175000000000004,
+        "Score": 49.42893436361672,
+        "Score_AlphaEdit_display": 49.42917247800083,
+        "Specificity": 51.824999999999996,
+        "requests": 2000
+      },
+      "model": "qwen25",
+      "old_wrong_context_61975_excluded": true,
+      "ordered_case_ids_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+      "raw_audit": {
+        "GPU_parity_claim": false,
+        "actual_model_forward_calls": 0,
+        "candidate_sequences": 52000,
+        "dataset": "cf",
+        "endpoint_identity_sha256": "9af35aaa6f3fb3f72947e4addf536561e456d340833b4591cf7e611a2ffe4ef5",
+        "groups": {
+          "neighborhood": {
+            "prompt_acc_pct": 0.0,
+            "prompt_count": 20000,
+            "strict_acc_pct": 0.0,
+            "token_acc_pct": 0.0,
+            "token_correct_count": 0,
+            "token_count": 20270
+          },
+          "paraphrase": {
+            "prompt_acc_pct": 0.0,
+            "prompt_count": 4000,
+            "strict_acc_pct": 0.0,
+            "token_acc_pct": 0.0,
+            "token_correct_count": 0,
+            "token_count": 4048
+          },
+          "rewrite": {
+            "prompt_acc_pct": 0.0,
+            "prompt_count": 2000,
+            "strict_acc_pct": 0.0,
+            "token_acc_pct": 0.0,
+            "token_correct_count": 0,
+            "token_count": 2024
+          }
+        },
+        "independent_raw_reduction": true,
+        "ordered_stream_and_token_identity": true,
+        "prompt_pairs": 26000,
+        "requests": 2000,
+        "schema": "official-factual-CPU-audit-v1"
+      },
+      "separate_history_variant": true,
+      "source": "8da621a9e12fd341a4a70fba95531af6fe4fdb80",
+      "status": "W20_FACTUAL_CPU_VERIFIED",
+      "terminal": {
+        "bytes": 3991,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/server1/preparation-r1/runs/qwen25/COMPLETE.json",
+        "sha256": "45a04b14c927a6da59a4d369af10e12dc1fec29bb3104a0714155edb333ee2bc"
+      }
+    }
+  ],
+  "scheduler_queries": 1,
+  "server": "server1",
+  "snapshot_basis": "single preceding sacct read: all factual/eval-only candidates COMPLETED; generation states as listed"
+}

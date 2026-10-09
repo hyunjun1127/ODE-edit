@@ -1,0 +1,100 @@
+{
+  "checkpoint": {
+    "bytes": 8535429071,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/server1/preparation-r1/runs/qwen25/checkpoint/batch-20-6fe6a1f7ef8f7333.pt",
+    "sha256": "6fe6a1f7ef8f73336069373a9c370366f87e9cc7bd0a7bbc1e5660c18a08f903"
+  },
+  "checkpoint_receipt": {
+    "bytes": 237,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/server1/preparation-r1/runs/qwen25/checkpoint/latest.json",
+    "sha256": "0fbbf953b832aa28bb51cef11cb37940b3f2bc089b2a25b525edef39da54da9b"
+  },
+  "commits": 20,
+  "complete": true,
+  "config": {
+    "bytes": 3632,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/server1/preparation-r1/configs/qwen25.json",
+    "sha256": "a172c29d3b61b417f115da3cb581bbda606768f72a43871fdb3db6c9a534ef34"
+  },
+  "dataset": "cf",
+  "endpoint": {
+    "bytes": 63187092,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/server1/preparation-r1/runs/qwen25/factual/batch-20.json",
+    "sha256": "7e88fd915e8886bfe5dbfc25535938970433fe0d247a13d5a49260e5a2a56ade"
+  },
+  "generation": "DEFERRED",
+  "generator": {
+    "bytes": 7367,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/server1/registration-r1/source/official/baselines/easyedit/util/generate.py",
+    "sha256": "35506690c41ecb7d59f11660da41dde50338f5a2ba9613735e045a8c7ab98db4"
+  },
+  "identity": {
+    "assets_sha256": "b4213d8386b27ae3615db0d3041a52eb70f5d8c175f5bbcff0ff745b0ac2aa20",
+    "code_commit": "8da621a9e12fd341a4a70fba95531af6fe4fdb80",
+    "config_sha256": "002dfd21372eaed6439743c474ce381ee9ce44dd8a9cd14995893cda8f22095d",
+    "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+    "official_tree_sha256": "e475f8c01919b675a80122ecf70a0a1293fdfd75",
+    "stream_sha256": "39bbd2215177d2aabeb3bd5c2e7f088b454479bf567b3b16f9da70bd0b28c95e",
+    "tokenizer_sha256": "77c1b476d460584ec70f2781826fda122c953ccd019399343a8efc440c3f75ae"
+  },
+  "job_id": "62061",
+  "job_name": "official-s1-cf-qwen25-memit-fe-history",
+  "method": "MEMIT_FE_HISTORY",
+  "metrics": {
+    "Efficacy": 48.449999999999996,
+    "Generalization": 48.175000000000004,
+    "Score": 49.42893436361672,
+    "Score_AlphaEdit_display": 49.42917247800083,
+    "Specificity": 51.824999999999996,
+    "requests": 2000
+  },
+  "model": "qwen25",
+  "old_wrong_context_61975_excluded": true,
+  "ordered_case_ids_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+  "raw_audit": {
+    "GPU_parity_claim": false,
+    "actual_model_forward_calls": 0,
+    "candidate_sequences": 52000,
+    "dataset": "cf",
+    "endpoint_identity_sha256": "9af35aaa6f3fb3f72947e4addf536561e456d340833b4591cf7e611a2ffe4ef5",
+    "groups": {
+      "neighborhood": {
+        "prompt_acc_pct": 0.0,
+        "prompt_count": 20000,
+        "strict_acc_pct": 0.0,
+        "token_acc_pct": 0.0,
+        "token_correct_count": 0,
+        "token_count": 20270
+      },
+      "paraphrase": {
+        "prompt_acc_pct": 0.0,
+        "prompt_count": 4000,
+        "strict_acc_pct": 0.0,
+        "token_acc_pct": 0.0,
+        "token_correct_count": 0,
+        "token_count": 4048
+      },
+      "rewrite": {
+        "prompt_acc_pct": 0.0,
+        "prompt_count": 2000,
+        "strict_acc_pct": 0.0,
+        "token_acc_pct": 0.0,
+        "token_correct_count": 0,
+        "token_count": 2024
+      }
+    },
+    "independent_raw_reduction": true,
+    "ordered_stream_and_token_identity": true,
+    "prompt_pairs": 26000,
+    "requests": 2000,
+    "schema": "official-factual-CPU-audit-v1"
+  },
+  "separate_history_variant": true,
+  "source": "8da621a9e12fd341a4a70fba95531af6fe4fdb80",
+  "status": "W20_FACTUAL_CPU_VERIFIED",
+  "terminal": {
+    "bytes": 3991,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/server1/preparation-r1/runs/qwen25/COMPLETE.json",
+    "sha256": "45a04b14c927a6da59a4d369af10e12dc1fec29bb3104a0714155edb333ee2bc"
+  }
+}
