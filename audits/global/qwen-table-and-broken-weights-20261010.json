@@ -1,0 +1,146 @@
+{
+  "instruction": "USER-GH-SH2-QWEN-BROKEN-WEIGHTS-DELETE-20261010-R1",
+  "observed_at": "2026-10-09T16:48:00.425189+00:00",
+  "owner_publication": "b5d03d47",
+  "numeric_dataset_rows": 7,
+  "metric_cells": 24,
+  "rows": [
+    {
+      "model": "qwen25",
+      "method": "FT",
+      "dataset": "cf",
+      "job": "61898",
+      "old": [
+        "ING: s2-qwen25-cf-ft-gpu (61898)",
+        "ING: s2-qwen25-cf-ft-gpu (61898)",
+        "ING: s2-qwen25-cf-ft-gpu (61898)",
+        "ING: s2-qwen25-cf-ft-gpu (61898)",
+        "ING: s2-qwen25-cf-ft-gpu (61898)",
+        "ING: s2-qwen25-cf-ft-gpu (61898)"
+      ],
+      "new": [
+        "57.45",
+        "85.50",
+        "67.50",
+        "38.90",
+        "4.71",
+        "0.03"
+      ],
+      "raw_sha256": "4dd319c2d6d0a9969d0e4f8a998004619aaa22252c7be3e22a9b0781377e096a"
+    },
+    {
+      "model": "qwen25",
+      "method": "FT",
+      "dataset": "zsre",
+      "job": "62072",
+      "old": [
+        "PENDING: s2-qwen25-zsre-ft-eval-gpu (62072; eval-only)",
+        "PENDING: s2-qwen25-zsre-ft-eval-gpu (62072; eval-only)",
+        "PENDING: s2-qwen25-zsre-ft-eval-gpu (62072; eval-only)"
+      ],
+      "new": [
+        "23.25",
+        "18.54",
+        "2.34"
+      ],
+      "raw_sha256": "fe5d0be44c0f2926465d16a351a02f9b8115a5d2ba82294e2ed2bf8588ba5629"
+    },
+    {
+      "model": "qwen25",
+      "method": "ALPHAEDIT_BLUE",
+      "dataset": "zsre",
+      "job": "61964",
+      "old": [
+        "ING: s2-qwen25-zsre-alphaedit_blue-gpu (61964)",
+        "ING: s2-qwen25-zsre-alphaedit_blue-gpu (61964)",
+        "ING: s2-qwen25-zsre-alphaedit_blue-gpu (61964)"
+      ],
+      "new": [
+        "58.62",
+        "53.66",
+        "5.73"
+      ],
+      "raw_sha256": "e1ebf9d524c57b681682de96e77efb2164f1b4b9faa4405ebe27352b36330319"
+    },
+    {
+      "model": "gptj",
+      "method": "FT",
+      "dataset": "zsre",
+      "job": "61942",
+      "old": [
+        "PENDING: s2-zsre-reeval-ft (61942)",
+        "PENDING: s2-zsre-reeval-ft (61942)",
+        "PENDING: s2-zsre-reeval-ft (61942)"
+      ],
+      "new": [
+        "23.15",
+        "17.95",
+        "0.62"
+      ],
+      "raw_sha256": "1c3285f44fa7f3ea6153dcbb23b05ddaf0a25123727e4ae7f3d1add8181e73f8"
+    },
+    {
+      "model": "gptj",
+      "method": "ALPHAEDIT",
+      "dataset": "zsre",
+      "job": "61944",
+      "old": [
+        "PENDING: s2-zsre-reeval-alphaedit (61944)",
+        "PENDING: s2-zsre-reeval-alphaedit (61944)",
+        "PENDING: s2-zsre-reeval-alphaedit (61944)"
+      ],
+      "new": [
+        "99.69",
+        "96.45",
+        "27.94"
+      ],
+      "raw_sha256": "82eb5b2929680f2dae2fcd405fdba7072a2338849ca11cb76060fb150f3a58d6"
+    },
+    {
+      "model": "gptj",
+      "method": "ALPHAEDIT_BLUE",
+      "dataset": "zsre",
+      "job": "61945",
+      "old": [
+        "PENDING: s2-zsre-reeval-alphaedit_blue (61945)",
+        "PENDING: s2-zsre-reeval-alphaedit_blue (61945)",
+        "PENDING: s2-zsre-reeval-alphaedit_blue (61945)"
+      ],
+      "new": [
+        "99.75",
+        "95.71",
+        "28.83"
+      ],
+      "raw_sha256": "859d17b6c23aed520a5b2acb1bd635f8e9cad05f2f9d26907967a9baab55b804"
+    },
+    {
+      "model": "gptj",
+      "method": "MEMIT_FE",
+      "dataset": "zsre",
+      "job": "61946",
+      "old": [
+        "PENDING: s2-zsre-reeval-memit_fe (61946)",
+        "PENDING: s2-zsre-reeval-memit_fe (61946)",
+        "PENDING: s2-zsre-reeval-memit_fe (61946)"
+      ],
+      "new": [
+        "29.20",
+        "27.65",
+        "8.45"
+      ],
+      "raw_sha256": "6d3c2b8417db21fcd2ecc904638f83c215ccbbe5492a73df480bed123624e7de"
+    }
+  ],
+  "rounding": "decimal half-up 2 places; Flu entropy bits; Con cosine 0..1 (not multiplied by100)",
+  "status_updates": "owner accounting in table-rows.json; no scheduler call by GH",
+  "deletion_receipt": "audits/servers/server2/qwen-broken-checkpoint-delete-20261010/deletion.json",
+  "deleted_jobs": [
+    61956,
+    61960,
+    61968
+  ],
+  "deleted_payload_bytes": 11251362043,
+  "verified_recovery_copy": "NOT_KNOWN",
+  "other_server_rows": "UNCHANGED",
+  "raw_logs_source_manifest": "KEEP"
+}
