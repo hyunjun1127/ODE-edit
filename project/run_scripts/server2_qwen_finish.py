@@ -9,6 +9,11 @@ from official.runners.server2.qwen_plan import rows
 def read(p):return json.loads(Path(p).read_text())
 
 def archive_once(root,cell):
+    if (root/'kept.json').exists() and cell in read(root/'kept.json'):
+        write_new(root/'archive'/cell/'pending-keep.json',dict(status='ARCHIVE_PENDING_KEEP_SOURCE',
+            reason='KEPT_ORIGINAL_FT_PROVENANCE_NO_RETROACTIVE_ADOPTION',
+            original=read(root/'kept.json')[cell],transfers=0,deletions=0))
+        return
     out=root/'runs'/cell
     if not (out/'terminal.json').is_file() or not (root/'receiver.json').is_file():
         write_new(root/'archive'/cell/'pending-keep.json',dict(status='ARCHIVE_PENDING_KEEP_SOURCE',
@@ -21,12 +26,17 @@ def collect(root):
     results=[]
     for row in rows():
         cell=row['logical_main_row'];out=root/'runs'/cell
+        config=row['config']
+        if (root/'kept.json').exists() and cell in read(root/'kept.json'):
+            original=read(root/'kept.json')[cell]
+            assert file_sha(original['config_path'])==original['config_file_sha256']
+            config=read(original['config_path']);out=Path(original['root'])/'runs'/cell
         if not (out/'terminal.json').exists():
             results.append(dict(cell=cell,status='NOT_COMPLETE_NO_TERMINAL'));continue
         terminal=read(out/'terminal.json')
         try:
             assert terminal['status']=='W20_COMPLETE' and terminal['completed_edits']==2000
-            assert terminal['config_sha256']==row['config']['config_sha256']
+            assert terminal['config_sha256']==config['config_sha256']
             assert len(terminal['commits'])==20
             for i,m in enumerate(terminal['commits'],1):
                 assert file_sha(m['path'])==m['sha256'] and read(m['path'])['completed_batch']==i
@@ -38,6 +48,7 @@ def collect(root):
             results.append(dict(cell=cell,status='W20_RAW_CPU_VERIFIED',job_id=terminal['actual_job_id'],
                 dataset=row['config']['dataset'],method=row['config']['method'],summary=summary,
                 checkpoint_identity=terminal['checkpoint_identity'],raw=factual,
+                source_root=str(out.parent.parent),original_config_sha256=config['config_sha256'],
                 archive='VERIFIED_SOURCE_REMOVED' if (root/'archive'/cell/'source-removed.json').exists() else 'KEEP_OR_ARCHIVE_PENDING'))
         except Exception as exc:
             results.append(dict(cell=cell,status='REDUCTION_FAILED_KEEP_SOURCE',error_type=type(exc).__name__))

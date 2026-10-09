@@ -40,7 +40,8 @@ def prepare(root,preparation,receiver=None):
     source=root/'source';source.mkdir(parents=True)
     for name in ('logs','scripts','processes'): (root/name).mkdir()
     closure=['official',*AGENT_SEALS,'project/run_scripts/checkpoint_archive',
-        'project/run_scripts/server2_qwen_submit.py','project/run_scripts/server2_qwen_archive.py','project/run_scripts/server2_qwen_finish.py']
+        'project/run_scripts/server2_qwen_submit.py','project/run_scripts/server2_qwen_archive.py','project/run_scripts/server2_qwen_finish.py',
+        'project/run_scripts/server2_qwen_pending_submit.py','project/run_scripts/server2_qwen_pending_control.py']
     subprocess.run(['git','archive','--format=tar','--output='+str(root/'source.tar'),commit,*closure],cwd=ROOT,check=True)
     with tarfile.open(root/'source.tar') as tar:
         for entry in tar.getmembers():
@@ -54,6 +55,8 @@ def prepare(root,preparation,receiver=None):
         dict(relative=str(p.relative_to(source)),sha256=file_sha(p)) for p in sorted(source.rglob('*')) if p.is_file()])
     write_new(root/'source-lock.json',lock)
     for d in ('configs','streams'):shutil.copytree(preparation/d,root/d)
+    for name in ('w0-parent.json','kept.json','query-parity.json'):
+        if (preparation/name).is_file():shutil.copyfile(preparation/name,root/name)
     assets=read(preparation/'assets.candidate.json');assets['output_root']=str(root)
     write_new(root/'assets.json',assets)
     shutil.copyfile(AUDIT/'cutover.json',root/'cutover.json')
@@ -69,6 +72,7 @@ def prepare(root,preparation,receiver=None):
     check(asset['ready_to_submit'],'ASSET_PREFLIGHT_BLOCKED:'+str(asset['blockers']))
     for row in rows():
         logical=row['logical_main_row'];dataset=row['config']['dataset']
+        if (root/'kept.json').exists() and logical in read(root/'kept.json'):continue
         stream=read(root/'streams'/f'{dataset}-stream.lock.json')
         token=_tokenizer_receipt(asset['assets']['model_snapshot']['path'],None,stream)
         archive.adopt(root,logical,checkpoint_identity(row['config'],stream,lock,asset,token),adapter_source=source/'project/run_scripts/server2_qwen_archive.py')
@@ -100,6 +104,7 @@ def prepare(root,preparation,receiver=None):
     paths=[p for d in ('configs','streams','scripts') for p in (root/d).iterdir() if p.is_file()]
     paths += [root/n for n in ('assets.json','cutover.json','archive-policy.json','prepared.json')]
     paths.append(Path(assets['generation_reference_manifest']))
+    paths += [root/n for n in ('w0-parent.json','kept.json','query-parity.json') if (root/n).is_file()]
     if receiver:paths.append(root/'receiver.json')
     write_new(root/'input-lock.json',dict(members=[dict(path=str(p),sha256=file_sha(p)) for p in paths]))
     print(json.dumps({'stage':'PREPARED_NOT_SUBMITTED','source':commit,'required_bytes':required}))

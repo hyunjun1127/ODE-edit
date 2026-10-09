@@ -67,7 +67,8 @@ def run(root,logical):
         native_oracle_reevaluation=QUALIFICATION_STATUS,
         runtime_identity_finite_shape_commit_guards='PRESERVED'))
     # Every GPU cell runs after the previous archival gate, not merely GPU exit.
-    w0=root/'shared-w0'/f'qwen25-{dataset}'
+    from official.runners.server2.qwen_eval_refresh import w0_folder
+    w0=w0_folder(root,dataset)
     if not (w0/'w0-receipt.json').exists():
         if method!='FT':raise RuntimeError('SHARED_W0_PREDECESSOR_MISSING')
         child(root,'w0',w0,dataset=dataset,label=f'{dataset}-w0')

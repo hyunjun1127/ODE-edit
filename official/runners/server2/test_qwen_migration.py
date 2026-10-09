@@ -10,7 +10,12 @@ class MigrationTests(unittest.TestCase):
     def test_exact_twelve_configs(self):
         for row in qwen_plan.rows():
             original=json.loads((ROOT/'audits/servers/server4/qwen-migration-20261009/handoff/configs'/f"{row['logical_main_row']}.json").read_text())
-            self.assertEqual(qwen_run.validate_config(row['config']),original)
+            actual=qwen_run.validate_config(row['config'])
+            # GH's latest Loc contract is a deliberate evaluator revision,
+            # not a change to native methods, hparams, seed or stream.
+            mutable={'evaluation','contract_sha256','config_sha256'}
+            self.assertEqual({k:v for k,v in actual.items() if k not in mutable},
+                             {k:v for k,v in original.items() if k not in mutable})
         self.assertEqual(len(qwen_plan.rows()),12)
 
     def test_streams(self):

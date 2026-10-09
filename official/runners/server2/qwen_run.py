@@ -179,9 +179,13 @@ def _factual_identity(source, assets, stream_lock, tokenizer_receipt):
 def _evaluate_factual(module, model, tokenizer, records, dataset, *,
                       w0_reference=None, identity):
     from official.evaluation.reduce import counterfact, zsre
-    observed = module.evaluate(model, tokenizer, records, dataset,
-                               w0_reference=w0_reference, batch_size=16,
-                               identity=identity)
+    if dataset == "zsre":
+        from official.runners.server2.qwen_eval_refresh import public_zsre
+        observed = public_zsre(model, tokenizer, records, identity)
+    else:
+        observed = module.evaluate(model, tokenizer, records, dataset,
+                                   w0_reference=w0_reference, batch_size=16,
+                                   identity=identity)
     cases, summary = observed["cases"], observed["summary"]
     if len(cases) != len(records):
         raise ValueError("FACTUAL_CASE_CARDINALITY")
@@ -377,6 +381,8 @@ def _accuracy_scalars(dataset, observed, prefix):
 
 def _current_accuracy_scalars(dataset, cases):
     """Use the shared evaluator's own TF reducer on measured last-100 raw."""
+    if dataset == "zsre":
+        return {}  # Public-query request macro is logged in official/zsre keys.
     from official.evaluation.factual import _accuracy
     if len(cases) != 100:
         raise ValueError("CURRENT_TF_RAW_CARDINALITY")
@@ -809,16 +815,23 @@ def execute(args):
     result, config, lock, records, asset_receipt, source = _preflight(args, require_frozen=True)
     if not result["ready"]:
         raise RuntimeError("RUN_PREFLIGHT_BLOCKED:" + ";".join(result["blockers"]))
-    shared = Path(asset_receipt["storage"]["output_root"]) / "shared-w0" / \
-             f"qwen25-{config['dataset']}"
-    w0_ref = _verified_w0_receipt(shared, config["dataset"], lock, source, asset_receipt)
-    if config["dataset"] == "zsre":
+    from official.runners.server2.qwen_eval_refresh import w0_folder, verify_parent
+    output_root = Path(asset_receipt["storage"]["output_root"])
+    shared = w0_folder(output_root, config["dataset"])
+    parent_binding = None
+    if (output_root / "w0-parent.json").is_file():
+        w0_ref, parent_binding = verify_parent(output_root, config["dataset"], lock, source, asset_receipt)
+    else:
+        w0_ref = _verified_w0_receipt(shared, config["dataset"], lock, source, asset_receipt)
+    if config["dataset"] == "zsre" and parent_binding is None:
         reference_path = shared / "w0-zsre-reference.json"
         zsre_reference = _read(reference_path)
     else:
         zsre_reference = None
     module = _require_evaluator()
     out = Path(args.output)
+    if parent_binding is not None:
+        _write_once(out / "historical-w0-consumer-binding.json", parent_binding)
     checkpoint_dir = out / "checkpoint"
     if not args.resume and checkpoint_dir.exists():
         raise ValueError("EXISTING_RUN_REQUIRES_RESUME_OR_NEW_OUTPUT")
