@@ -1,0 +1,25 @@
+{
+  "instruction_id": "USER-GH-S4-S2-QWEN-BASELINES-MIGRATION-RESULTS-20261009-R1",
+  "artifact_publication": "ba784fa3baecfa09566205f9aee2f739e17a65bc",
+  "SH2": {
+    "session": "01a0493a-074c-7f91-9a13-769116326fef",
+    "status": "DELIVERED_ACCEPTED_NOT_COMPLETION_WAIT",
+    "method": "turn/steer",
+    "accepted_turn_id": "01a11fab-0d39-74a3-8eff-8290a49d5bce",
+    "message_sha256": "9affcb72ee539c08155530d4be1bbcc0eea1f3ee874912e355bebb12c2bea9d5",
+    "receipt": "/data/janghj/ODE-edit/local/qwen-migration-20261009/delivery-sh2.json",
+    "destination_registration": "NOT_OBSERVED_NOT_CLAIMED"
+  },
+  "GH": {
+    "session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+    "status": "COMMUNICATION_HOLD",
+    "reason": "Multiple inProgress turns; existing protocol client refuses ambiguous steer",
+    "observed_active_turns": ["019fe952-ab38-7833-8cd2-0c9bd9044ed7", "01a1081e-fa97-7671-a8b7-9fa23dd90710", "01a11fa8-5306-7f40-9beb-45ddff65b7d6"],
+    "receipt": "/data/janghj/ODE-edit/local/qwen-migration-20261009/delivery-gh.json",
+    "README_integration": "NOT_CONFIRMED_GH_SOLE_OWNER",
+    "Git_message_fallback": false
+  },
+  "server4_new_submission": false,
+  "automatic_retry": false,
+  "recurring_monitor": false
+}
