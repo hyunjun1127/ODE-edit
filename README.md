@@ -43,35 +43,34 @@ CF Flu/Con을 `DEFERRED`로 표시하고 전체 평가 완료로 주장하지 �
 Ours 행은 결과 기록용이며 새 arm/실험을 자동 승인하지 않습니다.
 세부 [표 관리 정책](control/main-results-policy.json)과 [사용자 지시](messages/head/2026-10-09-main-table-fresh-rerun.json)를 따릅니다.
 
-**zsRE 재평가 안내 (2026-10-09):** 아래 완료 Llama/GPT-J zsRE 값은 기존 evaluator의
-관측/Loc CPU 재집계이며 공개 논문 구현과 token-query 동등성이 확인된 점수가 아니다.
-Eff/Gen의 decode-retokenize 및 Llama Loc loader의 BOS 차이를 확인하여, 사용자 승인으로
-저장된 W20 checkpoint에서 전체2K Eff/Gen/Loc만 새 eval-only run으로 측정한다.
-새 점수가 완료되기 전 기존 수치를 논문 재현 확정값으로 인용하지 않는다.
-Llama `61932–61937`, GPT-J `61942–61947` 평가-only 등록/release 완료; 초기 snapshot은 모두
-dependency PENDING이다. 아래 zsRE 12행/36칸은 실제 평가 job/status이며 편집을 다시 하는 run이 아니다.
-완료 시 새 점수로 교체한다. [checkpoint/source/config/dependency 결속](audits/global/zsre-2k-reeval-20261009/integration.json).
-기존 값·가중치·raw는 보존하며 CF와 FLU/CON 일정은 변경하지 않는다.
-[공통 source·전체2K CPU 질의 검산·진행 기록](experiment-reports/global/zsre-2k-reeval-20261009/report-ko.md).
+**zsRE 재평가 안내 (2026-10-09):** 기존 evaluator에서 Eff/Gen decode-retokenize 및
+Llama Loc loader BOS 차이를 확인하여 저장된 W20 checkpoint의 최종2K E/G/Loc만 재평가한다.
+23:05 KST owner 검산 기준 **Llama FT/MEMIT/BLUE/SPHERE 4개**는 새 공개-query 점수로 갱신했다.
+Llama AlphaEdit/MEMIT-FE **61934/61936**, GPT-J **61942–61947**은 평가 PENDING이며
+옛 token-prefix 값을 대신 넣지 않는다. Qwen은 최신 공개-query 본실험에서 완료된
+MEMIT/AlphaEdit 2개만 숫자로 반영하고 구 source FT는 재평가 필요/미등록으로 구분한다.
+입력 CPU 일치가 pretrained 출력의 bitwise 논문 재현을 뜻하지는 않는다.
+기존 값·가중치·raw와 CF/FLUCON 일정을 보존한다.
+[공통 평가·최초 등록 기록](experiment-reports/global/zsre-2k-reeval-20261009/report-ko.md) ·
+[SH1 최신 완료 검산](experiment-reports/servers/server1/main-table-refresh-20261009/report-ko.md) ·
+[SH2 최신 완료 검산](experiment-reports/servers/server2/main-table-refresh-20261009/report-ko.md).
 
 별도 사용자 승인 **MEMIT-FE + history** CF 실험은 native MEMIT-FE 행과 합치지 않는다.
 SH1이 세 모델을 source `eaf78c33`으로 등록했다. Qwen 61929는 B1 FP64 history 선형계의
 임시 행렬 메모리 부족으로 실패하여 메모리 수리 source `5d6dfd58`의 61975로 cold 재제출했다.
 이는 새 3개 편집 chain이며 zsRE eval-only 작업과 구분한다.
 
-| 별도 variant | 모델 | server | 최신 확인 상태 / 실제 job name | job ID |
-| :--- | :--- | :--- | :--- | ---: |
-| MEMIT_FE_HISTORY / CF | GPT-J | server1 | RUNNING: official-s1-cf-gptj-memit-fe-history | 61927 |
-| MEMIT_FE_HISTORY / CF | Llama3 | server1 | RUNNING: official-s1-cf-llama3-memit-fe-history | 61928 |
-| MEMIT_FE_HISTORY / CF | Qwen2.5 | server1 | RUNNING: official-s1-cf-qwen25-memit-fe-history（61929 FAILED → repair） | 61975 |
+| 별도 variant | 모델 | server | 상태 / job name (ID) | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con |
+| :--- | :--- | :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: |
+| MEMIT_FE_HISTORY | GPT-J | server1 | W20 COMPLETE: official-s1-cf-gptj-memit-fe-history (61927) | 50.18 | 50.35 | 49.90 | 50.28 | DEFERRED | DEFERRED |
+| MEMIT_FE_HISTORY | Llama3 | server1 | ING: official-s1-cf-llama3-memit-fe-history (61928) | — | — | — | — | DEFERRED | DEFERRED |
+| MEMIT_FE_HISTORY | Qwen2.5 | server1 | ING: official-s1-cf-qwen25-memit-fe-history (61975; 61929 FAILED) | — | — | — | — | DEFERRED | DEFERRED |
 
-2026-10-09 수리 후 bounded snapshot. GPT-J B4/Llama B2 checkpoint 확인 후 기존 실행 유지;
-Qwen 새 GPU 본계산의 OOM 해결·W20 완료를 아직 주장하지 않는다.
-[OOM 수리·재제출 보고](experiment-reports/servers/server1/memit-fe-history-three-model-2k/oom-repair-r1.md).
-
-[세 job/config/source/dependency 영수증](audits/servers/server1/memit-fe-history-three-model-2k/submission.json) ·
-[구현·48 CPU 검산 보고](experiment-reports/servers/server1/memit-fe-history-three-model-2k/report-ko.md).
-실제 GPU/W20/온라인 성공은 아직 이 등록 영수증으로 확인하지 않았다.
+2026-10-09 23:05:52 KST bounded 검산: GPT-J는 실제20 commit/2,000건과 history once·최종CP·raw를
+대조한 완료값이며 native MEMIT-FE 본표 값이 아니다. Llama/Qwen은 W20 미완료다.
+[최신 SH1 결과](experiment-reports/servers/server1/main-table-refresh-20261009/report-ko.md) ·
+[정확한 수치·source/config·raw SHA](audits/servers/server1/main-table-refresh-20261009/table-rows.json) ·
+[Qwen OOM 수리 이력](experiment-reports/servers/server1/memit-fe-history-three-model-2k/oom-repair-r1.md).
 
 **W0 행은 편집 전 base model을 동일한 2,000개 요청에 평가한 기준값**이며 W20 결과와 구분합니다.
 2026-10-09 각 서버의 저장 원자료를 직접 확인하고 재집계했습니다.
@@ -84,12 +83,14 @@ Qwen CF는 server3 job **61813**의 편집 전 W0, zsRE는 server2 job **61900**
 
 ### Llama3-8B-Instruct
 
-**2026-10-09 SH1 W20 원자료 검산: CF 2종과 zsRE 6종 완료.**
+**2026-10-09 23:05:52 KST SH1 검산: 새 CF MEMIT-FE 및 공개-query zsRE 4종 완료.**
 CF FT **61771**, SPHERE **61770** 및 zsRE FT/MEMIT/AlphaEdit/BLUE/MEMIT-FE/SPHERE
 **61716/61717/61718/61719/61720/61721**의 실제 2,000건·20 commit·순서·raw NLL·분모를 검산했다.
 이는 원 편집 완료 기록이다. 아래 zsRE 표는 새 공개-query 최종 평가 `61932–61937`의 상태로 대체했다.
 CF source `34e4d52d`, zsRE source `94304dc9`; CF Flu/Con은 DEFERRED다.
-CF MEMIT-FE **61773**는 검토 시 RUNNING/14 commit이며 최종 수치는 아직 없다.
+CF MEMIT-FE **61773**는 W20/2,000건 검산 완료다. zsRE 재평가 **61932/61933/61935/61937**도
+저장 predicted/target ID에서 요청별 평균을 독립 재집계했다(E/G 각6,035, Loc12,465 token).
+**61934/61936**은 PENDING. [최신 결과와 원자료 결속](experiment-reports/servers/server1/main-table-refresh-20261009/report-ko.md).
 AlphaEdit **61769**·MEMIT **61772**는 사용자 지시로 CANCELLED; 아래 CF 두 수치는
 그 신규 job 결과가 아닌 과거 **42657/42658 B020** 결과다(‡).
 zsRE Loc은 **loc_ans 정답 token 정확도의 요청별 평균**이다. 이전 W0 prediction agreement는
@@ -102,12 +103,12 @@ zsRE Loc은 **loc_ans 정답 token 정확도의 요청별 평균**이다. 이전
 | Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | [W0 (편집 전)](experiment-reports/global/w0-main-table-20261009.md) | 13.36 | 8.20 | 10.95 | 88.56 | 6.35 | 0.2464 | 38.10 | 37.61 | 38.59 |
-| FT | 56.59 | 89.25 | 73.30 | 35.50 | DEFERRED | DEFERRED | PENDING: official-s1-zsre-reeval-ft (61932) | PENDING: official-s1-zsre-reeval-ft (61932) | PENDING: official-s1-zsre-reeval-ft (61932) |
-| MEMIT | 58.88‡ | 64.75‡ | 61.70‡ | 51.83‡ | DEFERRED | DEFERRED | PENDING: official-s1-zsre-reeval-memit (61933) | PENDING: official-s1-zsre-reeval-memit (61933) | PENDING: official-s1-zsre-reeval-memit (61933) |
+| FT | 56.59 | 89.25 | 73.30 | 35.50 | DEFERRED | DEFERRED | 14.63 | 11.82 | 25.25 |
+| MEMIT | 58.88‡ | 64.75‡ | 61.70‡ | 51.83‡ | DEFERRED | DEFERRED | 44.30 | 39.95 | 22.30 |
 | AlphaEdit | 84.80‡ | 99.30‡ | 93.23‡ | 68.59‡ | DEFERRED | DEFERRED | PENDING: official-s1-zsre-reeval-alphaedit (61934) | PENDING: official-s1-zsre-reeval-alphaedit (61934) | PENDING: official-s1-zsre-reeval-alphaedit (61934) |
-| AlphaEdit-BLUE | 89.84† | 99.60† | 97.15† | 76.59† |  |  | PENDING: official-s1-zsre-reeval-alphaedit_blue (61935) | PENDING: official-s1-zsre-reeval-alphaedit_blue (61935) | PENDING: official-s1-zsre-reeval-alphaedit_blue (61935) |
-| MEMIT-FE | ING: 61773 | ING: 61773 | ING: 61773 | ING: 61773 | DEFERRED | DEFERRED | PENDING: official-s1-zsre-reeval-memit_fe (61936) | PENDING: official-s1-zsre-reeval-memit_fe (61936) | PENDING: official-s1-zsre-reeval-memit_fe (61936) |
-| AlphaEdit+SPHERE | 86.87 | 99.50 | 94.95 | 71.68 | DEFERRED | DEFERRED | PENDING: official-s1-zsre-reeval-sphere (61937) | PENDING: official-s1-zsre-reeval-sphere (61937) | PENDING: official-s1-zsre-reeval-sphere (61937) |
+| AlphaEdit-BLUE | 89.84† | 99.60† | 97.15† | 76.59† |  |  | 95.87 | 92.28 | 32.83 |
+| MEMIT-FE | 64.55 | 80.45 | 73.68 | 48.85 | DEFERRED | DEFERRED | PENDING: official-s1-zsre-reeval-memit_fe (61936) | PENDING: official-s1-zsre-reeval-memit_fe (61936) | PENDING: official-s1-zsre-reeval-memit_fe (61936) |
+| AlphaEdit+SPHERE | 86.87 | 99.50 | 94.95 | 71.68 | DEFERRED | DEFERRED | 95.13 | 91.36 | 31.38 |
 | PRICE (Ours) | 90.98§ | 99.70§ | 92.78§ | 82.21§ |  |  |  |  |  |
 
 § 사용자 2026-10-09 지시에 따라 이전 **FREE100 / MEMIT writer**, Llama job **60103**의
@@ -136,11 +137,18 @@ Flu/Con은 미평가·DEFERRED이며 zsRE는 별도 새 W20 결과다.
 
 ### Qwen2.5-7B-Instruct
 
-**Server2 최신 등록: 2026-10-09 18:14:51 KST SH2 단발 snapshot 기준.**
-기존 FT CF **61898**·zsRE **61900**은 **RUNNING 유지**이며 원 source `69bfbb2c`를 변경하지 않았다.
+**Server2 최신 결과: 2026-10-09 23:05:48 KST SH2 단발 snapshot/CPU 검산 기준.**
+zsRE **MEMIT 61956·AlphaEdit 61960**은 공개-query W20/2,000건 평가가 완료되어 아래 6칸을 실측값으로 갱신했다.
+저장 predicted/target ID를 독립 재집계했고 요청별 token accuracy의 평균이며,
+분모는 Eff/Gen/Loc **6,691/6,691/11,476 tokens, 각 2,000 requests**다.
+[최신 완료·상태 검산](experiment-reports/servers/server2/main-table-refresh-20261009/report-ko.md) ·
+[raw/source/config/query SHA 및 정확한 수치](audits/servers/server2/main-table-refresh-20261009/table-rows.json).
+FT CF **61898**은 RUNNING. zsRE **61900**은 편집 W20 완료지만 구 token-prefix source이므로
+**공개-query 재평가 필요(미등록)**이며 새 점수로 반영하지 않았다. 원 source `69bfbb2c`는 보존한다.
 미시작 **61899 및 61901–61922(23개)**만 취소하고, 나머지 5방법 × CF/zsRE의
 **10개 GPU 본실험**을 새 source `5503935821b0ececb4aef09a5bccb5308879a6b5`로
-held 검사 후 release했다. 아래 새 작업은 모두 **PENDING(Dependency)**이며 W20 완료가 아니다.
+held 검사 후 release했다. 현재 CF BLUE **61962**, zsRE BLUE **61964**·FE **61968**은 RUNNING,
+나머지 미완료 작업은 아래 PENDING 상태다. 초기 등록 PENDING과 현재 완료 상태를 구분한다.
 GPU0 archive/KEEP 단계는 **61952/61953/61955/61957/61959/61961/61963/61965/61967/61969/61971/61973**,
 collector는 **61974**다. cap4 안에서 보호 RUNNING **61951**도 자원 dependency에 포함했고 변경하지 않았다.
 
@@ -150,14 +158,14 @@ collector는 **61974**다. cap4 안에서 보호 RUNNING **61951**도 자원 dep
 원 FT 및 역사 W0 provenance는 보존하며 새 평가 경로의 관측으로 소급 표시하지 않는다.
 CF native fit/hparams와 **W0_AND_W20_FIRST2000** 생성 일정, zsRE 생성 없음,
 qualification **NOT_RUN_USER_DISABLED**, checkpoint 보존은 유지한다.
-W&B 새 run startup/remote 기록은 미관측이다. archive는 consumer/receiver 조건 충족 전
+이번 CPU 검산에서는 W&B remote 전송 성공을 별도 조회·확정하지 않았다. archive는 consumer/receiver 조건 충족 전
 **KEEP**이며 실제 전송·삭제는 0이다.
 
 GPT-J 최종 checkpoint 재평가 **61942–61948**은 같은 ID/source로 유지·release했다.
 자원 edge만 **61942→61970, 61943→61972, 61944→61966, 61945→61968**
 (왼쪽 job이 오른쪽 종료를 기다림)로 재연결했다.
 기존 취소된 job ID를 현재 실행 대상으로 표시하지 않는다.
-[최신 SH2 보고](experiment-reports/servers/server2/qwen-pending-eval-refresh-20261009/report-ko.md) ·
+[교체 등록 당시 SH2 보고](experiment-reports/servers/server2/qwen-pending-eval-refresh-20261009/report-ko.md) ·
 [실제 job name/config/dependency·snapshot](audits/servers/server2/qwen-pending-eval-refresh-20261009/submission.json).
 
 이전 Server4 CF FT **61783**의 디스크 부족 실패 및 후속 23개 취소,
@@ -170,15 +178,18 @@ PRICE/OURS/tuning 및 무관 job은 이번 교체 범위가 아니다.
 [CPU 검산 완료](experiment-reports/servers/server3/official-baselines-20261008/qwen-61813-review/report-ko.md).
 이는 Q3 선택 설정의 final 평가이며 튜닝 실행 자체와 구분한다. 기본 PRICE 본표 승격 승인은 없어
 아래 PRICE 행에 자동 합치지 않았으며 Flu/Con은 DEFERRED다.
+SH3 최신 CPU 재검산에서도 위 네 지표 delta0, 신규 본표 적격 완료0이다.
+별도 Llama **61821 llama-price-L1-2k**는 RUNNING/W20 없음이며 기존 PRICE 예외 값을 대체하지 않는다.
+[SH3 완료·제외 inventory](experiment-reports/servers/server3/main-table-refresh-20261009/report-ko.md).
 
 | Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | [W0 (편집 전)](experiment-reports/global/w0-main-table-20261009.md) | 20.88 | 13.95 | 16.60 | 85.14 | DEFERRED | DEFERRED | 36.42 | 35.26 | 38.40 |
-| FT | ING: s2-qwen25-cf-ft-gpu (61898) | ING: s2-qwen25-cf-ft-gpu (61898) | ING: s2-qwen25-cf-ft-gpu (61898) | ING: s2-qwen25-cf-ft-gpu (61898) | ING: s2-qwen25-cf-ft-gpu (61898) | ING: s2-qwen25-cf-ft-gpu (61898) | ING: s2-qwen25-zsre-ft-gpu (61900) | ING: s2-qwen25-zsre-ft-gpu (61900) | ING: s2-qwen25-zsre-ft-gpu (61900) |
-| MEMIT | PENDING: s2-qwen25-cf-memit-gpu (61954) | PENDING: s2-qwen25-cf-memit-gpu (61954) | PENDING: s2-qwen25-cf-memit-gpu (61954) | PENDING: s2-qwen25-cf-memit-gpu (61954) | PENDING: s2-qwen25-cf-memit-gpu (61954) | PENDING: s2-qwen25-cf-memit-gpu (61954) | PENDING: s2-qwen25-zsre-memit-gpu (61956) | PENDING: s2-qwen25-zsre-memit-gpu (61956) | PENDING: s2-qwen25-zsre-memit-gpu (61956) |
-| AlphaEdit | PENDING: s2-qwen25-cf-alphaedit-gpu (61958) | PENDING: s2-qwen25-cf-alphaedit-gpu (61958) | PENDING: s2-qwen25-cf-alphaedit-gpu (61958) | PENDING: s2-qwen25-cf-alphaedit-gpu (61958) | PENDING: s2-qwen25-cf-alphaedit-gpu (61958) | PENDING: s2-qwen25-cf-alphaedit-gpu (61958) | PENDING: s2-qwen25-zsre-alphaedit-gpu (61960) | PENDING: s2-qwen25-zsre-alphaedit-gpu (61960) | PENDING: s2-qwen25-zsre-alphaedit-gpu (61960) |
-| AlphaEdit-BLUE | PENDING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | PENDING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | PENDING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | PENDING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | PENDING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | PENDING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | PENDING: s2-qwen25-zsre-alphaedit_blue-gpu (61964) | PENDING: s2-qwen25-zsre-alphaedit_blue-gpu (61964) | PENDING: s2-qwen25-zsre-alphaedit_blue-gpu (61964) |
-| MEMIT-FE | PENDING: s2-qwen25-cf-memit_fe-gpu (61966) | PENDING: s2-qwen25-cf-memit_fe-gpu (61966) | PENDING: s2-qwen25-cf-memit_fe-gpu (61966) | PENDING: s2-qwen25-cf-memit_fe-gpu (61966) | PENDING: s2-qwen25-cf-memit_fe-gpu (61966) | PENDING: s2-qwen25-cf-memit_fe-gpu (61966) | PENDING: s2-qwen25-zsre-memit_fe-gpu (61968) | PENDING: s2-qwen25-zsre-memit_fe-gpu (61968) | PENDING: s2-qwen25-zsre-memit_fe-gpu (61968) |
+| FT | ING: s2-qwen25-cf-ft-gpu (61898) | ING: s2-qwen25-cf-ft-gpu (61898) | ING: s2-qwen25-cf-ft-gpu (61898) | ING: s2-qwen25-cf-ft-gpu (61898) | ING: s2-qwen25-cf-ft-gpu (61898) | ING: s2-qwen25-cf-ft-gpu (61898) | REEVAL REQUIRED(미등록): s2-qwen25-zsre-ft-gpu (61900) | REEVAL REQUIRED(미등록): s2-qwen25-zsre-ft-gpu (61900) | REEVAL REQUIRED(미등록): s2-qwen25-zsre-ft-gpu (61900) |
+| MEMIT | PENDING: s2-qwen25-cf-memit-gpu (61954) | PENDING: s2-qwen25-cf-memit-gpu (61954) | PENDING: s2-qwen25-cf-memit-gpu (61954) | PENDING: s2-qwen25-cf-memit-gpu (61954) | PENDING: s2-qwen25-cf-memit-gpu (61954) | PENDING: s2-qwen25-cf-memit-gpu (61954) | 37.61 | 36.69 | 30.03 |
+| AlphaEdit | PENDING: s2-qwen25-cf-alphaedit-gpu (61958) | PENDING: s2-qwen25-cf-alphaedit-gpu (61958) | PENDING: s2-qwen25-cf-alphaedit-gpu (61958) | PENDING: s2-qwen25-cf-alphaedit-gpu (61958) | PENDING: s2-qwen25-cf-alphaedit-gpu (61958) | PENDING: s2-qwen25-cf-alphaedit-gpu (61958) | 85.14 | 78.61 | 30.04 |
+| AlphaEdit-BLUE | ING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | ING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | ING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | ING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | ING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | ING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | ING: s2-qwen25-zsre-alphaedit_blue-gpu (61964) | ING: s2-qwen25-zsre-alphaedit_blue-gpu (61964) | ING: s2-qwen25-zsre-alphaedit_blue-gpu (61964) |
+| MEMIT-FE | PENDING: s2-qwen25-cf-memit_fe-gpu (61966) | PENDING: s2-qwen25-cf-memit_fe-gpu (61966) | PENDING: s2-qwen25-cf-memit_fe-gpu (61966) | PENDING: s2-qwen25-cf-memit_fe-gpu (61966) | PENDING: s2-qwen25-cf-memit_fe-gpu (61966) | PENDING: s2-qwen25-cf-memit_fe-gpu (61966) | ING: s2-qwen25-zsre-memit_fe-gpu (61968) | ING: s2-qwen25-zsre-memit_fe-gpu (61968) | ING: s2-qwen25-zsre-memit_fe-gpu (61968) |
 | AlphaEdit+SPHERE | PENDING: s2-qwen25-cf-sphere-gpu (61970) | PENDING: s2-qwen25-cf-sphere-gpu (61970) | PENDING: s2-qwen25-cf-sphere-gpu (61970) | PENDING: s2-qwen25-cf-sphere-gpu (61970) | PENDING: s2-qwen25-cf-sphere-gpu (61970) | PENDING: s2-qwen25-cf-sphere-gpu (61970) | PENDING: s2-qwen25-zsre-sphere-gpu (61972) | PENDING: s2-qwen25-zsre-sphere-gpu (61972) | PENDING: s2-qwen25-zsre-sphere-gpu (61972) |
 | PRICE (Ours) |  |  |  |  |  |  |  |  |  |
 
