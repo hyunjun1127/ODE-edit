@@ -7,8 +7,10 @@
   "accepted_turn": "01a12156-29cb-7bc3-9bc1-75e0d132de43",
   "owner_ack": true,
   "order": ["qwen25", "gptj", "llama3"],
-  "stage": "OWNER_ACCEPTED_PREPARING",
-  "actual_job_ids": [],
+  "stage": "REGISTERED_RELEASED_INITIAL_PENDING",
+  "actual_job_ids": [62090, 62091, 62092],
+  "dependencies": ["afterany:62064", "afterok:62090", "afterok:62091"],
+  "receipt": "audits/servers/server4/native-context-order-20261010/submission.json",
   "generated_contexts_observed": false,
   "protected_jobs": [62063, 62064, 62038]
 }
