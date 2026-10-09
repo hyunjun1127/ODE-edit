@@ -1,0 +1,18 @@
+{
+  "nonce": "USER-GH-SH2-QWEN-BROKEN-WEIGHTS-DELETE-20261010-R1",
+  "user_instruction": "README도 갱신해봐. 그리고 문제가 있던 qwen run들 저장된 가중치 삭제하자",
+  "owner": "SH2",
+  "session": "01a0493a-074c-7f91-9a13-769116326fef",
+  "cwd": "/mnt/raid5/janghj/ODE-edit",
+  "evidence_commit": "cabae2f6",
+  "evidence": "audits/servers/server2/qwen-context-audit-20261010/result.json",
+  "delete_candidate_old_jobs": [61956, 61960, 61968],
+  "scope": "이번 감사에서 actual broken context가 확인된 세 old run의 저장 edited-weight/checkpoint payload만. manifest상 해당 W와 native history를 한 파일로 묶은 checkpoint이면 그 전용 payload 단위로 처리. 로그/평가 raw/source/config/context/manifest/비용 이력은 보존.",
+  "authorization": "최신 사용자 명시 삭제 지시가 위 세 old payload의 종전 KEEP을 대체한다. 다른 job/파일은 KEEP. 정확한 manifest가 가리키는 regular file을 검증한 뒤 개별 unlink 허용. 디렉터리 재귀 삭제/와일드카드 삭제 금지.",
+  "predelete": ["exact job/model/method/source/attempt 및 완료 또는 취소 상태 결속", "checkpoint manifest/경로/bytes/기존 SHA와 lstat realpath/dev/inode/nlink를 기록, 공유 hardlink/symlink와 공용 base/cache 제외", "writer 및 현재/대기 consumer가 해당 payload를 사용하지 않음을 확인; 활성 의존성 또는 경로 모호성은 삭제하지 않고 blocker 보고", "삭제 직전 identity/stat 재확인"],
+  "postdelete": "개별 경로 부재 확인, deleted bytes와 실제 filesystem 회수량을 구분. tombstone/삭제 manifest와 복구 가능한 검증 사본 여부를 기록; 복구 가능성을 임의 주장하지 않음. 다른 위치/서버 복제본을 임의 추적 삭제하지 않음.",
+  "protected": "모든 수정 rerun, 정상 BLUE/FT, FT 평가62072의 원61900 CP, GPTJ/Llama/OURS/PRICE, base model/C0/P/context 자산 및 새 job",
+  "report_scope": "audits/servers/server2/qwen-broken-checkpoint-delete-20261010/ 및 experiment-reports/servers/server2/qwen-broken-checkpoint-delete-20261010/에 compact 한국어 receipt 비강제 main 게시 허용. source/job 재실행·취소0/GPU0.",
+  "readme_input": "같은 bounded 상태 확인에서 완료61898 CF FT 및62072 zsRE FT eval의 실제2K raw/source/분모를 최소 CPU로 검산 가능하면 기존 스키마 table rows를 GH에 반환. 추가 모델평가/재실험은 금지. README는 GH만 수정.",
+  "completion": "owner ACK 후 실제 삭제 receipt 또는 exact blocker까지 진행, 반복 승인 대기 없음. 새 recurring monitor 없음."
+}
