@@ -1,0 +1,114 @@
+{
+  "llama3": {
+    "method": "MEMIT_FE_HISTORY",
+    "hparams": {
+      "alg_name": "MEMIT-FE",
+      "model_name": "meta-llama/Meta-Llama-3-8B-Instruct",
+      "stats_dir": "./tmp/stats",
+      "device": 0,
+      "layers": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "clamp_norm_factor": 0.75,
+      "layer_selection": "all",
+      "fact_token": "subject_last",
+      "v_num_grad_steps": 35,
+      "v_lr": 0.1,
+      "v_loss_layer": 31,
+      "v_weight_decay": 0.5,
+      "kl_factor": 0.0625,
+      "mom2_adjustment": true,
+      "mom2_update_weight": 15000,
+      "rewrite_module_tmp": "model.layers.{}.mlp.down_proj",
+      "layer_module_tmp": "model.layers.{}",
+      "mlp_module_tmp": "model.layers.{}.mlp",
+      "attn_module_tmp": "model.layers.{}.self_attn",
+      "ln_f_module": "model.norm",
+      "lm_head_module": "lm_head",
+      "mom2_dataset": "wikipedia",
+      "mom2_n_samples": 100000,
+      "mom2_dtype": "float32",
+      "model_parallel": false
+    },
+    "changed_scientific_fields": [
+      "clamp_norm_factor",
+      "v_num_grad_steps"
+    ],
+    "source": {
+      "repo": "jugechengzi/FE",
+      "commit": "478134dfb24b43f4e18b47e8500893ce3f9cc50f",
+      "path": "configs/llms/llama3-8b.yaml",
+      "blob": "8333d914ff2cb75c7b9b22cb2fe47ee308355eae",
+      "sha256": "8d5ed150796f305701e6fadc7c639845c5b428d0efead139c565e83c96385309"
+    },
+    "datasets": [
+      "cf",
+      "zsre"
+    ],
+    "requests": 2000,
+    "batch_size": 100,
+    "batches": 20,
+    "history": "same existing FE_HISTORY ridge and final-model native-key append",
+    "z_policy": "recompute per batch entry model; no all-2K W0 z freeze"
+  },
+  "qwen25": {
+    "method": "MEMIT_FE_HISTORY",
+    "hparams": {
+      "alg_name": "MEMIT-FE",
+      "model_name": "Qwen/Qwen2.5-7B-Instruct",
+      "stats_dir": "./data/stats",
+      "device": 5,
+      "layers": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "clamp_norm_factor": 1.0,
+      "layer_selection": "all",
+      "fact_token": "subject_last",
+      "v_num_grad_steps": 35,
+      "v_lr": 0.5,
+      "v_loss_layer": 27,
+      "v_weight_decay": 0.001,
+      "kl_factor": 0.0625,
+      "mom2_adjustment": true,
+      "mom2_update_weight": 15000,
+      "rewrite_module_tmp": "model.layers.{}.mlp.down_proj",
+      "layer_module_tmp": "model.layers.{}",
+      "mlp_module_tmp": "model.layers.{}.mlp",
+      "attn_module_tmp": "model.layers.{}.self_attn",
+      "ln_f_module": "model.norm",
+      "lm_head_module": "lm_head",
+      "mom2_dataset": "wikipedia",
+      "mom2_n_samples": 100000,
+      "mom2_dtype": "float32",
+      "model_parallel": false
+    },
+    "changed_scientific_fields": [
+      "clamp_norm_factor",
+      "v_num_grad_steps"
+    ],
+    "source": {
+      "repo": "jugechengzi/FE",
+      "commit": "478134dfb24b43f4e18b47e8500893ce3f9cc50f",
+      "path": "configs/llms/qwen2.5-7b.yaml",
+      "blob": "86723b9c15a1b3f59865b34460c5311a32fa09ad",
+      "sha256": "0e1481d06d530746b13aea6df5dec2a4449aef8928120a2a12c4d7da72b50183"
+    },
+    "datasets": [
+      "cf",
+      "zsre"
+    ],
+    "requests": 2000,
+    "batch_size": 100,
+    "batches": 20,
+    "history": "same existing FE_HISTORY ridge and final-model native-key append",
+    "z_policy": "recompute per batch entry model; no all-2K W0 z freeze"
+  }
+}
