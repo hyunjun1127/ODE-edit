@@ -28,9 +28,32 @@ CPU `official.tests.test_generation_paper_display`: 5 PASS. `official.tools.veri
 
 | 서버 | accepted turn | 수신 상태 / 담당 |
 | --- | --- | --- |
-| SH1 | 01a121bf-d873-7a82-9654-01368ea03466 | 명시 OWNER_ACK; 완료 결과 검산 및 유효 저장 CF checkpoint 평가-only 실제 등록 진행 |
+| SH1 | 01a121bf-d873-7a82-9654-01368ea03466 | 완료 결과 11행 검산, 평가5개+collector 실제 release (1fb4cef6) |
 | SH2 | 01a121bf-dc12-7420-9754-c50086b87646 | 완료 13행 재검산·W0 생성 분리 출처 호환 결속 (fa770b9c) |
 | SH3 | 01a121bf-d90c-7961-ac25-8e757c17d1a7 | 완료; 신규 적격 생성 값 0, 선택 W0 26,000행/47개 증거 검산·SH2용 provenance (3a6c7ee9) |
 | SH4 | 01a121bf-d996-71d2-973c-3bb381fbe3ba | 완료; 신규 본표 적격 결과 0, Flu/Con 실측 0 (177dadf1) |
 
-실제 전달 정본은 [envelope](../../../messages/head/2026-10-10-flucon-paper-scale-table-refresh.json)다. SH4 기존 60103은 raw/20commit을 재확인했지만 생성 미측정이다. migrated baseline·held-out500·tuning은 새 본표 값으로 승격하지 않는다. 현재 이 최초 게시 시점에 SH1 평가 job ID는 아직 회수하지 않았으므로 PENDING으로 표시하지 않는다. 이번 표시는 실험 완료 주장이 아니다. 후속 compact receipt에 따라 이 보고와 README 셀을 갱신한다.
+실제 전달 정본은 [envelope](../../../messages/head/2026-10-10-flucon-paper-scale-table-refresh.json)다. SH4 기존 60103은 raw/20commit을 재확인했지만 생성 미측정이다. migrated baseline·held-out500·tuning은 새 본표 값으로 승격하지 않는다.
+
+## SH1 실제 제출 및 완료 결과 통합
+
+SH1 source `61ab70384bc909d359537f14a3bbb3691f5c9ce5`, execution lock SHA `6d3495b07337f48fd57dd50996b08ae76b7d86549223e7932dd56efcbf979db1`. 원본 submission과 공개 compact receipt를 직접 대조했다. held 검사/release 후 2026-10-10 02:51:52–53 KST 첫 snapshot은 전부 **PENDING**이다. GPU 결과/새 W&B readback은 NOT_OBSERVED이며 기다리지 않았다. cap4, 기존 job 변경0.
+
+| 원 CF W20 checkpoint 소유 run | 평가 job name | 실제 ID | resource dependency |
+| --- | --- | ---: | --- |
+| Llama FT 61771 | official-s1-flucon-eval-llama3-ft | 62259 | 없음 |
+| Llama SPHERE 61770 | official-s1-flucon-eval-llama3-sphere | 62260 | 없음 |
+| Llama MEMIT-FE 61773 | official-s1-flucon-eval-llama3-memit_fe | 62261 | 없음 |
+| GPT-J FE_HISTORY 61927 | official-s1-flucon-eval-gptj-memit_fe_history | 62262 | afterany:62061 |
+| Llama FE_HISTORY 61928 | official-s1-flucon-eval-llama3-memit_fe_history | 62263 | afterany:62262 |
+| GPU0 collector | official-s1-flucon-eval-collector | 62264 | afterany:62259:62260:62261:62262:62263 |
+
+정확 CP 경로/전체 SHA/config/output 경로는 [SH1 등록 compact JSON](../../../audits/servers/server1/flucon-paper-scale-20261010/table-rows.json)에 있다. 별도 출력 root는 `local/official-baselines/server1/flucon-paper-scale-20261010/preparation-r2/runs/`이다. GH는 5개 평가의 Flu/Con 10칸만 PENDING으로 변경했고 해당 baseline factual 4칸은 보존했다. 평가를 이미 완료한 것으로 표시하지 않는다.
+
+추가 완료 검산에서는 Llama 공개-query zsRE AlphaEdit61934의 E/G/Loc **95.18/91.40/31.10**, MEMIT-FE61936의 **14.81/13.57/0.56**으로 6칸을 채웠다. 다른 zsRE4행은 수치 불변이다. 별도 Llama FE_HISTORY61928의 factual 4칸은 Score/E/G/Loc **64.66/80.10/74.10/48.99**다. 이 variant를 native MEMIT-FE 행에 합치지 않았다. [11개 완료행·미반올림 수치·원 raw SHA](../../../audits/servers/server1/flucon-paper-scale-20261010/completed-rows.json).
+
+미제출 범위: old Qwen61975는 context 오류로 제외, 수정62061은 owner inventory 당시 미완료. Llama historical MEMIT/AlphaEdit/BLUE CP는 이번 SH1 로컬 유효 후보에 없고 별도 원격 CP 전송은 수행하지 않았다. 미측정 값은 계속 DEFERRED/기존 빈칸이며 0이 아니다. 본표 historical 예외와 OURS 예외를 변경하지 않았다.
+
+최종 변경량: 배율 교정 숫자4칸 + Qwen W0 생성2칸 + 새 Llama zsRE6칸 + 별도 Llama history factual4칸, 등록상태10칸, Qwen generation DEFERRED 정정8칸. SH2 완료13행과 SH1 기존 완료행은 원자료 근거로 재검산하되 중복 새 완료로 세지 않는다. [자동 표 검산](../../../audits/global/flucon-paper-scale-20261010/verify_display.py), [담당 수락·채택 기록](../../../audits/global/flucon-paper-scale-20261010/adoption.json).
+
+SH1 공통 schema의 좁은 CF eval-only 변경을 GH가 읽고 display+caller CPU10 PASS를 재확인했다. SH1 회귀52 PASS와 중복 합산하지 않는다. 별도 GPU qualification은 여전히 비활성화이며 이번 평가 자체만 허용됐다. 원 CP/raw/W&B/모델·hparams 변경, 추가 삭제·취소, 신규 반복 monitor 모두 0이다.

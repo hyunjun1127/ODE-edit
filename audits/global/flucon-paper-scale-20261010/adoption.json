@@ -21,5 +21,22 @@
   "validation": {"display_unit_tests":5,"source_SHA_files":166,"external_imports":0,"table_cells":4,"table_unit_headers":4,"GPU":0},
   "raw_or_WB_history_mutation": false,
   "deletion_or_cancellation": false,
-  "registration_status": "SH1_IN_PROGRESS_NO_JOB_IDS_YET"
+  "registration_status": "SH1_FIVE_GPU_AND_CPU_COLLECTOR_HELD_INSPECTED_RELEASED",
+  "SH1_execution_source": "61ab70384bc909d359537f14a3bbb3691f5c9ce5",
+  "SH1_jobs": ["62259", "62260", "62261", "62262", "62263"],
+  "SH1_collector": "62264",
+  "SH1_initial_snapshot": "2026-10-10 02:51:52–53 KST; all PENDING; GPU results NOT_OBSERVED",
+  "SH1_compact_receipt": "audits/servers/server1/flucon-paper-scale-20261010/table-rows.json",
+  "final_changes": {
+    "display_scale_numeric_cells": 4,
+    "new_Qwen_W0_generation_numeric_cells": 2,
+    "new_Llama_zsRE_numeric_cells": 6,
+    "new_Llama_history_factual_numeric_cells": 4,
+    "new_SH1_generation_job_status_cells": 10,
+    "Qwen_deferred_status_corrections": 8
+  },
+  "new_GPU_authority_used_on_other_servers": false,
+  "SH2_completion_publication": "fa770b9c7bccad707f29c8771054dcb2de04993a",
+  "SH3_completion_publication": "3a6c7ee987f46707a3769ecd749878c43d060ea6",
+  "SH4_completion_publication": "177dadf1"
 }

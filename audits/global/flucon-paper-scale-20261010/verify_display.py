@@ -46,10 +46,21 @@ def verify():
             assert displayed[start+offset].strip() == str(number.quantize(Decimal('.01'),rounding=ROUND_HALF_UP)), (row['job_id'],key)
         verified += 1
     assert verified == 13
+    sh1 = json.loads((ROOT/'audits/servers/server1/flucon-paper-scale-20261010/completed-rows.json').read_text())
+    for row in sh1['rows']:
+        if row['dataset']!='zsre':
+            continue
+        displayed = next(line for line in llama.splitlines() if line.startswith('| '+names[row['method']]+' |')).split('|')
+        for offset,key in enumerate(['Efficacy','Generalization','Specificity']):
+            assert displayed[8+offset].strip()==str(Decimal(str(row['metrics'][key])).quantize(Decimal('.01'),rounding=ROUND_HALF_UP))
+    jobs = json.loads((ROOT/'audits/servers/server1/flucon-paper-scale-20261010/table-rows.json').read_text())
+    for jid in ('62259','62260','62261','62262','62263'):
+        assert readme.count('('+jid+')')==2, jid
     policy = json.loads((ROOT / 'control/main-results-policy.json').read_text())
     assert 'generation_paper_display' in policy
     assert paper_cell('DEFERRED', metric='Flu', raw_unit='bits') == 'DEFERRED'
-    return {'corrected_scale_cells': 4, 'new_W0_generation_cells':2, 'SH2_factual_rows_reverified':verified, 'unit_headers': 4, 'status': 'PASS',
+    return {'corrected_scale_cells': 4, 'new_W0_generation_cells':2, 'SH2_factual_rows_reverified':verified,
+            'SH1_zsRE_rows_verified':6, 'SH1_generation_registered_rows':5, 'unit_headers': 4, 'status': 'PASS',
             'README_sha256': hashlib.sha256(readme.encode()).hexdigest(),
             'source_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
             'GPU_forwards': 0, 'raw_mutations': 0}

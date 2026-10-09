@@ -72,12 +72,14 @@ SH1이 세 모델을 source `eaf78c33`으로 등록했다. Qwen 61929는 B1 FP64
 
 | 별도 variant | 모델 | server | 상태 / job name (ID) | CF Score | CF Eff | CF Gen | CF Loc | CF Flu ×100 | CF Con ×100 |
 | :--- | :--- | :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: |
-| MEMIT_FE_HISTORY | GPT-J | server1 | W20 COMPLETE: official-s1-cf-gptj-memit-fe-history (61927) | 50.18 | 50.35 | 49.90 | 50.28 | DEFERRED | DEFERRED |
-| MEMIT_FE_HISTORY | Llama3 | server1 | ING: official-s1-cf-llama3-memit-fe-history (61928) | — | — | — | — | DEFERRED | DEFERRED |
-| MEMIT_FE_HISTORY | Qwen2.5 | server1 | PENDING: official-s1-cf-qwen25-memit-fe-history (62061; old61975 context-mask cold replacement) | — | — | — | — | DEFERRED | DEFERRED |
+| MEMIT_FE_HISTORY | GPT-J | server1 | W20 COMPLETE: official-s1-cf-gptj-memit-fe-history (61927) | 50.18 | 50.35 | 49.90 | 50.28 | PENDING: official-s1-flucon-eval-gptj-memit_fe_history (62262) | PENDING: official-s1-flucon-eval-gptj-memit_fe_history (62262) |
+| MEMIT_FE_HISTORY | Llama3 | server1 | W20 COMPLETE: official-s1-cf-llama3-memit-fe-history (61928) | 64.66 | 80.10 | 74.10 | 48.99 | PENDING: official-s1-flucon-eval-llama3-memit_fe_history (62263) | PENDING: official-s1-flucon-eval-llama3-memit_fe_history (62263) |
+| MEMIT_FE_HISTORY | Qwen2.5 | server1 | ING: official-s1-cf-qwen25-memit-fe-history (62061; old61975 context-mask cold replacement) | — | — | — | — | DEFERRED | DEFERRED |
 
-2026-10-09 23:05:52 KST bounded 검산: GPT-J는 실제20 commit/2,000건과 history once·최종CP·raw를
-대조한 완료값이며 native MEMIT-FE 본표 값이 아니다. Llama/Qwen은 W20 미완료다.
+2026-10-10 SH1 bounded 검산: GPT-J와 Llama는 실제20 commit/2,000건과 history once·최종CP·raw를
+대조한 완료값이며 native MEMIT-FE 본표 값이 아니다. 수정 Qwen은 이번 inventory에서 W20 미완료다.
+저장 checkpoint의 FLU/CON 평가 job은 별도로 등록했으며 위 PENDING은 제출 직후 상태다.
+[완료 결과와 평가 등록](experiment-reports/servers/server1/flucon-paper-scale-20261010/report-ko.md).
 [최신 SH1 결과](experiment-reports/servers/server1/main-table-refresh-20261009/report-ko.md) ·
 [정확한 수치·source/config·raw SHA](audits/servers/server1/main-table-refresh-20261009/table-rows.json) ·
 [Qwen OOM 수리 이력](experiment-reports/servers/server1/memit-fe-history-three-model-2k/oom-repair-r1.md).
@@ -99,14 +101,15 @@ SH3 factual 셀은 그대로 유지한다. SH3의 generation 실측 또는 cross
 
 ### Llama3-8B-Instruct
 
-**2026-10-09 23:05:52 KST SH1 검산: 새 CF MEMIT-FE 및 공개-query zsRE 4종 완료.**
+**2026-10-10 SH1 검산: CF FT/SPHERE/MEMIT-FE 및 공개-query zsRE 6종 완료.**
 CF FT **61771**, SPHERE **61770** 및 zsRE FT/MEMIT/AlphaEdit/BLUE/MEMIT-FE/SPHERE
 **61716/61717/61718/61719/61720/61721**의 실제 2,000건·20 commit·순서·raw NLL·분모를 검산했다.
 이는 원 편집 완료 기록이다. 아래 zsRE 표는 새 공개-query 최종 평가 `61932–61937`의 상태로 대체했다.
-CF source `34e4d52d`, zsRE source `94304dc9`; CF Flu/Con은 DEFERRED다.
+CF source `34e4d52d`, 원 zsRE 편집 source `94304dc9`; CF Flu/Con은 별도 저장 checkpoint 평가로 등록했다.
 CF MEMIT-FE **61773**는 W20/2,000건 검산 완료다. zsRE 재평가 **61932/61933/61935/61937**도
 저장 predicted/target ID에서 요청별 평균을 독립 재집계했다(E/G 각6,035, Loc12,465 token).
-**61934/61936**은 PENDING. [최신 결과와 원자료 결속](experiment-reports/servers/server1/main-table-refresh-20261009/report-ko.md).
+**61934/61936**도 공개-query W20 평가가 완료되어 아래 E/G/Loc을 갱신했다.
+[최신 결과와 원자료 결속](experiment-reports/servers/server1/flucon-paper-scale-20261010/report-ko.md).
 AlphaEdit **61769**·MEMIT **61772**는 사용자 지시로 CANCELLED; 아래 CF 두 수치는
 그 신규 job 결과가 아닌 과거 **42657/42658 B020** 결과다(‡).
 zsRE Loc은 **loc_ans 정답 token 정확도의 요청별 평균**이다. 이전 W0 prediction agreement는
@@ -119,12 +122,12 @@ zsRE Loc은 **loc_ans 정답 token 정확도의 요청별 평균**이다. 이전
 | Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu ×100 | CF Con ×100 | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | [W0 (편집 전)](experiment-reports/global/w0-main-table-20261009.md) | 13.36 | 8.20 | 10.95 | 88.56 | 635.22 | 24.64 | 38.10 | 37.61 | 38.59 |
-| FT | 56.59 | 89.25 | 73.30 | 35.50 | DEFERRED | DEFERRED | 14.63 | 11.82 | 25.25 |
+| FT | 56.59 | 89.25 | 73.30 | 35.50 | PENDING: official-s1-flucon-eval-llama3-ft (62259) | PENDING: official-s1-flucon-eval-llama3-ft (62259) | 14.63 | 11.82 | 25.25 |
 | MEMIT | 58.88‡ | 64.75‡ | 61.70‡ | 51.83‡ | DEFERRED | DEFERRED | 44.30 | 39.95 | 22.30 |
-| AlphaEdit | 84.80‡ | 99.30‡ | 93.23‡ | 68.59‡ | DEFERRED | DEFERRED | PENDING: official-s1-zsre-reeval-alphaedit (61934) | PENDING: official-s1-zsre-reeval-alphaedit (61934) | PENDING: official-s1-zsre-reeval-alphaedit (61934) |
+| AlphaEdit | 84.80‡ | 99.30‡ | 93.23‡ | 68.59‡ | DEFERRED | DEFERRED | 95.18 | 91.40 | 31.10 |
 | AlphaEdit-BLUE | 89.84† | 99.60† | 97.15† | 76.59† |  |  | 95.87 | 92.28 | 32.83 |
-| MEMIT-FE | 64.55 | 80.45 | 73.68 | 48.85 | DEFERRED | DEFERRED | PENDING: official-s1-zsre-reeval-memit_fe (61936) | PENDING: official-s1-zsre-reeval-memit_fe (61936) | PENDING: official-s1-zsre-reeval-memit_fe (61936) |
-| AlphaEdit+SPHERE | 86.87 | 99.50 | 94.95 | 71.68 | DEFERRED | DEFERRED | 95.13 | 91.36 | 31.38 |
+| MEMIT-FE | 64.55 | 80.45 | 73.68 | 48.85 | PENDING: official-s1-flucon-eval-llama3-memit_fe (62261) | PENDING: official-s1-flucon-eval-llama3-memit_fe (62261) | 14.81 | 13.57 | 0.56 |
+| AlphaEdit+SPHERE | 86.87 | 99.50 | 94.95 | 71.68 | PENDING: official-s1-flucon-eval-llama3-sphere (62260) | PENDING: official-s1-flucon-eval-llama3-sphere (62260) | 95.13 | 91.36 | 31.38 |
 | PRICE (Ours) | 90.98§ | 99.70§ | 92.78§ | 82.21§ |  |  |  |  |  |
 
 § 사용자 2026-10-09 지시에 따라 이전 **FREE100 / MEMIT writer**, Llama job **60103**의
