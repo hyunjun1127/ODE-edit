@@ -1,0 +1,31 @@
+{
+  "instruction_id": "USER-GH-ZSRE-SAVED-WEIGHTS-2K-REEVAL-20261009-R1",
+  "ready_nonce": "GH-SH1-ZSRE-PAPER-EVAL-READY-20261009-R1",
+  "server": "server1",
+  "source": "b2806a6081d66fc585db970595c4b86a71f5aafd",
+  "execution_lock_sha256": "a5d204a7dbaf441e6e78062e86cf1225e032d6d753247a03dcaec91002b90928",
+  "attempt": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/registration-r1",
+  "held_inspected": true,
+  "released": true,
+  "snapshot_time_kst": "2026-10-09T17:50:57+09:00",
+  "initial_state": "PENDING",
+  "jobs": {
+    "FT": {"job_id": 61932, "name": "official-s1-zsre-reeval-ft", "afterany": [61773], "checkpoint_source_job": 61716},
+    "MEMIT": {"job_id": 61933, "name": "official-s1-zsre-reeval-memit", "afterany": [61927], "checkpoint_source_job": 61717},
+    "ALPHAEDIT": {"job_id": 61934, "name": "official-s1-zsre-reeval-alphaedit", "afterany": [61928], "checkpoint_source_job": 61718},
+    "ALPHAEDIT_BLUE": {"job_id": 61935, "name": "official-s1-zsre-reeval-alphaedit_blue", "afterany": [61929], "checkpoint_source_job": 61719},
+    "MEMIT_FE": {"job_id": 61936, "name": "official-s1-zsre-reeval-memit_fe", "afterany": [61934], "checkpoint_source_job": 61720},
+    "SPHERE": {"job_id": 61937, "name": "official-s1-zsre-reeval-sphere", "afterany": [61935], "checkpoint_source_job": 61721},
+    "collector": {"job_id": 61938, "name": "official-s1-zsre-reeval-collector", "afterany": [61932,61933,61934,61935,61936,61937], "gpus": 0}
+  },
+  "project_cap": 4,
+  "per_eval_resources": {"gpus": 1, "cpus": 8, "memory_MiB": 65536, "wall_hours": 4},
+  "collector_resources": {"gpus": 0, "cpus": 8, "memory_MiB": 24576, "wall_hours": 4},
+  "CPU_tests_passed": 51,
+  "query_parity": {"requests": 2000, "queries": 24535, "eff_tokens": 6035, "gen_tokens": 6035, "loc_tokens": 12465, "input_mismatches": 0, "target_mismatches": 0, "model_forward_calls": 0},
+  "GPU_eval_completed": false,
+  "wandb_stage": "BOUND_FOR_RUNTIME_NOT_YET_REMOTE_OBSERVED",
+  "existing_jobs_and_checkpoints": "KEEP_UNCHANGED",
+  "automatic_retry": false,
+  "recurring_monitor": false
+}

@@ -61,3 +61,27 @@ CPU caller/restore/common/fakeSDK51 tests PASS, source166 SHA/Python320/import0 
 원 CP/raw/model/기존 job KEEP; 실제 전송/삭제/취소/forward/fit0.
 Eff/Gen/Loc 값은 이번 준비 단계에서 변경하지 않았다. README는 GH 단독 통합.
 `NO_BROADCAST_NOT_REQUIRED`: same-host 자산/CP, compact source와 inventory만 Git 공유.
+
+## 실제 등록·release 완료 (2026-10-09 17:50 KST 초기 snapshot)
+
+실행 source `b2806a6081d66fc585db970595c4b86a71f5aafd`를 새 archive에 봉인했다.
+execution-lock SHA `a5d204a7dbaf441e6e78062e86cf1225e032d6d753247a03dcaec91002b90928`.
+전체 held owner/argv/source/config/script/input/resources/dependency 검사를 통과한 뒤 release했다.
+
+| Method | 평가 job | afterany | 초기 상태 |
+|---|---:|---|---|
+| FT | 61932 | 61773 | PENDING |
+| MEMIT | 61933 | 61927 | PENDING |
+| AlphaEdit | 61934 | 61928 | PENDING |
+| AlphaEdit-BLUE | 61935 | 61929 | PENDING |
+| MEMIT-FE | 61936 | 61934 | PENDING |
+| SPHERE | 61937 | 61935 | PENDING |
+| CPU collector | 61938 | 61932–61937 모두 | PENDING |
+
+기존 61773 및 CF history 61927/61928/61929의 source/job/dependency는 변경하지 않았다.
+기존 할당·admitted DAG와 새 평가를 합산한 cap4를 scheduler dependency로 유지한다.
+새 job은 저장 W20 weights 평가 전용이며 재학습·W0·FLU/CON·별도 GPU qualification이 없다.
+W&B는 새 eval-only run의 실제 실행 시 초기화하도록 연결했으며 아직 online readback/GPU 완료는 미관측이다.
+위 이전 준비 단계의 미제출 표시는 역사 기록이며, 최신 상태는 등록·release 완료다.
+원본 상세 영수증은 ignored local `official-baselines/server1/zsre-2k-reeval-20261009/registration-r1/`의
+`submission.json`, `held-inspection.json`, `admission.json`에 보존했다. 장기 GPU 완료 대기는 하지 않는다.
