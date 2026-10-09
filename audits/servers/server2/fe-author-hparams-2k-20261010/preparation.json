@@ -1,0 +1,259 @@
+{
+  "C0": {
+    "4": {
+      "bytes": 1435501774,
+      "sha256": "935af1e9a7c5fe690471c668af225b882b3ae49039435f7143cd3c136c1f049b",
+      "validation": {
+        "PSD_eigenvalidation": false,
+        "centered_covariance": false,
+        "constructor": "easyeditor.util.runningstats.SecondMoment()",
+        "diagonal_nonnegative": true,
+        "dtype": "float32",
+        "finite": true,
+        "masked_token_vector_count": 64421556,
+        "max_stored_sum": 21155321856.0,
+        "min_stored_diagonal": 2537.230224609375,
+        "min_stored_sum": -18127067136.0,
+        "normalization": "sum / masked_token_vector_count",
+        "recomputed": false,
+        "sample_documents": 100000,
+        "shape": [
+          18944,
+          18944
+        ],
+        "stored_field": "mom2.mom2",
+        "stored_value": "UNCENTERED_SECOND_MOMENT_SUM",
+        "validation": "STREAMED_FULL_SUM_FINITE_SHAPE_COUNT"
+      }
+    },
+    "5": {
+      "bytes": 1435501774,
+      "sha256": "7e4730511077be9b7370f29e94036d3ca08e7e0f0023395341e7496e16340519",
+      "validation": {
+        "PSD_eigenvalidation": false,
+        "centered_covariance": false,
+        "constructor": "easyeditor.util.runningstats.SecondMoment()",
+        "diagonal_nonnegative": true,
+        "dtype": "float32",
+        "finite": true,
+        "masked_token_vector_count": 64421556,
+        "max_stored_sum": 685958080.0,
+        "min_stored_diagonal": 10333.6015625,
+        "min_stored_sum": -108110424.0,
+        "normalization": "sum / masked_token_vector_count",
+        "recomputed": false,
+        "sample_documents": 100000,
+        "shape": [
+          18944,
+          18944
+        ],
+        "stored_field": "mom2.mom2",
+        "stored_value": "UNCENTERED_SECOND_MOMENT_SUM",
+        "validation": "STREAMED_FULL_SUM_FINITE_SHAPE_COUNT"
+      }
+    },
+    "6": {
+      "bytes": 1435501774,
+      "sha256": "d47f4bb2454555740c6bc46ab7f894e170cf6f5fe4bc6c26a3fc93179e18dc2a",
+      "validation": {
+        "PSD_eigenvalidation": false,
+        "centered_covariance": false,
+        "constructor": "easyeditor.util.runningstats.SecondMoment()",
+        "diagonal_nonnegative": true,
+        "dtype": "float32",
+        "finite": true,
+        "masked_token_vector_count": 64421556,
+        "max_stored_sum": 164823440.0,
+        "min_stored_diagonal": 103649.796875,
+        "min_stored_sum": -55912720.0,
+        "normalization": "sum / masked_token_vector_count",
+        "recomputed": false,
+        "sample_documents": 100000,
+        "shape": [
+          18944,
+          18944
+        ],
+        "stored_field": "mom2.mom2",
+        "stored_value": "UNCENTERED_SECOND_MOMENT_SUM",
+        "validation": "STREAMED_FULL_SUM_FINITE_SHAPE_COUNT"
+      }
+    },
+    "7": {
+      "bytes": 1435501774,
+      "sha256": "61526068f1e1283d2e8554b514f9c7ef726957a8582b62c181f393e5589c0b0d",
+      "validation": {
+        "PSD_eigenvalidation": false,
+        "centered_covariance": false,
+        "constructor": "easyeditor.util.runningstats.SecondMoment()",
+        "diagonal_nonnegative": true,
+        "dtype": "float32",
+        "finite": true,
+        "masked_token_vector_count": 64421556,
+        "max_stored_sum": 139163312.0,
+        "min_stored_diagonal": 223165.28125,
+        "min_stored_sum": -43788592.0,
+        "normalization": "sum / masked_token_vector_count",
+        "recomputed": false,
+        "sample_documents": 100000,
+        "shape": [
+          18944,
+          18944
+        ],
+        "stored_field": "mom2.mom2",
+        "stored_value": "UNCENTERED_SECOND_MOMENT_SUM",
+        "validation": "STREAMED_FULL_SUM_FINITE_SHAPE_COUNT"
+      }
+    },
+    "8": {
+      "bytes": 1435501774,
+      "sha256": "f5b00a555c9d860af1732ae3c48b1a04ebe8e3427873081fb0cb4cc8b5b30d46",
+      "validation": {
+        "PSD_eigenvalidation": false,
+        "centered_covariance": false,
+        "constructor": "easyeditor.util.runningstats.SecondMoment()",
+        "diagonal_nonnegative": true,
+        "dtype": "float32",
+        "finite": true,
+        "masked_token_vector_count": 64421556,
+        "max_stored_sum": 305714336.0,
+        "min_stored_diagonal": 190894.0,
+        "min_stored_sum": -44897300.0,
+        "normalization": "sum / masked_token_vector_count",
+        "recomputed": false,
+        "sample_documents": 100000,
+        "shape": [
+          18944,
+          18944
+        ],
+        "stored_field": "mom2.mom2",
+        "stored_value": "UNCENTERED_SECOND_MOMENT_SUM",
+        "validation": "STREAMED_FULL_SUM_FINITE_SHAPE_COUNT"
+      }
+    }
+  },
+  "GPU_forward": 0,
+  "accepted_turn": "01a122f4-e240-7532-91fd-5295daaa902a",
+  "asset_copies": 0,
+  "asset_manifest_sha256": "fba1dbbbed2ddf61c5d6d2e708e888ce42e5b36e65cc074795f76a2241d82bf6",
+  "assets_identity_sha256": "a6152d098f0c6667bc026ab905369d0a736ca57b5bc04c7f39cb22d9f16b72e1",
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "context_canonical_sha256": "5c01bc1a91c0890af2897f18b7a5f95de011badc1eca5e27f44199acc0cb6515",
+  "context_member_sha256": "caf43aaf6e04f8b894f49051cbca4312e51b63ac42466be4edd82a70d7589dea",
+  "context_ready_sha256": "6a3e8d32bc54534c241199f590ad682cf25ac0617d1d918bc3ed02ee6b833688",
+  "context_token_ID_CPU_match": true,
+  "downloads": 0,
+  "existing_jobs_changed": false,
+  "history_OOM_repair": "FP64_SYSTEM_BUFFER_LIFETIME_AND_CPU_ROLLBACK_PRESENT",
+  "instruction_id": "USER-SH-FE-AUTHOR-HPARAMS-2K-CF-ZSRE-20261010-R1",
+  "memory_plan": {
+    "C0_CPU_bytes": 7177502720,
+    "CPU_rollback_weights_bytes": 1357905920,
+    "FP64_single_system_bytes": 2871001088,
+    "H_CPU_bytes": 7177502720,
+    "actual_peak_NOT_MEASURED": true,
+    "old_new_H_overlap": true,
+    "reason": "Native repaired source unchanged; no GPU qualification",
+    "selected_W_H_bytes": 8535408640
+  },
+  "model_members": [
+    {
+      "bytes": 663,
+      "path": "/mnt/raid5/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28/config.json",
+      "sha256": "7463bb0ea78315365e6c6b74de4e73bbcc8359dfb0c5a737584e077d42c0b03c"
+    },
+    {
+      "bytes": 243,
+      "path": "/mnt/raid5/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28/generation_config.json",
+      "sha256": "3a8f9087e486054c8a4a08dae2e5a3ba62e23da212b5b8c08bc42cb983c3459f"
+    },
+    {
+      "bytes": 1671839,
+      "path": "/mnt/raid5/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28/merges.txt",
+      "sha256": "599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3"
+    },
+    {
+      "bytes": 3945441440,
+      "path": "/mnt/raid5/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28/model-00001-of-00004.safetensors",
+      "sha256": "a1333e6293854747c481288ea83b348226af178dd565c49b6f9495ba1966aba7"
+    },
+    {
+      "bytes": 3864726352,
+      "path": "/mnt/raid5/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28/model-00002-of-00004.safetensors",
+      "sha256": "f5d25a2772cb825164a2a2c0fb6d51a87e282abf21e4dd75bc5cfb3cd0ea6185"
+    },
+    {
+      "bytes": 3864726424,
+      "path": "/mnt/raid5/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28/model-00003-of-00004.safetensors",
+      "sha256": "8efdec4c1bc12317ae1a38dc42b595ce777738a64deea3fcb8a0a91381bcdfd5"
+    },
+    {
+      "bytes": 3556377672,
+      "path": "/mnt/raid5/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28/model-00004-of-00004.safetensors",
+      "sha256": "1a72d403cdf0c1ec3cb7f289f17b394a01e64394c2e9b3c0f94dbce3faf879bd"
+    },
+    {
+      "bytes": 27752,
+      "path": "/mnt/raid5/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28/model.safetensors.index.json",
+      "sha256": "624bf7c47cd12468fdc16e38a47cf4f19e0415b859a223ba3c027eed2f0e1028"
+    },
+    {
+      "bytes": 7031645,
+      "path": "/mnt/raid5/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28/tokenizer.json",
+      "sha256": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539"
+    },
+    {
+      "bytes": 7305,
+      "path": "/mnt/raid5/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28/tokenizer_config.json",
+      "sha256": "5b5d4f65d0acd3b2d56a35b56d374a36cbc1c8fa5cf3b3febbbfabf22f359583"
+    },
+    {
+      "bytes": 2776833,
+      "path": "/mnt/raid5/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28/vocab.json",
+      "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+    }
+  ],
+  "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+  "observed_utc": "2026-10-09T23:25:49.154029+00:00",
+  "qualification": "NOT_RUN_USER_DISABLED",
+  "resources": {
+    "CPUs": 6,
+    "GPUs": 1,
+    "memory_MiB": 59392,
+    "project_cap": 4,
+    "wall_hours": 48
+  },
+  "server": "server2",
+  "storage": {
+    "W20_future_consumer_pending": true,
+    "checkpoint_budget_bytes": 8602517504,
+    "concurrent_payloads": 3,
+    "deletes_existing_files": false,
+    "existing_jobs_growth_reserve_bytes": 51539607552,
+    "filesystem_reserve_bytes": 34359738368,
+    "free_bytes": 159858565120,
+    "raw_logs_reserve_bytes": 8589934592,
+    "required_free_bytes": 120296833024,
+    "selected_weights_history_bytes": 8535408640,
+    "sufficient": true,
+    "two_serial_chain_checkpoint_peak_bytes": 25807552512
+  },
+  "zsre_query_parity": {
+    "actual_model_output_parity": "NOT_MEASURED",
+    "input_mismatches": 0,
+    "model_family": "qwen25",
+    "model_forward_calls": 0,
+    "oracle_lock_sha256": "d37227eb52aa1ba1cc0699155c674858b52ff418eaf7814231642f9de8aa2ff3",
+    "queries": 24858,
+    "query_sha256": "6c8111384789cec7059ea1b3c2b1083d761ade2b360c99db3e5c4f1ef4941d78",
+    "requests": 2000,
+    "schema": "zsre-public-query-parity-v1",
+    "status": "PASS_CPU_QUERY_ONLY",
+    "stream_sha256": "93925ec2f74e00a1b3fbdf261e557d10652ae0eca7265b4948958d39de4848b7",
+    "target_mismatches": 0,
+    "token_denominators": {
+      "neighborhood": 11476,
+      "paraphrase": 6691,
+      "rewrite": 6691
+    }
+  }
+}
