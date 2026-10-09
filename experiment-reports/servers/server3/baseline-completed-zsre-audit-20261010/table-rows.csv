@@ -1,0 +1,5 @@
+server,job_id,job_name,status,main_table_eligible,reason
+server3,62344,s3-qwen-blue-sweep-1k-lane1,RUNNING,False,SWEEP_HELDOUT_1K_NOT_MAIN_W20
+server3,62345,s3-qwen-blue-sweep-1k-lane2,PENDING,False,SWEEP_HELDOUT_1K_NOT_MAIN_W20
+server3,62477,pf500-qwen25-s3-F-beta100,PENDING,False,OURS_PRICE_SWEEP500_NOT_BASELINE
+server3,62478,pf500-qwen25-s3-F-beta200,PENDING,False,OURS_PRICE_SWEEP500_NOT_BASELINE
