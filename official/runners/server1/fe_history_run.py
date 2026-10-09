@@ -28,6 +28,12 @@ def validate_config(c):
     assert c['milestones']==[5,10,15,20]
     assert c['hparams']==read(Path(__file__).parents[2]/'hparams/MEMIT_FE'/f"{c['model']}.json")
     assert digest({k:v for k,v in c.items() if k!='config_sha256'})==c['config_sha256']
+    if 'mask_rerun_instruction' in c:
+        from .fe_history_prepare import MASK_NONCE,GENERATOR_SHA
+        assert c['mask_rerun_instruction']==MASK_NONCE and c['model']=='qwen25'
+        assert c['generator_sha256']==GENERATOR_SHA
+        assert file_sha(Path(__file__).parents[2]/'baselines/easyedit/util/generate.py')==GENERATOR_SHA
+        assert c['context_policy']=='NEW_COLD_NATIVE_CONTEXT_NO_REUSE'
     return c
 
 def state(weights,history,calls):
@@ -37,6 +43,8 @@ def state(weights,history,calls):
 
 def run(config_path,lock_path,resume=False):
     c=validate_config(read(config_path)); lock=read(lock_path)
+    if 'mask_rerun_instruction' in c:
+        assert not resume and lock['mask_rerun_instruction']==c['mask_rerun_instruction']
     assert member(config_path) in lock['configs']
     source=Path(lock['source_directory']).resolve()
     assert Path(__file__).resolve().is_relative_to(source)
@@ -130,6 +138,10 @@ def run(config_path,lock_path,resume=False):
             for p in model.parameters():p.requires_grad_(False)
             model.eval()
             after=state(weights,H,batch)
+            if batch==1 and 'mask_rerun_instruction' in c:
+                write_new(output/'native-context-identity.json',dict(context_sha256=after['context_sha256'],
+                    generator_sha256=c['generator_sha256'],source=lock['source_commit'],
+                    config_sha256=c['config_sha256'],old_context_reused=False,request_sha256=request_hash))
             cursor=dict(completed_batch=batch,edit=dict(method=METHOD,request_sha256=request_hash,requests=100,
                 before=before,after=after,history_appends_per_layer=1,H0_native_matrix_exact_runtime=batch==1,
                 elapsed_sec=time.monotonic()-started),generation_status='DEFERRED_TO_SAVED_W20_CHECKPOINT')
