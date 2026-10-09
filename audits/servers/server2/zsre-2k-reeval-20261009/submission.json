@@ -1,0 +1,243 @@
+{
+  "WAndB": "NOT_STARTED_UNTIL_ACTUAL_JOB_INIT",
+  "at": "2026-10-09T08:52:45.504597+00:00",
+  "checkpoint_writes": 0,
+  "jobs": [
+    {
+      "argv": [
+        "sbatch",
+        "--parsable",
+        "--hold",
+        "--partition=gpu",
+        "--qos=lab_gpu_s2",
+        "--nodelist=server2",
+        "--nodes=1",
+        "--ntasks=1",
+        "--cpus-per-task=6",
+        "--mem=59392M",
+        "--time=04:00:00",
+        "--export=NONE",
+        "--no-requeue",
+        "--job-name=s2-zsre-reeval-ft",
+        "--chdir=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1",
+        "--output=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/logs/FT-%j.out",
+        "--error=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/logs/FT-%j.err",
+        "--gres=gpu:a6000:1",
+        "--dependency=afterany:61918",
+        "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/scripts/FT.sh"
+      ],
+      "config_sha256": "d3ad9e3164e09e869eda32124888a6ec313101694ec221d96c49f4e64c5e1f01",
+      "dependencies": [
+        "61918"
+      ],
+      "job_id": "61942",
+      "method": "FT",
+      "name": "s2-zsre-reeval-ft",
+      "source": "ce8d536fa7eb4dfdd38f7024381e68d212f44ea0"
+    },
+    {
+      "argv": [
+        "sbatch",
+        "--parsable",
+        "--hold",
+        "--partition=gpu",
+        "--qos=lab_gpu_s2",
+        "--nodelist=server2",
+        "--nodes=1",
+        "--ntasks=1",
+        "--cpus-per-task=6",
+        "--mem=59392M",
+        "--time=04:00:00",
+        "--export=NONE",
+        "--no-requeue",
+        "--job-name=s2-zsre-reeval-memit",
+        "--chdir=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1",
+        "--output=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/logs/MEMIT-%j.out",
+        "--error=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/logs/MEMIT-%j.err",
+        "--gres=gpu:a6000:1",
+        "--dependency=afterany:61920",
+        "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/scripts/MEMIT.sh"
+      ],
+      "config_sha256": "6a34f7210f0e5af52c26e4e906de837aa50b9deb3890edcac742905a2ebc6f9e",
+      "dependencies": [
+        "61920"
+      ],
+      "job_id": "61943",
+      "method": "MEMIT",
+      "name": "s2-zsre-reeval-memit",
+      "source": "ce8d536fa7eb4dfdd38f7024381e68d212f44ea0"
+    },
+    {
+      "argv": [
+        "sbatch",
+        "--parsable",
+        "--hold",
+        "--partition=gpu",
+        "--qos=lab_gpu_s2",
+        "--nodelist=server2",
+        "--nodes=1",
+        "--ntasks=1",
+        "--cpus-per-task=6",
+        "--mem=59392M",
+        "--time=04:00:00",
+        "--export=NONE",
+        "--no-requeue",
+        "--job-name=s2-zsre-reeval-alphaedit",
+        "--chdir=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1",
+        "--output=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/logs/ALPHAEDIT-%j.out",
+        "--error=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/logs/ALPHAEDIT-%j.err",
+        "--gres=gpu:a6000:1",
+        "--dependency=afterany:61914",
+        "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/scripts/ALPHAEDIT.sh"
+      ],
+      "config_sha256": "19fc9d468a736d6cc736e25032bd67c0e33b6797e9ac3c27333e4e64c3f2f9d9",
+      "dependencies": [
+        "61914"
+      ],
+      "job_id": "61944",
+      "method": "ALPHAEDIT",
+      "name": "s2-zsre-reeval-alphaedit",
+      "source": "ce8d536fa7eb4dfdd38f7024381e68d212f44ea0"
+    },
+    {
+      "argv": [
+        "sbatch",
+        "--parsable",
+        "--hold",
+        "--partition=gpu",
+        "--qos=lab_gpu_s2",
+        "--nodelist=server2",
+        "--nodes=1",
+        "--ntasks=1",
+        "--cpus-per-task=6",
+        "--mem=59392M",
+        "--time=04:00:00",
+        "--export=NONE",
+        "--no-requeue",
+        "--job-name=s2-zsre-reeval-alphaedit_blue",
+        "--chdir=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1",
+        "--output=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/logs/ALPHAEDIT_BLUE-%j.out",
+        "--error=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/logs/ALPHAEDIT_BLUE-%j.err",
+        "--gres=gpu:a6000:1",
+        "--dependency=afterany:61916",
+        "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/scripts/ALPHAEDIT_BLUE.sh"
+      ],
+      "config_sha256": "2e7c15f7b4ed9b46b599cfb703096fdde9c651870ff12b29978abab46438d54e",
+      "dependencies": [
+        "61916"
+      ],
+      "job_id": "61945",
+      "method": "ALPHAEDIT_BLUE",
+      "name": "s2-zsre-reeval-alphaedit_blue",
+      "source": "ce8d536fa7eb4dfdd38f7024381e68d212f44ea0"
+    },
+    {
+      "argv": [
+        "sbatch",
+        "--parsable",
+        "--hold",
+        "--partition=gpu",
+        "--qos=lab_gpu_s2",
+        "--nodelist=server2",
+        "--nodes=1",
+        "--ntasks=1",
+        "--cpus-per-task=6",
+        "--mem=59392M",
+        "--time=04:00:00",
+        "--export=NONE",
+        "--no-requeue",
+        "--job-name=s2-zsre-reeval-memit_fe",
+        "--chdir=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1",
+        "--output=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/logs/MEMIT_FE-%j.out",
+        "--error=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/logs/MEMIT_FE-%j.err",
+        "--gres=gpu:a6000:1",
+        "--dependency=afterany:61942",
+        "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/scripts/MEMIT_FE.sh"
+      ],
+      "config_sha256": "b770e743f47cce52665291eab6d0cb438e8f61bbb3f749cf358130fb7050d0ca",
+      "dependencies": [
+        "61942"
+      ],
+      "job_id": "61946",
+      "method": "MEMIT_FE",
+      "name": "s2-zsre-reeval-memit_fe",
+      "source": "ce8d536fa7eb4dfdd38f7024381e68d212f44ea0"
+    },
+    {
+      "argv": [
+        "sbatch",
+        "--parsable",
+        "--hold",
+        "--partition=gpu",
+        "--qos=lab_gpu_s2",
+        "--nodelist=server2",
+        "--nodes=1",
+        "--ntasks=1",
+        "--cpus-per-task=6",
+        "--mem=59392M",
+        "--time=04:00:00",
+        "--export=NONE",
+        "--no-requeue",
+        "--job-name=s2-zsre-reeval-sphere",
+        "--chdir=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1",
+        "--output=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/logs/SPHERE-%j.out",
+        "--error=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/logs/SPHERE-%j.err",
+        "--gres=gpu:a6000:1",
+        "--dependency=afterany:61943",
+        "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/scripts/SPHERE.sh"
+      ],
+      "config_sha256": "cd0e8288c05e79d1ae4dc42cbceee638a2d82b1b083e8392d379ac63110835bc",
+      "dependencies": [
+        "61943"
+      ],
+      "job_id": "61947",
+      "method": "SPHERE",
+      "name": "s2-zsre-reeval-sphere",
+      "source": "ce8d536fa7eb4dfdd38f7024381e68d212f44ea0"
+    },
+    {
+      "argv": [
+        "sbatch",
+        "--parsable",
+        "--hold",
+        "--partition=gpu",
+        "--qos=lab_gpu_s2",
+        "--nodelist=server2",
+        "--nodes=1",
+        "--ntasks=1",
+        "--cpus-per-task=2",
+        "--mem=4096M",
+        "--time=04:00:00",
+        "--export=NONE",
+        "--no-requeue",
+        "--job-name=s2-zsre-reeval-collector",
+        "--chdir=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1",
+        "--output=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/logs/collector-%j.out",
+        "--error=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/logs/collector-%j.err",
+        "--dependency=afterany:61942:61943:61944:61945:61946:61947",
+        "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/scripts/collector.sh"
+      ],
+      "config_sha256": null,
+      "dependencies": [
+        "61942",
+        "61943",
+        "61944",
+        "61945",
+        "61946",
+        "61947"
+      ],
+      "job_id": "61948",
+      "method": "collector",
+      "name": "s2-zsre-reeval-collector",
+      "source": "ce8d536fa7eb4dfdd38f7024381e68d212f44ea0"
+    }
+  ],
+  "snapshot": "61948|s2-zsre-reeval-collector|PENDING|afterany:61942(unfulfilled),afterany:61943(unfulfilled),afterany:61944(unfulfilled),afterany:61945(unfulfilled),afterany:61946(unfulfilled),afterany:61947(unfulfilled)\n61947|s2-zsre-reeval-sphere|PENDING|afterany:61943(unfulfilled)\n61946|s2-zsre-reeval-memit_fe|PENDING|afterany:61942(unfulfilled)\n61945|s2-zsre-reeval-alphaedit_blue|PENDING|afterany:61916(unfulfilled)\n61944|s2-zsre-reeval-alphaedit|PENDING|afterany:61914(unfulfilled)\n61943|s2-zsre-reeval-memit|PENDING|afterany:61920(unfulfilled)\n61942|s2-zsre-reeval-ft|PENDING|afterany:61918(unfulfilled)",
+  "status": "RELEASED",
+  "root": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1",
+  "held_inspection": "EXACT_OWNER_COMMAND_WORKDIR_SOURCE_INPUT_RESOURCES_DEPENDENCIES_ALL7_VERIFIED",
+  "qualification": "NOT_RUN_USER_DISABLED",
+  "source_lock_sha256": "6c9b922038a623249425da450af396c361e892856cc354625a198b4a52db71a2",
+  "GPU_completion": "NOT_WAITED",
+  "original_jobs_CP_raw": "KEEP"
+}
