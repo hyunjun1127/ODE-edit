@@ -1,0 +1,37 @@
+{
+  "nonce": "USER-GH-FLUCON-PAPER-SCALE-TABLE-REFRESH-20261010-R1",
+  "accepted_gh_turn": "01a121be-6160-7333-9b02-ec62ffef2bed",
+  "user_instruction": "FLU/CON 논문 배율로 README 표 셀 갱신, 모든 SH 전파·완료결과 회수. SH1 저장 CF checkpoint FLU/CON 평가 job 실제 제출.",
+  "display": {
+    "raw": "Flu=entropy bits; Con=TF-IDF cosine 0..1. 원 JSON/W&B raw 키 보존",
+    "paper": "반올림 전 raw 평균 각각 *100 후 최종 decimal half-up 소수2자리. Flu는 % 아님/100초과 가능; Con도 정답률 아님.",
+    "separation": "raw_unit/raw_value 및 paper_display_x100/display_unit 별도 필드. 이미 display인 값은 다시 입력하지 않음. DEFERRED/결측/실패는 비수치 유지.",
+    "assets": "기존 attribute_snippets.json/idf.npy/tfidf_vocab.json SHA 유지, TF-IDF refit0"
+  },
+  "all_SH": {
+    "live_ACK": true,
+    "scope": "자기 서버 완료 본표적격 W20/2K와 W0를 단발 확인. raw/cohort/source/config/commit/checkpoint/job name-ID/관측시각으로 검산해 compact table rows 제출. CF와 zsRE 및 history/heldout/tuning 분리. 새 GPU는 SH1 아래 범위뿐.",
+    "owner_write": "자기 audits/servers/serverN/flucon-paper-scale-20261010/ 및 experiment-reports/servers/serverN/flucon-paper-scale-20261010/, source/runtime 경로 참조만, raw Git 업로드0. GH 승인 범위 비강제 main 게시 허용.",
+    "readme_owner": "GH sole. SH는 raw/unrounded와 별도 paper 표시를 보고. raw/과거W&B 수정0."
+  },
+  "SH1": {
+    "execute": "유효한 로컬 CF W20/2K CP로 미완료 Flu/Con evaluation-only 실제 held등록/검사/release. 현재 본표 baseline 또는 승인된 MEMIT_FE_HISTORY만. 완료된 동일CP/cohort/protocol raw 또는 동일평가등록은 재사용, 중복생성0.",
+    "identity": "원 model/revision/tokenizer/stream/config/source/runtime/checkpoint SHA 및20commit/2000확인. partial·틀린cohort·오류 oldQwencontext 제외. 없는대상은 exact미제출사유.",
+    "generation": "기존2k generation prompts 한 번 생성해 Flu+Con 공동산출. official CAKE호환 full-prefix mask/case batching/KVcache/고정reference/seed. 원checkpoint/source 제자리변경0, 새 local eval-only경로.",
+    "scope": "official/runners/server1/ 및 필요한 해당 CPU tests, project/run_scripts/server1_* generation eval launcher/collector와 전용local/official-baselines/server1/flucon-paper-scale-20261010/. 필요 최소공통tracking 연결변경은 GH에exactdiff 먼저보고; 공통helper 새 배포 자체를 gate로 만들지 않음.",
+    "resources": "최신사용자승인 cap 및 더엄격한 Slurm정책, RUNNING/admittedPENDING 포함. 기존job취소0. standalone GPUqual/fit/W0재생성0. 실제 eval GPU allowed.",
+    "complete": "ACK에서 멈추지 말고 source freeze/main게시/실제 jobIDs 또는 구체기술blocker. boundedsnapshot후 인계, GPU완료대기/recurringmonitor/autoretry0. Flu/Con셀만 등록상태 갱신용 반환."
+  },
+  "SH2": {
+    "extra": "Qwen SH2 W0 raw Flu6.252105796227186/Con0.2591242773267912와 SH3 선택W0의 모델/cohort/generation조건 호환성을 직접 확인. 호환시 SH2 생성 provenance 별도 결속해 W0생성2셀만 사용 가능; factual셀 교체/SH3생성으로 relabel금지. 미확인 DEFERRED. 새 GPU등록0."
+  },
+  "SH3": {
+    "extra": "SH2 W0호환 검토에 필요한 기존QwenW0조건 smallprovenance만 제공. OURS selected/tuning 본표승격0. 새GPU0."
+  },
+  "SH4": {
+    "extra": "이전 baseline server2이전 및 heldout500/OURS튜닝은 본표2K에 혼입0. 새GPU0."
+  },
+  "preservation": "이번지시로 checkpoint삭제/기존job취소·재편집/모델hparams변경0. 이전삭제receipt는역사보존.",
+  "audit_input": "local/flucon-unit-audit-20261010/{report.md,qwen-raw-recomputation.json,recompute.py}; raw채점비교PASS는 새pretrainedgeneration 재현PASS가 아님.",
+  "completion": "GH 선확정4셀 배율교정 즉시게시, SH1–4 directACK/완료rows회수 및 SH1 실제등록후 최종표main게시."
+}
