@@ -32,6 +32,7 @@ def main():
     source=Path(__file__).resolve().parents[3]
     for name,h in c['source_members'].items(): assert sha(source/name)==h, 'SOURCE_CHANGED'
     assert sha(c['stream'])==c['stream_sha256']
+    for name,h in c['tokenizer_members'].items():assert sha(Path(c['model'])/name)==h, 'TOKENIZER_CHANGED'
     records=read(c['stream']);assert len(records)==500
     out=Path(c['out']);out.mkdir(parents=True,exist_ok=False)
     import numpy as np
@@ -91,7 +92,9 @@ def main():
             identity=identity,seed=c['seed'],cold=True,native_history_empty=True,role='heldout_baseline',requests=500))
         # New task-owned checkpoint folder only. Latest1 rotation is common policy; B5 kept.
         def save(b):
-            assert shutil.disk_usage(out).free>=c['disk_save_reserve_bytes'], 'RESOURCE_BLOCKED_STORAGE_KEEP_SOURCE'
+            payload_bytes=sum(model.get_parameter(n).numel()*4 for n in names)
+            payload_bytes+=sum(t.numel()*4 for t in native.cache_for_checkpoint().values())
+            assert shutil.disk_usage(out).free>=c['disk_save_reserve_bytes']+payload_bytes, 'RESOURCE_BLOCKED_STORAGE_KEEP_SOURCE'
             return checkpoint.save(out/'checkpoint',batch=b,weights=_editable_weights(model,names),
                 cache_c=native.cache_for_checkpoint(),contexts=contexts,evaluation_cursor=dict(edits=b*100),
                 identity=identity,method=c['method'],evaluation_complete=True)
