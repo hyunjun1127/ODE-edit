@@ -1,0 +1,18 @@
+{
+  "parent_nonce": "USER-GH-FLUCON-PAPER-SCALE-TABLE-REFRESH-20261010-R1",
+  "nonce": "SH2-GH-FLUCON-PAPER-SCALE-RESULT-20261010-R1",
+  "server": "server2",
+  "owner_accepted_turn": "01a121bf-dc12-7420-9754-c50086b87646",
+  "publication": "fa770b9c7bccad707f29c8771054dcb2de04993a",
+  "target": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+  "target_accepted_turn": "01a121be-6160-7333-9b02-ec62ffef2bed",
+  "transport": "OFFICIAL_APP_SERVER_DIRECT_EXACT_RELATED_TURN_STEER",
+  "status": "DIRECT_ACCEPTED_NOT_README_COMPLETION",
+  "table_rows_sha256": "d6ee73d2a5d8fa61dc23b5620e2ec36005161925b9b6a19b0588f6092aeb9de1",
+  "compatibility_sha256": "fd224c47453c698f63f80a3931534b90ad80b23615416069db02e89b2a0ded57",
+  "README_edited_by_SH2": false,
+  "GPU": 0,
+  "job_mutations": 0,
+  "checkpoint_deletions": 0,
+  "recurring_monitor": false
+}
