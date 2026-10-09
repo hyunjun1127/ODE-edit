@@ -1,0 +1,87 @@
+{
+  "nonce": "USER-GH-FLUCON-PAPER-SCALE-TABLE-REFRESH-20261010-R1",
+  "observed_at": "2026-10-09T17:43:10.248868+00:00",
+  "rows": [
+    {
+      "model": "qwen25",
+      "dataset": "CF",
+      "endpoint": "W0",
+      "job_id": "61813",
+      "job_name": "qwen-price-q3-eot-2k",
+      "main_reference_eligible": true,
+      "factual": {
+        "Eff": 13.95,
+        "Gen": 16.6,
+        "Loc": 85.14,
+        "Score": 20.88105346436503
+      },
+      "source_commit": "93341767ccb41a4237e8a762421340622d3580f1",
+      "config_sha256": "a14e7acf1b208984a7c143f1b6d07af3aafa14b187fc098a27cf68e95b96178f",
+      "cohort_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+      "requests": 2000,
+      "Flu": {
+        "status": "DEFERRED",
+        "raw_unit": "entropy_bits",
+        "raw_value": null,
+        "paper_display_x100": null,
+        "display_unit": "entropy_bits_x100"
+      },
+      "Con": {
+        "status": "DEFERRED",
+        "raw_unit": "tfidf_cosine",
+        "raw_value": null,
+        "paper_display_x100": null,
+        "display_unit": "cosine_x100"
+      }
+    },
+    {
+      "model": "Qwen2.5-7B-Instruct",
+      "method": "PRICE Q3-beta250 (selected settings, final eval2k)",
+      "job_id": "61813",
+      "job_name": "qwen-price-q3-eot-2k",
+      "source_commit": "93341767ccb41a4237e8a762421340622d3580f1",
+      "config_sha256": "a14e7acf1b208984a7c143f1b6d07af3aafa14b187fc098a27cf68e95b96178f",
+      "main_table_eligible": false,
+      "result_present": true,
+      "terminal_present": true,
+      "scope": "selected settings: no automatic main promotion",
+      "Flu_status": "DEFERRED",
+      "Con_status": "DEFERRED",
+      "status": "COMPLETE",
+      "batches": 20,
+      "result_sha256": "97325b89e2a0cf01046139b0a993eb372013cca109b140a4fca853311c93db3a"
+    },
+    {
+      "model": "Llama3-8B-Instruct",
+      "method": "PRICE L1 selected settings",
+      "job_id": "61821",
+      "job_name": "llama-price-L1-2k",
+      "source_commit": "50a9110b86a0846710804d58bf3ea783762ff25f",
+      "config_sha256": "f38a21d6682d22a6a22c6d73a0ec605a1f0ef9f6ce6a88b0c11225730861eb83",
+      "main_table_eligible": false,
+      "result_present": false,
+      "terminal_present": false,
+      "scope": "selected settings: no automatic main promotion",
+      "Flu_status": "DEFERRED",
+      "Con_status": "DEFERRED"
+    }
+  ],
+  "own_new_measured_FluCon_cells": 0,
+  "own_zsre": "No completed own CP per existing bounded inventory; no replica evaluation",
+  "SH2_supplied_unverified_reference_only": {
+    "Flu": {
+      "raw_value": "6.252105796227186",
+      "paper_display_x100": "625.21"
+    },
+    "Con": {
+      "raw_value": "0.2591242773267912",
+      "paper_display_x100": "25.91"
+    },
+    "status": "SH2_COMPATIBILITY_PENDING_NOT_SH3_MEASURED"
+  },
+  "CPU_checks": "47 existing evidence files SHA-size; 26000 rows finite/unique; request-macro/count/cold-state; Decimal half-up tests",
+  "reducer_sha256": "1e037117ce07a5f1ef6c919f0583e4fa9af5b41d3e94d16b590ef9fb5ecd618a",
+  "new_GPU_jobs_forward": 0,
+  "reviewer": "owner CPU audit, no independent reviewer",
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED"
+}

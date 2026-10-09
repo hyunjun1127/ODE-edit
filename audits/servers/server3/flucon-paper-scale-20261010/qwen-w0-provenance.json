@@ -1,0 +1,316 @@
+{
+  "observed_at": "2026-10-09T17:43:10.248868+00:00",
+  "server": "server3",
+  "job_id": "61813",
+  "job_name": "qwen-price-q3-eot-2k",
+  "endpoint": "W0",
+  "identity": {
+    "job_id": "61813",
+    "source": "93341767ccb41a4237e8a762421340622d3580f1",
+    "profile_sha": "a14e7acf1b208984a7c143f1b6d07af3aafa14b187fc098a27cf68e95b96178f",
+    "model_snapshot": "/data/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28",
+    "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+    "observer_identity_sha256": "bd82dd65303e3cdaa7517497a11fffef985125b824e949165541a88508a8ee62"
+  },
+  "ordered_case_ids_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+  "requests": 2000,
+  "cold_state_verified": true,
+  "cold_state": {
+    "H": {
+      "4": "c81b58d1c1e79864bc5608c481d50f87547607108aa42e2993be519d184c45f4",
+      "5": "c81b58d1c1e79864bc5608c481d50f87547607108aa42e2993be519d184c45f4",
+      "6": "c81b58d1c1e79864bc5608c481d50f87547607108aa42e2993be519d184c45f4",
+      "7": "c81b58d1c1e79864bc5608c481d50f87547607108aa42e2993be519d184c45f4",
+      "8": "c81b58d1c1e79864bc5608c481d50f87547607108aa42e2993be519d184c45f4"
+    },
+    "W": {
+      "4": "02840e29ec550994801da6ba615897263c3d9277cc18607a61e0d8006d6ecdac",
+      "5": "6653bcfe27ce3b1cd9909facc513607d8e5e22f8fd9adfc39a47984f15e4d03c",
+      "6": "63692e2f4d40f25d13785908af8cb35c294b2a731aa22ab345ba8cea2792fbb1",
+      "7": "2dced8459e4fc6e5ee93f32df07259af0d0e107f6aff70e516f176c8b9010351",
+      "8": "5627dbf35411b2f47a474fc307eba12226823fe252d6a3fb34e37e41f88be813"
+    }
+  },
+  "initial_rng_sha256": "660ee344bfa528f2f9aed8993bb74bfab4ffca4a40893ee02400d2130923cc5c",
+  "runtime": {
+    "GPU_runtime_qualification": "PENDING_FIXED_CANDIDATE_RECEIPT",
+    "attention": "eager",
+    "autocast": false,
+    "cuda_initialized": false,
+    "cudnn_TF32": false,
+    "geometry_dtype": "float64",
+    "matmul_TF32": false,
+    "model_dtype": "float32",
+    "python": "/data/janghj/EasyEdit/.venv/bin/python",
+    "python_version": "3.12.3",
+    "source_root_sha256": "94dcb502266b1d6709733a52276f945be83757937bb02f220dc738866114d1b8",
+    "torch": "2.9.1+cu128",
+    "torch_cuda": "12.8",
+    "transformers": "4.57.1"
+  },
+  "seed": 20261002,
+  "precision": "FP32/eager/TF32off",
+  "tokenizer": "AutoTokenizer local snapshot; pad=eos/right at load; factual observer has own masked batching",
+  "tokenizer_config_assets_prior_locked": [],
+  "generation": {
+    "status": "NOT_MEASURED_ON_SH3",
+    "generation_seed": null,
+    "generation_protocol": null,
+    "reference_assets_sha256": null,
+    "compatibility_with_SH2": "SH2_MUST_BIND_ITS_GENERATION_SOURCE_PROTOCOL_REFERENCE_TOKENIZER_AND_COHORT; no SH3 generation parity claim"
+  },
+  "factual": {
+    "Eff": 13.95,
+    "Gen": 16.6,
+    "Loc": 85.14,
+    "Score": 20.88105346436503
+  },
+  "denominators": {
+    "R": 2000,
+    "P": 4000,
+    "N": 20000
+  },
+  "numerators": {
+    "R": 279,
+    "P": 664,
+    "N": 17028
+  },
+  "inventory": [
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/execution.lock.json",
+      "sha256": "d38ce83948a48a3946d60b4f99bb47d6fa947d53823e19077936386dc48bca6b",
+      "bytes": 3456105
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/preparation-v1/preparation.json",
+      "sha256": "231f282d5c29804821b4b93c0e5da86a6f51392e912652b728c62aee9c04ccad",
+      "bytes": 20445
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009/execution-noqual-r1/streams/cf-stream.json",
+      "sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+      "bytes": 4145654
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-price-cap-base-repair-2k/preparation/QWEN/observer-identity.json",
+      "sha256": "bd82dd65303e3cdaa7517497a11fffef985125b824e949165541a88508a8ee62",
+      "bytes": 8124634
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/initial.json",
+      "sha256": "0279562c87679e688a8bd029d6ca90925a63442d9441b151e290b0fed82adba9",
+      "bytes": 1336
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0-result.json",
+      "sha256": "5610dfb24a14bc28515a06557f5dfe6917e99f204f4555c543ce32e5f16b5d89",
+      "bytes": 1732
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0/summary.json",
+      "sha256": "f01a95a93ee1f1e472eed15762b9b5f806417c4c2f04da05fc560cf893751e14",
+      "bytes": 2883
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0/chunk-0000.json",
+      "sha256": "a006d83c0b266894293bb6a9c12a21ce5dfb32e94e34e8721a71a74af8b34b3d",
+      "bytes": 397957
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0/chunk-0050.json",
+      "sha256": "935005535934a0b22bb7fd31c13b363d3acc28cac393714e45fd95a78c33febf",
+      "bytes": 397896
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0/chunk-0100.json",
+      "sha256": "0fac6a6dab6c75f35093c258c9d31d1be80b46f0d2ccd99e3d9d75917c27cbbf",
+      "bytes": 397861
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0/chunk-0150.json",
+      "sha256": "acbf5316d7b274873eb72b48847ee771da68d90c0d48c5ab10f682c23f501183",
+      "bytes": 397826
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0/chunk-0200.json",
+      "sha256": "96c703cb0fda879e83887a9b6dada94098ceb8fd84a855d4fb8ff9e98e4603e4",
+      "bytes": 397937
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0/chunk-0250.json",
+      "sha256": "c65f0b0e36b717560e976a2260b1acaa26b34fe0435c15dd44c64a05b7a2d585",
+      "bytes": 397798
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0/chunk-0300.json",
+      "sha256": "3073826386f944811285b9e1c3ae6c28f245252b103959f5193ae42f9f7acbc3",
+      "bytes": 397951
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0/chunk-0350.json",
+      "sha256": "562bf32a4afb1b7ec04232b21f5f98234b9ce04998b548ca6bb57855dde17c60",
+      "bytes": 397970
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0/chunk-0400.json",
+      "sha256": "3c63b86de3ead3e1133356ae6d22f51134ebeb49fee10e5a1681f06c2891e125",
+      "bytes": 397808
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0/chunk-0450.json",
+      "sha256": "e3116eb6a006692eef2abe117e0d2d51f03f3e086ded6880378e0307eac55bf5",
+      "bytes": 397970
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0/chunk-0500.json",
+      "sha256": "b70d77553dda993e602fa2191885ca7940460674c0efb88e4d92aba16ea78023",
+      "bytes": 398007
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0/chunk-0550.json",
+      "sha256": "af8643e2568e9d486931259f65c623145230f7b93c6ed0e948200861acec894a",
+      "bytes": 397817
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0/chunk-0600.json",
+      "sha256": "fc5cc88e39c6c53d0864751ce1aa01c1d0fc933d4d44e4d80c8c607d615bc9a4",
+      "bytes": 397906
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0/chunk-0650.json",
+      "sha256": "7e032804524840dbd38ec88cfeb242a216151982703e6d47117ab2d2dadf0156",
+      "bytes": 397926
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0/chunk-0700.json",
+      "sha256": "a7c5e730b8c468420fe9f654c119b6f13c89eaba4313457473720cc9bbb90d1b",
+      "bytes": 397745
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0/chunk-0750.json",
+      "sha256": "6ba892aa816222dc0eeb5270ba06e8d22cb5e2725d0ba66a544f1425359fb60f",
+      "bytes": 397870
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0/chunk-0800.json",
+      "sha256": "2319202c58404be2c7e96c7578dbb4ee686f6a775dd26bec0f3e8b53243e2a4a",
+      "bytes": 397800
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0/chunk-0850.json",
+      "sha256": "9788b7ff4e239b4094ae77a05be71f3ea5c4b3e5bc0099d52292a5be39e39ce1",
+      "bytes": 397822
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0/chunk-0900.json",
+      "sha256": "45fba443cb3925c2de204babed68d2af73e7e7c7e8e810f3f3f236e20a849000",
+      "bytes": 397926
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0/chunk-0950.json",
+      "sha256": "18b4e7b0f979845167083f24d98434bf48f060f2e9484ce96dc1be12c892cf36",
+      "bytes": 397893
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0/chunk-1000.json",
+      "sha256": "a2df5269f86710e750770b09ad537afc5778e67e09304535fac8c6f18fb6095e",
+      "bytes": 397961
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0/chunk-1050.json",
+      "sha256": "21ed818ef2ef8897fb25c3f05987988c674e45ccc4e7017ca03ba321bd075fc9",
+      "bytes": 397888
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0/chunk-1100.json",
+      "sha256": "797df9131dd3a4d1e2abc7ce22a07c4276d7a2cce24fa0c62bfdbbe71426609e",
+      "bytes": 397962
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0/chunk-1150.json",
+      "sha256": "76a62ac47473220afae878046ac909d5eb73bf6023c59d8cc5f8aa9a68f81379",
+      "bytes": 397893
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0/chunk-1200.json",
+      "sha256": "56958c2f207bb0918e1ea8845aa59bf891b41ed04b019a1dc68223af807a2f7a",
+      "bytes": 397883
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0/chunk-1250.json",
+      "sha256": "cac83bb6d46dea3ebebd1ad58efcf7aefbb0cba15acf0479b17b187c6f8a9006",
+      "bytes": 397960
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0/chunk-1300.json",
+      "sha256": "6f69e3a1cb065b157bd62ed1d0e2f853601f2f48312e19d9cb766063ce8e25eb",
+      "bytes": 397923
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0/chunk-1350.json",
+      "sha256": "d453b2aec161084be422052e05df70ee25ca27278cf20cbbea818984a0841f65",
+      "bytes": 397930
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0/chunk-1400.json",
+      "sha256": "a43e54730628745bc18c1f3c8fce980abe4ff8992eed0940c915e65fe76a099b",
+      "bytes": 397848
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0/chunk-1450.json",
+      "sha256": "052dedd3c4769038c96f5e8c62f0004b4020ddd873bd7387e67a869d970342f0",
+      "bytes": 397852
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0/chunk-1500.json",
+      "sha256": "a6c08a92c6aa21bb6700c16fa6a0453ad90a1b052979e2bdedea596e0cdb044f",
+      "bytes": 398026
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0/chunk-1550.json",
+      "sha256": "c73d41c40204a1c9323e7988e8ba87b4f3228e5643134a532c51a80713321a2f",
+      "bytes": 397981
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0/chunk-1600.json",
+      "sha256": "9d42c275f3b8dc1f6fe7e945c4d5ff450f13e09bc28209d303526983bc9531f4",
+      "bytes": 397851
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0/chunk-1650.json",
+      "sha256": "f6f75f27474ca8d47af513f24913c739fca4435c10f5d118bddff45b9592a415",
+      "bytes": 397929
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0/chunk-1700.json",
+      "sha256": "f7610fbf0004eee08a1a20f1a57966df40c798fd47e56af76cec7ad417a5ff3f",
+      "bytes": 397897
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0/chunk-1750.json",
+      "sha256": "3c47792dc05a7d7e4866ddde510c5e3ad19396b448e154ef6a89f01b9a528871",
+      "bytes": 397883
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0/chunk-1800.json",
+      "sha256": "93c784e239601c38edd9c2402bcf65ea2e1dbd956e5f2d35a1f40881ebc844d1",
+      "bytes": 398036
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0/chunk-1850.json",
+      "sha256": "b6e7df9b5c803050de9dbd8679566f8b7eed05bebda6a9a3a7ef560409f5269e",
+      "bytes": 397959
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0/chunk-1900.json",
+      "sha256": "3112777491f26db2767f5e270fc2b26d4d9207eb36780b210b947827b508036c",
+      "bytes": 397900
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/W0/chunk-1950.json",
+      "sha256": "1063c5e69db1fe301c06f8b96f762f20367cd8cd7903e5d03bc1839e3526563d",
+      "bytes": 397824
+    }
+  ],
+  "preservation": "raw/WB/checkpoint unchanged; no new forward"
+}
