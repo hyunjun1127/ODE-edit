@@ -10,6 +10,7 @@
 | server2 | `server2/` | GPT-J 6개 방법, CF·zsRE |
 | server3 | `server3/` | Qwen 6개 방법, CF·zsRE + BLUE L2 격자와 clamp 대조 |
 | server4 | `server4/` | Llama3 AlphaEdit/BLUE/SPHERE, CF·zsRE |
+| rent | `rent/` | 미배정 (A100 Kubernetes; job 번호 KST `DDHHMM`, [rent/README.md](rent/README.md)) |
 
 공통 factual evaluator의 최초 통합은 server1이 `official/evaluation/factual.py`와 해당
 테스트를 담당한다. 다른 서버는 입력·메트릭 계약을 공유하고 공통 파일을 동시에 수정하지 않는다.

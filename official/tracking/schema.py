@@ -22,6 +22,10 @@ NATIVE_GENERATION_PROFILE = 'cf-cake-native-casebatch-kv-total100-globalrng-v1'
 JOB_FIELDS = {'job_id','array_job_id','array_task_id','step_id','job_display_id','execution_backend','identity_source'}
 SLURM_ENV = {'job_id':'SLURM_JOB_ID','array_job_id':'SLURM_ARRAY_JOB_ID',
              'array_task_id':'SLURM_ARRAY_TASK_ID','step_id':'SLURM_STEP_ID'}
+# The rent server runs Kubernetes Jobs without a Slurm number; its submitter binds
+# the KST submission time as DDHHMM (e.g. 092005 = day 9, 20:05).
+RENT_JOB_ENV = 'ODEEDIT_RENT_JOB_ID'
+SERVERS = ('server1','server2','server3','server4','rent')
 CONFIG_KEYS = {'server', 'task_id', 'arm', 'attempt', 'source_sha', 'config_sha', 'parent_run_id',
                'source_run_id','source_run_url','observation_identity','baseline',
                'generation_metric_schema','generation_profile','generation_eval_seed',
@@ -150,7 +154,7 @@ def config(values):
         else:
             identifier(value)
         result[key] = value
-    require(result['server'] in ('server1','server2','server3','server4'), 'INVALID_SERVER')
+    require(result['server'] in SERVERS, 'INVALID_SERVER')
     if METHOD_CONFIG & result.keys():
         require(METHOD_CONFIG|{'config_sha'} <= result.keys(),'METHOD_CONFIG_REQUIRED')
         require(result['metric_schema'] in (COMPARISON_SCHEMA, OFFICIAL_SCHEMA),'METHOD_SCHEMA_UNREGISTERED')
@@ -217,12 +221,27 @@ def step_identifier(value):
     return value
 
 
+def rent_job_id(value):
+    require(type(value) is str and re.fullmatch(r'(0[1-9]|[12][0-9]|3[01])([01][0-9]|2[0-3])[0-5][0-9]',value), 'INVALID_RENT_JOB_ID')
+    return value
+
+
 def job_identity(cfg):
     result = {k:cfg[k] for k in JOB_FIELDS if k in cfg}
-    if result.get('execution_backend') == 'local':
+    backend = result.get('execution_backend')
+    if 'server' in cfg:
+        require((backend!='kubernetes' or cfg['server']=='rent') and
+                (backend!='slurm' or cfg['server']!='rent'), 'JOB_BACKEND_SERVER')
+    if backend == 'local':
         require(result == dict(execution_backend='local',identity_source='NOT_APPLICABLE'), 'LOCAL_JOB_ID_FORBIDDEN')
         return result
-    require(result.get('execution_backend')=='slurm' and result.get('identity_source')=='SLURM_ENV', 'JOB_IDENTITY_MISSING')
+    if backend == 'kubernetes':
+        require(result.keys() == {'job_id','job_display_id','execution_backend','identity_source'}
+                and result['identity_source'] == 'RENT_SUBMIT_ENV', 'JOB_IDENTITY_MISSING')
+        rent_job_id(result['job_id'])
+        require(result['job_display_id']==result['job_id'],'JOB_DISPLAY_MISMATCH')
+        return result
+    require(backend=='slurm' and result.get('identity_source')=='SLURM_ENV', 'JOB_IDENTITY_MISSING')
     require(bool(re.fullmatch(r'[1-9][0-9]*',result.get('job_id',''))), 'SLURM_JOB_ID_REQUIRED')
     require(('array_job_id' in result)==('array_task_id' in result), 'INCOMPLETE_ARRAY_IDENTITY')
     display = result['job_id']
@@ -236,12 +255,18 @@ def job_identity(cfg):
 
 
 def bind_job_identity(values, environ=None):
-    """Capture only four allowlisted keys in the parent, before env isolation."""
+    """Capture only the four Slurm keys or the rent job key in the parent, before env isolation."""
     cfg=config(values); env=os.environ if environ is None else environ
     raw={k:env.get(v) for k,v in SLURM_ENV.items()}
     # Empty optional step exports do not identify a step; never fabricate one.
     if raw['step_id']=='':raw['step_id']=None
-    if any(v is not None for v in raw.values()):
+    rent=env.get(RENT_JOB_ENV)
+    require(rent is None or all(v is None for v in raw.values()), 'AMBIGUOUS_JOB_BACKEND')
+    if rent is not None:
+        identity=dict(job_id=rent,job_display_id=rent,execution_backend='kubernetes',
+                      identity_source='RENT_SUBMIT_ENV')
+        job_identity(identity)
+    elif any(v is not None for v in raw.values()):
         identity={k:v for k,v in raw.items() if v is not None}
         identity.update(execution_backend='slurm',identity_source='SLURM_ENV')
         identity['job_display_id']=(str(raw['array_job_id'])+'_'+str(raw['array_task_id'])
@@ -258,7 +283,7 @@ def bind_job_identity(values, environ=None):
 
 def run_name(cfg):
     identity=job_identity(cfg)
-    suffix='job'+identity['job_display_id'] if identity['execution_backend']=='slurm' else 'local'
+    suffix='job'+identity['job_display_id'] if identity['execution_backend']!='local' else 'local'
     return cfg['server']+'-'+cfg['arm']+'-'+cfg['attempt']+'-'+suffix
 
 

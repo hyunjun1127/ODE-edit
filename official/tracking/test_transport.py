@@ -88,9 +88,9 @@ class SDK:
     def files(self):return []
 
 
-def execute(payloads,*,cfg=None,sdk=None):
+def execute(payloads,*,cfg=None,sdk=None,environ=None):
     sdk=sdk or SDK()
-    cfg=schema.bind_job_identity(cfg or config(),{'SLURM_JOB_ID':'42',
+    cfg=schema.bind_job_identity(cfg or config(),environ or {'SLURM_JOB_ID':'42',
         'SLURM_ARRAY_JOB_ID':'40','SLURM_ARRAY_TASK_ID':'0','SLURM_STEP_ID':'-5'})
     request=dict(config=cfg,run_id='officialFixture',spool='/tmp/fake-sdk-no-write',
         smoke=False,base_url='https://api.wandb.ai')
@@ -372,6 +372,33 @@ class OfficialTransport(unittest.TestCase):
             result=run(path);result.config=dict(result.config,job_id='43');return result
         sdk.run=mismatch
         with self.assertRaisesRegex(ValueError,'REMOTE_JOB_CONFIG_MISMATCH'):execute([],sdk=sdk)
+
+    def test_rent_kubernetes_job_number_binds_run_name_and_readback(self):
+        rent=dict(config(),server='rent')
+        sdk,out,cfg=execute([official()],cfg=rent,environ={schema.RENT_JOB_ENV:'092005'})
+        self.assertEqual(schema.job_identity(cfg),dict(job_id='092005',job_display_id='092005',
+            execution_backend='kubernetes',identity_source='RENT_SUBMIT_ENV'))
+        self.assertEqual(sdk.name,'rent-MEMIT_CF-fixture-job092005')
+        self.assertEqual(sdk.config['job_id'],'092005')
+        self.assertEqual(out[0]['status'],'READY_ONLINE')
+        self.assertEqual(schema.bind_job_identity(rent,{})['execution_backend'],'local')
+
+    def test_rent_job_number_rejects_invalid_ambiguous_or_foreign_server(self):
+        rent=dict(config(),server='rent')
+        for value in ('','92005','0920051','002005','322005','092405','092060','job092005'):
+            with self.assertRaisesRegex(ValueError,'INVALID_RENT_JOB_ID'):
+                schema.bind_job_identity(rent,{schema.RENT_JOB_ENV:value})
+        with self.assertRaisesRegex(ValueError,'AMBIGUOUS_JOB_BACKEND'):
+            schema.bind_job_identity(rent,{schema.RENT_JOB_ENV:'092005','SLURM_JOB_ID':'42'})
+        with self.assertRaisesRegex(ValueError,'JOB_BACKEND_SERVER'):
+            schema.bind_job_identity(config(),{schema.RENT_JOB_ENV:'092005'})
+        with self.assertRaisesRegex(ValueError,'JOB_BACKEND_SERVER'):
+            schema.bind_job_identity(rent,{'SLURM_JOB_ID':'42'})
+        with self.assertRaisesRegex(ValueError,'JOB_IDENTITY_CALLER_ENV_MISMATCH'):
+            schema.bind_job_identity(dict(rent,job_id='092006'),{schema.RENT_JOB_ENV:'092005'})
+        with self.assertRaisesRegex(ValueError,'JOB_IDENTITY_MISSING'):
+            schema.job_identity(dict(job_id='092005',job_display_id='092005',
+                execution_backend='kubernetes',identity_source='SLURM_ENV'))
 
     def test_missing_or_wrong_readback_is_explicit(self):
         for mode in ('empty','changed','error'):
