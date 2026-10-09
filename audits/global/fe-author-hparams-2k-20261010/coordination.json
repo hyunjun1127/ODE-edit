@@ -1,0 +1,224 @@
+{
+  "nonce": "USER-SH-FE-AUTHOR-HPARAMS-2K-CF-ZSRE-20261010-R1",
+  "gh_session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+  "authority": "사용자가 구현/최소 CPU/실제 네 cold chain 등록 및 README 기존 네 행 갱신 승인. 부모가 SH1/SH2에 같은 nonce로 직접 배정했으므로 중복 배정하지 않음.",
+  "readme_template_commit": "fbb3a2e3",
+  "method": "MEMIT_FE_HISTORY (FE author hparams)",
+  "claim_boundary": "원저자 clamp/step을 적용하고 persistent history를 유지한 variant. DOW-KE exact reproduction 아님. native MEMIT_FE 및 이전 history 결과와 분리.",
+  "owners": [
+    {
+      "server": "server1",
+      "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+      "cwd": "/mnt/raid5/janghj/ODE-edit",
+      "accepted_turn": "01a122f4-f589-7420-8612-f2042999b157",
+      "explicit_owner_ack": true,
+      "model": "llama3",
+      "datasets": [
+        "cf",
+        "zsre"
+      ],
+      "ownership": "공통 author profile/FE_HISTORY CF+zsRE runner, server1 제출",
+      "state": "SUBMITTED_RELEASED",
+      "owner_ack_evidence": "exact read_thread 및 동일 accepted turn direct steer, 원 명시 OWNER_ACK 회수"
+    },
+    {
+      "server": "server2",
+      "session": "01a0493a-074c-7f91-9a13-769116326fef",
+      "cwd": "/mnt/raid5/janghj/ODE-edit",
+      "accepted_turn": "01a122f4-e240-7532-91fd-5295daaa902a",
+      "explicit_owner_ack": true,
+      "model": "qwen25",
+      "datasets": [
+        "cf",
+        "zsre"
+      ],
+      "ownership": "SH1 공통 source를 소비하는 server2 adapter/준비/제출",
+      "state": "SUBMITTED_RELEASED",
+      "owner_ack_evidence": "exact read_thread 및 동일 accepted turn direct steer, 원 명시 OWNER_ACK 회수"
+    }
+  ],
+  "protocol": {
+    "requests": 2000,
+    "batch_size": 100,
+    "batches": 20,
+    "seed": 0,
+    "cold_W0_H0_each_chain": true,
+    "per_server_order": "기존 자원 frontier 뒤 CF -> zsRE 직렬",
+    "new_GPU_jobs": 4
+  },
+  "scientific_profile": {
+    "llama3": {
+      "clamp_norm_factor": 0.75,
+      "v_num_grad_steps": 35,
+      "v_lr": 0.1,
+      "v_weight_decay": 0.5,
+      "v_loss_layer": 31
+    },
+    "qwen25": {
+      "clamp_norm_factor": 1.0,
+      "v_num_grad_steps": 35,
+      "v_lr": 0.5,
+      "v_weight_decay": 0.001,
+      "v_loss_layer": 27
+    },
+    "common": {
+      "kl_factor": 0.0625,
+      "mom2_update_weight": 15000,
+      "layers": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "model_dtype": "FP32",
+      "attention": "eager",
+      "TF32": false
+    },
+    "upstream_commit": "478134dfb24b43f4e18b47e8500893ce3f9cc50f"
+  },
+  "required_binding": "JSON 검증만이 아니라 registry.hparams 실제 override 전달을 CPU 검사. 매 batch 진입 모델 z fit/replay; final native key once/layer history append 유지. C0 jitter/PSD/optimizer/dtype 변경0.",
+  "evaluation": {
+    "cf": "기존 official E/G/Loc/Score; FLUCON DEFERRED_CHECKPOINT_EVALUATION",
+    "zsre": "official.evaluation.zsre_paper public-query request-macro loc_ans; generation 없음"
+  },
+  "checkpoint": "W0 및 매 committed batch 저장, 최종 W20 selected weights/H/contexts/RNG/identity 보존. 원 checkpoint/source 덮어쓰기 없음.",
+  "resource": "각 서버 현행 승인 cap 및 더 엄격한 memory 정책을 owner가 확인. 1GPU/job, 신규 두 chain 직렬, cap 증가/기존 job 변경 없음.",
+  "excluded": [
+    "GPT-J",
+    "추가 sweep/smoke/GPU qualification",
+    "기존 36 baseline 행 및 기존 결과 수치 변경",
+    "62262/62263 재활성화",
+    "raw/weights/credential Git 추가",
+    "장기 모니터/자동 retry"
+  ],
+  "jobs": [
+    {
+      "server": "server1",
+      "model": "llama3",
+      "dataset": "cf",
+      "table_model": "Llama3",
+      "table_dataset": "CF",
+      "job_id": "62529",
+      "job_name": "official-s1-cf-llama3-memit-fe-author-history",
+      "initial_state": "PENDING",
+      "dependency": "afterany:62259:62260:62261",
+      "source_commit": "9c3fe23282bcaf2e353b1494913a323e2f037d39",
+      "official_tree": "17467b484b1d558e7b83a015c375aca81d705215",
+      "config_sha256": "be5e2c1a25353880a45554aa1135e023679a01c54993349eb2c2e2d38761332b",
+      "config_sha_kind": "FILE_BYTES_SHA256",
+      "profile_sha256": "1ffbf9adeec9525b88db3d86a6dc4ace8b98bdaff1d5eb4e4ee064c24b35b125",
+      "checkpoint_path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/preparation-r2/runs/cf/checkpoint",
+      "owner_receipt": "audits/servers/server1/fe-author-hparams-2k-20261010/submission.json",
+      "resources": {
+        "GPU": 1,
+        "CPU": 8,
+        "memory_MiB": 98304,
+        "wall_hours_ceiling": 48,
+        "QOS": "lab_gpu_s1"
+      },
+      "held_inspection_pass": true,
+      "released": true
+    },
+    {
+      "server": "server1",
+      "model": "llama3",
+      "dataset": "zsre",
+      "table_model": "Llama3",
+      "table_dataset": "zsRE",
+      "job_id": "62530",
+      "job_name": "official-s1-zsre-llama3-memit-fe-author-history",
+      "initial_state": "PENDING",
+      "dependency": "afterany:62529",
+      "source_commit": "9c3fe23282bcaf2e353b1494913a323e2f037d39",
+      "official_tree": "17467b484b1d558e7b83a015c375aca81d705215",
+      "config_sha256": "36a126cd7dde3fc2b3bcddf6d50f7db0a845cfa561ccddd34ec02c191220e7e6",
+      "config_sha_kind": "FILE_BYTES_SHA256",
+      "profile_sha256": "1ffbf9adeec9525b88db3d86a6dc4ace8b98bdaff1d5eb4e4ee064c24b35b125",
+      "checkpoint_path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/preparation-r2/runs/zsre/checkpoint",
+      "owner_receipt": "audits/servers/server1/fe-author-hparams-2k-20261010/submission.json",
+      "resources": {
+        "GPU": 1,
+        "CPU": 8,
+        "memory_MiB": 98304,
+        "wall_hours_ceiling": 48,
+        "QOS": "lab_gpu_s1"
+      },
+      "held_inspection_pass": true,
+      "released": true
+    },
+    {
+      "server": "server2",
+      "model": "qwen25",
+      "dataset": "cf",
+      "table_model": "Qwen2.5",
+      "table_dataset": "CF",
+      "job_id": "62531",
+      "job_name": "s2-qwen25-cf-fe-author-history",
+      "initial_state": "PENDING",
+      "dependency": "afterany:62081:62083:62085",
+      "source_commit": "a8c4c611a37210ddfa9e7db222dca6678d4cd678",
+      "official_tree": "73e6c5b69a8501fb3522a09716fc2e6d13226c58",
+      "config_sha256": "19ee6abf7a11f86a5a91a5af591f880967dfa2e3194c1ff32725fbe98a4ed90b",
+      "config_sha_kind": "CANONICAL_CONFIG_PAYLOAD_SHA256",
+      "config_file_sha256": "8f846bd483f2820d604c90947409a0736d4faf0c3ffdd2b8cb6d41aab38c15b2",
+      "profile_sha256": "1ffbf9adeec9525b88db3d86a6dc4ace8b98bdaff1d5eb4e4ee064c24b35b125",
+      "checkpoint_path": "/mnt/raid5/janghj/ODE-edit/local/fe-author-hparams-2k-20261010/configs-r1/runs/cf/checkpoint",
+      "owner_receipt": "/mnt/raid5/janghj/ODE-edit/local/fe-author-hparams-2k-20261010/registration-r1/submission.json",
+      "owner_receipt_sha256": "b941466a36d036a18c25be08d38116636c53098e62fed6d450160852285602b8",
+      "resources": {
+        "GPU": 1,
+        "CPU": 6,
+        "memory_MiB": 59392,
+        "wall_hours_ceiling": 48,
+        "QOS": "lab_gpu_s2"
+      },
+      "held_inspection_pass": true,
+      "released": true
+    },
+    {
+      "server": "server2",
+      "model": "qwen25",
+      "dataset": "zsre",
+      "table_model": "Qwen2.5",
+      "table_dataset": "zsRE",
+      "job_id": "62532",
+      "job_name": "s2-qwen25-zsre-fe-author-history",
+      "initial_state": "PENDING",
+      "dependency": "afterany:62531",
+      "source_commit": "a8c4c611a37210ddfa9e7db222dca6678d4cd678",
+      "official_tree": "73e6c5b69a8501fb3522a09716fc2e6d13226c58",
+      "config_sha256": "fa6bfd0b46d05fec3617c89173479cb015ba4555765cc384433e707f5812b3cd",
+      "config_sha_kind": "CANONICAL_CONFIG_PAYLOAD_SHA256",
+      "config_file_sha256": "b9e85f556a3eefab41143bd9ccb9db83ab75c3e9912b528ad5e138f3363992f4",
+      "profile_sha256": "1ffbf9adeec9525b88db3d86a6dc4ace8b98bdaff1d5eb4e4ee064c24b35b125",
+      "checkpoint_path": "/mnt/raid5/janghj/ODE-edit/local/fe-author-hparams-2k-20261010/configs-r1/runs/zsre/checkpoint",
+      "owner_receipt": "/mnt/raid5/janghj/ODE-edit/local/fe-author-hparams-2k-20261010/registration-r1/submission.json",
+      "owner_receipt_sha256": "b941466a36d036a18c25be08d38116636c53098e62fed6d450160852285602b8",
+      "resources": {
+        "GPU": 1,
+        "CPU": 6,
+        "memory_MiB": 59392,
+        "wall_hours_ceiling": 48,
+        "QOS": "lab_gpu_s2"
+      },
+      "held_inspection_pass": true,
+      "released": true
+    }
+  ],
+  "submission_state": "FOUR_ACTUAL_HELD_INSPECTED_RELEASED_INITIAL_PENDING",
+  "GH_scientific_source_edits": 0,
+  "duplicate_dispatch_or_submit": 0,
+  "GH_minimal_CPU": {
+    "source": "9c2cde2f611db4e1c88d68bc40dd5a7e7c2f7e6a",
+    "tests": 6,
+    "source_files": 166,
+    "status": "PASS_CPU_ONLY"
+  },
+  "owner_CPU": {
+    "server1": 44,
+    "server2": 11,
+    "actual_GPU_qualification": "NOT_RUN_USER_DISABLED"
+  },
+  "W20_online_status": "NOT_OBSERVED_BEFORE_STARTUP"
+}
