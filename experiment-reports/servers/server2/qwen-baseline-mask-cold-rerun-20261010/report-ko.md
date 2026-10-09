@@ -18,4 +18,30 @@ FT61900은 기존 20commit/최종 W20 pointer/CP 전체 SHA를 검증했다. 별
 
 Official source 166 SHA PASS, external task imports 0. Qwen 2K public query CPU: 24,858 queries, E6691/G6691/Loc11476, input/target mismatch 0. 이는 pretrained GPU/수치 parity 또는 W&B online PASS가 아니다.
 
-현재 source 준비 단계이며 실제 등록 ID/held 검사/release는 후속 submission 영수증으로 구분한다. 승인 cap4 및 더 엄격한 node/QoS/storage를 실제 등록 직전에 검산한다. GPU 완료 대기/반복 monitor/자동 retry 없음. 원 raw/CP/source 삭제·대형 broadcast 없음 (`NO_BROADCAST_NOT_REQUIRED`). README는 GH 단독 통합.
+## 실제 등록·release
+
+실행 source/main publication은 `7b5097aa447946e35de42229c22b0c0feabd11ae` (own 구현 `5438fd21`)이다. Source lock SHA `fafaeac54b2ccaa1fd52839c8d2f0b740e0d9a35fc99f5ed74b8dd49deaf190e`, input lock SHA `4ae67a5f6a9ff6ee05100483f5f3d931b58a279dd1bd8800229c5bcdb580ddae`. 이 보고서의 후속 게시 commit은 실행 source와 구분한다.
+
+2026-10-10 00:46:20 KST: 아래 전량 held 검사/release 완료, snapshot은 전부 정상 dependency PENDING이다.
+
+| 범위 | old | new GPU | afterany |
+|---|---:|---:|---:|
+| FT zsRE final2K eval-only | 61900 CP 보존 | 62072 | 61945 |
+| CF MEMIT | 61954 | 62073 | 61946 |
+| CF AlphaEdit | 61958 | 62075 | 61947 |
+| CF MEMIT_FE | 61966 | 62077 | 61944 |
+| CF SPHERE | 61970 | 62079 | 62072 |
+| zsRE MEMIT | 61956 완료 역사 보존 | 62081 | 62073 |
+| zsRE AlphaEdit | 61960 완료 역사 보존 | 62083 | 62075 |
+| zsRE MEMIT_FE | 61968 | 62085 | 62077 |
+| zsRE SPHERE | 61972 | 62087 | 62079 |
+
+GPU0 archive/KEEP jobs: 62074/76/78/80/82/84/86/88, collector **62089**. Receiver binding 없음 및 CF deferred consumer 미완료이므로 원 CP KEEP; 실제 transfer/delete 0. Archive 완료로 보존 검증을 대신하지 않는다.
+
+GPU 각각 1 A6000/CPU6/59392MiB, cold main 48h·FT eval-only 4h 요청(ETA 아님). CPU jobs 2CPU/4096MiB/4h. QoS `lab_gpu_s2` cap4 및 정확 whole-owner frontier를 검사했다. protected FT/BLUE 3개와 GPTJ eval을 먼저 유지하는 네 lane이며 canceled ID는 새 DAG에 없다. 필요 보존+atomic replacement+32GiB reserve 합계 108,175,294,464B; 당시 가용 약248GB. 실제 8개 source/config/script/resource/dependency/CP policy 검사 영수증은 registration-r1에 있다.
+
+경로: `/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/`. GPU 로그 `logs/<cell>-gpu-<job>.out/.err`, main CP `runs/<cell>/checkpoint/`. 첫 실제 context SHA는 `runs/<cell>/native-context-identity.json`에서 생성 예정이며 현재 미관측이다. FT62072의 config SHA는 actual job 기반 source 함수로 결정되며 `93f630caf6d4ed0c6ef47d5bc1e148d624c3bc36cf6e9364650c09f2372e6b3c`; 별도 CPU schema projection을 submission receipt에 기록했다.
+
+W&B 공통 online logger/실제 job ID/name/source/config를 연결했으나 새 run은 아직 시작 전이다. 프로젝트 접근 `ONLINE_PROJECT_READ_VERIFIED`와 run-level remote readback `NOT_STARTED_PENDING`을 구분한다. 새 W20 성능·context·GPU PASS를 주장하지 않는다.
+
+GPU 완료 대기/반복 monitor/자동 retry 없음. 원 raw/CP/source 삭제·대형 broadcast 없음 (`NO_BROADCAST_NOT_REQUIRED`). README는 GH 단독 통합.
