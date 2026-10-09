@@ -50,7 +50,7 @@ def save(folder, *, batch, weights, cache_c, contexts, evaluation_cursor, identi
     validate_identity(identity)
     if not evaluation_complete or type(batch) is not int or not 0 <= batch <= 20:
         raise ValueError("BATCH_NOT_COMMITTABLE")
-    has_history = method in ("ALPHAEDIT", "ALPHAEDIT_BLUE", "SPHERE")
+    has_history = method in ("ALPHAEDIT", "ALPHAEDIT_BLUE", "SPHERE", "MEMIT_FE_HISTORY")
     if has_history != bool(cache_c):
         raise ValueError("NATIVE_HISTORY_SCHEMA")
     if not weights or any(t.dtype != torch.float32 for t in weights.values()):

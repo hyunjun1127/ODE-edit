@@ -1,0 +1,346 @@
+{
+  "schema": "server2-zsre-saved-weights-inventory-v1",
+  "instruction_id": "USER-GH-ZSRE-SAVED-WEIGHTS-2K-REEVAL-20261009-R1",
+  "rows": [
+    {
+      "method": "FT",
+      "original_job_id": 61726,
+      "model": "gptj",
+      "dataset": "zsre",
+      "status": "FINAL_W20_FULLSHA_VERIFIED",
+      "checkpoint": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_FT/checkpoints/batch-20-3247882fc1004710.pt",
+        "bytes": 268474909,
+        "sha256": "3247882fc10047104b90e93b6b7a3d5e4357de99361c686d6268d1c9cc2131ba",
+        "device": 2304,
+        "inode": 122767339,
+        "mtime_ns": 1791494259527925500
+      },
+      "latest": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_FT/checkpoints/latest.json",
+        "bytes": 237,
+        "sha256": "5996b8be4ecd6a4cd3bf05984af9e6ed68ac36127dd63b62aca152e7e15b0880",
+        "device": 2304,
+        "inode": 122767320,
+        "mtime_ns": 1791494260583913700
+      },
+      "result": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_FT/result.json",
+        "bytes": 8366,
+        "sha256": "8115da56adec3fe1ef71ec40fa7f707320d7e229b76c4ae64891f028d64496fb",
+        "device": 2304,
+        "inode": 122767335,
+        "mtime_ns": 1791494260651913000
+      },
+      "identity": {
+        "assets_sha256": "8ce64b6771ff8da49d584784ea190ad8575a3a073f03fcc94c93568d31db6463",
+        "code_commit": "478464689231595eb63da368cc7c376e775eb559",
+        "config_sha256": "183657b9bffe5e02ddb0401f5f5d0a6ee5058c8b3258f76f7e7c74af53402d24",
+        "model_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+        "official_tree_sha256": "41ed261d1fc8c7c0022366c50fa9cb1ae3c05320",
+        "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+        "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+      },
+      "original_source": "478464689231595eb63da368cc7c376e775eb559",
+      "checkpoint_folder": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_FT/checkpoints",
+      "original_manifest": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/manifest.json",
+        "bytes": 162677,
+        "sha256": "cf7619c3e47122d7b616253d08c76318287887dc43ef2b5cc9874d605d6aea3e",
+        "device": 2304,
+        "inode": 122766429,
+        "mtime_ns": 1791487944952518700
+      }
+    },
+    {
+      "method": "MEMIT",
+      "original_job_id": 61728,
+      "model": "gptj",
+      "dataset": "zsre",
+      "status": "FINAL_W20_FULLSHA_VERIFIED",
+      "checkpoint": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_MEMIT/checkpoints/batch-20-fdab7aeaba960372.pt",
+        "bytes": 1610637581,
+        "sha256": "fdab7aeaba960372d52170a79fe023f8f825058d9c5a4c8f344470cfa94c135c",
+        "device": 2304,
+        "inode": 122767374,
+        "mtime_ns": 1791494657184127200
+      },
+      "latest": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_MEMIT/checkpoints/latest.json",
+        "bytes": 237,
+        "sha256": "fde60adf19cfd2aa4048c82d6235baf280e1166aaf34cd6fba2a529277e25e8f",
+        "device": 2304,
+        "inode": 122767375,
+        "mtime_ns": 1791494663068078600
+      },
+      "result": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_MEMIT/result.json",
+        "bytes": 8444,
+        "sha256": "2f6c72d186a776ac5ddbdb57af11820650420517ceb3f676d1688ee5d677a80e",
+        "device": 2304,
+        "inode": 122767345,
+        "mtime_ns": 1791494663400076000
+      },
+      "identity": {
+        "assets_sha256": "8ce64b6771ff8da49d584784ea190ad8575a3a073f03fcc94c93568d31db6463",
+        "code_commit": "478464689231595eb63da368cc7c376e775eb559",
+        "config_sha256": "6247b216833ef34d00f5ba71175dd1b07b1be384192833e350b12b3ed595184f",
+        "model_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+        "official_tree_sha256": "41ed261d1fc8c7c0022366c50fa9cb1ae3c05320",
+        "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+        "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+      },
+      "original_source": "478464689231595eb63da368cc7c376e775eb559",
+      "checkpoint_folder": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_MEMIT/checkpoints",
+      "original_manifest": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/manifest.json",
+        "bytes": 162677,
+        "sha256": "cf7619c3e47122d7b616253d08c76318287887dc43ef2b5cc9874d605d6aea3e",
+        "device": 2304,
+        "inode": 122766429,
+        "mtime_ns": 1791487944952518700
+      }
+    },
+    {
+      "method": "ALPHAEDIT",
+      "original_job_id": 61730,
+      "model": "gptj",
+      "dataset": "zsre",
+      "status": "FINAL_W20_FULLSHA_VERIFIED",
+      "checkpoint": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_ALPHAEDIT/checkpoints/batch-20-2b1ea832469fbee3.pt",
+        "bytes": 8053090197,
+        "sha256": "2b1ea832469fbee3b3331fb518126889c0d3d6bd29f16924892254cd216a37c5",
+        "device": 2304,
+        "inode": 122767498,
+        "mtime_ns": 1791502521970828000
+      },
+      "latest": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_ALPHAEDIT/checkpoints/latest.json",
+        "bytes": 237,
+        "sha256": "65b22d00070955410f3a5bbdbdc846ec0dc44c9429195ee65cf519c8152c4809",
+        "device": 2304,
+        "inode": 122768906,
+        "mtime_ns": 1791502543151027200
+      },
+      "result": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_ALPHAEDIT/result.json",
+        "bytes": 8550,
+        "sha256": "7c4c368d7ee24427de7a86104b42a3564148e201f8dd133e24612f436039f38b",
+        "device": 2304,
+        "inode": 122767526,
+        "mtime_ns": 1791502544511039700
+      },
+      "identity": {
+        "assets_sha256": "8ce64b6771ff8da49d584784ea190ad8575a3a073f03fcc94c93568d31db6463",
+        "code_commit": "478464689231595eb63da368cc7c376e775eb559",
+        "config_sha256": "690de995de96adf3b51c9efd7c8f5a04a4da4f5db269d1c5de133dbbfbd83078",
+        "model_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+        "official_tree_sha256": "41ed261d1fc8c7c0022366c50fa9cb1ae3c05320",
+        "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+        "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+      },
+      "original_source": "478464689231595eb63da368cc7c376e775eb559",
+      "checkpoint_folder": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_ALPHAEDIT/checkpoints",
+      "original_manifest": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/manifest.json",
+        "bytes": 162677,
+        "sha256": "cf7619c3e47122d7b616253d08c76318287887dc43ef2b5cc9874d605d6aea3e",
+        "device": 2304,
+        "inode": 122766429,
+        "mtime_ns": 1791487944952518700
+      }
+    },
+    {
+      "method": "ALPHAEDIT_BLUE",
+      "original_job_id": 61732,
+      "model": "gptj",
+      "dataset": "zsre",
+      "status": "FINAL_W20_FULLSHA_VERIFIED",
+      "checkpoint": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_ALPHAEDIT_BLUE/checkpoints/batch-20-4f8e35034122ae8b.pt",
+        "bytes": 2684378777,
+        "sha256": "4f8e35034122ae8b041e73db9f920cdba8dd1980cdb77d18f91f596e3d8aaffb",
+        "device": 2304,
+        "inode": 122768929,
+        "mtime_ns": 1791504878856259000
+      },
+      "latest": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_ALPHAEDIT_BLUE/checkpoints/latest.json",
+        "bytes": 237,
+        "sha256": "aadb6ace5f10871495f042ed4683438e89b308627cb2b11991b1f00ee5ba484a",
+        "device": 2304,
+        "inode": 122768927,
+        "mtime_ns": 1791504890132180700
+      },
+      "result": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_ALPHAEDIT_BLUE/result.json",
+        "bytes": 8679,
+        "sha256": "15bd5598c49072f5eeb677de1f8796336213b175f28eba9df03a613648168637",
+        "device": 2304,
+        "inode": 122768928,
+        "mtime_ns": 1791504890672177200
+      },
+      "identity": {
+        "assets_sha256": "8ce64b6771ff8da49d584784ea190ad8575a3a073f03fcc94c93568d31db6463",
+        "code_commit": "478464689231595eb63da368cc7c376e775eb559",
+        "config_sha256": "1f44babb02b1bebb6eee893ff19624ca3051afb0e5ba04d3d379bc9d43fcfefe",
+        "model_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+        "official_tree_sha256": "41ed261d1fc8c7c0022366c50fa9cb1ae3c05320",
+        "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+        "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+      },
+      "original_source": "478464689231595eb63da368cc7c376e775eb559",
+      "checkpoint_folder": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_ALPHAEDIT_BLUE/checkpoints",
+      "original_manifest": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/manifest.json",
+        "bytes": 162677,
+        "sha256": "cf7619c3e47122d7b616253d08c76318287887dc43ef2b5cc9874d605d6aea3e",
+        "device": 2304,
+        "inode": 122766429,
+        "mtime_ns": 1791487944952518700
+      }
+    },
+    {
+      "method": "MEMIT_FE",
+      "original_job_id": 61734,
+      "model": "gptj",
+      "dataset": "zsre",
+      "status": "FINAL_W20_FULLSHA_VERIFIED",
+      "checkpoint": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_MEMIT_FE/checkpoints/batch-20-199a4175bd7bb425.pt",
+        "bytes": 1610637709,
+        "sha256": "199a4175bd7bb425b088afafd27a5e9aa6812a4061a6eca930899bcaca4f41a5",
+        "device": 2304,
+        "inode": 122825961,
+        "mtime_ns": 1791513540745992200
+      },
+      "latest": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_MEMIT_FE/checkpoints/latest.json",
+        "bytes": 237,
+        "sha256": "6e0edae7d1a2d432e412aaa1dba2d2944d1157be09b6441b478da04358d79d63",
+        "device": 2304,
+        "inode": 122825973,
+        "mtime_ns": 1791513546289970200
+      },
+      "result": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_MEMIT_FE/result.json",
+        "bytes": 8522,
+        "sha256": "08a93b32706ed0c2e2e83c2c277df876b088de7cbfc0a12eb7e266364b57e970",
+        "device": 2304,
+        "inode": 122825969,
+        "mtime_ns": 1791513546565969200
+      },
+      "identity": {
+        "assets_sha256": "8ce64b6771ff8da49d584784ea190ad8575a3a073f03fcc94c93568d31db6463",
+        "code_commit": "478464689231595eb63da368cc7c376e775eb559",
+        "config_sha256": "d59aef72835624e12637be252c0303907c656b457db2738eecc4fd4fc5ba771f",
+        "model_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+        "official_tree_sha256": "41ed261d1fc8c7c0022366c50fa9cb1ae3c05320",
+        "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+        "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+      },
+      "original_source": "478464689231595eb63da368cc7c376e775eb559",
+      "checkpoint_folder": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_MEMIT_FE/checkpoints",
+      "original_manifest": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/manifest.json",
+        "bytes": 162677,
+        "sha256": "cf7619c3e47122d7b616253d08c76318287887dc43ef2b5cc9874d605d6aea3e",
+        "device": 2304,
+        "inode": 122766429,
+        "mtime_ns": 1791487944952518700
+      }
+    },
+    {
+      "method": "SPHERE",
+      "original_job_id": 61735,
+      "model": "gptj",
+      "dataset": "zsre",
+      "status": "FINAL_W20_FULLSHA_VERIFIED",
+      "checkpoint": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_SPHERE/checkpoints/batch-20-5820a31b1a507b42.pt",
+        "bytes": 8053090069,
+        "sha256": "5820a31b1a507b42455f6c9e96df7f4757f4e2103e8365dc4d3716b1bb8307b7",
+        "device": 2304,
+        "inode": 122826057,
+        "mtime_ns": 1791522383608308200
+      },
+      "latest": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_SPHERE/checkpoints/latest.json",
+        "bytes": 237,
+        "sha256": "b606050ca3c415f39bc27164690de5acbf52bb1176daecf0a0c673bccf96d3af",
+        "device": 2304,
+        "inode": 122826058,
+        "mtime_ns": 1791522407760316400
+      },
+      "result": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_SPHERE/result.json",
+        "bytes": 8472,
+        "sha256": "268013c8dd23e9bd81962adf2e39422a8b02c5ca51aba8a4ffeaa1ca41f9f355",
+        "device": 2304,
+        "inode": 122826056,
+        "mtime_ns": 1791522409736317200
+      },
+      "identity": {
+        "assets_sha256": "8ce64b6771ff8da49d584784ea190ad8575a3a073f03fcc94c93568d31db6463",
+        "code_commit": "478464689231595eb63da368cc7c376e775eb559",
+        "config_sha256": "43ab4cca1ecfd04b0a086a6b1b3f24c332feea3c5ea4f4060d65a08d1ec9ed78",
+        "model_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+        "official_tree_sha256": "41ed261d1fc8c7c0022366c50fa9cb1ae3c05320",
+        "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+        "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+      },
+      "original_source": "478464689231595eb63da368cc7c376e775eb559",
+      "checkpoint_folder": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_SPHERE/checkpoints",
+      "original_manifest": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/manifest.json",
+        "bytes": 162677,
+        "sha256": "cf7619c3e47122d7b616253d08c76318287887dc43ef2b5cc9874d605d6aea3e",
+        "device": 2304,
+        "inode": 122766429,
+        "mtime_ns": 1791487944952518700
+      }
+    }
+  ],
+  "source_input_status": "SOURCE_INPUT_PENDING",
+  "model_loads": 0,
+  "GPU": 0,
+  "checkpoint_deserializations": 0,
+  "original_artifacts_unchanged": true,
+  "original_manifest_path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/manifest.json",
+  "model_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+  "model_snapshot": "/mnt/raid5/janghj/.cache/huggingface/hub/models--EleutherAI--gpt-j-6b/snapshots/47e169305d2e8376be1d31e765533382721b2cc1",
+  "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5",
+  "streams": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/preparation-no-gpu-qual-r1/streams/zsre-stream.json",
+    "member": {
+      "bytes": 1490821,
+      "device": 2304,
+      "inode": 122765921,
+      "mtime_ns": 1791487911688164400,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/preparation-no-gpu-qual-r1/streams/zsre-stream.json",
+      "sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+      "verification": "CURRENT_FULL_SHA256"
+    },
+    "source": {
+      "bytes": 8091864,
+      "device": 2304,
+      "inode": 119354814,
+      "mtime_ns": 1775552708753792800,
+      "path": "/mnt/raid5/janghj/EasyEdit/data/zsre/zsre_mend_eval.json",
+      "sha256": "8a371d512f8a6ab175db4ef672181d5c0e52da23298cb51e5a2eeea2f89aa9cd",
+      "verification": "CURRENT_FULL_SHA256"
+    },
+    "lock_member": {
+      "bytes": 4265,
+      "device": 2304,
+      "inode": 122765922,
+      "mtime_ns": 1791487911688164400,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/preparation-no-gpu-qual-r1/streams/zsre-stream.lock.json",
+      "sha256": "42302a6f5b7fd573a5ee393552f93fca8a14b6350a760f080db9de480f5298dd",
+      "verification": "CURRENT_FULL_SHA256"
+    },
+    "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c"
+  }
+}
