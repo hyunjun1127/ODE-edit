@@ -1,0 +1,122 @@
+{
+  "W20_not_observed": true,
+  "execution_lock": {
+    "bytes": 119726,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/registration-r1/execution-lock.json",
+    "sha256": "e9eabf4e4a459527df7939535b4d21d6edbd75b8f84929830c0a18d78ec15388"
+  },
+  "held_inspected": true,
+  "instruction": "USER-GH-SH1-MEMIT-FE-HISTORY-THREE-MODEL-2K-20261009-R1",
+  "jobs": {
+    "gptj": {
+      "argv": [
+        "/mnt/raid5/janghj/EasyEdit/.venv/bin/python",
+        "-B",
+        "-u",
+        "-m",
+        "official.runners.server1.fe_history_run",
+        "--config",
+        "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/configs/gptj.json",
+        "--lock",
+        "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/registration-r1/execution-lock.json"
+      ],
+      "config": {
+        "bytes": 3318,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/configs/gptj.json",
+        "sha256": "8c3dec291369262ee0d60a0236617f070c4ba6dfd73fc035d350d94ae8e4c0a6"
+      },
+      "dependency": [],
+      "job_id": "61927",
+      "name": "official-s1-cf-gptj-memit-fe-history",
+      "script": {
+        "bytes": 910,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/registration-r1/scripts/gptj.sh",
+        "sha256": "4580c47174a4585300a2165f38c0d6b9bda9350d66b041f3c2f1537625a9630d"
+      },
+      "initial_state": "PENDING",
+      "initial_reason": "None"
+    },
+    "llama3": {
+      "argv": [
+        "/mnt/raid5/janghj/EasyEdit/.venv/bin/python",
+        "-B",
+        "-u",
+        "-m",
+        "official.runners.server1.fe_history_run",
+        "--config",
+        "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/configs/llama3.json",
+        "--lock",
+        "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/registration-r1/execution-lock.json"
+      ],
+      "config": {
+        "bytes": 3325,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/configs/llama3.json",
+        "sha256": "c4543cb0124539d6e73858ce8d7f6c906688709811ee63403afb75ba9538f982"
+      },
+      "dependency": [],
+      "job_id": "61928",
+      "name": "official-s1-cf-llama3-memit-fe-history",
+      "script": {
+        "bytes": 912,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/registration-r1/scripts/llama3.sh",
+        "sha256": "e90e996a1f9e00a016723d4208649c999dd3e82e3bdd6b69a051f69c47743f26"
+      },
+      "initial_state": "PENDING",
+      "initial_reason": "None"
+    },
+    "qwen25": {
+      "argv": [
+        "/mnt/raid5/janghj/EasyEdit/.venv/bin/python",
+        "-B",
+        "-u",
+        "-m",
+        "official.runners.server1.fe_history_run",
+        "--config",
+        "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/configs/qwen25.json",
+        "--lock",
+        "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/registration-r1/execution-lock.json"
+      ],
+      "config": {
+        "bytes": 3317,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/configs/qwen25.json",
+        "sha256": "d45838b8db9071f307678604ee290c2fc9c2825fa6a0e9505c6b9d64c6f7e975"
+      },
+      "dependency": [],
+      "job_id": "61929",
+      "name": "official-s1-cf-qwen25-memit-fe-history",
+      "script": {
+        "bytes": 912,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/registration-r1/scripts/qwen25.sh",
+        "sha256": "67f9997344727cb15041384fd14fbb1d6ccf79ecf2302dbfa567e3fd91e2a109"
+      },
+      "initial_state": "PENDING",
+      "initial_reason": "None"
+    }
+  },
+  "monitoring_active": false,
+  "official_tree": "5a270b0fc7800f75dd7321d53d738e2be2840bed",
+  "qualification": "NOT_RUN_USER_DISABLED",
+  "released": true,
+  "source": "eaf78c331dee72093b2ccdf29f31962799475e34",
+  "task_id": "memit-fe-history-three-model-2k",
+  "cpu_tests_passed": 48,
+  "source_files_verified": 157,
+  "effective_cap": 4,
+  "admitted_DAG_width": 4,
+  "kept_existing": [
+    "61773"
+  ],
+  "resources": {
+    "collector_memory_MiB": 24576,
+    "collector_wall_seconds": 14400,
+    "cpus": 8,
+    "inode_reserve": 10000,
+    "memory_MiB": 98304,
+    "node": "devbox",
+    "partition": "gpu",
+    "qos": "lab_gpu_s1",
+    "storage_reserve_bytes": 68719476736,
+    "wall_seconds": 172800
+  },
+  "online_readback": "NOT_OBSERVED_BEFORE_STARTUP"
+}

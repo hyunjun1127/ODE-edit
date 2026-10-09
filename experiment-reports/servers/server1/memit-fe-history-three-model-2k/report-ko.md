@@ -4,6 +4,14 @@ USER `USER-GH-SH1-MEMIT-FE-HISTORY-THREE-MODEL-2K-20261009-R1`의 별도 variant
 stock MEMIT_FE 결과로 relabel하지 않는다. 공통 Loc 변경 main3252c776/implementation3a400ae5를 포함한
 준비 base main71aebbc5를 채택했다. 기존 frozen job/CP/raw는 변경하지 않았다.
 
+## 실제 등록/release
+
+execution source `eaf78c33` (implementation `115293d3`), 최소 CPU48 tests PASS/source157 SHA PASS.
+GPT-J **61927**, Llama **61928**, Qwen **61929**: 전량 held owner/script/fullargv/resource/dependency
+검산 후 release. 초기 세 job은 PENDING, 의존성 없음. 기존 FE61773 KEEP 및 합산 DAG 폭4/cap4.
+W20/actual GPU success/온라인 remote readback은 아직 미관측이며 별도 qualification은 USER_DISABLED.
+정확 source/config/lock/jobname/resources는 `audits/servers/server1/memit-fe-history-three-model-2k/submission.json`.
+
 ## 구현
 
 - `official/baselines/memit_fe_history.py`: native FE apply/compute_z/compute_ks/context를 재사용.
