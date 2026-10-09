@@ -65,7 +65,14 @@ zsRE Loc은 **W0 prediction agreement**이며 별도 `Specificity_loc_ans`가 �
 | AlphaEdit-BLUE | 89.84† | 99.60† | 97.15† | 76.59† |  |  | 99.41 | 95.85 | 66.69 |
 | MEMIT-FE | ING: 61773 | ING: 61773 | ING: 61773 | ING: 61773 | DEFERRED | DEFERRED | 14.95 | 13.71 | 0.97 |
 | AlphaEdit+SPHERE | 86.87 | 99.50 | 94.95 | 71.68 | DEFERRED | DEFERRED | 98.52 | 94.72 | 50.22 |
-| PRICE (Ours) |  |  |  |  |  |  |  |  |  |
+| PRICE (Ours) | 90.98§ | 99.70§ | 92.78§ | 82.21§ |  |  |  |  |  |
+
+§ 사용자 2026-10-09 지시에 따라 이전 **FREE100 / MEMIT writer**, Llama job **60103**의
+**W20/2,000 edits** CF 결과를 사용한다(새 official 재실행 결과 아님).
+Eff/Gen/Loc은 기존 strict NLL preference R/P/N 성공률
+1,994/2,000 · 3,711/4,000 · 16,441/20,000이며, Score는 반올림 전 성공률의 조화평균이다.
+소수 둘째 자리 decimal half-up으로 표시하며 미측정 Flu/Con과 zsRE는 빈칸을 유지한다.
+[FREE100 출처·원자료 SHA 검산](experiment-reports/servers/server1/official-baselines-20261008/llama-free100-table-20261009.md).
 
 † 사용자 2026-10-09 지시에 따라 표본·순서를 대조한 기존 Llama BLUE job **39283_1**의
 **B20/2,000 edits** 결과를 반영했다(새 official 재실행 결과 아님).

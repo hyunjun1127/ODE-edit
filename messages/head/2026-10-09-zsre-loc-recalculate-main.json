@@ -1,0 +1,16 @@
+{
+  "instruction_id": "USER-GH-ZSRE-LOC-RECALCULATE-MAIN-20261009-R1",
+  "user_quote": "GH에게 이 부분 전달해서 실험 끝난 것들 모두 다시 산출물 보고 계산하고 main table 갱신하라고 하자",
+  "supersedes": "Main zsRE Loc=W0 prediction agreement policy",
+  "metric": "Loc=100*mean_requests(mean_neighborhood_answer_tokens(predicted_token==loc_ans_target_token))",
+  "scope": "SH1..4 inventory all completed approved zsRE baseline and ours results; W20/2000 exact source/config/orderedcohort/raw SHA. GH integrates main table and common future source contract/reducer/mapping/docs/tests",
+  "reduction": "CPU saved neighborhood_prompts_correct or actual predicted/target token IDs. Crosscheck Specificity_loc_ans independently, do not just rename stored summary. Recompute Eff/Gen request macro from same raw. Preserve W0 agreement as separately named auxiliary. No token-micro substitution",
+  "evidence": "before/after values, raw SHA, case and token denominators, reducer SHA and exact execution identity in small JSON/CSV/report",
+  "other_metrics": "CF unchanged, verify previous table/raw alignment; FluCon missing/DEFERRED unchanged",
+  "missing": "MISSING/UNVERIFIED explicitly, no invented0 or other run replacement",
+  "owners": {"common_source_and_README": "GH", "server1": "SH1 Llama completed6 plus any own approved zsRE completion", "server2": "SH2 GPTJ completed6 plus any own approved zsRE completion", "server3": "SH3 own inventory", "server4": "SH4 own inventory"},
+  "preserve": "all original raw/frozen source/checkpoints/running or pending jobs; no hotpatch/cancel/rerun/extraGPU/forward",
+  "parallel_existing_work": "SH2 Qwen migration submission continues; no new qualification or generation gate. SH1 exact server2 archive cutover pin request is same migration support and remains authorized",
+  "publication": "owner small audit/report/source CPU reducer nonforce main allowed, no raw/text/tensor upload. GH only README changes",
+  "limits": "No additional scientific method/arm or GPU authority. Tokenization equivalence/paper reproduction not implied by correct aggregation. No recurring monitor"
+}
