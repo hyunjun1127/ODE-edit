@@ -113,6 +113,9 @@ def _original_validate_config(config):
 
 
 def validate_config(config):
+    if 'mask_repair_instruction' in config:
+        from official.runners.server2.qwen_mask_profile import validate
+        return validate(config)
     from official.runners.server2.qwen_plan import rows
     _original_validate_config(config)
     if config not in [row['config'] for row in rows()]:
@@ -289,7 +292,7 @@ def _model_seed(seed):
     torch.cuda.manual_seed_all(seed)
 
 
-def _tracker(output, *, arm, writer, dataset, source_sha, config_sha, assets):
+def _tracker(output, *, arm, writer, dataset, source_sha, config_sha, assets, deferred=False):
     """Start the shared scalar-only online logger before a model is loaded."""
     from official.tracking import init
     from official.tracking.method import OFFICIAL_SCHEMA
@@ -304,7 +307,9 @@ def _tracker(output, *, arm, writer, dataset, source_sha, config_sha, assets):
                   writer=writer, baseline=writer, role="scientific",
                   metric_schema=OFFICIAL_SCHEMA, instruction_id=OFFICIAL_INSTRUCTION,
                   dataset=dataset)
-    if dataset == "cf":
+    if dataset == "cf" and deferred:
+        values['generation_schedule']='DEFERRED_CHECKPOINT_EVALUATION'
+    elif dataset == "cf":
         values.update(generation_metric_schema="counterfact-cake-generation-metrics-v1",
                       generation_profile=NATIVE_GENERATION_PROFILE,
                       generation_eval_seed=20261007,
@@ -840,7 +845,8 @@ def execute(args):
     with _tracker(out, arm=config["run_id"], writer=config["method"],
                   dataset=config["dataset"], assets=asset_receipt["assets"],
                   source_sha=source["code_commit"],
-                  config_sha=config["config_sha256"]) as tracker:
+                  config_sha=config["config_sha256"],
+                  deferred=config.get('generation_schedule')=='DEFERRED_CHECKPOINT_EVALUATION') as tracker:
         _model_seed(config["edit_seed"])
         model, tok = _load_model(asset_receipt["assets"]["model_snapshot"]["path"],
                                  config["model_identity"]["revision"])
@@ -851,6 +857,9 @@ def execute(args):
         identity = checkpoint_identity(config, lock, source, asset_receipt, tok_receipt)
         hparams = registry.hparams(config["method"], "qwen25", overrides=config["hparams"])
         native = NativeState(config["method"], model, hparams, asset_receipt["assets"])
+        if 'mask_repair_instruction' in config:
+            from official.runners.server2.qwen_mask_profile import cold_guard
+            cold_guard(config,native,args.resume)
         names = native.editable_parameter_names()
         start = 0
         if args.resume:
@@ -890,6 +899,9 @@ def execute(args):
             current = records[(batch - 1) * 100:batch * 100]
             with torch.enable_grad():
                 model = native.apply(tok, registry.requests(current, config["method"], "qwen25"))
+            if 'mask_repair_instruction' in config:
+                from official.runners.server2.qwen_mask_profile import context_receipt
+                context_receipt(out,config,native,source,batch)
             weights = _editable_weights(model, names)
             evaluated = batch in PHASES or (args.qualify_b3_metrics and batch == 3)
             factual = None
@@ -911,7 +923,8 @@ def execute(args):
                                observation_identity_sha256=observed["identity_sha256"],
                                cases_sha256=_sha(case_path),
                                cases_path=str(case_path.resolve()))
-                if batch == 20 and config["dataset"] == "cf":
+                if (batch == 20 and config["dataset"] == "cf" and
+                        config.get('generation_schedule')!='DEFERRED_CHECKPOINT_EVALUATION'):
                     with torch.inference_mode():
                         generation = _generation(model, tok, records, asset_receipt["assets"],
                                                  out, "W20", dict(checkpoint_identity=identity,
