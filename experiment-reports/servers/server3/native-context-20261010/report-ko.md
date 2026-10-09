@@ -29,3 +29,7 @@ local root `/data/janghj/ODE-edit/local/native-context-server3-20261010/executio
 각 모델 contexts.json/context-token-ids.json/READY.json/config-provenance.json 네 regular 파일만 server1·server2·server4의 `local/native-context-import/server3-20261010/job-<job>/<family>/`로 create-once 전달하고 destination fullSHA/bytes를 검산했다. 동일파일은 exact 재사용만 허용하고 overwrite/delete0. source KEEP. 공통 /data 또는 /mnt/raid5 prefix는 각 서버 실제 repo root에 맞췄다. Git에는 원문 context/token이 없으며 completion.json의 소형 SHA/provenance만 있다. config-provenance.json은 원 S3경로의 출처증거일 뿐 타서버 실행 config로 relabel하지 않는다.
 
 이로써 입력 생성 완료이며 편집/fit/W0/eval/qualification 완료를 주장하지 않는다. 기존 heldout(seed20261002)/등록run에 주입하지 않았으며 후속 사용은 별도 task 입력 동결 때 적합성을 확인해야 한다. 이 세 job monitor는 완료와 함께 종료한다.
+
+## 최신 사용자 채택 정정
+
+Qwen만 새62101 context를 후속 승인 입력에 사용한다. Llama/GPT-J는 기존 baseline에서 사용한 context identity를 유지한다. 새62102/62103 payload는 이미 생성·전달됐지만 출처 검증 기록으로만 KEEP하며 교체/채택하지 않는다. 전달 완료와 실제 입력 채택은 별개다. 소비자는 자신의 정확 baseline source/config/context SHA를 결속하며 임의의 다른 역사baseline context로 대신하지 않는다. 기존 실행/frozen pack에는 주입하지 않는다.
