@@ -412,3 +412,96 @@ FzCB의 hypothesis support로 자동 승계하지 않는다.
 secret은 저장소에 기록하지 않는다.
 
 </details>
+
+## PRICE 3개 모델 실험 계획 (2026-10-10)
+
+Llama3-8B-Instruct·Qwen2.5-7B-Instruct·GPT-J-6B에서 **c=0.75를 고정**하고,
+모델마다 first-1K에서 **β ∈ {0.75, 1.0, 1.5, 2.0}**을 sweep한 뒤 같은 규칙으로
+β를 선택하여 main 2K를 진행하는 계획이다. **γ는 Qwen만 1.5**, Llama·GPT-J는 1.0이며,
+최신 사용자 결정에 따라 **HC-PRICE도 main 실험에 포함**한다. c 변경은 ablation으로 분리한다.
+아래 기존 run·수치는 계획 작성 시점의 기록이며, 자원 배치와 예상 시간은 확정된 실행 상태가 아니다.
+
+### 고정 설정
+
+| 항목 | 값 |
+| :--- | :--- |
+| 편집 층 | 지정 범위 전 층: Llama·Qwen L4–L8, GPT-J L3–L8 |
+| context | Llama `cf14b`, GPT-J `b454d8`, Qwen `5c01bc1a` — 공용 패키지, baseline과 동일 |
+| sample | sweep: 본실험 첫 1,000건(B1–B10); main: 첫 2,000건. baseline과 같은 순서·batch 경계 |
+| sink 규칙 | GPT-J·Qwen 적용: position 0 또는 W0 sink pair에 EOT, anchor guard 20. Llama는 BOS로 불필요 |
+| step 단위 | 모든 모델에 unit-lr `ρ=0.05` 적용(`lr=ρ × 첫 층 anchor 중앙값`), cap 끝점 cast/반올림 수정 포함 |
+| **c (층별 cap)** | **0.75 고정**. Llama·GPT-J native MEMIT clamp와 같은 값이며, 변경은 ablation에서만 수행 |
+| β_max_scale | 선택한 β와 같은 값 |
+| **γ** | **Qwen 1.5**, Llama·GPT-J 1.0 |
+| **HC-PRICE** | **세 모델 main 실험에 포함**. HC on/off 비교는 별도 ablation으로 유지 |
+
+Qwen의 γ=1.5는 가격에 따른 배분과 예산 충족 사이의 mismatch를 검증하기 위한 설정이다.
+계획의 근거가 된 관측에서는 unit-lr로 예산이 첫 step부터 묶였지만, Qwen의 층별 가격 중앙값이
+L4 1.13, L5 1.22, L6 1.52, L7 1.33, L8 1.42로 최대/최소 약 1.35배였고 Llama는 약 1.7배였다.
+실제 지출은 L5가 L4보다 많았으며(0.39 대 0.31), L7·L8에도 약 25%가 배분됐다.
+γ=1.5로 가격 대비를 약 1.57배로 높여 간섭이 작은 층에 먼저 배분되는지 확인한다.
+
+구현은 `official/`을 수정하지 않고 β·c를 공통 resolver의 override로 설정한다.
+γ는 기존 task-local `price_gamma_probe` 패키지를 unit-lr보다 먼저 설치하여 적용한다.
+
+```python
+resolve(model, base_arm, override={
+    "beta_base": beta,
+    "c": 0.75,
+    "beta_max_scale": beta,
+})
+```
+
+### β 선택 규칙
+
+세 모델에 동일한 사전 선택 규칙을 적용한다.
+
+1. first-1K의 W10 all-seen Score(R·P·N 조화평균)가 가장 높은 β를 선택한다.
+2. Score 차이가 0.2 이내이면 W0 대비 N 손실이 작은 β를 선택한다.
+
+### 모델별 sweep과 main
+
+| 모델 | first-1K sweep: 모델마다 4 run | 기존 관련 run / 준비 사항 | main 2K 계획 |
+| :--- | :--- | :--- | :--- |
+| Qwen | β 0.75/1.0/1.5/2.0, c 0.75, γ 1.5 | `100342`: β0.75/c0.75/γ1의 γ ablation 점. `100424`: β2.5/lr0.1 control의 unit-lr off ablation. 계획 작성 시 두 run 진행 중 | 선택 β로 CF 2K, 같은 설정으로 zsRE 2K |
+| GPT-J | β 0.75/1.0/1.5/2.0, c 0.75, γ 1.0 | 기존 held-out γ1·γ1.5 W5 관측. sweep 전에 `b454d8` context로 first-1K 패키지와 sink scan을 새로 준비 | 선택 β로 CF 2K와 zsRE 2K |
+| Llama | β 0.75/1.0/1.5/2.0, c 0.75, γ 1.0 | β1/c1 unit-lr ± HC의 W10 Score 92.7–92.9는 c ablation 참고점 | 선택 β로 CF 2K와 zsRE 2K. 새 결과 완료·검산 후 기존 Llama PRICE 행(`60103`) 교체 |
+
+zsRE는 CF에서 선택한 설정을 그대로 사용하고 별도 튜닝을 하지 않는 안이며,
+적용 여부는 아래 결정 대기 항목에 둔다.
+
+### Ablation
+
+선택된 β를 기준으로 first-1K에서 비교하며, Qwen HC 비교는 아래의 2K 예외를 둔다.
+
+1. **unit-lr off:** 절대 lr과의 C mismatch를 확인한다. Qwen control에서 일부 관측을 확보했다.
+2. **γ:** Qwen γ1 대 γ1.5를 비교한다. 기존 β0.75·γ1 run을 참고점으로 둔다.
+3. **c:** 0.5, 1.0, β를 비교한다. main의 c는 0.75로 고정한다.
+4. **FLAT 가격(π=1) 대 PRICE:** 예산이 묶인 상태에서 가격의 기여를 검증한다.
+5. **HC on/off:** main에는 HC-PRICE를 포함하고, Llama의 기존 비교와 Qwen 2K 추가 대조 1회를 ablation으로 둔다.
+6. **context 깨짐 대 정상, sink 규칙 on/off:** 기존 run에서 확보한 관측을 활용한다.
+
+### 자원과 예상 일정
+
+| 서버 | 담당 계획 | run당 예상 시간 | sweep 4개 예상 시간 |
+| :--- | :--- | :--- | :--- |
+| server3 H200 ×2 | Qwen sweep | 약 3.5–4 h | 2 round, 약 8 h |
+| server4 ×2 | Llama sweep | 약 2.5 h | 2 round, 약 5 h |
+| rent A100 ×2 | GPT-J sweep: 패키지·sink scan 준비 후 | 약 4.5–5 h | 2 round, 약 10 h |
+
+계획 작성 시 rent의 Qwen `100342`와 control `100424` 종료 예상은 각각
+2026-10-10 08:30, 10:00 KST였다. 실제 종료·자원 확보 여부는 제출 시 확인한다.
+두 run을 끝까지 유지하면 GPT-J sweep은 그 뒤에 rent에서 시작하는 안이다.
+후속 main CF 2K는 Qwen 약 7 h, Llama 약 5 h, GPT-J 약 10 h로 예상하며,
+zsRE 2K와 최종 checkpoint의 FLU/CON 평가 시간이 추가로 필요하다.
+
+### 결정 대기 항목
+
+| 항목 | 계획안 / 결정이 필요한 내용 |
+| :--- | :--- |
+| rent의 Qwen 두 run | `100342`와 `100424`를 ablation 자료 확보를 위해 끝까지 유지할지 결정 |
+| Llama sweep 위치 | server4의 GPU 2장 범위에서 진행할지 결정 |
+| zsRE 설정 | CF에서 선택한 설정을 그대로 사용하고 zsRE 전용 튜닝을 생략할지 결정 |
+
+이 항목들이 결정되면 Qwen(server3)·Llama(server4) sweep 패키지를 먼저 준비하고,
+그동안 GPT-J first-1K 패키지와 sink scan을 준비하는 순서다.
