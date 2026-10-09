@@ -1,0 +1,18 @@
+{
+  "W20_observed": false,
+  "config_sha256": "dcc7018f54b1f63c8c295ebe5d82b32fb933856e0d0b94b8659c9238ef41a814",
+  "dataset": "zsre",
+  "dependency": [
+    "62532"
+  ],
+  "job_id": "62534",
+  "job_name": "s2-qwen25-zsre-sphere-oom-r1",
+  "method": "SPHERE",
+  "metrics": null,
+  "model": "Qwen2.5-7B",
+  "old_job_id": "62087",
+  "qualification": "NOT_RUN_USER_DISABLED",
+  "reason": "None",
+  "source": "9b70ecca6f445728542d7a55ab0014b01252ecc1",
+  "state": "PENDING"
+}
