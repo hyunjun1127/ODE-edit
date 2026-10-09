@@ -64,8 +64,8 @@
       "upstream_path": "easyeditor/models/SPHERE/SPHERE_main.py",
       "path": "baselines/easyedit/models/SPHERE/SPHERE_main.py",
       "upstream_sha256": "19934699a4604ad5ea87f5ad897d09514b0684b48b8f9fd88a9fc6750f0b208d",
-      "sha256": "19934699a4604ad5ea87f5ad897d09514b0684b48b8f9fd88a9fc6750f0b208d",
-      "changes": []
+      "sha256": "29ad88fe08c909242236405a66f011527112ec1710c5045775586c5bcb4f6692",
+      "changes": ["USER-SH2-QWEN-ZSRE-SPHERE-OOM-RERUN-20261010-R1: release per-layer projected update, P_soft and U eigenvector view after commit, before next projection; unchanged FP32 eigh/formula/order and gradient-enabled target fit"]
     },
     {
       "component": "easyedit",
