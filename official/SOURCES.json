@@ -1814,12 +1814,13 @@
       "upstream_path": "project/run_scripts/experiment_tracking/schema.py",
       "path": "tracking/schema.py",
       "upstream_sha256": "b63cd41816f4022ff85c83130f16fff4380e7e039d0c37f6618c7d008b7aa659",
-      "sha256": "633344063046eba678595e436b4ff3d3162a062e9b31ff244bc48ab09a9237f1",
+      "sha256": "eb2f46a507b337aac4fb1e76cce2380cc1edb1a50721590248a94d8477c011fd",
       "changes": [
         "official instruction/dataset/schema and native W0+W20 authority pair",
         "zsRE rejects CF generation",
         "official request-macro namespace and actual native denominators",
-        "shared native W20 progress phase-only callback adapter"
+        "shared native W20 progress phase-only callback adapter",
+        "USER-GH-FLUCON-PAPER-SCALE-TABLE-REFRESH-20261010-R1: narrow checkpoint-bound CF eval_only W20 generation/progress branch; reject factual/fit/W0/current; preserve existing zsRE/enabled/deferred rules"
       ],
       "review_nonce": "SH1-GH-OFFICIAL-COMPAT-REVIEW-20261008-R1",
       "installed_revisions": [
