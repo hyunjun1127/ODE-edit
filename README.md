@@ -55,14 +55,19 @@ dependency PENDING이다. 아래 zsRE 12행/36칸은 실제 평가 job/status이
 [공통 source·전체2K CPU 질의 검산·진행 기록](experiment-reports/global/zsre-2k-reeval-20261009/report-ko.md).
 
 별도 사용자 승인 **MEMIT-FE + history** CF 실험은 native MEMIT-FE 행과 합치지 않는다.
-SH1이 세 모델을 source `eaf78c33`으로 held 검사 후 release했고 초기 snapshot은 PENDING이다.
+SH1이 세 모델을 source `eaf78c33`으로 등록했다. Qwen 61929는 B1 FP64 history 선형계의
+임시 행렬 메모리 부족으로 실패하여 메모리 수리 source `5d6dfd58`의 61975로 cold 재제출했다.
 이는 새 3개 편집 chain이며 zsRE eval-only 작업과 구분한다.
 
-| 별도 variant | 모델 | server | 최초 등록 상태 / 실제 job name | job ID |
+| 별도 variant | 모델 | server | 최신 확인 상태 / 실제 job name | job ID |
 | :--- | :--- | :--- | :--- | ---: |
-| MEMIT_FE_HISTORY / CF | GPT-J | server1 | PENDING: official-s1-cf-gptj-memit-fe-history | 61927 |
-| MEMIT_FE_HISTORY / CF | Llama3 | server1 | PENDING: official-s1-cf-llama3-memit-fe-history | 61928 |
-| MEMIT_FE_HISTORY / CF | Qwen2.5 | server1 | PENDING: official-s1-cf-qwen25-memit-fe-history | 61929 |
+| MEMIT_FE_HISTORY / CF | GPT-J | server1 | RUNNING: official-s1-cf-gptj-memit-fe-history | 61927 |
+| MEMIT_FE_HISTORY / CF | Llama3 | server1 | RUNNING: official-s1-cf-llama3-memit-fe-history | 61928 |
+| MEMIT_FE_HISTORY / CF | Qwen2.5 | server1 | RUNNING: official-s1-cf-qwen25-memit-fe-history（61929 FAILED → repair） | 61975 |
+
+2026-10-09 수리 후 bounded snapshot. GPT-J B4/Llama B2 checkpoint 확인 후 기존 실행 유지;
+Qwen 새 GPU 본계산의 OOM 해결·W20 완료를 아직 주장하지 않는다.
+[OOM 수리·재제출 보고](experiment-reports/servers/server1/memit-fe-history-three-model-2k/oom-repair-r1.md).
 
 [세 job/config/source/dependency 영수증](audits/servers/server1/memit-fe-history-three-model-2k/submission.json) ·
 [구현·48 CPU 검산 보고](experiment-reports/servers/server1/memit-fe-history-three-model-2k/report-ko.md).
