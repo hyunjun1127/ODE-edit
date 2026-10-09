@@ -1,0 +1,161 @@
+{
+  "checkpoint": {
+    "P": "reload_pinned_fixed_projector",
+    "commit_after": "edit_and_scheduled_evaluation_complete",
+    "every_batch": true,
+    "generation_failure": "restart_uncommitted_batch_using_previous_checkpoint",
+    "history_methods": [
+      "ALPHAEDIT",
+      "ALPHAEDIT_BLUE",
+      "SPHERE"
+    ],
+    "history_name": "cache_c",
+    "identity": [
+      "config_sha256",
+      "stream_sha256",
+      "code_commit",
+      "official_tree_sha256",
+      "model_revision",
+      "tokenizer_sha256",
+      "assets_sha256"
+    ],
+    "keep_latest": 1,
+    "precision": "float32",
+    "resume_test": "uninterrupted_B1_B2_B3_vs_stop_after_B2_resume_B3_exact_weight_hash_metrics",
+    "retain_final_W20": true,
+    "state": [
+      "edited_weights",
+      "completed_batch",
+      "python_numpy_torch_cpu_cuda_rng",
+      "context_templates",
+      "evaluation_cursor",
+      "per_request_records"
+    ],
+    "write": "temporary_hash_fsync_atomic_replace_then_delete_previous"
+  },
+  "config_sha256": "681fc132bbddbe48de0010bdb9c35c225a96c41b796a779de6663990aca3b8bf",
+  "contract_sha256": "499e3ed58364ba859ce0094e5b96aa27b6388354508908aa05bbfc1bed2ee355",
+  "dataset": "zsre",
+  "edit_seed": 0,
+  "evaluation": {
+    "cf": {
+      "alphaedit_rounding": "retain_raw_and_display_rounding_separately",
+      "efficacy": "new_nll < true_nll",
+      "generalization": "new_nll < true_nll",
+      "score": "harmonic_mean_of_request_macro_means",
+      "specificity": "true_nll < new_nll",
+      "ties": "failure"
+    },
+    "generation": {
+      "EOS_stop": false,
+      "W0": "once_per_model",
+      "assets_policy": "REUSE_EXISTING_EXACT_SHA_NO_REFIT",
+      "case_batching": "ALL_GENERATION_PROMPTS",
+      "edited_endpoints": [
+        20
+      ],
+      "implementation_reference": "server1_jobs_61519_61520_61521",
+      "max_total_tokens": 100,
+      "n_gen_per_prompt": 1,
+      "profile": "cf-cake-native-casebatch-kv-total100-globalrng-v1",
+      "reference_lock": "generation.lock.json",
+      "reuse_one_generation_for_both_metrics": true,
+      "sampling": "ENDPOINT_GLOBAL_BATCH_STREAM",
+      "scope": "all_2000",
+      "seed": 20261007,
+      "top_k": 5
+    },
+    "milestones": [
+      0,
+      500,
+      1000,
+      1500,
+      2000
+    ],
+    "scope": "all_seen",
+    "zsre": {
+      "W0_predictions_required": true,
+      "additional_metric": "loc_ans_token_accuracy_for_original_AlphaEdit_comparison",
+      "efficacy": "teacher_forced_token_accuracy_request_macro",
+      "generalization": "teacher_forced_token_accuracy_request_macro",
+      "specificity": "token_prediction_agreement_with_W0",
+      "target": "answers[0]"
+    }
+  },
+  "execution_kind": "new_chain",
+  "group": "main",
+  "hparams": {
+    "alg_name": "MEMIT",
+    "attn_module_tmp": "model.layers.{}.self_attn",
+    "clamp_norm_factor": 4,
+    "device": 5,
+    "fact_token": "subject_last",
+    "kl_factor": 0.0625,
+    "layer_module_tmp": "model.layers.{}",
+    "layer_selection": "all",
+    "layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "lm_head_module": "lm_head",
+    "ln_f_module": "model.norm",
+    "mlp_module_tmp": "model.layers.{}.mlp",
+    "model_name": "Qwen/Qwen2.5-7B-Instruct",
+    "model_parallel": false,
+    "mom2_adjustment": true,
+    "mom2_dataset": "wikipedia",
+    "mom2_dtype": "float32",
+    "mom2_n_samples": 100000,
+    "mom2_update_weight": 15000,
+    "rewrite_module_tmp": "model.layers.{}.mlp.down_proj",
+    "stats_dir": "./data/stats",
+    "v_loss_layer": 27,
+    "v_lr": 0.5,
+    "v_num_grad_steps": 25,
+    "v_weight_decay": 0.001
+  },
+  "method": "MEMIT",
+  "model": "qwen25",
+  "model_identity": {
+    "hidden": 3584,
+    "intermediate": 18944,
+    "layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "model_id": "Qwen/Qwen2.5-7B-Instruct",
+    "revision": "a09a35458c702b33eeacc393d103063234e8bc28"
+  },
+  "precision": {
+    "attention": "eager",
+    "autocast": false,
+    "native_solver_precision": "preserve_upstream",
+    "tf32": false,
+    "weights": "float32"
+  },
+  "profile_sha256": "aa049088d83c3e54bb8fbeac78c289c0850b295df8b29c21528d585fc6795c35",
+  "ready_to_submit": false,
+  "required_state": [
+    "weights",
+    "rng",
+    "context_templates",
+    "completed_batch",
+    "evaluation_cursor",
+    "identity"
+  ],
+  "run_id": "qwen25-zsre-memit",
+  "selection_dependency": null,
+  "stream": {
+    "batch_size": 100,
+    "batches": 20,
+    "order": "existing_file_first2000",
+    "requests": 2000,
+    "shuffle": false
+  }
+}

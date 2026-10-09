@@ -1,0 +1,91 @@
+{
+  "asset_identity": {
+    "covariance_sha256": {
+      "4": "935af1e9a7c5fe690471c668af225b882b3ae49039435f7143cd3c136c1f049b",
+      "5": "7e4730511077be9b7370f29e94036d3ca08e7e0f0023395341e7496e16340519",
+      "6": "d47f4bb2454555740c6bc46ab7f894e170cf6f5fe4bc6c26a3fc93179e18dc2a",
+      "7": "61526068f1e1283d2e8554b514f9c7ef726957a8582b62c181f393e5589c0b0d",
+      "8": "f5b00a555c9d860af1732ae3c48b1a04ebe8e3427873081fb0cb4cc8b5b30d46"
+    },
+    "generation_reference_files_sha256": {
+      "attribute_snippets.json": "10b5c1cd105e54d5983c72de1b45bfc88bc7af786f7b99def2557886ff23385b",
+      "idf.npy": "c073d642589d4ac6432f467230329b36364a01e72de63a77a3624b745b923dda",
+      "tfidf_vocab.json": "8a78c4f20d8d85dadfd14e283d71af255482ff18aa0eb8a81716024c05ff888b"
+    },
+    "generation_reference_identity_sha256": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+    "model_files_sha256": {
+      "config.json": "7463bb0ea78315365e6c6b74de4e73bbcc8359dfb0c5a737584e077d42c0b03c",
+      "generation_config.json": "3a8f9087e486054c8a4a08dae2e5a3ba62e23da212b5b8c08bc42cb983c3459f",
+      "merges.txt": "599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3",
+      "model-00001-of-00004.safetensors": "a1333e6293854747c481288ea83b348226af178dd565c49b6f9495ba1966aba7",
+      "model-00002-of-00004.safetensors": "f5d25a2772cb825164a2a2c0fb6d51a87e282abf21e4dd75bc5cfb3cd0ea6185",
+      "model-00003-of-00004.safetensors": "8efdec4c1bc12317ae1a38dc42b595ce777738a64deea3fcb8a0a91381bcdfd5",
+      "model-00004-of-00004.safetensors": "1a72d403cdf0c1ec3cb7f289f17b394a01e64394c2e9b3c0f94dbce3faf879bd",
+      "model.safetensors.index.json": "624bf7c47cd12468fdc16e38a47cf4f19e0415b859a223ba3c027eed2f0e1028",
+      "tokenizer.json": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539",
+      "tokenizer_config.json": "5b5d4f65d0acd3b2d56a35b56d374a36cbc1c8fa5cf3b3febbbfabf22f359583",
+      "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+    },
+    "model_id": "Qwen/Qwen2.5-7B-Instruct",
+    "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+    "projector": {
+      "layer_mapping": {
+        "4": 0,
+        "5": 1,
+        "6": 2,
+        "7": 3,
+        "8": 4
+      },
+      "sha256": "d3a9687d196f7ee06739253813917a632542717ce1166c0433aa7eec70c5c8ff"
+    },
+    "source_sha256": {
+      "cf": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1",
+      "zsre": "8a371d512f8a6ab175db4ef672181d5c0e52da23298cb51e5a2eeea2f89aa9cd"
+    },
+    "tokenizer_files_sha256": {
+      "merges.txt": "599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3",
+      "tokenizer.json": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539",
+      "tokenizer_config.json": "5b5d4f65d0acd3b2d56a35b56d374a36cbc1c8fa5cf3b3febbbfabf22f359583",
+      "vocab.json": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+    }
+  },
+  "runtime": {
+    "packages": {
+      "numpy": "2.2.6",
+      "safetensors": "0.7.0",
+      "scikit-learn": "1.7.2",
+      "scipy": "1.15.3",
+      "torch": "2.9.1",
+      "transformers": "4.57.1"
+    },
+    "python": "/data/janghj/EasyEdit/.venv/bin/python",
+    "verification": "METADATA_PROBED",
+    "version": [
+      3,
+      12,
+      3
+    ]
+  },
+  "model_identity": {
+    "hidden": 3584,
+    "intermediate": 18944,
+    "layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "model_id": "Qwen/Qwen2.5-7B-Instruct",
+    "revision": "a09a35458c702b33eeacc393d103063234e8bc28"
+  },
+  "physical_provenance": {
+    "claim": "historical path/hash/declared shape only until current exact SHA and native tensor validation",
+    "historical_receipt": "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009/worktree/agents/server3/experiment-ready-paths-20260919-v1.json",
+    "historical_receipt_sha256": "8e6b0a26615ef4ec896fb7f5d5c68f4baed890da471212072f7a72c2214c837d",
+    "historical_size_seal": "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009/worktree/agents/server4/alphaedit-runtime-path-seal.json",
+    "historical_size_seal_sha256": "176018298d691a1b67ae7ca787c7dcd2bd77d8606044790833d361fd451ddeb3"
+  },
+  "provenance": "Historical source preflight receipt; SH2 must bind its actual local paths/runtime/storage",
+  "original_receipt_sha256": "1d41ed33c28390a06622176fb664ce190e4ad3eccf2790c582af4ebd5cb7fecb"
+}

@@ -1,0 +1,26 @@
+{
+  "source_server": "server4",
+  "destination_server": "server2",
+  "preserve": [
+    "original native configs/layers/L2/seed/order/B100x20/FP32/TF32off",
+    "BLUE L2=1 no grid",
+    "CF W0_AND_W20_FIRST2000 generation; zsRE no CF generation",
+    "official request-macro metrics and native display companions",
+    "checkpoint latest1/W20 retention; finite/shape/nonedited/commit guards; no-GPU-qualification USER_DISABLED"
+  ],
+  "must_rebind": [
+    "own Slurm node/QoS/GPU model/memory/CPU/cap and existing frontiers",
+    "actual model/tokenizer/C0/P/dataset/reference hashes and local paths",
+    "own runtime Python/SDK/credential path without copying credentials",
+    "source/config/content provenance and all new actual IDs",
+    "own archive source-owner proof and server1 receiver admission",
+    "W&B server/task/attempt/job identity"
+  ],
+  "context": "Native context generator/state is in pinned native registry source; no context cache or W0 was generated on these attempts. Preserve edit seed0 and checkpoint context/RNG policy.",
+  "W0": "No usable official W0 observation from these attempts. Perform only original required W0 or reuse independently exact compatible raw; do not relabel PRICE W0.",
+  "launcher": "Do not run server4_qwen_submit unchanged: it hardcodes server4 and original IDs. Use SH2 own wrapper and its actual resource dependencies.",
+  "algorithms": "official.baselines.registry; source references via Git, no private task algorithm fork",
+  "source_choice": "CF corrected execution dc80ec529c940019d1bee27a67a4e908eb37cc64 includes native display companions. zsRE prior d614add5 is historical provenance; adopt common corrected source with unchanged zsRE science.",
+  "qualification": "NOT_RUN_USER_DISABLED",
+  "old_checkpoint_resume": false
+}

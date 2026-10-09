@@ -1,0 +1,182 @@
+{
+  "coverage": {
+    "coverage_not_metric_validity": true,
+    "generation_prompts_available_count": 2000,
+    "missing_generation_prompts_count": 0,
+    "missing_reference_count": 0,
+    "no_model_observation": true,
+    "occurrence_identity_sha256": "969a67c0d4c3ef0b6dc628587d437090764f967d4745793675d0c4c28af9a9f4",
+    "ordered_case_ids_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+    "planned_count": 2000,
+    "reference_available_count": 2000
+  },
+  "downloads_by_loader": false,
+  "files": {
+    "attribute_snippets.json": {
+      "bytes": 926285719,
+      "copied": false,
+      "path": "/data/janghj/ODE-edit/local/baseline-generation-eval-assets/20261007/download-r1/attribute_snippets.json",
+      "sha256": "10b5c1cd105e54d5983c72de1b45bfc88bc7af786f7b99def2557886ff23385b",
+      "source_url": "https://memit.baulab.info/data/dsets/attribute_snippets.json"
+    },
+    "idf.npy": {
+      "bytes": 11042168,
+      "copied": false,
+      "path": "/data/janghj/ODE-edit/local/baseline-generation-eval-assets/20261007/download-r1/idf.npy",
+      "sha256": "c073d642589d4ac6432f467230329b36364a01e72de63a77a3624b745b923dda",
+      "source_url": "https://memit.baulab.info/data/dsets/idf.npy"
+    },
+    "tfidf_vocab.json": {
+      "bytes": 31639072,
+      "copied": false,
+      "path": "/data/janghj/ODE-edit/local/baseline-generation-eval-assets/20261007/download-r1/tfidf_vocab.json",
+      "sha256": "8a78c4f20d8d85dadfd14e283d71af255482ff18aa0eb8a81716024c05ff888b",
+      "source_url": "https://memit.baulab.info/data/dsets/tfidf_vocab.json"
+    }
+  },
+  "fixed_vectorizer": {
+    "class_name": "sklearn.feature_extraction.text.TfidfVectorizer",
+    "defaults": "native sklearn TfidfVectorizer defaults",
+    "fit_calls": 0,
+    "idf": "original finite saved idf",
+    "initialization": "public idf_ setter, no dummy fit",
+    "refit": false,
+    "vocabulary": "original dense fixed token->index"
+  },
+  "identity_sha256": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+  "idf_dtype": "float64",
+  "idf_shape": [
+    1380255
+  ],
+  "native_reference_sources": [
+    {
+      "bytes": 1327,
+      "path": "/mnt/raid5/janghj/CAKE/dsets/attr_snippets.py",
+      "sha256": "bf78972d9914919e0a0b7d7d93623b3f51b8684f691e909793b5cd5471d6f01a"
+    },
+    {
+      "bytes": 2335,
+      "path": "/mnt/raid5/janghj/CAKE/dsets/tfidf_stats.py",
+      "sha256": "c5e55b81931fd060a625da2983f4297518b9610df8d174baee242ac73f7ae5be"
+    }
+  ],
+  "no_model": true,
+  "prepared_python": {
+    "executable": "/mnt/raid5/janghj/EasyEdit/.venv/bin/python",
+    "version": "3.12.0"
+  },
+  "producer_file_paths": {
+    "attribute_snippets.json": "/mnt/raid5/janghj/ODE-edit/local/baseline-generation-eval-assets/20261007/download-r1/attribute_snippets.json",
+    "idf.npy": "/mnt/raid5/janghj/ODE-edit/local/baseline-generation-eval-assets/20261007/download-r1/idf.npy",
+    "tfidf_vocab.json": "/mnt/raid5/janghj/ODE-edit/local/baseline-generation-eval-assets/20261007/download-r1/tfidf_vocab.json"
+  },
+  "producer_manifest": {
+    "path": "/data/janghj/ODE-edit/local/baseline-generation-eval-assets/20261007/reference-ready-r1/manifest.json",
+    "sha256": "6d9a713ab7eaa10871f277e10a3974e0bd5b140c265be80052c279f258876ca8"
+  },
+  "raw_reference_Git_W_B": false,
+  "schema": "counterfact-generation-reference-assets-v1",
+  "snippet_schema": {
+    "entries": 3050,
+    "relation_target_pairs": 3050,
+    "samples": 72899,
+    "selection": "all samples per exact relation_id/target_new.id, original order"
+  },
+  "source_members": [
+    {
+      "bytes": 18830,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-gpt2xl-baselines-fluency-consistency-2k/project/run_scripts/experiment_generation_eval/assets.py",
+      "sha256": "0648c9c6dfb05cf753c35fa6c2dc86d31fe1c6190e16703a0b5fd0a14689f11a"
+    }
+  ],
+  "status": "READY",
+  "tokenizer": {
+    "available_inactive_resources": [
+      {
+        "bytes": 594,
+        "path": "/mnt/raid5/janghj/nltk_data/tokenizers/punkt_tab/english/collocations.tab",
+        "sha256": "8e2da1225e4dd2cc9dba261ee231ccb134859e21b46006e7f472c5ee269af0cf"
+      },
+      {
+        "bytes": 241,
+        "path": "/mnt/raid5/janghj/nltk_data/tokenizers/punkt_tab/english/sent_starters.txt",
+        "sha256": "f3f8535483e1dba487241b764945168123bca3209a9645e59acd1225dc76edac"
+      },
+      {
+        "bytes": 619,
+        "path": "/mnt/raid5/janghj/nltk_data/tokenizers/punkt_tab/english/abbrev_types.txt",
+        "sha256": "92a3e070f43d9b4c5534758ca40ad7343b04e7e29bfe0c2eb658a39445a4f779"
+      },
+      {
+        "bytes": 236303,
+        "path": "/mnt/raid5/janghj/nltk_data/tokenizers/punkt_tab/english/ortho_context.tab",
+        "sha256": "4bbcca25ed3d3f06c02402abf8419b9f033b8adc06e7b482eca4e45f81a5dc4c"
+      }
+    ],
+    "downloaded_resources": false,
+    "identifier": "tokenizers/punkt/english.pickle",
+    "language": "english",
+    "nltk_version": "3.6.5",
+    "replacement_regex": false,
+    "required_family": "punkt",
+    "required_resources": [
+      {
+        "bytes": 406697,
+        "path": "/mnt/raid5/janghj/nltk_data/tokenizers/punkt/PY3/english.pickle",
+        "sha256": "5cad3758596392364e3be9803dbd7ebeda384b68937b488a01365f5551bb942c"
+      }
+    ],
+    "source_members": [
+      {
+        "bytes": 6195,
+        "path": "/mnt/raid5/janghj/EasyEdit/.venv/lib/python3.12/site-packages/nltk/__init__.py",
+        "relative": "__init__.py",
+        "sha256": "ff69ab24de8fe9c5f0fa506e891573b0d6e7725fdf4391d037c17b8e65bffbba"
+      },
+      {
+        "bytes": 51327,
+        "path": "/mnt/raid5/janghj/EasyEdit/.venv/lib/python3.12/site-packages/nltk/data.py",
+        "relative": "data.py",
+        "sha256": "063c4d321c58512245b18d9ad76390af9326edfea53d209528f52545429e87bc"
+      },
+      {
+        "bytes": 1259,
+        "path": "/mnt/raid5/janghj/EasyEdit/.venv/lib/python3.12/site-packages/nltk/compat.py",
+        "relative": "compat.py",
+        "sha256": "aad6ca371b90c48252c9729d293bfa3aca46deee91422b8667408d7e841e3da6"
+      },
+      {
+        "bytes": 4949,
+        "path": "/mnt/raid5/janghj/EasyEdit/.venv/lib/python3.12/site-packages/nltk/tokenize/__init__.py",
+        "relative": "tokenize/__init__.py",
+        "sha256": "cc9c2e74eb8c3519054a0833ab320e62ff73e4184b493a89689227bbb4380ad5"
+      },
+      {
+        "bytes": 62519,
+        "path": "/mnt/raid5/janghj/EasyEdit/.venv/lib/python3.12/site-packages/nltk/tokenize/punkt.py",
+        "relative": "tokenize/punkt.py",
+        "sha256": "14e713ac00f24186351df3bf11dd04c41f481b2398f07a593686e0d91eed7873"
+      },
+      {
+        "bytes": 5349,
+        "path": "/mnt/raid5/janghj/EasyEdit/.venv/lib/python3.12/site-packages/nltk/tokenize/destructive.py",
+        "relative": "tokenize/destructive.py",
+        "sha256": "7c4bd0b01e728706fe77170aed1be0cd711f2d06d64a8c9ce1c20ba15be54f14"
+      },
+      {
+        "bytes": 15261,
+        "path": "/mnt/raid5/janghj/EasyEdit/.venv/lib/python3.12/site-packages/nltk/tokenize/treebank.py",
+        "relative": "tokenize/treebank.py",
+        "sha256": "348e3694a2cc4bf6d1c40ee213e09bdcea651bf1f103e6663fe8898c47cb4461"
+      }
+    ],
+    "word_tokenize": "nltk.word_tokenize(text,language='english',preserve_line=False)"
+  },
+  "versions": {
+    "nltk": "3.6.5",
+    "numpy": "2.2.6",
+    "scipy": "1.15.3",
+    "sklearn": "1.7.2"
+  },
+  "vocabulary_size": 1380255
+}

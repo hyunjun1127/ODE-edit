@@ -1,0 +1,132 @@
+{
+  "batch_size": 100,
+  "batches": [
+    {
+      "batch": 1,
+      "end_exclusive": 100,
+      "ordered_case_ids_sha256": "9dd50adbd73bc58bb391efca85d1436fcc4c19cb0bc2495ec0eeb4c1e42f6952",
+      "start_inclusive": 0
+    },
+    {
+      "batch": 2,
+      "end_exclusive": 200,
+      "ordered_case_ids_sha256": "fe0c9d0499a0c0f50bbc1c696bca3e4d6c1a07c198ca2e7f4cd62d4e918c7c47",
+      "start_inclusive": 100
+    },
+    {
+      "batch": 3,
+      "end_exclusive": 300,
+      "ordered_case_ids_sha256": "28fb5d7f9a988ef1f0fb6225c1c13a8996ec1a133001dbe8448e88474f68a501",
+      "start_inclusive": 200
+    },
+    {
+      "batch": 4,
+      "end_exclusive": 400,
+      "ordered_case_ids_sha256": "c6377a34730cfba4aa41635ae3c55d0cb58b5f8cdb1d6d7a5df2431177e28976",
+      "start_inclusive": 300
+    },
+    {
+      "batch": 5,
+      "end_exclusive": 500,
+      "ordered_case_ids_sha256": "9213c1ead5d30a336b110bfece599f5702dfa443cd0d9cb493182b4f62be46f4",
+      "start_inclusive": 400
+    },
+    {
+      "batch": 6,
+      "end_exclusive": 600,
+      "ordered_case_ids_sha256": "e7c77c8110fe11530dbcaf799636cc72d226de548d79c6bc58366e9df627f3b0",
+      "start_inclusive": 500
+    },
+    {
+      "batch": 7,
+      "end_exclusive": 700,
+      "ordered_case_ids_sha256": "e9c07840a4e82b39b91c29d71f5fc48f51614f12c052b1f58573ad19f07756e3",
+      "start_inclusive": 600
+    },
+    {
+      "batch": 8,
+      "end_exclusive": 800,
+      "ordered_case_ids_sha256": "8260c7c0e52f89dbef8ed7a136cf8b7d8bd7e48b0640db89d8c010ceac0539fa",
+      "start_inclusive": 700
+    },
+    {
+      "batch": 9,
+      "end_exclusive": 900,
+      "ordered_case_ids_sha256": "89072ca9a698da05ad86a7ae5e91b8779a7d143347af6862037c3647dfb4fee7",
+      "start_inclusive": 800
+    },
+    {
+      "batch": 10,
+      "end_exclusive": 1000,
+      "ordered_case_ids_sha256": "7994ffcd7b6bcc4ae4f4db11e2ab500c99d13e9e67a6febd77f7f3c83e0a3ab7",
+      "start_inclusive": 900
+    },
+    {
+      "batch": 11,
+      "end_exclusive": 1100,
+      "ordered_case_ids_sha256": "2fb0c767324d14b5760f2413c04034f8d09a89d57831183c5b0a397e09365201",
+      "start_inclusive": 1000
+    },
+    {
+      "batch": 12,
+      "end_exclusive": 1200,
+      "ordered_case_ids_sha256": "24259850103642b2cb0ee5956a86acca208032f0c3e029cb7c5228fffe4505cd",
+      "start_inclusive": 1100
+    },
+    {
+      "batch": 13,
+      "end_exclusive": 1300,
+      "ordered_case_ids_sha256": "b75f5f4e69615eac6a0b273b96f71b498eae1d045889ee306442b24939112f8b",
+      "start_inclusive": 1200
+    },
+    {
+      "batch": 14,
+      "end_exclusive": 1400,
+      "ordered_case_ids_sha256": "4f4f4a2a96bb7c98dd358044d02899baf1d0413f265c0b249fe7123fe919e8ef",
+      "start_inclusive": 1300
+    },
+    {
+      "batch": 15,
+      "end_exclusive": 1500,
+      "ordered_case_ids_sha256": "bb39520955a5b2da4b8d64e3fccdd9ad61ec6560302082d3a871d0ec0bd35767",
+      "start_inclusive": 1400
+    },
+    {
+      "batch": 16,
+      "end_exclusive": 1600,
+      "ordered_case_ids_sha256": "a309cab175967e83d9906528e47ddc30d9e2f49c5e864646be26df37b9c0be6c",
+      "start_inclusive": 1500
+    },
+    {
+      "batch": 17,
+      "end_exclusive": 1700,
+      "ordered_case_ids_sha256": "225f9d41f83e82362b6cedd066a8bbdad639e79a1f6f418d692a19f8c9bf7055",
+      "start_inclusive": 1600
+    },
+    {
+      "batch": 18,
+      "end_exclusive": 1800,
+      "ordered_case_ids_sha256": "b9d2e1a79447a07e563fc63769bf84ccc30042eb3e83a2a37b12ba0210311917",
+      "start_inclusive": 1700
+    },
+    {
+      "batch": 19,
+      "end_exclusive": 1900,
+      "ordered_case_ids_sha256": "bb669700e90d52febd09bf3b08aef8685e3c3654872490422366dc4039674dbe",
+      "start_inclusive": 1800
+    },
+    {
+      "batch": 20,
+      "end_exclusive": 2000,
+      "ordered_case_ids_sha256": "153c52b15aadbfd321e7eb3e7e05dc2dba1f23a6bb7f04e9b3541a2ea07f6396",
+      "start_inclusive": 1900
+    }
+  ],
+  "dataset": "zsre",
+  "order": "FIRST_N_IN_EXISTING_FILE_ORDER_NO_SHUFFLE_NO_FILTER",
+  "ordered_case_ids_sha256": "494b15107deb77d9741606b7bddfecb8b350a486bb5a751655b294d4ebc6f1a4",
+  "requests": 2000,
+  "source_sha256": "8a371d512f8a6ab175db4ef672181d5c0e52da23298cb51e5a2eeea2f89aa9cd",
+  "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+  "target_mapping": "answers[0]"
+}

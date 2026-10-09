@@ -1,0 +1,22 @@
+{
+  "receiver": {
+    "cutovers": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archive/.receiver/trust/server4/4d34bad2d87f213dacd0350fe014ee772f5b27edeb77509b976cd2ee5b601ceb/members.json",
+    "helper_members": {
+      "project/run_scripts/checkpoint_archive/__init__.py": "9be392af4aba691f9d62be95f561ff2e33cf7d24613cda23ca2f421ecec3569f",
+      "project/run_scripts/checkpoint_archive/__main__.py": "dd0aeeb45702280d45592fbbb6987e2340e2ab5630e65be252bd0d3b55d59be1",
+      "project/run_scripts/checkpoint_archive/archive.py": "e4ca00fb45925918dd6ee1c0b492e7d64a97ca2aab39c314d2220a412fede889"
+    },
+    "host": "codex-server1",
+    "policy": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-no-gpu-qual-20261009/control/final-checkpoint-archive-policy.json",
+    "policy_sha256": "6da0d1fcb576a51610daf3a733b896cf48a373dc60a3d8aa3c2ec1405ecfd9da",
+    "python": "/usr/bin/python3",
+    "source": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-no-gpu-qual-20261009"
+  },
+  "policy_sha256": "6da0d1fcb576a51610daf3a733b896cf48a373dc60a3d8aa3c2ec1405ecfd9da",
+  "policy_path": "control/final-checkpoint-archive-policy.json",
+  "source_owner_change": "SH2 must use its own future-job adoption/cutover/actual submission proof; never relabel server4 trust or old actual IDs",
+  "consumers": "writer/evaluation share GPU job; archive CPU reads payload bytes only after actual W20 and all consumers clear",
+  "admission": "fresh per-payload receiver capacity/independent verify before source delete, failure KEEP",
+  "previous_transfers": 0,
+  "previous_deletions": 0
+}

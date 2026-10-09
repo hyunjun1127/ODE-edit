@@ -1,0 +1,87 @@
+{
+  "cf_source": "/data/janghj/ODE-edit/local/datasets/counterfact-fixed-10k-v1/counterfact.json",
+  "covariance": {
+    "4": {
+      "bytes": 1435501774,
+      "dtype": "float32",
+      "npz_key": "mom2.mom2",
+      "path": "/data/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+      "sha256": "935af1e9a7c5fe690471c668af225b882b3ae49039435f7143cd3c136c1f049b",
+      "shape": [
+        18944,
+        18944
+      ]
+    },
+    "5": {
+      "bytes": 1435501774,
+      "dtype": "float32",
+      "npz_key": "mom2.mom2",
+      "path": "/data/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_100000.npz",
+      "sha256": "7e4730511077be9b7370f29e94036d3ca08e7e0f0023395341e7496e16340519",
+      "shape": [
+        18944,
+        18944
+      ]
+    },
+    "6": {
+      "bytes": 1435501774,
+      "dtype": "float32",
+      "npz_key": "mom2.mom2",
+      "path": "/data/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_100000.npz",
+      "sha256": "d47f4bb2454555740c6bc46ab7f894e170cf6f5fe4bc6c26a3fc93179e18dc2a",
+      "shape": [
+        18944,
+        18944
+      ]
+    },
+    "7": {
+      "bytes": 1435501774,
+      "dtype": "float32",
+      "npz_key": "mom2.mom2",
+      "path": "/data/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_100000.npz",
+      "sha256": "61526068f1e1283d2e8554b514f9c7ef726957a8582b62c181f393e5589c0b0d",
+      "shape": [
+        18944,
+        18944
+      ]
+    },
+    "8": {
+      "bytes": 1435501774,
+      "dtype": "float32",
+      "npz_key": "mom2.mom2",
+      "path": "/data/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz",
+      "sha256": "f5b00a555c9d860af1732ae3c48b1a04ebe8e3427873081fb0cb4cc8b5b30d46",
+      "shape": [
+        18944,
+        18944
+      ]
+    }
+  },
+  "generation_reference_manifest": "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009/preparation-v2/generation-local.json",
+  "min_free_bytes": 34359738368,
+  "min_free_inodes": 1000,
+  "model_config_sha256": "7463bb0ea78315365e6c6b74de4e73bbcc8359dfb0c5a737584e077d42c0b03c",
+  "model_snapshot": "/data/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28",
+  "nltk_data": "/data/janghj/ODE-edit/local/baseline-generation-eval-assets/20261007/nltk_data",
+  "output_root": "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009/execution-cf-display-r1",
+  "projector": {
+    "bytes": 7177504758,
+    "dtype": "float32",
+    "layer_mapping": {
+      "4": 0,
+      "5": 1,
+      "6": 2,
+      "7": 3,
+      "8": 4
+    },
+    "path": "/data/janghj/EasyEdit/examples/null_space_project_Qwen2.5-7B-Instruct.pt",
+    "sha256": "d3a9687d196f7ee06739253813917a632542717ce1166c0433aa7eec70c5c8ff",
+    "shape": [
+      5,
+      18944,
+      18944
+    ]
+  },
+  "runtime_python": "/data/janghj/EasyEdit/.venv/bin/python",
+  "zsre_source": "/data/janghj/EasyEdit/data/zsre/zsre_mend_eval.json"
+}

@@ -1,0 +1,84 @@
+[
+  {
+    "original_root": "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009/execution-cf-display-r1",
+    "commit": "dc80ec529c940019d1bee27a67a4e908eb37cc64",
+    "official_tree_sha256": "bb1732532406a345c30d25c1214df02e10307a0d8d8ea9ad8304e0eeef821898",
+    "source_lock_sha256": "cc0034280844039aca0966f84b1067baa541fcea0c56c9d8e0a5eb5234b2ecdd",
+    "input_lock_sha256": "f799e8a7abf09c89d3249fa6118a18f9e884b85e145b83b33ce3410643b5d429",
+    "key_members": [
+      {
+        "path": "official/runners/server4/qwen_run.py",
+        "sha256": "11da5604a2be3934c3a0a35c53caf906fcf8a40b38f65143317920b68b788fc5"
+      },
+      {
+        "path": "official/runners/server4/qwen_pipeline.py",
+        "sha256": "97bf72c59bfa8b91bfa42857c079a0291b17055b82395c77be477415803b671f"
+      },
+      {
+        "path": "official/runners/server4/qwen_assets.py",
+        "sha256": "4e711b9cf6f00783f6716e6aed48f937a05e2a4dc248506499645765a88b61d8"
+      },
+      {
+        "path": "official/runners/server4/qwen_factual.py",
+        "sha256": "0da1bb9d1f7b004a289ec83bcc535bb9a004c1ef117a7fe3167d1077c84bc54a"
+      },
+      {
+        "path": "official/runners/server4/qwen_native_state.py",
+        "sha256": "5946fb15c6309da5a03bb98810f23a35ef9fe666204d3d1d7bcf2c437b98d820"
+      },
+      {
+        "path": "official/runners/server4/qwen_plan.py",
+        "sha256": "f7b649714ecea333b37b79b5702f2d8b4eeacda5eed8fdca5cf32bc5d1d55abd"
+      },
+      {
+        "path": "project/run_scripts/server4_qwen_archive.py",
+        "sha256": "9db5173c125b0446421ea18e69793e73e891cb0fe25580e5cc71220f82bad3f5"
+      },
+      {
+        "path": "project/run_scripts/server4_qwen_submit.py",
+        "sha256": "61e0471bfa20bda9ac5d58fdfebefe4bbebad54a6da5d96130e4e98ebb40cace"
+      }
+    ]
+  },
+  {
+    "original_root": "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009/execution-noqual-r2",
+    "commit": "d614add5e4c650821ed8d2503c071a1e02605ca8",
+    "official_tree_sha256": "820e7041e92c3010e7331fd932c1ce4b5aa8c6f14dd6a9849a2b097831ebff9c",
+    "source_lock_sha256": "a9e838d67bed489c0e55e7bc523bb4eca6f3005e113d3358eaf2011e58c53c5f",
+    "input_lock_sha256": "47ed8e405c0c1e5670a060db8675d30611c3d2d48cf9ed514aca6747363d6b53",
+    "key_members": [
+      {
+        "path": "official/runners/server4/qwen_run.py",
+        "sha256": "d8be978e86ea2da22f800e5c643ce52d6ee6bc57adb678dcb15cd242aae7fcbf"
+      },
+      {
+        "path": "official/runners/server4/qwen_pipeline.py",
+        "sha256": "97bf72c59bfa8b91bfa42857c079a0291b17055b82395c77be477415803b671f"
+      },
+      {
+        "path": "official/runners/server4/qwen_assets.py",
+        "sha256": "4e711b9cf6f00783f6716e6aed48f937a05e2a4dc248506499645765a88b61d8"
+      },
+      {
+        "path": "official/runners/server4/qwen_factual.py",
+        "sha256": "0da1bb9d1f7b004a289ec83bcc535bb9a004c1ef117a7fe3167d1077c84bc54a"
+      },
+      {
+        "path": "official/runners/server4/qwen_native_state.py",
+        "sha256": "5946fb15c6309da5a03bb98810f23a35ef9fe666204d3d1d7bcf2c437b98d820"
+      },
+      {
+        "path": "official/runners/server4/qwen_plan.py",
+        "sha256": "f7b649714ecea333b37b79b5702f2d8b4eeacda5eed8fdca5cf32bc5d1d55abd"
+      },
+      {
+        "path": "project/run_scripts/server4_qwen_archive.py",
+        "sha256": "9db5173c125b0446421ea18e69793e73e891cb0fe25580e5cc71220f82bad3f5"
+      },
+      {
+        "path": "project/run_scripts/server4_qwen_submit.py",
+        "sha256": "b09a1622a460a214e6ae9241adcc6cbba0d71d4e683488f867f2a2a66b9f68b0"
+      }
+    ]
+  }
+]

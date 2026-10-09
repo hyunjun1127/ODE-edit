@@ -1,0 +1,132 @@
+{
+  "batch_size": 100,
+  "batches": [
+    {
+      "batch": 1,
+      "end_exclusive": 100,
+      "ordered_case_ids_sha256": "6ce11aa6e5118a6209d2d3c0c193f32675e7223fbbf1de5d925d2cdf38db672a",
+      "start_inclusive": 0
+    },
+    {
+      "batch": 2,
+      "end_exclusive": 200,
+      "ordered_case_ids_sha256": "472fbd729fe5d807414078a928a4117820a69a1c1fbf483a429a83240f4aff16",
+      "start_inclusive": 100
+    },
+    {
+      "batch": 3,
+      "end_exclusive": 300,
+      "ordered_case_ids_sha256": "b01b262eb5a302e8df2c028ec2b1236c25d1b0ef798aa30c24e57eb599178331",
+      "start_inclusive": 200
+    },
+    {
+      "batch": 4,
+      "end_exclusive": 400,
+      "ordered_case_ids_sha256": "ea074cd487b9e3e23e579313376229924a9c334f93de2e5cdaea2284d3e29442",
+      "start_inclusive": 300
+    },
+    {
+      "batch": 5,
+      "end_exclusive": 500,
+      "ordered_case_ids_sha256": "adef1b0ddae3a3fbf1a4bedd76c699f5c4f66ce81496de9232dfa3440e69fc23",
+      "start_inclusive": 400
+    },
+    {
+      "batch": 6,
+      "end_exclusive": 600,
+      "ordered_case_ids_sha256": "862a42a6e70656c8d8200b628515df19525d42fa0e21ef92f5d3c28865ca8428",
+      "start_inclusive": 500
+    },
+    {
+      "batch": 7,
+      "end_exclusive": 700,
+      "ordered_case_ids_sha256": "b217041dd4ab1e250f17464d94b3f77c2000819e2c0053bd1b214c240115d82a",
+      "start_inclusive": 600
+    },
+    {
+      "batch": 8,
+      "end_exclusive": 800,
+      "ordered_case_ids_sha256": "7e12be120b20c6c030e70c3980adfff6f9910c8c5e289150fcf7b1744d4d8b54",
+      "start_inclusive": 700
+    },
+    {
+      "batch": 9,
+      "end_exclusive": 900,
+      "ordered_case_ids_sha256": "cbee615cd4a002d712f2c3bb0489898e16950426ecf2ce33fae6f9dd7f621cc6",
+      "start_inclusive": 800
+    },
+    {
+      "batch": 10,
+      "end_exclusive": 1000,
+      "ordered_case_ids_sha256": "d007ba5cff18f741ec3ea19d3d62d5b896dda1029627c0e298be982d1fffa882",
+      "start_inclusive": 900
+    },
+    {
+      "batch": 11,
+      "end_exclusive": 1100,
+      "ordered_case_ids_sha256": "b158be965862d45840db09ebe07f8f6cc853bc4d97abe66d2213da8f6be22d9b",
+      "start_inclusive": 1000
+    },
+    {
+      "batch": 12,
+      "end_exclusive": 1200,
+      "ordered_case_ids_sha256": "f7719b0f7493d72f1212a76e6553d5df9617ac3c3ae9b35d64f91c1cb9cd2201",
+      "start_inclusive": 1100
+    },
+    {
+      "batch": 13,
+      "end_exclusive": 1300,
+      "ordered_case_ids_sha256": "3d42d563b47622991b79f8970bb860dd362b4102313317a41072af1e214b3cf3",
+      "start_inclusive": 1200
+    },
+    {
+      "batch": 14,
+      "end_exclusive": 1400,
+      "ordered_case_ids_sha256": "1832c4d1ce8711108dc4d6b27976cc2022e21dfc06396cf9567aa2124fc91d3d",
+      "start_inclusive": 1300
+    },
+    {
+      "batch": 15,
+      "end_exclusive": 1500,
+      "ordered_case_ids_sha256": "7c2b28a1cfab4fcbf13d93d78e37a6354219bcdc6d286162db5db52d2a2d93d5",
+      "start_inclusive": 1400
+    },
+    {
+      "batch": 16,
+      "end_exclusive": 1600,
+      "ordered_case_ids_sha256": "8878c2b73895a529749faca0dab50ec573b5be86a97adaba2667cfb7e57ce6fd",
+      "start_inclusive": 1500
+    },
+    {
+      "batch": 17,
+      "end_exclusive": 1700,
+      "ordered_case_ids_sha256": "29fd3e24cd21ee6b586a5d1224ccf4608d7b118a6f0cc2c0d993b1bbadf204cd",
+      "start_inclusive": 1600
+    },
+    {
+      "batch": 18,
+      "end_exclusive": 1800,
+      "ordered_case_ids_sha256": "8a7b134f8e6deb22bb2038432edaad9118af44cf36eb4de9470276877b83fb92",
+      "start_inclusive": 1700
+    },
+    {
+      "batch": 19,
+      "end_exclusive": 1900,
+      "ordered_case_ids_sha256": "5cad11ff53bef572afeba66bd5679630502f92c9126211a51f58a5fe4aed0937",
+      "start_inclusive": 1800
+    },
+    {
+      "batch": 20,
+      "end_exclusive": 2000,
+      "ordered_case_ids_sha256": "1cf36cc355a3a1c7fd9c4f17012ee6fd02a933e55adf7d2e72c867420d7f2cb2",
+      "start_inclusive": 1900
+    }
+  ],
+  "dataset": "cf",
+  "order": "FIRST_N_IN_EXISTING_FILE_ORDER_NO_SHUFFLE_NO_FILTER",
+  "ordered_case_ids_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+  "requests": 2000,
+  "source_sha256": "3d7f5e31db47b23f3a281bb6fb447c2fb1776e3d4721cdfb5fe5c6f998f10ae1",
+  "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+  "target_mapping": "requested_rewrite.target_new"
+}
