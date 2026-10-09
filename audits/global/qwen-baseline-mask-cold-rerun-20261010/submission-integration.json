@@ -67,12 +67,198 @@
       "context_sha256": null,
       "context_stage": "NOT_OBSERVED_ACTUAL_NATIVE_JOB_WILL_SEAL",
       "receipt": "audits/servers/server4/qwen-baseline-mask-cold-rerun-20261010/submission.json"
+    },
+    {
+      "server": "server2",
+      "old_job": "61900",
+      "new_job": "62072",
+      "method": "FT-EVAL",
+      "dataset": "zsre",
+      "edits": 2000,
+      "role": "EVAL_ONLY",
+      "job_name": "s2-qwen25-zsre-ft-eval-gpu",
+      "initial_state": "PENDING",
+      "snapshot_at": "2026-10-09T15:46:20.312354+00:00",
+      "source": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "config_sha256": null,
+      "dependency": [
+        "61945"
+      ],
+      "checkpoint": "ORIGINAL_61900_W20_READ_ONLY",
+      "context_sha256": null,
+      "context_stage": "NOT_APPLICABLE_NO_CONTEXT_GENERATION",
+      "receipt": "server2:/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/released.json"
+    },
+    {
+      "server": "server2",
+      "old_job": "61954",
+      "new_job": "62073",
+      "method": "MEMIT",
+      "dataset": "cf",
+      "edits": 2000,
+      "role": "COLD_EDIT",
+      "job_name": "s2-qwen25-cf-memit-gpu",
+      "initial_state": "PENDING",
+      "snapshot_at": "2026-10-09T15:46:20.312354+00:00",
+      "source": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "config_sha256": "f6877eb7c243a4d6817ba4613132a9688ff56e48889ae6f4f22978673a94f946",
+      "dependency": [
+        "61946"
+      ],
+      "checkpoint": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-cf-memit/checkpoint/latest.json",
+      "context_sha256": null,
+      "context_stage": "NOT_OBSERVED_ACTUAL_NATIVE_JOB_WILL_SEAL",
+      "receipt": "server2:/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/released.json"
+    },
+    {
+      "server": "server2",
+      "old_job": "61958",
+      "new_job": "62075",
+      "method": "ALPHAEDIT",
+      "dataset": "cf",
+      "edits": 2000,
+      "role": "COLD_EDIT",
+      "job_name": "s2-qwen25-cf-alphaedit-gpu",
+      "initial_state": "PENDING",
+      "snapshot_at": "2026-10-09T15:46:20.312354+00:00",
+      "source": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "config_sha256": "4db616aad47772619ad502628ed124c29268b9c32b256c6875a4fc8fb1fc061d",
+      "dependency": [
+        "61947"
+      ],
+      "checkpoint": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-cf-alphaedit/checkpoint/latest.json",
+      "context_sha256": null,
+      "context_stage": "NOT_OBSERVED_ACTUAL_NATIVE_JOB_WILL_SEAL",
+      "receipt": "server2:/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/released.json"
+    },
+    {
+      "server": "server2",
+      "old_job": "61966",
+      "new_job": "62077",
+      "method": "MEMIT_FE",
+      "dataset": "cf",
+      "edits": 2000,
+      "role": "COLD_EDIT",
+      "job_name": "s2-qwen25-cf-memit_fe-gpu",
+      "initial_state": "PENDING",
+      "snapshot_at": "2026-10-09T15:46:20.312354+00:00",
+      "source": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "config_sha256": "9a5ab5a117288655361b8b0c7881b9fb8653f1aa1082699c4dd94c19f33a488e",
+      "dependency": [
+        "61944"
+      ],
+      "checkpoint": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-cf-memit_fe/checkpoint/latest.json",
+      "context_sha256": null,
+      "context_stage": "NOT_OBSERVED_ACTUAL_NATIVE_JOB_WILL_SEAL",
+      "receipt": "server2:/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/released.json"
+    },
+    {
+      "server": "server2",
+      "old_job": "61970",
+      "new_job": "62079",
+      "method": "SPHERE",
+      "dataset": "cf",
+      "edits": 2000,
+      "role": "COLD_EDIT",
+      "job_name": "s2-qwen25-cf-sphere-gpu",
+      "initial_state": "PENDING",
+      "snapshot_at": "2026-10-09T15:46:20.312354+00:00",
+      "source": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "config_sha256": "9696fd995705458292900358c4765902ffdb3c988035d6a30627eed930e223ae",
+      "dependency": [
+        "62072"
+      ],
+      "checkpoint": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-cf-sphere/checkpoint/latest.json",
+      "context_sha256": null,
+      "context_stage": "NOT_OBSERVED_ACTUAL_NATIVE_JOB_WILL_SEAL",
+      "receipt": "server2:/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/released.json"
+    },
+    {
+      "server": "server2",
+      "old_job": "61956",
+      "new_job": "62081",
+      "method": "MEMIT",
+      "dataset": "zsre",
+      "edits": 2000,
+      "role": "COLD_EDIT",
+      "job_name": "s2-qwen25-zsre-memit-gpu",
+      "initial_state": "PENDING",
+      "snapshot_at": "2026-10-09T15:46:20.312354+00:00",
+      "source": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "config_sha256": "93e6f98a2a1c06e7da4320c6b5cd7837396781c6a377c8199cd8fb86f018a5c0",
+      "dependency": [
+        "62073"
+      ],
+      "checkpoint": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-zsre-memit/checkpoint/latest.json",
+      "context_sha256": null,
+      "context_stage": "NOT_OBSERVED_ACTUAL_NATIVE_JOB_WILL_SEAL",
+      "receipt": "server2:/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/released.json"
+    },
+    {
+      "server": "server2",
+      "old_job": "61960",
+      "new_job": "62083",
+      "method": "ALPHAEDIT",
+      "dataset": "zsre",
+      "edits": 2000,
+      "role": "COLD_EDIT",
+      "job_name": "s2-qwen25-zsre-alphaedit-gpu",
+      "initial_state": "PENDING",
+      "snapshot_at": "2026-10-09T15:46:20.312354+00:00",
+      "source": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "config_sha256": "b0e17e76bba6bc28f09cb776da3d61d811d1e5736fce7fd4ef2bfceb324ba342",
+      "dependency": [
+        "62075"
+      ],
+      "checkpoint": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-zsre-alphaedit/checkpoint/latest.json",
+      "context_sha256": null,
+      "context_stage": "NOT_OBSERVED_ACTUAL_NATIVE_JOB_WILL_SEAL",
+      "receipt": "server2:/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/released.json"
+    },
+    {
+      "server": "server2",
+      "old_job": "61968",
+      "new_job": "62085",
+      "method": "MEMIT_FE",
+      "dataset": "zsre",
+      "edits": 2000,
+      "role": "COLD_EDIT",
+      "job_name": "s2-qwen25-zsre-memit_fe-gpu",
+      "initial_state": "PENDING",
+      "snapshot_at": "2026-10-09T15:46:20.312354+00:00",
+      "source": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "config_sha256": "848bbc9855cc4c3bcac196bb2c4213ff83e47a98338a130a782ca0da4fb69e88",
+      "dependency": [
+        "62077"
+      ],
+      "checkpoint": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-zsre-memit_fe/checkpoint/latest.json",
+      "context_sha256": null,
+      "context_stage": "NOT_OBSERVED_ACTUAL_NATIVE_JOB_WILL_SEAL",
+      "receipt": "server2:/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/released.json"
+    },
+    {
+      "server": "server2",
+      "old_job": "61972",
+      "new_job": "62087",
+      "method": "SPHERE",
+      "dataset": "zsre",
+      "edits": 2000,
+      "role": "COLD_EDIT",
+      "job_name": "s2-qwen25-zsre-sphere-gpu",
+      "initial_state": "PENDING",
+      "snapshot_at": "2026-10-09T15:46:20.312354+00:00",
+      "source": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "config_sha256": "dcc7018f54b1f63c8c295ebe5d82b32fb933856e0d0b94b8659c9238ef41a814",
+      "dependency": [
+        "62079"
+      ],
+      "checkpoint": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-zsre-sphere/checkpoint/latest.json",
+      "context_sha256": null,
+      "context_stage": "NOT_OBSERVED_ACTUAL_NATIVE_JOB_WILL_SEAL",
+      "receipt": "server2:/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/released.json"
     }
   ],
-  "pending_receipts": [
-    "server2 8 cold chains",
-    "server2 FT61900 saved W20 eval-only"
-  ],
+  "pending_receipts": [],
   "scope_guards": {
     "OURS": "KEEP_EXCLUDED",
     "FT_BLUE_editing": "KEEP_EXCLUDED",
@@ -91,5 +277,128 @@
     ],
     "all_same_corrected_generate_fast": true,
     "pretrained_loads": 0
-  }
+  },
+  "stage": "11_COLD_AND_1_EVAL_ONLY_REGISTERED_RELEASED",
+  "server2_auxiliary": [
+    {
+      "job_id": "62074",
+      "kind": "archive",
+      "dependencies": [
+        "62073"
+      ]
+    },
+    {
+      "job_id": "62076",
+      "kind": "archive",
+      "dependencies": [
+        "62075",
+        "62074"
+      ]
+    },
+    {
+      "job_id": "62078",
+      "kind": "archive",
+      "dependencies": [
+        "62077",
+        "62076"
+      ]
+    },
+    {
+      "job_id": "62080",
+      "kind": "archive",
+      "dependencies": [
+        "62079",
+        "62078"
+      ]
+    },
+    {
+      "job_id": "62082",
+      "kind": "archive",
+      "dependencies": [
+        "62081",
+        "62080"
+      ]
+    },
+    {
+      "job_id": "62084",
+      "kind": "archive",
+      "dependencies": [
+        "62083",
+        "62082"
+      ]
+    },
+    {
+      "job_id": "62086",
+      "kind": "archive",
+      "dependencies": [
+        "62085",
+        "62084"
+      ]
+    },
+    {
+      "job_id": "62088",
+      "kind": "archive",
+      "dependencies": [
+        "62087",
+        "62086"
+      ]
+    },
+    {
+      "job_id": "62089",
+      "kind": "collector",
+      "dependencies": [
+        "62072",
+        "62073",
+        "62074",
+        "62075",
+        "62076",
+        "62077",
+        "62078",
+        "62079",
+        "62080",
+        "62081",
+        "62082",
+        "62083",
+        "62084",
+        "62085",
+        "62086",
+        "62087",
+        "62088"
+      ]
+    }
+  ],
+  "server2_cancelled": [
+    61974,
+    61973,
+    61972,
+    61971,
+    61970,
+    61969,
+    61968,
+    61967,
+    61966,
+    61961,
+    61959,
+    61958,
+    61957,
+    61955,
+    61954
+  ],
+  "server2_kept_completed": [
+    61956,
+    61960
+  ],
+  "server2_protected": [
+    61898,
+    61900,
+    61962,
+    61964,
+    61942,
+    61943,
+    61944,
+    61945,
+    61946,
+    61947,
+    61948
+  ]
 }
