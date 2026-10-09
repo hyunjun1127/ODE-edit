@@ -1,0 +1,46 @@
+{
+  "instruction_id": "USER-GH-S4-S2-QWEN-BASELINES-MIGRATION-RESULTS-20261009-R1",
+  "authority_commit": "53ce9357ab4153313781f08a7e0287a99137dff4",
+  "README_results_commit": "e859084ada95406fa66e181d36c26d97ece4ccd9",
+  "owner_accepted_turns": {
+    "server1": "01a11fab-46ad-7090-ab6b-ff4e0bcb7260",
+    "server2": "01a11fab-0d39-74a3-8eff-8290a49d5bce",
+    "server3": "01a11faa-dae2-7d42-b453-b41465ee98fc",
+    "server4": "01a11faa-d859-7a40-934b-025503810860"
+  },
+  "source_cessation": {
+    "receipt": "audits/servers/server4/qwen-migration-20261009/cessation.json",
+    "failed_terminal_kept": [61783],
+    "failure": "RESOURCE_BLOCKED_STORAGE_KEEP_SOURCE, free>=32GiB launcher check before model/edit",
+    "cancelled_unstarted_GPU_and_archive_jobs": 23,
+    "unrelated_jobs_changed": 0,
+    "checkpoint_deletion": 0,
+    "SH4_to_SH2_direct_delivery": "audits/servers/server4/qwen-migration-20261009/delivery.json",
+    "SH2_explicit_receipt": "Confirmed SH4 cessation and original W0_AND_W20_FIRST2000 schedule in accepted owner turn"
+  },
+  "destination_status_at_results_publication": {
+    "owner": "SH2/server2",
+    "status": "IMPLEMENTING_HOST_PORT_NOT_SLURM_PENDING",
+    "new_job_ids": [],
+    "next": "minimal same-method control-flow repair, local asset binding, immutable freeze, held inspection/release within cap",
+    "no_additional_user_approval": true,
+    "CF_generation": "W0_AND_W20_FIRST2000",
+    "zsRE_generation": "NONE",
+    "GPU_qualification": "NOT_RUN_USER_DISABLED"
+  },
+  "results": {
+    "llama_new_W20_chains": 8,
+    "gptj_new_W20_chains": 12,
+    "source_receipts": [
+      "audits/servers/server1/official-baselines-20261008/results-review-20261009/results.json",
+      "audits/servers/server2/qwen-migration-results-20261009/gptj-results.json"
+    ],
+    "GH_check": "check_table.py PASS, 20 completed dataset-method rows",
+    "llama_CF_MEMIT_FE_61773": "owner review RUNNING commit14; no W20 numeric value",
+    "historical_llama_MEMIT_AlphaEdit_BLUE": "preserved explicit user exceptions, not fresh rerun claims",
+    "qwen_Q3_61813": "completed final W20 separately linked; Q3-selected config not automatically promoted to default PRICE row",
+    "new_GPU_or_forward": 0,
+    "online_readback_revalidation": "NOT_RUN"
+  },
+  "monitoring": "no recurring monitor; bounded submission handoff only"
+}
