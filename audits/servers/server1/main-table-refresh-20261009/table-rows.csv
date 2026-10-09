@@ -1,0 +1,15 @@
+model,method,dataset,job_id,job_name,state,raw_verified,Score,Eff,Gen,Loc,Flu,Con
+llama3,ALPHAEDIT,cf,61769,official-s1-cf-alphaedit,CANCELLED,False,,,,,DEFERRED,DEFERRED
+llama3,SPHERE,cf,61770,official-s1-cf-sphere,COMPLETED,True,86.87096971885978,99.5,94.95,71.675,DEFERRED,DEFERRED
+llama3,FT,cf,61771,official-s1-cf-ft,COMPLETED,True,56.5866260441582,89.25,73.3,35.5,DEFERRED,DEFERRED
+llama3,MEMIT,cf,61772,official-s1-cf-memit,CANCELLED,False,,,,,DEFERRED,DEFERRED
+llama3,MEMIT_FE,cf,61773,official-s1-cf-memit_fe,COMPLETED,True,64.55217402754575,80.45,73.675,48.85,DEFERRED,DEFERRED
+llama3,FT,zsre,61932,official-s1-zsre-reeval-ft,COMPLETED,True,,14.632400793650794,11.816567460317462,25.251387670596298,,
+llama3,MEMIT,zsre,61933,official-s1-zsre-reeval-memit,COMPLETED,True,,44.30071428571429,39.94732142857143,22.30491261977676,,
+llama3,ALPHAEDIT,zsre,61934,official-s1-zsre-reeval-alphaedit,PENDING,False,,,,,,
+llama3,ALPHAEDIT_BLUE,zsre,61935,official-s1-zsre-reeval-alphaedit_blue,COMPLETED,True,,95.8722619047619,92.28218253968254,32.828486570334576,,
+llama3,MEMIT_FE,zsre,61936,official-s1-zsre-reeval-memit_fe,PENDING,False,,,,,,
+llama3,SPHERE,zsre,61937,official-s1-zsre-reeval-sphere,COMPLETED,True,,95.12626984126985,91.36148809523809,31.381720284338897,,
+gptj,MEMIT_FE_HISTORY,cf,61927,official-s1-cf-gptj-memit-fe-history,COMPLETED,True,50.17588566715234,50.349999999999994,49.9,50.28,DEFERRED,DEFERRED
+llama3,MEMIT_FE_HISTORY,cf,61928,official-s1-cf-llama3-memit-fe-history,RUNNING,False,,,,,DEFERRED,DEFERRED
+qwen25,MEMIT_FE_HISTORY,cf,61975,official-s1-cf-qwen25-memit-fe-history,RUNNING,False,,,,,DEFERRED,DEFERRED
