@@ -36,6 +36,28 @@ exact API/SHA와 eval-only tracking authority/schema READY가 필요하다.
 공통 evaluator/logger를 복제하거나 예정 API를 완료본이라고 표시하지 않았다.
 READY 수신 후 새 source/config freeze에만 적용하며 기존 frozen job을 hotpatch하지 않는다.
 
+## READY 채택 및 최종 caller 준비 업데이트
+
+위 입력 대기는 GH main4533756e/implementationf1a00379 게시로 해소했다.
+공통 문서 ZSRE_PAPER.md 전체를 읽고 evaluator SHA
+`d6a5b34eafd27660a2dee4632c638b6bf4c3614246071711cf5159a002415a45`,
+query parity module SHA `9883f16036525278bbfcdb45f5f08cc8c799f638a26f91b4d9da2a0d70103803`,
+tracking schema SHA `633344063046eba678595e436b4ff3d3162a062e9b31ff244bc48ab09a9237f1`에 결속했다.
+원 stream file SHA는 `f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c`.
+로컬 tokenizer와 전체2000 요청 CPU compare_queries 결과 input/target mismatch0,
+24,535 queries = Eff6035 + Gen6035 + Loc12465(BOS 포함 public loader)다.
+query SHA `7909c567881531b62db728ecc06308a3387324cc4e1c907b76bb50d8dd862efc`.
+이는 실제 pretrained numerical-output parity가 아니다.
+
+새 `zsre_reeval.py`는 선택 weights만 복원하고 공통 evaluate를 한 번 호출한다.
+weights/RNG 및 CP 불변을 검사하며 W0/edit/fit/generation0. eval-only identity와 진행률/최종 scalar는
+동일 official.tracking을 통해 새 W&B run에 기록한다. collector는 saved prediction/target에서
+요청 macro를 독립 재집계하고 이전 endpoint와의 delta/분모/source를 기록한다.
+`zsre_reeval_submit.py`는 현재 cap4/전체 admitted DAG에 6GPU 평가 및 1CPUcollector를 연결한다.
+1GPU/CPU8/65536MiB/4h, collector GPU0/CPU8/24576MiB/4h이며 freeGPU agent wait는 없다.
+CPU caller/restore/common/fakeSDK51 tests PASS, source166 SHA/Python320/import0 PASS.
+실제 GPU/online history 완료는 미관측이며 실제 제출 결과는 별도 receipt에 기록한다.
+
 원 CP/raw/model/기존 job KEEP; 실제 전송/삭제/취소/forward/fit0.
 Eff/Gen/Loc 값은 이번 준비 단계에서 변경하지 않았다. README는 GH 단독 통합.
 `NO_BROADCAST_NOT_REQUIRED`: same-host 자산/CP, compact source와 inventory만 Git 공유.

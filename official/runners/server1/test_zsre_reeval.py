@@ -27,4 +27,12 @@ class RestoreTests(unittest.TestCase):
         m,p,o=self.fixture();p['cache_c']={'0':torch.eye(2)}
         with self.assertRaises(ValueError):restore_payload(m,p,o)
 
+    def test_eval_only_production_config(self):
+        from .zsre_reeval import tracking_values
+        old=dict(method='MEMIT',job_id='61717',checkpoint={'sha256':'a'*64},identity={'tokenizer_sha256':'b'*64})
+        c=dict(original=old,config_sha256='c'*64,evaluator={'sha256':'d'*64},stream={'sha256':'e'*64})
+        value=tracking_values(c,'f'*40)
+        self.assertEqual(value['role'],'eval_only')
+        self.assertNotIn('generation_schedule',value)
+
 if __name__=='__main__':unittest.main()
