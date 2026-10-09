@@ -1814,7 +1814,7 @@
       "upstream_path": "project/run_scripts/experiment_tracking/schema.py",
       "path": "tracking/schema.py",
       "upstream_sha256": "b63cd41816f4022ff85c83130f16fff4380e7e039d0c37f6618c7d008b7aa659",
-      "sha256": "464f11fa1f0fa35c82b351ba0cffe079cf59d579b89d934c3b102b1ad9e434d1",
+      "sha256": "633344063046eba678595e436b4ff3d3162a062e9b31ff244bc48ab09a9237f1",
       "changes": [
         "official instruction/dataset/schema and native W0+W20 authority pair",
         "zsRE rejects CF generation",
@@ -1834,6 +1834,12 @@
           "previous_sha256": "24b7ba5dfa7741ad26b0b571a3e8bbe205bed57c0ae78809214844af3026268e",
           "sha256": "464f11fa1f0fa35c82b351ba0cffe079cf59d579b89d934c3b102b1ad9e434d1",
           "reason": "zsRE answer-accuracy Loc and separately named W0 agreement; CF calculation unchanged"
+        },
+        {
+          "instruction": "USER-GH-ZSRE-SAVED-WEIGHTS-2K-REEVAL-20261009-R1",
+          "previous_sha256": "464f11fa1f0fa35c82b351ba0cffe079cf59d579b89d934c3b102b1ad9e434d1",
+          "sha256": "633344063046eba678595e436b4ff3d3162a062e9b31ff244bc48ab09a9237f1",
+          "reason": "공통 eval-only zsRE W20 provenance 및 최종 endpoint 범위 검증; 과거 source 보존"
         }
       ]
     },
@@ -2136,6 +2142,123 @@
           "reason": "zsRE answer-accuracy Loc and separately named W0 agreement; CF calculation unchanged"
         }
       ]
+    },
+    {
+      "component": "zsre_eval_only",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": null,
+      "upstream_path": null,
+      "path": "evaluation/zsre_paper.py",
+      "upstream_sha256": null,
+      "sha256": "d6a5b34eafd27660a2dee4632c638b6bf4c3614246071711cf5159a002415a45",
+      "changes": [
+        "사용자 승인 W20 평가 전용; 공개 원문 SHA/URL은 zsre_public_sources/lock.json 참조"
+      ],
+      "review_nonce": "USER-GH-ZSRE-SAVED-WEIGHTS-2K-REEVAL-20261009-R1"
+    },
+    {
+      "component": "zsre_eval_only",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": null,
+      "upstream_path": null,
+      "path": "evaluation/zsre_query_parity.py",
+      "upstream_sha256": null,
+      "sha256": "9883f16036525278bbfcdb45f5f08cc8c799f638a26f91b4d9da2a0d70103803",
+      "changes": [
+        "사용자 승인 W20 평가 전용; 공개 원문 SHA/URL은 zsre_public_sources/lock.json 참조"
+      ],
+      "review_nonce": "USER-GH-ZSRE-SAVED-WEIGHTS-2K-REEVAL-20261009-R1"
+    },
+    {
+      "component": "zsre_eval_only",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": null,
+      "upstream_path": null,
+      "path": "evaluation/ZSRE_PAPER.md",
+      "upstream_sha256": null,
+      "sha256": "e53bf76ea6f19106dbea49595dace8162bd7a3f40136483518480d2311b8ef4c",
+      "changes": [
+        "사용자 승인 W20 평가 전용; 공개 원문 SHA/URL은 zsre_public_sources/lock.json 참조"
+      ],
+      "review_nonce": "USER-GH-ZSRE-SAVED-WEIGHTS-2K-REEVAL-20261009-R1"
+    },
+    {
+      "component": "zsre_eval_only",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": null,
+      "upstream_path": null,
+      "path": "tests/test_zsre_paper.py",
+      "upstream_sha256": null,
+      "sha256": "fd533add676a51378bc6f75941c04876a9231c8d1009f3b1072231f38ee42f07",
+      "changes": [
+        "사용자 승인 W20 평가 전용; 공개 원문 SHA/URL은 zsre_public_sources/lock.json 참조"
+      ],
+      "review_nonce": "USER-GH-ZSRE-SAVED-WEIGHTS-2K-REEVAL-20261009-R1"
+    },
+    {
+      "component": "zsre_eval_only",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": null,
+      "upstream_path": null,
+      "path": "tests/test_zsre_reeval_tracking.py",
+      "upstream_sha256": null,
+      "sha256": "c42c9f8086b3a45d14a3d7db6a32bdb660253ecdf96f68bd10d9c4925846b6bf",
+      "changes": [
+        "사용자 승인 W20 평가 전용; 공개 원문 SHA/URL은 zsre_public_sources/lock.json 참조"
+      ],
+      "review_nonce": "USER-GH-ZSRE-SAVED-WEIGHTS-2K-REEVAL-20261009-R1"
+    },
+    {
+      "component": "zsre_eval_only",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": null,
+      "upstream_path": null,
+      "path": "evaluation/zsre_public_sources/alphaedit_eval_utils_zsre.py",
+      "upstream_sha256": null,
+      "sha256": "4370a3b2c7eff88bfeffd6412be485c0195bae794f7c7a6d39b9dd9e01299d97",
+      "changes": [
+        "사용자 승인 W20 평가 전용; 공개 원문 SHA/URL은 zsre_public_sources/lock.json 참조"
+      ],
+      "review_nonce": "USER-GH-ZSRE-SAVED-WEIGHTS-2K-REEVAL-20261009-R1"
+    },
+    {
+      "component": "zsre_eval_only",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": null,
+      "upstream_path": null,
+      "path": "evaluation/zsre_public_sources/lock.json",
+      "upstream_sha256": null,
+      "sha256": "83f7f9aeafe28136f87f252a0783bf282929321ef6af9fbf2596f85d1f995ae6",
+      "changes": [
+        "사용자 승인 W20 평가 전용; 공개 원문 SHA/URL은 zsre_public_sources/lock.json 참조"
+      ],
+      "review_nonce": "USER-GH-ZSRE-SAVED-WEIGHTS-2K-REEVAL-20261009-R1"
+    },
+    {
+      "component": "zsre_eval_only",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": null,
+      "upstream_path": null,
+      "path": "evaluation/zsre_public_sources/memit_eval_utils_zsre.py",
+      "upstream_sha256": null,
+      "sha256": "e4f18c84a813d0a2fb9a5c9426726844117fe365cae72107d51f304a264d77a8",
+      "changes": [
+        "사용자 승인 W20 평가 전용; 공개 원문 SHA/URL은 zsre_public_sources/lock.json 참조"
+      ],
+      "review_nonce": "USER-GH-ZSRE-SAVED-WEIGHTS-2K-REEVAL-20261009-R1"
+    },
+    {
+      "component": "zsre_eval_only",
+      "repository": "https://github.com/hyunjun1127/ODE-edit",
+      "commit": null,
+      "upstream_path": null,
+      "path": "evaluation/zsre_public_sources/zsre_dataset.py",
+      "upstream_sha256": null,
+      "sha256": "a6281375afd9983337c154095fe9aba59c74c36fa34ecfb12838c7b5c341670e",
+      "changes": [
+        "사용자 승인 W20 평가 전용; 공개 원문 SHA/URL은 zsre_public_sources/lock.json 참조"
+      ],
+      "review_nonce": "USER-GH-ZSRE-SAVED-WEIGHTS-2K-REEVAL-20261009-R1"
     }
   ],
   "zsre_loc_definition_revision": {

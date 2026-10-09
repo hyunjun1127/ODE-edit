@@ -1,0 +1,18 @@
+{
+  "instruction_id": "USER-GH-ZSRE-SAVED-WEIGHTS-2K-REEVAL-20261009-R1",
+  "status": "PASS_CPU_QUERY_ONLY",
+  "requests_per_model": 2000,
+  "stream_file_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+  "stream_canonical_json_sha256": "93925ec2f74e00a1b3fbdf261e557d10652ae0eca7265b4948958d39de4848b7",
+  "oracle_lock_canonical_json_sha256": "d37227eb52aa1ba1cc0699155c674858b52ff418eaf7814231642f9de8aa2ff3",
+  "tokenizer_source_lock": "official/hparams/tokenizers.lock.json",
+  "tokenizer_files_fullsha_matched": true,
+  "models": {
+    "llama3": {"queries": 24535, "E_tokens": 6035, "G_tokens": 6035, "Loc_tokens": 12465, "query_sha256": "7909c567881531b62db728ecc06308a3387324cc4e1c907b76bb50d8dd862efc", "input_mismatches": 0, "target_mismatches": 0},
+    "gptj": {"queries": 20808, "E_tokens": 5557, "G_tokens": 5557, "Loc_tokens": 9694, "query_sha256": "2d27e4fc4445e709586e2d80f92dee76dfc1b6ce6cd7d333b6ca318ccb328a4b", "input_mismatches": 0, "target_mismatches": 0},
+    "qwen25": {"queries": 24858, "E_tokens": 6691, "G_tokens": 6691, "Loc_tokens": 11476, "query_sha256": "6c8111384789cec7059ea1b3c2b1083d761ade2b360c99db3e5c4f1ef4941d78", "input_mismatches": 0, "target_mismatches": 0}
+  },
+  "model_forward_calls": 0,
+  "actual_model_output_parity": "NOT_MEASURED",
+  "notes": "공개 loader AST와 evaluator AST 전체2K 질의 문자열/입력ID/채점targetID 독립비교. Llama Loc는 공개 loader BOS를 포함하여 기존10465가 아닌12465 checks. 점수 차이 미측정. 앞선 AST오타와 fixture BOS검사 오류는 수리 후 전체 재실행 완료."
+}
