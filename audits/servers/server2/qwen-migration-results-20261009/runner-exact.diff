@@ -1,0 +1,185 @@
+diff --git a/official/runners/server4/qwen_run.py b/official/runners/server2/qwen_run.py
+index 204a70b8..8703d18a 100644
+--- a/official/runners/server4/qwen_run.py
++++ b/official/runners/server2/qwen_run.py
+@@ -1,3 +1,4 @@
++# Port provenance: SH4 dc80ec529; host/module binding only, native science unchanged.
+ # Provenance: server3 readonly source at fcca2007; server4 Qwen transfer binding.
+ """Qwen official baseline runner (native EasyEdit algorithms from ``official``).
+ 
+@@ -112,7 +113,7 @@ def _original_validate_config(config):
+ 
+ 
+ def validate_config(config):
+-    from official.runners.server4.qwen_plan import rows
++    from official.runners.server2.qwen_plan import rows
+     _original_validate_config(config)
+     if config not in [row['config'] for row in rows()]:
+         raise ValueError('SERVER4_EXACT_TWELVE_SCOPE')
+@@ -293,7 +294,7 @@ def _tracker(output, *, arm, writer, dataset, source_sha, config_sha, assets):
+     attempt = os.environ.get("ODEEDIT_ATTEMPT_ID")
+     if not env_file or not attempt:
+         raise RuntimeError("ONLINE_LOGGER_ENV_OR_ATTEMPT_MISSING")
+-    values = dict(server="server4", task_id="official-baselines-20261008",
++    values = dict(server="server2", task_id="official-baselines-20261008",
+                   arm=arm, attempt=attempt, source_sha=source_sha,
+                   config_sha=config_sha, model="qwen25", model_family="qwen2",
+                   writer=writer, baseline=writer, role="scientific",
+@@ -489,7 +490,7 @@ def _log_scalar_receipt(tracker, output, label, values, source_receipt_sha256):
+ 
+ 
+ def _preflight(args, *, require_frozen=False):
+-    from official.runners.server4.qwen_assets import preflight as asset_preflight
++    from official.runners.server2.qwen_assets import preflight as asset_preflight
+     config = validate_config(_read(args.config)) if args.command != "w0" else None
+     dataset = config["dataset"] if config else args.dataset
+     stream_lock, records = validate_stream(args.stream, dataset)
+@@ -872,73 +873,73 @@ def execute(args):
+             import shutil
+             if shutil.disk_usage(out).free < 32 * 1024**3:
+                 raise RuntimeError('RESOURCE_BLOCKED_STORAGE_KEEP_CHECKPOINT')
+-                before = time.monotonic()
+-                current = records[(batch - 1) * 100:batch * 100]
+-                with torch.enable_grad():
+-                    model = native.apply(tok, registry.requests(current, config["method"], "qwen25"))
+-                weights = _editable_weights(model, names)
+-                evaluated = batch in PHASES or (args.qualify_b3_metrics and batch == 3)
+-                factual = None
+-                generation = None
+-                if evaluated:
+-                    eval_records = current if batch == 3 else records[:batch * 100]
++            before = time.monotonic()
++            current = records[(batch - 1) * 100:batch * 100]
++            with torch.enable_grad():
++                model = native.apply(tok, registry.requests(current, config["method"], "qwen25"))
++            weights = _editable_weights(model, names)
++            evaluated = batch in PHASES or (args.qualify_b3_metrics and batch == 3)
++            factual = None
++            generation = None
++            if evaluated:
++                eval_records = current if batch == 3 else records[:batch * 100]
++                with torch.inference_mode():
++                    observed = _evaluate_factual(module, model, tok, eval_records,
++                                                 config["dataset"],
++                                                 w0_reference=zsre_reference,
++                                                 identity=factual_identity)
++                    cases, summary = observed["cases"], observed["summary"]
++                evaldir = out / "evaluations"
++                evaldir.mkdir(parents=True, exist_ok=True)
++                case_path = evaldir / f"w{batch:02d}-cases.json"
++                _write_once(case_path, cases)
++                factual = dict(summary=summary, accuracy=observed["accuracy"],
++                               work=observed["work"],
++                               observation_identity_sha256=observed["identity_sha256"],
++                               cases_sha256=_sha(case_path),
++                               cases_path=str(case_path.resolve()))
++                if batch == 20 and config["dataset"] == "cf":
+                     with torch.inference_mode():
+-                        observed = _evaluate_factual(module, model, tok, eval_records,
+-                                                     config["dataset"],
+-                                                     w0_reference=zsre_reference,
+-                                                     identity=factual_identity)
+-                        cases, summary = observed["cases"], observed["summary"]
+-                    evaldir = out / "evaluations"
+-                    evaldir.mkdir(parents=True, exist_ok=True)
+-                    case_path = evaldir / f"w{batch:02d}-cases.json"
+-                    _write_once(case_path, cases)
+-                    factual = dict(summary=summary, accuracy=observed["accuracy"],
+-                                   work=observed["work"],
+-                                   observation_identity_sha256=observed["identity_sha256"],
+-                                   cases_sha256=_sha(case_path),
+-                                   cases_path=str(case_path.resolve()))
+-                    if batch == 20 and config["dataset"] == "cf":
+-                        with torch.inference_mode():
+-                            generation = _generation(model, tok, records, asset_receipt["assets"],
+-                                                     out, "W20", dict(checkpoint_identity=identity,
+-                                                                       batch=batch,
+-                                                                       weight_hashes=_weight_hashes(weights)),
+-                                                     tracker, native)
+-                cursor = dict(completed_batch=batch, w0_receipt=str(shared / "w0-receipt.json"),
+-                              evaluated_endpoints=[n for n in PHASES if n <= batch],
+-                              per_request_records=[dict(occurrence_index=r["occurrence_index"],
+-                                                        case_id=r["case_id"]) for r in records[:batch * 100]])
+-                state_hashes = _state_hashes(weights, native, cursor) \
+-                    if args.state_hash_at_batch3 and batch == 3 else None
+-                pending = dict(batch=batch, config_sha256=config["config_sha256"],
+-                               stream_sha256=lock["stream_sha256"],
+-                               code_commit=source["code_commit"],
+-                               official_tree_sha256=source["official_tree_sha256"],
+-                               checkpoint_identity=identity, factual=factual,
+-                               generation=(dict(rows_path=generation["rows_path"],
+-                                                identity_sha256=generation["identity_sha256"])
+-                                           if generation else None),
+-                               placement=native.placement,
+-                               seconds=time.monotonic() - before,
+-                               state_hashes=state_hashes)
+-                from official.experiments.prepare import digest
+-                pending_sha = digest(pending)
+-                _write_once(out / "commits" /
+-                            f"pending-b{batch:02d}-{pending_sha}.json", pending)
+-                cursor["pending_receipt_sha256"] = pending_sha
+-                ck = checkpoint.save(checkpoint_dir, batch=batch, weights=weights,
+-                                     cache_c=native.cache_for_checkpoint(),
+-                                     contexts=native.context_snapshot(), evaluation_cursor=cursor,
+-                                     identity=identity, method=config["method"],
+-                                     evaluation_complete=True)
+-                _recover_batch_receipts(out,
+-                    dict(batch=batch, evaluation_cursor=cursor), ck,
+-                    config, lock, source, identity)
+-                if factual is not None:
+-                    scalars = _batch_scalar_values(config["dataset"], batch, cases,
+-                        factual, generation["summary"] if generation else None)
+-                    _log_scalar_receipt(tracker, out, f"w{batch:02d}", scalars,
+-                                        _sha(out / "commits" / f"b{batch:02d}.json"))
++                        generation = _generation(model, tok, records, asset_receipt["assets"],
++                                                 out, "W20", dict(checkpoint_identity=identity,
++                                                                   batch=batch,
++                                                                   weight_hashes=_weight_hashes(weights)),
++                                                 tracker, native)
++            cursor = dict(completed_batch=batch, w0_receipt=str(shared / "w0-receipt.json"),
++                          evaluated_endpoints=[n for n in PHASES if n <= batch],
++                          per_request_records=[dict(occurrence_index=r["occurrence_index"],
++                                                    case_id=r["case_id"]) for r in records[:batch * 100]])
++            state_hashes = _state_hashes(weights, native, cursor) \
++                if args.state_hash_at_batch3 and batch == 3 else None
++            pending = dict(batch=batch, config_sha256=config["config_sha256"],
++                           stream_sha256=lock["stream_sha256"],
++                           code_commit=source["code_commit"],
++                           official_tree_sha256=source["official_tree_sha256"],
++                           checkpoint_identity=identity, factual=factual,
++                           generation=(dict(rows_path=generation["rows_path"],
++                                            identity_sha256=generation["identity_sha256"])
++                                       if generation else None),
++                           placement=native.placement,
++                           seconds=time.monotonic() - before,
++                           state_hashes=state_hashes)
++            from official.experiments.prepare import digest
++            pending_sha = digest(pending)
++            _write_once(out / "commits" /
++                        f"pending-b{batch:02d}-{pending_sha}.json", pending)
++            cursor["pending_receipt_sha256"] = pending_sha
++            ck = checkpoint.save(checkpoint_dir, batch=batch, weights=weights,
++                                 cache_c=native.cache_for_checkpoint(),
++                                 contexts=native.context_snapshot(), evaluation_cursor=cursor,
++                                 identity=identity, method=config["method"],
++                                 evaluation_complete=True)
++            _recover_batch_receipts(out,
++                dict(batch=batch, evaluation_cursor=cursor), ck,
++                config, lock, source, identity)
++            if factual is not None:
++                scalars = _batch_scalar_values(config["dataset"], batch, cases,
++                    factual, generation["summary"] if generation else None)
++                _log_scalar_receipt(tracker, out, f"w{batch:02d}", scalars,
++                                    _sha(out / "commits" / f"b{batch:02d}.json"))
+         if args.stop_after_batch == 1:
+             _write_once(out / "smoke-receipt.json", dict(completed_batch=1,
+                         run_id=config["run_id"], config_sha256=config["config_sha256"],
+@@ -971,7 +972,7 @@ def _historical_qualify_not_dispatched(args):
+                 or receipt.get("stream_sha256") != lock["stream_sha256"]:
+             raise ValueError("QUALIFICATION_EXISTING_RECEIPT_MISMATCH")
+         return 0
+-    base = [sys.executable, "-B", "-m", "official.runners.server4.qwen_run", "execute",
++    base = [sys.executable, "-B", "-m", "official.runners.server2.qwen_run", "execute",
+             "--config", str(args.config), "--assets", str(args.assets),
+             "--stream", str(args.stream)]
+     runs = (("continuous", ["--stop-after-batch", "3", "--qualify-b3-metrics",
