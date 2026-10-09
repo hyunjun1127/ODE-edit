@@ -224,8 +224,8 @@
       "upstream_path": "easyeditor/models/memit_FE/memit_FE_main.py",
       "path": "baselines/easyedit/models/memit_FE/memit_FE_main.py",
       "upstream_sha256": "3139543c4a0b24b7be797010fc9a86b5aa184161acb54776b01caa6b965ccd86",
-      "sha256": "3139543c4a0b24b7be797010fc9a86b5aa184161acb54776b01caa6b965ccd86",
-      "changes": []
+      "sha256": "5bdf9fb17dbd5a66469b63f1c8acaa4f3f2ac9cff1e2a480b63427087c4e2e29",
+      "changes": ["USER-GH-SH1-MEMIT-FE-HISTORY-THREE-MODEL-2K-20261009-R1: optional history_entry solve seam; None retains stock FE path, new explicit variant supplies H; upstream provenance preserved"]
     },
     {
       "component": "easyedit",
