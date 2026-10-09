@@ -1,0 +1,18 @@
+{
+  "instruction_id": "USER-GH-S4-S2-QWEN-BASELINES-MIGRATION-RESULTS-20261009-R1",
+  "user_quote": "server 4에 올렸던 qwen job 안돌아가는데 확인해보고, server4 에 올리려 했던 baseline 실험들 모두 server2에서 돌리게 하자. main의 README table도 각 서버에서 끝난거 성능 올려서 갱신시켜",
+  "scope": "SH4 기존 승인 baseline 전량을 exact inventory 후 SH2로 이전. 현재 확인 대상 Qwen 6method x CF/zsRE 12개. SH1..4 완료 결과 CPU 검산 후 GH README 통합",
+  "observed_failure": {"job": "61783", "name": "qwen-cf-ft", "state": "FAILED", "exit_code": "1:0", "elapsed": "00:00:01", "error": "RESOURCE_BLOCKED_STORAGE_KEEP_SOURCE", "source_check": "server4_qwen_submit.py verify: free space >= 32GiB 검사", "downstream": "archive61784 DependencyNeverSatisfied; 이후 afterok chain 대기"},
+  "owners": {"source": "SH4 01a04939-b5c7-7a03-ba2d-ef3343d62cfd", "destination": "SH2 01a0493a-074c-7f91-9a13-769116326fef", "README": "GH"},
+  "source_inventory_hints": {"CF": [61783,61785,61787,61789,61791,61793], "CF_archive": [61784,61786,61788,61790,61792,61794], "zsRE": [61755,61757,61759,61761,61763,61765], "zsRE_archive": [61756,61758,61760,61762,61764,61766]},
+  "SH4": "exact owner/task/model/method/dataset/source/Command/state 확인. 이미 완료한 main 중복 실행0. 실패 terminal KEEP. 이전대상 active baseline/archive만 pendinghold/downstreamfirst 취소하여 duplicate0를 보장하고 cessation/source/config/input/asset/provenance receipt를 SH2에 직접 전달. 구Llama60917..22는 이미취소 관측이며 과거취소task 신규부활0. 다른 실제 승인미완료 baseline이 있으면 inventory에 명시",
+  "SH2": "SH4 exact cessation과 original locks 수신 후 새 isolated source/attempt로 minimal host binding 및 CPU 검산, 12 cold BS100x20 등록/held검사/release 또는 구체 기술 blocker. 추가 단계승인 불필요. 모델별 기존 local asset 재사용, missing identity는 보고. 기존 source/자산/평가/순서/seed/dtype/계수/solver 변경0",
+  "runtime": "원 no-GPU-qualification 유지. 별도 smoke/pilot/extra fit/forward0. 기존 generation 일정(deferred 포함), 실제 W0 필요 관측, native 안전검사, W&B scalar 및 job ID/immutable identity, checkpoint와 검증된 archive 정책 유지",
+  "resource": "server2 최신 승인 cap4 또는 더엄격한 현행 cap, RUNNING/admittedPENDING 및 OURS 포함. 기존 작업 선점/취소/증액0. storage/inode/CPU/memory/QoS fresh확인; 빈slot과 필요한 input/resource dependency만 사용. archive/consumer 검증없이 source삭제0",
+  "allowed_writes": ["SH2 전용 non-main WT 및 official/runners/server2/**", "server2 전용 Qwen launcher/collector/host-binding modules", "SH4 own cancellation/metadata receipt", "각 SH own audit/report/run/status", "각 task ignored local 경로", "GH README/control/global report"],
+  "Git": "source와 소형 report/receipt 비강제 main 게시 허용. rootdirty/기존 frozen source/archive/raw/CP KEEP",
+  "transfer": "task에 필요한 소형 source/config/input metadata와 existing reference provenance만 승인; 모델/CP 신규대형복제·삭제는 이 지시로 임의 수행하지 않음",
+  "results": "각 SH 본인 완료 run의 실제 W20/2k raw+denominator/source/config/job/model/method/dataset 검산 후 CPU compact matrix 제출. scheduler COMPLETED만으로 성능완료 주장0. GH는 CF6칸/zsRE3칸 경계 유지. FluCon 미관측DEFERRED/결측omit. 기존 historical 예외 유지, tuning/tier/heldout을 main결과로 자동승격0",
+  "prohibited": ["PRICE/OURS/tuning job 변경", "다른 서버 baseline 취소", "추가 arm/sweep/baseline", "cap 증액", "성능 gate", "무거운 qualification 재도입", "recurringmonitor/autoretry", "검증되지 않은 checkpoint 삭제"],
+  "completion": "직접 owner ACK + SH4 cessation/SH2 실제 job IDs 또는 concrete blocker + 완료 결과의 README main 반영. GPU 완료대기0"
+}
