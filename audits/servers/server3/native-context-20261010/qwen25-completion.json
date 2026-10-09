@@ -1,0 +1,124 @@
+{
+  "family": "qwen25",
+  "job_id": "62101",
+  "status": "READY_VERIFIED_DELIVERED",
+  "observed_at": "2026-10-09T16:04:12.401546+00:00",
+  "accounting": "62101|COMPLETED|00:00:21|0:0",
+  "ready": {
+    "GPU_qualification": "NOT_RUN",
+    "W0_evaluation": 0,
+    "config_sha256": "ec115508a812e202cfb265a45ed2674aa8ac4fffccaf315462f1d9f48ff802c1",
+    "context_sha256": "caf43aaf6e04f8b894f49051cbca4312e51b63ac42466be4edd82a70d7589dea",
+    "context_tokens_sha256": "0d7b2d9be47d1409d3c1f9672b111e4d26e932f2c9e5d4a22f2784fe1ab4e58e",
+    "edits": 0,
+    "fit": 0,
+    "generator_sha256": "35506690c41ecb7d59f11660da41dde50338f5a2ba9613735e045a8c7ab98db4",
+    "job_id": "62101",
+    "model_family": "qwen25",
+    "model_manifest_sha256": "0013cd199e0ae16b296bf73d2d9bd5a9b7a0a0ae0463c9ea3890d86420dc1c89",
+    "model_weight_verification": "RUNTIME_FULL_SHA_PASS",
+    "native_module": "official.baselines.easyedit.models.memit.memit_main",
+    "native_module_sha256": "39b0c91b586a136be2b6bdfabbcc17705fb3cc07e7f17e739fe565906d9d6ea7",
+    "profile": "official-native-edit-context-fiveprompts-total10-topk5",
+    "revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+    "runtime": {
+      "gpu": "NVIDIA H200 NVL",
+      "torch": "2.9.1+cu128",
+      "transformers": "4.57.1"
+    },
+    "seconds": 8.715567724779248,
+    "seed": 0,
+    "source": "70b63f001ae200eed70d5278028b1cc7d33ce009",
+    "status": "CONTEXT_GENERATED"
+  },
+  "source_paths": [
+    "/data/janghj/ODE-edit/local/native-context-server3-20261010/execution-r1/outputs/qwen25/contexts.json",
+    "/data/janghj/ODE-edit/local/native-context-server3-20261010/execution-r1/outputs/qwen25/context-token-ids.json",
+    "/data/janghj/ODE-edit/local/native-context-server3-20261010/execution-r1/outputs/qwen25/READY.json"
+  ],
+  "deliveries": [
+    {
+      "server": "server1",
+      "destination": "/mnt/raid5/janghj/ODE-edit/local/native-context-import/server3-20261010/job-62101/qwen25",
+      "verified": true,
+      "members": [
+        {
+          "name": "contexts.json",
+          "bytes": 327,
+          "sha256": "caf43aaf6e04f8b894f49051cbca4312e51b63ac42466be4edd82a70d7589dea"
+        },
+        {
+          "name": "context-token-ids.json",
+          "bytes": 791,
+          "sha256": "0d7b2d9be47d1409d3c1f9672b111e4d26e932f2c9e5d4a22f2784fe1ab4e58e"
+        },
+        {
+          "name": "READY.json",
+          "bytes": 1182,
+          "sha256": "6a3e8d32bc54534c241199f590ad682cf25ac0617d1d918bc3ed02ee6b833688"
+        },
+        {
+          "name": "config-provenance.json",
+          "bytes": 55716,
+          "sha256": "77d1b0023bbc9dafc4f255ff21537b6fcabf18c3fb90742b98ead53c7da90b5f"
+        }
+      ]
+    },
+    {
+      "server": "server2",
+      "destination": "/mnt/raid5/janghj/ODE-edit/local/native-context-import/server3-20261010/job-62101/qwen25",
+      "verified": true,
+      "members": [
+        {
+          "name": "contexts.json",
+          "bytes": 327,
+          "sha256": "caf43aaf6e04f8b894f49051cbca4312e51b63ac42466be4edd82a70d7589dea"
+        },
+        {
+          "name": "context-token-ids.json",
+          "bytes": 791,
+          "sha256": "0d7b2d9be47d1409d3c1f9672b111e4d26e932f2c9e5d4a22f2784fe1ab4e58e"
+        },
+        {
+          "name": "READY.json",
+          "bytes": 1182,
+          "sha256": "6a3e8d32bc54534c241199f590ad682cf25ac0617d1d918bc3ed02ee6b833688"
+        },
+        {
+          "name": "config-provenance.json",
+          "bytes": 55716,
+          "sha256": "77d1b0023bbc9dafc4f255ff21537b6fcabf18c3fb90742b98ead53c7da90b5f"
+        }
+      ]
+    },
+    {
+      "server": "server4",
+      "destination": "/data/janghj/ODE-edit/local/native-context-import/server3-20261010/job-62101/qwen25",
+      "verified": true,
+      "members": [
+        {
+          "name": "contexts.json",
+          "bytes": 327,
+          "sha256": "caf43aaf6e04f8b894f49051cbca4312e51b63ac42466be4edd82a70d7589dea"
+        },
+        {
+          "name": "context-token-ids.json",
+          "bytes": 791,
+          "sha256": "0d7b2d9be47d1409d3c1f9672b111e4d26e932f2c9e5d4a22f2784fe1ab4e58e"
+        },
+        {
+          "name": "READY.json",
+          "bytes": 1182,
+          "sha256": "6a3e8d32bc54534c241199f590ad682cf25ac0617d1d918bc3ed02ee6b833688"
+        },
+        {
+          "name": "config-provenance.json",
+          "bytes": 55716,
+          "sha256": "77d1b0023bbc9dafc4f255ff21537b6fcabf18c3fb90742b98ead53c7da90b5f"
+        }
+      ]
+    }
+  ],
+  "source_KEEP": true,
+  "frozen_run_injection": false
+}

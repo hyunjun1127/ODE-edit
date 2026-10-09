@@ -1,0 +1,124 @@
+{
+  "family": "gptj",
+  "job_id": "62102",
+  "status": "READY_VERIFIED_DELIVERED",
+  "observed_at": "2026-10-09T16:04:24.842520+00:00",
+  "accounting": "62102|COMPLETED|00:00:43|0:0",
+  "ready": {
+    "GPU_qualification": "NOT_RUN",
+    "W0_evaluation": 0,
+    "config_sha256": "5c2031ee8eb92ddde1dc3ebaf666b9a9071f8b09248f6f69dd9b6d123b08a90f",
+    "context_sha256": "b8d3523861cfdc973654f5d870cfd18ccba770f00dfd480745c0dff18b69a66b",
+    "context_tokens_sha256": "cd1473500ed46c69c3b71ad81dd487225143563b822eabdacaaaadc3392851a7",
+    "edits": 0,
+    "fit": 0,
+    "generator_sha256": "35506690c41ecb7d59f11660da41dde50338f5a2ba9613735e045a8c7ab98db4",
+    "job_id": "62102",
+    "model_family": "gptj",
+    "model_manifest_sha256": "f3fb9f89b95dfbc5a4ea488723d6da01f7c35494601792c64bf04a7a39eaaa76",
+    "model_weight_verification": "RUNTIME_FULL_SHA_PASS",
+    "native_module": "official.baselines.easyedit.models.memit.memit_main",
+    "native_module_sha256": "39b0c91b586a136be2b6bdfabbcc17705fb3cc07e7f17e739fe565906d9d6ea7",
+    "profile": "official-native-edit-context-fiveprompts-total10-topk5",
+    "revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+    "runtime": {
+      "gpu": "NVIDIA H200 NVL",
+      "torch": "2.9.1+cu128",
+      "transformers": "4.57.1"
+    },
+    "seconds": 22.435289856046438,
+    "seed": 0,
+    "source": "70b63f001ae200eed70d5278028b1cc7d33ce009",
+    "status": "CONTEXT_GENERATED"
+  },
+  "source_paths": [
+    "/data/janghj/ODE-edit/local/native-context-server3-20261010/execution-r1/outputs/gptj/contexts.json",
+    "/data/janghj/ODE-edit/local/native-context-server3-20261010/execution-r1/outputs/gptj/context-token-ids.json",
+    "/data/janghj/ODE-edit/local/native-context-server3-20261010/execution-r1/outputs/gptj/READY.json"
+  ],
+  "deliveries": [
+    {
+      "server": "server1",
+      "destination": "/mnt/raid5/janghj/ODE-edit/local/native-context-import/server3-20261010/job-62102/gptj",
+      "verified": true,
+      "members": [
+        {
+          "name": "contexts.json",
+          "bytes": 290,
+          "sha256": "b8d3523861cfdc973654f5d870cfd18ccba770f00dfd480745c0dff18b69a66b"
+        },
+        {
+          "name": "context-token-ids.json",
+          "bytes": 761,
+          "sha256": "cd1473500ed46c69c3b71ad81dd487225143563b822eabdacaaaadc3392851a7"
+        },
+        {
+          "name": "READY.json",
+          "bytes": 1181,
+          "sha256": "e4911be175a4eb32a5f6617a79a20822a448f15f2b022c4bad55d0b88845ef0c"
+        },
+        {
+          "name": "config-provenance.json",
+          "bytes": 54526,
+          "sha256": "88d96cd0ebdd4ae81ec41b900a0f3ae61d37ae15cb67cbdf44a60bf0ce8baf12"
+        }
+      ]
+    },
+    {
+      "server": "server2",
+      "destination": "/mnt/raid5/janghj/ODE-edit/local/native-context-import/server3-20261010/job-62102/gptj",
+      "verified": true,
+      "members": [
+        {
+          "name": "contexts.json",
+          "bytes": 290,
+          "sha256": "b8d3523861cfdc973654f5d870cfd18ccba770f00dfd480745c0dff18b69a66b"
+        },
+        {
+          "name": "context-token-ids.json",
+          "bytes": 761,
+          "sha256": "cd1473500ed46c69c3b71ad81dd487225143563b822eabdacaaaadc3392851a7"
+        },
+        {
+          "name": "READY.json",
+          "bytes": 1181,
+          "sha256": "e4911be175a4eb32a5f6617a79a20822a448f15f2b022c4bad55d0b88845ef0c"
+        },
+        {
+          "name": "config-provenance.json",
+          "bytes": 54526,
+          "sha256": "88d96cd0ebdd4ae81ec41b900a0f3ae61d37ae15cb67cbdf44a60bf0ce8baf12"
+        }
+      ]
+    },
+    {
+      "server": "server4",
+      "destination": "/data/janghj/ODE-edit/local/native-context-import/server3-20261010/job-62102/gptj",
+      "verified": true,
+      "members": [
+        {
+          "name": "contexts.json",
+          "bytes": 290,
+          "sha256": "b8d3523861cfdc973654f5d870cfd18ccba770f00dfd480745c0dff18b69a66b"
+        },
+        {
+          "name": "context-token-ids.json",
+          "bytes": 761,
+          "sha256": "cd1473500ed46c69c3b71ad81dd487225143563b822eabdacaaaadc3392851a7"
+        },
+        {
+          "name": "READY.json",
+          "bytes": 1181,
+          "sha256": "e4911be175a4eb32a5f6617a79a20822a448f15f2b022c4bad55d0b88845ef0c"
+        },
+        {
+          "name": "config-provenance.json",
+          "bytes": 54526,
+          "sha256": "88d96cd0ebdd4ae81ec41b900a0f3ae61d37ae15cb67cbdf44a60bf0ce8baf12"
+        }
+      ]
+    }
+  ],
+  "source_KEEP": true,
+  "frozen_run_injection": false
+}

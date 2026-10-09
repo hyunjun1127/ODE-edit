@@ -15,3 +15,17 @@ nonce USER-SH4-SH3-NATIVE-CONTEXT-MIGRATION-20261010-R1. SH4 62092→62091→620
 local root `/data/janghj/ODE-edit/local/native-context-server3-20261010/execution-r1`; source archive/각 family config/freeze.json/model manifest/output는 이 root 아래. 각 outputs/family/{contexts.json,context-token-ids.json,READY.json} 생성 완료 후 fullSHA·실제runtime/source/job/nativeclosure 검산하여 별도 전달한다. raw context/token Git0. local 모델3revision 존재, tiny config/tokenizer CPU hash 검증, modelweight는 runtime fullSHA 검증 후 load. 새 모델다운로드/전송/환경설치 없음.
 
 실제 Python `/data/janghj/ODE-edit/local/runtime/price-s4-mirror-v1/venv/bin/python`, torch2.9.1+cu128/transformers4.57.1, FP32/eager/TF32off. source166/Python329/externalimports0 PASS; GPU qualification은 하지 않는다. 승인 context생성 forward만이며 edit/fit/W0/eval/scientific W&B run0. 이번 세job에만 사용자 승인 monitor/각완료 통보를 수행, 실패시 자동 retry0. compactGit과 exact small context allowlist만 공유, base/model/tensor broadcast0.
+
+## 실제 생성·전달 완료
+
+세 job 모두 COMPLETED/0:0이고 모델 fullSHA/runtime/source/config/job/seed/profile, native module/generator, context/token파일 SHA 및 구조를 별도로 검산했다.
+
+| 모델 | job | allocation | context SHA256 |
+|---|---|---|---|
+|qwen25|62101|00:00:21|caf43aaf6e04f8b894f49051cbca4312e51b63ac42466be4edd82a70d7589dea|
+|gptj|62102|00:00:43|b8d3523861cfdc973654f5d870cfd18ccba770f00dfd480745c0dff18b69a66b|
+|llama3|62103|00:00:19|5706a73281e1cdf3cdcd6c92388ffb6f1ae180e23b6e6a514df73ee9efff3904|
+
+각 모델 contexts.json/context-token-ids.json/READY.json/config-provenance.json 네 regular 파일만 server1·server2·server4의 `local/native-context-import/server3-20261010/job-<job>/<family>/`로 create-once 전달하고 destination fullSHA/bytes를 검산했다. 동일파일은 exact 재사용만 허용하고 overwrite/delete0. source KEEP. 공통 /data 또는 /mnt/raid5 prefix는 각 서버 실제 repo root에 맞췄다. Git에는 원문 context/token이 없으며 completion.json의 소형 SHA/provenance만 있다. config-provenance.json은 원 S3경로의 출처증거일 뿐 타서버 실행 config로 relabel하지 않는다.
+
+이로써 입력 생성 완료이며 편집/fit/W0/eval/qualification 완료를 주장하지 않는다. 기존 heldout(seed20261002)/등록run에 주입하지 않았으며 후속 사용은 별도 task 입력 동결 때 적합성을 확인해야 한다. 이 세 job monitor는 완료와 함께 종료한다.
