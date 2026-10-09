@@ -67,7 +67,7 @@ SH1이 세 모델을 source `eaf78c33`으로 등록했다. Qwen 61929는 B1 FP64
 | :--- | :--- | :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: |
 | MEMIT_FE_HISTORY | GPT-J | server1 | W20 COMPLETE: official-s1-cf-gptj-memit-fe-history (61927) | 50.18 | 50.35 | 49.90 | 50.28 | DEFERRED | DEFERRED |
 | MEMIT_FE_HISTORY | Llama3 | server1 | ING: official-s1-cf-llama3-memit-fe-history (61928) | — | — | — | — | DEFERRED | DEFERRED |
-| MEMIT_FE_HISTORY | Qwen2.5 | server1 | ING: official-s1-cf-qwen25-memit-fe-history (61975; 61929 FAILED) | — | — | — | — | DEFERRED | DEFERRED |
+| MEMIT_FE_HISTORY | Qwen2.5 | server1 | PENDING: official-s1-cf-qwen25-memit-fe-history (62061; old61975 context-mask cold replacement) | — | — | — | — | DEFERRED | DEFERRED |
 
 2026-10-09 23:05:52 KST bounded 검산: GPT-J는 실제20 commit/2,000건과 history once·최종CP·raw를
 대조한 완료값이며 native MEMIT-FE 본표 값이 아니다. Llama/Qwen은 W20 미완료다.
@@ -140,8 +140,19 @@ Flu/Con은 미평가·DEFERRED이며 zsRE는 별도 새 W20 결과다.
 
 ### Qwen2.5-7B-Instruct
 
-**Server2 최신 결과: 2026-10-09 23:05:48 KST SH2 단발 snapshot/CPU 검산 기준.**
-zsRE **MEMIT 61956·AlphaEdit 61960**은 공개-query W20/2,000건 평가가 완료되어 아래 6칸을 실측값으로 갱신했다.
+**2026-10-10 context-mask 수정 재편집:** 편집용 cached context mask 오류가 확인되어
+MEMIT/AlphaEdit/MEMIT-FE/SPHERE의 CF·zsRE 8개 chain은 **cold rerun 대상**이다.
+기존 zsRE61956/61960 점수는 당시 잘못된 context로 편집한 가중치의 측정값으로 원 보고서에 보존하고,
+수정된 baseline 성능으로 제시하지 않는다. 평가-only로 편집 입력 오류를 복구할 수 없다.
+아래 RERUN_REQUIRED는 새 job 미등록 상태이며 Slurm PENDING이 아니다.
+FT/BLUE는 이번 mask 오류 재편집 대상이 아니다. FT zsRE61900은 별도 최종CP 평가-only 대상이다.
+[사용자 실행 계약](messages/head/2026-10-10-qwen-baseline-mask-cold-rerun.md) ·
+[수리·재제출 진행](experiment-reports/global/qwen-baseline-mask-cold-rerun-20261010/report-ko.md).
+아래 10월9일 검산 내역은 원 관측 이력이다; 61956/61960 숫자는 이번 supersession 이전 기록이다.
+
+**Server2 원 결과 이력: 2026-10-09 23:05:48 KST SH2 단발 snapshot/CPU 검산 기준.**
+zsRE **MEMIT 61956·AlphaEdit 61960**의 공개-query W20/2,000건 평가는 완료됐으나,
+편집 context 오류가 확인되어 당시 반영한 6칸의 수치는 철회하고 재편집 상태로 대체했다.
 저장 predicted/target ID를 독립 재집계했고 요청별 token accuracy의 평균이며,
 분모는 Eff/Gen/Loc **6,691/6,691/11,476 tokens, 각 2,000 requests**다.
 [최신 완료·상태 검산](experiment-reports/servers/server2/main-table-refresh-20261009/report-ko.md) ·
@@ -189,11 +200,11 @@ SH3 최신 CPU 재검산에서도 위 네 지표 delta0, 신규 본표 적격 �
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | [W0 (편집 전)](experiment-reports/global/w0-main-table-20261009.md) | 20.88 | 13.95 | 16.60 | 85.14 | DEFERRED | DEFERRED | 36.42 | 35.26 | 38.40 |
 | FT | ING: s2-qwen25-cf-ft-gpu (61898) | ING: s2-qwen25-cf-ft-gpu (61898) | ING: s2-qwen25-cf-ft-gpu (61898) | ING: s2-qwen25-cf-ft-gpu (61898) | ING: s2-qwen25-cf-ft-gpu (61898) | ING: s2-qwen25-cf-ft-gpu (61898) | REEVAL REQUIRED(미등록): s2-qwen25-zsre-ft-gpu (61900) | REEVAL REQUIRED(미등록): s2-qwen25-zsre-ft-gpu (61900) | REEVAL REQUIRED(미등록): s2-qwen25-zsre-ft-gpu (61900) |
-| MEMIT | PENDING: s2-qwen25-cf-memit-gpu (61954) | PENDING: s2-qwen25-cf-memit-gpu (61954) | PENDING: s2-qwen25-cf-memit-gpu (61954) | PENDING: s2-qwen25-cf-memit-gpu (61954) | PENDING: s2-qwen25-cf-memit-gpu (61954) | PENDING: s2-qwen25-cf-memit-gpu (61954) | 37.61 | 36.69 | 30.03 |
-| AlphaEdit | PENDING: s2-qwen25-cf-alphaedit-gpu (61958) | PENDING: s2-qwen25-cf-alphaedit-gpu (61958) | PENDING: s2-qwen25-cf-alphaedit-gpu (61958) | PENDING: s2-qwen25-cf-alphaedit-gpu (61958) | PENDING: s2-qwen25-cf-alphaedit-gpu (61958) | PENDING: s2-qwen25-cf-alphaedit-gpu (61958) | 85.14 | 78.61 | 30.04 |
+| MEMIT | RERUN_REQUIRED: old 61954 (새 job 미등록) | RERUN_REQUIRED: old 61954 (새 job 미등록) | RERUN_REQUIRED: old 61954 (새 job 미등록) | RERUN_REQUIRED: old 61954 (새 job 미등록) | RERUN_REQUIRED: old 61954 (새 job 미등록) | RERUN_REQUIRED: old 61954 (새 job 미등록) | RERUN_REQUIRED: old 61956 (새 job 미등록) | RERUN_REQUIRED: old 61956 (새 job 미등록) | RERUN_REQUIRED: old 61956 (새 job 미등록) |
+| AlphaEdit | RERUN_REQUIRED: old 61958 (새 job 미등록) | RERUN_REQUIRED: old 61958 (새 job 미등록) | RERUN_REQUIRED: old 61958 (새 job 미등록) | RERUN_REQUIRED: old 61958 (새 job 미등록) | RERUN_REQUIRED: old 61958 (새 job 미등록) | RERUN_REQUIRED: old 61958 (새 job 미등록) | RERUN_REQUIRED: old 61960 (새 job 미등록) | RERUN_REQUIRED: old 61960 (새 job 미등록) | RERUN_REQUIRED: old 61960 (새 job 미등록) |
 | AlphaEdit-BLUE | ING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | ING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | ING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | ING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | ING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | ING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | ING: s2-qwen25-zsre-alphaedit_blue-gpu (61964) | ING: s2-qwen25-zsre-alphaedit_blue-gpu (61964) | ING: s2-qwen25-zsre-alphaedit_blue-gpu (61964) |
-| MEMIT-FE | PENDING: s2-qwen25-cf-memit_fe-gpu (61966) | PENDING: s2-qwen25-cf-memit_fe-gpu (61966) | PENDING: s2-qwen25-cf-memit_fe-gpu (61966) | PENDING: s2-qwen25-cf-memit_fe-gpu (61966) | PENDING: s2-qwen25-cf-memit_fe-gpu (61966) | PENDING: s2-qwen25-cf-memit_fe-gpu (61966) | ING: s2-qwen25-zsre-memit_fe-gpu (61968) | ING: s2-qwen25-zsre-memit_fe-gpu (61968) | ING: s2-qwen25-zsre-memit_fe-gpu (61968) |
-| AlphaEdit+SPHERE | PENDING: s2-qwen25-cf-sphere-gpu (61970) | PENDING: s2-qwen25-cf-sphere-gpu (61970) | PENDING: s2-qwen25-cf-sphere-gpu (61970) | PENDING: s2-qwen25-cf-sphere-gpu (61970) | PENDING: s2-qwen25-cf-sphere-gpu (61970) | PENDING: s2-qwen25-cf-sphere-gpu (61970) | PENDING: s2-qwen25-zsre-sphere-gpu (61972) | PENDING: s2-qwen25-zsre-sphere-gpu (61972) | PENDING: s2-qwen25-zsre-sphere-gpu (61972) |
+| MEMIT-FE | RERUN_REQUIRED: old 61966 (새 job 미등록) | RERUN_REQUIRED: old 61966 (새 job 미등록) | RERUN_REQUIRED: old 61966 (새 job 미등록) | RERUN_REQUIRED: old 61966 (새 job 미등록) | RERUN_REQUIRED: old 61966 (새 job 미등록) | RERUN_REQUIRED: old 61966 (새 job 미등록) | RERUN_REQUIRED: old 61968 (새 job 미등록) | RERUN_REQUIRED: old 61968 (새 job 미등록) | RERUN_REQUIRED: old 61968 (새 job 미등록) |
+| AlphaEdit+SPHERE | RERUN_REQUIRED: old 61970 (새 job 미등록) | RERUN_REQUIRED: old 61970 (새 job 미등록) | RERUN_REQUIRED: old 61970 (새 job 미등록) | RERUN_REQUIRED: old 61970 (새 job 미등록) | RERUN_REQUIRED: old 61970 (새 job 미등록) | RERUN_REQUIRED: old 61970 (새 job 미등록) | RERUN_REQUIRED: old 61972 (새 job 미등록) | RERUN_REQUIRED: old 61972 (새 job 미등록) | RERUN_REQUIRED: old 61972 (새 job 미등록) |
 | PRICE (Ours) |  |  |  |  |  |  |  |  |  |
 
 ### GPT-J-6B
