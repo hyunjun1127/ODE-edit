@@ -54,7 +54,8 @@ Llama Loc loader BOS 차이를 확인하여 저장된 W20 checkpoint의 최종2K
 2026-10-10 07:38 KST owner 검산 기준 **Llama 6종, GPT-J FT/MEMIT/AlphaEdit/BLUE/MEMIT-FE 5종,
 Qwen FT/BLUE 2종**의 총13개 완료 행은 공개-query 최종 평가 수치다.
 GPT-J SPHERE **61947**은 PENDING이다. 수정 Qwen zsRE MEMIT **62081**·MEMIT-FE **62085**는
-RUNNING, AlphaEdit **62083**은 PENDING, SPHERE **62087**은 FAILED/W20 없음이다.
+RUNNING, AlphaEdit **62083**은 PENDING이다. SPHERE **62087**은 B10 OOM/W20 없음으로 보존하고,
+수리 cold rerun **62534**는 08:33 KST 제출 snapshot에서 PENDING이다.
 깨진 편집 context를 사용한 과거 MEMIT/AlphaEdit 값은 철회하고 수정 cold run 상태를 표시한다.
 입력 CPU 일치가 pretrained 출력의 bitwise 논문 재현을 뜻하지는 않는다.
 기존 값·raw와 CF/FLUCON 일정은 보존한다. 사용자 명시 삭제로 오류 Qwen
@@ -177,7 +178,10 @@ MEMIT/AlphaEdit/MEMIT-FE/SPHERE의 CF·zsRE 8개 chain은 **cold rerun 대상**�
 상태 셀은 **2026-10-10 07:38:08 KST** owner 단발 snapshot이다.
 BLUE61962와 수정 MEMIT62073/MEMIT-FE62077/SPHERE62079의 CF W20/2K 수치를 반영했다.
 CF AlphaEdit62075는 PENDING이다. zsRE62081/62085는 RUNNING, 62083은 PENDING,
-62087은 FAILED/W20 없음이며 실패를 완료값으로 채우지 않는다.
+62087은 B10 `eigh` CUDA OOM으로 FAILED/W20 없음이며 B9 checkpoint를 보존한다.
+이전 layer buffer 수명 수리 후 별도 cold **62534**를 held 검사/release했다(08:33 KST PENDING,
+`afterany:62532`). 원 hparams/FP32 GPU eigh 유지, CPU4 PASS이며 실제 GPU 해결/W20은 미관측이다.
+[수리·등록 근거](experiment-reports/global/qwen-zsre-sphere-oom-rerun-20261010/report-ko.md).
 [최신 원자료·query·상태 검산](experiment-reports/servers/server2/baseline-completed-zsre-audit-20261010/report-ko.md).
 context 판정은 [실제 context 감사](experiment-reports/servers/server2/qwen-context-audit-20261010/report-ko.md)에 구분했다.
 CF 네 rerun의 FLU/CON은 DEFERRED이며 최종 checkpoint를 보존한다.
@@ -243,7 +247,7 @@ SH3 최신 CPU 재검산에서도 위 네 지표 delta0, 신규 본표 적격 �
 | AlphaEdit | PENDING: s2-qwen25-cf-alphaedit-gpu (62075) | PENDING: s2-qwen25-cf-alphaedit-gpu (62075) | PENDING: s2-qwen25-cf-alphaedit-gpu (62075) | PENDING: s2-qwen25-cf-alphaedit-gpu (62075) | DEFERRED | DEFERRED | PENDING: s2-qwen25-zsre-alphaedit-gpu (62083) | PENDING: s2-qwen25-zsre-alphaedit-gpu (62083) | PENDING: s2-qwen25-zsre-alphaedit-gpu (62083) |
 | AlphaEdit-BLUE | 77.98 | 97.70 | 96.75 | 55.86 | 602.99 | 37.43 | 58.62 | 53.66 | 5.73 |
 | MEMIT-FE | 50.59 | 51.05 | 51.23 | 49.53 | DEFERRED | DEFERRED | ING: s2-qwen25-zsre-memit_fe-gpu (62085) | ING: s2-qwen25-zsre-memit_fe-gpu (62085) | ING: s2-qwen25-zsre-memit_fe-gpu (62085) |
-| AlphaEdit+SPHERE | 83.73 | 99.40 | 97.70 | 64.37 | DEFERRED | DEFERRED | FAILED: s2-qwen25-zsre-sphere-gpu (62087) | FAILED: s2-qwen25-zsre-sphere-gpu (62087) | FAILED: s2-qwen25-zsre-sphere-gpu (62087) |
+| AlphaEdit+SPHERE | 83.73 | 99.40 | 97.70 | 64.37 | DEFERRED | DEFERRED | PENDING: s2-qwen25-zsre-sphere-oom-r1 (62534) | PENDING: s2-qwen25-zsre-sphere-oom-r1 (62534) | PENDING: s2-qwen25-zsre-sphere-oom-r1 (62534) |
 | PRICE (Ours) |  |  |  |  |  |  |  |  |  |
 
 ### GPT-J-6B

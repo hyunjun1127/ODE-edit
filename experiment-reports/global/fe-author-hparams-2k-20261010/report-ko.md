@@ -44,10 +44,12 @@ SH1 source `9c3fe23282bcaf2e353b1494913a323e2f037d39`, SH2 source
 `1ffbf9adeec9525b88db3d86a6dc4ace8b98bdaff1d5eb4e4ee064c24b35b125`.
 각 GPU1; SH1 CPU8/98304MiB, SH2 CPU6/59392MiB, 48h ceiling(ETA 아님).
 각 owner 현행 cap4와 기존 실행을 보존하며 신규 두 chain은 직렬이다.
-SH1 CPU44, SH2 CPU11 및 source166 PASS는 GPU 검증이 아니다. zsRE 전체2K query CPU parity
+SH1 CPU44, SH2 최초 준비 CPU11 및 최종 게시 CPU16(별도 SPHERE lifetime3 포함), source166 PASS는 GPU 검증이 아니다. zsRE 전체2K query CPU parity
 입력/target mismatch0 근거를 owner가 결속했다. 실제 W20/online readback은 아직 미관측이다.
 정확 source/tree/config/profile SHA, dependency/resources/관측 상태 및 W20 CP 경로는
 [통합 receipt](../../../audits/global/fe-author-hparams-2k-20261010/coordination.json)에 결속한다.
+[SH1 제출 영수증](../../../audits/servers/server1/fe-author-hparams-2k-20261010/submission.json) ·
+[SH2 제출·행 영수증](../../../audits/servers/server2/fe-author-hparams-2k-20261010/table-rows.json).
 
 ## GH 검산 및 경계
 
