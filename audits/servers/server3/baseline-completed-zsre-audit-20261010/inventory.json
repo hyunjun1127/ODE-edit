@@ -1,0 +1,124 @@
+{
+  "nonce": "USER-GH-ALL-SH-BASELINE-COMPLETED-ZSRE-AUDIT-20261010-R1",
+  "accepted_turn": "01a122d0-2dca-7152-b5ba-b513af14972d",
+  "observed_at": "2026-10-09T22:37:58.388865+00:00",
+  "server": "server3",
+  "authority": "7dacd3fb",
+  "metadata": [
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-blue-sweep-1k-20261010/two-lanes-r1/submission.json",
+      "bytes": 14472,
+      "sha256": "8e9262c2bc379aeda800d0f01054794c39c073a22a6525cc22c9dbf243fb1518",
+      "mentions_zsre": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-blue-sweep-1k-20261010/two-lanes-r1/lane-1/out/progress.json",
+      "bytes": 248,
+      "sha256": "dbb227db9d65adc71d579c9ca044b56a15ca51b1370678c706f457adb232e274",
+      "mentions_zsre": false,
+      "status": "RUNNING"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-blue-sweep-1k-20261010/two-lanes-r1/lane-1/out/summary.json",
+      "bytes": 1420,
+      "sha256": "826b26836b8ea2dee64d78fce89b7312dbdf7e8b8a6c62ebe8c6dae057da4927",
+      "mentions_zsre": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-blue-sweep-1k-20261010/two-lanes-r1/lane-1/out/w0/summary.json",
+      "bytes": 3032,
+      "sha256": "51d69991f455fac477bb9e8eeef68236845d02b251c7be4323e5862aac2c04f1",
+      "mentions_zsre": false
+    }
+  ],
+  "prior_inventory_sha256": "e3cf8051f3a608123c768108ca1eb2b849f13db3e727234f47ff1a25512dd8da",
+  "prior_unchanged_count": 48,
+  "prior_changed_paths": [],
+  "prior_absent_paths": [],
+  "own_queue_snapshot": [
+    {
+      "job_id": 62344,
+      "name": "s3-qwen-blue-sweep-1k-lane1",
+      "job_state": [
+        "RUNNING"
+      ],
+      "nodes": "ubuntu",
+      "required_nodes": "ubuntu",
+      "current_working_directory": "/data/janghj/ODE-edit/local/qwen-blue-sweep-1k-20261010/two-lanes-r1",
+      "dependency": "",
+      "tres_per_node": "gres/gpu:1"
+    },
+    {
+      "job_id": 62345,
+      "name": "s3-qwen-blue-sweep-1k-lane2",
+      "job_state": [
+        "PENDING"
+      ],
+      "nodes": "",
+      "required_nodes": "ubuntu",
+      "current_working_directory": "/data/janghj/ODE-edit/local/qwen-blue-sweep-1k-20261010/two-lanes-r1",
+      "dependency": "",
+      "tres_per_node": "gres/gpu:1"
+    },
+    {
+      "job_id": 62477,
+      "name": "pf500-qwen25-s3-F-beta100",
+      "job_state": [
+        "PENDING"
+      ],
+      "nodes": "",
+      "required_nodes": "ubuntu",
+      "current_working_directory": "/data/janghj/ODE-edit/local/price-final-sweep500-20261010/jobs",
+      "dependency": "",
+      "tres_per_node": "gres/gpu:1"
+    },
+    {
+      "job_id": 62478,
+      "name": "pf500-qwen25-s3-F-beta200",
+      "job_state": [
+        "PENDING"
+      ],
+      "nodes": "",
+      "required_nodes": "ubuntu",
+      "current_working_directory": "/data/janghj/ODE-edit/local/price-final-sweep500-20261010/jobs",
+      "dependency": "afterany:62477(unfulfilled)",
+      "tres_per_node": "gres/gpu:1"
+    }
+  ],
+  "coverage": {
+    "roots": [
+      "/data/janghj/ODE-edit/local/official-baselines",
+      "/data/janghj/ODE-edit/local/official-baselines-20261008",
+      "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009",
+      "/data/janghj/ODE-edit/local/fixed10k-native-baselines",
+      "/data/janghj/ODE-edit/local/qwen-blue-sweep-1k-20261010"
+    ],
+    "depth": 7,
+    "max_bytes": 1000000,
+    "pruned": [
+      ".git",
+      "W0",
+      "__pycache__",
+      "blobs",
+      "cache",
+      "datasets",
+      "inputs",
+      "node_modules",
+      "post",
+      "pre",
+      "reference",
+      "runtime",
+      "snapshots",
+      "source",
+      "src",
+      "tracking",
+      "venv",
+      "wandb",
+      "worktree"
+    ],
+    "errors": [],
+    "oversized": [],
+    "limitation": "Known own baseline roots and prior receipts only, not filesystem-wide absence proof"
+  },
+  "reducer_sha256": "6bf75a45d5267f21670bbf0901efc90121170ce4ca65582fa428660f5677a589"
+}
