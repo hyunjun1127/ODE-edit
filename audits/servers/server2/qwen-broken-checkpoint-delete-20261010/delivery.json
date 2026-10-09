@@ -1,0 +1,12 @@
+{
+  "nonce": "SH2-GH-BROKEN-CP-DELETED-TABLE-ROWS-20261010-R1",
+  "target": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+  "publication": "b5d03d47c411241bc94b66607a73a091b9e47199",
+  "stage": "COMMUNICATION_HOLD",
+  "reason": "UNRELATED_ACTIVE_NO_STEER",
+  "direct_delivery_claim": false,
+  "README_update_claim": false,
+  "result_location": "audits/servers/server2/qwen-broken-checkpoint-delete-20261010/table-rows.json",
+  "deletion_completed": true,
+  "retry_or_unrelated_turn_interruption": false
+}
