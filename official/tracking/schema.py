@@ -16,6 +16,7 @@ PROJECT = 'layer allocation'
 SDK_VERSION = '0.30.0'
 OFFICIAL_INSTRUCTION = 'USER-OFFICIAL-BASELINES-20261008-R1'
 ZSRE_REEVAL_INSTRUCTION = 'USER-GH-ZSRE-SAVED-WEIGHTS-2K-REEVAL-20261009-R1'
+FLUCON_REEVAL_INSTRUCTION = 'USER-GH-FLUCON-PAPER-SCALE-TABLE-REFRESH-20261010-R1'
 OFFICIAL_GENERATION_SCHEDULE = 'W0_AND_W20_FIRST2000'
 DEFERRED_GENERATION_SCHEDULE = 'DEFERRED_CHECKPOINT_EVALUATION'
 NATIVE_GENERATION_PROFILE = 'cf-cake-native-casebatch-kv-total100-globalrng-v1'
@@ -134,7 +135,7 @@ def config(values):
                 'USER-GH-SH1-GPT2XL-BLUE-PRUNE-RECT-W20-GENERATION-20261008-R1',
                 'USER-GH-SH1-GPT2XL-MEMIT-ALPHAEDIT-CAKE-W20-GENERATION-20261008-R1',
                 'USER-DIRECT-NATIVE-FLUCON-REPAIR-20261008-R1',
-                OFFICIAL_INSTRUCTION),
+                OFFICIAL_INSTRUCTION, FLUCON_REEVAL_INSTRUCTION),
                 'GENERATION_REPAIR_INSTRUCTION')
         elif key=='generation_schedule':
             require(type(value) is str and value in (
@@ -158,13 +159,19 @@ def config(values):
         require(result['role'] in ('scientific','derived_comparison_snapshot','eval_only'),'METHOD_ROLE')
     official=result.get('metric_schema')==OFFICIAL_SCHEMA
     if official:
-        require(result.get('instruction_id') in (OFFICIAL_INSTRUCTION, ZSRE_REEVAL_INSTRUCTION)
+        require(result.get('instruction_id') in (OFFICIAL_INSTRUCTION, ZSRE_REEVAL_INSTRUCTION, FLUCON_REEVAL_INSTRUCTION)
                 and result.get('dataset') in ('cf','zsre'), 'OFFICIAL_AUTHORITY_DATASET_REQUIRED')
         require(result['model'] in ('llama3','gptj','qwen25'), 'OFFICIAL_MODEL_ALIAS')
     elif 'instruction_id' in result or 'dataset' in result:
         require(False,'OFFICIAL_CONFIG_REQUIRES_OFFICIAL_SCHEMA')
     reeval = result.get('instruction_id') == ZSRE_REEVAL_INSTRUCTION
-    if reeval or result.get('role') == 'eval_only':
+    flucon = result.get('instruction_id') == FLUCON_REEVAL_INSTRUCTION
+    if flucon:
+        require(official and result.get('dataset')=='cf' and result.get('role')=='eval_only'
+                and result.get('evaluation_profile')=='cf-native-generation-W20-only-v1', 'FLUCON_REEVAL_SCOPE')
+        require({'checkpoint_sha256','evaluator_sha256','stream_sha256','tokenizer_sha256','source_run_id'} <= result.keys(),
+                'FLUCON_REEVAL_PROVENANCE')
+    if reeval or (result.get('role') == 'eval_only' and not flucon):
         require(reeval and official and result.get('dataset') == 'zsre'
                 and result.get('role') == 'eval_only', 'ZSRE_REEVAL_AUTHORITY_ROLE')
         require({'checkpoint_sha256','evaluator_sha256','stream_sha256','tokenizer_sha256',
@@ -193,8 +200,8 @@ def config(values):
         if result['generation_profile']==NATIVE_GENERATION_PROFILE:
             if official:
                 require(result['dataset']=='cf'
-                        and result.get('generation_repair_instruction')==OFFICIAL_INSTRUCTION
-                        and result.get('generation_schedule')==OFFICIAL_GENERATION_SCHEDULE,
+                        and result.get('generation_repair_instruction')==(FLUCON_REEVAL_INSTRUCTION if flucon else OFFICIAL_INSTRUCTION)
+                        and result.get('generation_schedule')==('W20_ONLY_FIRST2000' if flucon else OFFICIAL_GENERATION_SCHEDULE),
                         'OFFICIAL_NATIVE_GENERATION_AUTHORITY_SCHEDULE')
             else:
                 require(result.get('generation_repair_instruction')==
@@ -282,7 +289,16 @@ def metrics(values,*,scientific=False,config_values=None):
                     'EVAL_PROGRESS_COVERAGE')
         require(not any(k.startswith(('zsre/','official/')) for k in values),
                 'EVAL_PROGRESS_NOT_FINAL_SCORE')
-    if config_values is not None and config_values.get('role') == 'eval_only':
+    flucon = config_values is not None and config_values.get('instruction_id')==FLUCON_REEVAL_INSTRUCTION
+    if flucon:
+        config(config_values)
+        allowed=GENERATION_PROGRESS_METRICS | {'phase','edits','pre_state_edits','post_state_edits','setup_ok','status_code','logging/dropped_points'}
+        allowed |= {k for k in GENERATION_METRICS if k.startswith('all_seen/post/')}
+        require(set(values)<=allowed,'FLUCON_REEVAL_GENERATION_ONLY')
+        if 'phase' in values:require(values['phase']=='W20_generation','FLUCON_REEVAL_W20_PHASE')
+        if GENERATION_METRICS & values.keys():
+            require(values.get('edits')==2000 and values.get('post_state_edits')==2000,'FLUCON_REEVAL_W20_ONLY')
+    if config_values is not None and config_values.get('role') == 'eval_only' and not flucon:
         config(config_values)
         allowed = EVAL_PROGRESS_METRICS | {'edits','post_state_edits','setup_ok','status_code',
             'time/elapsed_seconds','memory/gpu_allocated_bytes','memory/gpu_reserved_bytes',
@@ -328,7 +344,7 @@ def metrics(values,*,scientific=False,config_values=None):
                     'ZSRE_GENERATION_FORBIDDEN')
         if generation_keys or progress:
             require(cfg.get('generation_profile')==NATIVE_GENERATION_PROFILE
-                    and cfg.get('generation_schedule')==OFFICIAL_GENERATION_SCHEDULE,
+                    and cfg.get('generation_schedule')==('W20_ONLY_FIRST2000' if flucon else OFFICIAL_GENERATION_SCHEDULE),
                     'OFFICIAL_GENERATION_CONFIG_REQUIRED')
         if progress:
             require(values['phase'] in ('W0_generation','W20_generation'),
