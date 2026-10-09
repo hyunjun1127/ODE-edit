@@ -1,0 +1,23 @@
+{
+  "schema": "zsre-public-query-sources-v1",
+  "source_policy": "Published source bytes, retrieved 2026-10-09; main snapshot, not claimed paper release tag",
+  "sources": {
+    "alphaedit_eval_utils_zsre.py": {
+      "sha256": "4370a3b2c7eff88bfeffd6412be485c0195bae794f7c7a6d39b9dd9e01299d97",
+      "bytes": 4168
+    },
+    "memit_eval_utils_zsre.py": {
+      "sha256": "e4f18c84a813d0a2fb9a5c9426726844117fe365cae72107d51f304a264d77a8",
+      "bytes": 3845
+    },
+    "zsre_dataset.py": {
+      "sha256": "a6281375afd9983337c154095fe9aba59c74c36fa34ecfb12838c7b5c341670e",
+      "bytes": 2237
+    }
+  },
+  "urls": {
+    "alphaedit_eval_utils_zsre.py": "https://github.com/jianghoucheng/AlphaEdit/blob/main/experiments/py/eval_utils_zsre.py",
+    "memit_eval_utils_zsre.py": "https://github.com/kmeng01/memit/blob/main/experiments/py/eval_utils_zsre.py",
+    "zsre_dataset.py": "https://raw.githubusercontent.com/jianghoucheng/AlphaEdit/main/dsets/zsre.py"
+  }
+}

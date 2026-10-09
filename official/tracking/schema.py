@@ -15,6 +15,7 @@ ENTITY = 'wkdguswns2256'
 PROJECT = 'layer allocation'
 SDK_VERSION = '0.30.0'
 OFFICIAL_INSTRUCTION = 'USER-OFFICIAL-BASELINES-20261008-R1'
+ZSRE_REEVAL_INSTRUCTION = 'USER-GH-ZSRE-SAVED-WEIGHTS-2K-REEVAL-20261009-R1'
 OFFICIAL_GENERATION_SCHEDULE = 'W0_AND_W20_FIRST2000'
 DEFERRED_GENERATION_SCHEDULE = 'DEFERRED_CHECKPOINT_EVALUATION'
 NATIVE_GENERATION_PROFILE = 'cf-cake-native-casebatch-kv-total100-globalrng-v1'
@@ -26,7 +27,9 @@ CONFIG_KEYS = {'server', 'task_id', 'arm', 'attempt', 'source_sha', 'config_sha'
                'generation_metric_schema','generation_profile','generation_eval_seed',
                'reference_assets_sha256','generation_source_sha',
                'generation_qualification_plan_sha256','generation_repair_instruction',
-               'generation_schedule','instruction_id','dataset'} | JOB_FIELDS | METHOD_CONFIG
+               'generation_schedule','instruction_id','dataset',
+               'checkpoint_sha256','evaluator_sha256','stream_sha256','tokenizer_sha256',
+               'evaluation_profile'} | JOB_FIELDS | METHOD_CONFIG
 METRICS = {
     'setup_ok','step','batch','edits','candidate','phase_id','status_code',
     'fit/loss','fit/nll','fit/kl','fit/norm','fit/gradient_norm',
@@ -44,6 +47,9 @@ METRICS = {
 ENV_KEYS = {'WANDB_ENTITY','WANDB_PROJECT','WANDB_MODE','WANDB_CONSOLE','WANDB_SAVE_CODE',
             'WANDB_BASE_URL','ODEEDIT_WANDB_PYTHON'}
 METRICS |= METHOD_METRICS
+EVAL_PROGRESS_METRICS = {'eval_progress/'+key for key in (
+    'completed_queries','total_queries','physical_forward_calls','elapsed_seconds')}
+METRICS |= EVAL_PROGRESS_METRICS
 GENERATION_PROGRESS_FIELDS=('completed_cases','total_cases','completed_prompts','total_prompts',
     'generated_tokens','new_cases','reused_cases','elapsed_sec','cases_per_sec','prompts_per_sec',
     'tokens_per_sec','physical_forward_calls','prefill_query_tokens','decode_query_tokens','step')
@@ -117,7 +123,8 @@ def config(values):
     result = {}
     for key,value in values.items():
         if key in ('source_sha','config_sha','observation_identity','reference_assets_sha256','generation_source_sha',
-                   'generation_qualification_plan_sha256'):
+                   'generation_qualification_plan_sha256','checkpoint_sha256',
+                   'evaluator_sha256','stream_sha256','tokenizer_sha256'):
             require(type(value) is str and re.fullmatch(r'[a-f0-9]{40}|[a-f0-9]{64}',value), 'INVALID_SHA')
         elif key=='generation_eval_seed':
             require(type(value) is int and value==20261007,'GENERATION_EVAL_SEED')
@@ -148,14 +155,24 @@ def config(values):
         require(METHOD_CONFIG|{'config_sha'} <= result.keys(),'METHOD_CONFIG_REQUIRED')
         require(result['metric_schema'] in (COMPARISON_SCHEMA, OFFICIAL_SCHEMA),'METHOD_SCHEMA_UNREGISTERED')
         require(result['model'] in ('llama3','gptj','qwen','qwen25','gpt2xl'),'MODEL_ALIAS_UNREGISTERED')
-        require(result['role'] in ('scientific','derived_comparison_snapshot'),'METHOD_ROLE')
+        require(result['role'] in ('scientific','derived_comparison_snapshot','eval_only'),'METHOD_ROLE')
     official=result.get('metric_schema')==OFFICIAL_SCHEMA
     if official:
-        require(result.get('instruction_id')==OFFICIAL_INSTRUCTION
+        require(result.get('instruction_id') in (OFFICIAL_INSTRUCTION, ZSRE_REEVAL_INSTRUCTION)
                 and result.get('dataset') in ('cf','zsre'), 'OFFICIAL_AUTHORITY_DATASET_REQUIRED')
         require(result['model'] in ('llama3','gptj','qwen25'), 'OFFICIAL_MODEL_ALIAS')
     elif 'instruction_id' in result or 'dataset' in result:
         require(False,'OFFICIAL_CONFIG_REQUIRES_OFFICIAL_SCHEMA')
+    reeval = result.get('instruction_id') == ZSRE_REEVAL_INSTRUCTION
+    if reeval or result.get('role') == 'eval_only':
+        require(reeval and official and result.get('dataset') == 'zsre'
+                and result.get('role') == 'eval_only', 'ZSRE_REEVAL_AUTHORITY_ROLE')
+        require({'checkpoint_sha256','evaluator_sha256','stream_sha256','tokenizer_sha256',
+                 'source_run_id'} <= result.keys()
+                and result.get('evaluation_profile') == 'zsre-public-query-W20-only-v1',
+                'ZSRE_REEVAL_PROVENANCE_REQUIRED')
+        require(not any(k.startswith('generation_') or k=='reference_assets_sha256'
+                        for k in result), 'ZSRE_REEVAL_NO_GENERATION')
     generation={'generation_metric_schema','generation_profile','generation_eval_seed',
                 'reference_assets_sha256','generation_source_sha'}
     deferred=result.get('generation_schedule')==DEFERRED_GENERATION_SCHEDULE
@@ -252,6 +269,32 @@ def metrics(values,*,scientific=False,config_values=None):
     require(all((key=='phase' and type(x) is str and x in GENERATION_PHASES) or
                 (key!='phase' and type(x) in (int,float,bool) and math.isfinite(x))
                 for key,x in values.items()), 'BUILTIN_FINITE_SCALARS_ONLY')
+    if EVAL_PROGRESS_METRICS & values.keys():
+        require(config_values is not None and config_values.get('role') == 'eval_only',
+                'EVAL_PROGRESS_REEVAL_ONLY')
+        require(all(type(v) is int and v >= 0 for k,v in values.items()
+                    if k in EVAL_PROGRESS_METRICS and not k.endswith('elapsed_seconds')),
+                'EVAL_PROGRESS_INTEGER')
+        require(values.get('eval_progress/elapsed_seconds', 0) >= 0,
+                'EVAL_PROGRESS_TIME')
+        if {'eval_progress/completed_queries','eval_progress/total_queries'} <= values.keys():
+            require(values['eval_progress/completed_queries'] <= values['eval_progress/total_queries'],
+                    'EVAL_PROGRESS_COVERAGE')
+        require(not any(k.startswith(('zsre/','official/')) for k in values),
+                'EVAL_PROGRESS_NOT_FINAL_SCORE')
+    if config_values is not None and config_values.get('role') == 'eval_only':
+        config(config_values)
+        allowed = EVAL_PROGRESS_METRICS | {'edits','post_state_edits','setup_ok','status_code',
+            'time/elapsed_seconds','memory/gpu_allocated_bytes','memory/gpu_reserved_bytes',
+            'memory/host_rss_bytes','logging/dropped_points'}
+        allowed |= {k for k in ZSRE_METRICS | OFFICIAL_METRICS
+                    if k.startswith(('zsre/all_seen/post/','official/all_seen/post/'))
+                    and k.rsplit('/',1)[1] in ('Efficacy','Generalization','Specificity',
+                                               'Specificity_loc_ans','Score','requests')}
+        require(set(values) <= allowed, 'ZSRE_REEVAL_FINAL_ONLY')
+        if any(k.startswith(('zsre/','official/')) for k in values):
+            require(values.get('edits') == 2000 and values.get('post_state_edits') == 2000,
+                    'ZSRE_REEVAL_W20_ONLY')
     if GENERATION_PROGRESS_METRICS & values.keys():
         require(type(values.get('phase')) is str and values['phase'] in GENERATION_PHASES
             and 'generation_progress/step' in values,'GENERATION_PROGRESS_PHASE_AXIS_REQUIRED')
