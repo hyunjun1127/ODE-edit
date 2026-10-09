@@ -1,0 +1,402 @@
+{
+  "CPU_tests": 52,
+  "GPU_cap": 4,
+  "W_B_project_precheck": "ONLINE_PROJECT_READ_VERIFIED",
+  "accepted_turn": "01a1214b-7e89-7673-90eb-8e7877f56555",
+  "actual_run_remote_readback": "NOT_STARTED_PENDING",
+  "archive": "8 GPU0 one-shot KEEP receipts; receiver not bound, CF deferred consumer pending; transfer/delete0",
+  "automatic_retry": false,
+  "input_lock_sha256": "4ae67a5f6a9ff6ee05100483f5f3d931b58a279dd1bd8800229c5bcdb580ddae",
+  "instruction_id": "USER-GH-QWEN-BASELINE-MASK-COLD-RERUN-20261010-R1",
+  "official_tree_sha256": "be8dca6334f083a87cf6555899fbb43451d9976a55bb53242fdbbcf52a1dfe95",
+  "old_source_raw_CP_KEEP": true,
+  "qualification": "NOT_RUN_USER_DISABLED",
+  "recurring_monitor": false,
+  "release_receipt_sha256": "4fb57eb4dfcea374c45eaf1c5781c91f136c8c809a5114e0c0ddfce565d7e595",
+  "root": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1",
+  "rows": [
+    {
+      "W_B_stage": "NOT_STARTED_DEPENDENCY_PENDING",
+      "cell": "qwen25-zsre-ft-eval",
+      "checkpoint": {
+        "bytes": 271632161,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-r1/runs/qwen25-zsre-ft/checkpoint/batch-20-55657ef22edfc8b8.pt",
+        "sha256": "55657ef22edfc8b8eead2912bdd716bbef7957989a384fcb32d19de435b2f932"
+      },
+      "config_projection": {
+        "arm": "FT",
+        "attempt": "registration-r1-ft-eval-job62072",
+        "checkpoint_sha256": "55657ef22edfc8b8eead2912bdd716bbef7957989a384fcb32d19de435b2f932",
+        "config_sha": "93f630caf6d4ed0c6ef47d5bc1e148d624c3bc36cf6e9364650c09f2372e6b3c",
+        "dataset": "zsre",
+        "evaluation_profile": "zsre-public-query-W20-only-v1",
+        "evaluator_sha256": "d6a5b34eafd27660a2dee4632c638b6bf4c3614246071711cf5159a002415a45",
+        "instruction_id": "USER-GH-ZSRE-SAVED-WEIGHTS-2K-REEVAL-20261009-R1",
+        "metric_schema": "official-baselines-scalar-v1",
+        "model": "qwen25",
+        "model_family": "qwen2",
+        "role": "eval_only",
+        "server": "server2",
+        "source_run_id": "61900",
+        "source_sha": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+        "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+        "task_id": "qwen-ft-zsre-2k-reeval-20261010",
+        "tokenizer_sha256": "9e3c11a4a87d85a72b6f2d1e4b29ab88532f72d03189b6fa2793da735a2d98aa",
+        "writer": "FT"
+      },
+      "config_projection_schema": "CPU_PASS_NOT_ONLINE",
+      "config_sha256": "93f630caf6d4ed0c6ef47d5bc1e148d624c3bc36cf6e9364650c09f2372e6b3c",
+      "dataset": "zsre",
+      "dependencies": [
+        "61945"
+      ],
+      "job_id": "62072",
+      "kind": "gpu",
+      "method": "FT",
+      "mode": "SAVED_W20_EVAL_ONLY",
+      "name": "s2-qwen25-zsre-ft-eval-gpu",
+      "original_job_id": "61900",
+      "run_name": "server2-FT-registration-r1-ft-eval-job62072-job62072",
+      "script_sha256": "125a705f21532afd6bf59143818e2dbe164eff024e63256c693cad5c60bc4247",
+      "source": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "state_at_release": "PENDING"
+    },
+    {
+      "W_B_stage": "NOT_STARTED_DEPENDENCY_PENDING",
+      "cell": "qwen25-cf-memit",
+      "checkpoint_path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-cf-memit/checkpoint",
+      "config_sha256": "f6877eb7c243a4d6817ba4613132a9688ff56e48889ae6f4f22978673a94f946",
+      "context_receipt": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-cf-memit/native-context-identity.json",
+      "context_sha256": null,
+      "context_status": "PENDING_FIRST_ACTUAL_NATIVE_CALL",
+      "dataset": "cf",
+      "dependencies": [
+        "61946"
+      ],
+      "generation_schedule": "DEFERRED_CHECKPOINT_EVALUATION",
+      "job_id": "62073",
+      "kind": "gpu",
+      "method": "MEMIT",
+      "name": "s2-qwen25-cf-memit-gpu",
+      "old_job_id": "61954",
+      "script_sha256": "c682ff9fc67620be2f5376eba1cd7e3999a178ae41544edb26fee737ab2d4030",
+      "source": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "source_config_file_sha256": "a6b13d1fe10c26faea6ff74222fc767997de3f20bf685ecf3ac82c22b8891a61",
+      "state_at_release": "PENDING"
+    },
+    {
+      "W_B_stage": "NOT_STARTED_DEPENDENCY_PENDING",
+      "cell": "qwen25-cf-memit",
+      "config_sha256": "f6877eb7c243a4d6817ba4613132a9688ff56e48889ae6f4f22978673a94f946",
+      "dependencies": [
+        "62073"
+      ],
+      "job_id": "62074",
+      "kind": "archive",
+      "name": "s2-qwen25-cf-memit-archive",
+      "script_sha256": "918052a661481e9637570f552723cb19adbf5facf71b8b092661f0e3306a4738",
+      "source": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "state_at_release": "PENDING"
+    },
+    {
+      "W_B_stage": "NOT_STARTED_DEPENDENCY_PENDING",
+      "cell": "qwen25-cf-alphaedit",
+      "checkpoint_path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-cf-alphaedit/checkpoint",
+      "config_sha256": "4db616aad47772619ad502628ed124c29268b9c32b256c6875a4fc8fb1fc061d",
+      "context_receipt": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-cf-alphaedit/native-context-identity.json",
+      "context_sha256": null,
+      "context_status": "PENDING_FIRST_ACTUAL_NATIVE_CALL",
+      "dataset": "cf",
+      "dependencies": [
+        "61947"
+      ],
+      "generation_schedule": "DEFERRED_CHECKPOINT_EVALUATION",
+      "job_id": "62075",
+      "kind": "gpu",
+      "method": "ALPHAEDIT",
+      "name": "s2-qwen25-cf-alphaedit-gpu",
+      "old_job_id": "61958",
+      "script_sha256": "268bd270d4b2867db01903c85db2a6cb0fa46056de9519973bf95b0f2469296e",
+      "source": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "source_config_file_sha256": "ef7b3bf8f507165bab0d6741bf3eeae1efd302b905bbf75454b6c9bd8be200c8",
+      "state_at_release": "PENDING"
+    },
+    {
+      "W_B_stage": "NOT_STARTED_DEPENDENCY_PENDING",
+      "cell": "qwen25-cf-alphaedit",
+      "config_sha256": "4db616aad47772619ad502628ed124c29268b9c32b256c6875a4fc8fb1fc061d",
+      "dependencies": [
+        "62075",
+        "62074"
+      ],
+      "job_id": "62076",
+      "kind": "archive",
+      "name": "s2-qwen25-cf-alphaedit-archive",
+      "script_sha256": "38121bf3aced7ff756196c9b1392d101cec3b8ba5ba68686381f5abc9fb4b3b0",
+      "source": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "state_at_release": "PENDING"
+    },
+    {
+      "W_B_stage": "NOT_STARTED_DEPENDENCY_PENDING",
+      "cell": "qwen25-cf-memit_fe",
+      "checkpoint_path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-cf-memit_fe/checkpoint",
+      "config_sha256": "9a5ab5a117288655361b8b0c7881b9fb8653f1aa1082699c4dd94c19f33a488e",
+      "context_receipt": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-cf-memit_fe/native-context-identity.json",
+      "context_sha256": null,
+      "context_status": "PENDING_FIRST_ACTUAL_NATIVE_CALL",
+      "dataset": "cf",
+      "dependencies": [
+        "61944"
+      ],
+      "generation_schedule": "DEFERRED_CHECKPOINT_EVALUATION",
+      "job_id": "62077",
+      "kind": "gpu",
+      "method": "MEMIT_FE",
+      "name": "s2-qwen25-cf-memit_fe-gpu",
+      "old_job_id": "61966",
+      "script_sha256": "2320329189e25fc90d0df4c487be2f36449fe7bd5fcd87521a25272c07ea0f97",
+      "source": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "source_config_file_sha256": "3ff0040c71d925c7a02ad1ab9daf8c8c951be203c3ba3f31b337a287b1a0b0de",
+      "state_at_release": "PENDING"
+    },
+    {
+      "W_B_stage": "NOT_STARTED_DEPENDENCY_PENDING",
+      "cell": "qwen25-cf-memit_fe",
+      "config_sha256": "9a5ab5a117288655361b8b0c7881b9fb8653f1aa1082699c4dd94c19f33a488e",
+      "dependencies": [
+        "62077",
+        "62076"
+      ],
+      "job_id": "62078",
+      "kind": "archive",
+      "name": "s2-qwen25-cf-memit_fe-archive",
+      "script_sha256": "e3aff415b1f442805e3436132ce73ccbc27610c78077176e3ed5902ce5f8cf6c",
+      "source": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "state_at_release": "PENDING"
+    },
+    {
+      "W_B_stage": "NOT_STARTED_DEPENDENCY_PENDING",
+      "cell": "qwen25-cf-sphere",
+      "checkpoint_path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-cf-sphere/checkpoint",
+      "config_sha256": "9696fd995705458292900358c4765902ffdb3c988035d6a30627eed930e223ae",
+      "context_receipt": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-cf-sphere/native-context-identity.json",
+      "context_sha256": null,
+      "context_status": "PENDING_FIRST_ACTUAL_NATIVE_CALL",
+      "dataset": "cf",
+      "dependencies": [
+        "62072"
+      ],
+      "generation_schedule": "DEFERRED_CHECKPOINT_EVALUATION",
+      "job_id": "62079",
+      "kind": "gpu",
+      "method": "SPHERE",
+      "name": "s2-qwen25-cf-sphere-gpu",
+      "old_job_id": "61970",
+      "script_sha256": "aa46fab4399dddc162335ee9bc9e00c9d930eb689ad7034bacb55accf86ab942",
+      "source": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "source_config_file_sha256": "5d6e3a687b10f4c954616c039114c95360626964faa06ff78e15bac3e01e9dfe",
+      "state_at_release": "PENDING"
+    },
+    {
+      "W_B_stage": "NOT_STARTED_DEPENDENCY_PENDING",
+      "cell": "qwen25-cf-sphere",
+      "config_sha256": "9696fd995705458292900358c4765902ffdb3c988035d6a30627eed930e223ae",
+      "dependencies": [
+        "62079",
+        "62078"
+      ],
+      "job_id": "62080",
+      "kind": "archive",
+      "name": "s2-qwen25-cf-sphere-archive",
+      "script_sha256": "e41ef124b119e7e222f076fbeef14d576c4af51742252ceef1b7a2df812b9691",
+      "source": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "state_at_release": "PENDING"
+    },
+    {
+      "W_B_stage": "NOT_STARTED_DEPENDENCY_PENDING",
+      "cell": "qwen25-zsre-memit",
+      "checkpoint_path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-zsre-memit/checkpoint",
+      "config_sha256": "93e6f98a2a1c06e7da4320c6b5cd7837396781c6a377c8199cd8fb86f018a5c0",
+      "context_receipt": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-zsre-memit/native-context-identity.json",
+      "context_sha256": null,
+      "context_status": "PENDING_FIRST_ACTUAL_NATIVE_CALL",
+      "dataset": "zsre",
+      "dependencies": [
+        "62073"
+      ],
+      "generation_schedule": "NOT_APPLICABLE",
+      "job_id": "62081",
+      "kind": "gpu",
+      "method": "MEMIT",
+      "name": "s2-qwen25-zsre-memit-gpu",
+      "old_job_id": "61956",
+      "script_sha256": "08b0419857277369ee1b1165399b23d3301d7366b1127deddc5dae8853402dc1",
+      "source": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "source_config_file_sha256": "dd4e4a7a1a1450d6d9384d808cb2078bb0179ad73a9f487c9376c948bfefefb9",
+      "state_at_release": "PENDING"
+    },
+    {
+      "W_B_stage": "NOT_STARTED_DEPENDENCY_PENDING",
+      "cell": "qwen25-zsre-memit",
+      "config_sha256": "93e6f98a2a1c06e7da4320c6b5cd7837396781c6a377c8199cd8fb86f018a5c0",
+      "dependencies": [
+        "62081",
+        "62080"
+      ],
+      "job_id": "62082",
+      "kind": "archive",
+      "name": "s2-qwen25-zsre-memit-archive",
+      "script_sha256": "ffe2a41a34a3f48a524dd94b3587672dee3005a675298044fdc45dba556b8dff",
+      "source": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "state_at_release": "PENDING"
+    },
+    {
+      "W_B_stage": "NOT_STARTED_DEPENDENCY_PENDING",
+      "cell": "qwen25-zsre-alphaedit",
+      "checkpoint_path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-zsre-alphaedit/checkpoint",
+      "config_sha256": "b0e17e76bba6bc28f09cb776da3d61d811d1e5736fce7fd4ef2bfceb324ba342",
+      "context_receipt": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-zsre-alphaedit/native-context-identity.json",
+      "context_sha256": null,
+      "context_status": "PENDING_FIRST_ACTUAL_NATIVE_CALL",
+      "dataset": "zsre",
+      "dependencies": [
+        "62075"
+      ],
+      "generation_schedule": "NOT_APPLICABLE",
+      "job_id": "62083",
+      "kind": "gpu",
+      "method": "ALPHAEDIT",
+      "name": "s2-qwen25-zsre-alphaedit-gpu",
+      "old_job_id": "61960",
+      "script_sha256": "416bea33035031e956880547e23823ec676f49910504608661fca40fd7ba5eec",
+      "source": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "source_config_file_sha256": "ec15dab71b36db04d4e22288a065d9a3fcf05a638955a9d2edda3155c607626a",
+      "state_at_release": "PENDING"
+    },
+    {
+      "W_B_stage": "NOT_STARTED_DEPENDENCY_PENDING",
+      "cell": "qwen25-zsre-alphaedit",
+      "config_sha256": "b0e17e76bba6bc28f09cb776da3d61d811d1e5736fce7fd4ef2bfceb324ba342",
+      "dependencies": [
+        "62083",
+        "62082"
+      ],
+      "job_id": "62084",
+      "kind": "archive",
+      "name": "s2-qwen25-zsre-alphaedit-archive",
+      "script_sha256": "ebc734627a877cb5cf7294fba10de98748308abe0667f742d089d1ec4c0e9273",
+      "source": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "state_at_release": "PENDING"
+    },
+    {
+      "W_B_stage": "NOT_STARTED_DEPENDENCY_PENDING",
+      "cell": "qwen25-zsre-memit_fe",
+      "checkpoint_path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-zsre-memit_fe/checkpoint",
+      "config_sha256": "848bbc9855cc4c3bcac196bb2c4213ff83e47a98338a130a782ca0da4fb69e88",
+      "context_receipt": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-zsre-memit_fe/native-context-identity.json",
+      "context_sha256": null,
+      "context_status": "PENDING_FIRST_ACTUAL_NATIVE_CALL",
+      "dataset": "zsre",
+      "dependencies": [
+        "62077"
+      ],
+      "generation_schedule": "NOT_APPLICABLE",
+      "job_id": "62085",
+      "kind": "gpu",
+      "method": "MEMIT_FE",
+      "name": "s2-qwen25-zsre-memit_fe-gpu",
+      "old_job_id": "61968",
+      "script_sha256": "edc3910387ea78e2cda3db040ec09921beaf866316e8ebe13c1821abd186258a",
+      "source": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "source_config_file_sha256": "1a28e359c98a8d6818680fe453ac11529fbb88b03c54020d8ccd03167bae9355",
+      "state_at_release": "PENDING"
+    },
+    {
+      "W_B_stage": "NOT_STARTED_DEPENDENCY_PENDING",
+      "cell": "qwen25-zsre-memit_fe",
+      "config_sha256": "848bbc9855cc4c3bcac196bb2c4213ff83e47a98338a130a782ca0da4fb69e88",
+      "dependencies": [
+        "62085",
+        "62084"
+      ],
+      "job_id": "62086",
+      "kind": "archive",
+      "name": "s2-qwen25-zsre-memit_fe-archive",
+      "script_sha256": "41679e5adac714b18aec1620104d4bce5469b502046916af2e1a2f0e42ead20d",
+      "source": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "state_at_release": "PENDING"
+    },
+    {
+      "W_B_stage": "NOT_STARTED_DEPENDENCY_PENDING",
+      "cell": "qwen25-zsre-sphere",
+      "checkpoint_path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-zsre-sphere/checkpoint",
+      "config_sha256": "dcc7018f54b1f63c8c295ebe5d82b32fb933856e0d0b94b8659c9238ef41a814",
+      "context_receipt": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-zsre-sphere/native-context-identity.json",
+      "context_sha256": null,
+      "context_status": "PENDING_FIRST_ACTUAL_NATIVE_CALL",
+      "dataset": "zsre",
+      "dependencies": [
+        "62079"
+      ],
+      "generation_schedule": "NOT_APPLICABLE",
+      "job_id": "62087",
+      "kind": "gpu",
+      "method": "SPHERE",
+      "name": "s2-qwen25-zsre-sphere-gpu",
+      "old_job_id": "61972",
+      "script_sha256": "5de5933e6f30f7606a9ecd95131ff48485eb4d97ce28189b7950b0b6900964e1",
+      "source": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "source_config_file_sha256": "3eac5a8da3662d1e813c59c8a06ffea4ec8ac768f8917c3a3eb963c544fa93b7",
+      "state_at_release": "PENDING"
+    },
+    {
+      "W_B_stage": "NOT_STARTED_DEPENDENCY_PENDING",
+      "cell": "qwen25-zsre-sphere",
+      "config_sha256": "dcc7018f54b1f63c8c295ebe5d82b32fb933856e0d0b94b8659c9238ef41a814",
+      "dependencies": [
+        "62087",
+        "62086"
+      ],
+      "job_id": "62088",
+      "kind": "archive",
+      "name": "s2-qwen25-zsre-sphere-archive",
+      "script_sha256": "b7ed96789c2d43271719724b2a76e66a0e29fb57173380ffb4f1a3a00cef6b0b",
+      "source": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "state_at_release": "PENDING"
+    },
+    {
+      "W_B_stage": "NOT_STARTED_DEPENDENCY_PENDING",
+      "cell": "collector",
+      "config_sha256": null,
+      "dependencies": [
+        "62072",
+        "62073",
+        "62074",
+        "62075",
+        "62076",
+        "62077",
+        "62078",
+        "62079",
+        "62080",
+        "62081",
+        "62082",
+        "62083",
+        "62084",
+        "62085",
+        "62086",
+        "62087",
+        "62088"
+      ],
+      "job_id": "62089",
+      "kind": "collector",
+      "name": "s2-collector-collector",
+      "script_sha256": "ad258763a41e186c40485f87627c798288473e39ca1de5d0eb4836d90dd0bd2a",
+      "source": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "state_at_release": "PENDING"
+    }
+  ],
+  "snapshot_utc": "2026-10-09T15:46:20.312354+00:00",
+  "source": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+  "source_lock_sha256": "fafaeac54b2ccaa1fd52839c8d2f0b740e0d9a35fc99f5ed74b8dd49deaf190e",
+  "stage": "ALL_HELD_INSPECTED_RELEASED_RESOURCE_DEPENDENCY_PENDING"
+}
