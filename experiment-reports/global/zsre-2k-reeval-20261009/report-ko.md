@@ -23,9 +23,17 @@ GH가 공통 native-query 평가기·CPU oracle·eval-only tracking을 직접 �
 
 SH1 Llama 완료 6행, SH2 GPT-J 완료 6행을 로컬 최종 checkpoint로 재평가하도록 직접 배정했다.
 SH2는 6개 CP fullSHA를 확인했다. SH3는 한정 local inventory에서 완료 zsRE CP가 없어
-NOT_APPLICABLE/nojob 보고. SH4의 own inventory 결과 및 SH1/2 실제 제출은 별도 영수증으로 갱신한다.
+NOT_APPLICABLE/nojob 보고. SH4도 own Qwen zsRE 미실행 취소 6개 경로에서 최종 CP가 없음을
+확인하여 NOT_APPLICABLE/nojob이다. SH1/2 실제 제출은 별도 영수증으로 갱신한다.
 대형 가중치 전송/삭제, 미완료 Qwen의 재편집, replica 중복 평가는 없다.
 
 이 문서의 현재 상태는 공통 코드/CPU 검산 및 실행 배정이며, 새 12행 성능 완료를 뜻하지 않는다.
 기존 README zsRE 수치는 old evaluator 관측임을 유지하고 실제 재평가 job/status 및 완료 수치를
 원본 checkpoint/evaluator/stream SHA 링크와 함께 갱신한다. CF 행은 이 작업으로 수정하지 않는다.
+
+공통 구현 `f1a00379`, main 통합 `4533756e`, official tree
+`eb116d1b772ea0b5697d37f9720b999431317638`를 네 서버에 직접 READY로 전달했다.
+source166 SHA/Python315/외부 task import0 검증 통과. 원문 authority 전달 accepted turn:
+SH1 `01a11fc8-ca64-7ae1-bd5a-47f0babedb60`, SH2 `01a11fce-aec4-7801-8e87-ea70b4b3d2ed`,
+SH3 `01a11fce-ae19-7f90-8ae0-e2faa74471a5`, SH4 `01a11fce-ae91-7bc1-a254-c347c6ee37fa`.
+직접 담당 응답 및 own inventory 게시로 최초 수신은 확인했으며 실제 제출과 구분한다.

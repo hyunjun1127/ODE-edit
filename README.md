@@ -43,6 +43,29 @@ CF Flu/Con을 `DEFERRED`로 표시하고 전체 평가 완료로 주장하지 �
 Ours 행은 결과 기록용이며 새 arm/실험을 자동 승인하지 않습니다.
 세부 [표 관리 정책](control/main-results-policy.json)과 [사용자 지시](messages/head/2026-10-09-main-table-fresh-rerun.json)를 따릅니다.
 
+**zsRE 재평가 안내 (2026-10-09):** 아래 완료 Llama/GPT-J zsRE 값은 기존 evaluator의
+관측/Loc CPU 재집계이며 공개 논문 구현과 token-query 동등성이 확인된 점수가 아니다.
+Eff/Gen의 decode-retokenize 및 Llama Loc loader의 BOS 차이를 확인하여, 사용자 승인으로
+저장된 W20 checkpoint에서 전체2K Eff/Gen/Loc만 새 eval-only run으로 측정한다.
+새 점수가 완료되기 전 기존 수치를 논문 재현 확정값으로 인용하지 않는다.
+재평가 등록 시 해당 zsRE 3칸을 실제 job/status로, 완료 시 새 점수로 교체한다.
+기존 값·가중치·raw는 보존하며 CF와 FLU/CON 일정은 변경하지 않는다.
+[공통 source·전체2K CPU 질의 검산·진행 기록](experiment-reports/global/zsre-2k-reeval-20261009/report-ko.md).
+
+별도 사용자 승인 **MEMIT-FE + history** CF 실험은 native MEMIT-FE 행과 합치지 않는다.
+SH1이 세 모델을 source `eaf78c33`으로 held 검사 후 release했고 초기 snapshot은 PENDING이다.
+이는 새 3개 편집 chain이며 zsRE eval-only 작업과 구분한다.
+
+| 별도 variant | 모델 | server | 최초 등록 상태 / 실제 job name | job ID |
+| :--- | :--- | :--- | :--- | ---: |
+| MEMIT_FE_HISTORY / CF | GPT-J | server1 | PENDING: official-s1-cf-gptj-memit-fe-history | 61927 |
+| MEMIT_FE_HISTORY / CF | Llama3 | server1 | PENDING: official-s1-cf-llama3-memit-fe-history | 61928 |
+| MEMIT_FE_HISTORY / CF | Qwen2.5 | server1 | PENDING: official-s1-cf-qwen25-memit-fe-history | 61929 |
+
+[세 job/config/source/dependency 영수증](audits/servers/server1/memit-fe-history-three-model-2k/submission.json) ·
+[구현·48 CPU 검산 보고](experiment-reports/servers/server1/memit-fe-history-three-model-2k/report-ko.md).
+실제 GPU/W20/온라인 성공은 아직 이 등록 영수증으로 확인하지 않았다.
+
 ### Llama3-8B-Instruct
 
 **2026-10-09 SH1 W20 원자료 검산: CF 2종과 zsRE 6종 완료.**
