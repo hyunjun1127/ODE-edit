@@ -1,0 +1,19 @@
+{
+  "stage": "CPU_HOST_PORT_REVIEWED_NOT_GPU_OR_SUBMISSION_PASS",
+  "tests": 5,
+  "tests_passed": 5,
+  "source_files_verified": 157,
+  "python_files": 298,
+  "external_task_imports": 0,
+  "separate_reviewer": false,
+  "original_Qwen_source": "dc80ec529c940019d1bee27a67a4e908eb37cc64",
+  "repair": "Unindent existing native batch body out of unreachable storage-error branch; exact AST operations/order match original unreachable body",
+  "hparams_configs": "12 exact SH4 handoff configs; BLUE L2=1; CF/zsRE 2000 ordered locks identical",
+  "runtime_guards": "original finite/shape/commit/nonedited state code preserved",
+  "generation": "CF W0_AND_W20_FIRST2000 unchanged; zsRE none",
+  "qualification": "NOT_RUN_USER_DISABLED",
+  "asset_preflight": "all local hashes verified; preseal SOURCE_DIRTY expected; new published source must reverify",
+  "W_B": "ONLINE_PROJECT_READ_VERIFIED only, no new run or online metric PASS yet",
+  "archive": "new own cutover/adoption; receiver trust pending; no server4 trust relabel",
+  "slurm": "NOT_SUBMITTED"
+}
