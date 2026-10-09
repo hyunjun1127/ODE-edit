@@ -14,6 +14,7 @@ import sys
 NAMESPACE = "nlp-lab"
 STUDENT = "janghj"
 GPU_CAP = 2
+MANIFEST_DIR = Path.home() / STUDENT / "jobs" / "odeedit"
 PLACEHOLDER = "{{RENT_JOB_ID}}"
 KST = datetime.timezone(datetime.timedelta(hours=9))
 
@@ -66,6 +67,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("template", type=Path)
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--manifest-dir", type=Path, default=MANIFEST_DIR)
     args = parser.parse_args()
     number = job_number()
     manifest = render(args.template.read_text(), number)
@@ -73,7 +75,7 @@ def main():
     existing = json.loads(kubectl("get", "jobs", "-l", "student=" + STUDENT, "-o", "json"))["items"]
     check(job, number, existing)
     kubectl("create", "--dry-run=server", "-f", "-", stdin=manifest)
-    rendered = args.template.with_name("%s.yaml" % job["metadata"]["name"])
+    rendered = args.manifest_dir / ("%s.yaml" % job["metadata"]["name"])
     if not args.dry_run:
         rendered.write_text(manifest)
         kubectl("create", "-f", str(rendered))

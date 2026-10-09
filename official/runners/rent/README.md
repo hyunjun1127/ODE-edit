@@ -13,8 +13,8 @@ python3 -m official.runners.rent.submit <template.yaml> [--dry-run]
 ```
 
 템플릿은 `{{RENT_JOB_ID}}`를 Job 이름, label `odeedit-job-id`, env `ODEEDIT_RENT_JOB_ID`
-세 곳에 쓴다. `submit.py`는 번호를 채운 manifest를 템플릿 옆 `<Job 이름>.yaml`로 남기고
-다음을 확인한 뒤 서버 dry-run을 거쳐 제출한다.
+세 곳에 쓴다. `submit.py`는 번호를 채운 manifest를 repo 밖 `~/janghj/jobs/odeedit/<Job 이름>.yaml`로
+남기고 다음을 확인한 뒤 서버 dry-run을 거쳐 제출한다.
 
 - 같은 번호의 janghj Job이 이미 있으면 거절한다(같은 분에 두 번 제출 → 다음 분에 다시 제출).
 - 끝나지 않은 janghj Job의 GPU 합계가 2장을 넘으면 거절한다.
