@@ -48,7 +48,9 @@ Ours 행은 결과 기록용이며 새 arm/실험을 자동 승인하지 않습�
 Eff/Gen의 decode-retokenize 및 Llama Loc loader의 BOS 차이를 확인하여, 사용자 승인으로
 저장된 W20 checkpoint에서 전체2K Eff/Gen/Loc만 새 eval-only run으로 측정한다.
 새 점수가 완료되기 전 기존 수치를 논문 재현 확정값으로 인용하지 않는다.
-재평가 등록 시 해당 zsRE 3칸을 실제 job/status로, 완료 시 새 점수로 교체한다.
+Llama `61932–61937`, GPT-J `61942–61947` 평가-only 등록/release 완료; 초기 snapshot은 모두
+dependency PENDING이다. 아래 zsRE 12행/36칸은 실제 평가 job/status이며 편집을 다시 하는 run이 아니다.
+완료 시 새 점수로 교체한다. [checkpoint/source/config/dependency 결속](audits/global/zsre-2k-reeval-20261009/integration.json).
 기존 값·가중치·raw는 보존하며 CF와 FLU/CON 일정은 변경하지 않는다.
 [공통 source·전체2K CPU 질의 검산·진행 기록](experiment-reports/global/zsre-2k-reeval-20261009/report-ko.md).
 
@@ -80,6 +82,7 @@ Qwen CF는 server3 job **61813**의 편집 전 W0, zsRE는 server2 job **61900**
 **2026-10-09 SH1 W20 원자료 검산: CF 2종과 zsRE 6종 완료.**
 CF FT **61771**, SPHERE **61770** 및 zsRE FT/MEMIT/AlphaEdit/BLUE/MEMIT-FE/SPHERE
 **61716/61717/61718/61719/61720/61721**의 실제 2,000건·20 commit·순서·raw NLL·분모를 검산했다.
+이는 원 편집 완료 기록이다. 아래 zsRE 표는 새 공개-query 최종 평가 `61932–61937`의 상태로 대체했다.
 CF source `34e4d52d`, zsRE source `94304dc9`; CF Flu/Con은 DEFERRED다.
 CF MEMIT-FE **61773**는 검토 시 RUNNING/14 commit이며 최종 수치는 아직 없다.
 AlphaEdit **61769**·MEMIT **61772**는 사용자 지시로 CANCELLED; 아래 CF 두 수치는
@@ -94,12 +97,12 @@ zsRE Loc은 **loc_ans 정답 token 정확도의 요청별 평균**이다. 이전
 | Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | [W0 (편집 전)](experiment-reports/global/w0-main-table-20261009.md) | 13.36 | 8.20 | 10.95 | 88.56 | 6.35 | 0.2464 | 38.10 | 37.61 | 38.59 |
-| FT | 56.59 | 89.25 | 73.30 | 35.50 | DEFERRED | DEFERRED | 14.84 | 11.99 | 1.59 |
-| MEMIT | 58.88‡ | 64.75‡ | 61.70‡ | 51.83‡ | DEFERRED | DEFERRED | 46.71 | 42.07 | 30.49 |
-| AlphaEdit | 84.80‡ | 99.30‡ | 93.23‡ | 68.59‡ | DEFERRED | DEFERRED | 98.74 | 94.60 | 44.85 |
-| AlphaEdit-BLUE | 89.84† | 99.60† | 97.15† | 76.59† |  |  | 99.41 | 95.85 | 42.31 |
-| MEMIT-FE | ING: 61773 | ING: 61773 | ING: 61773 | ING: 61773 | DEFERRED | DEFERRED | 14.95 | 13.71 | 0.60 |
-| AlphaEdit+SPHERE | 86.87 | 99.50 | 94.95 | 71.68 | DEFERRED | DEFERRED | 98.52 | 94.72 | 44.31 |
+| FT | 56.59 | 89.25 | 73.30 | 35.50 | DEFERRED | DEFERRED | PENDING: official-s1-zsre-reeval-ft (61932) | PENDING: official-s1-zsre-reeval-ft (61932) | PENDING: official-s1-zsre-reeval-ft (61932) |
+| MEMIT | 58.88‡ | 64.75‡ | 61.70‡ | 51.83‡ | DEFERRED | DEFERRED | PENDING: official-s1-zsre-reeval-memit (61933) | PENDING: official-s1-zsre-reeval-memit (61933) | PENDING: official-s1-zsre-reeval-memit (61933) |
+| AlphaEdit | 84.80‡ | 99.30‡ | 93.23‡ | 68.59‡ | DEFERRED | DEFERRED | PENDING: official-s1-zsre-reeval-alphaedit (61934) | PENDING: official-s1-zsre-reeval-alphaedit (61934) | PENDING: official-s1-zsre-reeval-alphaedit (61934) |
+| AlphaEdit-BLUE | 89.84† | 99.60† | 97.15† | 76.59† |  |  | PENDING: official-s1-zsre-reeval-alphaedit_blue (61935) | PENDING: official-s1-zsre-reeval-alphaedit_blue (61935) | PENDING: official-s1-zsre-reeval-alphaedit_blue (61935) |
+| MEMIT-FE | ING: 61773 | ING: 61773 | ING: 61773 | ING: 61773 | DEFERRED | DEFERRED | PENDING: official-s1-zsre-reeval-memit_fe (61936) | PENDING: official-s1-zsre-reeval-memit_fe (61936) | PENDING: official-s1-zsre-reeval-memit_fe (61936) |
+| AlphaEdit+SPHERE | 86.87 | 99.50 | 94.95 | 71.68 | DEFERRED | DEFERRED | PENDING: official-s1-zsre-reeval-sphere (61937) | PENDING: official-s1-zsre-reeval-sphere (61937) | PENDING: official-s1-zsre-reeval-sphere (61937) |
 | PRICE (Ours) | 90.98§ | 99.70§ | 92.78§ | 82.21§ |  |  |  |  |  |
 
 § 사용자 2026-10-09 지시에 따라 이전 **FREE100 / MEMIT writer**, Llama job **60103**의
@@ -169,6 +172,7 @@ CPU 후처리하고 source/provenance를 분리해 기록한다.
 **2026-10-09 SH2 검산: CF 6종·zsRE 6종 모두 W20/2,000건 factual 완료.**
 방법 순서 FT/MEMIT/AlphaEdit/BLUE/MEMIT-FE/SPHERE의 CF job은
 **61650/61725/61778/61779/61780/61781**, zsRE는 **61726/61728/61730/61732/61734/61735**다.
+이는 원 편집 완료 기록이다. 아래 zsRE 표는 새 공개-query 최종 평가 `61942–61947`의 상태로 대체했다.
 각 원 raw SHA·20 commit·ordered cohort·source/config를 결속하고 CPU 재집계를 대조했다.
 CF 분모 R2,000/P4,000/N20,000, zsRE는 request-macro이며 Loc은 **loc_ans 정답 정확도**다.
 이전 W0 prediction agreement는 보조지표로 분리했고, 저장 predicted/target token ID에서
@@ -202,12 +206,12 @@ FLU/CON은 이후 별도 2k checkpoint 평가에서 측정하며, 그 consumer �
 | Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | [W0 (편집 전)](experiment-reports/global/w0-main-table-20261009.md) | 24.44 | 17.00 | 19.30 | 82.48 | DEFERRED | DEFERRED | 27.83 | 27.15 | 27.59 |
-| FT | 58.97 | 88.75 | 66.75 | 40.61 | DEFERRED | DEFERRED | 23.15 | 17.95 | 0.62 |
-| MEMIT | 80.63 | 97.90 | 95.38 | 60.58 | DEFERRED | DEFERRED | 93.61 | 88.95 | 30.87 |
-| AlphaEdit | 88.22 | 99.70 | 96.33 | 73.56 | DEFERRED | DEFERRED | 99.79 | 96.55 | 27.99 |
-| AlphaEdit-BLUE | 89.23 | 99.55 | 97.53 | 75.06 | DEFERRED | DEFERRED | 99.85 | 95.81 | 28.90 |
-| MEMIT-FE | 73.85 | 87.15 | 85.70 | 57.22 | DEFERRED | DEFERRED | 29.23 | 27.67 | 8.46 |
-| AlphaEdit+SPHERE | 88.39 | 99.70 | 95.73 | 74.27 | DEFERRED | DEFERRED | 99.77 | 96.39 | 28.06 |
+| FT | 58.97 | 88.75 | 66.75 | 40.61 | DEFERRED | DEFERRED | PENDING: s2-zsre-reeval-ft (61942) | PENDING: s2-zsre-reeval-ft (61942) | PENDING: s2-zsre-reeval-ft (61942) |
+| MEMIT | 80.63 | 97.90 | 95.38 | 60.58 | DEFERRED | DEFERRED | PENDING: s2-zsre-reeval-memit (61943) | PENDING: s2-zsre-reeval-memit (61943) | PENDING: s2-zsre-reeval-memit (61943) |
+| AlphaEdit | 88.22 | 99.70 | 96.33 | 73.56 | DEFERRED | DEFERRED | PENDING: s2-zsre-reeval-alphaedit (61944) | PENDING: s2-zsre-reeval-alphaedit (61944) | PENDING: s2-zsre-reeval-alphaedit (61944) |
+| AlphaEdit-BLUE | 89.23 | 99.55 | 97.53 | 75.06 | DEFERRED | DEFERRED | PENDING: s2-zsre-reeval-alphaedit_blue (61945) | PENDING: s2-zsre-reeval-alphaedit_blue (61945) | PENDING: s2-zsre-reeval-alphaedit_blue (61945) |
+| MEMIT-FE | 73.85 | 87.15 | 85.70 | 57.22 | DEFERRED | DEFERRED | PENDING: s2-zsre-reeval-memit_fe (61946) | PENDING: s2-zsre-reeval-memit_fe (61946) | PENDING: s2-zsre-reeval-memit_fe (61946) |
+| AlphaEdit+SPHERE | 88.39 | 99.70 | 95.73 | 74.27 | DEFERRED | DEFERRED | PENDING: s2-zsre-reeval-sphere (61947) | PENDING: s2-zsre-reeval-sphere (61947) | PENDING: s2-zsre-reeval-sphere (61947) |
 | PRICE (Ours) |  |  |  |  |  |  |  |  |  |
 
 기존 연구 문서와 실험 이력은 아래에 보존합니다. 새 실험의 설정 근거는 `official/`입니다.

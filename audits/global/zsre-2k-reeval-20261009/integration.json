@@ -1,0 +1,431 @@
+{
+  "instruction_id": "USER-GH-ZSRE-SAVED-WEIGHTS-2K-REEVAL-20261009-R1",
+  "common_source": "4533756ea5b731793595d09822b1e66dc4458395",
+  "rows": [
+    {
+      "server": "server1",
+      "model": "llama3",
+      "method": "FT",
+      "original_job_id": "61716",
+      "checkpoint": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/runs/zsre-ft/checkpoint/batch-20-a190f827ffd2b1c3.pt",
+        "bytes": 234898913,
+        "sha256": "a190f827ffd2b1c377497a0c6e47b4d27c0b5e0021cc978e7e1cf9e8a29d8708"
+      },
+      "original_identity": {
+        "assets_sha256": "3ec8caa86e8babc7d50efd513bd72eacf6bec10579bfb6680ba7e4052f3edba4",
+        "code_commit": "94304dc93db928300a71d8dcd0f87199fdb93f1f",
+        "config_sha256": "ede2ae005e65d9bc9379caa357150a7d6864405e9e903f5a5430d0e58b8855cf",
+        "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+        "official_tree_sha256": "4b09cc81252f8e190621941bdd9b9234dd3013bd",
+        "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+        "tokenizer_sha256": "63411f4ee2a0111d0c3902d14c85a1d003dafc765573c60282957f558bf02453"
+      },
+      "status": "EVALUATION_RELEASED_PENDING",
+      "evaluation_job_id": "61932",
+      "evaluation_job_name": "official-s1-zsre-reeval-ft",
+      "evaluation_status": "PENDING",
+      "evaluation_source": "b2806a6081d66fc585db970595c4b86a71f5aafd",
+      "evaluation_config_sha256": "c991b2a837cbb2f9e9df66b3373df734de6a01084aa7c14ebe219b2faf67db53",
+      "evaluation_dependency": [
+        [
+          "afterany",
+          "61773"
+        ]
+      ]
+    },
+    {
+      "server": "server1",
+      "model": "llama3",
+      "method": "MEMIT",
+      "original_job_id": "61717",
+      "checkpoint": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/runs/zsre-memit/checkpoint/batch-20-e7981b8bd87b5ccc.pt",
+        "bytes": 1174424977,
+        "sha256": "e7981b8bd87b5ccc74c8ff48764918ac96cf96434d174abb459a01ebf953862e"
+      },
+      "original_identity": {
+        "assets_sha256": "3ec8caa86e8babc7d50efd513bd72eacf6bec10579bfb6680ba7e4052f3edba4",
+        "code_commit": "94304dc93db928300a71d8dcd0f87199fdb93f1f",
+        "config_sha256": "064cc31ff2e50016d249c34eac7ccf9cdb37b38f93388c28be568f14b6e39ca6",
+        "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+        "official_tree_sha256": "4b09cc81252f8e190621941bdd9b9234dd3013bd",
+        "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+        "tokenizer_sha256": "63411f4ee2a0111d0c3902d14c85a1d003dafc765573c60282957f558bf02453"
+      },
+      "status": "EVALUATION_RELEASED_PENDING",
+      "evaluation_job_id": "61933",
+      "evaluation_job_name": "official-s1-zsre-reeval-memit",
+      "evaluation_status": "PENDING",
+      "evaluation_source": "b2806a6081d66fc585db970595c4b86a71f5aafd",
+      "evaluation_config_sha256": "1c34cf06279ab8460235dd520c3b704cf83ed480142b53bb36aa2820d54be36a",
+      "evaluation_dependency": [
+        [
+          "afterany",
+          "61927"
+        ]
+      ]
+    },
+    {
+      "server": "server1",
+      "model": "llama3",
+      "method": "ALPHAEDIT",
+      "original_job_id": "61718",
+      "checkpoint": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/runs/zsre-alphaedit/checkpoint/batch-20-21825e91fdef0aa2.pt",
+        "bytes": 5284844677,
+        "sha256": "21825e91fdef0aa2664653c4e4e90e5406ff7bdc9b25d05e109c5bb5c6d155f5"
+      },
+      "original_identity": {
+        "assets_sha256": "3ec8caa86e8babc7d50efd513bd72eacf6bec10579bfb6680ba7e4052f3edba4",
+        "code_commit": "94304dc93db928300a71d8dcd0f87199fdb93f1f",
+        "config_sha256": "69d461ffedbaa7e4dc83249607abdc3d178c9a06bf20913b14a9840f12d996df",
+        "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+        "official_tree_sha256": "4b09cc81252f8e190621941bdd9b9234dd3013bd",
+        "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+        "tokenizer_sha256": "63411f4ee2a0111d0c3902d14c85a1d003dafc765573c60282957f558bf02453"
+      },
+      "status": "EVALUATION_RELEASED_PENDING",
+      "evaluation_job_id": "61934",
+      "evaluation_job_name": "official-s1-zsre-reeval-alphaedit",
+      "evaluation_status": "PENDING",
+      "evaluation_source": "b2806a6081d66fc585db970595c4b86a71f5aafd",
+      "evaluation_config_sha256": "afea43aef0222e738addc99746f3f05d10167c622b86478a3debafbcaca2bed6",
+      "evaluation_dependency": [
+        [
+          "afterany",
+          "61928"
+        ]
+      ]
+    },
+    {
+      "server": "server1",
+      "model": "llama3",
+      "method": "ALPHAEDIT_BLUE",
+      "original_job_id": "61719",
+      "checkpoint": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/runs/zsre-alphaedit_blue/checkpoint/batch-20-8677f04285d6d2dc.pt",
+        "bytes": 2113948569,
+        "sha256": "8677f04285d6d2dc9570abeb0cbb49397753389bab50b7bf07f877d05db61a41"
+      },
+      "original_identity": {
+        "assets_sha256": "3ec8caa86e8babc7d50efd513bd72eacf6bec10579bfb6680ba7e4052f3edba4",
+        "code_commit": "94304dc93db928300a71d8dcd0f87199fdb93f1f",
+        "config_sha256": "43730717aa916b21ef605717543164a9d0cc47c30ffd9a5854ffd35fca4423c9",
+        "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+        "official_tree_sha256": "4b09cc81252f8e190621941bdd9b9234dd3013bd",
+        "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+        "tokenizer_sha256": "63411f4ee2a0111d0c3902d14c85a1d003dafc765573c60282957f558bf02453"
+      },
+      "status": "EVALUATION_RELEASED_PENDING",
+      "evaluation_job_id": "61935",
+      "evaluation_job_name": "official-s1-zsre-reeval-alphaedit_blue",
+      "evaluation_status": "PENDING",
+      "evaluation_source": "b2806a6081d66fc585db970595c4b86a71f5aafd",
+      "evaluation_config_sha256": "b2f9c2303f2b63fcc56139cc5912f36d196317dc2a47e5b95b6927abefd1a48d",
+      "evaluation_dependency": [
+        [
+          "afterany",
+          "61929"
+        ]
+      ]
+    },
+    {
+      "server": "server1",
+      "model": "llama3",
+      "method": "MEMIT_FE",
+      "original_job_id": "61720",
+      "checkpoint": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/runs/zsre-memit_fe/checkpoint/batch-20-6fc4a968859a87d5.pt",
+        "bytes": 1174424785,
+        "sha256": "6fc4a968859a87d5361153929fbd4012a03d5971832528cf9cdc4d30bd26fb28"
+      },
+      "original_identity": {
+        "assets_sha256": "3ec8caa86e8babc7d50efd513bd72eacf6bec10579bfb6680ba7e4052f3edba4",
+        "code_commit": "94304dc93db928300a71d8dcd0f87199fdb93f1f",
+        "config_sha256": "1f6746d421262333458749f5186a4076f35f6053e85f517024a399eb23f2241f",
+        "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+        "official_tree_sha256": "4b09cc81252f8e190621941bdd9b9234dd3013bd",
+        "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+        "tokenizer_sha256": "63411f4ee2a0111d0c3902d14c85a1d003dafc765573c60282957f558bf02453"
+      },
+      "status": "EVALUATION_RELEASED_PENDING",
+      "evaluation_job_id": "61936",
+      "evaluation_job_name": "official-s1-zsre-reeval-memit_fe",
+      "evaluation_status": "PENDING",
+      "evaluation_source": "b2806a6081d66fc585db970595c4b86a71f5aafd",
+      "evaluation_config_sha256": "be7679fd93dce88774307b76bbcc063b5ac8174a26aad829aeda6e615ae0d332",
+      "evaluation_dependency": [
+        [
+          "afterany",
+          "61934"
+        ]
+      ]
+    },
+    {
+      "server": "server1",
+      "model": "llama3",
+      "method": "SPHERE",
+      "original_job_id": "61721",
+      "checkpoint": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/runs/zsre-sphere/checkpoint/batch-20-1287e2dd2c64de84.pt",
+        "bytes": 5284844677,
+        "sha256": "1287e2dd2c64de84790a307d8f88ce4c5d666e8b6379048e648479164607b788"
+      },
+      "original_identity": {
+        "assets_sha256": "3ec8caa86e8babc7d50efd513bd72eacf6bec10579bfb6680ba7e4052f3edba4",
+        "code_commit": "94304dc93db928300a71d8dcd0f87199fdb93f1f",
+        "config_sha256": "dda49f56401da16cec80cc38c8e6ee7a76a49a91baf3d4ad65580d8c9130710b",
+        "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+        "official_tree_sha256": "4b09cc81252f8e190621941bdd9b9234dd3013bd",
+        "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+        "tokenizer_sha256": "63411f4ee2a0111d0c3902d14c85a1d003dafc765573c60282957f558bf02453"
+      },
+      "status": "EVALUATION_RELEASED_PENDING",
+      "evaluation_job_id": "61937",
+      "evaluation_job_name": "official-s1-zsre-reeval-sphere",
+      "evaluation_status": "PENDING",
+      "evaluation_source": "b2806a6081d66fc585db970595c4b86a71f5aafd",
+      "evaluation_config_sha256": "5840ad510908b46abdfad654adf36155d7bd2d5cd1776dc228b8ee967f4bbfa7",
+      "evaluation_dependency": [
+        [
+          "afterany",
+          "61935"
+        ]
+      ]
+    },
+    {
+      "server": "server2",
+      "model": "gptj",
+      "method": "FT",
+      "original_job_id": "61726",
+      "checkpoint": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_FT/checkpoints/batch-20-3247882fc1004710.pt",
+        "bytes": 268474909,
+        "sha256": "3247882fc10047104b90e93b6b7a3d5e4357de99361c686d6268d1c9cc2131ba"
+      },
+      "original_identity": {
+        "assets_sha256": "8ce64b6771ff8da49d584784ea190ad8575a3a073f03fcc94c93568d31db6463",
+        "code_commit": "478464689231595eb63da368cc7c376e775eb559",
+        "config_sha256": "183657b9bffe5e02ddb0401f5f5d0a6ee5058c8b3258f76f7e7c74af53402d24",
+        "model_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+        "official_tree_sha256": "41ed261d1fc8c7c0022366c50fa9cb1ae3c05320",
+        "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+        "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+      },
+      "status": "EVALUATION_RELEASED_PENDING",
+      "evaluation_job_id": "61942",
+      "evaluation_job_name": "s2-zsre-reeval-ft",
+      "evaluation_status": "PENDING",
+      "evaluation_source": "ce8d536fa7eb4dfdd38f7024381e68d212f44ea0",
+      "evaluation_config_sha256": "d3ad9e3164e09e869eda32124888a6ec313101694ec221d96c49f4e64c5e1f01",
+      "evaluation_dependency": [
+        [
+          "afterany",
+          "61918"
+        ]
+      ]
+    },
+    {
+      "server": "server2",
+      "model": "gptj",
+      "method": "MEMIT",
+      "original_job_id": "61728",
+      "checkpoint": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_MEMIT/checkpoints/batch-20-fdab7aeaba960372.pt",
+        "bytes": 1610637581,
+        "sha256": "fdab7aeaba960372d52170a79fe023f8f825058d9c5a4c8f344470cfa94c135c"
+      },
+      "original_identity": {
+        "assets_sha256": "8ce64b6771ff8da49d584784ea190ad8575a3a073f03fcc94c93568d31db6463",
+        "code_commit": "478464689231595eb63da368cc7c376e775eb559",
+        "config_sha256": "6247b216833ef34d00f5ba71175dd1b07b1be384192833e350b12b3ed595184f",
+        "model_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+        "official_tree_sha256": "41ed261d1fc8c7c0022366c50fa9cb1ae3c05320",
+        "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+        "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+      },
+      "status": "EVALUATION_RELEASED_PENDING",
+      "evaluation_job_id": "61943",
+      "evaluation_job_name": "s2-zsre-reeval-memit",
+      "evaluation_status": "PENDING",
+      "evaluation_source": "ce8d536fa7eb4dfdd38f7024381e68d212f44ea0",
+      "evaluation_config_sha256": "6a34f7210f0e5af52c26e4e906de837aa50b9deb3890edcac742905a2ebc6f9e",
+      "evaluation_dependency": [
+        [
+          "afterany",
+          "61920"
+        ]
+      ]
+    },
+    {
+      "server": "server2",
+      "model": "gptj",
+      "method": "ALPHAEDIT",
+      "original_job_id": "61730",
+      "checkpoint": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_ALPHAEDIT/checkpoints/batch-20-2b1ea832469fbee3.pt",
+        "bytes": 8053090197,
+        "sha256": "2b1ea832469fbee3b3331fb518126889c0d3d6bd29f16924892254cd216a37c5"
+      },
+      "original_identity": {
+        "assets_sha256": "8ce64b6771ff8da49d584784ea190ad8575a3a073f03fcc94c93568d31db6463",
+        "code_commit": "478464689231595eb63da368cc7c376e775eb559",
+        "config_sha256": "690de995de96adf3b51c9efd7c8f5a04a4da4f5db269d1c5de133dbbfbd83078",
+        "model_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+        "official_tree_sha256": "41ed261d1fc8c7c0022366c50fa9cb1ae3c05320",
+        "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+        "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+      },
+      "status": "EVALUATION_RELEASED_PENDING",
+      "evaluation_job_id": "61944",
+      "evaluation_job_name": "s2-zsre-reeval-alphaedit",
+      "evaluation_status": "PENDING",
+      "evaluation_source": "ce8d536fa7eb4dfdd38f7024381e68d212f44ea0",
+      "evaluation_config_sha256": "19fc9d468a736d6cc736e25032bd67c0e33b6797e9ac3c27333e4e64c3f2f9d9",
+      "evaluation_dependency": [
+        [
+          "afterany",
+          "61914"
+        ]
+      ]
+    },
+    {
+      "server": "server2",
+      "model": "gptj",
+      "method": "ALPHAEDIT_BLUE",
+      "original_job_id": "61732",
+      "checkpoint": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_ALPHAEDIT_BLUE/checkpoints/batch-20-4f8e35034122ae8b.pt",
+        "bytes": 2684378777,
+        "sha256": "4f8e35034122ae8b041e73db9f920cdba8dd1980cdb77d18f91f596e3d8aaffb"
+      },
+      "original_identity": {
+        "assets_sha256": "8ce64b6771ff8da49d584784ea190ad8575a3a073f03fcc94c93568d31db6463",
+        "code_commit": "478464689231595eb63da368cc7c376e775eb559",
+        "config_sha256": "1f44babb02b1bebb6eee893ff19624ca3051afb0e5ba04d3d379bc9d43fcfefe",
+        "model_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+        "official_tree_sha256": "41ed261d1fc8c7c0022366c50fa9cb1ae3c05320",
+        "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+        "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+      },
+      "status": "EVALUATION_RELEASED_PENDING",
+      "evaluation_job_id": "61945",
+      "evaluation_job_name": "s2-zsre-reeval-alphaedit_blue",
+      "evaluation_status": "PENDING",
+      "evaluation_source": "ce8d536fa7eb4dfdd38f7024381e68d212f44ea0",
+      "evaluation_config_sha256": "2e7c15f7b4ed9b46b599cfb703096fdde9c651870ff12b29978abab46438d54e",
+      "evaluation_dependency": [
+        [
+          "afterany",
+          "61916"
+        ]
+      ]
+    },
+    {
+      "server": "server2",
+      "model": "gptj",
+      "method": "MEMIT_FE",
+      "original_job_id": "61734",
+      "checkpoint": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_MEMIT_FE/checkpoints/batch-20-199a4175bd7bb425.pt",
+        "bytes": 1610637709,
+        "sha256": "199a4175bd7bb425b088afafd27a5e9aa6812a4061a6eca930899bcaca4f41a5"
+      },
+      "original_identity": {
+        "assets_sha256": "8ce64b6771ff8da49d584784ea190ad8575a3a073f03fcc94c93568d31db6463",
+        "code_commit": "478464689231595eb63da368cc7c376e775eb559",
+        "config_sha256": "d59aef72835624e12637be252c0303907c656b457db2738eecc4fd4fc5ba771f",
+        "model_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+        "official_tree_sha256": "41ed261d1fc8c7c0022366c50fa9cb1ae3c05320",
+        "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+        "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+      },
+      "status": "EVALUATION_RELEASED_PENDING",
+      "evaluation_job_id": "61946",
+      "evaluation_job_name": "s2-zsre-reeval-memit_fe",
+      "evaluation_status": "PENDING",
+      "evaluation_source": "ce8d536fa7eb4dfdd38f7024381e68d212f44ea0",
+      "evaluation_config_sha256": "b770e743f47cce52665291eab6d0cb438e8f61bbb3f749cf358130fb7050d0ca",
+      "evaluation_dependency": [
+        [
+          "afterany",
+          "61942"
+        ]
+      ]
+    },
+    {
+      "server": "server2",
+      "model": "gptj",
+      "method": "SPHERE",
+      "original_job_id": "61735",
+      "checkpoint": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_SPHERE/checkpoints/batch-20-5820a31b1a507b42.pt",
+        "bytes": 8053090069,
+        "sha256": "5820a31b1a507b42455f6c9e96df7f4757f4e2103e8365dc4d3716b1bb8307b7"
+      },
+      "original_identity": {
+        "assets_sha256": "8ce64b6771ff8da49d584784ea190ad8575a3a073f03fcc94c93568d31db6463",
+        "code_commit": "478464689231595eb63da368cc7c376e775eb559",
+        "config_sha256": "43ab4cca1ecfd04b0a086a6b1b3f24c332feea3c5ea4f4060d65a08d1ec9ed78",
+        "model_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+        "official_tree_sha256": "41ed261d1fc8c7c0022366c50fa9cb1ae3c05320",
+        "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+        "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+      },
+      "status": "EVALUATION_RELEASED_PENDING",
+      "evaluation_job_id": "61947",
+      "evaluation_job_name": "s2-zsre-reeval-sphere",
+      "evaluation_status": "PENDING",
+      "evaluation_source": "ce8d536fa7eb4dfdd38f7024381e68d212f44ea0",
+      "evaluation_config_sha256": "cd0e8288c05e79d1ae4dc42cbceee638a2d82b1b083e8392d379ac63110835bc",
+      "evaluation_dependency": [
+        [
+          "afterany",
+          "61943"
+        ]
+      ]
+    }
+  ],
+  "inventory_members_sha256": {
+    "audits/servers/server1/zsre-2k-reeval-20261009/inventory.json": "fd17b65a2df66d50fb755663f7f3cd904c2a3f873a0f8d7e7ac552add209c6df",
+    "audits/servers/server2/zsre-2k-reeval-20261009/inventory.json": "dccf26ff3de3e6a11b4d25f44a93dbe5680675052be8f980b47c119cbef042a9",
+    "audits/servers/server3/zsre-2k-reeval-20261009/inventory.json": "e3cf8051f3a608123c768108ca1eb2b849f13db3e727234f47ff1a25512dd8da",
+    "audits/servers/server4/zsre-2k-reeval-20261009/inventory.json": "b07fe8a109e1c855b7328794c7db088e278a76b5bf4b051a2be4fd32d254961d"
+  },
+  "server3": "NOT_APPLICABLE_NO_OWN_COMPLETED_ZSRE",
+  "server4": "NOT_APPLICABLE_UNSTARTED_CANCELLED_ZSRE",
+  "known_completed_missing_CP": 0,
+  "new_metric_rows": 0,
+  "notes": "12개 저장된 W20 평가-only job 실제 등록/release. 새 성능0행, 원자료/가중치/frozen기존jobs 보존. 두 source 모두 common4533756e API/SHA 동일.",
+  "previous_inventory_members_sha256": {
+    "audits/servers/server1/zsre-2k-reeval-20261009/inventory.json": "fd17b65a2df66d50fb755663f7f3cd904c2a3f873a0f8d7e7ac552add209c6df",
+    "audits/servers/server2/zsre-2k-reeval-20261009/inventory.json": "25775f550ddb479b1bdc9088c608da125af5418db54dc88e76a3648086a8de98",
+    "audits/servers/server3/zsre-2k-reeval-20261009/inventory.json": "e3cf8051f3a608123c768108ca1eb2b849f13db3e727234f47ff1a25512dd8da",
+    "audits/servers/server4/zsre-2k-reeval-20261009/inventory.json": "b07fe8a109e1c855b7328794c7db088e278a76b5bf4b051a2be4fd32d254961d"
+  },
+  "registration_members": {
+    "server1": {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/registration-r1/submission.json",
+      "bytes": 32084,
+      "sha256": "09d32d74cf61bb58b8292c59f2bb0a057f16a3af251397b40c10c660aa654430",
+      "collector_job": "61938",
+      "held_inspected": true,
+      "released": true,
+      "initial_snapshot": "PENDING_DEPENDENCY",
+      "WandB_startup": "NOT_OBSERVED"
+    },
+    "server2": {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/released.json",
+      "bytes": 9824,
+      "sha256": "858472a0e5803d9643130f20610f71c1f950840e9b4f5cfd3a95a68491bbe9f4",
+      "collector_job": "61948",
+      "held_inspected": true,
+      "released": true,
+      "initial_snapshot": "PENDING_DEPENDENCY",
+      "WandB_startup": "NOT_OBSERVED"
+    }
+  },
+  "zsre_status_rows_updated": 12,
+  "zsre_status_cells_updated": 36
+}
