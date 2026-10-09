@@ -71,6 +71,15 @@ execution records `execution_backend=local`, `identity_source=NOT_APPLICABLE`,
 and no fake job ID. Each new init creates an immutable UUID/run URL/config/job
 receipt, never resumes, renames, or backfills an old W&B run.
 
+The `rent` server runs Kubernetes Jobs, which have no Slurm number. Its submitter
+fixes the job number at submission as the KST time `DDHHMM` (e.g. `092005` = day 9,
+20:05) and passes it to the Job as `ODEEDIT_RENT_JOB_ID`. The parent records
+`execution_backend=kubernetes`, `identity_source=RENT_SUBMIT_ENV` and
+`job_id=job_display_id=DDHHMM`, so `run.name` ends in `job092005`. Only
+`server=rent` may use this backend, `rent` never uses the Slurm backend, and a
+Job carrying both Slurm and rent variables fails as ambiguous. A malformed value
+fails instead of being replaced, and rent runs without the variable are `local`.
+
 ## Metrics and denominators
 
 ### zsRE dedicated views and mapping API

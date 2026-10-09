@@ -1,0 +1,72 @@
+# rent W&B setup smoke (CPU only). Submit with:
+#   python3 -m official.runners.rent.submit official/runners/rent/wandb_smoke.job.yaml
+# {{RENT_JOB_ID}} becomes the KST submission time DDHHMM in the name, label and env.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: janghj-odeedit-wandb-smoke-{{RENT_JOB_ID}}
+  namespace: nlp-lab
+  labels:
+    student: janghj
+    owner: janghj
+    odeedit-job-id: "{{RENT_JOB_ID}}"
+spec:
+  backoffLimit: 0
+  ttlSecondsAfterFinished: 604800
+  template:
+    metadata:
+      labels:
+        student: janghj
+        owner: janghj
+        odeedit-job-id: "{{RENT_JOB_ID}}"
+    spec:
+      restartPolicy: Never
+      activeDeadlineSeconds: 600
+      securityContext:
+        runAsUser: 1017
+        runAsGroup: 1017
+        runAsNonRoot: true
+      containers:
+        - name: worker
+          image: pytorch/pytorch:2.6.0-cuda12.4-cudnn9-devel
+          imagePullPolicy: IfNotPresent
+          workingDir: /workspace/code/ODE-edit
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              set -eu
+              exec /workspace/envs/ode-edit-py311-torch26/bin/python -m official.runners.rent.wandb_smoke \
+                --env-file servers/local/wandb.env \
+                --out /workspace/logs/wandb-setup/smoke-job${ODEEDIT_RENT_JOB_ID}
+          env:
+            - name: HOME
+              value: /workspace
+            - name: USER
+              value: janghj
+            - name: XDG_CACHE_HOME
+              value: /workspace/cache
+            - name: PYTHONUNBUFFERED
+              value: "1"
+            - name: NVIDIA_VISIBLE_DEVICES
+              value: none
+            - name: ODEEDIT_RENT_JOB_ID
+              value: "{{RENT_JOB_ID}}"
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+          resources:
+            requests:
+              cpu: "2"
+              memory: 4Gi
+            limits:
+              cpu: "2"
+              memory: 4Gi
+          volumeMounts:
+            - name: workspace
+              mountPath: /workspace
+              subPath: janghj
+      volumes:
+        - name: workspace
+          persistentVolumeClaim:
+            claimName: nlp-lab-pvc
