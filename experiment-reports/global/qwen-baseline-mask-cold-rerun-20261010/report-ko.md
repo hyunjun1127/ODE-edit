@@ -20,8 +20,14 @@ SH1은 old61975를 보존하고 새 62061(official-s1-cf-qwen25-memit-fe-history
 held 검사 후 release했다. 최초 관측 PENDING, dependency 없음, 실행 source
 8da621a9e12fd341a4a70fba95531af6fe4fdb80. W20 및 온라인 기록은 아직 미관측이다.
 새 context SHA는 실제 B1에서 기록되며 지금 생성 완료로 주장하지 않는다.
-SH2 8개 cold 및 FT eval-only, SH4 heldout 2개는 제출 receipt 회수 중이다.
+SH4도 old61776/61777을 보존하고 새 MEMIT62063/AlphaEdit62064를 held 검사 후
+release했다. source a28515284cc8152a9bf3d6c2a75f0f7c0b4cc387,
+afterany:62037 → 62063 → 62064의 단일 lane이며 최초 PENDING이다.
+이 두 run은 CF heldout500/B5이며 본표 2K에 포함하지 않는다.
+보호 OURS62038은 HELD 그대로다. context SHA/온라인/B5 결과는 아직 미관측이다.
+SH2 8개 cold 및 FT eval-only는 제출 receipt 회수 중이다.
 SH1 근거: audits/servers/server1/qwen-baseline-mask-cold-rerun-20261010/submission.json.
+SH4 근거: audits/servers/server4/qwen-baseline-mask-cold-rerun-20261010/submission.json.
 직접 수락과 실제 제출/결과 완료는 별개다. 장기 GPU 완료 대기/새 recurring monitor 없음.
 
 [정본 실행 envelope](../../../messages/head/2026-10-10-qwen-baseline-mask-cold-rerun.md) ·

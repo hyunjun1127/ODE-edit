@@ -150,8 +150,9 @@ FT/BLUE는 이번 mask 오류 재편집 대상이 아니다. FT zsRE61900은 별
 [수리·재제출 진행](experiment-reports/global/qwen-baseline-mask-cold-rerun-20261010/report-ko.md).
 아래 10월9일 검산 내역은 원 관측 이력이다; 61956/61960 숫자는 이번 supersession 이전 기록이다.
 
-**Server2 최신 결과: 2026-10-09 23:05:48 KST SH2 단발 snapshot/CPU 검산 기준.**
-zsRE **MEMIT 61956·AlphaEdit 61960**은 공개-query W20/2,000건 평가가 완료되어 아래 6칸을 실측값으로 갱신했다.
+**Server2 원 결과 이력: 2026-10-09 23:05:48 KST SH2 단발 snapshot/CPU 검산 기준.**
+zsRE **MEMIT 61956·AlphaEdit 61960**의 공개-query W20/2,000건 평가는 완료됐으나,
+편집 context 오류가 확인되어 당시 반영한 6칸의 수치는 철회하고 재편집 상태로 대체했다.
 저장 predicted/target ID를 독립 재집계했고 요청별 token accuracy의 평균이며,
 분모는 Eff/Gen/Loc **6,691/6,691/11,476 tokens, 각 2,000 requests**다.
 [최신 완료·상태 검산](experiment-reports/servers/server2/main-table-refresh-20261009/report-ko.md) ·

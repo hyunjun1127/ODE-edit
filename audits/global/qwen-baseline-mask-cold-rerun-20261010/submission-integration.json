@@ -1,0 +1,95 @@
+{
+  "nonce": "USER-GH-QWEN-BASELINE-MASK-COLD-RERUN-20261010-R1",
+  "common_source": "ac19db2fdb0373934552bfedc8038ad9fe8edd0d",
+  "scope": "11 cold editing chains plus separate Qwen FT61900 saved W20 eval-only",
+  "owner_acceptance": [
+    {
+      "server": "server1",
+      "turn": "01a1214b-7b87-71f2-a659-05a6ac074264"
+    },
+    {
+      "server": "server2",
+      "turn": "01a1214b-7e89-7673-90eb-8e7877f56555"
+    },
+    {
+      "server": "server4",
+      "turn": "01a1214b-7cc9-7f12-a299-73e8577d0d34"
+    }
+  ],
+  "confirmed_rows": [
+    {
+      "server": "server1",
+      "old_job": "61975",
+      "new_job": "62061",
+      "method": "MEMIT_FE_HISTORY",
+      "dataset": "cf",
+      "edits": 2000,
+      "job_name": "official-s1-cf-qwen25-memit-fe-history",
+      "initial_state": "PENDING",
+      "source": "8da621a9e12fd341a4a70fba95531af6fe4fdb80",
+      "config_sha256": "a172c29d3b61b417f115da3cb581bbda606768f72a43871fdb3db6c9a534ef34",
+      "dependency": [],
+      "checkpoint": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/server1/preparation-r1/runs/qwen25/checkpoint",
+      "context_sha256": null,
+      "context_stage": "NOT_YET_OBSERVED_WRITTEN_AFTER_ACTUAL_B1",
+      "receipt": "audits/servers/server1/qwen-baseline-mask-cold-rerun-20261010/submission.json"
+    },
+    {
+      "server": "server4",
+      "old_job": "61776",
+      "new_job": "62063",
+      "method": "MEMIT",
+      "dataset": "cf",
+      "edits": 500,
+      "job_name": "qwen-mask-heldout-memit",
+      "initial_state": "PENDING",
+      "source": "a28515284cc8152a9bf3d6c2a75f0f7c0b4cc387",
+      "config_sha256": "0331570bc388fee4013e426970bdd2d8de9632301aa5fc02c96068a6a81253be",
+      "dependency": "afterany:62037",
+      "checkpoint": "/data/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/execution-r2/runs/MEMIT/checkpoint/latest.json",
+      "context_sha256": null,
+      "context_stage": "NOT_OBSERVED_ACTUAL_NATIVE_JOB_WILL_SEAL",
+      "receipt": "audits/servers/server4/qwen-baseline-mask-cold-rerun-20261010/submission.json"
+    },
+    {
+      "server": "server4",
+      "old_job": "61777",
+      "new_job": "62064",
+      "method": "ALPHAEDIT",
+      "dataset": "cf",
+      "edits": 500,
+      "job_name": "qwen-mask-heldout-alphaedit",
+      "initial_state": "PENDING",
+      "source": "a28515284cc8152a9bf3d6c2a75f0f7c0b4cc387",
+      "config_sha256": "68503bdba1ab537f9b806acb17116e5f96660e0e8d323aeefd6542f8436ca100",
+      "dependency": "afterany:62063",
+      "checkpoint": "/data/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/execution-r2/runs/ALPHAEDIT/checkpoint/latest.json",
+      "context_sha256": null,
+      "context_stage": "NOT_OBSERVED_ACTUAL_NATIVE_JOB_WILL_SEAL",
+      "receipt": "audits/servers/server4/qwen-baseline-mask-cold-rerun-20261010/submission.json"
+    }
+  ],
+  "pending_receipts": [
+    "server2 8 cold chains",
+    "server2 FT61900 saved W20 eval-only"
+  ],
+  "scope_guards": {
+    "OURS": "KEEP_EXCLUDED",
+    "FT_BLUE_editing": "KEEP_EXCLUDED",
+    "old_source_raw_checkpoint": "KEEP",
+    "generation": "DEFERRED_CHECKPOINT_EVALUATION",
+    "pretrained_qualification": "NOT_RUN_USER_DISABLED",
+    "new_recurring_monitor": false
+  },
+  "common_import_runtime_check": {
+    "methods": [
+      "MEMIT",
+      "ALPHAEDIT",
+      "MEMIT_FE",
+      "SPHERE",
+      "MEMIT_FE_HISTORY"
+    ],
+    "all_same_corrected_generate_fast": true,
+    "pretrained_loads": 0
+  }
+}
