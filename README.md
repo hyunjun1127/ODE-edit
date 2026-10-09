@@ -70,11 +70,22 @@ SH1이 세 모델을 source `eaf78c33`으로 등록했다. Qwen 61929는 B1 FP64
 이후 61975의 context-mask 오류로 다시 cold 제출한 **62061**의 완료값을 사용한다.
 오류가 있던 61975 값은 제외하며 zsRE eval-only 작업과 구분한다.
 
-| 별도 variant | 모델 | server | 상태 / job name (ID) | CF Score | CF Eff | CF Gen | CF Loc | CF Flu ×100 | CF Con ×100 |
-| :--- | :--- | :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: |
-| MEMIT_FE_HISTORY | GPT-J | server1 | W20 COMPLETE: official-s1-cf-gptj-memit-fe-history (61927) | 50.18 | 50.35 | 49.90 | 50.28 | PENDING: official-s1-flucon-eval-gptj-memit_fe_history (62262) | PENDING: official-s1-flucon-eval-gptj-memit_fe_history (62262) |
-| MEMIT_FE_HISTORY | Llama3 | server1 | W20 COMPLETE: official-s1-cf-llama3-memit-fe-history (61928) | 64.66 | 80.10 | 74.10 | 48.99 | PENDING: official-s1-flucon-eval-llama3-memit_fe_history (62263) | PENDING: official-s1-flucon-eval-llama3-memit_fe_history (62263) |
-| MEMIT_FE_HISTORY | Qwen2.5 | server1 | W20 COMPLETE: official-s1-cf-qwen25-memit-fe-history (62061) | 49.43 | 48.45 | 48.18 | 51.83 | DEFERRED | DEFERRED |
+| 별도 variant | 모델 | dataset | server | 상태 / job name (ID) | Score (CF) | Eff | Gen | Loc | Flu ×100 (CF) | Con ×100 (CF) |
+| :--- | :--- | :--- | :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: |
+| MEMIT_FE_HISTORY | GPT-J | CF | server1 | W20 COMPLETE: official-s1-cf-gptj-memit-fe-history (61927) | 50.18 | 50.35 | 49.90 | 50.28 | PENDING: official-s1-flucon-eval-gptj-memit_fe_history (62262) | PENDING: official-s1-flucon-eval-gptj-memit_fe_history (62262) |
+| MEMIT_FE_HISTORY | Llama3 | CF | server1 | W20 COMPLETE: official-s1-cf-llama3-memit-fe-history (61928) | 64.66 | 80.10 | 74.10 | 48.99 | PENDING: official-s1-flucon-eval-llama3-memit_fe_history (62263) | PENDING: official-s1-flucon-eval-llama3-memit_fe_history (62263) |
+| MEMIT_FE_HISTORY | Qwen2.5 | CF | server1 | W20 COMPLETE: official-s1-cf-qwen25-memit-fe-history (62061) | 49.43 | 48.45 | 48.18 | 51.83 | DEFERRED | DEFERRED |
+| MEMIT_FE_HISTORY (FE author hparams) | Llama3 | CF | server1 | SUBMISSION_PENDING: SH1 |  |  |  |  | DEFERRED | DEFERRED |
+| MEMIT_FE_HISTORY (FE author hparams) | Llama3 | zsRE | server1 | SUBMISSION_PENDING: SH1 | — |  |  |  | — | — |
+| MEMIT_FE_HISTORY (FE author hparams) | Qwen2.5 | CF | server2 | SUBMISSION_PENDING: SH2 |  |  |  |  | DEFERRED | DEFERRED |
+| MEMIT_FE_HISTORY (FE author hparams) | Qwen2.5 | zsRE | server2 | SUBMISSION_PENDING: SH2 | — |  |  |  | — | — |
+
+2026-10-10 승인한 추가 4행은 FE 원저자 공개 설정의 clamp/step을 적용한다:
+Llama3 **0.75/35**, Qwen2.5 **1/35**. 각 행은 W0부터 first-2K를 100건씩 20 batch 편집하며,
+기존 FE_HISTORY의 ridge/history와 batch별 z 재계산을 유지한다. zsRE는 공개-query Eff/Gen/Loc,
+CF는 기존 factual 지표를 사용하고 FLU/CON은 저장 W20 checkpoint에서 후속 평가한다.
+`SUBMISSION_PENDING`은 아직 job ID가 없는 제출 준비 상태다. SH1/SH2 제출 후 해당 네 행을
+실측 Slurm 상태와 실제 job name/ID로 갱신한다. 기존 결과와 합치거나 DOW-KE의 정확한 재현값으로 간주하지 않는다.
 
 2026-10-10 SH1 bounded 검산: 세 모델 모두 실제20 commit/2,000건과 history once·최종CP·raw를
 대조한 완료값이며 native MEMIT-FE 본표 값이 아니다. 수정 Qwen62061의 생성 평가는 DEFERRED다.
