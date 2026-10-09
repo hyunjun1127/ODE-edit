@@ -7,6 +7,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SPECS = {
+    "MEMIT_FE_HISTORY": ("memit_fe_history", "MEMITFEHyperParams", "apply_memit_fe_history_to_model"),
     "FT": ("easyedit.models.ft.ft_main", "FTHyperParams", "apply_ft_to_model"),
     "MEMIT": ("easyedit.models.memit.memit_main", "MEMITHyperParams", "apply_memit_to_model"),
     "MEMIT_LLAMA": ("sphere.memit.memit_main", "MEMITHyperParams", "apply_memit_to_model"),
@@ -26,7 +27,8 @@ def implementation(method, model):
 
 
 def hparams(method, model, *, overrides=None):
-    values = json.loads((ROOT / "hparams" / method / (model + ".json")).read_text())
+    profile = "MEMIT_FE" if method == "MEMIT_FE_HISTORY" else method
+    values = json.loads((ROOT / "hparams" / profile / (model + ".json")).read_text())
     values.update(overrides or {})
     if values.get("L2", 1) is None:
         raise ValueError("QWEN_BLUE_L2_SELECTION_REQUIRED")

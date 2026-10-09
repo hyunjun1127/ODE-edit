@@ -31,6 +31,7 @@ def apply_memit_FE_to_model(
     return_orig_weights=False,
     cache_template: Optional[str] = None,
     keep_original_weight=False,
+    history_entry=None,
     **kwargs
 ) -> Tuple[AutoModelForCausalLM, Dict[str, Any]]:
     """
@@ -44,7 +45,8 @@ def apply_memit_FE_to_model(
     if copy:
         model = deepcopy(model)
 
-    deltas = execute_memit(model, tok, requests, hparams, cache_template=cache_template)
+    deltas = execute_memit(model, tok, requests, hparams, cache_template=cache_template,
+                          history_entry=history_entry)
 
     with torch.no_grad():
         device = normalize_device(getattr(hparams, "device", None))
@@ -69,6 +71,7 @@ def execute_memit(
     requests: List[Dict],
     hparams: MEMITFEHyperParams,
     cache_template: Optional[str] = None,
+    history_entry=None,
 ) -> Dict[str, Tuple[torch.Tensor]]:
     """
     Executes the MEMIT update algorithm for the specified update at the specified layer
@@ -236,10 +239,15 @@ def execute_memit(
             targets.double().to(device),
         )
 
-        adj_k = torch.linalg.solve(
-            hparams.mom2_update_weight * cov.double() + layer_ks @ layer_ks.T,
-            layer_ks,
-        )
+        if history_entry is None:
+            adj_k = torch.linalg.solve(
+                hparams.mom2_update_weight * cov.double() + layer_ks @ layer_ks.T,
+                layer_ks,
+            )
+        else:
+            from ....memit_fe_history import history_solve
+            adj_k = history_solve(cov, layer_ks, hparams.mom2_update_weight,
+                                  history_entry[str(layer)])
         # resid = targets / (len(hparams.layers) - i)  # Distribute residual across layers
         resid = targets  # Do not distribute residual across layers
 
