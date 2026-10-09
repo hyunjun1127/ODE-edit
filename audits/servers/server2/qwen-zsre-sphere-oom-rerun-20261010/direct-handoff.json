@@ -1,0 +1,13 @@
+{
+  "nonce": "SH2-GH-SPHERE-OOM-SUBMITTED-20261010-R1",
+  "target_session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+  "method": "turn/steer",
+  "accepted_turn": "01a122f4-f664-7a81-8493-b87b5a8e550b",
+  "status": "DIRECT_ACCEPTED_NOT_GH_README_COMPLETION",
+  "actual_jobs_reported": [62531, 62532, 62534],
+  "publication": "cef318f1",
+  "earlier_FE_only_delivery": "COMMUNICATION_HOLD_TIMEOUT; no acceptance claim; final combined direct receipt accepted",
+  "model_effort_override": false,
+  "recurring_monitor": false,
+  "automatic_retry": false
+}
