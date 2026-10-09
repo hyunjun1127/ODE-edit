@@ -16,6 +16,26 @@ MODELS=('gptj','llama3','qwen25')
 LOCAL=Path('/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1')/TASK
 HUB=Path('/mnt/raid5/janghj/.cache/huggingface/hub')
 STATS=Path('/mnt/raid5/janghj/EasyEdit/examples/data/stats')
+MASK_NONCE='USER-GH-QWEN-BASELINE-MASK-COLD-RERUN-20261010-R1'
+MASK_LOCAL=Path('/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/server1')
+GENERATOR_SHA='35506690c41ecb7d59f11660da41dde50338f5a2ba9613735e045a8c7ab98db4'
+
+def prepare_mask_rerun(output):
+    old=read(LOCAL/'oom-repair-r1/registration/submission.json')
+    job=old['jobs']['qwen25'];assert job['job_id']=='61975'
+    config=read(verify(job['config']));verify(config['assets']);verify(config['stream_member'])
+    assert config['repair']=='FP64_SYSTEM_BUFFER_LIFETIME_AND_CPU_ROLLBACK'
+    output=Path(output).absolute();assert output.is_relative_to(MASK_LOCAL) and not output.exists()
+    assert file_sha(Path(__file__).parents[2]/'baselines/easyedit/util/generate.py')==GENERATOR_SHA
+    config.pop('config_sha256');config.pop('replaces_failed_job',None)
+    config.update(output=str(output/'runs/qwen25'),mask_rerun_instruction=MASK_NONCE,
+                  replaces_context_mask_job='61975',generator_sha256=GENERATOR_SHA,
+                  context_policy='NEW_COLD_NATIVE_CONTEXT_NO_REUSE')
+    config['config_sha256']=digest(config)
+    path=output/'configs/qwen25.json';write_new(path,config)
+    result=dict(instruction=INSTRUCTION,task_id=TASK,configs=[member(path)],models=['qwen25'],
+                mask_rerun_instruction=MASK_NONCE,replaces_context_mask_job='61975',GPU_observed=False)
+    write_new(output/'preparation.json',result);return result
 
 def runtime():
     return dict(python=sys.version,executable=sys.executable,platform=platform.platform(),
@@ -90,6 +110,6 @@ def prepare_failed_replacement(output, job_id):
     return result
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--output',required=True);p.add_argument('--replace-failed')
+    p=argparse.ArgumentParser();p.add_argument('--output',required=True);p.add_argument('--replace-failed');p.add_argument('--mask-rerun',action='store_true')
     a=p.parse_args()
-    prepare_failed_replacement(a.output,a.replace_failed) if a.replace_failed else prepare(a.output)
+    prepare_mask_rerun(a.output) if a.mask_rerun else prepare_failed_replacement(a.output,a.replace_failed) if a.replace_failed else prepare(a.output)
