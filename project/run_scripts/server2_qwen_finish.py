@@ -27,6 +27,8 @@ def collect(root):
     for row in rows():
         cell=row['logical_main_row'];out=root/'runs'/cell
         config=row['config']
+        if (root/'mask-profile.json').exists() and (root/'configs'/f'{cell}.json').exists():
+            config=read(root/'configs'/f'{cell}.json')
         if (root/'kept.json').exists() and cell in read(root/'kept.json'):
             original=read(root/'kept.json')[cell]
             assert file_sha(original['config_path'])==original['config_file_sha256']
@@ -54,6 +56,9 @@ def collect(root):
             results.append(dict(cell=cell,status='REDUCTION_FAILED_KEEP_SOURCE',error_type=type(exc).__name__))
     write_new(root/'collector/result.json',dict(rows=results,model_loads=0,actual_GPU=0,
         qualification='NOT_RUN_USER_DISABLED',W_B_remote_delivery='NOT_REQUERIED',automatic_retry=False))
+    if (root/'mask-profile.json').exists():
+        from official.runners.server2.qwen_mask_ft_eval import collect as collect_ft
+        collect_ft(root)
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--root',type=Path,required=True);p.add_argument('--cell');p.add_argument('--collector',action='store_true');a=p.parse_args()
