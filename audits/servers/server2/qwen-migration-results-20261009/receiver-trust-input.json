@@ -1,0 +1,16 @@
+{
+  "nonce": "SH2-SH1-QWEN-ARCHIVE-CUTOVER-PUBLISHED-20261009-R1",
+  "server": "server2",
+  "status": "SH1_REPORTED_TRUST_PINNED_SOURCE_API_READY",
+  "cutover_sha256": "80c59dce876a1169ded40094d55dc526596b18c063d6223c96723c158accdcd8",
+  "trusted_members": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archive/.receiver/trust/server2/80c59dce876a1169ded40094d55dc526596b18c063d6223c96723c158accdcd8/members.json",
+  "received_after_registration_freeze": true,
+  "frozen_jobs_mutated": false,
+  "receiver_config_in_frozen_attempt": false,
+  "storage_state": "ARCHIVE_PENDING_KEEP_SOURCE",
+  "admission": 0,
+  "transfer": 0,
+  "verification": 0,
+  "delete": 0,
+  "note": "SH1 direct input receipt, not independent destination verification or capacity reservation. Future final payload requires fresh admission and consumer clearance."
+}
