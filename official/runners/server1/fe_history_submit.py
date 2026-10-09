@@ -8,7 +8,7 @@ from pathlib import Path
 from official.experiments.prepare import write_new,digest
 from .common import read,member,verify
 from . import submit as control
-from .fe_history_prepare import INSTRUCTION,TASK,MODELS,LOCAL
+from .fe_history_prepare import INSTRUCTION,TASK,MODELS,LOCAL,MASK_LOCAL,MASK_NONCE,GENERATOR_SHA
 from .fe_history_run import validate_config
 
 def scheduling(existing,models,cap):
@@ -28,8 +28,20 @@ def scheduling(existing,models,cap):
 def register(preparation,attempt,replace_failed=None):
     prep=read(preparation);assert prep['instruction']==INSTRUCTION
     models=prep['models']
+    mask=prep.get('mask_rerun_instruction')==MASK_NONCE
+    local=MASK_LOCAL if mask else LOCAL
     assert models and len(set(models))==len(models) and set(models)<=set(MODELS)
-    if replace_failed is None:
+    if mask:
+        assert models==['qwen25'] and replace_failed is None and prep['replaces_context_mask_job']=='61975'
+        old=read(LOCAL/'oom-repair-r1/registration/submission.json');prior=old['jobs']['qwen25']
+        assert prior['job_id']=='61975';verify(prior['script']);verify(prior['config'])
+        lines=control.command(['sacct','-X','-j','61975','-P','-n','--format=JobID,JobName%64,User,State,WorkDir%240']).splitlines()
+        assert len(lines)==1
+        fields=lines[0].split('|')
+        assert fields[:4]==['61975',prior['name'],getpass.getuser(),'COMPLETED']
+        assert fields[4]==read(verify(old['execution_lock']))['source_directory']
+        assert member(Path(__file__).parents[2]/'baselines/easyedit/util/generate.py')['sha256']==GENERATOR_SHA
+    elif replace_failed is None:
         assert models==list(MODELS)
     else:
         old=read(LOCAL/'registration-r1/submission.json')
@@ -41,12 +53,12 @@ def register(preparation,attempt,replace_failed=None):
         assert detail['Command']==prior['script']['path'] and detail['JobName']==prior['name']
         verify(prior['script']); verify(prior['config'])
         assert prep['replaces_failed_job']==str(replace_failed)
-    attempt=Path(attempt).absolute();assert attempt.is_relative_to(LOCAL)
+    attempt=Path(attempt).absolute();assert attempt.is_relative_to(local)
     if (attempt/'submission.json').exists():
         print(read(attempt/'submission.json'));return
     assert not attempt.exists(),'INCOMPLETE_ATTEMPT_RECONCILE_NO_BLIND_RETRY'
     # Search own attempt receipts before any sbatch; no duplicate nonce submission.
-    for old in LOCAL.rglob('submission.json'):
+    for old in local.rglob('submission.json'):
         previous=read(old)
         if previous.get('instruction')==INSTRUCTION and (replace_failed is None or previous.get('replaces_failed_job')==str(replace_failed)):
             raise ValueError('EXISTING_REGISTERED_ATTEMPT:'+str(old))
@@ -66,7 +78,7 @@ def register(preparation,attempt,replace_failed=None):
     assert not control.command(['git','status','--porcelain','--','official'])
     plan=dict(cap=cap,source=dict(main_commit=source,official_tree=tree),resources=resources)
     physical=control.resource_preflight(plan)
-    disk=os.statvfs(LOCAL);assert disk.f_bavail*disk.f_frsize>256*(1<<30) and disk.f_favail>10000
+    disk=os.statvfs(local);assert disk.f_bavail*disk.f_frsize>256*(1<<30) and disk.f_favail>10000
     attempt.mkdir(parents=True);(attempt/'logs').mkdir();(attempt/'scripts').mkdir()
     write_new(attempt/'admission.json',dict(instruction=INSTRUCTION,existing=existing,cap=cap,local_cap=member(local_cap),
         direct_cap_authority='USER_DIRECT_SERVER1_CAP4',effective_graph_width=width,graph=graph,
@@ -75,7 +87,8 @@ def register(preparation,attempt,replace_failed=None):
     frozen=control.freeze_source(plan,attempt)
     lock=dict(instruction=INSTRUCTION,source_commit=source,official_tree=tree,source_directory=frozen['directory'],
         source_members=frozen['members'],configs=prep['configs'],preparation=member(preparation),
-        qualification='NOT_RUN_USER_DISABLED',main_actual_H0_matrix_guard=True)
+        qualification='NOT_RUN_USER_DISABLED',main_actual_H0_matrix_guard=True,
+        mask_rerun_instruction=MASK_NONCE if mask else None)
     lock_path=attempt/'execution-lock.json';write_new(lock_path,lock)
     ids={};jobs={};held={};argvs={}
     for cm in prep['configs']:
@@ -110,6 +123,7 @@ def register(preparation,attempt,replace_failed=None):
     for jobid in ids.values():control.command(['scontrol','release',jobid])
     snapshot={m:control.metadata(control.command(['scontrol','show','job',i,'--oneliner'])) for m,i in ids.items()}
     result=dict(instruction=INSTRUCTION,task_id=TASK,source=source,official_tree=tree,jobs=jobs,replaces_failed_job=replace_failed,
+        mask_rerun_instruction=MASK_NONCE if mask else None,old_job_kept='61975' if mask else None,
         execution_lock=member(lock_path),held_inspected=True,released=True,initial_snapshot=snapshot,
         qualification='NOT_RUN_USER_DISABLED',W20_not_observed=True,monitoring_active=False)
     write_new(attempt/'submission.json',result)
