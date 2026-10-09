@@ -1,0 +1,8 @@
+{
+  "official/baselines/easyedit/util/generate.py": "35506690c41ecb7d59f11660da41dde50338f5a2ba9613735e045a8c7ab98db4",
+  "official/baselines/fe_author_profile.py": "9f2f851ec6ad90ceaa37c8bfa8fbd27d363c17396f6e0705925aa52347110793",
+  "official/baselines/memit_fe_history.py": "4427c23148af9dd34b9f687a0efd37635df77c7406c540c0bea07dc2d041aae6",
+  "official/evaluation/zsre_paper.py": "d6a5b34eafd27660a2dee4632c638b6bf4c3614246071711cf5159a002415a45",
+  "official/hparams/MEMIT_FE_HISTORY_AUTHOR/profiles.json": "1ffbf9adeec9525b88db3d86a6dc4ace8b98bdaff1d5eb4e4ee064c24b35b125",
+  "official/runners/fe_author_history.py": "94ef16411681db536438c2fa3ae0751a84442be44af9324c8c21525dc42b833c"
+}

@@ -1,0 +1,80 @@
+[
+  {
+    "W20_checkpoint_directory": "/mnt/raid5/janghj/ODE-edit/local/fe-author-hparams-2k-20261010/configs-r1/runs/cf/checkpoint",
+    "W20_observed": false,
+    "WandB_stage": "NOT_STARTED_DEPENDENCY_PENDING",
+    "author_profile_sha256": "1ffbf9adeec9525b88db3d86a6dc4ace8b98bdaff1d5eb4e4ee064c24b35b125",
+    "checkpoint_locator": "checkpoint/latest.json batch=20/final_W20=true required; filename content-addressed",
+    "config_sha256": "19ee6abf7a11f86a5a91a5af591f880967dfa2e3194c1ff32725fbe98a4ed90b",
+    "dataset": "cf",
+    "dependency": [
+      [
+        "afterany",
+        "62081"
+      ],
+      [
+        "afterany",
+        "62083"
+      ],
+      [
+        "afterany",
+        "62085"
+      ]
+    ],
+    "evaluator": "official.evaluation.factual",
+    "flucon": "DEFERRED_CHECKPOINT_EVALUATION",
+    "held_inspected": true,
+    "job_id": "62531",
+    "job_name": "s2-qwen25-cf-fe-author-history",
+    "method": "MEMIT_FE_HISTORY (FE author hparams)",
+    "model": "Qwen2.5-7B",
+    "official_tree": "73e6c5b69a8501fb3522a09716fc2e6d13226c58",
+    "reason": "None",
+    "released": true,
+    "resources": {
+      "CPUs": 6,
+      "GPUs": 1,
+      "memory_MiB": 59392,
+      "project_cap": 4,
+      "wall_hours": 48
+    },
+    "server": "server2",
+    "source": "a8c4c611a37210ddfa9e7db222dca6678d4cd678",
+    "state": "PENDING"
+  },
+  {
+    "W20_checkpoint_directory": "/mnt/raid5/janghj/ODE-edit/local/fe-author-hparams-2k-20261010/configs-r1/runs/zsre/checkpoint",
+    "W20_observed": false,
+    "WandB_stage": "NOT_STARTED_DEPENDENCY_PENDING",
+    "author_profile_sha256": "1ffbf9adeec9525b88db3d86a6dc4ace8b98bdaff1d5eb4e4ee064c24b35b125",
+    "checkpoint_locator": "checkpoint/latest.json batch=20/final_W20=true required; filename content-addressed",
+    "config_sha256": "fa6bfd0b46d05fec3617c89173479cb015ba4555765cc384433e707f5812b3cd",
+    "dataset": "zsre",
+    "dependency": [
+      [
+        "afterany",
+        "62531"
+      ]
+    ],
+    "evaluator": "official.evaluation.zsre_paper",
+    "flucon": "NOT_APPLICABLE",
+    "held_inspected": true,
+    "job_id": "62532",
+    "job_name": "s2-qwen25-zsre-fe-author-history",
+    "method": "MEMIT_FE_HISTORY (FE author hparams)",
+    "model": "Qwen2.5-7B",
+    "official_tree": "73e6c5b69a8501fb3522a09716fc2e6d13226c58",
+    "reason": "None",
+    "released": true,
+    "resources": {
+      "CPUs": 6,
+      "GPUs": 1,
+      "memory_MiB": 59392,
+      "project_cap": 4,
+      "wall_hours": 48
+    },
+    "server": "server2",
+    "source": "a8c4c611a37210ddfa9e7db222dca6678d4cd678",
+    "state": "PENDING"
+  }
+]

@@ -66,4 +66,20 @@ class LifetimeTests(unittest.TestCase):
             expectedP=torch.eye(A.size(1))-.5*(eigvecs[:,-r:]@eigvecs[:,-r:].T)
         self.assertTrue(torch.equal(P,expectedP));self.assertTrue(torch.equal(actual,B@expectedP.T))
 
+    def test_new_caller_keeps_sphere_hparams_and_cold_scope(self):
+        from official.runners.server2.qwen_mask_profile import rows,validate
+        from official.runners.server2 import sphere_oom, qwen_run
+        row=next(r for r in rows() if r['logical_main_row']==sphere_oom.CELL)
+        validate(row['config'])
+        hp=row['config']['hparams']
+        self.assertNotEqual((hp['clamp_norm_factor'],hp['v_num_grad_steps']),(1,35))
+        self.assertEqual(row['config']['dataset'],'zsre')
+        text=inspect.getsource(sphere_oom.run)
+        self.assertIn('--public-zsre-w0',text);self.assertNotIn('--resume',text)
+        tree=ast.parse(inspect.getsource(qwen_run.w0))
+        branch=next(n for n in ast.walk(tree) if isinstance(n,ast.If) and 'public_zsre_w0' in ast.unparse(n.test))
+        branchtext=ast.unparse(ast.Module(body=branch.body,type_ignores=[]))
+        self.assertIn('_evaluate_factual',branchtext)
+        self.assertNotIn('build_zsre_w0_reference',branchtext)
+
 if __name__=='__main__':unittest.main()

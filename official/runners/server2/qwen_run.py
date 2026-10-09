@@ -769,9 +769,17 @@ def w0(args):
         factual_identity = _factual_identity(source, asset_receipt, lock, tok_receipt)
         with torch.inference_mode():
             if args.dataset == "zsre":
-                zsre_reference = module.build_zsre_w0_reference(
-                    model, tok, records, identity=factual_identity, batch_size=16)
-                observed = zsre_reference["evaluation"]
+                if getattr(args, 'public_zsre_w0', False):
+                    observed = _evaluate_factual(module, model, tok, records, 'zsre', identity=factual_identity)
+                    # Actual public-query W0 observation, not prediction-agreement
+                    # targets. Later public-query evaluation ignores this legacy
+                    # reference argument; retain a typed, hashed observation only.
+                    zsre_reference = dict(schema='zsre-public-query-W0-observation-v1',
+                        evaluation=observed, W0_prediction_agreement_reference=False)
+                else:
+                    zsre_reference = module.build_zsre_w0_reference(
+                        model, tok, records, identity=factual_identity, batch_size=16)
+                    observed = zsre_reference["evaluation"]
             else:
                 zsre_reference = None
                 observed = _evaluate_factual(module, model, tok, records, args.dataset,
@@ -860,6 +868,9 @@ def execute(args):
         if 'mask_repair_instruction' in config:
             from official.runners.server2.qwen_mask_profile import cold_guard
             cold_guard(config,native,args.resume)
+        if (output_root/'sphere-repair.json').is_file():
+            from official.runners.server2.sphere_oom import bind_context
+            bind_context(output_root,config,native,tok,resume=args.resume)
         names = native.editable_parameter_names()
         start = 0
         if args.resume:
@@ -1050,6 +1061,7 @@ def main(argv=None):
             sub.add_argument("--config", type=Path, required=True)
         else:
             sub.add_argument("--dataset", choices=("cf", "zsre"), required=True)
+            sub.add_argument("--public-zsre-w0", action="store_true")
         sub.add_argument("--assets", type=Path, required=True)
         sub.add_argument("--stream", type=Path, required=True)
         sub.add_argument("--output", type=Path, required=True)
