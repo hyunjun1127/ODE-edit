@@ -1,5 +1,5 @@
 {
-  "observed_at": "2026-10-09T17:43:10.248868+00:00",
+  "observed_at": "2026-10-09T17:44:26.848976+00:00",
   "server": "server3",
   "job_id": "61813",
   "job_name": "qwen-price-q3-eot-2k",
@@ -52,6 +52,7 @@
   "precision": "FP32/eager/TF32off",
   "tokenizer": "AutoTokenizer local snapshot; pad=eos/right at load; factual observer has own masked batching",
   "tokenizer_config_assets_prior_locked": [],
+  "model_payload_prior_locked": [],
   "generation": {
     "status": "NOT_MEASURED_ON_SH3",
     "generation_seed": null,

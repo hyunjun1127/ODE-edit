@@ -1,6 +1,6 @@
 {
   "nonce": "USER-GH-FLUCON-PAPER-SCALE-TABLE-REFRESH-20261010-R1",
-  "observed_at": "2026-10-09T17:43:10.248868+00:00",
+  "observed_at": "2026-10-09T17:44:26.848976+00:00",
   "rows": [
     {
       "model": "qwen25",
@@ -80,7 +80,7 @@
     "status": "SH2_COMPATIBILITY_PENDING_NOT_SH3_MEASURED"
   },
   "CPU_checks": "47 existing evidence files SHA-size; 26000 rows finite/unique; request-macro/count/cold-state; Decimal half-up tests",
-  "reducer_sha256": "1e037117ce07a5f1ef6c919f0583e4fa9af5b41d3e94d16b590ef9fb5ecd618a",
+  "reducer_sha256": "4daf8bf159ae7a0943059c500f0cb87534c4057e3de02984bd8b283846e7b185",
   "new_GPU_jobs_forward": 0,
   "reviewer": "owner CPU audit, no independent reviewer",
   "broadcast": "NO_BROADCAST_NOT_REQUIRED"
