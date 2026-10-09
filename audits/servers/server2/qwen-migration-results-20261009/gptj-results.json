@@ -1,0 +1,495 @@
+{
+  "schema": 1,
+  "rows": [
+    {
+      "model": "gptj",
+      "dataset": "cf",
+      "method": "FT",
+      "job_id": "61650",
+      "status": "W20_RAW_CPU_REDUCED_2000",
+      "summary": {
+        "Efficacy": 88.75,
+        "Generalization": 66.75,
+        "Specificity": 40.61,
+        "Score": 58.96996481714988,
+        "Score_AlphaEdit_display": 58.96996481714988,
+        "requests": 2000
+      },
+      "denominators": {
+        "rewrite": 2000,
+        "paraphrase": 4000,
+        "neighborhood": 20000
+      },
+      "counts_semantics": "prompt_pairs",
+      "source": "6d35c65de19ec378a30749683762eba87fee50e3",
+      "config_sha256": "2301ce0e2f85f7e874d2295b26ccbd783557a9c522ea6cf63001a5587f8d14ff",
+      "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+      "ordered_cohort_sha256": "b63e14222c3e7f1bd3b78a7b50be24e110a59b15208cda664b3603596668cb84",
+      "W20_raw": {
+        "bytes": 62905275,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-checkpoint-r1/FT/chain/factual/W20.json",
+        "sha256": "f72ec8e70897ec1ce77c8e1a7c3dee16a1c6657116abd1a47ed479daf0e6cc63"
+      },
+      "result": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-checkpoint-r1/FT/chain/result.json",
+        "bytes": 8444,
+        "sha256": "8d4a8ba7f558bdb0aeda82ab28c4377b2c96792a47151eb25e17eec3d72c20d6"
+      },
+      "committed_batches": 20,
+      "generation": "DEFERRED",
+      "checkpoint_consumer_pending": true,
+      "CP_payload_loaded": false,
+      "online_delivery": "NOT_REQUERIED"
+    },
+    {
+      "model": "gptj",
+      "dataset": "cf",
+      "method": "MEMIT",
+      "job_id": "61725",
+      "status": "W20_RAW_CPU_REDUCED_2000",
+      "summary": {
+        "Efficacy": 97.89999999999999,
+        "Generalization": 95.375,
+        "Specificity": 60.575,
+        "Score": 80.62805362405693,
+        "Score_AlphaEdit_display": 80.63219744273808,
+        "requests": 2000
+      },
+      "denominators": {
+        "rewrite": 2000,
+        "paraphrase": 4000,
+        "neighborhood": 20000
+      },
+      "counts_semantics": "prompt_pairs",
+      "source": "478464689231595eb63da368cc7c376e775eb559",
+      "config_sha256": "f52444f6e12926f8330938d8afdef785ca3815c2200a27b2f423afbacdef7649",
+      "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+      "ordered_cohort_sha256": "b63e14222c3e7f1bd3b78a7b50be24e110a59b15208cda664b3603596668cb84",
+      "W20_raw": {
+        "bytes": 62890075,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/CF_MEMIT/factual/W20.json",
+        "sha256": "b970ca2e420a95b80190e26e4c65b02aede6ebdf94965ec02a778c8830369ab0"
+      },
+      "result": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/CF_MEMIT/result.json",
+        "bytes": 8393,
+        "sha256": "fc4593abf45218d72fb721d2c4e66d9cf60cf0daf47d54cea0c5fb8421baec9e"
+      },
+      "committed_batches": 20,
+      "generation": "DEFERRED",
+      "checkpoint_consumer_pending": true,
+      "CP_payload_loaded": false,
+      "online_delivery": "NOT_REQUERIED"
+    },
+    {
+      "model": "gptj",
+      "dataset": "zsre",
+      "method": "FT",
+      "job_id": "61726",
+      "status": "W20_RAW_CPU_REDUCED_2000",
+      "summary": {
+        "Efficacy": 23.146349206349207,
+        "Generalization": 17.947837301587303,
+        "Specificity": 0.5183874913631011,
+        "Specificity_loc_ans": 0.6249613700323514,
+        "requests": 2000,
+        "Score": 1.4793050624804138
+      },
+      "denominators": {
+        "rewrite_prompts_correct": 5557,
+        "paraphrase_prompts_correct": 5557,
+        "neighborhood_W0_agreement": 9694,
+        "neighborhood_prompts_correct": 9694
+      },
+      "counts_semantics": "teacher_forced_token_decisions",
+      "source": "478464689231595eb63da368cc7c376e775eb559",
+      "config_sha256": "183657b9bffe5e02ddb0401f5f5d0a6ee5058c8b3258f76f7e7c74af53402d24",
+      "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+      "ordered_cohort_sha256": "add0c4de5ef09a497ebb87b8b7c0852fe715e6a193c18ec3482c80411ca6c1ef",
+      "W20_raw": {
+        "bytes": 8733645,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_FT/factual/W20.json",
+        "sha256": "b2b87058c2619633f4249d68a5f5187e579113bee91139ccf222b60a107af8f7"
+      },
+      "result": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_FT/result.json",
+        "bytes": 8366,
+        "sha256": "8115da56adec3fe1ef71ec40fa7f707320d7e229b76c4ae64891f028d64496fb"
+      },
+      "committed_batches": 20,
+      "generation": "NOT_APPLICABLE",
+      "checkpoint_consumer_pending": true,
+      "CP_payload_loaded": false,
+      "online_delivery": "NOT_REQUERIED"
+    },
+    {
+      "model": "gptj",
+      "dataset": "zsre",
+      "method": "MEMIT",
+      "job_id": "61728",
+      "status": "W20_RAW_CPU_REDUCED_2000",
+      "summary": {
+        "Efficacy": 93.60703296703296,
+        "Generalization": 88.95473443223443,
+        "Specificity": 55.92449196164693,
+        "Specificity_loc_ans": 30.8687013206613,
+        "requests": 2000,
+        "Score": 75.3657428679712
+      },
+      "denominators": {
+        "rewrite_prompts_correct": 5557,
+        "paraphrase_prompts_correct": 5557,
+        "neighborhood_W0_agreement": 9694,
+        "neighborhood_prompts_correct": 9694
+      },
+      "counts_semantics": "teacher_forced_token_decisions",
+      "source": "478464689231595eb63da368cc7c376e775eb559",
+      "config_sha256": "6247b216833ef34d00f5ba71175dd1b07b1be384192833e350b12b3ed595184f",
+      "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+      "ordered_cohort_sha256": "add0c4de5ef09a497ebb87b8b7c0852fe715e6a193c18ec3482c80411ca6c1ef",
+      "W20_raw": {
+        "bytes": 8748165,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_MEMIT/factual/W20.json",
+        "sha256": "6e1958acfb8dc4765203f31a258a75231aac76b1ba483bad803fbfdbdd0d4822"
+      },
+      "result": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_MEMIT/result.json",
+        "bytes": 8444,
+        "sha256": "2f6c72d186a776ac5ddbdb57af11820650420517ceb3f676d1688ee5d677a80e"
+      },
+      "committed_batches": 20,
+      "generation": "NOT_APPLICABLE",
+      "checkpoint_consumer_pending": true,
+      "CP_payload_loaded": false,
+      "online_delivery": "NOT_REQUERIED"
+    },
+    {
+      "model": "gptj",
+      "dataset": "zsre",
+      "method": "ALPHAEDIT",
+      "job_id": "61730",
+      "status": "W20_RAW_CPU_REDUCED_2000",
+      "summary": {
+        "Efficacy": 99.78869047619048,
+        "Generalization": 96.55114010989011,
+        "Specificity": 84.75809061079363,
+        "Specificity_loc_ans": 27.993357049708685,
+        "requests": 2000,
+        "Score": 93.23526871521261
+      },
+      "denominators": {
+        "rewrite_prompts_correct": 5557,
+        "paraphrase_prompts_correct": 5557,
+        "neighborhood_W0_agreement": 9694,
+        "neighborhood_prompts_correct": 9694
+      },
+      "counts_semantics": "teacher_forced_token_decisions",
+      "source": "478464689231595eb63da368cc7c376e775eb559",
+      "config_sha256": "690de995de96adf3b51c9efd7c8f5a04a4da4f5db269d1c5de133dbbfbd83078",
+      "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+      "ordered_cohort_sha256": "add0c4de5ef09a497ebb87b8b7c0852fe715e6a193c18ec3482c80411ca6c1ef",
+      "W20_raw": {
+        "bytes": 8751232,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_ALPHAEDIT/factual/W20.json",
+        "sha256": "c27a952fcdf56e9359032f6bd251208a918f4938651fad70ea62bd3bf60d9d1f"
+      },
+      "result": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_ALPHAEDIT/result.json",
+        "bytes": 8550,
+        "sha256": "7c4c368d7ee24427de7a86104b42a3564148e201f8dd133e24612f436039f38b"
+      },
+      "committed_batches": 20,
+      "generation": "NOT_APPLICABLE",
+      "checkpoint_consumer_pending": true,
+      "CP_payload_loaded": false,
+      "online_delivery": "NOT_REQUERIED"
+    },
+    {
+      "model": "gptj",
+      "dataset": "zsre",
+      "method": "ALPHAEDIT_BLUE",
+      "job_id": "61732",
+      "status": "W20_RAW_CPU_REDUCED_2000",
+      "summary": {
+        "Efficacy": 99.84833333333334,
+        "Generalization": 95.80575396825395,
+        "Specificity": 86.49191707080902,
+        "Specificity_loc_ans": 28.90028056483181,
+        "requests": 2000,
+        "Score": 93.70680651744335
+      },
+      "denominators": {
+        "rewrite_prompts_correct": 5557,
+        "paraphrase_prompts_correct": 5557,
+        "neighborhood_W0_agreement": 9694,
+        "neighborhood_prompts_correct": 9694
+      },
+      "counts_semantics": "teacher_forced_token_decisions",
+      "source": "478464689231595eb63da368cc7c376e775eb559",
+      "config_sha256": "1f44babb02b1bebb6eee893ff19624ca3051afb0e5ba04d3d379bc9d43fcfefe",
+      "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+      "ordered_cohort_sha256": "add0c4de5ef09a497ebb87b8b7c0852fe715e6a193c18ec3482c80411ca6c1ef",
+      "W20_raw": {
+        "bytes": 8756051,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_ALPHAEDIT_BLUE/factual/W20.json",
+        "sha256": "53e2210f3984a1ae69ed376ebdc176f0c74f77ea5cfe36773bd71231bec12cbd"
+      },
+      "result": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_ALPHAEDIT_BLUE/result.json",
+        "bytes": 8679,
+        "sha256": "15bd5598c49072f5eeb677de1f8796336213b175f28eba9df03a613648168637"
+      },
+      "committed_batches": 20,
+      "generation": "NOT_APPLICABLE",
+      "checkpoint_consumer_pending": true,
+      "CP_payload_loaded": false,
+      "online_delivery": "NOT_REQUERIED"
+    },
+    {
+      "model": "gptj",
+      "dataset": "zsre",
+      "method": "MEMIT_FE",
+      "job_id": "61734",
+      "status": "W20_RAW_CPU_REDUCED_2000",
+      "summary": {
+        "Efficacy": 29.228211233211233,
+        "Generalization": 27.671343101343105,
+        "Specificity": 29.4563103735568,
+        "Specificity_loc_ans": 8.459409233183703,
+        "requests": 2000,
+        "Score": 28.763025012641396
+      },
+      "denominators": {
+        "rewrite_prompts_correct": 5557,
+        "paraphrase_prompts_correct": 5557,
+        "neighborhood_W0_agreement": 9694,
+        "neighborhood_prompts_correct": 9694
+      },
+      "counts_semantics": "teacher_forced_token_decisions",
+      "source": "478464689231595eb63da368cc7c376e775eb559",
+      "config_sha256": "d59aef72835624e12637be252c0303907c656b457db2738eecc4fd4fc5ba771f",
+      "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+      "ordered_cohort_sha256": "add0c4de5ef09a497ebb87b8b7c0852fe715e6a193c18ec3482c80411ca6c1ef",
+      "W20_raw": {
+        "bytes": 8733372,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_MEMIT_FE/factual/W20.json",
+        "sha256": "ad5acb5ee2ca66d533881cef2be55a667e8af7045bea479a3c13869cd7bdcb8c"
+      },
+      "result": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_MEMIT_FE/result.json",
+        "bytes": 8522,
+        "sha256": "08a93b32706ed0c2e2e83c2c277df876b088de7cbfc0a12eb7e266364b57e970"
+      },
+      "committed_batches": 20,
+      "generation": "NOT_APPLICABLE",
+      "checkpoint_consumer_pending": true,
+      "CP_payload_loaded": false,
+      "online_delivery": "NOT_REQUERIED"
+    },
+    {
+      "model": "gptj",
+      "dataset": "zsre",
+      "method": "SPHERE",
+      "job_id": "61735",
+      "status": "W20_RAW_CPU_REDUCED_2000",
+      "summary": {
+        "Efficacy": 99.76766483516484,
+        "Generalization": 96.38653388278388,
+        "Specificity": 86.2276385889055,
+        "Specificity_loc_ans": 28.05599937423243,
+        "requests": 2000,
+        "Score": 93.76350634871432
+      },
+      "denominators": {
+        "rewrite_prompts_correct": 5557,
+        "paraphrase_prompts_correct": 5557,
+        "neighborhood_W0_agreement": 9694,
+        "neighborhood_prompts_correct": 9694
+      },
+      "counts_semantics": "teacher_forced_token_decisions",
+      "source": "478464689231595eb63da368cc7c376e775eb559",
+      "config_sha256": "43ab4cca1ecfd04b0a086a6b1b3f24c332feea3c5ea4f4060d65a08d1ec9ed78",
+      "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+      "ordered_cohort_sha256": "add0c4de5ef09a497ebb87b8b7c0852fe715e6a193c18ec3482c80411ca6c1ef",
+      "W20_raw": {
+        "bytes": 8750603,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_SPHERE/factual/W20.json",
+        "sha256": "3b0ff60e96e58b3ad9fb639c208c28d007d5a996c0b96eeb18d8b0728a2e5a25"
+      },
+      "result": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_SPHERE/result.json",
+        "bytes": 8472,
+        "sha256": "268013c8dd23e9bd81962adf2e39422a8b02c5ca51aba8a4ffeaa1ca41f9f355"
+      },
+      "committed_batches": 20,
+      "generation": "NOT_APPLICABLE",
+      "checkpoint_consumer_pending": true,
+      "CP_payload_loaded": false,
+      "online_delivery": "NOT_REQUERIED"
+    },
+    {
+      "model": "gptj",
+      "dataset": "cf",
+      "method": "ALPHAEDIT",
+      "job_id": "61778",
+      "status": "W20_RAW_CPU_REDUCED_2000",
+      "summary": {
+        "Efficacy": 99.7,
+        "Generalization": 96.325,
+        "Specificity": 73.55499999999999,
+        "Score": 88.21744303247226,
+        "Score_AlphaEdit_display": 88.21364768868096,
+        "requests": 2000
+      },
+      "denominators": {
+        "rewrite": 2000,
+        "paraphrase": 4000,
+        "neighborhood": 20000
+      },
+      "counts_semantics": "prompt_pairs",
+      "source": "d31d582ffd425fe3a56a7d23b68d3c58e7e3d955",
+      "config_sha256": "07e3c5741ee8972f328934cc664513e430c356e7b13d6be426c9826d4d4ea1f4",
+      "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+      "ordered_cohort_sha256": "b63e14222c3e7f1bd3b78a7b50be24e110a59b15208cda664b3603596668cb84",
+      "W20_raw": {
+        "bytes": 62880358,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/CF_ALPHAEDIT/factual/W20.json",
+        "sha256": "7ba6a5093746e1190948e6a0f070e1f262165c4c0eedefff881ddecffc865fa6"
+      },
+      "result": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/CF_ALPHAEDIT/result.json",
+        "bytes": 8474,
+        "sha256": "287961165857b6e0120c5a3a91fc32e2e31bae23a19ae3e47aa5b42fbfc86ef4"
+      },
+      "committed_batches": 20,
+      "generation": "DEFERRED",
+      "checkpoint_consumer_pending": true,
+      "CP_payload_loaded": false,
+      "online_delivery": "NOT_REQUERIED"
+    },
+    {
+      "model": "gptj",
+      "dataset": "cf",
+      "method": "ALPHAEDIT_BLUE",
+      "job_id": "61779",
+      "status": "W20_RAW_CPU_REDUCED_2000",
+      "summary": {
+        "Efficacy": 99.55000000000001,
+        "Generalization": 97.52499999999999,
+        "Specificity": 75.05499999999999,
+        "Score": 89.22583945128582,
+        "Score_AlphaEdit_display": 89.22208887058098,
+        "requests": 2000
+      },
+      "denominators": {
+        "rewrite": 2000,
+        "paraphrase": 4000,
+        "neighborhood": 20000
+      },
+      "counts_semantics": "prompt_pairs",
+      "source": "d31d582ffd425fe3a56a7d23b68d3c58e7e3d955",
+      "config_sha256": "8ed4bea0e271e9e49c384b672d1019352a2b0cd3500537ce86af3c64ee438107",
+      "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+      "ordered_cohort_sha256": "b63e14222c3e7f1bd3b78a7b50be24e110a59b15208cda664b3603596668cb84",
+      "W20_raw": {
+        "bytes": 62890535,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/CF_ALPHAEDIT_BLUE/factual/W20.json",
+        "sha256": "99e3a63e8e7ecda1fdae188c815d820f2aa9bc169eca19cff69834823d1aac7e"
+      },
+      "result": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/CF_ALPHAEDIT_BLUE/result.json",
+        "bytes": 8603,
+        "sha256": "4019abdcf5bfa4c66baa2e604c9bf3e47f69d5fd03dedb3f6cb257d93ea60cec"
+      },
+      "committed_batches": 20,
+      "generation": "DEFERRED",
+      "checkpoint_consumer_pending": true,
+      "CP_payload_loaded": false,
+      "online_delivery": "NOT_REQUERIED"
+    },
+    {
+      "model": "gptj",
+      "dataset": "cf",
+      "method": "MEMIT_FE",
+      "job_id": "61780",
+      "status": "W20_RAW_CPU_REDUCED_2000",
+      "summary": {
+        "Efficacy": 87.15,
+        "Generalization": 85.7,
+        "Specificity": 57.214999999999996,
+        "Score": 73.85339857055396,
+        "Score_AlphaEdit_display": 73.85617539416491,
+        "requests": 2000
+      },
+      "denominators": {
+        "rewrite": 2000,
+        "paraphrase": 4000,
+        "neighborhood": 20000
+      },
+      "counts_semantics": "prompt_pairs",
+      "source": "d31d582ffd425fe3a56a7d23b68d3c58e7e3d955",
+      "config_sha256": "d2f9630e194982cf9ed872dfb6a71b5f2e1e2007a8f5e09065ee0c9d1145ff67",
+      "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+      "ordered_cohort_sha256": "b63e14222c3e7f1bd3b78a7b50be24e110a59b15208cda664b3603596668cb84",
+      "W20_raw": {
+        "bytes": 62890493,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/CF_MEMIT_FE/factual/W20.json",
+        "sha256": "2c7ddfcf28ab457eef08740e205ca864c99e97b9dfdff04f7c970b405285d871"
+      },
+      "result": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/CF_MEMIT_FE/result.json",
+        "bytes": 8446,
+        "sha256": "612bc4f13b3d89572117dd6f2c021a10a3671358eb53373d5c71305681727274"
+      },
+      "committed_batches": 20,
+      "generation": "DEFERRED",
+      "checkpoint_consumer_pending": true,
+      "CP_payload_loaded": false,
+      "online_delivery": "NOT_REQUERIED"
+    },
+    {
+      "model": "gptj",
+      "dataset": "cf",
+      "method": "SPHERE",
+      "job_id": "61781",
+      "status": "W20_RAW_CPU_REDUCED_2000",
+      "summary": {
+        "Efficacy": 99.7,
+        "Generalization": 95.72500000000001,
+        "Specificity": 74.265,
+        "Score": 88.38613473486048,
+        "Score_AlphaEdit_display": 88.38707434537675,
+        "requests": 2000
+      },
+      "denominators": {
+        "rewrite": 2000,
+        "paraphrase": 4000,
+        "neighborhood": 20000
+      },
+      "counts_semantics": "prompt_pairs",
+      "source": "d31d582ffd425fe3a56a7d23b68d3c58e7e3d955",
+      "config_sha256": "9ccf60c7cfda152445773fa4c1e3d21f348eccd599be5584ca86bb9d8fc83330",
+      "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+      "ordered_cohort_sha256": "b63e14222c3e7f1bd3b78a7b50be24e110a59b15208cda664b3603596668cb84",
+      "W20_raw": {
+        "bytes": 62879470,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/CF_SPHERE/factual/W20.json",
+        "sha256": "09d1497572c5d3dae73b43377892832a5122ddb02aaab6074da6aa31433ea84e"
+      },
+      "result": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/CF_SPHERE/result.json",
+        "bytes": 8396,
+        "sha256": "bb0946d5aade2d9fab38a1679ce57555754615cf44dab43148cd5191c9e1c4b1"
+      },
+      "committed_batches": 20,
+      "generation": "DEFERRED",
+      "checkpoint_consumer_pending": true,
+      "CP_payload_loaded": false,
+      "online_delivery": "NOT_REQUERIED"
+    }
+  ],
+  "GPU": 0,
+  "model_loads": 0,
+  "raw_reduction": "exact SHA/bytes, 20 commit receipts, 2000 ordered cases, independent reducer",
+  "source_policy": "original source/config/raw identities preserved"
+}

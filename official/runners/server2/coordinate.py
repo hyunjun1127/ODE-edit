@@ -10,10 +10,10 @@ import time
 
 
 class Connection:
-    def __init__(self):
+    def __init__(self, socket_path='/mnt/raid5/janghj/.codex/app-server-control/app-server-control.sock'):
         self.socket = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
         self.socket.settimeout(5)
-        self.socket.connect('/mnt/raid5/janghj/.codex/app-server-control/app-server-control.sock')
+        self.socket.connect(socket_path)
         self.buffer = b''
         key = base64.b64encode(os.urandom(16)).decode()
         self.socket.sendall(('GET / HTTP/1.1\r\nHost: localhost\r\nUpgrade: websocket\r\n'
@@ -91,16 +91,21 @@ def main():
     parser.add_argument('--thread', required=True)
     parser.add_argument('--nonce', required=True)
     parser.add_argument('--message', required=True)
+    parser.add_argument('--registered-server4', action='store_true')
     args = parser.parse_args()
     result = dict(nonce=args.nonce, target=args.thread, model_effort_override=False)
-    connection = Connection()
+    if args.registered_server4 and args.thread != '01a04939-b5c7-7a03-ba2d-ef3343d62cfd':
+        raise ValueError('SERVER4_EXACT_SESSION_REQUIRED')
+    connection = Connection('/data/janghj/.codex/app-server-control/app-server-control.sock' if args.registered_server4
+                            else '/mnt/raid5/janghj/.codex/app-server-control/app-server-control.sock')
     try:
         connection.rpc(1, 'initialize', dict(clientInfo=dict(name='official_sh2', version='1'),
                        capabilities=dict(experimentalApi=True)))
         connection.send(dict(method='initialized', params={}))
         thread = connection.rpc(2, 'thread/resume', dict(threadId=args.thread, excludeTurns=True))['thread']
-        if thread['id'] != args.thread or thread['cwd'] not in (
-                '/mnt/raid5/janghj/ODE-edit', '/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit'):
+        allowed_cwds = ('/data/janghj/ODE-edit',) if args.registered_server4 else (
+                '/mnt/raid5/janghj/ODE-edit', '/mnt/raid5/janghj/.codex/worktrees/29e4/ODE-edit')
+        if thread['id'] != args.thread or thread['cwd'] not in allowed_cwds:
             raise ValueError('TARGET_BOUNDARY')
         params = dict(threadId=args.thread, input=[dict(type='text', text=args.message)])
         status = thread.get('status', {}).get('type')
