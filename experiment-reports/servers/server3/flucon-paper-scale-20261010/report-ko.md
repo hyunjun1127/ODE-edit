@@ -17,3 +17,5 @@ SH2용 `qwen-w0-provenance.json`은 모델 revision a09a35458c702b33eeacc393d103
 단발 endpoint 확인에서 Qwen 61813의 result는 COMPLETE/20batch이나 Q3 선택설정으로 별도 보고를 유지한다. Llama 61821 `llama-price-L1-2k`는 해당 local final의 result/terminal이 아직 없으므로 완료 점수를 만들지 않는다. 이 점검은 scheduler 상태 추측이나 반복 모니터링이 아니다. own 완료 zsRE는 기존 한정 inventory상 없으며 타서버 이관 replica를 중복 평가하지 않았다. 과거 변형/heldout/tuning은 본표로 승격하지 않았다.
 
 재현: 저장소 준비 WT에서 `python3 audits/servers/server3/flucon-paper-scale-20261010/reduce.py`. 결과는 같은 audit 폴더의 table-rows.json 및 qwen-w0-provenance.json, 본 폴더 table-rows.csv에 있다. owner CPU audit이며 독립 reviewer/GPU 검증은 수행하지 않았다. 모델 load/forward/새 job/기존 job 변경/CP 이동·삭제/온라인 history 변경 0. NO_BROADCAST_NOT_REQUIRED; 작은 provenance만 Git/직접 전달한다. 별도로 보류된 context 전달은 재개하지 않았다.
+
+GH 표시 API main15091336을 통합하고 official.tests.test_generation_paper_display CPU 5개 PASS 및 두 raw 값의 공통 paper_cell 결과 일치를 확인했다. HF asset의 blob 실제경로와 requested snapshot filename을 함께 보존하여 tokenizer/config 6개와 model shard 4개의 기존 SHA/bytes를 결속했다. 대형 모델 재해시는 수행하지 않았다.
