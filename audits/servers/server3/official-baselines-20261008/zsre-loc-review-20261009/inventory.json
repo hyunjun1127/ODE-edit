@@ -1,0 +1,436 @@
+{
+  "nonce": "USER-GH-ZSRE-LOC-RECALCULATE-MAIN-20261009-R1",
+  "server": "server3",
+  "observed_at": "2026-10-09T08:18:08.044432+00:00",
+  "status": "NO_OWN_COMPLETED_ZSRE_FOUND",
+  "completed_zsre_count": 0,
+  "metric_policy": "Loc=100*mean_requests(mean_loc_ans_tokens(predicted==target)); W0agreement auxiliary only",
+  "future_adoption": "NEXT_NEW_SOURCE_FREEZE; shared GH implementation not modified",
+  "scope": {
+    "root": "/data/janghj/ODE-edit/local",
+    "maximum_parent_depth": 6,
+    "metadata_names": [
+      "terminal.json",
+      "result.json",
+      "completion.json",
+      "submission.json",
+      "status.json"
+    ],
+    "maximum_file_bytes": 1000000,
+    "pruned_dirs": [
+      ".git",
+      "W0",
+      "__pycache__",
+      "blobs",
+      "cache",
+      "datasets",
+      "inputs",
+      "post",
+      "pre",
+      "runtime",
+      "snapshots",
+      "source",
+      "tracking",
+      "venv",
+      "wandb",
+      "worktree"
+    ],
+    "symlink_follow": false,
+    "metadata_count": 48,
+    "errors": [],
+    "limitation": "Bounded known-project metadata and own official submission records; not a filesystem-wide proof. Copied historical/worktree/source results are not owned executions."
+  },
+  "evidence": [
+    {
+      "path": "/data/janghj/ODE-edit/local/official-baselines-20261008/submission-request-preflight-20261009.json",
+      "bytes": 550,
+      "sha256": "5e7c93f004141dbe57041e125978cd491d47e0ec034604fc7dbe7d0bdc83f35e"
+    },
+    {
+      "path": "audits/servers/server3/official-baselines-20261008/zsre-wandb-metrics-r1.json",
+      "bytes": 979,
+      "sha256": "fb0b70534b10faeca0dbc30b69d98847803dd554d7525ac334dab2e81af7f0d9"
+    },
+    {
+      "path": "experiment-reports/servers/server3/official-baselines-20261008/report-ko.md",
+      "bytes": 6181,
+      "sha256": "a893ae5e32d432aa1e607d1c4c02562983b85ca74151fea5508d6651b49f20c5"
+    }
+  ],
+  "files": [
+    {
+      "path": "/data/janghj/ODE-edit/local/en-adapt-gss-history/20260920-v1/res/attempt-v1/submission.json",
+      "bytes": 857,
+      "sha256": "a4dffe2784db27b3a288deeb3c5a40cb3c0dbea0088901e62158afa80786b04a",
+      "zsre_mention": false,
+      "arm": "EN_ADAPT_H_RES",
+      "job_id": "51352",
+      "source": "02a85e3014c22526d192e9a5fffa0b7f72f75f9d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/en-adapt-gss-history/20260920-v1/gss_rec/attempt-v1/submission.json",
+      "bytes": 877,
+      "sha256": "475ccb68b1d472582b458e2265616a27a8a296bb153af4082c0b72b0ceab072f",
+      "zsre_mention": false,
+      "arm": "EN_ADAPT_H_GSS_REC",
+      "job_id": "51355",
+      "source": "02a85e3014c22526d192e9a5fffa0b7f72f75f9d"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v14-budget15-r2/20261005-v1/attempt-r1/submission.json",
+      "bytes": 2229,
+      "sha256": "4be3ea78bfea23cdd5bf81065405aca4699775cfe448cc5d7e157242902bf59e",
+      "zsre_mention": false,
+      "status": "RELEASED",
+      "source": "ab7c910695377bef81ee35280502ecf176cb7d38"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/attempt-v1/submission.json",
+      "bytes": 762,
+      "sha256": "252857c839840b33ed943ee35a0d7529ac900d9fdeca28d53a6ef7638933a018",
+      "zsre_mention": false,
+      "job_id": "53996"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/attempt-repair-r1/submission.json",
+      "bytes": 797,
+      "sha256": "6b363275ecd78a2bca087a73d130717573a05a107f8a1be469ea6326997789f0",
+      "zsre_mention": false,
+      "job_id": "54007"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/attempt-repair-r1/output/terminal.json",
+      "bytes": 61674,
+      "sha256": "bfea49152e35f0cf3bb14e298220925e07c2b55849e5848a2f6b27b4b1dc483f",
+      "zsre_mention": false,
+      "status": "COMPLETED",
+      "batches": 100
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/terminal.json",
+      "bytes": 882,
+      "sha256": "a91123443f6b82f91e2380fe78afe63f88abdc1f42eed4d52c35c7f01d7c1d03",
+      "zsre_mention": false,
+      "status": "TECHNICAL_INCOMPLETE"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/groups/P/terminal.json",
+      "bytes": 2004,
+      "sha256": "daaab7682c4621b9a52169562a7e3dcdfbe7f28b34a795f1898a6bba7298c652",
+      "zsre_mention": false,
+      "status": "COMPLETED_GROUP"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/cells/writer_0_divisor/terminal.json",
+      "bytes": 1105,
+      "sha256": "82cd84b30d80ec43e8b258e14380486a00459769087e47da6df3cb9588fe595a",
+      "zsre_mention": false,
+      "status": "COMPLETED"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/cells/history_1000_forced_refresh/terminal.json",
+      "bytes": 1116,
+      "sha256": "ab49de3acdb569b115da05bbc9317822686f302fd82e8b302296a305c477afcf",
+      "zsre_mention": false,
+      "status": "COMPLETED"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/cells/writer_1000_frozen_upper_joint/terminal.json",
+      "bytes": 1119,
+      "sha256": "570b24256764d2597b46135c08cc2e0ac4653541addb36d4b94a2a8cfa61837f",
+      "zsre_mention": false,
+      "status": "COMPLETED"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/cells/writer_0_joint/terminal.json",
+      "bytes": 1103,
+      "sha256": "9b47c7301088eb4ed35fe8f282a29430fa0c2bcba13acdc326596be268d30f63",
+      "zsre_mention": false,
+      "status": "COMPLETED"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/cells/writer_1000_joint/terminal.json",
+      "bytes": 1106,
+      "sha256": "162d94761bbc80cad513a01c86a45a31252e8a8bf766499a62d7d9bca5ad1791",
+      "zsre_mention": false,
+      "status": "COMPLETED"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/cells/history_1000_stale/terminal.json",
+      "bytes": 1107,
+      "sha256": "69da39bb526616ffaad43c7d1e84562158efbbd5f7015ce06e6acffde6c0e666",
+      "zsre_mention": false,
+      "status": "COMPLETED"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/cells/writer_1000_energy_matched_divisor/terminal.json",
+      "bytes": 1123,
+      "sha256": "fb8f559777325231e08858a381a2886ddec5e0ed8de351eb09adcee905dec965",
+      "zsre_mention": false,
+      "status": "COMPLETED"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/cells/writer_1000_divisor/terminal.json",
+      "bytes": 1108,
+      "sha256": "a4c203ecdcc39bb0bd7334d355dd699abe8ef7f1149c3a910034e17fbf4e10d5",
+      "zsre_mention": false,
+      "status": "COMPLETED"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/cells/writer_0_energy_matched_divisor/terminal.json",
+      "bytes": 1120,
+      "sha256": "7cec1cb4e4c2f23d745d49675ffda37c3ae7a346cb9ab0abfa9ddfc4eff935ac",
+      "zsre_mention": false,
+      "status": "COMPLETED"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/cells/writer_0_frozen_upper_joint/terminal.json",
+      "bytes": 1116,
+      "sha256": "876aae23b81e3f4ae7d945694b0621e6ad2842a575057b85820e455bc4b8bc1f",
+      "zsre_mention": false,
+      "status": "COMPLETED"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/T0/result.json",
+      "bytes": 1187,
+      "sha256": "4fd14c742a78fdee0e5228a958f8dff25e058f7302804bdffcd12b192991cb3a",
+      "zsre_mention": false,
+      "status": "PASS"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/snapshot/terminal.json",
+      "bytes": 882,
+      "sha256": "a91123443f6b82f91e2380fe78afe63f88abdc1f42eed4d52c35c7f01d7c1d03",
+      "zsre_mention": false,
+      "status": "TECHNICAL_INCOMPLETE"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/snapshot/groups/P/terminal.json",
+      "bytes": 2004,
+      "sha256": "daaab7682c4621b9a52169562a7e3dcdfbe7f28b34a795f1898a6bba7298c652",
+      "zsre_mention": false,
+      "status": "COMPLETED_GROUP"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/snapshot/cells/writer_0_divisor/terminal.json",
+      "bytes": 1105,
+      "sha256": "82cd84b30d80ec43e8b258e14380486a00459769087e47da6df3cb9588fe595a",
+      "zsre_mention": false,
+      "status": "COMPLETED"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/snapshot/cells/history_1000_forced_refresh/terminal.json",
+      "bytes": 1116,
+      "sha256": "ab49de3acdb569b115da05bbc9317822686f302fd82e8b302296a305c477afcf",
+      "zsre_mention": false,
+      "status": "COMPLETED"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/snapshot/cells/writer_1000_frozen_upper_joint/terminal.json",
+      "bytes": 1119,
+      "sha256": "570b24256764d2597b46135c08cc2e0ac4653541addb36d4b94a2a8cfa61837f",
+      "zsre_mention": false,
+      "status": "COMPLETED"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/snapshot/cells/writer_0_joint/terminal.json",
+      "bytes": 1103,
+      "sha256": "9b47c7301088eb4ed35fe8f282a29430fa0c2bcba13acdc326596be268d30f63",
+      "zsre_mention": false,
+      "status": "COMPLETED"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/snapshot/cells/writer_1000_joint/terminal.json",
+      "bytes": 1106,
+      "sha256": "162d94761bbc80cad513a01c86a45a31252e8a8bf766499a62d7d9bca5ad1791",
+      "zsre_mention": false,
+      "status": "COMPLETED"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/snapshot/cells/history_1000_stale/terminal.json",
+      "bytes": 1107,
+      "sha256": "69da39bb526616ffaad43c7d1e84562158efbbd5f7015ce06e6acffde6c0e666",
+      "zsre_mention": false,
+      "status": "COMPLETED"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/snapshot/cells/writer_1000_energy_matched_divisor/terminal.json",
+      "bytes": 1123,
+      "sha256": "fb8f559777325231e08858a381a2886ddec5e0ed8de351eb09adcee905dec965",
+      "zsre_mention": false,
+      "status": "COMPLETED"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/snapshot/cells/writer_1000_divisor/terminal.json",
+      "bytes": 1108,
+      "sha256": "a4c203ecdcc39bb0bd7334d355dd699abe8ef7f1149c3a910034e17fbf4e10d5",
+      "zsre_mention": false,
+      "status": "COMPLETED"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/snapshot/cells/writer_0_energy_matched_divisor/terminal.json",
+      "bytes": 1120,
+      "sha256": "7cec1cb4e4c2f23d745d49675ffda37c3ae7a346cb9ab0abfa9ddfc4eff935ac",
+      "zsre_mention": false,
+      "status": "COMPLETED"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/snapshot/cells/writer_0_frozen_upper_joint/terminal.json",
+      "bytes": 1116,
+      "sha256": "876aae23b81e3f4ae7d945694b0621e6ad2842a575057b85820e455bc4b8bc1f",
+      "zsre_mention": false,
+      "status": "COMPLETED"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/snapshot/T0/result.json",
+      "bytes": 1187,
+      "sha256": "4fd14c742a78fdee0e5228a958f8dff25e058f7302804bdffcd12b192991cb3a",
+      "zsre_mention": false,
+      "status": "PASS"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/operator-actions/20261001-a1k-only-v1/selftest-events/terminal.json",
+      "bytes": 17,
+      "sha256": "218589323cbe80b7ed077e3ee36f1663e7cb5f8f4e4ad02c938ad8a5c2c5a6b9",
+      "zsre_mention": false
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/terminal.json",
+      "bytes": 156,
+      "sha256": "740132e64fd07ac03bfbc9e217502ae6e378008f3c3492abee61da79107dee14",
+      "zsre_mention": false,
+      "status": "COMPLETE",
+      "source": "93341767ccb41a4237e8a762421340622d3580f1"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/result.json",
+      "bytes": 4508,
+      "sha256": "97325b89e2a0cf01046139b0a993eb372013cca109b140a4fca853311c93db3a",
+      "zsre_mention": false,
+      "status": "COMPLETE",
+      "arm": "Q3-beta250",
+      "source": "93341767ccb41a4237e8a762421340622d3580f1",
+      "batches": 20
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/attempt-r1/submission.json",
+      "bytes": 3186,
+      "sha256": "e67150a4ff156f08289817fe799df58a948a40026f71574c74b86ad7b442ea3e",
+      "zsre_mention": false,
+      "status": "RELEASED",
+      "source": "5fb35c2dc3ec04e723b9caefa1c4bb1158124708"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/attempt-r1/pilot-V12_ALPHAEDIT/terminal.json",
+      "bytes": 281,
+      "sha256": "0baa74d4ba830729f957a5911b784e599bad999c5e0487efd25a1027e23bca12",
+      "zsre_mention": false,
+      "status": "COMPLETED",
+      "source": "5fb35c2dc3ec04e723b9caefa1c4bb1158124708"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/submission.json",
+      "bytes": 4125,
+      "sha256": "93518d299d45928cbd749c079c0e4be1c79fbf5b9f343bbf270f5567a8b5ea68",
+      "zsre_mention": false,
+      "source": "c2d5fb107a0435491d8b4705b43b75f6177bbb5c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/main-A/terminal.json",
+      "bytes": 474,
+      "sha256": "694cba7e64dc32be2ebded0b5962c9a97deaa87bbe62bfd989441204a586518f",
+      "zsre_mention": false,
+      "status": "COMPLETED",
+      "arm": "A",
+      "job_id": "57699",
+      "source": "c2d5fb107a0435491d8b4705b43b75f6177bbb5c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/q1/terminal.json",
+      "bytes": 462,
+      "sha256": "92b6c0bd7ffefc220408a3682e0473486c13b651fd5e5de094e210c9d0f2a2c5",
+      "zsre_mention": false,
+      "status": "COMPLETED",
+      "arm": null,
+      "job_id": "57698",
+      "source": "c2d5fb107a0435491d8b4705b43b75f6177bbb5c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/review-A-20261003-v1/snapshot/submission.json",
+      "bytes": 4125,
+      "sha256": "93518d299d45928cbd749c079c0e4be1c79fbf5b9f343bbf270f5567a8b5ea68",
+      "zsre_mention": false,
+      "source": "c2d5fb107a0435491d8b4705b43b75f6177bbb5c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/review-A-20261003-v1/snapshot/main-A/terminal.json",
+      "bytes": 474,
+      "sha256": "694cba7e64dc32be2ebded0b5962c9a97deaa87bbe62bfd989441204a586518f",
+      "zsre_mention": false,
+      "status": "COMPLETED",
+      "arm": "A",
+      "job_id": "57699",
+      "source": "c2d5fb107a0435491d8b4705b43b75f6177bbb5c"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/submission.json",
+      "bytes": 3111,
+      "sha256": "60799c4f82849934b2ebbec6dcf8f1d26738800fa78e8b68377ec4f98003654e",
+      "zsre_mention": false,
+      "status": "RELEASED",
+      "source": "1d27a830274aaee49a713bd07e463b0513591c9e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/main-V12_MAIN/terminal.json",
+      "bytes": 278,
+      "sha256": "0a594fc4408c41944d3b5e359c301476ad695e606d3a1499fd7697f04d2818b9",
+      "zsre_mention": false,
+      "status": "COMPLETED",
+      "source": "1d27a830274aaee49a713bd07e463b0513591c9e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/report/terminal.json",
+      "bytes": 626,
+      "sha256": "190436fe964e339bb6c6874b416d22fb04de6fa1a614af503fc53370292d4ad7",
+      "zsre_mention": false,
+      "status": "COMPLETED",
+      "source": "1d27a830274aaee49a713bd07e463b0513591c9e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/pilot-V12_MAIN/terminal.json",
+      "bytes": 276,
+      "sha256": "3178622f6c42ca287cff06b195fa92a2493d9fc68bb7d8cf676014cd10fa2d48",
+      "zsre_mention": false,
+      "status": "COMPLETED",
+      "source": "1d27a830274aaee49a713bd07e463b0513591c9e"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/attempt-v1/submission.json",
+      "bytes": 750,
+      "sha256": "9365181fce693269ca942d9ddb84e71122612905582bff83bab293e33300577a",
+      "zsre_mention": false,
+      "job_id": "51290",
+      "source": "5d452221288f3b924e1737578f11aaa654594422"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/s4-rca/members/submission.json",
+      "bytes": 755,
+      "sha256": "e353598ebb7d707194942afe910703e1020f20b327abfe3ddb507d70b1c5feab",
+      "zsre_mention": false,
+      "job_id": "51260",
+      "source": "b6e86234640ca127546aee094f2a67bbe684a490"
+    }
+  ],
+  "inventory_script_sha256": "4a4ed1ba178119fd53bc2732630b473df1ebb6976ed30e4804929158c57646c9",
+  "reducer_sha256": null,
+  "reducer_status": "NOT_APPLICABLE_NO_ZSRE_RAW",
+  "before_W0agreement": null,
+  "after_Loc": null,
+  "case_denominator": null,
+  "token_denominator": null,
+  "Eff": null,
+  "Gen": null,
+  "CF": "UNCHANGED; Qwen61813 excluded as CF",
+  "GPU_forward_jobs_mutations": 0,
+  "raw_CP_frozen": "KEEP"
+}
