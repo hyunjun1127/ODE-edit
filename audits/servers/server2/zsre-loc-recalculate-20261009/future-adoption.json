@@ -1,0 +1,48 @@
+{
+  "nonce": "GH-SH2-ZSRE-LOC-OFFICIAL-READY-20261009-R1",
+  "server": "server2",
+  "status": "FUTURE_PREPARATION_SOURCE_ADOPTED",
+  "checkout": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-zsre-loc-future-adoption-20261009",
+  "branch": "codex/server2-zsre-loc-future-adoption-20261009",
+  "tested_head": "71aebbc5ae7c650da867f9ec581f4ca2fb22c934",
+  "fetched_main": "71aebbc5ae7c650da867f9ec581f4ca2fb22c934",
+  "ancestors": {
+    "3252c776": true,
+    "3a400ae5": true,
+    "71aebbc5": true
+  },
+  "tests": {
+    "command": "CUDA_VISIBLE_DEVICES='' /mnt/raid5/janghj/EasyEdit/.venv/bin/python -m unittest official.tests.test_zsre_loc_definition official.tracking.test_transport official.runners.server2.test_zsre_pipeline official.runners.server2.test_collect -q",
+    "passed": 59,
+    "failed": 0,
+    "source_verify": {
+      "source_files": 157,
+      "python_files": 300,
+      "external_task_imports": 0,
+      "status": "PASS"
+    }
+  },
+  "semantics": {
+    "Specificity": "loc_ans request-macro target accuracy",
+    "Specificity_loc_ans": "same-value alias",
+    "W0_prediction_agreement": "separate auxiliary",
+    "conflicting_aliases": "rejected"
+  },
+  "preservation": {
+    "qwen_execution_source": "69bfbb2cdffe24072733950c671e47597ff9fbd5",
+    "existing_job_query": 0,
+    "job_mutation": 0,
+    "frozen_source_mutation": 0,
+    "CP_raw_mutation": 0,
+    "new_science": 0,
+    "GPU": 0,
+    "online_history_rewrite": 0
+  },
+  "limitations": {
+    "native_paper_token_query_parity": "NOT_ESTABLISHED",
+    "received_GH_audit": "Llama 1517 requests and GPTJ 6 requests token-query mismatch; Qwen stream zero mismatches but forward unverified",
+    "Eff_Gen_values_changed": false,
+    "tokenizer_repair": false,
+    "actual_GPU_or_online_PASS": false
+  }
+}
