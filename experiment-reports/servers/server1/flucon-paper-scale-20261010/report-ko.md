@@ -38,3 +38,5 @@ GH `paper_display` API를 채택했다. 미반올림 raw 평균에 100을 곱한
 새 W20 Flu/Con은 아직 **EVALUATION_REGISTERED_NOT_OBSERVED**다. 이전 DEFERRED를 숫자0 또는 새 실측으로 바꾸지 않는다. 원 Qwen61975는 잘못된 context로 제외, 수정62061은 inventory 당시 미완료로 제외한다. Llama MEMIT/Alpha/BLUE historical 예외와 PRICE FREE100은 유지하며 remote/다른 cohort CP를 새 local 관측으로 relabel하지 않는다.
 
 README는 GH 단독 편집. compact `table-rows.json/csv`와 `completed-rows.json`에 source/config/CP/raw/cohort/분모/미반올림 수치 및 표시값을 분리했다. raw/text/token/tensor/CP 업로드·이동·삭제 및 기존 job 변경은 0. `NO_BROADCAST_NOT_REQUIRED`: 같은 서버의 기존 CP/reference를 읽고 compact Git 증거만 공유한다. 초기 인계 후 장기 monitoring/automatic retry 없음.
+
+결과 publication은 main `1fb4cef609f8ef8530f28256694ecba727b89018`이다. 이후 GH direct 전달은 app-server 응답 timeout으로 `COMMUNICATION_HOLD`/수신 UNKNOWN이며 자동 재전송하지 않았다. Git 게시와 직접 수신 ACK/README 반영은 구분한다. 정확 전달 상태는 같은 audit의 `delivery.json`에 남겼다.
