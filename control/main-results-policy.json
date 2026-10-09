@@ -34,6 +34,22 @@
     "CF": "unchanged",
     "frozen_runs": "preserve; no hotpatch or automatic rerun"
   },
+  "reference_rows": {
+    "instruction_id": "USER-DIRECT-W0-MAIN-TABLE-20261009",
+    "label": "W0 (편집 전)",
+    "models": [
+      "Llama3-8B-Instruct",
+      "Qwen2.5-7B-Instruct",
+      "GPT-J-6B"
+    ],
+    "endpoint": "W0 / zero edits / identical ordered first2000",
+    "source": "existing server-local W0 raw, directly audited",
+    "new_experiment_authorization": false,
+    "zsre_metric_scope": "기존 exact-token-prefix evaluator; loc_ans 정답 정확도. 원본 호환 재평가 결과로 재명명하지 않는다.",
+    "report": "experiment-reports/global/w0-main-table-20261009.md",
+    "Flu_units": "raw entropy bits",
+    "Con_units": "raw TF-IDF cosine 0_to_1"
+  },
   "updates": {
     "trigger": "SH 제출·상태 변경·완료 보고를 GH가 검증해 main에 비강제 통합한다.",
     "SH_writes": "자신의 기존 허용 scope에 compact receipt/report를 남기며 README를 동시에 직접 편집하지 않는다.",
