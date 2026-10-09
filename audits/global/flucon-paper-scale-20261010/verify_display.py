@@ -3,6 +3,7 @@ import hashlib
 import json
 from pathlib import Path
 import sys
+from decimal import Decimal, ROUND_HALF_UP
 
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT))
@@ -22,10 +23,33 @@ def verify():
     assert [s.strip() for s in cells(llama, '| [W0 (')] == expected_llama
     assert [s.strip() for s in cells(qwen, '| FT |')] == expected_ft
     assert readme.count('| CF Flu ×100 | CF Con ×100 |') == 4
+    assert [s.strip() for s in cells(qwen, '| [W0 (')] == list(paper_generation(raw['endpoints']['W0']['stored_summary']).values())
+    evidence = json.loads((ROOT/'audits/servers/server2/flucon-paper-scale-20261010/table-rows-final.json').read_text())
+    names = {'FT':'FT','MEMIT':'MEMIT','ALPHAEDIT':'AlphaEdit','ALPHAEDIT_BLUE':'AlphaEdit-BLUE','MEMIT_FE':'MEMIT-FE','SPHERE':'AlphaEdit+SPHERE'}
+    verified = 0
+    for row in evidence['rows']:
+        if not row.get('numeric_eligible'):
+            continue
+        section = qwen if row['model']=='qwen25' else readme.split('### GPT-J-6B',1)[1]
+        displayed = next(line for line in section.splitlines() if line.startswith('| '+names[row['method']]+' |')).split('|')
+        keys = ['Score','Efficacy','Generalization','Specificity'] if row['dataset']=='cf' else ['Efficacy','Generalization','Specificity']
+        start = 2 if row['dataset']=='cf' else 8
+        for offset, key in enumerate(keys):
+            value = row['metrics'][key]
+            if row['dataset']=='cf' and key != 'Score':
+                denominator = row['denominators'][{'Efficacy':'rewrite','Generalization':'paraphrase','Specificity':'neighborhood'}[key]]
+                numerator = round(value*denominator/100)
+                assert abs(value-numerator*100/denominator)<1e-10
+                number = Decimal(numerator)*100/denominator
+            else:
+                number = Decimal(str(value))
+            assert displayed[start+offset].strip() == str(number.quantize(Decimal('.01'),rounding=ROUND_HALF_UP)), (row['job_id'],key)
+        verified += 1
+    assert verified == 13
     policy = json.loads((ROOT / 'control/main-results-policy.json').read_text())
     assert 'generation_paper_display' in policy
     assert paper_cell('DEFERRED', metric='Flu', raw_unit='bits') == 'DEFERRED'
-    return {'corrected_cells': 4, 'unit_headers': 4, 'status': 'PASS',
+    return {'corrected_scale_cells': 4, 'new_W0_generation_cells':2, 'SH2_factual_rows_reverified':verified, 'unit_headers': 4, 'status': 'PASS',
             'README_sha256': hashlib.sha256(readme.encode()).hexdigest(),
             'source_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
             'GPU_forwards': 0, 'raw_mutations': 0}

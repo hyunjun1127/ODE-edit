@@ -12,7 +12,9 @@ GH accepted turn: `01a121be-6160-7333-9b02-ec62ffef2bed`.
 
 위 4개 실제 셀과 모든 모델·FE_HISTORY 표의 열 단위를 교정했다. FLU는 정확도 %가 아니며 100 초과가 정상이다. CON도 정답률이 아니다. 반올림된 표 숫자를 확대하지 않고 원 summary에서 ×100 후 half-up 2자리로 표시한다. 원 metric JSON, W&B raw 키, source/가중치/참조 자산은 불변이다. 미측정은 DEFERRED/빈칸을 유지한다.
 
-Qwen SH2 W0의 원값은 6.252105796227186 / 0.2591242773267912 (표시 625.21 / 25.91)이나, SH3가 제공한 선택 W0와의 조건 결속을 SH2가 확인하기 전에는 본표에 추가하지 않는다. factual W0 셀 출처를 변경하지 않는다.
+Qwen SH2 W0의 원값 6.252105796227186 / 0.2591242773267912를 **625.21 / 25.91**로 추가했다. SH2 최종 `fa770b9c` 검산에서 SH3의 모델·tokenizer 10개 파일 SHA/bytes, cold state 및 동일 first2K가 결속됐다. 생성 자체의 source/protocol/seed20261007/참조/2,000개 raw SHA는 SH2 provenance이며 SH3 factual W0 네 셀은 불변이다. cross-hardware generation parity는 주장하지 않는다. [최종 호환 영수증](../../../audits/servers/server2/flucon-paper-scale-20261010/w0-compatibility-final.json).
+
+SH2가 단발 02:43:21 KST 검산한 완료 13개 factual/public-query 행은 현재 README 숫자와 다시 대조하여 불일치 0이다. 이미 반영된 결과이므로 새 완료 13개라고 세지 않는다. 미완료 Qwen CF 네 수정 chain의 생성 8칸은 `ING/PENDING`이 아니라 실제 승인 일정 **DEFERRED**로 바로잡았다. 해당 factual 4칸과 zsRE 상태는 같은 owner snapshot 기준이다. [24개 chain 및 별도 W0 입력](../../../audits/servers/server2/flucon-paper-scale-20261010/table-rows-final.json).
 
 [원 조사 기록](audit-source.md)은 수정 전 표를 기술한 역사 기록이다. 그 기록의 원래 상대 링크에 대응하는 게시 파일은 [재채점 코드](../../../audits/global/flucon-paper-scale-20261010/recompute.py)와 [Qwen 전체 CPU 재채점 결과](../../../audits/global/flucon-paper-scale-20261010/qwen-raw-recomputation.json)다. Llama W0 근거는 [기존 W0 보고](../w0-main-table-20261009.md)다. Qwen W0/W20 각각 2,000 case / 20,000 prompt 저장 텍스트의 재채점이지 pretrained generation 재실행 증거가 아니다. 배율 수정 뒤에도 FT의 471.02 / 3.01이라는 낮은 값은 남는다.
 
@@ -27,8 +29,8 @@ CPU `official.tests.test_generation_paper_display`: 5 PASS. `official.tools.veri
 | 서버 | accepted turn | 수신 상태 / 담당 |
 | --- | --- | --- |
 | SH1 | 01a121bf-d873-7a82-9654-01368ea03466 | 명시 OWNER_ACK; 완료 결과 검산 및 유효 저장 CF checkpoint 평가-only 실제 등록 진행 |
-| SH2 | 01a121bf-dc12-7420-9754-c50086b87646 | 명시 OWNER_ACK; 완료 결과와 Qwen W0 호환성 검산 |
-| SH3 | 01a121bf-d90c-7961-ac25-8e757c17d1a7 | 완료; 신규 적격 생성 값 0, 선택 W0 26,000행/47개 증거 검산·SH2용 provenance (069b9516) |
+| SH2 | 01a121bf-dc12-7420-9754-c50086b87646 | 완료 13행 재검산·W0 생성 분리 출처 호환 결속 (fa770b9c) |
+| SH3 | 01a121bf-d90c-7961-ac25-8e757c17d1a7 | 완료; 신규 적격 생성 값 0, 선택 W0 26,000행/47개 증거 검산·SH2용 provenance (3a6c7ee9) |
 | SH4 | 01a121bf-d996-71d2-973c-3bb381fbe3ba | 완료; 신규 본표 적격 결과 0, Flu/Con 실측 0 (177dadf1) |
 
 실제 전달 정본은 [envelope](../../../messages/head/2026-10-10-flucon-paper-scale-table-refresh.json)다. SH4 기존 60103은 raw/20commit을 재확인했지만 생성 미측정이다. migrated baseline·held-out500·tuning은 새 본표 값으로 승격하지 않는다. 현재 이 최초 게시 시점에 SH1 평가 job ID는 아직 회수하지 않았으므로 PENDING으로 표시하지 않는다. 이번 표시는 실험 완료 주장이 아니다. 후속 compact receipt에 따라 이 보고와 README 셀을 갱신한다.

@@ -88,10 +88,13 @@ W0의 CF Score/Eff/Gen/Loc 및 zsRE 지표는 %다. 모든 표의 CF Flu/Con은 
 FLU는 entropy 가중 평균으로 100을 넘을 수 있고, CON은 TF-IDF cosine ×100이며 둘 다 정확도 %가 아니다.
 소수 둘째 자리 half-up은 변환 후 한 번만 적용한다. 원 JSON/W&B raw 키는 bits/cosine 단위를 유지한다.
 [표시 교정·원자료 검산 및 평가 등록 진행](experiment-reports/global/flucon-paper-scale-20261010/report-ko.md).
-Llama3의 이미 측정된 W0 Flu/Con만 수치로 기록하고, 나머지 선택한 W0 산출물의 미측정 생성 지표는 `DEFERRED`입니다.
+Llama3 W0 및 별도 SH2 provenance로 결속한 Qwen W0 Flu/Con을 기록하고, 미측정 생성 지표는 `DEFERRED`입니다.
 **W0 zsRE는 기존 exact-token-prefix evaluator 관측**입니다. Loc은 `loc_ans` 정답 정확도이며 W0 자기 일치율 100%가 아닙니다.
 Llama3·GPT-J의 원본 코드와 tokenizer 처리 차이가 알려져 있어, 이 값은 원본 호환 재평가 완료를 뜻하지 않습니다.
 Qwen CF는 server3 job **61813**의 편집 전 W0, zsRE는 server2 job **61900**의 완료된 W0 관측을 사용합니다.
+Qwen **CF 생성 두 셀만** SH2 producer **61898**의 cold W0 관측이다. 모델·tokenizer SHA와 동일 first2K를 대조했으며,
+SH3 factual 셀은 그대로 유지한다. SH3의 generation 실측 또는 cross-hardware bitwise 동등성을 뜻하지 않는다.
+[분리 출처·generation protocol·참조 SHA 결속](experiment-reports/servers/server2/flucon-paper-scale-20261010/report-ko.md).
 [모델별 출처·단위·원자료 SHA·검산 범위](experiment-reports/global/w0-main-table-20261009.md).
 
 ### Llama3-8B-Instruct
@@ -154,7 +157,7 @@ Flu/Con은 미평가·DEFERRED이며 zsRE는 별도 새 W20 결과다.
 MEMIT/AlphaEdit/MEMIT-FE/SPHERE의 CF·zsRE 8개 chain은 **cold rerun 대상**이다.
 기존 zsRE61956/61960 점수는 당시 잘못된 context로 편집한 가중치의 측정값으로 원 보고서에 보존하고,
 수정된 baseline 성능으로 제시하지 않는다. 평가-only로 편집 입력 오류를 복구할 수 없다.
-상태 셀은 2026-10-10 01:48 KST owner 단발 snapshot을 반영하며,
+상태 셀은 2026-10-10 02:43:21 KST owner 단발 snapshot을 반영하며,
 context 판정 근거는 [실제 context 감사](experiment-reports/servers/server2/qwen-context-audit-20261010/report-ko.md)다.
 수정 MEMIT62073/SPHERE62079 및 BLUE61962/61964의 실제 context 문자열·token ID는 새 Qwen 기준과 일치한다.
 62077은 RUNNING으로 갱신했고, 62075/62081/62083/62085/62087은 PENDING이다.
@@ -216,13 +219,13 @@ SH3 최신 CPU 재검산에서도 위 네 지표 delta0, 신규 본표 적격 �
 
 | Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu ×100 | CF Con ×100 | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| [W0 (편집 전)](experiment-reports/global/w0-main-table-20261009.md) | 20.88 | 13.95 | 16.60 | 85.14 | DEFERRED | DEFERRED | 36.42 | 35.26 | 38.40 |
+| [W0 (편집 전)](experiment-reports/global/w0-main-table-20261009.md) | 20.88 | 13.95 | 16.60 | 85.14 | 625.21 | 25.91 | 36.42 | 35.26 | 38.40 |
 | FT | 57.45 | 85.50 | 67.50 | 38.90 | 471.02 | 3.01 | 23.25 | 18.54 | 2.34 |
-| MEMIT | ING: s2-qwen25-cf-memit-gpu (62073) | ING: s2-qwen25-cf-memit-gpu (62073) | ING: s2-qwen25-cf-memit-gpu (62073) | ING: s2-qwen25-cf-memit-gpu (62073) | ING: s2-qwen25-cf-memit-gpu (62073) | ING: s2-qwen25-cf-memit-gpu (62073) | PENDING: s2-qwen25-zsre-memit-gpu (62081) | PENDING: s2-qwen25-zsre-memit-gpu (62081) | PENDING: s2-qwen25-zsre-memit-gpu (62081) |
-| AlphaEdit | PENDING: s2-qwen25-cf-alphaedit-gpu (62075) | PENDING: s2-qwen25-cf-alphaedit-gpu (62075) | PENDING: s2-qwen25-cf-alphaedit-gpu (62075) | PENDING: s2-qwen25-cf-alphaedit-gpu (62075) | PENDING: s2-qwen25-cf-alphaedit-gpu (62075) | PENDING: s2-qwen25-cf-alphaedit-gpu (62075) | PENDING: s2-qwen25-zsre-alphaedit-gpu (62083) | PENDING: s2-qwen25-zsre-alphaedit-gpu (62083) | PENDING: s2-qwen25-zsre-alphaedit-gpu (62083) |
+| MEMIT | ING: s2-qwen25-cf-memit-gpu (62073) | ING: s2-qwen25-cf-memit-gpu (62073) | ING: s2-qwen25-cf-memit-gpu (62073) | ING: s2-qwen25-cf-memit-gpu (62073) | DEFERRED | DEFERRED | PENDING: s2-qwen25-zsre-memit-gpu (62081) | PENDING: s2-qwen25-zsre-memit-gpu (62081) | PENDING: s2-qwen25-zsre-memit-gpu (62081) |
+| AlphaEdit | PENDING: s2-qwen25-cf-alphaedit-gpu (62075) | PENDING: s2-qwen25-cf-alphaedit-gpu (62075) | PENDING: s2-qwen25-cf-alphaedit-gpu (62075) | PENDING: s2-qwen25-cf-alphaedit-gpu (62075) | DEFERRED | DEFERRED | PENDING: s2-qwen25-zsre-alphaedit-gpu (62083) | PENDING: s2-qwen25-zsre-alphaedit-gpu (62083) | PENDING: s2-qwen25-zsre-alphaedit-gpu (62083) |
 | AlphaEdit-BLUE | ING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | ING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | ING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | ING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | ING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | ING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | 58.62 | 53.66 | 5.73 |
-| MEMIT-FE | ING: s2-qwen25-cf-memit_fe-gpu (62077) | ING: s2-qwen25-cf-memit_fe-gpu (62077) | ING: s2-qwen25-cf-memit_fe-gpu (62077) | ING: s2-qwen25-cf-memit_fe-gpu (62077) | ING: s2-qwen25-cf-memit_fe-gpu (62077) | ING: s2-qwen25-cf-memit_fe-gpu (62077) | PENDING: s2-qwen25-zsre-memit_fe-gpu (62085) | PENDING: s2-qwen25-zsre-memit_fe-gpu (62085) | PENDING: s2-qwen25-zsre-memit_fe-gpu (62085) |
-| AlphaEdit+SPHERE | ING: s2-qwen25-cf-sphere-gpu (62079) | ING: s2-qwen25-cf-sphere-gpu (62079) | ING: s2-qwen25-cf-sphere-gpu (62079) | ING: s2-qwen25-cf-sphere-gpu (62079) | ING: s2-qwen25-cf-sphere-gpu (62079) | ING: s2-qwen25-cf-sphere-gpu (62079) | PENDING: s2-qwen25-zsre-sphere-gpu (62087) | PENDING: s2-qwen25-zsre-sphere-gpu (62087) | PENDING: s2-qwen25-zsre-sphere-gpu (62087) |
+| MEMIT-FE | ING: s2-qwen25-cf-memit_fe-gpu (62077) | ING: s2-qwen25-cf-memit_fe-gpu (62077) | ING: s2-qwen25-cf-memit_fe-gpu (62077) | ING: s2-qwen25-cf-memit_fe-gpu (62077) | DEFERRED | DEFERRED | PENDING: s2-qwen25-zsre-memit_fe-gpu (62085) | PENDING: s2-qwen25-zsre-memit_fe-gpu (62085) | PENDING: s2-qwen25-zsre-memit_fe-gpu (62085) |
+| AlphaEdit+SPHERE | ING: s2-qwen25-cf-sphere-gpu (62079) | ING: s2-qwen25-cf-sphere-gpu (62079) | ING: s2-qwen25-cf-sphere-gpu (62079) | ING: s2-qwen25-cf-sphere-gpu (62079) | DEFERRED | DEFERRED | PENDING: s2-qwen25-zsre-sphere-gpu (62087) | PENDING: s2-qwen25-zsre-sphere-gpu (62087) | PENDING: s2-qwen25-zsre-sphere-gpu (62087) |
 | PRICE (Ours) |  |  |  |  |  |  |  |  |  |
 
 ### GPT-J-6B
