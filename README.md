@@ -67,7 +67,7 @@ SH1이 세 모델을 source `eaf78c33`으로 등록했다. Qwen 61929는 B1 FP64
 | :--- | :--- | :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: |
 | MEMIT_FE_HISTORY | GPT-J | server1 | W20 COMPLETE: official-s1-cf-gptj-memit-fe-history (61927) | 50.18 | 50.35 | 49.90 | 50.28 | DEFERRED | DEFERRED |
 | MEMIT_FE_HISTORY | Llama3 | server1 | ING: official-s1-cf-llama3-memit-fe-history (61928) | — | — | — | — | DEFERRED | DEFERRED |
-| MEMIT_FE_HISTORY | Qwen2.5 | server1 | RERUN_REQUIRED: old61975 context-mask 수정 (새 job 미등록) | — | — | — | — | DEFERRED | DEFERRED |
+| MEMIT_FE_HISTORY | Qwen2.5 | server1 | PENDING: official-s1-cf-qwen25-memit-fe-history (62061; old61975 context-mask cold replacement) | — | — | — | — | DEFERRED | DEFERRED |
 
 2026-10-09 23:05:52 KST bounded 검산: GPT-J는 실제20 commit/2,000건과 history once·최종CP·raw를
 대조한 완료값이며 native MEMIT-FE 본표 값이 아니다. Llama/Qwen은 W20 미완료다.
@@ -140,7 +140,7 @@ Flu/Con은 미평가·DEFERRED이며 zsRE는 별도 새 W20 결과다.
 
 ### Qwen2.5-7B-Instruct
 
-**2026-10-10 context-mask 修正 재편집:** 편집용 cached context mask 오류가 확인되어
+**2026-10-10 context-mask 수정 재편집:** 편집용 cached context mask 오류가 확인되어
 MEMIT/AlphaEdit/MEMIT-FE/SPHERE의 CF·zsRE 8개 chain은 **cold rerun 대상**이다.
 기존 zsRE61956/61960 점수는 당시 잘못된 context로 편집한 가중치의 측정값으로 원 보고서에 보존하고,
 수정된 baseline 성능으로 제시하지 않는다. 평가-only로 편집 입력 오류를 복구할 수 없다.
