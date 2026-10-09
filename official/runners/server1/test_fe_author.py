@@ -59,5 +59,14 @@ class AuthorTests(unittest.TestCase):
         self.assertTrue(any(isinstance(n.func,ast.Name) and n.func.id=='resolve' for n in calls))
         self.assertFalse(any(isinstance(n.func,ast.Attribute) and n.func.attr=='hparams' for n in calls))
         text=Path(run.__file__).read_text();self.assertIn('cache_template=None',text);self.assertNotIn('generation.observe',text)
+    def test_context_builder_native_equivalence(self):
+        root=Path(run.__file__).parents[1]/'baselines/easyedit/models'
+        def function(path):
+            tree=ast.parse(path.read_text())
+            return ast.dump(next(n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name=='get_context_templates'))
+        self.assertEqual(function(root/'memit/memit_main.py'),function(root/'memit_FE/memit_FE_main.py'))
+    def test_context_missing_provenance_is_not_reuse(self):
+        self.assertIsNone(run.load_native_context({},None,None))
+        with self.assertRaises(KeyError):run.load_native_context({'native_context':{}},{},None)
 
 if __name__=='__main__':unittest.main()

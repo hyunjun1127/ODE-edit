@@ -2,6 +2,7 @@
 import argparse
 import copy
 import json
+import hashlib
 import os
 import time
 import traceback
@@ -54,6 +55,40 @@ def evaluate_endpoint(model,tok,rows,c,external):
     if c['dataset']=='cf':return evaluate_counterfact(model,tok,rows,identity=external,batch_size=16,device='cuda:0')
     return zsre_paper.evaluate(model,tok,rows,model_family=c['model'],identity=external,batch_size=16,device='cuda:0')
 
+def load_native_context(c,assets,tokenizer):
+    """Optional exact cold native input; retain producer provenance, never old W/H."""
+    if 'native_context' not in c:return None
+    binding=c['native_context'];contexts=read(verify(binding['contexts']))
+    ready=read(verify(binding['ready']));producer=read(verify(binding['producer_config']))
+    tokens=read(verify(binding['tokens']))
+    producer_digest=lambda value:hashlib.sha256(json.dumps(value,sort_keys=True).encode()).hexdigest()
+    assert producer_digest({k:v for k,v in producer.items() if k!='config_sha256'})==producer['config_sha256']==ready['config_sha256']
+    assert ready['status']=='CONTEXT_GENERATED' and ready['model_family']==producer['model_family']==c['model']
+    assert ready['revision']==producer['revision']==assets['model']['identity']['revision']
+    assert ready['context_sha256']==binding['contexts']['sha256']
+    assert ready['context_tokens_sha256']==binding['tokens']['sha256']
+    assert ready['source']==producer['source']
+    # This adapter accepts only the exact corrected EasyEdit native producer.
+    from official.baselines.easyedit.models.memit import memit_main
+    assert ready['native_module']==memit_main.__name__
+    assert ready['native_module_sha256']==file_sha(memit_main.__file__)
+    assert ready['edits']==ready['fit']==ready['W0_evaluation']==0 and ready['seed']==producer['seed']==c['edit_seed']
+    assert ready['profile']==producer['profile']=='official-native-edit-context-fiveprompts-total10-topk5'
+    assert ready['model_manifest_sha256']==producer_digest(producer['model_manifest'])
+    assert ready['generator_sha256']==file_sha(Path(__file__).parents[1]/'baselines/easyedit/util/generate.py')
+    assert ready['runtime']['torch']==torch.__version__
+    from importlib.metadata import version
+    assert ready['runtime']['transformers']==version('transformers')
+    expected={Path(m['path']).name:(m['sha256'],m['bytes']) for m in assets['model']['members']}
+    actual={Path(m['path']).name:(m['sha256'],m['bytes']) for m in producer['model_manifest']}
+    assert all(actual.get(k)==v for k,v in expected.items()),'NATIVE_CONTEXT_MODEL_TOKENIZER_MISMATCH'
+    assert ready['model_weight_verification']=='RUNTIME_FULL_SHA_PASS'
+    assert len(contexts)==2 and contexts[0]==['{}'] and len(contexts[1])==5
+    assert all(type(x) is str and x.count('{}')==1 for group in contexts for x in group)
+    assert digest(contexts)==binding['canonical_sha256']
+    assert [[tokenizer(x,add_special_tokens=True)['input_ids'] for x in group] for group in contexts]==tokens
+    return copy.deepcopy(contexts)
+
 def run(config_path,lock_path,resume=False):
     c=validate_config(read(config_path)); lock=read(lock_path)
     assert member(config_path) in lock['configs']
@@ -87,7 +122,7 @@ def run(config_path,lock_path,resume=False):
     weights={f'{hp.rewrite_module_tmp.format(layer)}.weight':native.nethook.get_parameter(model,f'{hp.rewrite_module_tmp.format(layer)}.weight') for layer in hp.layers}
     for p in weights.values(): assert p.dtype==torch.float32 and list(p.shape)==[desc['hidden'],desc['intermediate']]
     H={str(layer):torch.zeros(desc['intermediate'],desc['intermediate'],dtype=torch.float32) for layer in hp.layers}
-    native.COV_CACHE={};native.CONTEXT_TEMPLATES_CACHE=None
+    native.COV_CACHE={};native.CONTEXT_TEMPLATES_CACHE=load_native_context(c,assets,tok)
     for layer in hp.layers:
         row=assets['C0'][str(layer)];m=row['member'];verify(m)
         with np.load(m['path'],allow_pickle=False) as a:
@@ -153,7 +188,8 @@ def run(config_path,lock_path,resume=False):
             if batch==1:
                 write_new(output/'native-context-identity.json',dict(context_sha256=after['context_sha256'],
                     source=lock['source_commit'],config_sha256=c['config_sha256'],
-                    author_profile_sha256=c['author_profile_sha256'],old_context_reused=False,request_sha256=request_hash))
+                    author_profile_sha256=c['author_profile_sha256'],verified_cold_context_reused='native_context' in c,
+                    native_context_binding=c.get('native_context'),request_sha256=request_hash))
             cursor=dict(completed_batch=batch,edit=dict(method=METHOD,request_sha256=request_hash,requests=100,
                 before=before,after=after,history_appends_per_layer=1,H0_native_matrix_exact_runtime=batch==1,
                 elapsed_sec=time.monotonic()-started),generation_status='DEFERRED_TO_SAVED_W20_CHECKPOINT' if c['dataset']=='cf' else 'NOT_APPLICABLE')

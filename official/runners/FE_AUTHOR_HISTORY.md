@@ -18,6 +18,16 @@ See SH1 prepare module for exact normalized asset structure: existing full-hashe
 tokenizer_sha256, C0 per layer member/module/masked-token-count, assets_sha256.
 SH2 normalizes its own existing assets into that small manifest; no payload copy/rebuild.
 
+Verified cold EasyEdit contexts can be supplied as `native_context` with `contexts`, `tokens`,
+`ready`, `producer_config` file members (path/bytes/sha256), plus `canonical_sha256=digest(contexts)`.
+The producer config is the unchanged `config-provenance.json` beside the imported READY.
+`load_native_context(config, assets, tokenizer)` verifies producer config/model/tokenizer manifests,
+native module/generator SHA, runtime versions, cold/seed/profile, exact context and token file hashes,
+and actual local-tokenizer tokenization before assigning the native cache. Hardware provenance stays
+in the original READY; no cross-hardware bitwise claim. Other producer implementations are rejected.
+Without this optional member the unchanged native first-apply context preparation applies; no old
+edited weights or history are loaded. Qwen job62101 verified contexts are supported without regeneration.
+
 Lock fields: source_directory/source_commit/official_tree/source_members/configs. Frozen source includes entire official/.
 Caller exports OFFICIAL_CODE_COMMIT and uses matching existing environment/runtime. CPU/mem/admission/Slurm are owner-specific.
 Storage minimum is explicit per-owner bytes (no hardcoded 256GiB inherited gate). Checkpoint save checks that minimum;
