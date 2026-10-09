@@ -1,0 +1,163 @@
+{
+  "GPU": 0,
+  "SH2_asset_receipt": {
+    "bytes": 24727,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-r1/asset-preflight.json",
+    "sha256": "6b2f28eb4f83e1d6eba42488937acd24d06bb8723cddc4b9ee9d9fa0b8c5528f"
+  },
+  "SH2_generation": {
+    "Con": {
+      "denominator": 2000,
+      "display_unit": "cosine_x100",
+      "is_percentage": false,
+      "paper_display_x100": "25.91",
+      "raw_unit": "cosine_0_to_1",
+      "raw_value": 0.2591242773267912,
+      "rounding": "DECIMAL_HALF_UP_2_AFTER_RAW_MEAN_TIMES_100"
+    },
+    "Flu": {
+      "denominator": 2000,
+      "display_unit": "bits_x100",
+      "is_percentage": false,
+      "paper_display_x100": "625.21",
+      "raw_unit": "bits",
+      "raw_value": 6.252105796227186,
+      "rounding": "DECIMAL_HALF_UP_2_AFTER_RAW_MEAN_TIMES_100"
+    },
+    "job_id": "61898",
+    "raw": {
+      "bytes": 2693471,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-r1/shared-w0/qwen25-cf/generation/endpoints/c5769896e180c209d2888d0aaa0275daad256c10b40b1c933f3954565cb7a6ee.json",
+      "sha256": "871003294dbbaf968762f6039e2b4e5afb280d213d0cc4df37c4c956e84e5b71"
+    },
+    "source": "69bfbb2cdffe24072733950c671e47597ff9fbd5"
+  },
+  "SH2_generation_conditions": {
+    "EOS_stop": false,
+    "case_batching": "ALL_GENERATION_PROMPTS",
+    "eval_seed": 20261007,
+    "generation_source_sha": "601bfb8b3d5514d0d2b13a11d025b02fd53f0f1fe39325daa94ed7307c3ec520",
+    "max_total_tokens": 100,
+    "model_identity": "qwen25@a09a35458c702b33eeacc393d103063234e8bc28",
+    "n_gen_per_prompt": 1,
+    "original_generator": {
+      "attention_mask": "CAKE_CUMULATIVE_PREFIX",
+      "bitwise_BLUE_equivalence_claim": false,
+      "comparison_commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+      "comparison_file": "util/generate.py",
+      "comparison_file_sha256": "51f41871d750a1fe86f39d4142fe8a5c12a41086c6d4a2cee98b72f809ff0366",
+      "comparison_repository": "BLUE",
+      "compatibility_changes": [
+        "typed_input_cache_logit_finite_checks",
+        "FP32_eval_no_autocast_TF32_guard",
+        "local_token_work_and_observation_metadata",
+        "endpoint_RNG_and_model_native_state_restoration_guards"
+      ],
+      "decode": "CAKE_NO_SKIP_SPECIAL_TOKENS_NFKD_DOUBLE_NEWLINE_REMOVE_ENDOFTEXT",
+      "native_source_modified": false,
+      "primary_commit": "0b378234862bd76c69f58404ef84c27d5f4bf9ef",
+      "primary_file": "util/generate.py",
+      "primary_file_sha256": "43d219ecc1955a4e4f82ea22edc286b4774e52e917d4b375021b8d7329b0adf3",
+      "primary_function": "generate_fast",
+      "primary_repository": "CAKE"
+    },
+    "profile": "cf-cake-native-casebatch-kv-total100-globalrng-v1",
+    "reference_assets_sha256": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+    "route": "NATIVE_CASE_PADDED_KV_GLOBAL_RNG",
+    "sampling_scope": "ENDPOINT_GLOBAL_BATCH_STREAM",
+    "schema": "counterfact-cake-generation-metrics-v1",
+    "top_k": 5
+  },
+  "SH3_factual": {
+    "job_id": "61813",
+    "source": "93341767ccb41a4237e8a762421340622d3580f1",
+    "values_unchanged": true
+  },
+  "SH3_provenance": {
+    "bytes": 18416,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-flucon-paper-scale-20261010/audits/servers/server3/flucon-paper-scale-20261010/qwen-w0-provenance.json",
+    "sha256": "00faabf725b2ff1c476416ddb5ef2253528d32cf9d85cdaf84c6d3182827fe5e"
+  },
+  "WB_mutations": 0,
+  "forwards": 0,
+  "limitations": [
+    "SH3 generation NOT_MEASURED: seed20261002 is not a generation seed",
+    "SH2 seed20261007 generation conditions and provenance are separate, not relabeled as SH3",
+    "Same base model/cohort table composition only, no cross-hardware or cross-runtime bitwise reproduction claim",
+    "Model payload hashes reused from actual locked full-SHA receipts; no model load or new weight hash campaign"
+  ],
+  "local_observation_members_fullSHA_and_record_identity_verified": 2000,
+  "matched_members": [
+    {
+      "bytes": 663,
+      "filename": "config.json",
+      "sha256": "7463bb0ea78315365e6c6b74de4e73bbcc8359dfb0c5a737584e077d42c0b03c",
+      "source": "BOTH_OWN_LOCKED_FULL_SHA_RECEIPTS"
+    },
+    {
+      "bytes": 243,
+      "filename": "generation_config.json",
+      "sha256": "3a8f9087e486054c8a4a08dae2e5a3ba62e23da212b5b8c08bc42cb983c3459f",
+      "source": "BOTH_OWN_LOCKED_FULL_SHA_RECEIPTS"
+    },
+    {
+      "bytes": 1671839,
+      "filename": "merges.txt",
+      "sha256": "599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3",
+      "source": "BOTH_OWN_LOCKED_FULL_SHA_RECEIPTS"
+    },
+    {
+      "bytes": 7031645,
+      "filename": "tokenizer.json",
+      "sha256": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539",
+      "source": "BOTH_OWN_LOCKED_FULL_SHA_RECEIPTS"
+    },
+    {
+      "bytes": 7305,
+      "filename": "tokenizer_config.json",
+      "sha256": "5b5d4f65d0acd3b2d56a35b56d374a36cbc1c8fa5cf3b3febbbfabf22f359583",
+      "source": "BOTH_OWN_LOCKED_FULL_SHA_RECEIPTS"
+    },
+    {
+      "bytes": 2776833,
+      "filename": "vocab.json",
+      "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+      "source": "BOTH_OWN_LOCKED_FULL_SHA_RECEIPTS"
+    },
+    {
+      "bytes": 3945441440,
+      "filename": "model-00001-of-00004.safetensors",
+      "sha256": "a1333e6293854747c481288ea83b348226af178dd565c49b6f9495ba1966aba7",
+      "source": "BOTH_OWN_LOCKED_FULL_SHA_RECEIPTS"
+    },
+    {
+      "bytes": 3864726352,
+      "filename": "model-00002-of-00004.safetensors",
+      "sha256": "f5d25a2772cb825164a2a2c0fb6d51a87e282abf21e4dd75bc5cfb3cd0ea6185",
+      "source": "BOTH_OWN_LOCKED_FULL_SHA_RECEIPTS"
+    },
+    {
+      "bytes": 3864726424,
+      "filename": "model-00003-of-00004.safetensors",
+      "sha256": "8efdec4c1bc12317ae1a38dc42b595ce777738a64deea3fcb8a0a91381bcdfd5",
+      "source": "BOTH_OWN_LOCKED_FULL_SHA_RECEIPTS"
+    },
+    {
+      "bytes": 3556377672,
+      "filename": "model-00004-of-00004.safetensors",
+      "sha256": "1a72d403cdf0c1ec3cb7f289f17b394a01e64394c2e9b3c0f94dbce3faf879bd",
+      "source": "BOTH_OWN_LOCKED_FULL_SHA_RECEIPTS"
+    }
+  ],
+  "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+  "ordered_stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+  "prompts": 20000,
+  "raw_mutations": 0,
+  "reference_files": {
+    "attribute_snippets.json": "10b5c1cd105e54d5983c72de1b45bfc88bc7af786f7b99def2557886ff23385b",
+    "idf.npy": "c073d642589d4ac6432f467230329b36364a01e72de63a77a3624b745b923dda",
+    "tfidf_vocab.json": "8a78c4f20d8d85dadfd14e283d71af255482ff18aa0eb8a81716024c05ff888b"
+  },
+  "requests": 2000,
+  "status": "COMPATIBLE_FOR_SPLIT_PROVENANCE_W0_GENERATION_TWO_CELLS"
+}
