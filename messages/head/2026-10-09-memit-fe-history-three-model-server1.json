@@ -1,0 +1,20 @@
+{
+  "instruction_id": "USER-GH-SH1-MEMIT-FE-HISTORY-THREE-MODEL-2K-20261009-R1",
+  "user_quote": "그리고 gpt-j, llama, qwen 모두 memit-fe를 history가 추가한 버전으로 돌려봐야 할 것 같다. server1에 3개 job 구현해서 올리는 것 지시하라",
+  "owner": "SH1/server1/01a04939-f93a-7b50-bca0-65438eab2062",
+  "task_id": "memit-fe-history-three-model-2k",
+  "models": ["gptj", "llama3", "qwen25"],
+  "jobs": 3,
+  "dataset": "AWAITING_USER_CF_OR_ZSRE_SELECTION; implementation and asset preparation may proceed, do not infer 6 jobs",
+  "execution": "each independent cold W0 and H0, same approved ordered prefix2000, BS100x20. Retain each model's official MEMIT_FE hparams, context, fit/loss/solver/dtype/evaluator schedule except explicitly added history",
+  "history_implementation_assumption": "MEMIT-H style additive per-layer H: solve(lambda_C*C0 + H_entry + K*K.T,K), unchanged FE layerwise residual and fit. After successful complete batch commit recapture native mean keys on own final model, H += K_final*K_final.T once per layer. Failed/uncommitted batch must not advance H. H0 zero; checkpoint history+cursor/restore identity explicit. No replay or new loss",
+  "identity": "new explicit MEMIT_FE_HISTORY variant; do not relabel stock MEMIT_FE, overwrite old results, or claim upstream baseline unchanged",
+  "write_scope": ["dedicated SH1 non-main worktree", "new official MEMIT_FE_HISTORY module/adapter/config and own server1 runner/tests", "minimal backward-compatible state/checkpoint plumbing", "SH1 reports/audits/run/status/local outputs"],
+  "checks": "minimal CPU/source, same first-batch runtime finite/shape/commit/H-once guards; no standalone GPU qualification/smoke/additional fit/performance gate",
+  "resources": "server1 fresh latest owner/project GPU cap and stricter admission policy; count RUNNING and admitted pending; 1GPU/job, no cap increase/cancel/steal. Explicit CPU/memory/storage/QoS binding",
+  "tracking": "existing W&B scalar privacy/model/method/actual job ID/immutable identity; current correct Loc common source 3a400ae5 included in main3252c776. Do not silently equate zsRE tokenization to paper evaluator",
+  "checkpoint": "existing prospective final checkpoint archive policy and consumer completion gates, preserve old CP/raw/source; no unrelated cleanup",
+  "permission": "implement, minimal CPU, freeze, held inspection/release after dataset choice within this execution scope; no repeated stage approval",
+  "forbidden": "old job/source hotpatch/cancel, extra variants/baselines/sweeps, new recurring monitor or automatic retry",
+  "handoff": "direct SH1 owner ACK and implementation status, actual IDs only after submission; task pending distinct from Slurm pending"
+}
