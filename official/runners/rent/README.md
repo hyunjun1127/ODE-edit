@@ -31,3 +31,35 @@ python3 -m official.runners.rent.submit <template.yaml> [--dry-run]
   공용 계정이므로 이 서버 전용 API key를 쓴다.
 - 확인: `python3 -m official.runners.rent.submit official/runners/rent/wandb_smoke.job.yaml`
   → `logs/wandb-setup/smoke-job<DDHHMM>/result.json`의 `READY_ONLINE_VERIFIED`.
+
+## official baseline runner
+
+세 모델(llama3·qwen25·gptj) × 6개 방법의 공통 runner다. 방법 구현·hparams·평가·checkpoint·W&B는
+공통 `official` 모듈만 쓰고, server2 GPT-J runner의 흐름을 모델 일반화했다.
+FLU/CON은 `DEFERRED_CHECKPOINT_EVALUATION`으로 미루며 CF chain은 W20 checkpoint를 보존한다.
+
+| 파일 | 역할 |
+| --- | --- |
+| `freeze.py` | login 서버. 커밋의 `official/`을 `~/janghj/checkpoints/odeedit-official/<commit12>/source`에 고정 복사, `on_main` 기록 |
+| `prepare.py` | CPU Pod. 모델·C0·P·tokenizer·stream을 전부 해시해 `assets.lock.json`·hparams lock과 대조, `manifest-<model>.json` 작성 |
+| `native.py` | 모델 일반화 native 엔진. C0 캐시 miss 시 재계산 대신 실패 |
+| `run.py` | `w0`, `qualification`, `chain`, `smoke` 모드 |
+
+실행 단위는 matrix `run_id`(예: `llama3-cf-memit`, `qwen25-cf-alphaedit_blue-l2-10`)다.
+Qwen BLUE 본 행은 L2 격자 선택이 필요하므로 격자 행으로 실행한다.
+
+```bash
+python3 -m official.runners.rent.freeze                      # login 서버, commit12 확인
+python3 -m official.runners.rent.submit official/runners/rent/prepare.job.yaml \
+    --set COMMIT12=<commit12> --set MODELS=llama3,qwen25,gptj
+python3 -m official.runners.rent.submit official/runners/rent/run.job.yaml \
+    --set COMMIT12=<commit12> --set MODE=qualification --set RUN_IDS=llama3-cf-memit,llama3-cf-ft \
+    --set SLUG=q-llama3 --set DEADLINE=14400
+```
+
+- `qualification`: CF B1–B3 연속 실행과, 실제 저장한 B2 checkpoint에서 복원해 다시 실행한 B3의
+  가중치·native history·context·RNG·평가 결과가 모두 같아야 `PASS_ACTUAL_QUALIFICATION`이다.
+- `w0`: 모델·데이터셋별 1회. chain은 `w0/<model>-<dataset>/READY.json`을 요구한다.
+- `chain`·`smoke`는 `on_main` 커밋에서만 실행된다. `smoke`는 zsRE 1 batch이다.
+- 결과: `checkpoints/odeedit-official/<commit12>/runs/<model>/<run_id>/<mode>-job<DDHHMM>/`.
+  checkpoint는 최신 1개를 유지하고 이전 것은 runner가 지운다.

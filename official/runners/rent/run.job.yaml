@@ -1,0 +1,93 @@
+# rent official runner on one A100; runs each RUN_IDS entry in order as its own process.
+# MODE: w0 | qualification | chain | smoke. A failed run does not stop the next one;
+# the Job exits non-zero if any run failed.
+#   python3 -m official.runners.rent.submit official/runners/rent/run.job.yaml \
+#       --set COMMIT12=<12> --set MODE=qualification --set RUN_IDS=llama3-cf-memit,llama3-cf-ft \
+#       --set SLUG=q-llama3 --set DEADLINE=14400
+# SLUG is the lowercase Job-name part ([a-z0-9-], at most 49 characters).
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: janghj-{{SLUG}}-{{RENT_JOB_ID}}
+  namespace: nlp-lab
+  labels:
+    student: janghj
+    owner: janghj
+    odeedit-job-id: "{{RENT_JOB_ID}}"
+spec:
+  backoffLimit: 0
+  ttlSecondsAfterFinished: 604800
+  template:
+    metadata:
+      labels:
+        student: janghj
+        owner: janghj
+        odeedit-job-id: "{{RENT_JOB_ID}}"
+    spec:
+      restartPolicy: Never
+      activeDeadlineSeconds: {{DEADLINE}}
+      securityContext:
+        runAsUser: 1017
+        runAsGroup: 1017
+        runAsNonRoot: true
+      containers:
+        - name: worker
+          image: pytorch/pytorch:2.6.0-cuda12.4-cudnn9-devel
+          imagePullPolicy: IfNotPresent
+          workingDir: /workspace/checkpoints/odeedit-official/{{COMMIT12}}/source
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              set -u
+              status=0
+              for run_id in $(echo {{RUN_IDS}} | tr , ' '); do
+                echo "=== $run_id {{MODE}} $(date -Is)"
+                /workspace/envs/ode-edit-py311-torch26/bin/python -m official.runners.rent.run \
+                  --manifest /workspace/checkpoints/odeedit-official/{{COMMIT12}}/manifest-${run_id%%-*}.json \
+                  --run-id "$run_id" --mode {{MODE}} || { echo "=== FAILED $run_id"; status=1; }
+              done
+              exit $status
+          env:
+            - name: HOME
+              value: /workspace
+            - name: USER
+              value: janghj
+            - name: XDG_CACHE_HOME
+              value: /workspace/cache
+            - name: PYTHONUNBUFFERED
+              value: "1"
+            - name: HF_HOME
+              value: /workspace/cache/huggingface
+            - name: HF_HUB_OFFLINE
+              value: "1"
+            - name: TRANSFORMERS_OFFLINE
+              value: "1"
+            - name: ODEEDIT_RENT_JOB_ID
+              value: "{{RENT_JOB_ID}}"
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+          resources:
+            requests:
+              cpu: "8"
+              memory: 128Gi
+              nvidia.com/gpu: 1
+            limits:
+              cpu: "8"
+              memory: 128Gi
+              nvidia.com/gpu: 1
+          volumeMounts:
+            - name: workspace
+              mountPath: /workspace
+              subPath: janghj
+            - name: shared-memory
+              mountPath: /dev/shm
+      volumes:
+        - name: workspace
+          persistentVolumeClaim:
+            claimName: nlp-lab-pvc
+        - name: shared-memory
+          emptyDir:
+            medium: Memory
+            sizeLimit: 16Gi

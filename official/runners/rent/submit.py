@@ -8,6 +8,7 @@ import argparse
 import datetime
 import json
 from pathlib import Path
+import re
 import subprocess
 import sys
 
@@ -23,10 +24,20 @@ def job_number(now=None):
     return (now or datetime.datetime.now(KST)).astimezone(KST).strftime("%d%H%M")
 
 
-def render(text, number):
+def render(text, number, values=None):
     if PLACEHOLDER not in text:
         raise ValueError("TEMPLATE_PLACEHOLDER_MISSING")
-    return text.replace(PLACEHOLDER, number)
+    for key, value in (values or {}).items():
+        if key == "RENT_JOB_ID" or not re.fullmatch(r"[A-Z][A-Z0-9_]*", key) or not re.fullmatch(r"[A-Za-z0-9_.,/=-]+", value):
+            raise ValueError("TEMPLATE_VALUE_NOT_ALLOWED: " + key)
+        if "{{%s}}" % key not in text:
+            raise ValueError("TEMPLATE_KEY_UNUSED: " + key)
+        text = text.replace("{{%s}}" % key, value)
+    text = text.replace(PLACEHOLDER, number)
+    left = re.findall(r"\{\{[A-Z0-9_]+\}\}", text)
+    if left:
+        raise ValueError("TEMPLATE_PLACEHOLDER_UNSET: " + ",".join(sorted(set(left))))
+    return text
 
 
 def kubectl(*args, stdin=None):
@@ -51,7 +62,8 @@ def check(job, number, existing):
     meta = job["metadata"]
     env = {e["name"]: e.get("value") for c in job["spec"]["template"]["spec"]["containers"]
            for e in c.get("env", [])}
-    if not (meta["name"].startswith(STUDENT + "-") and number in meta["name"]
+    if not (re.fullmatch(r"[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?", meta["name"])
+            and meta["name"].startswith(STUDENT + "-") and number in meta["name"]
             and meta.get("labels", {}).get("student") == STUDENT
             and meta.get("labels", {}).get("odeedit-job-id") == number
             and env.get("ODEEDIT_RENT_JOB_ID") == number):
@@ -68,9 +80,12 @@ def main():
     parser.add_argument("template", type=Path)
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--manifest-dir", type=Path, default=MANIFEST_DIR)
+    parser.add_argument("--set", action="append", default=[], metavar="KEY=VALUE",
+                        help="fill {{KEY}} in the template")
     args = parser.parse_args()
     number = job_number()
-    manifest = render(args.template.read_text(), number)
+    values = dict(item.split("=", 1) for item in args.set)
+    manifest = render(args.template.read_text(), number, values)
     job = json.loads(kubectl("create", "--dry-run=client", "-o", "json", "-f", "-", stdin=manifest))
     existing = json.loads(kubectl("get", "jobs", "-l", "student=" + STUDENT, "-o", "json"))["items"]
     check(job, number, existing)

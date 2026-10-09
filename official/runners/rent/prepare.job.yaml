@@ -1,0 +1,78 @@
+# rent official preparation (CPU only): hash and bind assets/streams for the frozen commit.
+#   python3 -m official.runners.rent.freeze            # login node, prints code_commit
+#   python3 -m official.runners.rent.submit official/runners/rent/prepare.job.yaml \
+#       --set COMMIT12=<first 12 of code_commit> --set MODELS=llama3
+# MODELS is one model or a comma list (llama3,qwen25,gptj).
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: janghj-odeedit-prepare-{{RENT_JOB_ID}}
+  namespace: nlp-lab
+  labels:
+    student: janghj
+    owner: janghj
+    odeedit-job-id: "{{RENT_JOB_ID}}"
+spec:
+  backoffLimit: 0
+  ttlSecondsAfterFinished: 604800
+  template:
+    metadata:
+      labels:
+        student: janghj
+        owner: janghj
+        odeedit-job-id: "{{RENT_JOB_ID}}"
+    spec:
+      restartPolicy: Never
+      activeDeadlineSeconds: 1800
+      securityContext:
+        runAsUser: 1017
+        runAsGroup: 1017
+        runAsNonRoot: true
+      containers:
+        - name: worker
+          image: pytorch/pytorch:2.6.0-cuda12.4-cudnn9-devel
+          imagePullPolicy: IfNotPresent
+          workingDir: /workspace/checkpoints/odeedit-official/{{COMMIT12}}/source
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              set -eu
+              exec /workspace/envs/ode-edit-py311-torch26/bin/python -m official.runners.rent.prepare --models $(echo {{MODELS}} | tr , ' ')
+          env:
+            - name: HOME
+              value: /workspace
+            - name: USER
+              value: janghj
+            - name: XDG_CACHE_HOME
+              value: /workspace/cache
+            - name: PYTHONUNBUFFERED
+              value: "1"
+            - name: NVIDIA_VISIBLE_DEVICES
+              value: none
+            - name: HF_HOME
+              value: /workspace/cache/huggingface
+            - name: HF_HUB_OFFLINE
+              value: "1"
+            - name: TRANSFORMERS_OFFLINE
+              value: "1"
+            - name: ODEEDIT_RENT_JOB_ID
+              value: "{{RENT_JOB_ID}}"
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+          resources:
+            requests:
+              cpu: "8"
+              memory: 32Gi
+            limits:
+              cpu: "8"
+              memory: 32Gi
+          volumeMounts:
+            - name: workspace
+              mountPath: /workspace
+              subPath: janghj
+      volumes:
+        - name: workspace
+          persistentVolumeClaim:
+            claimName: nlp-lab-pvc
