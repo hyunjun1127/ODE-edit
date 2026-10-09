@@ -28,7 +28,7 @@ CPU `official.tests.test_generation_paper_display`: 5 PASS. `official.tools.veri
 | --- | --- | --- |
 | SH1 | 01a121bf-d873-7a82-9654-01368ea03466 | 명시 OWNER_ACK; 완료 결과 검산 및 유효 저장 CF checkpoint 평가-only 실제 등록 진행 |
 | SH2 | 01a121bf-dc12-7420-9754-c50086b87646 | 명시 OWNER_ACK; 완료 결과와 Qwen W0 호환성 검산 |
-| SH3 | 01a121bf-d90c-7961-ac25-8e757c17d1a7 | 명시 OWNER_ACK; 자체 결과/W0 provenance 검산 |
+| SH3 | 01a121bf-d90c-7961-ac25-8e757c17d1a7 | 완료; 신규 적격 생성 값 0, 선택 W0 26,000행/47개 증거 검산·SH2용 provenance (069b9516) |
 | SH4 | 01a121bf-d996-71d2-973c-3bb381fbe3ba | 완료; 신규 본표 적격 결과 0, Flu/Con 실측 0 (177dadf1) |
 
 실제 전달 정본은 [envelope](../../../messages/head/2026-10-10-flucon-paper-scale-table-refresh.json)다. SH4 기존 60103은 raw/20commit을 재확인했지만 생성 미측정이다. migrated baseline·held-out500·tuning은 새 본표 값으로 승격하지 않는다. 현재 이 최초 게시 시점에 SH1 평가 job ID는 아직 회수하지 않았으므로 PENDING으로 표시하지 않는다. 이번 표시는 실험 완료 주장이 아니다. 후속 compact receipt에 따라 이 보고와 README 셀을 갱신한다.
