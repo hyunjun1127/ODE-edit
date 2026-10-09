@@ -100,6 +100,9 @@ def apply_SPHERE_to_model(
             if hparams.cumulative_ratio > 0 and hparams.suppression_strength > 0:
                 upd_matrix_proj, P_soft, U = sparse_projection(w, upd_matrix, eta=hparams.cumulative_ratio, alpha=hparams.suppression_strength)
                 w[...] += upd_matrix_proj.to(device=w.device, dtype=w.dtype)
+                # U retains the full eigenvector storage through its view. End
+                # this layer's returned buffers before the next eigh RHS runs.
+                del upd_matrix_proj, P_soft, U
             else:
                 w[...] += upd_matrix.to(device=w.device, dtype=w.dtype)
 
