@@ -1,0 +1,30 @@
+{
+  "DAG_width": 3,
+  "actual_allocated_GPU": 3,
+  "cold_cancellation_accounting": "62534|s2-qwen25-zsre-sphere-oom-r1|janghj|CANCELLED by 1025|00:00:00|/mnt/raid5/janghj/ODE-edit/local/qwen-zsre-sphere-oom-rerun-20261010/registration-r1/source",
+  "effective_cap": 4,
+  "fresh_snapshot": null,
+  "parents": [
+    "62532"
+  ],
+  "registration_control": {
+    "bytes": 12695,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-sphere-b9-resume-20261010/official/runners/server2/sphere_b9_submit.py",
+    "sha256": "2b2d249eec17673b6e9f11b92bf257960fd1ae02e0fa47f17eef537d9e35803f"
+  },
+  "registration_control_commit": "125252070e772251d52fe33a34e039ab2137174a",
+  "storage": {
+    "W20_future_consumer_pending": true,
+    "checkpoint_budget_bytes": 8602517504,
+    "concurrent_payloads": 3,
+    "deletes_existing_files": false,
+    "existing_jobs_growth_reserve_bytes": 51539607552,
+    "filesystem_reserve_bytes": 34359738368,
+    "free_bytes": 158317494272,
+    "raw_logs_reserve_bytes": 8589934592,
+    "required_free_bytes": 128899350528,
+    "selected_weights_history_bytes": 8535408640,
+    "sufficient": true,
+    "two_serial_chain_checkpoint_peak_bytes": 25807552512
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "CPU_tests": 17,
+  "GPU_OOM_resolution": "NOT_OBSERVED",
+  "GPU_restore": "NOT_RUN_YET",
+  "WandB": "NOT_OBSERVED_BEFORE_STARTUP",
+  "accepted_turn": "01a1230a-de94-7513-9559-44c29cba388e",
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "external_task_imports": 0,
+  "held_inspection": {
+    "bytes": 3635,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-zsre-sphere-b9-resume-20261010/registration-r1/held-inspection.json",
+    "sha256": "4422fffc47cab910ae069479a3eb725a7c48fdc30b2e597206a761c57fa8c678"
+  },
+  "independent_reviewer": "NOT_USED",
+  "input_lock": {
+    "bytes": 1707,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-zsre-sphere-b9-resume-20261010/registration-r1/input-lock.json",
+    "sha256": "f0ba8d9149c07c1c5c53c43e78617eeb7421c8e4c67a675ff4179d885f9d2c34"
+  },
+  "instruction_id": "USER-SH2-QWEN-ZSRE-SPHERE-B9-RESUME-20261010-R1",
+  "monitoring_active": false,
+  "new_W20_path": "/mnt/raid5/janghj/ODE-edit/local/qwen-zsre-sphere-b9-resume-20261010/registration-r1/runs/qwen25-zsre-sphere/checkpoint",
+  "new_edit_applications_planned": 1100,
+  "original_payload_preserved": true,
+  "parent_binding": {
+    "bytes": 6899,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-zsre-sphere-b9-resume-20261010/registration-r1/resume-parent.json",
+    "sha256": "6d9d3b9ad28f44d4420f0c5fff0624ef76a70b602bfa4a58c9b94b777cc9742f"
+  },
+  "parent_edit_applications": 900,
+  "query_binding": {
+    "bytes": 782,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-zsre-sphere-b9-resume-20261010/registration-r1/query-proof-reuse.json",
+    "sha256": "e8aebe82c3855387d283d449556ac50b1914778da74c70018dcca26271de0bdf"
+  },
+  "source_files_verified": 166,
+  "source_lock": {
+    "bytes": 73265,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-zsre-sphere-b9-resume-20261010/registration-r1/source-lock.json",
+    "sha256": "d1ba2406b97e1ca99e6c8096a08c2ee6900f24d5fecf93e56337b6852ef9f36d"
+  },
+  "submission": {
+    "bytes": 5282,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-zsre-sphere-b9-resume-20261010/submission-complete.json",
+    "sha256": "3572668d3389d9870d5ac75c47313c9801ebd648675c35962e3bdc8fbfcdcb1d"
+  }
+}

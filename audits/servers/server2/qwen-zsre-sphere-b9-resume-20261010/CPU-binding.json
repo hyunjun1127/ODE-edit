@@ -1,0 +1,57 @@
+{
+  "CPU_tests": 17,
+  "GPU_qualification": "NOT_RUN_USER_DISABLED",
+  "actual_GPU_restore": "NOT_RUN",
+  "child_identity": {
+    "assets_sha256": "11fbe79a7784817f8fb0e1164df936dab7ed1c7480bddc923c509aec58e380ec",
+    "code_commit": "78017702c1d3d5a6843e27e63fcf105206d22dbe",
+    "config_sha256": "dcc7018f54b1f63c8c295ebe5d82b32fb933856e0d0b94b8659c9238ef41a814",
+    "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+    "official_tree_sha256": "a6a4aa4d76f81a44f83792268e69fbcece2bea996cc0169350dff81ebbf13026",
+    "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+    "tokenizer_sha256": "9e3c11a4a87d85a72b6f2d1e4b29ab88532f72d03189b6fa2793da735a2d98aa"
+  },
+  "evaluator": {
+    "bytes": 8479,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-sphere-b9-resume-20261010/official/evaluation/zsre_paper.py",
+    "sha256": "d6a5b34eafd27660a2dee4632c638b6bf4c3614246071711cf5159a002415a45"
+  },
+  "exact_token_model_asset_stream_identity": true,
+  "next_batch": 10,
+  "parent_binding": {
+    "bytes": 6899,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-zsre-sphere-b9-resume-20261010/registration-r1/resume-parent.json",
+    "sha256": "6d9d3b9ad28f44d4420f0c5fff0624ef76a70b602bfa4a58c9b94b777cc9742f"
+  },
+  "parent_identity": {
+    "assets_sha256": "11fbe79a7784817f8fb0e1164df936dab7ed1c7480bddc923c509aec58e380ec",
+    "code_commit": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+    "config_sha256": "dcc7018f54b1f63c8c295ebe5d82b32fb933856e0d0b94b8659c9238ef41a814",
+    "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+    "official_tree_sha256": "be8dca6334f083a87cf6555899fbb43451d9976a55bb53242fdbbcf52a1dfe95",
+    "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+    "tokenizer_sha256": "9e3c11a4a87d85a72b6f2d1e4b29ab88532f72d03189b6fa2793da735a2d98aa"
+  },
+  "scientific_config_unchanged": true,
+  "source": "78017702c1d3d5a6843e27e63fcf105206d22dbe",
+  "source_config": {
+    "bytes": 5112,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-zsre-sphere-b9-resume-20261010/registration-r1/configs/qwen25-zsre-sphere.json",
+    "sha256": "3eac5a8da3662d1e813c59c8a06ffea4ec8ac768f8917c3a3eb963c544fa93b7"
+  },
+  "start_batch": 9,
+  "storage": {
+    "W20_future_consumer_pending": true,
+    "checkpoint_budget_bytes": 8602517504,
+    "concurrent_payloads": 3,
+    "deletes_existing_files": false,
+    "existing_jobs_growth_reserve_bytes": 51539607552,
+    "filesystem_reserve_bytes": 34359738368,
+    "free_bytes": 158317494272,
+    "raw_logs_reserve_bytes": 8589934592,
+    "required_free_bytes": 128899350528,
+    "selected_weights_history_bytes": 8535408640,
+    "sufficient": true,
+    "two_serial_chain_checkpoint_peak_bytes": 25807552512
+  }
+}
