@@ -3,15 +3,62 @@
   "instruction_id": "USER-GH-MAIN-TABLE-FRESH-RERUN-20261009-R1",
   "owner": "GH",
   "target": "README.md#main-results",
-  "models": ["Llama3-8B-Instruct", "Qwen2.5-7B-Instruct", "GPT-J-6B"],
-  "methods": ["FT", "MEMIT", "AlphaEdit", "AlphaEdit-BLUE", "MEMIT-FE", "AlphaEdit+SPHERE", "PRICE (Ours)"],
-  "columns": {"CF": ["Score", "Eff", "Gen", "Loc", "Flu", "Con"], "zsRE": ["Eff", "Gen", "Loc"]},
+  "models": [
+    "Llama3-8B-Instruct",
+    "Qwen2.5-7B-Instruct",
+    "GPT-J-6B"
+  ],
+  "methods": [
+    "FT",
+    "MEMIT",
+    "AlphaEdit",
+    "AlphaEdit-BLUE",
+    "MEMIT-FE",
+    "AlphaEdit+SPHERE",
+    "PRICE (Ours)"
+  ],
+  "columns": {
+    "CF": [
+      "Score",
+      "Eff",
+      "Gen",
+      "Loc",
+      "Flu",
+      "Con"
+    ],
+    "zsRE": [
+      "Eff",
+      "Gen",
+      "Loc"
+    ]
+  },
   "eligibility": {
     "fresh_cold_start_required": true,
     "historical_completed_or_old_checkpoint_continuation": false,
     "sample_or_order_mismatch_requires_rerun": true,
-    "required_identity": ["rerun_attempt", "model", "method", "dataset", "ordered_sample_sha256", "cold_state_identity", "source_commit", "config_sha256", "server", "job_id", "job_name", "observed_state", "observed_at", "report_path"],
-    "excluded_job_roles": ["qualification", "W0_preparation", "collector", "heldout_tuning", "historical_replay"],
+    "required_identity": [
+      "rerun_attempt",
+      "model",
+      "method",
+      "dataset",
+      "ordered_sample_sha256",
+      "cold_state_identity",
+      "source_commit",
+      "config_sha256",
+      "server",
+      "job_id",
+      "job_name",
+      "observed_state",
+      "observed_at",
+      "report_path"
+    ],
+    "excluded_job_roles": [
+      "qualification",
+      "W0_preparation",
+      "collector",
+      "heldout_tuning",
+      "historical_replay"
+    ],
     "PRICE": "별도로 승인된 새 본실험만 기록한다. 표의 행이 새 arm·tuning·run 권한을 추가하지 않는다."
   },
   "rendering": {
@@ -47,8 +94,8 @@
     "new_experiment_authorization": false,
     "zsre_metric_scope": "기존 exact-token-prefix evaluator; loc_ans 정답 정확도. 원본 호환 재평가 결과로 재명명하지 않는다.",
     "report": "experiment-reports/global/w0-main-table-20261009.md",
-    "Flu_units": "raw entropy bits",
-    "Con_units": "raw TF-IDF cosine 0_to_1"
+    "Flu_units": "paper display: raw entropy bits *100 (not accuracy percent)",
+    "Con_units": "paper display: raw TF-IDF cosine *100 (not accuracy)"
   },
   "updates": {
     "trigger": "SH 제출·상태 변경·완료 보고를 GH가 검증해 main에 비강제 통합한다.",
@@ -60,10 +107,21 @@
       "instruction_id": "USER-SIDE-GH-LLAMA-CF-MEMIT-ALPHA-2K-TABLE-20261009-R1",
       "model": "Llama3-8B-Instruct",
       "dataset": "CF",
-      "methods": ["MEMIT", "AlphaEdit"],
-      "source_jobs": ["42658", "42657"],
+      "methods": [
+        "MEMIT",
+        "AlphaEdit"
+      ],
+      "source_jobs": [
+        "42658",
+        "42657"
+      ],
       "endpoint": "B020/2000 edits",
-      "columns": ["Score", "Eff", "Gen", "Loc"],
+      "columns": [
+        "Score",
+        "Eff",
+        "Gen",
+        "Loc"
+      ],
       "label": "historical ‡, 새 official rerun 완료 아님",
       "generation": "미관측/DEFERRED 그대로, 0 invent 금지",
       "report": "experiment-reports/global/llama-native-cf-historical-b020-20261009.md",
@@ -75,5 +133,29 @@
     "automatic_job_cancellation": false,
     "automatic_new_arms_or_tuning": false,
     "existing_per_server_direct_user_scope_and_resource_limits": "유지. 표 관리만을 이유로 변경하지 않는다."
+  },
+  "generation_paper_display": {
+    "instruction_id": "USER-GH-FLUCON-PAPER-SCALE-TABLE-REFRESH-20261010-R1",
+    "raw": {
+      "Flu": "entropy bits",
+      "Con": "TF-IDF cosine 0..1"
+    },
+    "display": {
+      "Flu": "100 * unrounded raw mean",
+      "Con": "100 * unrounded raw mean"
+    },
+    "rounding": "decimal half-up two places, AFTER multiplication",
+    "Flu_is_accuracy_pct": false,
+    "Flu_may_exceed_100": true,
+    "Con_is_accuracy_pct": false,
+    "raw_json_and_existing_WB_keys": "UNCHANGED",
+    "display_field_names": [
+      "Flu_paper_x100",
+      "Con_paper_x100"
+    ],
+    "display_API": "official.evaluation.generation.paper_display.paper_generation(raw_summary)",
+    "collector_contract": "raw unit/mean/count/provenance 보존; 별도 표시 필드를 한 번만 계산. 표시 문자열 또는 x100 unit은 입력 금지. 반올림된 README 값 사용 금지.",
+    "missing": "DEFERRED/NOT_MEASURED/MISSING/UNVERIFIED stay nonnumeric; no invented zero",
+    "all_tables": "W0, baseline, PRICE and separate approved history use identical display scale."
   }
 }

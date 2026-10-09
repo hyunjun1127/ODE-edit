@@ -70,7 +70,7 @@ SH1이 세 모델을 source `eaf78c33`으로 등록했다. Qwen 61929는 B1 FP64
 임시 행렬 메모리 부족으로 실패하여 메모리 수리 source `5d6dfd58`의 61975로 cold 재제출했다.
 이는 새 3개 편집 chain이며 zsRE eval-only 작업과 구분한다.
 
-| 별도 variant | 모델 | server | 상태 / job name (ID) | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con |
+| 별도 variant | 모델 | server | 상태 / job name (ID) | CF Score | CF Eff | CF Gen | CF Loc | CF Flu ×100 | CF Con ×100 |
 | :--- | :--- | :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: |
 | MEMIT_FE_HISTORY | GPT-J | server1 | W20 COMPLETE: official-s1-cf-gptj-memit-fe-history (61927) | 50.18 | 50.35 | 49.90 | 50.28 | DEFERRED | DEFERRED |
 | MEMIT_FE_HISTORY | Llama3 | server1 | ING: official-s1-cf-llama3-memit-fe-history (61928) | — | — | — | — | DEFERRED | DEFERRED |
@@ -84,7 +84,10 @@ SH1이 세 모델을 source `eaf78c33`으로 등록했다. Qwen 61929는 B1 FP64
 
 **W0 행은 편집 전 base model을 동일한 2,000개 요청에 평가한 기준값**이며 W20 결과와 구분합니다.
 2026-10-09 각 서버의 저장 원자료를 직접 확인하고 재집계했습니다.
-W0의 CF Score/Eff/Gen/Loc 및 zsRE 지표는 %, CF Flu는 entropy(bits), CF Con은 TF-IDF cosine(0–1)입니다.
+W0의 CF Score/Eff/Gen/Loc 및 zsRE 지표는 %다. 모든 표의 CF Flu/Con은 논문 표시 배율인 **반올림 전 원 평균값 ×100**을 적용한다.
+FLU는 entropy 가중 평균으로 100을 넘을 수 있고, CON은 TF-IDF cosine ×100이며 둘 다 정확도 %가 아니다.
+소수 둘째 자리 half-up은 변환 후 한 번만 적용한다. 원 JSON/W&B raw 키는 bits/cosine 단위를 유지한다.
+[표시 교정·원자료 검산 및 평가 등록 진행](experiment-reports/global/flucon-paper-scale-20261010/report-ko.md).
 Llama3의 이미 측정된 W0 Flu/Con만 수치로 기록하고, 나머지 선택한 W0 산출물의 미측정 생성 지표는 `DEFERRED`입니다.
 **W0 zsRE는 기존 exact-token-prefix evaluator 관측**입니다. Loc은 `loc_ans` 정답 정확도이며 W0 자기 일치율 100%가 아닙니다.
 Llama3·GPT-J의 원본 코드와 tokenizer 처리 차이가 알려져 있어, 이 값은 원본 호환 재평가 완료를 뜻하지 않습니다.
@@ -110,9 +113,9 @@ zsRE Loc은 **loc_ans 정답 token 정확도의 요청별 평균**이다. 이전
 [job/source/config/raw SHA·정확한 수치](audits/servers/server1/official-baselines-20261008/results-review-20261009/results.json).
 별도 GPU qualification은 `NOT_RUN_USER_DISABLED`로 유지하며, CPU 결과 검산을 GPU 검증이나 온라인 전송 검증으로 표시하지 않는다.
 
-| Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con | zsRE Eff | zsRE Gen | zsRE Loc |
+| Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu ×100 | CF Con ×100 | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| [W0 (편집 전)](experiment-reports/global/w0-main-table-20261009.md) | 13.36 | 8.20 | 10.95 | 88.56 | 6.35 | 0.2464 | 38.10 | 37.61 | 38.59 |
+| [W0 (편집 전)](experiment-reports/global/w0-main-table-20261009.md) | 13.36 | 8.20 | 10.95 | 88.56 | 635.22 | 24.64 | 38.10 | 37.61 | 38.59 |
 | FT | 56.59 | 89.25 | 73.30 | 35.50 | DEFERRED | DEFERRED | 14.63 | 11.82 | 25.25 |
 | MEMIT | 58.88‡ | 64.75‡ | 61.70‡ | 51.83‡ | DEFERRED | DEFERRED | 44.30 | 39.95 | 22.30 |
 | AlphaEdit | 84.80‡ | 99.30‡ | 93.23‡ | 68.59‡ | DEFERRED | DEFERRED | PENDING: official-s1-zsre-reeval-alphaedit (61934) | PENDING: official-s1-zsre-reeval-alphaedit (61934) | PENDING: official-s1-zsre-reeval-alphaedit (61934) |
@@ -159,7 +162,7 @@ context 판정 근거는 [실제 context 감사](experiment-reports/servers/serv
 CF 네 rerun의 FLU/CON은 DEFERRED이며 최종 checkpoint를 보존한다.
 FT/BLUE는 이번 mask 오류 재편집 대상이 아니다. FT CF61898, FT zsRE61900의 평가-only62072,
 BLUE zsRE61964는 완료 원자료 검산 수치를 아래 표에 반영했다.
-FT의 CF Flu는 entropy bits, Con은 cosine(0..1)이며 퍼센트로 변환하지 않는다.
+표의 CF Flu는 raw entropy(bits) ×100, Con은 raw TF-IDF cosine ×100이며 둘 다 정답률이 아니다.
 이 기존 FT에서 실제 측정한 generation 점수를 DEFERRED 상태인 새 rerun에 복사하지 않는다.
 [사용자 실행 계약](messages/head/2026-10-10-qwen-baseline-mask-cold-rerun.md) ·
 [수리·재제출 진행](experiment-reports/global/qwen-baseline-mask-cold-rerun-20261010/report-ko.md).
@@ -211,10 +214,10 @@ SH3 최신 CPU 재검산에서도 위 네 지표 delta0, 신규 본표 적격 �
 별도 Llama **61821 llama-price-L1-2k**는 RUNNING/W20 없음이며 기존 PRICE 예외 값을 대체하지 않는다.
 [SH3 완료·제외 inventory](experiment-reports/servers/server3/main-table-refresh-20261009/report-ko.md).
 
-| Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con | zsRE Eff | zsRE Gen | zsRE Loc |
+| Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu ×100 | CF Con ×100 | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | [W0 (편집 전)](experiment-reports/global/w0-main-table-20261009.md) | 20.88 | 13.95 | 16.60 | 85.14 | DEFERRED | DEFERRED | 36.42 | 35.26 | 38.40 |
-| FT | 57.45 | 85.50 | 67.50 | 38.90 | 4.71 | 0.03 | 23.25 | 18.54 | 2.34 |
+| FT | 57.45 | 85.50 | 67.50 | 38.90 | 471.02 | 3.01 | 23.25 | 18.54 | 2.34 |
 | MEMIT | ING: s2-qwen25-cf-memit-gpu (62073) | ING: s2-qwen25-cf-memit-gpu (62073) | ING: s2-qwen25-cf-memit-gpu (62073) | ING: s2-qwen25-cf-memit-gpu (62073) | ING: s2-qwen25-cf-memit-gpu (62073) | ING: s2-qwen25-cf-memit-gpu (62073) | PENDING: s2-qwen25-zsre-memit-gpu (62081) | PENDING: s2-qwen25-zsre-memit-gpu (62081) | PENDING: s2-qwen25-zsre-memit-gpu (62081) |
 | AlphaEdit | PENDING: s2-qwen25-cf-alphaedit-gpu (62075) | PENDING: s2-qwen25-cf-alphaedit-gpu (62075) | PENDING: s2-qwen25-cf-alphaedit-gpu (62075) | PENDING: s2-qwen25-cf-alphaedit-gpu (62075) | PENDING: s2-qwen25-cf-alphaedit-gpu (62075) | PENDING: s2-qwen25-cf-alphaedit-gpu (62075) | PENDING: s2-qwen25-zsre-alphaedit-gpu (62083) | PENDING: s2-qwen25-zsre-alphaedit-gpu (62083) | PENDING: s2-qwen25-zsre-alphaedit-gpu (62083) |
 | AlphaEdit-BLUE | ING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | ING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | ING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | ING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | ING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | ING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | 58.62 | 53.66 | 5.73 |
@@ -258,7 +261,7 @@ FLU/CON은 이후 별도 2k checkpoint 평가에서 측정하며, 그 consumer �
 [zsRE 기록](experiment-reports/servers/server2/zsre-wandb-20261009/report-ko.md)에 보존합니다.
 새 실행의 qualification은 `NOT_RUN_USER_DISABLED`이며 GPU 검증 PASS를 뜻하지 않습니다.
 
-| Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con | zsRE Eff | zsRE Gen | zsRE Loc |
+| Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu ×100 | CF Con ×100 | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | [W0 (편집 전)](experiment-reports/global/w0-main-table-20261009.md) | 24.44 | 17.00 | 19.30 | 82.48 | DEFERRED | DEFERRED | 27.83 | 27.15 | 27.59 |
 | FT | 58.97 | 88.75 | 66.75 | 40.61 | DEFERRED | DEFERRED | 23.15 | 17.95 | 0.62 |
