@@ -1,0 +1,25 @@
+{
+  "nonce": "USER-GH-FLUCON-PAPER-SCALE-TABLE-REFRESH-20261010-R1",
+  "gh_turn": "01a121be-6160-7333-9b02-ec62ffef2bed",
+  "envelope_commit": "e99b61e3",
+  "display_implementation": "8302d32c",
+  "display_main_publication": "15091336",
+  "preserved_input_sha256": {
+    "audit-source.md": "2c15121b8352a6ebe9e35685d803a7d480a78ca2ab6e2dfe94aba3a4208d32b7",
+    "recompute.py": "4f32a9a9f7cd6bfee7a2a5c67154c225200794ab97bd25dd1f2f671dda9b840c",
+    "qwen-raw-recomputation.json": "c33c4fb83493da5f3287cc43a6e7039e323f51da8329ebb17a05bd05f1531821"
+  },
+  "copied_input_byte_equality": true,
+  "dispatch": [
+    {"server":"server1","session":"01a04939-f93a-7b50-bca0-65438eab2062","turn":"01a121bf-d873-7a82-9654-01368ea03466","transport":"app-server turn/start","owner_ack":true},
+    {"server":"server2","session":"01a0493a-074c-7f91-9a13-769116326fef","turn":"01a121bf-dc12-7420-9754-c50086b87646","transport":"app-server turn/start","owner_ack":true},
+    {"server":"server3","session":"01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3","turn":"01a121bf-d90c-7961-ac25-8e757c17d1a7","transport":"app-server turn/start","owner_ack":true},
+    {"server":"server4","session":"01a04939-b5c7-7a03-ba2d-ef3343d62cfd","turn":"01a121bf-d996-71d2-973c-3bb381fbe3ba","transport":"app-server turn/start","owner_ack":true}
+  ],
+  "related_display_api_steer": {"server1":"accepted","server2":"accepted","server3":"accepted"},
+  "SH1_additional_write_scope": "official/tracking/schema.py and narrowly scoped CF generation eval-only tests; same nonce/profile checkpoint identity required; no W0/factual/fit logging; preserve other callers; SH1 sole editor, GH source review",
+  "validation": {"display_unit_tests":5,"source_SHA_files":166,"external_imports":0,"table_cells":4,"table_unit_headers":4,"GPU":0},
+  "raw_or_WB_history_mutation": false,
+  "deletion_or_cancellation": false,
+  "registration_status": "SH1_IN_PROGRESS_NO_JOB_IDS_YET"
+}

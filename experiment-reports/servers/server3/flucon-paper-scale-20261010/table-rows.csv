@@ -1,0 +1,3 @@
+server,job,endpoint,metric,status,raw_unit,raw_value,paper_display_x100,display_unit
+server3,61813,W0,Flu,DEFERRED,entropy_bits,,,entropy_bits_x100
+server3,61813,W0,Con,DEFERRED,tfidf_cosine,,,cosine_x100
