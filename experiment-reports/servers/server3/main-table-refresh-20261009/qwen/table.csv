@@ -1,0 +1,2 @@
+model,method,dataset,job_id,job_name,observed_state,main_table_eligible,Score,Eff,Gen,Loc,Flu_status,Con_status
+Qwen2.5-7B-Instruct,"PRICE Q3-beta250 (selected settings, final eval2k)",CF,61813,qwen-price-q3-eot-2k,W20_FACTUAL_COMPLETE,False,83.77063837622372,98.05,89.95,68.985,DEFERRED,DEFERRED
