@@ -1,0 +1,319 @@
+{
+  "at": "2026-10-09T09:14:51.946373+00:00",
+  "stage": "RELEASED",
+  "source": "5503935821b0ececb4aef09a5bccb5308879a6b5",
+  "control": {
+    "control_commit": "1d9fa5cf35dfff469ccccdafab03543f9f3b09a5",
+    "control_path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-qwen-pending-eval-refresh-20261009/project/run_scripts/server2_qwen_pending_submit.py",
+    "control_sha256": "5dc3509459424feac39ba67bb524a1a45ec9b04ef3b22df87e98ee2314fecba5",
+    "frozen_scientific_source": "5503935821b0ececb4aef09a5bccb5308879a6b5",
+    "reason": "Fresh protected GPU61951 uses lane2 until natural completion; no scientific archive mutation"
+  },
+  "source_lock_sha256": "6c5a1ab219f4efab3d0b6b2635ff66b4a7dc77dd7f90f2ec2889e28dcfa6bb9d",
+  "input_lock_sha256": "f86db774f44206859794b269b640996a0fc2d9ff5bb73a36961502076c5734ec",
+  "released_receipt_sha256": "cc4ac8e940d06385bb71f3da44ada0155bb3919f6d1e2cd999bfad876e3a5bef",
+  "jobs": [
+    {
+      "job_id": "61952",
+      "cell": "qwen25-cf-ft",
+      "kind": "archive",
+      "name": "s2-qwen25-cf-ft-archive",
+      "dependencies": [
+        "61898"
+      ],
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5",
+      "config_sha256": null
+    },
+    {
+      "job_id": "61953",
+      "cell": "qwen25-zsre-ft",
+      "kind": "archive",
+      "name": "s2-qwen25-zsre-ft-archive",
+      "dependencies": [
+        "61900",
+        "61952"
+      ],
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5",
+      "config_sha256": null
+    },
+    {
+      "job_id": "61954",
+      "cell": "qwen25-cf-memit",
+      "kind": "gpu",
+      "name": "s2-qwen25-cf-memit-gpu",
+      "dependencies": [
+        "61898",
+        "61951"
+      ],
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5",
+      "config_sha256": "69bbe8de2e405c3116fdb775b6d8ec6d7decd8d7cc50e9f7915c2b2eb291f5f7"
+    },
+    {
+      "job_id": "61955",
+      "cell": "qwen25-cf-memit",
+      "kind": "archive",
+      "name": "s2-qwen25-cf-memit-archive",
+      "dependencies": [
+        "61954",
+        "61953"
+      ],
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5",
+      "config_sha256": null
+    },
+    {
+      "job_id": "61956",
+      "cell": "qwen25-zsre-memit",
+      "kind": "gpu",
+      "name": "s2-qwen25-zsre-memit-gpu",
+      "dependencies": [
+        "61900"
+      ],
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5",
+      "config_sha256": "12b28e9d9903364086bb6c6b1315eee902b86ed3be356a8d62e37fd45cbed912"
+    },
+    {
+      "job_id": "61957",
+      "cell": "qwen25-zsre-memit",
+      "kind": "archive",
+      "name": "s2-qwen25-zsre-memit-archive",
+      "dependencies": [
+        "61956",
+        "61955"
+      ],
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5",
+      "config_sha256": null
+    },
+    {
+      "job_id": "61958",
+      "cell": "qwen25-cf-alphaedit",
+      "kind": "gpu",
+      "name": "s2-qwen25-cf-alphaedit-gpu",
+      "dependencies": [
+        "61898"
+      ],
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5",
+      "config_sha256": "4a7267a3d04ab1f266596555c81c20c5d6aa8be207d788dfc6e811e72c5b9180"
+    },
+    {
+      "job_id": "61959",
+      "cell": "qwen25-cf-alphaedit",
+      "kind": "archive",
+      "name": "s2-qwen25-cf-alphaedit-archive",
+      "dependencies": [
+        "61958",
+        "61957"
+      ],
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5",
+      "config_sha256": null
+    },
+    {
+      "job_id": "61960",
+      "cell": "qwen25-zsre-alphaedit",
+      "kind": "gpu",
+      "name": "s2-qwen25-zsre-alphaedit-gpu",
+      "dependencies": [
+        "61900"
+      ],
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5",
+      "config_sha256": "3cea7da80cd6c3824e6d6b19d0cb0ce6f5dc109e6a98e6e98fa1c72bdb8e9b0a"
+    },
+    {
+      "job_id": "61961",
+      "cell": "qwen25-zsre-alphaedit",
+      "kind": "archive",
+      "name": "s2-qwen25-zsre-alphaedit-archive",
+      "dependencies": [
+        "61960",
+        "61959"
+      ],
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5",
+      "config_sha256": null
+    },
+    {
+      "job_id": "61962",
+      "cell": "qwen25-cf-alphaedit_blue",
+      "kind": "gpu",
+      "name": "s2-qwen25-cf-alphaedit_blue-gpu",
+      "dependencies": [
+        "61898",
+        "61954"
+      ],
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5",
+      "config_sha256": "75eda8349ee37245ff224d7e79381bea38b1b43edf4bfedebc4c5ee33cfae1d1"
+    },
+    {
+      "job_id": "61963",
+      "cell": "qwen25-cf-alphaedit_blue",
+      "kind": "archive",
+      "name": "s2-qwen25-cf-alphaedit_blue-archive",
+      "dependencies": [
+        "61962",
+        "61961"
+      ],
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5",
+      "config_sha256": null
+    },
+    {
+      "job_id": "61964",
+      "cell": "qwen25-zsre-alphaedit_blue",
+      "kind": "gpu",
+      "name": "s2-qwen25-zsre-alphaedit_blue-gpu",
+      "dependencies": [
+        "61900",
+        "61956"
+      ],
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5",
+      "config_sha256": "50f602127849c8d634a3a455b26d1c346221d06fda48f83713a5b283fbf844c5"
+    },
+    {
+      "job_id": "61965",
+      "cell": "qwen25-zsre-alphaedit_blue",
+      "kind": "archive",
+      "name": "s2-qwen25-zsre-alphaedit_blue-archive",
+      "dependencies": [
+        "61964",
+        "61963"
+      ],
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5",
+      "config_sha256": null
+    },
+    {
+      "job_id": "61966",
+      "cell": "qwen25-cf-memit_fe",
+      "kind": "gpu",
+      "name": "s2-qwen25-cf-memit_fe-gpu",
+      "dependencies": [
+        "61898",
+        "61958"
+      ],
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5",
+      "config_sha256": "7494cadacb1c1cd8c853c2070a8acdf48785e4f5e65302c6ca798857aa372e8a"
+    },
+    {
+      "job_id": "61967",
+      "cell": "qwen25-cf-memit_fe",
+      "kind": "archive",
+      "name": "s2-qwen25-cf-memit_fe-archive",
+      "dependencies": [
+        "61966",
+        "61965"
+      ],
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5",
+      "config_sha256": null
+    },
+    {
+      "job_id": "61968",
+      "cell": "qwen25-zsre-memit_fe",
+      "kind": "gpu",
+      "name": "s2-qwen25-zsre-memit_fe-gpu",
+      "dependencies": [
+        "61900",
+        "61960"
+      ],
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5",
+      "config_sha256": "017caf1fdf2e9b64727fbf42a2eb9ba2781a496fa19aed22153a453c0fe3ccf7"
+    },
+    {
+      "job_id": "61969",
+      "cell": "qwen25-zsre-memit_fe",
+      "kind": "archive",
+      "name": "s2-qwen25-zsre-memit_fe-archive",
+      "dependencies": [
+        "61968",
+        "61967"
+      ],
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5",
+      "config_sha256": null
+    },
+    {
+      "job_id": "61970",
+      "cell": "qwen25-cf-sphere",
+      "kind": "gpu",
+      "name": "s2-qwen25-cf-sphere-gpu",
+      "dependencies": [
+        "61898",
+        "61962"
+      ],
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5",
+      "config_sha256": "f338137e8f56820b53dd46cd0df27f368a8e394c9fd2f1dda2e9c0b2e41bec9d"
+    },
+    {
+      "job_id": "61971",
+      "cell": "qwen25-cf-sphere",
+      "kind": "archive",
+      "name": "s2-qwen25-cf-sphere-archive",
+      "dependencies": [
+        "61970",
+        "61969"
+      ],
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5",
+      "config_sha256": null
+    },
+    {
+      "job_id": "61972",
+      "cell": "qwen25-zsre-sphere",
+      "kind": "gpu",
+      "name": "s2-qwen25-zsre-sphere-gpu",
+      "dependencies": [
+        "61900",
+        "61964"
+      ],
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5",
+      "config_sha256": "6eef1abf8defbdacd3df89e7f04cc3ae286b42b103099f1722a9b834eaca7937"
+    },
+    {
+      "job_id": "61973",
+      "cell": "qwen25-zsre-sphere",
+      "kind": "archive",
+      "name": "s2-qwen25-zsre-sphere-archive",
+      "dependencies": [
+        "61972",
+        "61971"
+      ],
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5",
+      "config_sha256": null
+    },
+    {
+      "job_id": "61974",
+      "cell": "collector",
+      "kind": "collector",
+      "name": "s2-collector-collector",
+      "dependencies": [
+        "61898",
+        "61900",
+        "61952",
+        "61953",
+        "61954",
+        "61955",
+        "61956",
+        "61957",
+        "61958",
+        "61959",
+        "61960",
+        "61961",
+        "61962",
+        "61963",
+        "61964",
+        "61965",
+        "61966",
+        "61967",
+        "61968",
+        "61969",
+        "61970",
+        "61971",
+        "61972",
+        "61973"
+      ],
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5",
+      "config_sha256": null
+    }
+  ],
+  "eval_resource_rebind": {
+    "61942": "61970",
+    "61943": "61972",
+    "61944": "61966",
+    "61945": "61968"
+  },
+  "snapshot": "61974|s2-collector-collector|PENDING|afterany:61898(unfulfilled),afterany:61900(unfulfilled),afterany:61952(unfulfilled),afterany:61953(unfulfilled),afterany:61954(unfulfilled),afterany:61955(unfulfilled),afterany:61956(unfulfilled),afterany:61957(unfulfilled),afterany:61958(unfulfilled),afterany:61959(unfulfilled),afterany:61960(unfulfilled),afterany:61961(unfulfilled),afterany:61962(unfulfilled),afterany:61963(unfulfilled),afterany:61964(unfulfilled),afterany:61965(unfulfilled),afterany:61966(unfulfilled),afterany:61967(unfulfilled),afterany:61968(unfulfilled),afterany:61969(unfulfilled),afterany:61970(unfulfilled),afterany:61971(unfulfilled),afterany:61972(unfulfilled),afterany:61973(unfulfilled)\n61973|s2-qwen25-zsre-sphere-archive|PENDING|afterany:61972(unfulfilled),afterany:61971(unfulfilled)\n61972|s2-qwen25-zsre-sphere-gpu|PENDING|afterany:61900(unfulfilled),afterany:61964(unfulfilled)\n61971|s2-qwen25-cf-sphere-archive|PENDING|afterany:61970(unfulfilled),afterany:61969(unfulfilled)\n61970|s2-qwen25-cf-sphere-gpu|PENDING|afterany:61898(unfulfilled),afterany:61962(unfulfilled)\n61969|s2-qwen25-zsre-memit_fe-archive|PENDING|afterany:61968(unfulfilled),afterany:61967(unfulfilled)\n61968|s2-qwen25-zsre-memit_fe-gpu|PENDING|afterany:61900(unfulfilled),afterany:61960(unfulfilled)\n61967|s2-qwen25-cf-memit_fe-archive|PENDING|afterany:61966(unfulfilled),afterany:61965(unfulfilled)\n61966|s2-qwen25-cf-memit_fe-gpu|PENDING|afterany:61898(unfulfilled),afterany:61958(unfulfilled)\n61965|s2-qwen25-zsre-alphaedit_blue-archive|PENDING|afterany:61964(unfulfilled),afterany:61963(unfulfilled)\n61964|s2-qwen25-zsre-alphaedit_blue-gpu|PENDING|afterany:61900(unfulfilled),afterany:61956(unfulfilled)\n61963|s2-qwen25-cf-alphaedit_blue-archive|PENDING|afterany:61962(unfulfilled),afterany:61961(unfulfilled)\n61962|s2-qwen25-cf-alphaedit_blue-gpu|PENDING|afterany:61898(unfulfilled),afterany:61954(unfulfilled)\n61961|s2-qwen25-zsre-alphaedit-archive|PENDING|afterany:61960(unfulfilled),afterany:61959(unfulfilled)\n61960|s2-qwen25-zsre-alphaedit-gpu|PENDING|afterany:61900(unfulfilled)\n61959|s2-qwen25-cf-alphaedit-archive|PENDING|afterany:61958(unfulfilled),afterany:61957(unfulfilled)\n61958|s2-qwen25-cf-alphaedit-gpu|PENDING|afterany:61898(unfulfilled)\n61957|s2-qwen25-zsre-memit-archive|PENDING|afterany:61956(unfulfilled),afterany:61955(unfulfilled)\n61956|s2-qwen25-zsre-memit-gpu|PENDING|afterany:61900(unfulfilled)\n61955|s2-qwen25-cf-memit-archive|PENDING|afterany:61954(unfulfilled),afterany:61953(unfulfilled)\n61954|s2-qwen25-cf-memit-gpu|PENDING|afterany:61898(unfulfilled),afterany:61951(unfulfilled)\n61953|s2-qwen25-zsre-ft-archive|PENDING|afterany:61900(unfulfilled),afterany:61952(unfulfilled)\n61952|s2-qwen25-cf-ft-archive|PENDING|afterany:61898(unfulfilled)\n61948|s2-zsre-reeval-collector|PENDING|afterany:61942(unfulfilled),afterany:61943(unfulfilled),afterany:61944(unfulfilled),afterany:61945(unfulfilled),afterany:61946(unfulfilled),afterany:61947(unfulfilled)\n61947|s2-zsre-reeval-sphere|PENDING|afterany:61943(unfulfilled)\n61946|s2-zsre-reeval-memit_fe|PENDING|afterany:61942(unfulfilled)\n61945|s2-zsre-reeval-alphaedit_blue|PENDING|afterany:61968(unfulfilled)\n61944|s2-zsre-reeval-alphaedit|PENDING|afterany:61966(unfulfilled)\n61943|s2-zsre-reeval-memit|PENDING|afterany:61972(unfulfilled)\n61942|s2-zsre-reeval-ft|PENDING|afterany:61970(unfulfilled)\n61898|s2-qwen25-cf-ft-gpu|RUNNING|(null)\n61900|s2-qwen25-zsre-ft-gpu|RUNNING|(null)",
+  "root": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-native-eval-r2"
+}
