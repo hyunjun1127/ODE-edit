@@ -42,7 +42,7 @@ def prepare_inputs(prep):
 
 def admission():
     # Check every same-owner requested/allocated server2 GPU, not job-name only.
-    known={'61898','61900',*map(str,range(61942,61948))};observed=[]
+    known={'61898','61900','61951',*map(str,range(61942,61948))};observed=[]
     for raw in base.cmd(['scontrol','show','job','-o']).splitlines():
         f=dict(x.split('=',1) for x in raw.split() if '=' in x)
         if not f.get('UserId','').startswith('janghj('):continue
@@ -56,15 +56,27 @@ def admission():
         base.check(f['JobState']=='PENDING' and f['Reason']=='JobHeldUser','EVAL_HOLD_LOST')
     for j in read(OLD/'released.json')['jobs']:
         if j['job_id'] in ('61898','61900'):state(j,OLD,'qwen')
+    raw,extra=base.fields('61951')
+    folder=Path('/mnt/raid5/janghj/ODE-edit/local/sink-patch-t1-20261009')
+    base.check(extra.get('UserId','').startswith('janghj(') and extra.get('ReqNodeList')=='server2'
+        and extra.get('Command')==str(folder/'run.sh') and extra.get('WorkDir')==str(folder)
+        and extra.get('JobName')=='t1-sink-patch','PROTECTED_FRONTIER_IDENTITY')
     qos=base.cmd(['sacctmgr','-n','-P','show','qos','lab_gpu_s2','format=Name,MaxTRESPU'])
     base.check('gres/gpu=4' in qos,'QOS_CAP_NOT_FOUR')
     return dict(at=base.now(),cap=4,authority='Latest direct USER server2 cap4; pending Qwen refresh',
-        jobs=observed,node=base.cmd(['scontrol','show','node','server2','-o']),qos=qos,
+        jobs=observed,additional_protected_frontier=dict(job_id='61951',scheduler=raw,
+            source_members=[dict(path=str(folder/n),sha256=file_sha(folder/n)) for n in ('run.sh','sink_patch.py')],
+            mutation=False),node=base.cmd(['scontrol','show','node','server2','-o']),qos=qos,
         local_caps=base.cmd(['sed','-n','1,8p','/mnt/raid5/janghj/ODE-edit/servers/local/gpu-caps.tsv']))
 
 def submit(root):
     base.verify(root,True)
     base.check(not (root/'registration-started.json').exists(),'NO_DUPLICATE_REGISTRATION')
+    write_new(root/'registration-control.json',dict(
+        control_commit=base.cmd(['git','rev-parse','HEAD'],cwd=base.ROOT),
+        control_path=str(Path(__file__).resolve()),control_sha256=file_sha(__file__),
+        frozen_scientific_source=read(root/'source-lock.json')['code_commit'],
+        reason='Fresh protected GPU61951 uses lane2 until natural completion; no scientific archive mutation'))
     write_new(root/'registration-started.json',admission())
     kept=read(root/'kept.json');jobs=[];ids={};previous_archive=None
     order=[r for m in ('MEMIT','ALPHAEDIT','ALPHAEDIT_BLUE','MEMIT_FE','SPHERE') for r in rows() if r['config']['method']==m]
@@ -73,6 +85,7 @@ def submit(root):
         item=base.register(root,cell,'archive',deps,None);jobs.append(item);previous_archive=item['job_id']
     for row,lane,logical_deps in planned(order,{'cf':'61898','zsre':'61900'}):
         cell=row['logical_main_row'];deps=[ids.get(d,d) for d in logical_deps]
+        if cell=='qwen25-cf-memit':deps.append('61951')
         item=base.register(root,cell,'gpu',deps,row['config']);jobs.append(item);ids[cell]=item['job_id']
         archive.registered(root,cell,item['job_id'],item['submitted_at'])
         item=base.register(root,cell,'archive',[item['job_id'],previous_archive],None)
