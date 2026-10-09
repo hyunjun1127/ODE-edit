@@ -1,0 +1,494 @@
+{
+  "nonce": "USER-GH-ZSRE-SAVED-WEIGHTS-2K-REEVAL-20261009-R1",
+  "accepted_turn": "current direct SH3 owner turn",
+  "session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+  "server": "server3",
+  "observed_at": "2026-10-09T08:37:49.967379+00:00",
+  "status": "NOT_APPLICABLE",
+  "reason": "NO_OWN_COMPLETED_ZSRE_W20_CHECKPOINT_FOUND",
+  "eligible_methods": [],
+  "eligible_checkpoints": [],
+  "new_job_ids": [],
+  "new_job_names": [],
+  "completed_raw_metrics": null,
+  "checkpoint_payload_SHA_status": "NOT_APPLICABLE_NO_ELIGIBLE_CP",
+  "source_pending": "GH common evaluator READY pending at dispatch; not a blocker for this nojob disposition",
+  "metadata": [
+    {
+      "path": "/data/janghj/ODE-edit/local/en-adapt-gss-history/20260920-v1/res/attempt-v1/submission.json",
+      "bytes": 857,
+      "sha256": "a4dffe2784db27b3a288deeb3c5a40cb3c0dbea0088901e62158afa80786b04a",
+      "mentions_zsre": false,
+      "status": null,
+      "dataset": null,
+      "job_id": "51352"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/en-adapt-gss-history/20260920-v1/gss_rec/attempt-v1/submission.json",
+      "bytes": 877,
+      "sha256": "475ccb68b1d472582b458e2265616a27a8a296bb153af4082c0b72b0ceab072f",
+      "mentions_zsre": false,
+      "status": null,
+      "dataset": null,
+      "job_id": "51355"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v14-budget15-r2/20261005-v1/attempt-r1/submission.json",
+      "bytes": 2229,
+      "sha256": "4be3ea78bfea23cdd5bf81065405aca4699775cfe448cc5d7e157242902bf59e",
+      "mentions_zsre": false,
+      "status": "RELEASED",
+      "dataset": null,
+      "job_id": null
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/attempt-v1/submission.json",
+      "bytes": 762,
+      "sha256": "252857c839840b33ed943ee35a0d7529ac900d9fdeca28d53a6ef7638933a018",
+      "mentions_zsre": false,
+      "status": null,
+      "dataset": null,
+      "job_id": "53996"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/attempt-repair-r1/submission.json",
+      "bytes": 797,
+      "sha256": "6b363275ecd78a2bca087a73d130717573a05a107f8a1be469ea6326997789f0",
+      "mentions_zsre": false,
+      "status": null,
+      "dataset": null,
+      "job_id": "54007"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/attempt-repair-r1/output/terminal.json",
+      "bytes": 61674,
+      "sha256": "bfea49152e35f0cf3bb14e298220925e07c2b55849e5848a2f6b27b4b1dc483f",
+      "mentions_zsre": false,
+      "status": "COMPLETED",
+      "dataset": null,
+      "job_id": null
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/terminal.json",
+      "bytes": 882,
+      "sha256": "a91123443f6b82f91e2380fe78afe63f88abdc1f42eed4d52c35c7f01d7c1d03",
+      "mentions_zsre": false,
+      "status": "TECHNICAL_INCOMPLETE",
+      "dataset": null,
+      "job_id": null
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/groups/P/terminal.json",
+      "bytes": 2004,
+      "sha256": "daaab7682c4621b9a52169562a7e3dcdfbe7f28b34a795f1898a6bba7298c652",
+      "mentions_zsre": false,
+      "status": "COMPLETED_GROUP",
+      "dataset": null,
+      "job_id": null
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/cells/writer_0_divisor/terminal.json",
+      "bytes": 1105,
+      "sha256": "82cd84b30d80ec43e8b258e14380486a00459769087e47da6df3cb9588fe595a",
+      "mentions_zsre": false,
+      "status": "COMPLETED",
+      "dataset": null,
+      "job_id": null
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/cells/history_1000_forced_refresh/terminal.json",
+      "bytes": 1116,
+      "sha256": "ab49de3acdb569b115da05bbc9317822686f302fd82e8b302296a305c477afcf",
+      "mentions_zsre": false,
+      "status": "COMPLETED",
+      "dataset": null,
+      "job_id": null
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/cells/writer_1000_frozen_upper_joint/terminal.json",
+      "bytes": 1119,
+      "sha256": "570b24256764d2597b46135c08cc2e0ac4653541addb36d4b94a2a8cfa61837f",
+      "mentions_zsre": false,
+      "status": "COMPLETED",
+      "dataset": null,
+      "job_id": null
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/cells/writer_0_joint/terminal.json",
+      "bytes": 1103,
+      "sha256": "9b47c7301088eb4ed35fe8f282a29430fa0c2bcba13acdc326596be268d30f63",
+      "mentions_zsre": false,
+      "status": "COMPLETED",
+      "dataset": null,
+      "job_id": null
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/cells/writer_1000_joint/terminal.json",
+      "bytes": 1106,
+      "sha256": "162d94761bbc80cad513a01c86a45a31252e8a8bf766499a62d7d9bca5ad1791",
+      "mentions_zsre": false,
+      "status": "COMPLETED",
+      "dataset": null,
+      "job_id": null
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/cells/history_1000_stale/terminal.json",
+      "bytes": 1107,
+      "sha256": "69da39bb526616ffaad43c7d1e84562158efbbd5f7015ce06e6acffde6c0e666",
+      "mentions_zsre": false,
+      "status": "COMPLETED",
+      "dataset": null,
+      "job_id": null
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/cells/writer_1000_energy_matched_divisor/terminal.json",
+      "bytes": 1123,
+      "sha256": "fb8f559777325231e08858a381a2886ddec5e0ed8de351eb09adcee905dec965",
+      "mentions_zsre": false,
+      "status": "COMPLETED",
+      "dataset": null,
+      "job_id": null
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/cells/writer_1000_divisor/terminal.json",
+      "bytes": 1108,
+      "sha256": "a4c203ecdcc39bb0bd7334d355dd699abe8ef7f1149c3a910034e17fbf4e10d5",
+      "mentions_zsre": false,
+      "status": "COMPLETED",
+      "dataset": null,
+      "job_id": null
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/cells/writer_0_energy_matched_divisor/terminal.json",
+      "bytes": 1120,
+      "sha256": "7cec1cb4e4c2f23d745d49675ffda37c3ae7a346cb9ab0abfa9ddfc4eff935ac",
+      "mentions_zsre": false,
+      "status": "COMPLETED",
+      "dataset": null,
+      "job_id": null
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/cells/writer_0_frozen_upper_joint/terminal.json",
+      "bytes": 1116,
+      "sha256": "876aae23b81e3f4ae7d945694b0621e6ad2842a575057b85820e455bc4b8bc1f",
+      "mentions_zsre": false,
+      "status": "COMPLETED",
+      "dataset": null,
+      "job_id": null
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/T0/result.json",
+      "bytes": 1187,
+      "sha256": "4fd14c742a78fdee0e5228a958f8dff25e058f7302804bdffcd12b192991cb3a",
+      "mentions_zsre": false,
+      "status": "PASS",
+      "dataset": null,
+      "job_id": null
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/snapshot/terminal.json",
+      "bytes": 882,
+      "sha256": "a91123443f6b82f91e2380fe78afe63f88abdc1f42eed4d52c35c7f01d7c1d03",
+      "mentions_zsre": false,
+      "status": "TECHNICAL_INCOMPLETE",
+      "dataset": null,
+      "job_id": null
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/snapshot/groups/P/terminal.json",
+      "bytes": 2004,
+      "sha256": "daaab7682c4621b9a52169562a7e3dcdfbe7f28b34a795f1898a6bba7298c652",
+      "mentions_zsre": false,
+      "status": "COMPLETED_GROUP",
+      "dataset": null,
+      "job_id": null
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/snapshot/cells/writer_0_divisor/terminal.json",
+      "bytes": 1105,
+      "sha256": "82cd84b30d80ec43e8b258e14380486a00459769087e47da6df3cb9588fe595a",
+      "mentions_zsre": false,
+      "status": "COMPLETED",
+      "dataset": null,
+      "job_id": null
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/snapshot/cells/history_1000_forced_refresh/terminal.json",
+      "bytes": 1116,
+      "sha256": "ab49de3acdb569b115da05bbc9317822686f302fd82e8b302296a305c477afcf",
+      "mentions_zsre": false,
+      "status": "COMPLETED",
+      "dataset": null,
+      "job_id": null
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/snapshot/cells/writer_1000_frozen_upper_joint/terminal.json",
+      "bytes": 1119,
+      "sha256": "570b24256764d2597b46135c08cc2e0ac4653541addb36d4b94a2a8cfa61837f",
+      "mentions_zsre": false,
+      "status": "COMPLETED",
+      "dataset": null,
+      "job_id": null
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/snapshot/cells/writer_0_joint/terminal.json",
+      "bytes": 1103,
+      "sha256": "9b47c7301088eb4ed35fe8f282a29430fa0c2bcba13acdc326596be268d30f63",
+      "mentions_zsre": false,
+      "status": "COMPLETED",
+      "dataset": null,
+      "job_id": null
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/snapshot/cells/writer_1000_joint/terminal.json",
+      "bytes": 1106,
+      "sha256": "162d94761bbc80cad513a01c86a45a31252e8a8bf766499a62d7d9bca5ad1791",
+      "mentions_zsre": false,
+      "status": "COMPLETED",
+      "dataset": null,
+      "job_id": null
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/snapshot/cells/history_1000_stale/terminal.json",
+      "bytes": 1107,
+      "sha256": "69da39bb526616ffaad43c7d1e84562158efbbd5f7015ce06e6acffde6c0e666",
+      "mentions_zsre": false,
+      "status": "COMPLETED",
+      "dataset": null,
+      "job_id": null
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/snapshot/cells/writer_1000_energy_matched_divisor/terminal.json",
+      "bytes": 1123,
+      "sha256": "fb8f559777325231e08858a381a2886ddec5e0ed8de351eb09adcee905dec965",
+      "mentions_zsre": false,
+      "status": "COMPLETED",
+      "dataset": null,
+      "job_id": null
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/snapshot/cells/writer_1000_divisor/terminal.json",
+      "bytes": 1108,
+      "sha256": "a4c203ecdcc39bb0bd7334d355dd699abe8ef7f1149c3a910034e17fbf4e10d5",
+      "mentions_zsre": false,
+      "status": "COMPLETED",
+      "dataset": null,
+      "job_id": null
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/snapshot/cells/writer_0_energy_matched_divisor/terminal.json",
+      "bytes": 1120,
+      "sha256": "7cec1cb4e4c2f23d745d49675ffda37c3ae7a346cb9ab0abfa9ddfc4eff935ac",
+      "mentions_zsre": false,
+      "status": "COMPLETED",
+      "dataset": null,
+      "job_id": null
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/snapshot/cells/writer_0_frozen_upper_joint/terminal.json",
+      "bytes": 1116,
+      "sha256": "876aae23b81e3f4ae7d945694b0621e6ad2842a575057b85820e455bc4b8bc1f",
+      "mentions_zsre": false,
+      "status": "COMPLETED",
+      "dataset": null,
+      "job_id": null
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/review-1k-20261002-v1/snapshot/T0/result.json",
+      "bytes": 1187,
+      "sha256": "4fd14c742a78fdee0e5228a958f8dff25e058f7302804bdffcd12b192991cb3a",
+      "mentions_zsre": false,
+      "status": "PASS",
+      "dataset": null,
+      "job_id": null
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/operator-actions/20261001-a1k-only-v1/selftest-events/terminal.json",
+      "bytes": 17,
+      "sha256": "218589323cbe80b7ed077e3ee36f1663e7cb5f8f4e4ad02c938ad8a5c2c5a6b9",
+      "mentions_zsre": false,
+      "status": null,
+      "dataset": null,
+      "job_id": null
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/terminal.json",
+      "bytes": 156,
+      "sha256": "740132e64fd07ac03bfbc9e217502ae6e378008f3c3492abee61da79107dee14",
+      "mentions_zsre": false,
+      "status": "COMPLETE",
+      "dataset": null,
+      "job_id": null
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/qwen-price-q3-eot-2k-20261009/execution-r1/final/result.json",
+      "bytes": 4508,
+      "sha256": "97325b89e2a0cf01046139b0a993eb372013cca109b140a4fca853311c93db3a",
+      "mentions_zsre": false,
+      "status": "COMPLETE",
+      "dataset": null,
+      "job_id": null
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/attempt-r1/submission.json",
+      "bytes": 3186,
+      "sha256": "e67150a4ff156f08289817fe799df58a948a40026f71574c74b86ad7b442ea3e",
+      "mentions_zsre": false,
+      "status": "RELEASED",
+      "dataset": null,
+      "job_id": null
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/attempt-r1/pilot-V12_ALPHAEDIT/terminal.json",
+      "bytes": 281,
+      "sha256": "0baa74d4ba830729f957a5911b784e599bad999c5e0487efd25a1027e23bca12",
+      "mentions_zsre": false,
+      "status": "COMPLETED",
+      "dataset": null,
+      "job_id": null
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/submission.json",
+      "bytes": 4125,
+      "sha256": "93518d299d45928cbd749c079c0e4be1c79fbf5b9f343bbf270f5567a8b5ea68",
+      "mentions_zsre": false,
+      "status": null,
+      "dataset": null,
+      "job_id": null
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/main-A/terminal.json",
+      "bytes": 474,
+      "sha256": "694cba7e64dc32be2ebded0b5962c9a97deaa87bbe62bfd989441204a586518f",
+      "mentions_zsre": false,
+      "status": "COMPLETED",
+      "dataset": null,
+      "job_id": "57699"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/q1/terminal.json",
+      "bytes": 462,
+      "sha256": "92b6c0bd7ffefc220408a3682e0473486c13b651fd5e5de094e210c9d0f2a2c5",
+      "mentions_zsre": false,
+      "status": "COMPLETED",
+      "dataset": null,
+      "job_id": "57698"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/review-A-20261003-v1/snapshot/submission.json",
+      "bytes": 4125,
+      "sha256": "93518d299d45928cbd749c079c0e4be1c79fbf5b9f343bbf270f5567a8b5ea68",
+      "mentions_zsre": false,
+      "status": null,
+      "dataset": null,
+      "job_id": null
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/review-A-20261003-v1/snapshot/main-A/terminal.json",
+      "bytes": 474,
+      "sha256": "694cba7e64dc32be2ebded0b5962c9a97deaa87bbe62bfd989441204a586518f",
+      "mentions_zsre": false,
+      "status": "COMPLETED",
+      "dataset": null,
+      "job_id": "57699"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/submission.json",
+      "bytes": 3111,
+      "sha256": "60799c4f82849934b2ebbec6dcf8f1d26738800fa78e8b68377ec4f98003654e",
+      "mentions_zsre": false,
+      "status": "RELEASED",
+      "dataset": null,
+      "job_id": null
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/main-V12_MAIN/terminal.json",
+      "bytes": 278,
+      "sha256": "0a594fc4408c41944d3b5e359c301476ad695e606d3a1499fd7697f04d2818b9",
+      "mentions_zsre": false,
+      "status": "COMPLETED",
+      "dataset": null,
+      "job_id": null
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/report/terminal.json",
+      "bytes": 626,
+      "sha256": "190436fe964e339bb6c6874b416d22fb04de6fa1a614af503fc53370292d4ad7",
+      "mentions_zsre": false,
+      "status": "COMPLETED",
+      "dataset": null,
+      "job_id": null
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/pilot-V12_MAIN/terminal.json",
+      "bytes": 276,
+      "sha256": "3178622f6c42ca287cff06b195fa92a2493d9fc68bb7d8cf676014cd10fa2d48",
+      "mentions_zsre": false,
+      "status": "COMPLETED",
+      "dataset": null,
+      "job_id": null
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/attempt-v1/submission.json",
+      "bytes": 750,
+      "sha256": "9365181fce693269ca942d9ddb84e71122612905582bff83bab293e33300577a",
+      "mentions_zsre": false,
+      "status": null,
+      "dataset": null,
+      "job_id": "51290"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/en-adaptive-nullspace/20260920-v1/server3-repair-r1/s4-rca/members/submission.json",
+      "bytes": 755,
+      "sha256": "e353598ebb7d707194942afe910703e1020f20b327abfe3ddb507d70b1c5feab",
+      "mentions_zsre": false,
+      "status": null,
+      "dataset": null,
+      "job_id": "51260"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "/data/janghj/ODE-edit/local/official-baselines-20261008/submission-request-preflight-20261009.json",
+      "sha256": "5e7c93f004141dbe57041e125978cd491d47e0ec034604fc7dbe7d0bdc83f35e",
+      "bytes": 550
+    },
+    {
+      "path": "audits/servers/server3/official-baselines-20261008/zsre-loc-review-20261009/inventory.json",
+      "sha256": "76d1e8577acbbb7682501c9b2eef6d8889f925afb01833b7348974aa67f53933",
+      "bytes": 17873
+    }
+  ],
+  "coverage": {
+    "root": "/data/janghj/ODE-edit/local",
+    "depth": 6,
+    "max_metadata_bytes": 1000000,
+    "pruned": [
+      ".git",
+      "W0",
+      "__pycache__",
+      "blobs",
+      "cache",
+      "datasets",
+      "inputs",
+      "post",
+      "pre",
+      "runtime",
+      "snapshots",
+      "source",
+      "tracking",
+      "venv",
+      "wandb",
+      "worktree"
+    ],
+    "errors": [],
+    "oversized": [],
+    "scope": "Known own local execution metadata; excludes code copies and external replicas; not filesystem-wide absence proof"
+  },
+  "inventory_source_sha256": "a0ac00e5f650658eb96752b69e26c5e8429ddb6ae86776b49ff5b6d364e254fc",
+  "CPU_only": true,
+  "model_checkpoint_load": false,
+  "Slurm_operations": 0,
+  "other_server_replica_evaluation": false,
+  "preservation": "source/raw/checkpoint/frozen jobs KEEP"
+}

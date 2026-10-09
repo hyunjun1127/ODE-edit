@@ -1,0 +1,17 @@
+{
+  "instruction_id": "USER-GH-ZSRE-SAVED-WEIGHTS-2K-REEVAL-20261009-R1",
+  "user_quote": "이 mismatch 사실 자체를 GH에게 전달하고, 우선 각 서버에 저장된 zsre 가중치를 이용해서 2k 지표만 다시 산출해서 table갱신만 진행하라고 해",
+  "scope": "all approved completed zsRE W20/2000 local checkpoints, eval-only Eff/Gen/Loc, no edits or intermediate endpoints",
+  "known_candidates": {"server1_llama": [61716,61717,61718,61719,61720,61721], "server2_gptj": [61726,61728,61730,61732,61734,61735], "server3": "inventory had no completed zsRE", "server4": "inventory had no completed zsRE; cancelled Qwen migrated to server2 not completed"},
+  "common_owner": "GH directly implements reviewed official/evaluation/zsre_paper.py and CPU native-query parity; server heads must not duplicate evaluator",
+  "planned_API": "build_queries(tokenizer, records, model_family=llama3|gptj|qwen25); evaluate(model,tokenizer,records,model_family=...,batch_size=16,device=None,identity=None,progress=None). Exact final API/SHA READY to follow; no fake source-ready",
+  "native_definition": "Llama AlphaEdit/BLUE extra-space decode-retokenize Eff/Gen and dataset-loader loc_ans token-prefix/BOS handling; GPTJ MEMIT/AlphaEdit non-Llama; Qwen explicit non-Llama branch. Request-macro target token accuracy, no W0-as-target",
+  "SH_work": "verify local final checkpoint SHA/manifest/base revision/source/config/edits2000/stream; restore exact edited weights without modification; own minimal eval-only runner/held submit/CPU collector in official/runners/serverN and own approved output paths. No checkpoint exists=>MISSING/INCOMPLETE, no recreate-edit or duplicate replica",
+  "outputs": "local/official-baselines/serverN/zsre-2k-reeval-20261009; audits/servers/serverN/zsre-2k-reeval-20261009; experiment-reports/servers/serverN/zsre-2k-reeval-20261009",
+  "state": "source/CP/raw/frozen jobs KEEP. No hotpatch, cancellation, re-edit, new milestone/W0/CF/FluCon/sweep",
+  "resources": "latest per-server caps/admission count running+pending; use free resources and normal dependencies, no increases/preemption. 1GPU per evaluation; explicit CPU/RAM/QoS/storage binding",
+  "verification": "before submit exact checkpoint and full2000 native query CPU parity, no standalone GPU proof. In evaluation finite metrics/all2000 request+token denominators/weights+RNG unchanged. Native input parity is not numerical output parity claim",
+  "WandB": "new immutable eval-only identity with actual job ID/scalars and exact original run+CP/evaluator provenance; no historical overwrite, no fake zero or W0 claim",
+  "completion": "owner ACK, known CP inventory, actual eval job IDs or concrete missing/blocker, main README reeval name/status then only observed complete replacement numbers. No recurring monitor",
+  "parallel_task": "SH1 three-model MEMIT_FE_HISTORY CF task remains separately approved; this task does not cancel it or change dataset"
+}
