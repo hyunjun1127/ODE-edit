@@ -131,25 +131,35 @@ Flu/Con은 미평가·DEFERRED이며 zsRE는 별도 새 W20 결과다.
 
 ### Qwen2.5-7B-Instruct
 
-**Server4 → Server2 이전 등록 완료: 2026-10-09 17:16:34 KST 단발 snapshot은 모두 PENDING.**
-Server4 첫 CF FT **61783**은 2026-10-09 12:31:29 KST에 디스크 여유 32GiB 검사
-`RESOURCE_BLOCKED_STORAGE_KEEP_SOURCE`로 FAILED(1초, 모델/편집 시작 전).
-archive **61784**와 후속 `afterok` 연결이 막혔다. SH4는 정확히 남은 미시작 GPU/archive
-**23개**를 downstream-first 취소했고 실패 job·source·raw·checkpoint는 보존했다.
-기존 PRICE/OURS/tuning은 변경하지 않았다. SH2가 기존 6방법 × CF/zsRE의 12개 cold chain과
-GPU0 archive 12개·collector **61922**를 실제 held 검사 후 release했다.
-실행 source `69bfbb2c`, source-lock `2c368505e34e89e51e178ef59410dad5a44d9cde488ec3a0810758e930442b70`.
-cap4와 필요한 입력/자원 dependency를 적용했고, 원 loop의 도달 불가 들여쓰기만 최소 수리했다.
-실제 model/GPU·W&B startup·W20은 미관측이며, project 접근 확인과 구분한다.
-SH1 archive trust가 freeze 후 도착했으므로 이번 frozen 실행은 **ARCHIVE_PENDING_KEEP_SOURCE**:
-receiver 입력 hotpatch·payload 전송·원본 삭제 없이 충분한 local 공간에 보존한다.
-원 CF 일정 **W0_AND_W20_FIRST2000**과 zsRE 생성 없음, 별도 qualification
-`NOT_RUN_USER_DISABLED`는 유지한다. GPT-J의 DEFERRED 일정을 이식하지 않는다.
-[실패·23개 취소·전달 보고](experiment-reports/servers/server4/qwen-migration-20261009/report-ko.md) ·
-[SH2 실제 등록 보고](experiment-reports/servers/server2/qwen-migration-results-20261009/report-ko.md) ·
-[실제 job name/config/dependency 영수증](audits/servers/server2/qwen-migration-results-20261009/submission.json).
-이번 12개 frozen source는 Loc 정정 전 버전이며 변경하지 않는다. 이후 완료 raw는 새 정의로
-CPU 후처리하고 source/provenance를 분리해 기록한다.
+**Server2 최신 등록: 2026-10-09 18:14:51 KST SH2 단발 snapshot 기준.**
+기존 FT CF **61898**·zsRE **61900**은 **RUNNING 유지**이며 원 source `69bfbb2c`를 변경하지 않았다.
+미시작 **61899 및 61901–61922(23개)**만 취소하고, 나머지 5방법 × CF/zsRE의
+**10개 GPU 본실험**을 새 source `5503935821b0ececb4aef09a5bccb5308879a6b5`로
+held 검사 후 release했다. 아래 새 작업은 모두 **PENDING(Dependency)**이며 W20 완료가 아니다.
+GPU0 archive/KEEP 단계는 **61952/61953/61955/61957/61959/61961/61963/61965/61967/61969/61971/61973**,
+collector는 **61974**다. cap4 안에서 보호 RUNNING **61951**도 자원 dependency에 포함했고 변경하지 않았다.
+
+새 zsRE caller는 공통 공개-query 평가와 loc_ans request-macro를 사용한다.
+실제 Qwen tokenizer의 전체 2,000 요청·24,858 query CPU 대조에서 입력/target mismatch0;
+이는 모델 forward 점수나 GPU qualification PASS가 아니다.
+원 FT 및 역사 W0 provenance는 보존하며 새 평가 경로의 관측으로 소급 표시하지 않는다.
+CF native fit/hparams와 **W0_AND_W20_FIRST2000** 생성 일정, zsRE 생성 없음,
+qualification **NOT_RUN_USER_DISABLED**, checkpoint 보존은 유지한다.
+W&B 새 run startup/remote 기록은 미관측이다. archive는 consumer/receiver 조건 충족 전
+**KEEP**이며 실제 전송·삭제는 0이다.
+
+GPT-J 최종 checkpoint 재평가 **61942–61948**은 같은 ID/source로 유지·release했다.
+자원 edge만 **61942→61970, 61943→61972, 61944→61966, 61945→61968**
+(왼쪽 job이 오른쪽 종료를 기다림)로 재연결했다.
+기존 취소된 job ID를 현재 실행 대상으로 표시하지 않는다.
+[최신 SH2 보고](experiment-reports/servers/server2/qwen-pending-eval-refresh-20261009/report-ko.md) ·
+[실제 job name/config/dependency·snapshot](audits/servers/server2/qwen-pending-eval-refresh-20261009/submission.json).
+
+이전 Server4 CF FT **61783**의 디스크 부족 실패 및 후속 23개 취소,
+Server2 최초 이전 등록과 source/raw/checkpoint 이력은
+[Server4 이전 보고](experiment-reports/servers/server4/qwen-migration-20261009/report-ko.md)와
+[Server2 원 등록 보고](experiment-reports/servers/server2/qwen-migration-results-20261009/report-ko.md)에 보존한다.
+PRICE/OURS/tuning 및 무관 job은 이번 교체 범위가 아니다.
 
 별도 SH3 **61813 Q3-beta250** cold 최종 W20은 E98.05/G89.95/S68.985/Score83.770638%로
 [CPU 검산 완료](experiment-reports/servers/server3/official-baselines-20261008/qwen-61813-review/report-ko.md).
@@ -159,12 +169,12 @@ CPU 후처리하고 source/provenance를 분리해 기록한다.
 | Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | [W0 (편집 전)](experiment-reports/global/w0-main-table-20261009.md) | 20.88 | 13.95 | 16.60 | 85.14 | DEFERRED | DEFERRED | 36.42 | 35.26 | 38.40 |
-| FT | PENDING: 61898 | PENDING: 61898 | PENDING: 61898 | PENDING: 61898 | PENDING: 61898 | PENDING: 61898 | PENDING: 61900 | PENDING: 61900 | PENDING: 61900 |
-| MEMIT | PENDING: 61902 | PENDING: 61902 | PENDING: 61902 | PENDING: 61902 | PENDING: 61902 | PENDING: 61902 | PENDING: 61904 | PENDING: 61904 | PENDING: 61904 |
-| AlphaEdit | PENDING: 61906 | PENDING: 61906 | PENDING: 61906 | PENDING: 61906 | PENDING: 61906 | PENDING: 61906 | PENDING: 61908 | PENDING: 61908 | PENDING: 61908 |
-| AlphaEdit-BLUE | PENDING: 61910 | PENDING: 61910 | PENDING: 61910 | PENDING: 61910 | PENDING: 61910 | PENDING: 61910 | PENDING: 61912 | PENDING: 61912 | PENDING: 61912 |
-| MEMIT-FE | PENDING: 61914 | PENDING: 61914 | PENDING: 61914 | PENDING: 61914 | PENDING: 61914 | PENDING: 61914 | PENDING: 61916 | PENDING: 61916 | PENDING: 61916 |
-| AlphaEdit+SPHERE | PENDING: 61918 | PENDING: 61918 | PENDING: 61918 | PENDING: 61918 | PENDING: 61918 | PENDING: 61918 | PENDING: 61920 | PENDING: 61920 | PENDING: 61920 |
+| FT | ING: s2-qwen25-cf-ft-gpu (61898) | ING: s2-qwen25-cf-ft-gpu (61898) | ING: s2-qwen25-cf-ft-gpu (61898) | ING: s2-qwen25-cf-ft-gpu (61898) | ING: s2-qwen25-cf-ft-gpu (61898) | ING: s2-qwen25-cf-ft-gpu (61898) | ING: s2-qwen25-zsre-ft-gpu (61900) | ING: s2-qwen25-zsre-ft-gpu (61900) | ING: s2-qwen25-zsre-ft-gpu (61900) |
+| MEMIT | PENDING: s2-qwen25-cf-memit-gpu (61954) | PENDING: s2-qwen25-cf-memit-gpu (61954) | PENDING: s2-qwen25-cf-memit-gpu (61954) | PENDING: s2-qwen25-cf-memit-gpu (61954) | PENDING: s2-qwen25-cf-memit-gpu (61954) | PENDING: s2-qwen25-cf-memit-gpu (61954) | PENDING: s2-qwen25-zsre-memit-gpu (61956) | PENDING: s2-qwen25-zsre-memit-gpu (61956) | PENDING: s2-qwen25-zsre-memit-gpu (61956) |
+| AlphaEdit | PENDING: s2-qwen25-cf-alphaedit-gpu (61958) | PENDING: s2-qwen25-cf-alphaedit-gpu (61958) | PENDING: s2-qwen25-cf-alphaedit-gpu (61958) | PENDING: s2-qwen25-cf-alphaedit-gpu (61958) | PENDING: s2-qwen25-cf-alphaedit-gpu (61958) | PENDING: s2-qwen25-cf-alphaedit-gpu (61958) | PENDING: s2-qwen25-zsre-alphaedit-gpu (61960) | PENDING: s2-qwen25-zsre-alphaedit-gpu (61960) | PENDING: s2-qwen25-zsre-alphaedit-gpu (61960) |
+| AlphaEdit-BLUE | PENDING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | PENDING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | PENDING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | PENDING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | PENDING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | PENDING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | PENDING: s2-qwen25-zsre-alphaedit_blue-gpu (61964) | PENDING: s2-qwen25-zsre-alphaedit_blue-gpu (61964) | PENDING: s2-qwen25-zsre-alphaedit_blue-gpu (61964) |
+| MEMIT-FE | PENDING: s2-qwen25-cf-memit_fe-gpu (61966) | PENDING: s2-qwen25-cf-memit_fe-gpu (61966) | PENDING: s2-qwen25-cf-memit_fe-gpu (61966) | PENDING: s2-qwen25-cf-memit_fe-gpu (61966) | PENDING: s2-qwen25-cf-memit_fe-gpu (61966) | PENDING: s2-qwen25-cf-memit_fe-gpu (61966) | PENDING: s2-qwen25-zsre-memit_fe-gpu (61968) | PENDING: s2-qwen25-zsre-memit_fe-gpu (61968) | PENDING: s2-qwen25-zsre-memit_fe-gpu (61968) |
+| AlphaEdit+SPHERE | PENDING: s2-qwen25-cf-sphere-gpu (61970) | PENDING: s2-qwen25-cf-sphere-gpu (61970) | PENDING: s2-qwen25-cf-sphere-gpu (61970) | PENDING: s2-qwen25-cf-sphere-gpu (61970) | PENDING: s2-qwen25-cf-sphere-gpu (61970) | PENDING: s2-qwen25-cf-sphere-gpu (61970) | PENDING: s2-qwen25-zsre-sphere-gpu (61972) | PENDING: s2-qwen25-zsre-sphere-gpu (61972) | PENDING: s2-qwen25-zsre-sphere-gpu (61972) |
 | PRICE (Ours) |  |  |  |  |  |  |  |  |  |
 
 ### GPT-J-6B
