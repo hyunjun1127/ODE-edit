@@ -19,7 +19,7 @@ def member(path):
     after=path.stat()
     if (before.st_dev,before.st_ino,before.st_size,before.st_mtime_ns)!=(after.st_dev,after.st_ino,after.st_size,after.st_mtime_ns):
         raise ValueError("SOURCE_CHANGED")
-    return dict(path=str(path),bytes=after.st_size,sha256=h.hexdigest(),device=after.st_dev,inode=after.st_ino,mtime_ns=after.st_mtime_ns)
+    return dict(path=str(path),bytes=after.st_size,sha256=h.hexdigest(),device=after.st_dev,inode=after.st_ino,mtime_ns=str(after.st_mtime_ns))
 
 def inventory():
     manifest=json.loads((ROOT/"manifest.json").read_text())
@@ -57,7 +57,9 @@ def inventory():
         source_input_status="SOURCE_INPUT_PENDING",model_loads=0,GPU=0,checkpoint_deserializations=0,
         original_artifacts_unchanged=True,original_manifest_path=str(ROOT/"manifest.json"),
         model_revision=manifest.get("model_revision"),model_snapshot=manifest.get("model_snapshot"),
-        tokenizer_sha256=manifest.get("tokenizer_sha256"),streams=manifest.get("streams",{}).get("zsre"))
+        tokenizer_sha256=manifest.get("tokenizer_sha256"),streams={key:manifest["streams"]["zsre"][key]
+            for key in ("path","member","source","lock_member")},
+        stat_encoding="mtime_ns decimal string avoids JSON consumer IEEE754 precision loss")
 
 if __name__=="__main__":
     print(json.dumps(inventory(),indent=2))

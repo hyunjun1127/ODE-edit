@@ -3,6 +3,10 @@ import unittest
 from copy import deepcopy
 import torch
 from official.runners.server2.zsre_reeval_restore import restore_weights
+from official.runners.server2.zsre_reeval import tracking_config,check_stat
+from official.tracking.schema import config,official_zsre_metrics,metrics
+import tempfile
+from pathlib import Path
 
 class RestoreTests(unittest.TestCase):
     def fixture(self):
@@ -41,6 +45,24 @@ class RestoreTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"FINITE"):
             restore_weights(model,payload,row,hp)
         self.assertTrue(torch.equal(before,model.fc.weight))
+
+    def test_eval_only_mapping_and_authority(self):
+        row=dict(method="MEMIT",checkpoint={"sha256":"a"*64},original_job_id=61728)
+        inputs=dict(stream={"sha256":"b"*64},tokenizer_sha256="c"*64)
+        cfg=config(tracking_config(row,inputs,"d"*40,"e"*64,"fixture"))
+        final=official_zsre_metrics(dict(Efficacy=80.,Generalization=70.,Specificity=30.,
+            Specificity_loc_ans=30.,requests=2000),config_values=cfg,endpoint="all_seen/post",
+            edits=2000,post_state_edits=2000)
+        self.assertEqual(final["zsre/all_seen/post/Specificity"],30.)
+        with self.assertRaises(ValueError):
+            metrics({"fit/loss":1.},config_values=cfg,scientific=True)
+
+    def test_nanosecond_stat_uses_exact_integer_string(self):
+        with tempfile.TemporaryDirectory() as d:
+            p=Path(d)/"fixture";p.touch();s=p.stat()
+            check_stat(dict(path=str(p),bytes=0,mtime_ns=str(s.st_mtime_ns)))
+            with self.assertRaisesRegex(ValueError,"STAT_CHANGED"):
+                check_stat(dict(path=str(p),mtime_ns=str(s.st_mtime_ns+1)))
 
 if __name__=="__main__":
     unittest.main()

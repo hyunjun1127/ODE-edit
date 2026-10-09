@@ -1,0 +1,43 @@
+{
+  "nonce": "GH-SH2-ZSRE-PAPER-EVAL-READY-20261009-R1",
+  "common_publication": "4533756ea5b731793595d09822b1e66dc4458395",
+  "evaluators": {
+    "zsre_paper": "d6a5b34eafd27660a2dee4632c638b6bf4c3614246071711cf5159a002415a45",
+    "zsre_query_parity": "9883f16036525278bbfcdb45f5f08cc8c799f638a26f91b4d9da2a0d70103803",
+    "tracking_schema": "633344063046eba678595e436b4ff3d3162a062e9b31ff244bc48ab09a9237f1"
+  },
+  "query_proof": {
+    "actual_model_output_parity": "NOT_MEASURED",
+    "input_mismatches": 0,
+    "model_family": "gptj",
+    "model_forward_calls": 0,
+    "oracle_lock_sha256": "d37227eb52aa1ba1cc0699155c674858b52ff418eaf7814231642f9de8aa2ff3",
+    "queries": 20808,
+    "query_sha256": "2d27e4fc4445e709586e2d80f92dee76dfc1b6ce6cd7d333b6ca318ccb328a4b",
+    "requests": 2000,
+    "schema": "zsre-public-query-parity-v1",
+    "status": "PASS_CPU_QUERY_ONLY",
+    "stream_sha256": "93925ec2f74e00a1b3fbdf261e557d10652ae0eca7265b4948958d39de4848b7",
+    "target_mismatches": 0,
+    "token_denominators": {
+      "neighborhood": 9694,
+      "paraphrase": 5557,
+      "rewrite": 5557
+    }
+  },
+  "tests": {
+    "passed": 15,
+    "failed": 0,
+    "command": "CUDA_VISIBLE_DEVICES='' /mnt/raid5/janghj/EasyEdit/.venv/bin/python -m unittest official.runners.server2.test_zsre_reeval official.tests.test_zsre_paper official.tests.test_zsre_reeval_tracking -q"
+  },
+  "source_verify": {
+    "source_files": 166,
+    "python_files": 320,
+    "external_task_imports": 0,
+    "status": "PASS"
+  },
+  "checkpoint_recheck": "All six full SHA matched again; metadata nanosecond JSON roundtrip precision fixed with decimal strings. Original payloads unchanged.",
+  "GPU_forward": 0,
+  "actual_online": false,
+  "stage": "READY_FOR_SOURCE_FREEZE_AND_REGISTRATION"
+}

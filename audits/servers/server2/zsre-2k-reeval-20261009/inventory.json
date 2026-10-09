@@ -14,7 +14,7 @@
         "sha256": "3247882fc10047104b90e93b6b7a3d5e4357de99361c686d6268d1c9cc2131ba",
         "device": 2304,
         "inode": 122767339,
-        "mtime_ns": 1791494259527925500
+        "mtime_ns": "1791494259527925474"
       },
       "latest": {
         "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_FT/checkpoints/latest.json",
@@ -22,7 +22,7 @@
         "sha256": "5996b8be4ecd6a4cd3bf05984af9e6ed68ac36127dd63b62aca152e7e15b0880",
         "device": 2304,
         "inode": 122767320,
-        "mtime_ns": 1791494260583913700
+        "mtime_ns": "1791494260583913613"
       },
       "result": {
         "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_FT/result.json",
@@ -30,7 +30,7 @@
         "sha256": "8115da56adec3fe1ef71ec40fa7f707320d7e229b76c4ae64891f028d64496fb",
         "device": 2304,
         "inode": 122767335,
-        "mtime_ns": 1791494260651913000
+        "mtime_ns": "1791494260651912849"
       },
       "identity": {
         "assets_sha256": "8ce64b6771ff8da49d584784ea190ad8575a3a073f03fcc94c93568d31db6463",
@@ -49,7 +49,7 @@
         "sha256": "cf7619c3e47122d7b616253d08c76318287887dc43ef2b5cc9874d605d6aea3e",
         "device": 2304,
         "inode": 122766429,
-        "mtime_ns": 1791487944952518700
+        "mtime_ns": "1791487944952518725"
       }
     },
     {
@@ -64,7 +64,7 @@
         "sha256": "fdab7aeaba960372d52170a79fe023f8f825058d9c5a4c8f344470cfa94c135c",
         "device": 2304,
         "inode": 122767374,
-        "mtime_ns": 1791494657184127200
+        "mtime_ns": "1791494657184127153"
       },
       "latest": {
         "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_MEMIT/checkpoints/latest.json",
@@ -72,7 +72,7 @@
         "sha256": "fde60adf19cfd2aa4048c82d6235baf280e1166aaf34cd6fba2a529277e25e8f",
         "device": 2304,
         "inode": 122767375,
-        "mtime_ns": 1791494663068078600
+        "mtime_ns": "1791494663068078702"
       },
       "result": {
         "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_MEMIT/result.json",
@@ -80,7 +80,7 @@
         "sha256": "2f6c72d186a776ac5ddbdb57af11820650420517ceb3f676d1688ee5d677a80e",
         "device": 2304,
         "inode": 122767345,
-        "mtime_ns": 1791494663400076000
+        "mtime_ns": "1791494663400075973"
       },
       "identity": {
         "assets_sha256": "8ce64b6771ff8da49d584784ea190ad8575a3a073f03fcc94c93568d31db6463",
@@ -99,7 +99,7 @@
         "sha256": "cf7619c3e47122d7b616253d08c76318287887dc43ef2b5cc9874d605d6aea3e",
         "device": 2304,
         "inode": 122766429,
-        "mtime_ns": 1791487944952518700
+        "mtime_ns": "1791487944952518725"
       }
     },
     {
@@ -114,7 +114,7 @@
         "sha256": "2b1ea832469fbee3b3331fb518126889c0d3d6bd29f16924892254cd216a37c5",
         "device": 2304,
         "inode": 122767498,
-        "mtime_ns": 1791502521970828000
+        "mtime_ns": "1791502521970827935"
       },
       "latest": {
         "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_ALPHAEDIT/checkpoints/latest.json",
@@ -122,7 +122,7 @@
         "sha256": "65b22d00070955410f3a5bbdbdc846ec0dc44c9429195ee65cf519c8152c4809",
         "device": 2304,
         "inode": 122768906,
-        "mtime_ns": 1791502543151027200
+        "mtime_ns": "1791502543151027205"
       },
       "result": {
         "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_ALPHAEDIT/result.json",
@@ -130,7 +130,7 @@
         "sha256": "7c4c368d7ee24427de7a86104b42a3564148e201f8dd133e24612f436039f38b",
         "device": 2304,
         "inode": 122767526,
-        "mtime_ns": 1791502544511039700
+        "mtime_ns": "1791502544511039802"
       },
       "identity": {
         "assets_sha256": "8ce64b6771ff8da49d584784ea190ad8575a3a073f03fcc94c93568d31db6463",
@@ -149,7 +149,7 @@
         "sha256": "cf7619c3e47122d7b616253d08c76318287887dc43ef2b5cc9874d605d6aea3e",
         "device": 2304,
         "inode": 122766429,
-        "mtime_ns": 1791487944952518700
+        "mtime_ns": "1791487944952518725"
       }
     },
     {
@@ -164,7 +164,7 @@
         "sha256": "4f8e35034122ae8b041e73db9f920cdba8dd1980cdb77d18f91f596e3d8aaffb",
         "device": 2304,
         "inode": 122768929,
-        "mtime_ns": 1791504878856259000
+        "mtime_ns": "1791504878856258948"
       },
       "latest": {
         "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_ALPHAEDIT_BLUE/checkpoints/latest.json",
@@ -172,7 +172,7 @@
         "sha256": "aadb6ace5f10871495f042ed4683438e89b308627cb2b11991b1f00ee5ba484a",
         "device": 2304,
         "inode": 122768927,
-        "mtime_ns": 1791504890132180700
+        "mtime_ns": "1791504890132180806"
       },
       "result": {
         "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_ALPHAEDIT_BLUE/result.json",
@@ -180,7 +180,7 @@
         "sha256": "15bd5598c49072f5eeb677de1f8796336213b175f28eba9df03a613648168637",
         "device": 2304,
         "inode": 122768928,
-        "mtime_ns": 1791504890672177200
+        "mtime_ns": "1791504890672177092"
       },
       "identity": {
         "assets_sha256": "8ce64b6771ff8da49d584784ea190ad8575a3a073f03fcc94c93568d31db6463",
@@ -199,7 +199,7 @@
         "sha256": "cf7619c3e47122d7b616253d08c76318287887dc43ef2b5cc9874d605d6aea3e",
         "device": 2304,
         "inode": 122766429,
-        "mtime_ns": 1791487944952518700
+        "mtime_ns": "1791487944952518725"
       }
     },
     {
@@ -214,7 +214,7 @@
         "sha256": "199a4175bd7bb425b088afafd27a5e9aa6812a4061a6eca930899bcaca4f41a5",
         "device": 2304,
         "inode": 122825961,
-        "mtime_ns": 1791513540745992200
+        "mtime_ns": "1791513540745992308"
       },
       "latest": {
         "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_MEMIT_FE/checkpoints/latest.json",
@@ -222,7 +222,7 @@
         "sha256": "6e0edae7d1a2d432e412aaa1dba2d2944d1157be09b6441b478da04358d79d63",
         "device": 2304,
         "inode": 122825973,
-        "mtime_ns": 1791513546289970200
+        "mtime_ns": "1791513546289970129"
       },
       "result": {
         "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_MEMIT_FE/result.json",
@@ -230,7 +230,7 @@
         "sha256": "08a93b32706ed0c2e2e83c2c277df876b088de7cbfc0a12eb7e266364b57e970",
         "device": 2304,
         "inode": 122825969,
-        "mtime_ns": 1791513546565969200
+        "mtime_ns": "1791513546565969028"
       },
       "identity": {
         "assets_sha256": "8ce64b6771ff8da49d584784ea190ad8575a3a073f03fcc94c93568d31db6463",
@@ -249,7 +249,7 @@
         "sha256": "cf7619c3e47122d7b616253d08c76318287887dc43ef2b5cc9874d605d6aea3e",
         "device": 2304,
         "inode": 122766429,
-        "mtime_ns": 1791487944952518700
+        "mtime_ns": "1791487944952518725"
       }
     },
     {
@@ -264,7 +264,7 @@
         "sha256": "5820a31b1a507b42455f6c9e96df7f4757f4e2103e8365dc4d3716b1bb8307b7",
         "device": 2304,
         "inode": 122826057,
-        "mtime_ns": 1791522383608308200
+        "mtime_ns": "1791522383608308170"
       },
       "latest": {
         "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_SPHERE/checkpoints/latest.json",
@@ -272,7 +272,7 @@
         "sha256": "b606050ca3c415f39bc27164690de5acbf52bb1176daecf0a0c673bccf96d3af",
         "device": 2304,
         "inode": 122826058,
-        "mtime_ns": 1791522407760316400
+        "mtime_ns": "1791522407760316495"
       },
       "result": {
         "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_SPHERE/result.json",
@@ -280,7 +280,7 @@
         "sha256": "268013c8dd23e9bd81962adf2e39422a8b02c5ca51aba8a4ffeaa1ca41f9f355",
         "device": 2304,
         "inode": 122826056,
-        "mtime_ns": 1791522409736317200
+        "mtime_ns": "1791522409736317152"
       },
       "identity": {
         "assets_sha256": "8ce64b6771ff8da49d584784ea190ad8575a3a073f03fcc94c93568d31db6463",
@@ -299,7 +299,7 @@
         "sha256": "cf7619c3e47122d7b616253d08c76318287887dc43ef2b5cc9874d605d6aea3e",
         "device": 2304,
         "inode": 122766429,
-        "mtime_ns": 1791487944952518700
+        "mtime_ns": "1791487944952518725"
       }
     }
   ],
@@ -318,7 +318,7 @@
       "bytes": 1490821,
       "device": 2304,
       "inode": 122765921,
-      "mtime_ns": 1791487911688164400,
+      "mtime_ns": 1791487911688164240,
       "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/preparation-no-gpu-qual-r1/streams/zsre-stream.json",
       "sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
       "verification": "CURRENT_FULL_SHA256"
@@ -327,7 +327,7 @@
       "bytes": 8091864,
       "device": 2304,
       "inode": 119354814,
-      "mtime_ns": 1775552708753792800,
+      "mtime_ns": 1775552708753792690,
       "path": "/mnt/raid5/janghj/EasyEdit/data/zsre/zsre_mend_eval.json",
       "sha256": "8a371d512f8a6ab175db4ef672181d5c0e52da23298cb51e5a2eeea2f89aa9cd",
       "verification": "CURRENT_FULL_SHA256"
@@ -336,11 +336,11 @@
       "bytes": 4265,
       "device": 2304,
       "inode": 122765922,
-      "mtime_ns": 1791487911688164400,
+      "mtime_ns": 1791487911688164240,
       "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/preparation-no-gpu-qual-r1/streams/zsre-stream.lock.json",
       "sha256": "42302a6f5b7fd573a5ee393552f93fca8a14b6350a760f080db9de480f5298dd",
       "verification": "CURRENT_FULL_SHA256"
-    },
-    "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c"
-  }
+    }
+  },
+  "stat_encoding": "mtime_ns decimal string avoids JSON consumer IEEE754 precision loss"
 }
