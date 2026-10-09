@@ -144,7 +144,9 @@ Flu/Con은 미평가·DEFERRED이며 zsRE는 별도 새 W20 결과다.
 MEMIT/AlphaEdit/MEMIT-FE/SPHERE의 CF·zsRE 8개 chain은 **cold rerun 대상**이다.
 기존 zsRE61956/61960 점수는 당시 잘못된 context로 편집한 가중치의 측정값으로 원 보고서에 보존하고,
 수정된 baseline 성능으로 제시하지 않는다. 평가-only로 편집 입력 오류를 복구할 수 없다.
-아래 새 8개 chain과 FT 평가-only는 2026-10-10 00:46 KST 등록 직후 단발 snapshot의 PENDING 상태다.
+상태 셀은 2026-10-10 01:17 KST [실제 context·상태 감사](experiment-reports/servers/server2/qwen-context-audit-20261010/report-ko.md)를 반영한다.
+수정 MEMIT62073/SPHERE62079 및 BLUE61962/61964의 실제 context 문자열·token ID는 새 Qwen 기준과 일치한다.
+대기 62075/62077/62081/62083/62085/62087은 수정 source 결속 상태이며 실제 context 성공으로 표시하지 않는다.
 CF 네 rerun의 FLU/CON은 DEFERRED이며 최종 checkpoint를 보존한다.
 FT/BLUE는 이번 mask 오류 재편집 대상이 아니다. FT zsRE61900은 별도 최종CP 평가-only 대상이다.
 [사용자 실행 계약](messages/head/2026-10-10-qwen-baseline-mask-cold-rerun.md) ·
@@ -201,11 +203,11 @@ SH3 최신 CPU 재검산에서도 위 네 지표 delta0, 신규 본표 적격 �
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | [W0 (편집 전)](experiment-reports/global/w0-main-table-20261009.md) | 20.88 | 13.95 | 16.60 | 85.14 | DEFERRED | DEFERRED | 36.42 | 35.26 | 38.40 |
 | FT | ING: s2-qwen25-cf-ft-gpu (61898) | ING: s2-qwen25-cf-ft-gpu (61898) | ING: s2-qwen25-cf-ft-gpu (61898) | ING: s2-qwen25-cf-ft-gpu (61898) | ING: s2-qwen25-cf-ft-gpu (61898) | ING: s2-qwen25-cf-ft-gpu (61898) | PENDING: s2-qwen25-zsre-ft-eval-gpu (62072; eval-only) | PENDING: s2-qwen25-zsre-ft-eval-gpu (62072; eval-only) | PENDING: s2-qwen25-zsre-ft-eval-gpu (62072; eval-only) |
-| MEMIT | PENDING: s2-qwen25-cf-memit-gpu (62073) | PENDING: s2-qwen25-cf-memit-gpu (62073) | PENDING: s2-qwen25-cf-memit-gpu (62073) | PENDING: s2-qwen25-cf-memit-gpu (62073) | PENDING: s2-qwen25-cf-memit-gpu (62073) | PENDING: s2-qwen25-cf-memit-gpu (62073) | PENDING: s2-qwen25-zsre-memit-gpu (62081) | PENDING: s2-qwen25-zsre-memit-gpu (62081) | PENDING: s2-qwen25-zsre-memit-gpu (62081) |
+| MEMIT | ING: s2-qwen25-cf-memit-gpu (62073) | ING: s2-qwen25-cf-memit-gpu (62073) | ING: s2-qwen25-cf-memit-gpu (62073) | ING: s2-qwen25-cf-memit-gpu (62073) | ING: s2-qwen25-cf-memit-gpu (62073) | ING: s2-qwen25-cf-memit-gpu (62073) | PENDING: s2-qwen25-zsre-memit-gpu (62081) | PENDING: s2-qwen25-zsre-memit-gpu (62081) | PENDING: s2-qwen25-zsre-memit-gpu (62081) |
 | AlphaEdit | PENDING: s2-qwen25-cf-alphaedit-gpu (62075) | PENDING: s2-qwen25-cf-alphaedit-gpu (62075) | PENDING: s2-qwen25-cf-alphaedit-gpu (62075) | PENDING: s2-qwen25-cf-alphaedit-gpu (62075) | PENDING: s2-qwen25-cf-alphaedit-gpu (62075) | PENDING: s2-qwen25-cf-alphaedit-gpu (62075) | PENDING: s2-qwen25-zsre-alphaedit-gpu (62083) | PENDING: s2-qwen25-zsre-alphaedit-gpu (62083) | PENDING: s2-qwen25-zsre-alphaedit-gpu (62083) |
 | AlphaEdit-BLUE | ING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | ING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | ING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | ING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | ING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | ING: s2-qwen25-cf-alphaedit_blue-gpu (61962) | ING: s2-qwen25-zsre-alphaedit_blue-gpu (61964) | ING: s2-qwen25-zsre-alphaedit_blue-gpu (61964) | ING: s2-qwen25-zsre-alphaedit_blue-gpu (61964) |
 | MEMIT-FE | PENDING: s2-qwen25-cf-memit_fe-gpu (62077) | PENDING: s2-qwen25-cf-memit_fe-gpu (62077) | PENDING: s2-qwen25-cf-memit_fe-gpu (62077) | PENDING: s2-qwen25-cf-memit_fe-gpu (62077) | PENDING: s2-qwen25-cf-memit_fe-gpu (62077) | PENDING: s2-qwen25-cf-memit_fe-gpu (62077) | PENDING: s2-qwen25-zsre-memit_fe-gpu (62085) | PENDING: s2-qwen25-zsre-memit_fe-gpu (62085) | PENDING: s2-qwen25-zsre-memit_fe-gpu (62085) |
-| AlphaEdit+SPHERE | PENDING: s2-qwen25-cf-sphere-gpu (62079) | PENDING: s2-qwen25-cf-sphere-gpu (62079) | PENDING: s2-qwen25-cf-sphere-gpu (62079) | PENDING: s2-qwen25-cf-sphere-gpu (62079) | PENDING: s2-qwen25-cf-sphere-gpu (62079) | PENDING: s2-qwen25-cf-sphere-gpu (62079) | PENDING: s2-qwen25-zsre-sphere-gpu (62087) | PENDING: s2-qwen25-zsre-sphere-gpu (62087) | PENDING: s2-qwen25-zsre-sphere-gpu (62087) |
+| AlphaEdit+SPHERE | ING: s2-qwen25-cf-sphere-gpu (62079) | ING: s2-qwen25-cf-sphere-gpu (62079) | ING: s2-qwen25-cf-sphere-gpu (62079) | ING: s2-qwen25-cf-sphere-gpu (62079) | ING: s2-qwen25-cf-sphere-gpu (62079) | ING: s2-qwen25-cf-sphere-gpu (62079) | PENDING: s2-qwen25-zsre-sphere-gpu (62087) | PENDING: s2-qwen25-zsre-sphere-gpu (62087) | PENDING: s2-qwen25-zsre-sphere-gpu (62087) |
 | PRICE (Ours) |  |  |  |  |  |  |  |  |  |
 
 ### GPT-J-6B
