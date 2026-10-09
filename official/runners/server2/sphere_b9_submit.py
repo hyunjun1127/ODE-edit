@@ -103,8 +103,12 @@ def register(root):
     fe_job=read(FE_LOCAL/'registration-r1/submission.json')['jobs']['zsre']
     assert fe_job['job_id']=='62532' and parent['Command']==fe_job['script']['path']
     assert file_sha(parent['Command'])==fe_job['script']['sha256']
-    cancelled=control.metadata(own.command(['scontrol','show','job','62534','--oneliner']))
-    assert cancelled['JobState']=='CANCELLED' and cancelled['JobName']=='s2-qwen25-zsre-sphere-oom-r1'
+    # Terminal jobs can expire from scontrol; accounting retains their exact identity.
+    cancelled=own.command(['sacct','-X','-j','62534','-nP','--format=JobID,JobName%64,User,State,Elapsed,WorkDir%240'])
+    fields=cancelled.split('|')
+    assert fields[:3]==['62534','s2-qwen25-zsre-sphere-oom-r1',getpass.getuser()]
+    assert fields[3].startswith('CANCELLED') and fields[4]=='00:00:00'
+    assert fields[5]=='/mnt/raid5/janghj/ODE-edit/local/qwen-zsre-sphere-oom-rerun-20261010/registration-r1/source'
     parents=['62532']
     nodes=[dict(key=r['job'],gpus=r['gpus'],parents=own.dependency_ids(r['dependency'])) for r in existing['project']]
     width=control.graph_width(nodes+[dict(key='NEW_RESUME_B9',gpus=1,parents=parents)]);assert width<=cap
@@ -131,7 +135,9 @@ def register(root):
         '--output='+str(root/'logs/main-%j.out'),'--error='+str(root/'logs/main-%j.err')]
     if parents:cmd.append('--dependency=afterany:'+':'.join(parents))
     cmd.append(str(script))
-    write_new(root/'admission.json',dict(existing=existing,parents=parents,DAG_width=width,cap=cap,node=node,qos=qos))
+    write_new(root/'admission.json',dict(existing=existing,parents=parents,DAG_width=width,cap=cap,node=node,qos=qos,
+        cancelled_cold_accounting=cancelled,registration_control=member(__file__),
+        registration_control_commit=own.command(['git','rev-parse','HEAD'],cwd=REPO)))
     response=own.command(cmd);jid=response.split(';')[0];assert re.fullmatch(r'\d+',jid)
     item=dict(instruction_id=INSTRUCTION,job_id=jid,job_name=name,argv=argv,sbatch=cmd,dependency=parents,
         source=source['code_commit'],official_tree=source['official_tree_sha256'],config_sha256=cfg['config_sha256'],
