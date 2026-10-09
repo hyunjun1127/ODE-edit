@@ -292,7 +292,7 @@ def _model_seed(seed):
     torch.cuda.manual_seed_all(seed)
 
 
-def _tracker(output, *, arm, writer, dataset, source_sha, config_sha, assets, deferred=False):
+def _tracker(output, *, arm, writer, dataset, source_sha, config_sha, assets, deferred=False, resume_binding=None):
     """Start the shared scalar-only online logger before a model is loaded."""
     from official.tracking import init
     from official.tracking.method import OFFICIAL_SCHEMA
@@ -307,6 +307,9 @@ def _tracker(output, *, arm, writer, dataset, source_sha, config_sha, assets, de
                   writer=writer, baseline=writer, role="scientific",
                   metric_schema=OFFICIAL_SCHEMA, instruction_id=OFFICIAL_INSTRUCTION,
                   dataset=dataset)
+    if resume_binding is not None:
+        values.update(checkpoint_sha256=resume_binding['parent_checkpoint']['sha256'],
+                      source_run_id='job62087-b9')
     if dataset == "cf" and deferred:
         values['generation_schedule']='DEFERRED_CHECKPOINT_EVALUATION'
     elif dataset == "cf":
@@ -843,18 +846,28 @@ def execute(args):
         zsre_reference = None
     module = _require_evaluator()
     out = Path(args.output)
+    checkpoint_dir = out / "checkpoint"
+    resume_parent = getattr(args, 'resume_parent', None)
+    ancestor_binding = None
+    if resume_parent is not None:
+        from official.runners.server2.sphere_b9_resume import validate_binding
+        if args.resume or Path(resume_parent).resolve()!=output_root/'resume-parent.json' or out.exists():
+            raise ValueError('EXPLICIT_NEW_B9_DESCENDANT_REQUIRED')
+        if config['method']!='SPHERE' or config['dataset']!='zsre':
+            raise ValueError('B9_RESUME_EXACT_CELL_ONLY')
+        ancestor_binding=validate_binding(resume_parent,config)
     if parent_binding is not None:
         _write_once(out / "historical-w0-consumer-binding.json", parent_binding)
-    checkpoint_dir = out / "checkpoint"
     if not args.resume and checkpoint_dir.exists():
         raise ValueError("EXISTING_RUN_REQUIRES_RESUME_OR_NEW_OUTPUT")
     if args.resume and not (checkpoint_dir / "latest.json").exists():
         raise ValueError("RESUME_CHECKPOINT_MISSING")
-    with _tracker(out, arm=config["run_id"], writer=config["method"],
+    with _tracker(out, arm=config["run_id"]+('-resume-b9' if resume_parent else ''), writer=config["method"],
                   dataset=config["dataset"], assets=asset_receipt["assets"],
                   source_sha=source["code_commit"],
                   config_sha=config["config_sha256"],
-                  deferred=config.get('generation_schedule')=='DEFERRED_CHECKPOINT_EVALUATION') as tracker:
+                  deferred=config.get('generation_schedule')=='DEFERRED_CHECKPOINT_EVALUATION',
+                  resume_binding=ancestor_binding) as tracker:
         _model_seed(config["edit_seed"])
         model, tok = _load_model(asset_receipt["assets"]["model_snapshot"]["path"],
                                  config["model_identity"]["revision"])
@@ -865,7 +878,7 @@ def execute(args):
         identity = checkpoint_identity(config, lock, source, asset_receipt, tok_receipt)
         hparams = registry.hparams(config["method"], "qwen25", overrides=config["hparams"])
         native = NativeState(config["method"], model, hparams, asset_receipt["assets"])
-        if 'mask_repair_instruction' in config:
+        if 'mask_repair_instruction' in config and resume_parent is None:
             from official.runners.server2.qwen_mask_profile import cold_guard
             cold_guard(config,native,args.resume)
         if (output_root/'sphere-repair.json').is_file():
@@ -873,7 +886,11 @@ def execute(args):
             bind_context(output_root,config,native,tok,resume=args.resume)
         names = native.editable_parameter_names()
         start = 0
-        if args.resume:
+        if resume_parent is not None:
+            from official.runners.server2.sphere_b9_resume import restore_parent
+            start=restore_parent(resume_parent,config,records,identity,native,out)
+            if start!=9:raise ValueError('EXACT_B9_START_REQUIRED')
+        elif args.resume:
             payload = checkpoint.load(checkpoint_dir, identity)
             if payload["method"] != config["method"]:
                 raise ValueError("RESUME_METHOD_MISMATCH")
@@ -964,11 +981,18 @@ def execute(args):
             _write_once(out / "commits" /
                         f"pending-b{batch:02d}-{pending_sha}.json", pending)
             cursor["pending_receipt_sha256"] = pending_sha
-            ck = checkpoint.save(checkpoint_dir, batch=batch, weights=weights,
+            save_kwargs=dict(batch=batch, weights=weights,
                                  cache_c=native.cache_for_checkpoint(),
                                  contexts=native.context_snapshot(), evaluation_cursor=cursor,
                                  identity=identity, method=config["method"],
                                  evaluation_complete=True)
+            if resume_parent is not None:
+                from official.runners.server2.sphere_b9_resume import save_descendant
+                cursor['resume_parent_binding_sha256']=ancestor_binding['binding_sha256']
+                cursor['ancestor_prefix_edits']=900
+                ck=save_descendant(checkpoint_dir,parent_binding=resume_parent,**save_kwargs)
+            else:
+                ck=checkpoint.save(checkpoint_dir,**save_kwargs)
             _recover_batch_receipts(out,
                 dict(batch=batch, evaluation_cursor=cursor), ck,
                 config, lock, source, identity)
@@ -1067,6 +1091,7 @@ def main(argv=None):
         sub.add_argument("--output", type=Path, required=True)
         if command == "execute":
             sub.add_argument("--resume", action="store_true")
+            sub.add_argument("--resume-parent", type=Path)
             sub.add_argument("--stop-after-batch", type=int)
             sub.add_argument("--qualify-b3-metrics", action="store_true")
             sub.add_argument("--state-hash-at-batch3", action="store_true")
