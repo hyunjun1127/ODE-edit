@@ -26,4 +26,24 @@
 
 SH4 ba784fa3 cessation 수신: FT61783 launcher storage failure, 나머지23 pending GPU/archive 취소. 성공 main/W0 없음. handoff20 metadata84488B를 결속할 대상이며 새 SH2 job은 아직 미제출.
 원 Qwen CF 일정은 W0_AND_W20_FIRST2000, zsRE 생성 없음. GPTJ의 DEFERRED를 Qwen에 상속하지 않음. BLUE L2=1 및 원 source/config/hparams 유지.
-현재 단계는 LOCAL_ASSET_IDENTITY_AND_HOST_BINDING_IN_PROGRESS. SH2 local 모델/C0/P 존재(metadata)만 확인했으며 content identity 및 제출 PASS로 주장하지 않음. server2 cap4 또는 stricter, 기존 다른 job 불변. README는 GH 단독 통합.
+최종 단계: REGISTERED_INSPECTED_RELEASED. 원 config12/stream2 일치, 모델/token/C0/P/reference full SHA 일치, CPU5 및 source157/Python298/import0 확인. 실제 GPU qualification은 NOT_RUN_USER_DISABLED.
+
+원 runner의 저장공간 오류 raise 뒤 도달 불가능한 편집 본문은 SH2 복사본에서 unindent만 수리했다. 원 본문의 연산 AST/순서 일치 테스트 및 runner-exact.diff를 보존한다. 공통/원 SH4/frozen source는 수정하지 않았다.
+
+실행 source `69bfbb2cdffe24072733950c671e47597ff9fbd5`, source-lock SHA `2c368505e34e89e51e178ef59410dad5a44d9cde488ec3a0810758e930442b70`.
+release snapshot 2026-10-09T08:16:34.896906+00:00: 전량 PENDING, 과학 시작/완료 및 실제 W&B run readback은 미검증. 인증된 W&B 프로젝트 읽기만 확인했다.
+
+| method | CF GPU | zsRE GPU |
+|---|---:|---:|
+| FT | 61898 | 61900 |
+| MEMIT | 61902 | 61904 |
+| AlphaEdit | 61906 | 61908 |
+| BLUE | 61910 | 61912 |
+| FE | 61914 | 61916 |
+| SPHERE | 61918 | 61920 |
+
+archive CPU 61899/61901/61903/61905/61907/61909/61911/61913/61915/61917/61919/61921; collector61922. 모든25개 held owner/Command/WorkDir/자원/source/input/dependency 검사 후 release. 실제 afterany 목록은 submission.json/CSV에 있다. 모델별 W0는 각 dataset FT producer 내부 원 필수 관측 한 번이며 후속이 exact receipt를 검산한다. 네 lane 상한, 기존 다른 job 변경0.
+
+현재 source freeze에는 SH1 server2 trust READY가 없으므로 archive 단계는 ARCHIVE_PENDING_KEEP_SOURCE. server4 trust를 재사용하지 않고 전송/삭제0. 전체12 CP 보존+네 lane atomic 복사+32GiB reserve 필요115580338176B, 관측 여유321153998848B. receiver 준비를 science 승인 gate로 삼지 않았다. 기존CP 및 새CF/zsRE payload KEEP; 검증되지 않은 보존/삭제를 주장하지 않는다.
+
+root/log: `/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-r1/` (`logs/`, `registrations/`, `inspections/`, `released.json`). 새 장기 monitor/자동 retry/기존 job 취소 없음. README는 GH 단독 통합.
