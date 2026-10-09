@@ -1,0 +1,16 @@
+{
+  "nonce": "USER-GH-ALL-SH-BASELINE-COMPLETED-ZSRE-AUDIT-20261010-R1",
+  "server": "server1",
+  "publication": "39f93892812be5d580b307e55ead863f7df694f7",
+  "own_commit": "f5b164da",
+  "target": "GH",
+  "target_session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+  "message_sha256": "ea83c6ad8de4f581267326158f77c7f1d0bdfa0d9e5eb806aca188d31b543012",
+  "status": "COMMUNICATION_HOLD",
+  "error": "app-server response TimeoutError",
+  "owner_receipt": "UNKNOWN",
+  "automatic_retry": false,
+  "README_modified_by_SH1": false,
+  "CPU_audit_completed_rows": 12,
+  "note": "Compact rows/report are published on main. Direct acknowledgement and GH README integration are not claimed."
+}

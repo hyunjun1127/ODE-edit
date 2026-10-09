@@ -42,3 +42,5 @@ Flu/Con **62259/62260/62261 RUNNING**, **62262/62263 PENDING**, CPUcollector **6
 `audits/servers/server1/baseline-completed-zsre-audit-20261010/`의 `table-rows.json/csv`, `query-proof.json`, `qwen-history.json`, CPU reducer가 정확 source/config/raw/cohort/CP/분모/상태를 담는다. 텍스트/token/caseID/CP/tensor는 Git에 넣지 않는다. `NO_BROADCAST_NOT_REQUIRED`: 원자료는 기존 local에 KEEP, compact report만 Git 공유.
 
 새 GPU/fit/forward/CP load/재평가/제출/취소/hold/dependency 변경/삭제/온라인 history 변경은 모두0. 본 task는 CPU 검산이며 README는 GH 단독 통합한다. 다른 승인 작업은 유지한다.
+
+결과 main publication `39f93892812be5d580b307e55ead863f7df694f7` / own commit `f5b164da`. GH direct 전달은 app-server 응답 timeout으로 COMMUNICATION_HOLD, 수신 UNKNOWN이다. 재전송하지 않았고 Git 게시를 수신 ACK/README 통합 완료로 표현하지 않는다. 정확 전달 receipt는 `delivery.json`에 기록했다.
