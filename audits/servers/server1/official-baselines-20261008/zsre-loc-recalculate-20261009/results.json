@@ -1,0 +1,424 @@
+{
+  "instruction": "USER-GH-ZSRE-LOC-RECALCULATE-MAIN-20261009-R1",
+  "server": "server1",
+  "reducer_sha256": "c95182ca6dc72486e257c2d1af8b495b122950209f52916bcdadf61278627511",
+  "inventory": {
+    "root": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1",
+    "completed_zsre_endpoints": 6,
+    "approved_baseline_completed": 6,
+    "approved_ours_completed": 0,
+    "other_unreviewed_completions": 0
+  },
+  "claims": {
+    "new_forward": 0,
+    "GPU": 0,
+    "raw_modified": false,
+    "job_modified": false,
+    "tokenization_equivalence": false,
+    "paper_reproduction_PASS": false
+  },
+  "rows": [
+    {
+      "model": "llama3",
+      "dataset": "zsre",
+      "method": "FT",
+      "job_id": "61716",
+      "source": {
+        "main_commit": "94304dc93db928300a71d8dcd0f87199fdb93f1f",
+        "official_tree": "4b09cc81252f8e190621941bdd9b9234dd3013bd"
+      },
+      "config": {
+        "bytes": 5851,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/configs/zsre-ft.json",
+        "sha256": "fd68681068b8feb436fd09501ff9cfcc9abf65b104a99c68891bf6889a11fb8b"
+      },
+      "endpoint": {
+        "bytes": 9109970,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/runs/zsre-ft/factual/batch-20.json",
+        "sha256": "0aecc8f7a8e369b2027c47afd5adca156a904e1f06e957a907b4235e2ee499b7"
+      },
+      "terminal": {
+        "bytes": 1034,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/runs/zsre-ft/COMPLETE.json",
+        "sha256": "ea42d42ec993107b786b61a5523e6b04f792d6289fe9296c57c85d49865f2ef7"
+      },
+      "identity": {
+        "assets_sha256": "3ec8caa86e8babc7d50efd513bd72eacf6bec10579bfb6680ba7e4052f3edba4",
+        "code_commit": "94304dc93db928300a71d8dcd0f87199fdb93f1f",
+        "config_sha256": "ede2ae005e65d9bc9379caa357150a7d6864405e9e903f5a5430d0e58b8855cf",
+        "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+        "official_tree_sha256": "4b09cc81252f8e190621941bdd9b9234dd3013bd",
+        "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+        "tokenizer_sha256": "63411f4ee2a0111d0c3902d14c85a1d003dafc765573c60282957f558bf02453"
+      },
+      "ordered_case_ids_sha256": "494b15107deb77d9741606b7bddfecb8b350a486bb5a751655b294d4ebc6f1a4",
+      "status": "W20_SAVED_TOKEN_IDS_AND_BITS_CPU_REDUCED",
+      "counts": {
+        "Eff": {
+          "requests": 2000,
+          "token_count": 6035,
+          "correct_tokens": 883,
+          "request_macro_pct": 14.835138888888888
+        },
+        "Gen": {
+          "requests": 2000,
+          "token_count": 6035,
+          "correct_tokens": 779,
+          "request_macro_pct": 11.991626984126984
+        },
+        "Loc": {
+          "requests": 2000,
+          "token_count": 10465,
+          "correct_tokens": 227,
+          "request_macro_pct": 1.5916228483726869
+        }
+      },
+      "before_Loc_W0_agreement": 1.4242541619195084,
+      "after_Loc": 1.5916228483726869,
+      "Eff": 14.835138888888888,
+      "Gen": 11.991626984126984,
+      "auxiliary_W0_agreement": {
+        "requests": 2000,
+        "token_count": 10465,
+        "correct_tokens": 221,
+        "request_macro_pct": 1.4242541619195084
+      },
+      "stored_loc_ans_crosscheck_only": true
+    },
+    {
+      "model": "llama3",
+      "dataset": "zsre",
+      "method": "MEMIT",
+      "job_id": "61717",
+      "source": {
+        "main_commit": "94304dc93db928300a71d8dcd0f87199fdb93f1f",
+        "official_tree": "4b09cc81252f8e190621941bdd9b9234dd3013bd"
+      },
+      "config": {
+        "bytes": 5986,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/configs/zsre-memit.json",
+        "sha256": "d2de077ecf3b1039da7cf83e9d2795294360c2a59e7c5c6baae6a3034ae33b8a"
+      },
+      "endpoint": {
+        "bytes": 9071970,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/runs/zsre-memit/factual/batch-20.json",
+        "sha256": "a4a14c31c828d942d682ab3bbebb5da7ba9b81130c56d29790768aed76e2b6c1"
+      },
+      "terminal": {
+        "bytes": 1040,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/runs/zsre-memit/COMPLETE.json",
+        "sha256": "b15cf8fdec0bb8c3be41f3d22e44fddf29fb327e63b9e4a27e3be8892a786f5d"
+      },
+      "identity": {
+        "assets_sha256": "3ec8caa86e8babc7d50efd513bd72eacf6bec10579bfb6680ba7e4052f3edba4",
+        "code_commit": "94304dc93db928300a71d8dcd0f87199fdb93f1f",
+        "config_sha256": "064cc31ff2e50016d249c34eac7ccf9cdb37b38f93388c28be568f14b6e39ca6",
+        "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+        "official_tree_sha256": "4b09cc81252f8e190621941bdd9b9234dd3013bd",
+        "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+        "tokenizer_sha256": "63411f4ee2a0111d0c3902d14c85a1d003dafc765573c60282957f558bf02453"
+      },
+      "ordered_case_ids_sha256": "494b15107deb77d9741606b7bddfecb8b350a486bb5a751655b294d4ebc6f1a4",
+      "status": "W20_SAVED_TOKEN_IDS_AND_BITS_CPU_REDUCED",
+      "counts": {
+        "Eff": {
+          "requests": 2000,
+          "token_count": 6035,
+          "correct_tokens": 2772,
+          "request_macro_pct": 46.707817460317465
+        },
+        "Gen": {
+          "requests": 2000,
+          "token_count": 6035,
+          "correct_tokens": 2543,
+          "request_macro_pct": 42.067380952380944
+        },
+        "Loc": {
+          "requests": 2000,
+          "token_count": 10465,
+          "correct_tokens": 3987,
+          "request_macro_pct": 30.489366482458404
+        }
+      },
+      "before_Loc_W0_agreement": 37.24832530179134,
+      "after_Loc": 30.489366482458404,
+      "Eff": 46.707817460317465,
+      "Gen": 42.067380952380944,
+      "auxiliary_W0_agreement": {
+        "requests": 2000,
+        "token_count": 10465,
+        "correct_tokens": 5171,
+        "request_macro_pct": 37.24832530179134
+      },
+      "stored_loc_ans_crosscheck_only": true
+    },
+    {
+      "model": "llama3",
+      "dataset": "zsre",
+      "method": "ALPHAEDIT",
+      "job_id": "61718",
+      "source": {
+        "main_commit": "94304dc93db928300a71d8dcd0f87199fdb93f1f",
+        "official_tree": "4b09cc81252f8e190621941bdd9b9234dd3013bd"
+      },
+      "config": {
+        "bytes": 6178,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/configs/zsre-alphaedit.json",
+        "sha256": "3d22ffbff44610862f6d3fe405e35b79aa8541448f869883b0b6a65e2cad4a75"
+      },
+      "endpoint": {
+        "bytes": 9102868,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/runs/zsre-alphaedit/factual/batch-20.json",
+        "sha256": "8764c67a5883d0628d3ae4999482f4e6e9901d3b8dc314f265223cccdd3f9b39"
+      },
+      "terminal": {
+        "bytes": 1048,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/runs/zsre-alphaedit/COMPLETE.json",
+        "sha256": "e17c5ea30aac7eb4aeaec46f0ca1b0aa87a0c21dfb3b3322cc4e021e17c53d62"
+      },
+      "identity": {
+        "assets_sha256": "3ec8caa86e8babc7d50efd513bd72eacf6bec10579bfb6680ba7e4052f3edba4",
+        "code_commit": "94304dc93db928300a71d8dcd0f87199fdb93f1f",
+        "config_sha256": "69d461ffedbaa7e4dc83249607abdc3d178c9a06bf20913b14a9840f12d996df",
+        "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+        "official_tree_sha256": "4b09cc81252f8e190621941bdd9b9234dd3013bd",
+        "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+        "tokenizer_sha256": "63411f4ee2a0111d0c3902d14c85a1d003dafc765573c60282957f558bf02453"
+      },
+      "ordered_case_ids_sha256": "494b15107deb77d9741606b7bddfecb8b350a486bb5a751655b294d4ebc6f1a4",
+      "status": "W20_SAVED_TOKEN_IDS_AND_BITS_CPU_REDUCED",
+      "counts": {
+        "Eff": {
+          "requests": 2000,
+          "token_count": 6035,
+          "correct_tokens": 5943,
+          "request_macro_pct": 98.73777777777778
+        },
+        "Gen": {
+          "requests": 2000,
+          "token_count": 6035,
+          "correct_tokens": 5722,
+          "request_macro_pct": 94.59652777777778
+        },
+        "Loc": {
+          "requests": 2000,
+          "token_count": 10465,
+          "correct_tokens": 5198,
+          "request_macro_pct": 44.845610597201414
+        }
+      },
+      "before_Loc_W0_agreement": 51.22190169494295,
+      "after_Loc": 44.845610597201414,
+      "Eff": 98.73777777777778,
+      "Gen": 94.59652777777778,
+      "auxiliary_W0_agreement": {
+        "requests": 2000,
+        "token_count": 10465,
+        "correct_tokens": 6618,
+        "request_macro_pct": 51.22190169494295
+      },
+      "stored_loc_ans_crosscheck_only": true
+    },
+    {
+      "model": "llama3",
+      "dataset": "zsre",
+      "method": "ALPHAEDIT_BLUE",
+      "job_id": "61719",
+      "source": {
+        "main_commit": "94304dc93db928300a71d8dcd0f87199fdb93f1f",
+        "official_tree": "4b09cc81252f8e190621941bdd9b9234dd3013bd"
+      },
+      "config": {
+        "bytes": 6065,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/configs/zsre-alphaedit_blue.json",
+        "sha256": "8b1e1b39164d96ba46e3dd16155c0c0cc1a823f15587e97b5068ac77948345c7"
+      },
+      "endpoint": {
+        "bytes": 9101315,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/runs/zsre-alphaedit_blue/factual/batch-20.json",
+        "sha256": "c342181b57dfa387ddbad93fa9e297769f1b6667bb8c8484c14c089d4990982e"
+      },
+      "terminal": {
+        "bytes": 1058,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/runs/zsre-alphaedit_blue/COMPLETE.json",
+        "sha256": "26b25f951753d6f79942c68a33f3c644d88fb10e21c6785e4650141b850c4c8e"
+      },
+      "identity": {
+        "assets_sha256": "3ec8caa86e8babc7d50efd513bd72eacf6bec10579bfb6680ba7e4052f3edba4",
+        "code_commit": "94304dc93db928300a71d8dcd0f87199fdb93f1f",
+        "config_sha256": "43730717aa916b21ef605717543164a9d0cc47c30ffd9a5854ffd35fca4423c9",
+        "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+        "official_tree_sha256": "4b09cc81252f8e190621941bdd9b9234dd3013bd",
+        "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+        "tokenizer_sha256": "63411f4ee2a0111d0c3902d14c85a1d003dafc765573c60282957f558bf02453"
+      },
+      "ordered_case_ids_sha256": "494b15107deb77d9741606b7bddfecb8b350a486bb5a751655b294d4ebc6f1a4",
+      "status": "W20_SAVED_TOKEN_IDS_AND_BITS_CPU_REDUCED",
+      "counts": {
+        "Eff": {
+          "requests": 2000,
+          "token_count": 6035,
+          "correct_tokens": 6000,
+          "request_macro_pct": 99.4127380952381
+        },
+        "Gen": {
+          "requests": 2000,
+          "token_count": 6035,
+          "correct_tokens": 5815,
+          "request_macro_pct": 95.84857142857142
+        },
+        "Loc": {
+          "requests": 2000,
+          "token_count": 10465,
+          "correct_tokens": 5178,
+          "request_macro_pct": 42.306576450356026
+        }
+      },
+      "before_Loc_W0_agreement": 66.6866524054432,
+      "after_Loc": 42.306576450356026,
+      "Eff": 99.4127380952381,
+      "Gen": 95.84857142857142,
+      "auxiliary_W0_agreement": {
+        "requests": 2000,
+        "token_count": 10465,
+        "correct_tokens": 7853,
+        "request_macro_pct": 66.6866524054432
+      },
+      "stored_loc_ans_crosscheck_only": true
+    },
+    {
+      "model": "llama3",
+      "dataset": "zsre",
+      "method": "MEMIT_FE",
+      "job_id": "61720",
+      "source": {
+        "main_commit": "94304dc93db928300a71d8dcd0f87199fdb93f1f",
+        "official_tree": "4b09cc81252f8e190621941bdd9b9234dd3013bd"
+      },
+      "config": {
+        "bytes": 6098,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/configs/zsre-memit_fe.json",
+        "sha256": "9236ee489eec1a668cc03f26b94022830c4379a94f877024ed1f55e3cb254207"
+      },
+      "endpoint": {
+        "bytes": 9081378,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/runs/zsre-memit_fe/factual/batch-20.json",
+        "sha256": "5b1dd2884272f107bfbd4ad686eac0cb118ca7bb0346862450ea85c3b27754b7"
+      },
+      "terminal": {
+        "bytes": 1046,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/runs/zsre-memit_fe/COMPLETE.json",
+        "sha256": "9d127c4b06d4465808c10c48aca2d88e0105d614d3f2fb94de0b39c7acbcc8cf"
+      },
+      "identity": {
+        "assets_sha256": "3ec8caa86e8babc7d50efd513bd72eacf6bec10579bfb6680ba7e4052f3edba4",
+        "code_commit": "94304dc93db928300a71d8dcd0f87199fdb93f1f",
+        "config_sha256": "1f6746d421262333458749f5186a4076f35f6053e85f517024a399eb23f2241f",
+        "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+        "official_tree_sha256": "4b09cc81252f8e190621941bdd9b9234dd3013bd",
+        "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+        "tokenizer_sha256": "63411f4ee2a0111d0c3902d14c85a1d003dafc765573c60282957f558bf02453"
+      },
+      "ordered_case_ids_sha256": "494b15107deb77d9741606b7bddfecb8b350a486bb5a751655b294d4ebc6f1a4",
+      "status": "W20_SAVED_TOKEN_IDS_AND_BITS_CPU_REDUCED",
+      "counts": {
+        "Eff": {
+          "requests": 2000,
+          "token_count": 6035,
+          "correct_tokens": 823,
+          "request_macro_pct": 14.947380952380954
+        },
+        "Gen": {
+          "requests": 2000,
+          "token_count": 6035,
+          "correct_tokens": 751,
+          "request_macro_pct": 13.711011904761905
+        },
+        "Loc": {
+          "requests": 2000,
+          "token_count": 10465,
+          "correct_tokens": 104,
+          "request_macro_pct": 0.6041573477646061
+        }
+      },
+      "before_Loc_W0_agreement": 0.9656496675525015,
+      "after_Loc": 0.6041573477646061,
+      "Eff": 14.947380952380954,
+      "Gen": 13.711011904761905,
+      "auxiliary_W0_agreement": {
+        "requests": 2000,
+        "token_count": 10465,
+        "correct_tokens": 149,
+        "request_macro_pct": 0.9656496675525015
+      },
+      "stored_loc_ans_crosscheck_only": true
+    },
+    {
+      "model": "llama3",
+      "dataset": "zsre",
+      "method": "SPHERE",
+      "job_id": "61721",
+      "source": {
+        "main_commit": "94304dc93db928300a71d8dcd0f87199fdb93f1f",
+        "official_tree": "4b09cc81252f8e190621941bdd9b9234dd3013bd"
+      },
+      "config": {
+        "bytes": 6228,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/configs/zsre-sphere.json",
+        "sha256": "0ec557acf37c2c9a461406a504707b1fbb974faf2339ad56c958c737cb526495"
+      },
+      "endpoint": {
+        "bytes": 9102660,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/runs/zsre-sphere/factual/batch-20.json",
+        "sha256": "7757edf5d247c5577b7c5976457bf0d20574eddaaf39276bac61da729e4a5474"
+      },
+      "terminal": {
+        "bytes": 1042,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/runs/zsre-sphere/COMPLETE.json",
+        "sha256": "81108ec602e6e3321957e4168d494ae1be343f531d35049d066f9015ab4d6c78"
+      },
+      "identity": {
+        "assets_sha256": "3ec8caa86e8babc7d50efd513bd72eacf6bec10579bfb6680ba7e4052f3edba4",
+        "code_commit": "94304dc93db928300a71d8dcd0f87199fdb93f1f",
+        "config_sha256": "dda49f56401da16cec80cc38c8e6ee7a76a49a91baf3d4ad65580d8c9130710b",
+        "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+        "official_tree_sha256": "4b09cc81252f8e190621941bdd9b9234dd3013bd",
+        "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+        "tokenizer_sha256": "63411f4ee2a0111d0c3902d14c85a1d003dafc765573c60282957f558bf02453"
+      },
+      "ordered_case_ids_sha256": "494b15107deb77d9741606b7bddfecb8b350a486bb5a751655b294d4ebc6f1a4",
+      "status": "W20_SAVED_TOKEN_IDS_AND_BITS_CPU_REDUCED",
+      "counts": {
+        "Eff": {
+          "requests": 2000,
+          "token_count": 6035,
+          "correct_tokens": 5926,
+          "request_macro_pct": 98.51712301587301
+        },
+        "Gen": {
+          "requests": 2000,
+          "token_count": 6035,
+          "correct_tokens": 5730,
+          "request_macro_pct": 94.71871031746032
+        },
+        "Loc": {
+          "requests": 2000,
+          "token_count": 10465,
+          "correct_tokens": 5171,
+          "request_macro_pct": 44.30943809268017
+        }
+      },
+      "before_Loc_W0_agreement": 50.2203315848168,
+      "after_Loc": 44.30943809268017,
+      "Eff": 98.51712301587301,
+      "Gen": 94.71871031746032,
+      "auxiliary_W0_agreement": {
+        "requests": 2000,
+        "token_count": 10465,
+        "correct_tokens": 6554,
+        "request_macro_pct": 50.2203315848168
+      },
+      "stored_loc_ans_crosscheck_only": true
+    }
+  ]
+}
