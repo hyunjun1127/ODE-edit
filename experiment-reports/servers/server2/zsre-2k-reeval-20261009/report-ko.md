@@ -22,4 +22,14 @@
 - native full2000 query CPU parity 및 최종 runner/collector/API 결속, sourcefreeze/실제 제출은 공통 exact input 이후. 현재 신규 jobID 없음, Slurm PENDING 아님.
 - 원본 CP/weights/raw/frozen job 변경·취소·전송·삭제0. 새 편집/fit/W0/CF/FluCon/qualification0. 원본 replica 복제 없음. NO_BROADCAST_NOT_REQUIRED: 동일 host 기존 자산을 읽기 전용 사용.
 
-현재 정확 blocker는 사용자 승인이 아닌 공통 evaluator 및 tracking source 입력이다. 실제 평가 output/온라인 PASS 또는 완료 지표를 아직 주장하지 않는다.
+위 SOURCE_INPUT_PENDING은 최초 준비 시점의 역사 상태다. 이후 GH READY 4533756e의 공통 evaluator/query parity/tracking exact SHA를 결속해 해당 입력 blocker를 해소했다.
+
+## 실제 READY 후 구현
+
+전체 2000 request / 20808 query CPU native AST parity 통과: Eff 5557, Gen 5557, Loc 9694; input/target mismatch0, model forward0. Query SHA 2d27e4fc4445e709586e2d80f92dee76dfc1b6ce6cd7d333b6ca318ccb328a4b. 이는 실제 pretrained 출력 수치 parity가 아니다.
+
+Eval-only runner/독립 CPU collector/held submitter를 추가했다. 최종 all_seen/post edits2000만 기록하고 진행률은 별도 scalar로 전송한다. 원 CP를 mmap read-only로 읽어 선택 W만 복원하며 원 CP 파일 SHA를 평가 후에도 확인한다. 현재 runtime 안의 finite/count/parameter/RNG guard를 유지하고 추가 qualification은 실행하지 않는다.
+
+준비 영수증의 mtime_ns가 JSON 소비자에서 IEEE754 반올림된 것을 fail-closed stat 검사로 발견했다. 원본 6개를 다시 전체 SHA 재검증했고 모든 payload hash는 같았다. timestamp를 decimal string으로 바꿔 정확히 보존했다. 원 파일을 수정하거나 stat 허용값을 완화하지 않았다.
+
+최소 CPU 15 PASS, source166/Python320/externalimports0. 별도 GPU/온라인 PASS는 아니다. Sourcefreeze 후 cap4 및 기존 Qwen 네 lane frontier에 자원 dependency만 결속하여 GPU6+collector1 held검사/release 예정이다. 원 Qwen source69bfbb2c 및 jobs는 KEEP.
