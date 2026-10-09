@@ -1,0 +1,1036 @@
+{
+  "count": 11,
+  "extra_GPU_forwards": 0,
+  "extra_scheduler_queries": 0,
+  "historical_exceptions_preserved": [
+    "MEMIT42658",
+    "ALPHAEDIT42657",
+    "BLUE39283_1",
+    "PRICE_FREE10060103"
+  ],
+  "llama_history_reducer": {
+    "bytes": 1936,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-flucon-paper-scale-20261010/audits/servers/server1/flucon-paper-scale-20261010/history_refresh.py",
+    "sha256": "feed3a657fde45e7b1e6a8a0eff427d80c9033a101e3ca5ec99a5ca319378022"
+  },
+  "reducer": {
+    "bytes": 5139,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-flucon-paper-scale-20261010/audits/servers/server1/flucon-paper-scale-20261010/report_rows.py",
+    "sha256": "acaad4936e0b30891d50f03dfecee2a12580f062bb6a8b9195b8b82194ef3457"
+  },
+  "rows": [
+    {
+      "checkpoint_SHA_verified": true,
+      "checkpoint_metadata": {
+        "bytes": 237,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-display-score-repair-r1/preparation-r1/runs/cf-sphere/checkpoint/latest.json",
+        "sha256": "8824778db5517a6a4e8009b8799be2ca7f72e8ae017891aebcaca4976aabcdd6"
+      },
+      "commit_audit": {
+        "GPU_resume_parity_claim": false,
+        "actual_applied_requests": 2000,
+        "actual_model_forward_calls": 0,
+        "actual_native_apply_receipts": 20,
+        "final_checkpoint_payload_SHA_verified": true,
+        "historical_checkpoint_payloads_reloaded": false,
+        "method": "SPHERE",
+        "native_request_digest_checked_against_stream": true,
+        "native_source_sha256": "19934699a4604ad5ea87f5ad897d09514b0684b48b8f9fd88a9fc6750f0b208d",
+        "schema": "official-native-commit-CPU-audit-v1",
+        "selected_weight_hash_chain": true
+      },
+      "complete": true,
+      "config": {
+        "bytes": 6367,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-display-score-repair-r1/preparation-r1/configs/cf-sphere.json",
+        "sha256": "292250107202494cb8392dc91abc8af75cd8fc3012acf9080f2695ea663aaa58"
+      },
+      "dataset": "cf",
+      "delta_pp": {
+        "Efficacy": 0.0,
+        "Generalization": 0.0,
+        "Score": 0.0,
+        "Specificity": 0.0
+      },
+      "eligible_metrics": true,
+      "endpoint": {
+        "bytes": 64105073,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-display-score-repair-r1/preparation-r1/runs/cf-sphere/factual/batch-20.json",
+        "sha256": "52cd9c31f7cd1d5b7c827ce0e304c7c8a9085e1edbdfaf8400d5825565d469c8"
+      },
+      "evidence_reused": {
+        "bytes": 48200,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-flucon-paper-scale-20261010/audits/servers/server1/main-table-refresh-20261009/table-rows.json",
+        "sha256": "68db47bb6e9499a96e80d75fffad1f83b1c7b06a867fbb72b30349759d5780e2"
+      },
+      "generation": "DEFERRED",
+      "identity": {
+        "assets_sha256": "542be599e62a454f52eb4ed299f8cdfd79072d532bb292d43669195845534705",
+        "code_commit": "34e4d52d821113d56ee6c59b71d553dd01768e73",
+        "config_sha256": "117c3236d9c343053c5aace941d0246e171952fa75cb3c6b468982e4345bdfe4",
+        "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+        "official_tree_sha256": "db0354edebde9517c200140dbaa717605c4d527e",
+        "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "tokenizer_sha256": "63411f4ee2a0111d0c3902d14c85a1d003dafc765573c60282957f558bf02453"
+      },
+      "job_id": "61770",
+      "job_name": "official-s1-cf-sphere",
+      "method": "SPHERE",
+      "metrics": {
+        "Efficacy": 99.5,
+        "Generalization": 94.95,
+        "Score": 86.87096971885978,
+        "Specificity": 71.675
+      },
+      "model": "llama3",
+      "ordered_case_ids_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+      "previous_metrics": {
+        "Efficacy": 99.5,
+        "Generalization": 94.95,
+        "Score": 86.87096971885978,
+        "Score_AlphaEdit_display": 86.8734179060957,
+        "Specificity": 71.675,
+        "requests": 2000
+      },
+      "raw_audit": {
+        "GPU_parity_claim": false,
+        "actual_model_forward_calls": 0,
+        "candidate_sequences": 52000,
+        "dataset": "cf",
+        "endpoint_identity_sha256": "709a5b4b91bcbc9fdf315ebb73ade7c1fc3c55372b409b0a5a144c189c41a881",
+        "groups": {
+          "neighborhood": {
+            "prompt_acc_pct": 18.2525,
+            "prompt_count": 20000,
+            "strict_acc_pct": 17.625,
+            "token_acc_pct": 18.68771583621115,
+            "token_correct_count": 3788,
+            "token_count": 20270
+          },
+          "paraphrase": {
+            "prompt_acc_pct": 72.9125,
+            "prompt_count": 4000,
+            "strict_acc_pct": 72.6,
+            "token_acc_pct": 72.87549407114625,
+            "token_correct_count": 2950,
+            "token_count": 4048
+          },
+          "rewrite": {
+            "prompt_acc_pct": 98.2,
+            "prompt_count": 2000,
+            "strict_acc_pct": 98.2,
+            "token_acc_pct": 98.22134387351778,
+            "token_correct_count": 1988,
+            "token_count": 2024
+          }
+        },
+        "independent_raw_reduction": true,
+        "ordered_stream_and_token_identity": true,
+        "prompt_pairs": 26000,
+        "requests": 2000,
+        "schema": "official-factual-CPU-audit-v1"
+      },
+      "report_path": "experiment-reports/servers/server1/main-table-refresh-20261009/report-ko.md",
+      "server": "server1",
+      "source": {
+        "main_commit": "34e4d52d821113d56ee6c59b71d553dd01768e73",
+        "official_tree": "db0354edebde9517c200140dbaa717605c4d527e"
+      },
+      "state_basis": "IMMUTABLE_W20_RAW_AND_TERMINAL_REVERIFIED_NO_NEW_SCHEDULER_QUERY",
+      "status": "W20_FACTUAL_CPU_VERIFIED",
+      "summary": {
+        "Efficacy": 99.5,
+        "Generalization": 94.95,
+        "Score": 86.87096971885978,
+        "Score_AlphaEdit_display": 86.8734179060957,
+        "Specificity": 71.675,
+        "requests": 2000
+      },
+      "terminal": {
+        "bytes": 6536,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-display-score-repair-r1/preparation-r1/runs/cf-sphere/COMPLETE.json",
+        "sha256": "cb53c4a2eca39d48d4fd3a3734703bd9a437fc0005abbd8e789346af965c39cb"
+      }
+    },
+    {
+      "checkpoint_SHA_verified": true,
+      "checkpoint_metadata": {
+        "bytes": 237,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-display-score-repair-r1/preparation-r1/runs/cf-ft/checkpoint/latest.json",
+        "sha256": "91c348c865f7a53e2761539b2c58e24c34013b176becdff65142756e590d5430"
+      },
+      "commit_audit": {
+        "GPU_resume_parity_claim": false,
+        "actual_applied_requests": 2000,
+        "actual_model_forward_calls": 0,
+        "actual_native_apply_receipts": 20,
+        "final_checkpoint_payload_SHA_verified": true,
+        "historical_checkpoint_payloads_reloaded": false,
+        "method": "FT",
+        "native_request_digest_checked_against_stream": true,
+        "native_source_sha256": "96f74bfa49bc2ed3b8899858441672dd105ce3b20cdfb4ed2ecc668852efa22a",
+        "schema": "official-native-commit-CPU-audit-v1",
+        "selected_weight_hash_chain": true
+      },
+      "complete": true,
+      "config": {
+        "bytes": 5931,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-display-score-repair-r1/preparation-r1/configs/cf-ft.json",
+        "sha256": "4190f86a1e9670f01e8a6f42f9c3cc26c1a6ba9f6e2dc3c6eb3db32799472d61"
+      },
+      "dataset": "cf",
+      "delta_pp": {
+        "Efficacy": 0.0,
+        "Generalization": 0.0,
+        "Score": 0.0,
+        "Specificity": 0.0
+      },
+      "eligible_metrics": true,
+      "endpoint": {
+        "bytes": 64146085,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-display-score-repair-r1/preparation-r1/runs/cf-ft/factual/batch-20.json",
+        "sha256": "d4cb9c185f6d9c145d0df9ed483acda863393f0ab86e04d81d305166379f7141"
+      },
+      "evidence_reused": {
+        "bytes": 48200,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-flucon-paper-scale-20261010/audits/servers/server1/main-table-refresh-20261009/table-rows.json",
+        "sha256": "68db47bb6e9499a96e80d75fffad1f83b1c7b06a867fbb72b30349759d5780e2"
+      },
+      "generation": "DEFERRED",
+      "identity": {
+        "assets_sha256": "2279beeaecf7f073d00b335df93e669a78858f266188fbaab51000adf36adbdf",
+        "code_commit": "34e4d52d821113d56ee6c59b71d553dd01768e73",
+        "config_sha256": "7a50a35275c1eda21551d87c7f76b9dcc8611acfbdaecb6ed9a6c6141d14b84c",
+        "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+        "official_tree_sha256": "db0354edebde9517c200140dbaa717605c4d527e",
+        "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "tokenizer_sha256": "63411f4ee2a0111d0c3902d14c85a1d003dafc765573c60282957f558bf02453"
+      },
+      "job_id": "61771",
+      "job_name": "official-s1-cf-ft",
+      "method": "FT",
+      "metrics": {
+        "Efficacy": 89.25,
+        "Generalization": 73.3,
+        "Score": 56.5866260441582,
+        "Specificity": 35.5
+      },
+      "model": "llama3",
+      "ordered_case_ids_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+      "previous_metrics": {
+        "Efficacy": 89.25,
+        "Generalization": 73.3,
+        "Score": 56.5866260441582,
+        "Score_AlphaEdit_display": 56.5866260441582,
+        "Specificity": 35.5,
+        "requests": 2000
+      },
+      "raw_audit": {
+        "GPU_parity_claim": false,
+        "actual_model_forward_calls": 0,
+        "candidate_sequences": 52000,
+        "dataset": "cf",
+        "endpoint_identity_sha256": "30ab947f16734f336e282518b173792b67d9a5cf119238aae68ba43f5d0b1125",
+        "groups": {
+          "neighborhood": {
+            "prompt_acc_pct": 0.315,
+            "prompt_count": 20000,
+            "strict_acc_pct": 0.315,
+            "token_acc_pct": 0.3108041440552541,
+            "token_correct_count": 63,
+            "token_count": 20270
+          },
+          "paraphrase": {
+            "prompt_acc_pct": 2.475,
+            "prompt_count": 4000,
+            "strict_acc_pct": 2.475,
+            "token_acc_pct": 2.4456521739130435,
+            "token_correct_count": 99,
+            "token_count": 4048
+          },
+          "rewrite": {
+            "prompt_acc_pct": 10.85,
+            "prompt_count": 2000,
+            "strict_acc_pct": 10.85,
+            "token_acc_pct": 10.721343873517787,
+            "token_correct_count": 217,
+            "token_count": 2024
+          }
+        },
+        "independent_raw_reduction": true,
+        "ordered_stream_and_token_identity": true,
+        "prompt_pairs": 26000,
+        "requests": 2000,
+        "schema": "official-factual-CPU-audit-v1"
+      },
+      "report_path": "experiment-reports/servers/server1/main-table-refresh-20261009/report-ko.md",
+      "server": "server1",
+      "source": {
+        "main_commit": "34e4d52d821113d56ee6c59b71d553dd01768e73",
+        "official_tree": "db0354edebde9517c200140dbaa717605c4d527e"
+      },
+      "state_basis": "IMMUTABLE_W20_RAW_AND_TERMINAL_REVERIFIED_NO_NEW_SCHEDULER_QUERY",
+      "status": "W20_FACTUAL_CPU_VERIFIED",
+      "summary": {
+        "Efficacy": 89.25,
+        "Generalization": 73.3,
+        "Score": 56.5866260441582,
+        "Score_AlphaEdit_display": 56.5866260441582,
+        "Specificity": 35.5,
+        "requests": 2000
+      },
+      "terminal": {
+        "bytes": 3356,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-display-score-repair-r1/preparation-r1/runs/cf-ft/COMPLETE.json",
+        "sha256": "41a14f6d068f880b5c8ccd00fae768b5471f86c2ce963b1f02674cbc89d41a79"
+      }
+    },
+    {
+      "checkpoint_SHA_verified": true,
+      "checkpoint_metadata": {
+        "bytes": 237,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-display-score-repair-r1/preparation-r1/runs/cf-memit_fe/checkpoint/latest.json",
+        "sha256": "cace8c72786ca903706f6a6061bf6389f9e6935be1660bb9e678d705c4bcc5d1"
+      },
+      "commit_audit": {
+        "GPU_resume_parity_claim": false,
+        "actual_applied_requests": 2000,
+        "actual_model_forward_calls": 0,
+        "actual_native_apply_receipts": 20,
+        "final_checkpoint_payload_SHA_verified": true,
+        "historical_checkpoint_payloads_reloaded": false,
+        "method": "MEMIT_FE",
+        "native_request_digest_checked_against_stream": true,
+        "native_source_sha256": "3139543c4a0b24b7be797010fc9a86b5aa184161acb54776b01caa6b965ccd86",
+        "schema": "official-native-commit-CPU-audit-v1",
+        "selected_weight_hash_chain": true
+      },
+      "complete": true,
+      "config": {
+        "bytes": 6178,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-display-score-repair-r1/preparation-r1/configs/cf-memit_fe.json",
+        "sha256": "7ed1f70a57337832eeb2c605cb8b2358a1ce4ad739154e715218bbc8304ddf27"
+      },
+      "dataset": "cf",
+      "delta_pp": null,
+      "eligible_metrics": true,
+      "endpoint": {
+        "bytes": 64097358,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-display-score-repair-r1/preparation-r1/runs/cf-memit_fe/factual/batch-20.json",
+        "sha256": "91316cbda09d88ce2a52f72638e926971bd9d32afaa5943d96cb36ed001acad7"
+      },
+      "evidence_reused": {
+        "bytes": 48200,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-flucon-paper-scale-20261010/audits/servers/server1/main-table-refresh-20261009/table-rows.json",
+        "sha256": "68db47bb6e9499a96e80d75fffad1f83b1c7b06a867fbb72b30349759d5780e2"
+      },
+      "generation": "DEFERRED",
+      "identity": {
+        "assets_sha256": "2279beeaecf7f073d00b335df93e669a78858f266188fbaab51000adf36adbdf",
+        "code_commit": "34e4d52d821113d56ee6c59b71d553dd01768e73",
+        "config_sha256": "e89943e199d032fe935976801d0965d1a950ac8bec602c250e6df7781c8e757a",
+        "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+        "official_tree_sha256": "db0354edebde9517c200140dbaa717605c4d527e",
+        "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "tokenizer_sha256": "63411f4ee2a0111d0c3902d14c85a1d003dafc765573c60282957f558bf02453"
+      },
+      "job_id": "61773",
+      "job_name": "official-s1-cf-memit_fe",
+      "method": "MEMIT_FE",
+      "metrics": {
+        "Efficacy": 80.45,
+        "Generalization": 73.675,
+        "Score": 64.55217402754575,
+        "Specificity": 48.85
+      },
+      "model": "llama3",
+      "ordered_case_ids_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+      "previous_metrics": null,
+      "raw_audit": {
+        "GPU_parity_claim": false,
+        "actual_model_forward_calls": 0,
+        "candidate_sequences": 52000,
+        "dataset": "cf",
+        "endpoint_identity_sha256": "30ab947f16734f336e282518b173792b67d9a5cf119238aae68ba43f5d0b1125",
+        "groups": {
+          "neighborhood": {
+            "prompt_acc_pct": 2.875,
+            "prompt_count": 20000,
+            "strict_acc_pct": 2.875,
+            "token_acc_pct": 2.836704489393192,
+            "token_correct_count": 575,
+            "token_count": 20270
+          },
+          "paraphrase": {
+            "prompt_acc_pct": 23.275,
+            "prompt_count": 4000,
+            "strict_acc_pct": 23.25,
+            "token_acc_pct": 23.048418972332016,
+            "token_correct_count": 933,
+            "token_count": 4048
+          },
+          "rewrite": {
+            "prompt_acc_pct": 38.2,
+            "prompt_count": 2000,
+            "strict_acc_pct": 38.15,
+            "token_acc_pct": 37.79644268774704,
+            "token_correct_count": 765,
+            "token_count": 2024
+          }
+        },
+        "independent_raw_reduction": true,
+        "ordered_stream_and_token_identity": true,
+        "prompt_pairs": 26000,
+        "requests": 2000,
+        "schema": "official-factual-CPU-audit-v1"
+      },
+      "report_path": "experiment-reports/servers/server1/main-table-refresh-20261009/report-ko.md",
+      "server": "server1",
+      "source": {
+        "main_commit": "34e4d52d821113d56ee6c59b71d553dd01768e73",
+        "official_tree": "db0354edebde9517c200140dbaa717605c4d527e"
+      },
+      "state_basis": "IMMUTABLE_W20_RAW_AND_TERMINAL_REVERIFIED_NO_NEW_SCHEDULER_QUERY",
+      "status": "W20_FACTUAL_CPU_VERIFIED",
+      "summary": {
+        "Efficacy": 80.45,
+        "Generalization": 73.675,
+        "Score": 64.55217402754575,
+        "Score_AlphaEdit_display": 64.55345343637067,
+        "Specificity": 48.85,
+        "requests": 2000
+      },
+      "terminal": {
+        "bytes": 4310,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-display-score-repair-r1/preparation-r1/runs/cf-memit_fe/COMPLETE.json",
+        "sha256": "a7789ed3f6095de3890f60502aa38415b2cd90d2c25d17be5bcc047bcc23d507"
+      }
+    },
+    {
+      "checkpoint_SHA_verified": true,
+      "checkpoint_metadata": {
+        "bytes": 237,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/runs/gptj/checkpoint/latest.json",
+        "sha256": "720f9ffe55e9259bc72fe6f84061ed3fd1e8cb8f87a526bfb2c78834ed948476"
+      },
+      "commits": 20,
+      "complete": true,
+      "config": {
+        "bytes": 3318,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/configs/gptj.json",
+        "sha256": "8c3dec291369262ee0d60a0236617f070c4ba6dfd73fc035d350d94ae8e4c0a6"
+      },
+      "dataset": "cf",
+      "eligible_metrics": true,
+      "endpoint": {
+        "bytes": 62933378,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/runs/gptj/factual/batch-20.json",
+        "sha256": "bf244bb1a6e14c407fcfa4c71739edb0d41ad4ca1754348ea14f0a988dfbbe68"
+      },
+      "evidence_reused": {
+        "bytes": 48200,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-flucon-paper-scale-20261010/audits/servers/server1/main-table-refresh-20261009/table-rows.json",
+        "sha256": "68db47bb6e9499a96e80d75fffad1f83b1c7b06a867fbb72b30349759d5780e2"
+      },
+      "generation": "DEFERRED",
+      "identity": {
+        "assets_sha256": "7cbf34bcad3bd053ead5c78b76ebfcec147d6d193f2c961d67f727942224b710",
+        "code_commit": "eaf78c331dee72093b2ccdf29f31962799475e34",
+        "config_sha256": "619e77c946a662d7d9a9690c0083326bb76584f15d55ed3c0aba191b026b300f",
+        "model_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+        "official_tree_sha256": "5a270b0fc7800f75dd7321d53d738e2be2840bed",
+        "stream_sha256": "39bbd2215177d2aabeb3bd5c2e7f088b454479bf567b3b16f9da70bd0b28c95e",
+        "tokenizer_sha256": "2aa4f890df82b69576bf881449a8d15c3997db0a3445699e157f81d59e1dad7b"
+      },
+      "job_id": "61927",
+      "job_name": "official-s1-cf-gptj-memit-fe-history",
+      "method": "MEMIT_FE_HISTORY",
+      "metrics": {
+        "Efficacy": 50.349999999999994,
+        "Generalization": 49.9,
+        "Score": 50.17588566715234,
+        "Specificity": 50.28
+      },
+      "model": "gptj",
+      "ordered_case_ids_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+      "raw_audit": {
+        "GPU_parity_claim": false,
+        "actual_model_forward_calls": 0,
+        "candidate_sequences": 52000,
+        "dataset": "cf",
+        "endpoint_identity_sha256": "44a4ab398f08bf7724c3c0a3d94222afbb39e2da4f671999921823014b066f5e",
+        "groups": {
+          "neighborhood": {
+            "prompt_acc_pct": 0.0,
+            "prompt_count": 20000,
+            "strict_acc_pct": 0.0,
+            "token_acc_pct": 0.0,
+            "token_correct_count": 0,
+            "token_count": 20000
+          },
+          "paraphrase": {
+            "prompt_acc_pct": 0.0,
+            "prompt_count": 4000,
+            "strict_acc_pct": 0.0,
+            "token_acc_pct": 0.0,
+            "token_correct_count": 0,
+            "token_count": 4000
+          },
+          "rewrite": {
+            "prompt_acc_pct": 0.0,
+            "prompt_count": 2000,
+            "strict_acc_pct": 0.0,
+            "token_acc_pct": 0.0,
+            "token_correct_count": 0,
+            "token_count": 2000
+          }
+        },
+        "independent_raw_reduction": true,
+        "ordered_stream_and_token_identity": true,
+        "prompt_pairs": 26000,
+        "requests": 2000,
+        "schema": "official-factual-CPU-audit-v1"
+      },
+      "report_path": "experiment-reports/servers/server1/main-table-refresh-20261009/report-ko.md",
+      "server": "server1",
+      "source": "eaf78c331dee72093b2ccdf29f31962799475e34",
+      "state_basis": "IMMUTABLE_W20_RAW_AND_TERMINAL_REVERIFIED_NO_NEW_SCHEDULER_QUERY",
+      "status": "W20_FACTUAL_CPU_VERIFIED",
+      "summary": {
+        "Efficacy": 50.349999999999994,
+        "Generalization": 49.9,
+        "Score": 50.17588566715234,
+        "Score_AlphaEdit_display": 50.17588566715234,
+        "Specificity": 50.28,
+        "requests": 2000
+      },
+      "terminal": {
+        "bytes": 4375,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/runs/gptj/COMPLETE.json",
+        "sha256": "b18f422e32411401c03b522b34e58f1a19ea7b84bd391c64d6ddd247f649a298"
+      },
+      "variant_separate_from_native_FE": true
+    },
+    {
+      "commits": 20,
+      "complete": true,
+      "config": {
+        "bytes": 3325,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/configs/llama3.json",
+        "sha256": "c4543cb0124539d6e73858ce8d7f6c906688709811ee63403afb75ba9538f982"
+      },
+      "dataset": "cf",
+      "endpoint": {
+        "bytes": 64087890,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/runs/llama3/factual/batch-20.json",
+        "sha256": "5f6890446af61209caa658d034a943fe45d47901f13ceac9145474eec0abd25f"
+      },
+      "generation": "DEFERRED",
+      "identity": {
+        "assets_sha256": "d03386c2a10978fb66984cc81df43d83a4a145e74be6aa84bb7b395acfc088f3",
+        "code_commit": "eaf78c331dee72093b2ccdf29f31962799475e34",
+        "config_sha256": "f6e97420d91acbeb17b4c1fe86b0ca9af94029bf7dfe8565c608a39f2f604472",
+        "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+        "official_tree_sha256": "5a270b0fc7800f75dd7321d53d738e2be2840bed",
+        "stream_sha256": "39bbd2215177d2aabeb3bd5c2e7f088b454479bf567b3b16f9da70bd0b28c95e",
+        "tokenizer_sha256": "5def14f0398b34af845724d57933cb300ae606e3e4b039366e1fdbd81fbcc521"
+      },
+      "job_id": "61928",
+      "job_name": "official-s1-cf-llama3-memit-fe-history",
+      "method": "MEMIT_FE_HISTORY",
+      "model": "llama3",
+      "ordered_case_ids_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+      "raw_audit": {
+        "GPU_parity_claim": false,
+        "actual_model_forward_calls": 0,
+        "candidate_sequences": 52000,
+        "dataset": "cf",
+        "endpoint_identity_sha256": "6d21089c099f6956b4e194f4f8854117309fd4d70c21bd3942ed3137336ca8b5",
+        "groups": {
+          "neighborhood": {
+            "prompt_acc_pct": 2.76,
+            "prompt_count": 20000,
+            "strict_acc_pct": 2.74,
+            "token_acc_pct": 2.742969906265417,
+            "token_correct_count": 556,
+            "token_count": 20270
+          },
+          "paraphrase": {
+            "prompt_acc_pct": 29.95,
+            "prompt_count": 4000,
+            "strict_acc_pct": 29.85,
+            "token_acc_pct": 29.693675889328063,
+            "token_correct_count": 1202,
+            "token_count": 4048
+          },
+          "rewrite": {
+            "prompt_acc_pct": 42.75,
+            "prompt_count": 2000,
+            "strict_acc_pct": 42.65,
+            "token_acc_pct": 42.440711462450594,
+            "token_correct_count": 859,
+            "token_count": 2024
+          }
+        },
+        "independent_raw_reduction": true,
+        "ordered_stream_and_token_identity": true,
+        "prompt_pairs": 26000,
+        "requests": 2000,
+        "schema": "official-factual-CPU-audit-v1"
+      },
+      "source": "eaf78c331dee72093b2ccdf29f31962799475e34",
+      "status": "W20_FACTUAL_CPU_VERIFIED",
+      "summary": {
+        "Efficacy": 80.10000000000001,
+        "Generalization": 74.1,
+        "Score": 64.6634173683734,
+        "Score_AlphaEdit_display": 64.660512913358,
+        "Specificity": 48.985,
+        "requests": 2000
+      },
+      "terminal": {
+        "bytes": 4003,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/runs/llama3/COMPLETE.json",
+        "sha256": "74296884723d843ad61767122a5348d669e7d678826bedcc0a66fd1ae51040cd"
+      },
+      "variant_separate_from_native_FE": true
+    },
+    {
+      "checkpoint": {
+        "bytes": 234898913,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/runs/zsre-ft/checkpoint/batch-20-a190f827ffd2b1c3.pt",
+        "sha256": "a190f827ffd2b1c377497a0c6e47b4d27c0b5e0021cc978e7e1cf9e8a29d8708"
+      },
+      "complete": true,
+      "config": {
+        "bytes": 5613,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/preparation-r2/configs/ft.json",
+        "sha256": "c991b2a837cbb2f9e9df66b3373df734de6a01084aa7c14ebe219b2faf67db53"
+      },
+      "counts": {
+        "neighborhood": {
+          "correct": 2213,
+          "requests": 2000,
+          "tokens": 12465
+        },
+        "paraphrase": {
+          "correct": 777,
+          "requests": 2000,
+          "tokens": 6035
+        },
+        "rewrite": {
+          "correct": 873,
+          "requests": 2000,
+          "tokens": 6035
+        }
+      },
+      "dataset": "zsre",
+      "delta_pp": {
+        "Efficacy": -0.20273809523809483,
+        "Generalization": -0.17505952380952294,
+        "Specificity": 23.65976482222361
+      },
+      "endpoint": {
+        "bytes": 5413756,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/preparation-r2/runs/ft/W20-evaluation.json",
+        "sha256": "df0574ba77bfd59fddd12de43463ee684d205e2dc72f58d25753e864fa57699d"
+      },
+      "evaluation_profile": "zsre-public-query-W20-only-v1",
+      "generation": "NOT_APPLICABLE",
+      "job_id": "61932",
+      "job_name": "official-s1-zsre-reeval-ft",
+      "method": "FT",
+      "metrics": {
+        "Efficacy": 14.632400793650794,
+        "Generalization": 11.816567460317462,
+        "Specificity": 25.251387670596298
+      },
+      "model": "llama3",
+      "old_query_not_native_equivalent": true,
+      "ordered_case_ids_sha256": "494b15107deb77d9741606b7bddfecb8b350a486bb5a751655b294d4ebc6f1a4",
+      "original_job": "61716",
+      "previous_endpoint": {
+        "bytes": 9109970,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/runs/zsre-ft/factual/batch-20.json",
+        "sha256": "0aecc8f7a8e369b2027c47afd5adca156a904e1f06e957a907b4235e2ee499b7"
+      },
+      "previous_metrics": {
+        "Efficacy": 14.835138888888888,
+        "Generalization": 11.991626984126984,
+        "Specificity": 1.5916228483726869
+      },
+      "source": "b2806a6081d66fc585db970595c4b86a71f5aafd",
+      "status": "W20_EVAL_ONLY_CPU_REDUCED",
+      "terminal": {
+        "bytes": 1113,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/preparation-r2/runs/ft/COMPLETE.json",
+        "sha256": "2906895b74609a0941c0264c257e172f525c27b8d778f370b208706fce537c6c"
+      }
+    },
+    {
+      "checkpoint": {
+        "bytes": 1174424977,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/runs/zsre-memit/checkpoint/batch-20-e7981b8bd87b5ccc.pt",
+        "sha256": "e7981b8bd87b5ccc74c8ff48764918ac96cf96434d174abb459a01ebf953862e"
+      },
+      "complete": true,
+      "config": {
+        "bytes": 5776,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/preparation-r2/configs/memit.json",
+        "sha256": "1c34cf06279ab8460235dd520c3b704cf83ed480142b53bb36aa2820d54be36a"
+      },
+      "counts": {
+        "neighborhood": {
+          "correct": 3868,
+          "requests": 2000,
+          "tokens": 12465
+        },
+        "paraphrase": {
+          "correct": 2399,
+          "requests": 2000,
+          "tokens": 6035
+        },
+        "rewrite": {
+          "correct": 2597,
+          "requests": 2000,
+          "tokens": 6035
+        }
+      },
+      "dataset": "zsre",
+      "delta_pp": {
+        "Efficacy": -2.407103174603172,
+        "Generalization": -2.120059523809516,
+        "Specificity": -8.184453862681643
+      },
+      "endpoint": {
+        "bytes": 5374014,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/preparation-r2/runs/memit/W20-evaluation.json",
+        "sha256": "bcf5105bc3028a12dfca9832bbc17522d8a134ff779c70c82bcc507b9e8a5e6c"
+      },
+      "evaluation_profile": "zsre-public-query-W20-only-v1",
+      "generation": "NOT_APPLICABLE",
+      "job_id": "61933",
+      "job_name": "official-s1-zsre-reeval-memit",
+      "method": "MEMIT",
+      "metrics": {
+        "Efficacy": 44.30071428571429,
+        "Generalization": 39.94732142857143,
+        "Specificity": 22.30491261977676
+      },
+      "model": "llama3",
+      "old_query_not_native_equivalent": true,
+      "ordered_case_ids_sha256": "494b15107deb77d9741606b7bddfecb8b350a486bb5a751655b294d4ebc6f1a4",
+      "original_job": "61717",
+      "previous_endpoint": {
+        "bytes": 9071970,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/runs/zsre-memit/factual/batch-20.json",
+        "sha256": "a4a14c31c828d942d682ab3bbebb5da7ba9b81130c56d29790768aed76e2b6c1"
+      },
+      "previous_metrics": {
+        "Efficacy": 46.707817460317465,
+        "Generalization": 42.067380952380944,
+        "Specificity": 30.489366482458404
+      },
+      "source": "b2806a6081d66fc585db970595c4b86a71f5aafd",
+      "status": "W20_EVAL_ONLY_CPU_REDUCED",
+      "terminal": {
+        "bytes": 1123,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/preparation-r2/runs/memit/COMPLETE.json",
+        "sha256": "37a3487fa66d80172e6aa9f90074a231c7eb9015d9c0bfe690481b3f1e964ea8"
+      }
+    },
+    {
+      "checkpoint": {
+        "bytes": 5284844677,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/runs/zsre-alphaedit/checkpoint/batch-20-21825e91fdef0aa2.pt",
+        "sha256": "21825e91fdef0aa2664653c4e4e90e5406ff7bdc9b25d05e109c5bb5c6d155f5"
+      },
+      "complete": true,
+      "config": {
+        "bytes": 5984,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/preparation-r2/configs/alphaedit.json",
+        "sha256": "afea43aef0222e738addc99746f3f05d10167c622b86478a3debafbcaca2bed6"
+      },
+      "counts": {
+        "neighborhood": {
+          "correct": 4861,
+          "requests": 2000,
+          "tokens": 12465
+        },
+        "paraphrase": {
+          "correct": 5493,
+          "requests": 2000,
+          "tokens": 6035
+        },
+        "rewrite": {
+          "correct": 5689,
+          "requests": 2000,
+          "tokens": 6035
+        }
+      },
+      "dataset": "zsre",
+      "delta_pp": {
+        "Efficacy": -3.5557738095238136,
+        "Generalization": -3.192440476190484,
+        "Specificity": -13.746654641664087
+      },
+      "endpoint": {
+        "bytes": 5366328,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/preparation-r2/runs/alphaedit/W20-evaluation.json",
+        "sha256": "16721b1f2e58f6c1d8c03b1d74fec3b0f99c29eab36dfbe990a8b1a9e815c5c3"
+      },
+      "evaluation_profile": "zsre-public-query-W20-only-v1",
+      "generation": "NOT_APPLICABLE",
+      "job_id": "61934",
+      "job_name": "official-s1-zsre-reeval-alphaedit",
+      "method": "ALPHAEDIT",
+      "metrics": {
+        "Efficacy": 95.18200396825397,
+        "Generalization": 91.4040873015873,
+        "Specificity": 31.098955955537328
+      },
+      "model": "llama3",
+      "old_query_not_native_equivalent": true,
+      "ordered_case_ids_sha256": "494b15107deb77d9741606b7bddfecb8b350a486bb5a751655b294d4ebc6f1a4",
+      "original_job": "61718",
+      "previous_endpoint": {
+        "bytes": 9102868,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/runs/zsre-alphaedit/factual/batch-20.json",
+        "sha256": "8764c67a5883d0628d3ae4999482f4e6e9901d3b8dc314f265223cccdd3f9b39"
+      },
+      "previous_metrics": {
+        "Efficacy": 98.73777777777778,
+        "Generalization": 94.59652777777778,
+        "Specificity": 44.845610597201414
+      },
+      "source": "b2806a6081d66fc585db970595c4b86a71f5aafd",
+      "status": "W20_EVAL_ONLY_CPU_REDUCED",
+      "terminal": {
+        "bytes": 1135,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/preparation-r2/runs/alphaedit/COMPLETE.json",
+        "sha256": "78f01377ce8a1e86c03567cf951a1b39e8b1d76ce055431223791a02a300e903"
+      }
+    },
+    {
+      "checkpoint": {
+        "bytes": 2113948569,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/runs/zsre-alphaedit_blue/checkpoint/batch-20-8677f04285d6d2dc.pt",
+        "sha256": "8677f04285d6d2dc9570abeb0cbb49397753389bab50b7bf07f877d05db61a41"
+      },
+      "complete": true,
+      "config": {
+        "bytes": 5884,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/preparation-r2/configs/alphaedit_blue.json",
+        "sha256": "b2f9c2303f2b63fcc56139cc5912f36d196317dc2a47e5b95b6927abefd1a48d"
+      },
+      "counts": {
+        "neighborhood": {
+          "correct": 5128,
+          "requests": 2000,
+          "tokens": 12465
+        },
+        "paraphrase": {
+          "correct": 5555,
+          "requests": 2000,
+          "tokens": 6035
+        },
+        "rewrite": {
+          "correct": 5743,
+          "requests": 2000,
+          "tokens": 6035
+        }
+      },
+      "dataset": "zsre",
+      "delta_pp": {
+        "Efficacy": -3.5404761904761983,
+        "Generalization": -3.5663888888888806,
+        "Specificity": -9.47808988002145
+      },
+      "endpoint": {
+        "bytes": 5364947,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/preparation-r2/runs/alphaedit_blue/W20-evaluation.json",
+        "sha256": "2ddad65b054ead4998c9cb12064f8d52aa010aafc38d5ffb121552cc98339135"
+      },
+      "evaluation_profile": "zsre-public-query-W20-only-v1",
+      "generation": "NOT_APPLICABLE",
+      "job_id": "61935",
+      "job_name": "official-s1-zsre-reeval-alphaedit_blue",
+      "method": "ALPHAEDIT_BLUE",
+      "metrics": {
+        "Efficacy": 95.8722619047619,
+        "Generalization": 92.28218253968254,
+        "Specificity": 32.828486570334576
+      },
+      "model": "llama3",
+      "old_query_not_native_equivalent": true,
+      "ordered_case_ids_sha256": "494b15107deb77d9741606b7bddfecb8b350a486bb5a751655b294d4ebc6f1a4",
+      "original_job": "61719",
+      "previous_endpoint": {
+        "bytes": 9101315,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/runs/zsre-alphaedit_blue/factual/batch-20.json",
+        "sha256": "c342181b57dfa387ddbad93fa9e297769f1b6667bb8c8484c14c089d4990982e"
+      },
+      "previous_metrics": {
+        "Efficacy": 99.4127380952381,
+        "Generalization": 95.84857142857142,
+        "Specificity": 42.306576450356026
+      },
+      "source": "b2806a6081d66fc585db970595c4b86a71f5aafd",
+      "status": "W20_EVAL_ONLY_CPU_REDUCED",
+      "terminal": {
+        "bytes": 1150,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/preparation-r2/runs/alphaedit_blue/COMPLETE.json",
+        "sha256": "bc59e0cfa9c26a077dd28072e965182da5c26c26c23ff42cfba04866c80d6298"
+      }
+    },
+    {
+      "checkpoint": {
+        "bytes": 1174424785,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/runs/zsre-memit_fe/checkpoint/batch-20-6fc4a968859a87d5.pt",
+        "sha256": "6fc4a968859a87d5361153929fbd4012a03d5971832528cf9cdc4d30bd26fb28"
+      },
+      "complete": true,
+      "config": {
+        "bytes": 5911,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/preparation-r2/configs/memit_fe.json",
+        "sha256": "be7679fd93dce88774307b76bbcc063b5ac8174a26aad829aeda6e615ae0d332"
+      },
+      "counts": {
+        "neighborhood": {
+          "correct": 104,
+          "requests": 2000,
+          "tokens": 12465
+        },
+        "paraphrase": {
+          "correct": 750,
+          "requests": 2000,
+          "tokens": 6035
+        },
+        "rewrite": {
+          "correct": 822,
+          "requests": 2000,
+          "tokens": 6035
+        }
+      },
+      "dataset": "zsre",
+      "delta_pp": {
+        "Efficacy": -0.14202380952381155,
+        "Generalization": -0.13690476190476453,
+        "Specificity": -0.048970175532515814
+      },
+      "endpoint": {
+        "bytes": 5387664,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/preparation-r2/runs/memit_fe/W20-evaluation.json",
+        "sha256": "39effb05194cf5a8894c6edeee1986626fdb7d4a4e4df313c5969ebec25dfc0c"
+      },
+      "evaluation_profile": "zsre-public-query-W20-only-v1",
+      "generation": "NOT_APPLICABLE",
+      "job_id": "61936",
+      "job_name": "official-s1-zsre-reeval-memit_fe",
+      "method": "MEMIT_FE",
+      "metrics": {
+        "Efficacy": 14.805357142857142,
+        "Generalization": 13.574107142857141,
+        "Specificity": 0.5551871722320902
+      },
+      "model": "llama3",
+      "old_query_not_native_equivalent": true,
+      "ordered_case_ids_sha256": "494b15107deb77d9741606b7bddfecb8b350a486bb5a751655b294d4ebc6f1a4",
+      "original_job": "61720",
+      "previous_endpoint": {
+        "bytes": 9081378,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/runs/zsre-memit_fe/factual/batch-20.json",
+        "sha256": "5b1dd2884272f107bfbd4ad686eac0cb118ca7bb0346862450ea85c3b27754b7"
+      },
+      "previous_metrics": {
+        "Efficacy": 14.947380952380954,
+        "Generalization": 13.711011904761905,
+        "Specificity": 0.6041573477646061
+      },
+      "source": "b2806a6081d66fc585db970595c4b86a71f5aafd",
+      "status": "W20_EVAL_ONLY_CPU_REDUCED",
+      "terminal": {
+        "bytes": 1132,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/preparation-r2/runs/memit_fe/COMPLETE.json",
+        "sha256": "10b3303fb60f1870d32a4f6d2159a6bd7a353133423feef511b3de931829f79b"
+      }
+    },
+    {
+      "checkpoint": {
+        "bytes": 5284844677,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/runs/zsre-sphere/checkpoint/batch-20-1287e2dd2c64de84.pt",
+        "sha256": "1287e2dd2c64de84790a307d8f88ce4c5d666e8b6379048e648479164607b788"
+      },
+      "complete": true,
+      "config": {
+        "bytes": 6023,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/preparation-r2/configs/sphere.json",
+        "sha256": "5840ad510908b46abdfad654adf36155d7bd2d5cd1776dc228b8ee967f4bbfa7"
+      },
+      "counts": {
+        "neighborhood": {
+          "correct": 4904,
+          "requests": 2000,
+          "tokens": 12465
+        },
+        "paraphrase": {
+          "correct": 5493,
+          "requests": 2000,
+          "tokens": 6035
+        },
+        "rewrite": {
+          "correct": 5683,
+          "requests": 2000,
+          "tokens": 6035
+        }
+      },
+      "dataset": "zsre",
+      "delta_pp": {
+        "Efficacy": -3.3908531746031656,
+        "Generalization": -3.3572222222222337,
+        "Specificity": -12.92771780834127
+      },
+      "endpoint": {
+        "bytes": 5366245,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/preparation-r2/runs/sphere/W20-evaluation.json",
+        "sha256": "873668f1cc95b0902bd1ebfab1fe1b039f24a44127ece60a74f9389d30bc6d0d"
+      },
+      "evaluation_profile": "zsre-public-query-W20-only-v1",
+      "generation": "NOT_APPLICABLE",
+      "job_id": "61937",
+      "job_name": "official-s1-zsre-reeval-sphere",
+      "method": "SPHERE",
+      "metrics": {
+        "Efficacy": 95.12626984126985,
+        "Generalization": 91.36148809523809,
+        "Specificity": 31.381720284338897
+      },
+      "model": "llama3",
+      "old_query_not_native_equivalent": true,
+      "ordered_case_ids_sha256": "494b15107deb77d9741606b7bddfecb8b350a486bb5a751655b294d4ebc6f1a4",
+      "original_job": "61721",
+      "previous_endpoint": {
+        "bytes": 9102660,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/runs/zsre-sphere/factual/batch-20.json",
+        "sha256": "7757edf5d247c5577b7c5976457bf0d20574eddaaf39276bac61da729e4a5474"
+      },
+      "previous_metrics": {
+        "Efficacy": 98.51712301587301,
+        "Generalization": 94.71871031746032,
+        "Specificity": 44.30943809268017
+      },
+      "source": "b2806a6081d66fc585db970595c4b86a71f5aafd",
+      "status": "W20_EVAL_ONLY_CPU_REDUCED",
+      "terminal": {
+        "bytes": 1126,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/preparation-r2/runs/sphere/COMPLETE.json",
+        "sha256": "4b8c0106016c1808c6e1d3e6409cfdc9285dd1d8fc27819665d60fcda23e6c01"
+      }
+    }
+  ],
+  "zsre_independent_reducer": {
+    "bytes": 10437,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-flucon-paper-scale-20261010/official/runners/server1/zsre_reeval.py",
+    "sha256": "58cb885a98e0343567c5c1b92979fd0a51b5d033b489f37d17ca12049d241b41"
+  }
+}
