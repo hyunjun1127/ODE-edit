@@ -41,6 +41,9 @@ server·job ID·관측 시각·실행 commit·config SHA·ordered sample identit
 사용자가 FLU/CON을 후속 checkpoint 평가로 미룬 실행은 factual W20 결과와 별도로
 CF Flu/Con을 `DEFERRED`로 표시하고 전체 평가 완료로 주장하지 않습니다.
 Ours 행은 결과 기록용이며 새 arm/실험을 자동 승인하지 않습니다.
+2026-10-09 23:05–23:08 KST 네 서버 완료 검산을 반영했습니다.
+[최신 통합 내역](experiment-reports/global/main-table-refresh-20261009.md): 신규 본표7개 결과 및 별도 history1개,
+나머지 상태·기존 historical 예외는 실측 근거에 따라 유지합니다.
 세부 [표 관리 정책](control/main-results-policy.json)과 [사용자 지시](messages/head/2026-10-09-main-table-fresh-rerun.json)를 따릅니다.
 
 **zsRE 재평가 안내 (2026-10-09):** 기존 evaluator에서 Eff/Gen decode-retokenize 및

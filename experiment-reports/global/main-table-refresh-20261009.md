@@ -16,8 +16,9 @@ GH의 추가 GPU/forward/Slurm 조회·변경·checkpoint 이동삭제는 없다
   GPTJ zsRE6은 아직 평가 PENDING. Qwen 나머지 상태는 SH2 snapshot으로 갱신.
 - SH3: 신규 본표 적격 완료0. Qwen61813 Q3-selected 별도 완료 기록 및
   Llama61821 선택L1 실행 중 상태를 본표 수치로 승격하지 않았다.
-- SH4: 요청 전달·진행 중이며 이번 통합 시점 완료 검산 receipt 미회수.
-  결과 부재로 점수를 만들거나 다른 서버 replica를 중복 집계하지 않는다.
+- SH4: 후속 main3331292c의 검산 보고도 회수했다. 신규 적격 완료0,
+  기존 Llama FREE10060103 예외의 E/G/Loc/Score를 재검산해 delta0로 유지했다.
+  실패·취소된 옛 Qwen/Llama job 및 서버2 이관 replica를 중복 집계하지 않았다.
 
 총 새 본표 수치7개 model/method/dataset 행의22칸,
 별도 history variant1행의4칸을 반영했다. 표시만 소수 둘째 자리 반올림하며 원값은 owner JSON에 보존.
@@ -28,4 +29,5 @@ CF Flu/Con DEFERRED, 기존 W0 관측/역사 source 예외, PRICE 자격 제한�
 [SH1 보고](../servers/server1/main-table-refresh-20261009/report-ko.md) ·
 [SH2 보고](../servers/server2/main-table-refresh-20261009/report-ko.md) ·
 [SH2 통합 상세](main-table-refresh-server2-20261009.md) ·
-[SH3 보고](../servers/server3/main-table-refresh-20261009/report-ko.md).
+[SH3 보고](../servers/server3/main-table-refresh-20261009/report-ko.md) ·
+[SH4 보고](../servers/server4/main-table-refresh-20261009/report-ko.md).
