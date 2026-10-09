@@ -100,9 +100,12 @@
       "target": "answers[0]",
       "efficacy": "teacher_forced_token_accuracy_request_macro",
       "generalization": "teacher_forced_token_accuracy_request_macro",
-      "specificity": "token_prediction_agreement_with_W0",
-      "additional_metric": "loc_ans_token_accuracy_for_original_AlphaEdit_comparison",
-      "W0_predictions_required": true
+      "specificity": "loc_ans_teacher_forced_token_accuracy_request_macro",
+      "additional_metric": "W0_prediction_agreement_request_macro_auxiliary_only",
+      "Specificity_loc_ans": "compatibility_alias_of_Specificity_answer_accuracy",
+      "W0_predictions_required": true,
+      "W0_predictions_purpose": "separate auxiliary preservation metric, not the answer target for Specificity",
+      "definition_revision": "USER-GH-ZSRE-LOC-RECALCULATE-MAIN-20261009-R1"
     },
     "generation": {
       "profile": "cf-cake-native-casebatch-kv-total100-globalrng-v1",

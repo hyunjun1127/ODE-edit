@@ -320,7 +320,7 @@ def _factual_scalars(dataset, cases, summary, prefix, edits):
         raise ValueError("FACTUAL_SUMMARY_REQUEST_DENOMINATOR")
     group = f"official/{prefix}"
     for field in ("Efficacy", "Generalization", "Specificity", "Score",
-                  "Score_AlphaEdit_display", "Specificity_loc_ans", "requests"):
+                  "Score_AlphaEdit_display", "Specificity_loc_ans", "W0_prediction_agreement", "requests"):
         if field in summary:
             values[f"{group}/{field}"] = summary[field]
     if dataset == "cf" and "Score_AlphaEdit_display" in summary:
@@ -461,7 +461,7 @@ def _log_scalar_receipt(tracker, output, label, values, source_receipt_sha256):
             # above. Raw cases/tokens never cross the transport boundary.
             summary = {field: values[prefix + field] for field in
                        ("Efficacy", "Generalization", "Specificity",
-                        "Specificity_loc_ans", "Score", "requests")
+                        "Specificity_loc_ans", "W0_prediction_agreement", "Score", "requests")
                        if prefix + field in values}
             if summary:
                 values.update(official_zsre_metrics(

@@ -157,7 +157,8 @@ class OfficialCollectorTests(unittest.TestCase):
         cohort = records(3)
         observed = factual('zsre', cohort)
         reduced = collector.validate_factual(observed, 'zsre', cohort, manifest=manifest())
-        self.assertEqual(reduced['Specificity'], 100)
+        self.assertEqual(reduced['Specificity'], 0)
+        self.assertEqual(reduced['W0_prediction_agreement'], 100)
         self.assertEqual(reduced['Specificity_loc_ans'], 0)
         self.assertEqual(reduced['Efficacy'], 50)
 

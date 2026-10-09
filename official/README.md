@@ -54,7 +54,7 @@ official/
 | 순차 편집 | 20 batch × 100건, 동일 순서·batch 경계, edit seed 0 |
 | 정밀도 | 모델·저장 가중치 FP32, TF32/autocast off, native solver 정밀도 유지 |
 | CF 지표 | Efficacy, Generalization, Specificity, Score, Fluency, Consistency |
-| zsRE 지표 | Efficacy, Generalization, Specificity; 원본 비교용 loc_ans 정확도 별도 |
+| zsRE 지표 | Efficacy, Generalization, Specificity=loc_ans 정답 정확도; W0 예측 보존율 별도 |
 | 누적 평가 | W0, 0.5K, 1K, 1.5K, 2K; 해당 시점까지 전체 편집 요청 |
 | 생성 평가 | CF W0는 모델당 1회, W20은 실행당 2,000건 전체 1회 |
 | 본문 제외 | ours 실행, GPT2-XL, CAKE, PRUNE, RECT |
@@ -147,9 +147,13 @@ CF 성공은 E/G에서 `new NLL < true NLL`, S에서 `true NLL < new NLL`이며 
 원본 AlphaEdit summarize는 소수점 둘째 자리로 반올림한 E/G/S의 조화평균을 표시하므로
 원시 Score와 원본 표시용 Score를 함께 보존한다. neighbor의 new/true NLL도 별도 보존한다.
 
-zsRE E/G는 teacher-forced token 정확도의 요청별 평균이다. 사용자 체크리스트의
-Specificity는 **W0 예측 일치율**로 기록한다. 확인한 AlphaEdit 원본은 `loc_ans` 정답 정확도를
-계산하므로 `Specificity_loc_ans`를 별도 보존한다. 두 지표를 혼용하지 않는다.
+zsRE E/G는 teacher-forced token 정확도의 요청별 평균이다. Specificity(본표 Loc)는
+**loc_ans 정답 token 정확도를 요청 안에서 평균한 뒤 요청 간 평균**한다.
+`Specificity_loc_ans`는 같은 값의 호환 별칭이며, W0 예측 보존율은
+`W0_prediction_agreement` 보조지표로 분리한다. 잘못된 W0 답의 보존은 Loc 성공이 아니다.
+2026-10-09 사용자 정정 지시가 이전 W0-agreement 표 정의를 대체한다. frozen 원자료는
+수정하지 않고 저장된 token correctness를 CPU 재집계하며, tokenization의 원본 논문
+완전 재현을 이 정정만으로 주장하지 않는다.
 
 ## Checkpoint와 실행 순서
 

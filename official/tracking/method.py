@@ -23,12 +23,12 @@ GENERATION_METRICS.update(f'{p}/{f}' for p in GENERATION_PREFIXES
 METHOD_METRICS.update(GENERATION_METRICS)
 DISPLAY_COMPONENTS=tuple(k+'_AlphaEdit_display' for k in ('Efficacy','Generalization','Specificity'))
 OFFICIAL_FIELDS=('Efficacy','Generalization','Specificity','Score',*DISPLAY_COMPONENTS,
-                 'Score_AlphaEdit_display','Specificity_loc_ans','requests')
+                 'Score_AlphaEdit_display','Specificity_loc_ans','W0_prediction_agreement','requests')
 OFFICIAL_GROUPS=tuple('official/'+prefix for prefix in PREFIXES)
 OFFICIAL_METRICS={f'{prefix}/{field}' for prefix in OFFICIAL_GROUPS
                   for field in OFFICIAL_FIELDS}
 METHOD_METRICS.update(OFFICIAL_METRICS)
-ZSRE_FIELDS=('Efficacy','Generalization','Specificity','Specificity_loc_ans','Score','requests')
+ZSRE_FIELDS=('Efficacy','Generalization','Specificity','Specificity_loc_ans','W0_prediction_agreement','Score','requests')
 ZSRE_GROUPS=tuple('zsre/'+prefix for prefix in PREFIXES)
 ZSRE_METRICS={f'{prefix}/{field}' for prefix in ZSRE_GROUPS for field in ZSRE_FIELDS}
 METHOD_METRICS.update(ZSRE_METRICS)

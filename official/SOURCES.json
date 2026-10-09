@@ -1761,7 +1761,7 @@
       "upstream_path": "official/README.md",
       "path": "README.md",
       "upstream_sha256": "92ec6723d4e7268276109cfd4ac20435b34c4a654607faaac5b662cbcff94d4a",
-      "sha256": "f83660a465a2a6b7c0211d9b232f46fdbf81cb63719e14d66e04398632a1da43",
+      "sha256": "e8f24baf694b2100d79a3cc1b66d4fda73e5062c7144db824c04c3ca1704839f",
       "changes": [
         "GH reviewed official compatibility/API documentation; original provenance retained",
         "2026-10-09: document model-specific PRICE config"
@@ -1772,6 +1772,12 @@
           "before_sha256": "e302631cdf303ca63b7511fe8781adc316d598e72614ee931094f40bc1c236ce",
           "after_sha256": "f83660a465a2a6b7c0211d9b232f46fdbf81cb63719e14d66e04398632a1da43",
           "instruction": "USER-PRICE-MODEL-HPARAM-CONFIG-20261009-R1"
+        },
+        {
+          "instruction": "USER-GH-ZSRE-LOC-RECALCULATE-MAIN-20261009-R1",
+          "previous_sha256": "f83660a465a2a6b7c0211d9b232f46fdbf81cb63719e14d66e04398632a1da43",
+          "sha256": "e8f24baf694b2100d79a3cc1b66d4fda73e5062c7144db824c04c3ca1704839f",
+          "reason": "zsRE answer-accuracy Loc and separately named W0 agreement; CF calculation unchanged"
         }
       ]
     },
@@ -1808,7 +1814,7 @@
       "upstream_path": "project/run_scripts/experiment_tracking/schema.py",
       "path": "tracking/schema.py",
       "upstream_sha256": "b63cd41816f4022ff85c83130f16fff4380e7e039d0c37f6618c7d008b7aa659",
-      "sha256": "24b7ba5dfa7741ad26b0b571a3e8bbe205bed57c0ae78809214844af3026268e",
+      "sha256": "464f11fa1f0fa35c82b351ba0cffe079cf59d579b89d934c3b102b1ad9e434d1",
       "changes": [
         "official instruction/dataset/schema and native W0+W20 authority pair",
         "zsRE rejects CF generation",
@@ -1822,6 +1828,12 @@
           "previous_sha256": "7147d38cc840e0f3592f271afdada5fd6dadfb202da4715eafacfd96eae42f63",
           "sha256": "b955d34e67b8dbef92f781d6707a6b3f8b78b3dd44b34d20ca7dfeeff34d6b07",
           "reason": "Support explicit deferred FLU/CON without claiming generation measurements"
+        },
+        {
+          "instruction": "USER-GH-ZSRE-LOC-RECALCULATE-MAIN-20261009-R1",
+          "previous_sha256": "24b7ba5dfa7741ad26b0b571a3e8bbe205bed57c0ae78809214844af3026268e",
+          "sha256": "464f11fa1f0fa35c82b351ba0cffe079cf59d579b89d934c3b102b1ad9e434d1",
+          "reason": "zsRE answer-accuracy Loc and separately named W0 agreement; CF calculation unchanged"
         }
       ]
     },
@@ -1832,13 +1844,21 @@
       "upstream_path": "project/run_scripts/experiment_tracking/method.py",
       "path": "tracking/method.py",
       "upstream_sha256": "4606fec3bb3403dc942f8308c4e53b3a576ea7c279286fde63d486450fbec173",
-      "sha256": "ecd88a0d20fcb4cccb058c6f67ec1aed89fecaf042b829a0cf1151f40033109a",
+      "sha256": "a2eb3d323a1c3c730d848debef7fe194ed236aa9ff912ce2f215e01f8bd74d3b",
       "changes": [
         "2026-10-09 USER CF rerun repair: explicit native NumPy rounded E/G/S display companions; nearest-cent ULP-only arithmetic check, unchanged raw/harmonic tolerance and legacy payload validation",
         "official request-macro score/requests validation and edits axes",
         "official W0 accepts actual native prompt/token counts without changing legacy PRICE counts"
       ],
-      "review_nonce": "SH1-GH-OFFICIAL-COMPAT-REVIEW-20261008-R1"
+      "review_nonce": "SH1-GH-OFFICIAL-COMPAT-REVIEW-20261008-R1",
+      "installed_revisions": [
+        {
+          "instruction": "USER-GH-ZSRE-LOC-RECALCULATE-MAIN-20261009-R1",
+          "previous_sha256": "ecd88a0d20fcb4cccb058c6f67ec1aed89fecaf042b829a0cf1151f40033109a",
+          "sha256": "a2eb3d323a1c3c730d848debef7fe194ed236aa9ff912ce2f215e01f8bd74d3b",
+          "reason": "zsRE answer-accuracy Loc and separately named W0 agreement; CF calculation unchanged"
+        }
+      ]
     },
     {
       "component": "tracking",
@@ -1924,7 +1944,7 @@
       "upstream_path": null,
       "path": "tracking/test_transport.py",
       "upstream_sha256": null,
-      "sha256": "476f19a786295b6fe1dbd1dad593cb112442fa6ee835680f88af94c6cc74b01d",
+      "sha256": "35be099e392aa8af03a3ac8a4add683cfc9e8faa7f31a30f215d7db59c6c4053",
       "changes": [
         "new GH-reviewed distribution artifact; final commit recorded by publication, no fictitious upstream"
       ],
@@ -1935,6 +1955,12 @@
           "previous_sha256": "3675dcba83ca4d692a57b44a1e9274bc4e021ea12f9a4cecef6678206ef73167",
           "sha256": "128e6809bc751034db27827be7035a3e61dd5cfa905963d777b887a18651a2ec",
           "reason": "Support explicit deferred FLU/CON without claiming generation measurements"
+        },
+        {
+          "instruction": "USER-GH-ZSRE-LOC-RECALCULATE-MAIN-20261009-R1",
+          "previous_sha256": "476f19a786295b6fe1dbd1dad593cb112442fa6ee835680f88af94c6cc74b01d",
+          "sha256": "35be099e392aa8af03a3ac8a4add683cfc9e8faa7f31a30f215d7db59c6c4053",
+          "reason": "zsRE answer-accuracy Loc and separately named W0 agreement; CF calculation unchanged"
         }
       ]
     },
@@ -1945,7 +1971,7 @@
       "upstream_path": null,
       "path": "tracking/README.md",
       "upstream_sha256": null,
-      "sha256": "1b1ece4bc9fb421d140b47e9292241b80cca5fdda158c231bbb8d83fc0026cbc",
+      "sha256": "516bfdf3d66781f2c57fea7ca09b7133b1457fa40b583625e6095c47e7edbb0b",
       "changes": [
         "new GH-reviewed distribution artifact; final commit recorded by publication, no fictitious upstream"
       ],
@@ -1956,6 +1982,12 @@
           "previous_sha256": "a55b4462f041bf6435f54d3a9285fa9d7eca9ab0d2f08b2d3f2771a9f0fa673f",
           "sha256": "8304773cab6ea37d4946dbfe661e41adfca4a939bf2d04e4e2e0277ca9370014",
           "reason": "Support explicit deferred FLU/CON without claiming generation measurements"
+        },
+        {
+          "instruction": "USER-GH-ZSRE-LOC-RECALCULATE-MAIN-20261009-R1",
+          "previous_sha256": "1b1ece4bc9fb421d140b47e9292241b80cca5fdda158c231bbb8d83fc0026cbc",
+          "sha256": "516bfdf3d66781f2c57fea7ca09b7133b1457fa40b583625e6095c47e7edbb0b",
+          "reason": "zsRE answer-accuracy Loc and separately named W0 agreement; CF calculation unchanged"
         }
       ]
     },
@@ -2091,11 +2123,55 @@
       "upstream_path": "official/evaluation/reduce.py",
       "path": "evaluation/reduce.py",
       "upstream_sha256": "9bfb19a42c0e3e0a0c62c3fadaf60645cb9096a9bd7595c64db003ebb08c6db0",
-      "sha256": "1e18b024ac900665b2ed7f1164b1074d3d4720ad8bde626daa23aea70609731f",
+      "sha256": "6e7f61feaa99ddeaac964c6c1f8c5b4e8a4caf31a2e8eed53df5fed9812ab10d",
       "changes": [
         "display-only Score_AlphaEdit_display now follows upstream NumPy per-request/cohort averaging and np.around; raw E/G/S, raw Score and zsRE unchanged"
       ],
-      "review_nonce": "SH2-GH-OFFICIAL-NATIVE-REFERENCE-20261009-R1"
+      "review_nonce": "SH2-GH-OFFICIAL-NATIVE-REFERENCE-20261009-R1",
+      "installed_revisions": [
+        {
+          "instruction": "USER-GH-ZSRE-LOC-RECALCULATE-MAIN-20261009-R1",
+          "previous_sha256": "1e18b024ac900665b2ed7f1164b1074d3d4720ad8bde626daa23aea70609731f",
+          "sha256": "6e7f61feaa99ddeaac964c6c1f8c5b4e8a4caf31a2e8eed53df5fed9812ab10d",
+          "reason": "zsRE answer-accuracy Loc and separately named W0 agreement; CF calculation unchanged"
+        }
+      ]
     }
-  ]
+  ],
+  "zsre_loc_definition_revision": {
+    "instruction": "USER-GH-ZSRE-LOC-RECALCULATE-MAIN-20261009-R1",
+    "definition": "request-macro loc_ans token accuracy; historical frozen sources preserved",
+    "files": [
+      {
+        "path": "README.md",
+        "previous_sha256": "f83660a465a2a6b7c0211d9b232f46fdbf81cb63719e14d66e04398632a1da43",
+        "sha256": "e8f24baf694b2100d79a3cc1b66d4fda73e5062c7144db824c04c3ca1704839f"
+      },
+      {
+        "path": "tracking/schema.py",
+        "previous_sha256": "24b7ba5dfa7741ad26b0b571a3e8bbe205bed57c0ae78809214844af3026268e",
+        "sha256": "464f11fa1f0fa35c82b351ba0cffe079cf59d579b89d934c3b102b1ad9e434d1"
+      },
+      {
+        "path": "tracking/method.py",
+        "previous_sha256": "ecd88a0d20fcb4cccb058c6f67ec1aed89fecaf042b829a0cf1151f40033109a",
+        "sha256": "a2eb3d323a1c3c730d848debef7fe194ed236aa9ff912ce2f215e01f8bd74d3b"
+      },
+      {
+        "path": "tracking/test_transport.py",
+        "previous_sha256": "476f19a786295b6fe1dbd1dad593cb112442fa6ee835680f88af94c6cc74b01d",
+        "sha256": "35be099e392aa8af03a3ac8a4add683cfc9e8faa7f31a30f215d7db59c6c4053"
+      },
+      {
+        "path": "tracking/README.md",
+        "previous_sha256": "1b1ece4bc9fb421d140b47e9292241b80cca5fdda158c231bbb8d83fc0026cbc",
+        "sha256": "516bfdf3d66781f2c57fea7ca09b7133b1457fa40b583625e6095c47e7edbb0b"
+      },
+      {
+        "path": "evaluation/reduce.py",
+        "previous_sha256": "1e18b024ac900665b2ed7f1164b1074d3d4720ad8bde626daa23aea70609731f",
+        "sha256": "6e7f61feaa99ddeaac964c6c1f8c5b4e8a4caf31a2e8eed53df5fed9812ab10d"
+      }
+    ]
+  }
 }

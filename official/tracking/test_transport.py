@@ -103,7 +103,7 @@ def execute(payloads,*,cfg=None,sdk=None):
 class OfficialTransport(unittest.TestCase):
     def test_zsre_public_mapping_all_endpoints_and_models(self):
         from . import official_zsre_metrics
-        summary=dict(Efficacy=80.,Generalization=60.,Specificity=90.,Specificity_loc_ans=31.)
+        summary=dict(Efficacy=80.,Generalization=60.,Specificity=31.,Specificity_loc_ans=31.,W0_prediction_agreement=90.)
         for model in ('llama3','qwen25','gptj'):
             for server in ('server1','server2','server3','server4'):
                 cfg=dict(config('zsre'),model=model,server=server)
@@ -113,9 +113,10 @@ class OfficialTransport(unittest.TestCase):
                     result=official_zsre_metrics(raw,config_values=cfg,endpoint=prefix,
                         edits=edits,pre_state_edits=max(0,edits-100),post_state_edits=edits)
                     self.assertEqual(raw,before)
-                    self.assertEqual(result['zsre/'+prefix+'/Specificity'],90.)
+                    self.assertEqual(result['zsre/'+prefix+'/Specificity'],31.)
+                    self.assertEqual(result['zsre/'+prefix+'/W0_prediction_agreement'],90.)
                     self.assertEqual(result['zsre/'+prefix+'/Specificity_loc_ans'],31.)
-                    self.assertAlmostEqual(result['zsre/'+prefix+'/Score'],harmonic([80,60,90]))
+                    self.assertAlmostEqual(result['zsre/'+prefix+'/Score'],harmonic([80,60,31]))
                     self.assertFalse(any(k.startswith('official/') for k in result))
 
     def test_zsre_missing_values_are_omitted_not_zero_filled(self):
@@ -126,6 +127,12 @@ class OfficialTransport(unittest.TestCase):
         self.assertNotIn('zsre/current/post/Generalization',result)
         self.assertNotIn('zsre/current/post/Specificity',result)
         self.assertNotIn('zsre/current/post/Score',result)
+
+    def test_zsre_legacy_W0_specificity_cannot_be_silently_relabelled(self):
+        from . import official_zsre_metrics
+        with self.assertRaisesRegex(ValueError,'ZSRE_LOC_ANS_DEFINITION_MISMATCH'):
+            official_zsre_metrics(dict(requests=100,Specificity=100.,Specificity_loc_ans=10.),
+                config_values=config('zsre'),endpoint='current/post',edits=100,post_state_edits=100)
 
     def test_zsre_mapping_rejects_wrong_scope_fields_and_non_scalars(self):
         from . import official_zsre_metrics
@@ -173,7 +180,7 @@ class OfficialTransport(unittest.TestCase):
         from . import official_zsre_metrics
         cfg=config('zsre')
         value=official_zsre_metrics(dict(requests=2000,Efficacy=80,Generalization=60,
-            Specificity=90,Specificity_loc_ans=31),config_values=cfg,
+            Specificity=31,Specificity_loc_ans=31,W0_prediction_agreement=90),config_values=cfg,
             endpoint='all_seen/post',edits=2000,post_state_edits=2000)
         sdk,out,bound=execute([value],cfg=cfg)
         self.assertEqual(out[-1]['method_readback']['status'],'REMOTE_BOUNDED_ROWS_VERIFIED')

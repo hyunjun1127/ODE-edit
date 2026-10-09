@@ -72,7 +72,9 @@ def official_zsre_metrics(summary, *, config_values, endpoint, edits,
                           pre_state_edits=None, post_state_edits=None):
     """Map measured request-macro zsRE summary; no evaluation or scalar coercion.
 
-    Specificity is W0 prediction agreement, not loc_ans accuracy. Missing values
+    Specificity is request-macro loc_ans accuracy; W0_prediction_agreement is
+    an independent auxiliary. Frozen old summaries must be raw-reduced first.
+    Missing values
     are omitted. Score is the harmonic mean of measured E/G/Specificity only.
     State axes must be supplied for current/all_seen observations as usual.
     """
@@ -87,6 +89,9 @@ def official_zsre_metrics(summary, *, config_values, endpoint, edits,
             'OFFICIAL_REQUEST_COUNT_REQUIRED')
     require(all(type(v) in (int,float) and math.isfinite(v) for v in measured.values()),
             'BUILTIN_FINITE_SCALARS_ONLY')
+    if 'Specificity' in measured and 'Specificity_loc_ans' in measured:
+        require(math.isclose(measured['Specificity'], measured['Specificity_loc_ans'],
+                             rel_tol=1e-9, abs_tol=1e-8), 'ZSRE_LOC_ANS_DEFINITION_MISMATCH')
     if 'Score' not in measured:
         score=harmonic([measured.get(k) for k in ('Efficacy','Generalization','Specificity')])
         if score is not None:measured['Score']=score

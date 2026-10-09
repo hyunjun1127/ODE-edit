@@ -16,13 +16,14 @@ class ZsrePipelineTests(unittest.TestCase):
         # Use the actual production config builder, no invented Slurm ID.
         manifest=dict(tracking={'metric_schema':'official-baselines-scalar-v1'},code_commit='a'*40)
         config=run.tracking_config(manifest,run.configuration('MEMIT','zsre'),'chain',Path('MEMIT'))
-        raw=dict(dataset='zsre',summary=dict(Efficacy=50.,Generalization=25.,Specificity=100.,
-            Specificity_loc_ans=10.,requests=100))
+        raw=dict(dataset='zsre',summary=dict(Efficacy=50.,Generalization=25.,Specificity=10.,
+            Specificity_loc_ans=10.,W0_prediction_agreement=100.,requests=100))
         result=run.evaluate_payload(raw,'W5',500,current=True,config_values=config)
         self.assertEqual(result['zsre/current/post/requests'],100)
-        self.assertEqual(result['zsre/current/post/Specificity'],100.)
+        self.assertEqual(result['zsre/current/post/Specificity'],10.)
+        self.assertEqual(result['zsre/current/post/W0_prediction_agreement'],100.)
         self.assertEqual(result['zsre/current/post/Specificity_loc_ans'],10.)
-        self.assertAlmostEqual(result['zsre/current/post/Score'],3/(1/50+1/25+1/100))
+        self.assertAlmostEqual(result['zsre/current/post/Score'],3/(1/50+1/25+1/10))
         self.assertEqual(schema.metrics(result,scientific=True,config_values=schema.config(config)),result)
         self.assertFalse(any(k.startswith('official/') or 'generation' in k or 'fluency' in k for k in result))
         raw['summary']['requests']=2000

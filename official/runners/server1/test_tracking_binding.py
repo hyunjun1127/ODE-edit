@@ -84,7 +84,7 @@ def cf_endpoint(count):
 def zsre_endpoint(count):
     return dict(identity=dict(dataset="zsre"), cases=[], accuracy={},
         summary=dict(requests=count, Efficacy=81.0, Generalization=72.0,
-                     Specificity=99.0, Specificity_loc_ans=49.0))
+                     Specificity=49.0, Specificity_loc_ans=49.0, W0_prediction_agreement=99.0))
 
 
 class TrackingBinding(unittest.TestCase):
@@ -220,9 +220,10 @@ class TrackingBinding(unittest.TestCase):
         for prefix, edits, count in (("W0_first2000", 0, 2000), ("all_seen/post", 500, 500)):
             tracker.log(common.factual_payload(zsre_endpoint(count), prefix, edits))
         actual = self.transport.calls[-1]["tracker"].payloads[-1]
-        self.assertEqual(actual["official/all_seen/post/Specificity"], 99.0)
+        self.assertEqual(actual["official/all_seen/post/Specificity"], 49.0)
         self.assertEqual(actual["official/all_seen/post/Specificity_loc_ans"], 49.0)
-        self.assertEqual(actual["zsre/all_seen/post/Specificity"], 99.0)
+        self.assertEqual(actual["zsre/all_seen/post/Specificity"], 49.0)
+        self.assertEqual(actual["zsre/all_seen/post/W0_prediction_agreement"], 99.0)
         self.assertEqual(actual["zsre/all_seen/post/Specificity_loc_ans"], 49.0)
         self.assertIn("zsre/all_seen/post/Score", actual)
         self.assertFalse(any(re.search(r"/(?:R|P|N)/", key) for key in actual))

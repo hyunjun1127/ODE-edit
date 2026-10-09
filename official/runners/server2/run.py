@@ -331,7 +331,7 @@ def evaluate_payload(observed, endpoint, edits, *, current=False, config_values=
         return official_zsre_metrics(observed['summary'], config_values=config_values,
             endpoint=prefix, edits=edits, pre_state_edits=max(0,edits-100), post_state_edits=edits)
     fields = ('Efficacy', 'Generalization', 'Specificity', 'Score',
-              'Score_AlphaEdit_display', 'Specificity_loc_ans', 'requests')
+              'Score_AlphaEdit_display', 'Specificity_loc_ans', 'W0_prediction_agreement', 'requests')
     value = {'official/' + prefix + '/' + key:score for key, score in observed['summary'].items()
              if key in fields and type(score) in (int, float)}
     if observed.get('dataset', observed.get('identity', {}).get('dataset')) == 'cf':

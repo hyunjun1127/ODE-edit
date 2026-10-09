@@ -25,6 +25,15 @@
     "dataset_isolation": "CF 6칸과 zsRE 3칸을 독립 갱신하며 다른 dataset을 덮어쓰지 않는다.",
     "provenance": "각 dataset의 상태/결과에 report 링크를 붙여 실제 job name·ID·server·관측 시각·source/config를 추적 가능하게 한다."
   },
+  "zsre_locality_correction": {
+    "instruction_id": "USER-GH-ZSRE-LOC-RECALCULATE-MAIN-20261009-R1",
+    "Loc": "100 * mean_requests(mean_neighborhood_loc_ans_token_correctness)",
+    "W0_prediction_agreement": "separate auxiliary only, preserve historical before-value",
+    "saved_raw": "CPU reduce actual token correctness/IDs; crosscheck old Specificity_loc_ans, not summary renaming",
+    "missing": "MISSING/UNVERIFIED, never invented zero",
+    "CF": "unchanged",
+    "frozen_runs": "preserve; no hotpatch or automatic rerun"
+  },
   "updates": {
     "trigger": "SH 제출·상태 변경·완료 보고를 GH가 검증해 main에 비강제 통합한다.",
     "SH_writes": "자신의 기존 허용 scope에 compact receipt/report를 남기며 README를 동시에 직접 편집하지 않는다.",

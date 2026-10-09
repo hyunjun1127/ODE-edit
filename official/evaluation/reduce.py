@@ -43,11 +43,21 @@ def counterfact(cases):
 
 
 def zsre(cases):
+    """Paper Loc is loc_ans accuracy; W0 agreement is a separate auxiliary.
+
+    Reduce saved per-token correctness within each request, then across requests.
+    A missing W0 reference does not make measured loc_ans accuracy unavailable.
+    Frozen historical summaries require saved-raw reduction, not key relabeling.
+    """
     output = {}
     for key, label in (("rewrite_prompts_correct", "Efficacy"),
                        ("paraphrase_prompts_correct", "Generalization"),
-                       ("neighborhood_W0_agreement", "Specificity"),
-                       ("neighborhood_prompts_correct", "Specificity_loc_ans")):
+                       ("neighborhood_prompts_correct", "Specificity")):
         output[label] = 100 * mean([mean([float(x) for x in row[key]]) for row in cases])
+    # Compatibility alias for the same measured answer accuracy, never W0.
+    output["Specificity_loc_ans"] = output["Specificity"]
+    if all(row.get("neighborhood_W0_agreement") is not None for row in cases):
+        output["W0_prediction_agreement"] = 100 * mean([
+            mean([float(x) for x in row["neighborhood_W0_agreement"]]) for row in cases])
     output["requests"] = len(cases)
     return output

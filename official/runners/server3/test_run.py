@@ -85,7 +85,7 @@ class Server3RunTests(unittest.TestCase):
             values = dict(edits=500, pre_state_edits=400, post_state_edits=500)
             for endpoint, count in (("current/post", 100), ("all_seen/post", 500)):
                 for field, value in dict(Efficacy=50., Generalization=50.,
-                                         Specificity=50., Specificity_loc_ans=20.,
+                                         Specificity=20., Specificity_loc_ans=20.,W0_prediction_agreement=50.,
                                          requests=count).items():
                     values[f"official/{endpoint}/{field}"] = value
             original = dict(values)
@@ -94,7 +94,8 @@ class Server3RunTests(unittest.TestCase):
             metrics(payload, scientific=True, config_values=cfg)
             self.assertEqual(payload["zsre/current/post/requests"], 100)
             self.assertEqual(payload["zsre/all_seen/post/requests"], 500)
-            self.assertEqual(payload["zsre/all_seen/post/Score"], 50.)
+            self.assertAlmostEqual(payload["zsre/all_seen/post/Score"], 3/(1/50+1/50+1/20))
+            self.assertEqual(payload["zsre/all_seen/post/W0_prediction_agreement"], 50.)
             self.assertEqual(payload["zsre/all_seen/post/Specificity_loc_ans"], 20.)
             self.assertEqual(values, original)
 

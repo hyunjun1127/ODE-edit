@@ -76,7 +76,8 @@ class PreparationTests(unittest.TestCase):
     def test_zsre_W0_agreement_is_distinct_from_answer_accuracy(self):
         out = zsre([dict(rewrite_prompts_correct=[True, False], paraphrase_prompts_correct=[True],
                          neighborhood_W0_agreement=[True, True], neighborhood_prompts_correct=[False, False])])
-        self.assertEqual(out["Specificity"], 100)
+        self.assertEqual(out["Specificity"], 0)
+        self.assertEqual(out["W0_prediction_agreement"], 100)
         self.assertEqual(out["Specificity_loc_ans"], 0)
 
 

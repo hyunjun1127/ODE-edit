@@ -172,12 +172,8 @@ def audit_factual(endpoint, records, dataset, tokenizer, external, w0_reference=
     elif reference_lookup is not None:
         summary = zsre(cases)
     else:
-        summary = dict(requests=len(cases), Specificity_availability="NOT_MEASURED_W0_REFERENCE_REQUIRED")
-        for kind, label in (("rewrite", "Efficacy"), ("paraphrase", "Generalization"),
-                            ("neighborhood", "Specificity_loc_ans")):
-            rates = [math.fsum(map(float, case[kind + "_prompts_correct"])) /
-                     len(case[kind + "_prompts_correct"]) for case in cases]
-            summary[label] = 100 * math.fsum(rates) / len(rates)
+        summary = zsre(cases)
+        summary["W0_prediction_agreement_availability"] = "NOT_MEASURED_W0_REFERENCE_REQUIRED"
     require(endpoint.get("summary") == summary, "AUDIT_FACTUAL_REQUEST_MACRO_REDUCTION")
     if "work" in endpoint:
         work = endpoint["work"]

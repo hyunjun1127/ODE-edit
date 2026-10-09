@@ -198,7 +198,8 @@ class FactualTests(unittest.TestCase):
         # A base model may be wrong yet fully preserve its own predictions.
         self.model.prefer_true_for_B = False
         wrong = build_zsre_w0_reference(self.model, self.tok, rows)
-        self.assertEqual(wrong["evaluation"]["summary"]["Specificity"], 100)
+        self.assertEqual(wrong["evaluation"]["summary"]["W0_prediction_agreement"], 100)
+        self.assertLess(wrong["evaluation"]["summary"]["Specificity"], 100)
         self.assertLess(wrong["evaluation"]["summary"]["Specificity_loc_ans"], 100)
 
     def test_zsRE_BOS_ignored_and_native_teacher_prefix_multi_token(self):
@@ -212,8 +213,9 @@ class FactualTests(unittest.TestCase):
 
     def test_zsRE_missing_W0_reference_explicit_no_fake_zero(self):
         result = evaluate_zsre(self.model, self.tok, [zr()])
-        self.assertNotIn("Specificity", result["summary"])
-        self.assertEqual(result["summary"]["Specificity_availability"],
+        self.assertEqual(result["summary"]["Specificity"], result["summary"]["Specificity_loc_ans"])
+        self.assertNotIn("W0_prediction_agreement", result["summary"])
+        self.assertEqual(result["summary"]["W0_prediction_agreement_availability"],
                          "NOT_MEASURED_W0_REFERENCE_REQUIRED")
         self.assertIsNone(result["cases"][0]["neighborhood_W0_agreement"])
 

@@ -360,18 +360,9 @@ def _assemble_zsre(cases, results, reference, signatures):
                         for row, expected in zip(rows, prior)
                         for actual, base in zip(row["predicted_token_ids"], expected)]
     # Request macro, not an unweighted average of all tokens across requests.
-    summary = dict(requests=len(cases))
-    keys = (("rewrite_prompts_correct", "Efficacy"),
-            ("paraphrase_prompts_correct", "Generalization"),
-            ("neighborhood_prompts_correct", "Specificity_loc_ans"))
-    for key, label in keys:
-        rates = [math.fsum(float(x) for x in row[key]) / len(row[key]) for row in cases]
-        summary[label] = 100 * math.fsum(rates) / len(rates)
-    if old is not None:
-        # Use the canonical reducer after exact W0 input-query validation.
-        summary = zsre(cases)
-    else:
-        summary["Specificity_availability"] = "NOT_MEASURED_W0_REFERENCE_REQUIRED"
+    summary = zsre(cases)
+    if old is None:
+        summary["W0_prediction_agreement_availability"] = "NOT_MEASURED_W0_REFERENCE_REQUIRED"
     return summary, {kind: _accuracy(rows) for kind, rows in groups.items()}
 
 
