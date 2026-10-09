@@ -71,5 +71,25 @@ def prepare(output):
     write_new(output/'preparation.json',result)
     return result
 
+def prepare_failed_replacement(output, job_id):
+    old=read(LOCAL/'registration-r1/submission.json')
+    rows=[(m,j) for m,j in old['jobs'].items() if j['job_id']==str(job_id)]
+    assert len(rows)==1
+    tag,job=rows[0];config=read(verify(job['config']))
+    output=Path(output).absolute();assert output.is_relative_to(LOCAL) and not output.exists()
+    verify(config['assets']);verify(config['stream_member'])
+    config.pop('config_sha256')
+    config['output']=str(output/'runs'/tag)
+    config['replaces_failed_job']=str(job_id)
+    config['repair']='FP64_SYSTEM_BUFFER_LIFETIME_AND_CPU_ROLLBACK'
+    config['config_sha256']=digest(config)
+    path=output/'configs'/f'{tag}.json';write_new(path,config)
+    result=dict(instruction=INSTRUCTION,task_id=TASK,configs=[member(path)],models=[tag],
+                replaces_failed_job=str(job_id),GPU_observed=False)
+    write_new(output/'preparation.json',result)
+    return result
+
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--output',required=True);a=p.parse_args();prepare(a.output)
+    p=argparse.ArgumentParser();p.add_argument('--output',required=True);p.add_argument('--replace-failed')
+    a=p.parse_args()
+    prepare_failed_replacement(a.output,a.replace_failed) if a.replace_failed else prepare(a.output)

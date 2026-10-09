@@ -14,13 +14,21 @@ MEMITFEHyperParams = native.MEMITFEHyperParams
 def history_solve(cov, keys, coefficient, history):
     if history.shape != cov.shape or history.dtype != torch.float32 or not torch.isfinite(history).all():
         raise ValueError('FE_HISTORY_SHAPE_DTYPE_FINITE')
-    base = coefficient * cov.double()
-    entry = history.to(device=base.device, dtype=torch.float64)
-    system = base + entry + keys @ keys.T
-    if torch.count_nonzero(history) == 0:
-        # Compare the actual B1 system, not an additional solve/fit/forward.
-        if not torch.equal(system, base + keys @ keys.T):
+    # Own one FP64 system buffer. Preserve (coefficient*C0 + H) + (K@K.T)
+    # arithmetic and native solve dtype, without retaining several d*d copies.
+    system = cov.to(dtype=torch.float64, copy=True)
+    system.mul_(coefficient)
+    zero_history = torch.count_nonzero(history).item() == 0
+    for start in range(0, system.shape[0], 128):
+        block = system[start:start+128]
+        before = block.clone() if zero_history else None
+        block.add_(history[start:start+128].to(device=system.device, dtype=torch.float64))
+        if zero_history and not torch.equal(block, before):
             raise ValueError('FE_HISTORY_H0_NATIVE_SYSTEM_MISMATCH')
+        del before, block
+    gram = keys @ keys.T
+    system.add_(gram)
+    del gram
     return torch.linalg.solve(system, keys)
 
 def apply_memit_fe_history_to_model(model, tok, requests, hparams, *, history,
@@ -33,7 +41,7 @@ def apply_memit_fe_history_to_model(model, tok, requests, hparams, *, history,
     weights = {f'{hparams.rewrite_module_tmp.format(layer)}.weight':
                nethook.get_parameter(model, f'{hparams.rewrite_module_tmp.format(layer)}.weight')
                for layer in hparams.layers}
-    before = {name: value.detach().clone() for name,value in weights.items()}
+    before = {name: value.detach().to(device='cpu', copy=True) for name,value in weights.items()}
     metadata = {name:(id(p),p.data_ptr(),p._version) for name,p in model.named_parameters()}
     try:
         result = native.apply_memit_FE_to_model(model, tok, requests, hparams,

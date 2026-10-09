@@ -25,15 +25,30 @@ def scheduling(existing,models,cap):
         else:raise ValueError('CAP_NO_VALID_DAG')
     return answer,control.graph_width(rows)
 
-def register(preparation,attempt):
-    prep=read(preparation);assert prep['instruction']==INSTRUCTION and prep['models']==list(MODELS)
+def register(preparation,attempt,replace_failed=None):
+    prep=read(preparation);assert prep['instruction']==INSTRUCTION
+    models=prep['models']
+    assert models and len(set(models))==len(models) and set(models)<=set(MODELS)
+    if replace_failed is None:
+        assert models==list(MODELS)
+    else:
+        old=read(LOCAL/'registration-r1/submission.json')
+        matched=[m for m,j in old['jobs'].items() if j['job_id']==str(replace_failed)]
+        assert matched==models and len(models)==1,'EXACT_FAILED_REPLACEMENT_ONLY'
+        prior=old['jobs'][models[0]]
+        detail=control.metadata(control.command(['scontrol','show','job',str(replace_failed),'--oneliner']))
+        assert detail['JobState']=='FAILED' and detail['UserId'].split('(')[0]==getpass.getuser()
+        assert detail['Command']==prior['script']['path'] and detail['JobName']==prior['name']
+        verify(prior['script']); verify(prior['config'])
+        assert prep['replaces_failed_job']==str(replace_failed)
     attempt=Path(attempt).absolute();assert attempt.is_relative_to(LOCAL)
     if (attempt/'submission.json').exists():
         print(read(attempt/'submission.json'));return
     assert not attempt.exists(),'INCOMPLETE_ATTEMPT_RECONCILE_NO_BLIND_RETRY'
     # Search own attempt receipts before any sbatch; no duplicate nonce submission.
     for old in LOCAL.rglob('submission.json'):
-        if read(old).get('instruction')==INSTRUCTION:
+        previous=read(old)
+        if previous.get('instruction')==INSTRUCTION and (replace_failed is None or previous.get('replaces_failed_job')==str(replace_failed)):
             raise ValueError('EXISTING_REGISTERED_ATTEMPT:'+str(old))
     for m in prep['configs']:validate_config(read(verify(m)))
     local_cap=Path('/mnt/raid5/janghj/ODE-edit/servers/local/gpu-caps.tsv')
@@ -44,8 +59,8 @@ def register(preparation,attempt):
     assert resources['memory_MiB']<=int(lines[0][3])<=183296
     existing=control.inventory()
     assert existing['allocated_gpus']<=cap and existing['admitted_DAG_width']<=cap
-    assert not any(TASK in row['original'] or 'fe-history' in row['original'] for row in existing['jobs']), 'MATCHING_LIVE_TASK_RECONCILE'
-    graph,width=scheduling(existing,list(MODELS),cap)
+    assert not any(('fe-history' in row['original'] and any('cf-'+m+'-' in row['original'] for m in models)) for row in existing['jobs']), 'MATCHING_LIVE_TASK_RECONCILE'
+    graph,width=scheduling(existing,models,cap)
     source=control.command(['git','rev-parse','HEAD']); tree=control.command(['git','rev-parse','HEAD:official'])
     control.command(['git','merge-base','--is-ancestor',source,'origin/main'])
     assert not control.command(['git','status','--porcelain','--','official'])
@@ -94,7 +109,7 @@ def register(preparation,attempt):
     write_new(attempt/'held-inspection.json',dict(jobs=held,fresh=fresh,source_lock=member(lock_path),GPU_qualification=False))
     for jobid in ids.values():control.command(['scontrol','release',jobid])
     snapshot={m:control.metadata(control.command(['scontrol','show','job',i,'--oneliner'])) for m,i in ids.items()}
-    result=dict(instruction=INSTRUCTION,task_id=TASK,source=source,official_tree=tree,jobs=jobs,
+    result=dict(instruction=INSTRUCTION,task_id=TASK,source=source,official_tree=tree,jobs=jobs,replaces_failed_job=replace_failed,
         execution_lock=member(lock_path),held_inspected=True,released=True,initial_snapshot=snapshot,
         qualification='NOT_RUN_USER_DISABLED',W20_not_observed=True,monitoring_active=False)
     write_new(attempt/'submission.json',result)
@@ -102,4 +117,5 @@ def register(preparation,attempt):
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--preparation',required=True);p.add_argument('--attempt',required=True)
-    a=p.parse_args();register(a.preparation,a.attempt)
+    p.add_argument('--replace-failed')
+    a=p.parse_args();register(a.preparation,a.attempt,a.replace_failed)

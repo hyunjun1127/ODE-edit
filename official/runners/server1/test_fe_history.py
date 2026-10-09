@@ -20,6 +20,15 @@ class HistoryTests(unittest.TestCase):
         cov=torch.eye(2);k=torch.ones(2,1,dtype=torch.float64);h=torch.eye(2)*3
         self.assertTrue(torch.equal(history_solve(cov,k,5,h),torch.linalg.solve(5*cov.double()+h.double()+k@k.T,k)))
 
+    def test_chunked_system_exact_and_inputs_unchanged(self):
+        torch.manual_seed(3)
+        cov=torch.eye(257)*2;k=torch.randn(257,3,dtype=torch.float64)
+        for h in (torch.zeros(257,257),torch.eye(257)*.25):
+            before=[v.clone() for v in (cov,k,h)]
+            expected=torch.linalg.solve((7*cov.double()+h.double())+k@k.T,k)
+            self.assertTrue(torch.equal(history_solve(cov,k,7,h),expected))
+            self.assertTrue(all(torch.equal(a,b) for a,b in zip(before,(cov,k,h))))
+
     def test_invalid_history(self):
         for h in (torch.zeros(3,3),torch.zeros(2,2,dtype=torch.float64),torch.full((2,2),float('nan'))):
             with self.assertRaises(ValueError):history_solve(torch.eye(2),torch.ones(2,1,dtype=torch.float64),5,h)
