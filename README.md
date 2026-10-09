@@ -66,6 +66,15 @@ SH1이 세 모델을 source `eaf78c33`으로 held 검사 후 release했고 초�
 [구현·48 CPU 검산 보고](experiment-reports/servers/server1/memit-fe-history-three-model-2k/report-ko.md).
 실제 GPU/W20/온라인 성공은 아직 이 등록 영수증으로 확인하지 않았다.
 
+**W0 행은 편집 전 base model을 동일한 2,000개 요청에 평가한 기준값**이며 W20 결과와 구분합니다.
+2026-10-09 각 서버의 저장 원자료를 직접 확인하고 재집계했습니다.
+W0의 CF Score/Eff/Gen/Loc 및 zsRE 지표는 %, CF Flu는 entropy(bits), CF Con은 TF-IDF cosine(0–1)입니다.
+Llama3의 이미 측정된 W0 Flu/Con만 수치로 기록하고, 나머지 선택한 W0 산출물의 미측정 생성 지표는 `DEFERRED`입니다.
+**W0 zsRE는 기존 exact-token-prefix evaluator 관측**입니다. Loc은 `loc_ans` 정답 정확도이며 W0 자기 일치율 100%가 아닙니다.
+Llama3·GPT-J의 원본 코드와 tokenizer 처리 차이가 알려져 있어, 이 값은 원본 호환 재평가 완료를 뜻하지 않습니다.
+Qwen CF는 server3 job **61813**의 편집 전 W0, zsRE는 server2 job **61900**의 완료된 W0 관측을 사용합니다.
+[모델별 출처·단위·원자료 SHA·검산 범위](experiment-reports/global/w0-main-table-20261009.md).
+
 ### Llama3-8B-Instruct
 
 **2026-10-09 SH1 W20 원자료 검산: CF 2종과 zsRE 6종 완료.**
@@ -84,6 +93,7 @@ zsRE Loc은 **loc_ans 정답 token 정확도의 요청별 평균**이다. 이전
 
 | Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| [W0 (편집 전)](experiment-reports/global/w0-main-table-20261009.md) | 13.36 | 8.20 | 10.95 | 88.56 | 6.35 | 0.2464 | 38.10 | 37.61 | 38.59 |
 | FT | 56.59 | 89.25 | 73.30 | 35.50 | DEFERRED | DEFERRED | 14.84 | 11.99 | 1.59 |
 | MEMIT | 58.88‡ | 64.75‡ | 61.70‡ | 51.83‡ | DEFERRED | DEFERRED | 46.71 | 42.07 | 30.49 |
 | AlphaEdit | 84.80‡ | 99.30‡ | 93.23‡ | 68.59‡ | DEFERRED | DEFERRED | 98.74 | 94.60 | 44.85 |
@@ -145,6 +155,7 @@ CPU 후처리하고 source/provenance를 분리해 기록한다.
 
 | Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| [W0 (편집 전)](experiment-reports/global/w0-main-table-20261009.md) | 20.88 | 13.95 | 16.60 | 85.14 | DEFERRED | DEFERRED | 36.42 | 35.26 | 38.40 |
 | FT | PENDING: 61898 | PENDING: 61898 | PENDING: 61898 | PENDING: 61898 | PENDING: 61898 | PENDING: 61898 | PENDING: 61900 | PENDING: 61900 | PENDING: 61900 |
 | MEMIT | PENDING: 61902 | PENDING: 61902 | PENDING: 61902 | PENDING: 61902 | PENDING: 61902 | PENDING: 61902 | PENDING: 61904 | PENDING: 61904 | PENDING: 61904 |
 | AlphaEdit | PENDING: 61906 | PENDING: 61906 | PENDING: 61906 | PENDING: 61906 | PENDING: 61906 | PENDING: 61906 | PENDING: 61908 | PENDING: 61908 | PENDING: 61908 |
@@ -190,6 +201,7 @@ FLU/CON은 이후 별도 2k checkpoint 평가에서 측정하며, 그 consumer �
 
 | Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu | CF Con | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| [W0 (편집 전)](experiment-reports/global/w0-main-table-20261009.md) | 24.44 | 17.00 | 19.30 | 82.48 | DEFERRED | DEFERRED | 27.83 | 27.15 | 27.59 |
 | FT | 58.97 | 88.75 | 66.75 | 40.61 | DEFERRED | DEFERRED | 23.15 | 17.95 | 0.62 |
 | MEMIT | 80.63 | 97.90 | 95.38 | 60.58 | DEFERRED | DEFERRED | 93.61 | 88.95 | 30.87 |
 | AlphaEdit | 88.22 | 99.70 | 96.33 | 73.56 | DEFERRED | DEFERRED | 99.79 | 96.55 | 27.99 |
