@@ -22,13 +22,16 @@
     "accepted_turn": "01a124db-95bd-7231-981d-429bbc98305c",
     "owner_ACK": true,
     "ACK_evidence": "direct event OWNER_ACK_RECEIVED 및 같은 turn readback accepted=true/정본SHA일치/SH1입력요청 진행 확인",
-    "stage": "자기완료CF CP/공통evalrunner호환성 검산 및 SH1중복제거 입력연결 진행",
+    "stage": "완료23행 원자료CPU검산 수신/불일치0. 새Qwen3결과10수치셀 GH통합. FLUCON평가 실제등록 준비중(아직ID영수증없음)",
+    "result_receipt": "audits/servers/server2/baseline-refresh-s2-flucon-20261010/table-rows.json",
+    "result_sha256": "ea0b0c6df054428565e0a489d8df88fd04f118442235a992a9d6fdefcfeb5549",
+    "result_publication": "417a12e7 (owner e2537348)",
     "actual_new_jobs": [],
     "submission_receipt": null,
     "new_job_status": "NOT_YET_REPORTED; PENDING으로 표기하지 않음"
   },
   "caps": {"server1": 3, "server2": 3, "others": "UNCHANGED"},
-  "README": "GH sole통합. SH1새generation 수치4셀/상태2셀 반영, factual/zsRE/다른모델 수치불변. SH2최종rows/실제등록영수증은미수신",
+  "README": "GH sole통합. SH1generation4수치/2상태셀 및 SH2Qwen CF/zsRE10수치/author1상태셀 통합. 다른셀보존. SH2FLUCON실제등록영수증은미수신",
   "preservation": "기존raw/CP/frozen source/job KEEP, 불필요duplicate평가/재편집/새W0 없음",
   "GH_scheduler_mutations": 0,
   "new_monitor": false
