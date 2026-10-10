@@ -1814,13 +1814,14 @@
       "upstream_path": "project/run_scripts/experiment_tracking/schema.py",
       "path": "tracking/schema.py",
       "upstream_sha256": "b63cd41816f4022ff85c83130f16fff4380e7e039d0c37f6618c7d008b7aa659",
-      "sha256": "eb2f46a507b337aac4fb1e76cce2380cc1edb1a50721590248a94d8477c011fd",
+      "sha256": "d95c59ea49aed909b41b5518495652cefffb8d0b23899375d05384d18fba9c16",
       "changes": [
         "official instruction/dataset/schema and native W0+W20 authority pair",
         "zsRE rejects CF generation",
         "official request-macro namespace and actual native denominators",
         "shared native W20 progress phase-only callback adapter",
-        "USER-GH-FLUCON-PAPER-SCALE-TABLE-REFRESH-20261010-R1: narrow checkpoint-bound CF eval_only W20 generation/progress branch; reject factual/fit/W0/current; preserve existing zsRE/enabled/deferred rules"
+        "USER-GH-FLUCON-PAPER-SCALE-TABLE-REFRESH-20261010-R1: narrow checkpoint-bound CF eval_only W20 generation/progress branch; reject factual/fit/W0/current; preserve existing zsRE/enabled/deferred rules",
+        "USER-GH-GPTJ-W0-FLUCON-SERVER4-20261011-R1: server4 GPTJ base-model-bound W0-only generation, no checkpoint/factual/fit/W20; previous schema SHA eb2f46a507b337aac4fb1e76cce2380cc1edb1a50721590248a94d8477c011fd"
       ],
       "review_nonce": "SH1-GH-OFFICIAL-COMPAT-REVIEW-20261008-R1",
       "installed_revisions": [
@@ -1978,7 +1979,7 @@
       "upstream_path": null,
       "path": "tracking/README.md",
       "upstream_sha256": null,
-      "sha256": "516bfdf3d66781f2c57fea7ca09b7133b1457fa40b583625e6095c47e7edbb0b",
+      "sha256": "5f9cbdb10db6c17e7059834e2c9d46bff0b7473ac2b96ccfd78d239997b8812d",
       "changes": [
         "new GH-reviewed distribution artifact; final commit recorded by publication, no fictitious upstream"
       ],
