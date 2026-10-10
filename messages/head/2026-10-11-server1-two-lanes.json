@@ -1,0 +1,13 @@
+{
+  "nonce": "USER-GH-SERVER1-TWO-LANES-20261011-R1",
+  "user_request": "server1에서 lane 2개 써.",
+  "owner": {"server": "server1", "session": "01a04939-f93a-7b50-bca0-65438eab2062", "cwd": "/mnt/raid5/janghj/ODE-edit", "repository": "hyunjun1127/ODE-edit"},
+  "authority": "현재 server1 project GPU cap2를 유지하면서 실제 RUNNING 및 admitted PENDING 전체를 확인하고 두 독립 실행 lane을 활용하도록 불필요한 자원 dependency를 조정한다. 접수만이 아니라 실제 검산/필요조정/단발 확인까지 진행. 이미두lane이면 불필요변경0으로 보고.",
+  "scope": "기존 승인된 server1 실험만. 최신 FE6/CAKE 및 PRICE/평가 등을 이름이 아닌 exact submission/source/config/owner/Command/WorkDir/jobstate로 분류하여 자원 점유를 합산한다. 타 task scientific 계산/source/입력은 변경하지 않는다. 같은 프로젝트라도 소유 미확인 job은 보호하고 dependency조정 전 exact 실행owner와 결속한다.",
+  "allowed": "정확 own 미시작 PENDING의 resource-only dependency 및 필요 임시hold/release. pending에 대해 변경 직전 state/start/elapsed/allocation 재확인. 실제 입력·순서 의존성은 보존하고, 여러 묶음 전체 말단을 기다리는 자원장벽만 두 lane에 맞게 최소 조정 가능. cap2 DAG/cycle0/취소ID없음/필수입력연결 보존 검산. 기존자원부족은 dependency직렬화와구분.",
+  "forbidden": "RUNNING/완료 job 변경·취소·재시작·선점, 새 job/추가 과학조건/중복제출, cap증가, source/config/argv/weights/raw 변경·삭제, 실제 afterok input gate 제거, 무관job변경. 기존할당>2면 grandfather KEEP 및 신규추가실행차단, 현재할당2라고 허위표기금지.",
+  "resource": "cap2는 GPU allocation 합계이며 GPU0 collector는 별도. 실제물리GPU/메모리/CPU/QoS제약은 유지. 무관타사용자점유는 변경0. 두lane이 이미열려있지만 Resources/Priority대기라면 정확그사유보고, 승인없는자원증액0.",
+  "write_paths": ["서버1 root 및 own 준비WT의 ignored local cap/admission metadata", "audits/servers/server1/two-lanes-20261011/", "experiment-reports/servers/server1/two-lanes-20261011/", "local/server1-two-lanes-20261011/"],
+  "git": "clean non-main WT에서 own 소형audit/report만 main 비강제게시. root dirty/타인변경보존. README는GH소유이며 이번자원조정만으로 과학완료수치변경0.",
+  "handoff": "OWNER_ACK nonce/server/accepted turn 먼저. before/after jobID-state-GPU-resource dependency, 정확두lane graph/폭/legacy초과구간/cycle, 실제변경IDs 및원source/config/scriptSHA불변, holds잔존0, 관측시각/보고maincommit 반환. GPU완료대기/장기polling/새monitor/autoretry 없음. model/effortoverride0."
+}
