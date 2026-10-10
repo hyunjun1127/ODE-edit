@@ -233,3 +233,15 @@ The 28 fake SDK tests cover schema/schedule authority, variable native W0 counts
 CF/zsRE definitions, separate endpoint/fit/progress axes, array0/signedstep,
 immutable identity, sanitized isolated worker, and truthful bounded readback.
 No SDK import/login/upload, actual-model forward, or Slurm action is used.
+# GPT-J W0 generation-only (2026-10-11)
+
+`USER-GH-GPTJ-W0-FLUCON-SERVER4-20261011-R1`에 한해 server4/gptj/CF/role=eval_only,
+`evaluation_profile=cf-native-generation-W0-only-v1`, `generation_schedule=W0_ONLY_FIRST2000`를 사용한다.
+`instruction_id`와 `generation_repair_instruction`은 위 nonce다. 공통 native profile/seed20261007/
+reference SHA는 그대로이며 저자 baseline fit이나 W20 checkpoint 복원은 하지 않는다.
+필수 provenance는 `base_model_sha256`(봉인 base weight manifest의 SHA), `evaluator_sha256`,
+`stream_sha256`, `tokenizer_sha256`; edited `checkpoint_sha256`은 금지한다.
+runner는 manifest의 실제 member SHA/revision을 검증한다. schema의 SHA 문법 검산은 자산 검증을 대신하지 않는다.
+progress는 `official_generation_progress(..., endpoint='W0')`, 최종 지표는
+`W0_first2000/{generation,fluency,consistency}/*`, edits=0이다. factual/fit/zsRE/W20 키는 거절한다.
+원 bits/cosine과 기존 ×100 표 표시를 분리한다. 다른 authority/기존 frozen 실행은 변경하지 않는다.
