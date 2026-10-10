@@ -13,11 +13,12 @@
     "MEMIT",
     "AlphaEdit",
     "AlphaEdit-BLUE",
-    "MEMIT-FE",
+    "FE (author repo, W0-fixed z)",
     "AlphaEdit+SPHERE",
     "PRICE (Ours)"
   ],
   "fe_author_selection": {
+    "status": "WITHDRAWN / SUPERSEDED by USER-FE-ORIGINAL-W0-RESET-20261011-R1; historical policy only",
     "instruction_id": "USER-GH-S1-S2-FE-AUTHOR-MAIN-REFRESH-20261010-R1",
     "main_label": "MEMIT-FE (FE author hparams + history)",
     "models": ["Llama3-8B-Instruct", "Qwen2.5-7B-Instruct"],
@@ -28,6 +29,20 @@
     "legacy": "Llama/Qwen 이전 native FE 행은 별도 이전설정 표/보고에 보존. GPT-J는 author실험이 없어 기존 native값을 legacy라 명시하며 유지; 새 run 자동승인 없음.",
     "generation": "author checkpoint와 동일 identity의 generation 결과만 해당 Flu/Con에 연결. legacyCP 평가결과 복사 금지.",
     "claim": "원저자 clamp/steps + persistent history variant; DOW-KE exact reproduction 주장 아님"
+  },
+  "fe_original_w0_reset": {
+    "instruction_id": "USER-FE-ORIGINAL-W0-RESET-20261011-R1",
+    "main_label": "FE (author repo, W0-fixed z)",
+    "upstream_commit": "478134dfb24b43f4e18b47e8500893ce3f9cc50f",
+    "models": ["llama3", "qwen25", "gptj"],
+    "datasets": ["cf", "zsre"],
+    "source_policy": "author native FE-MEMIT, W0 firstforward whole2K z fixed, native history/solve/YAML/defaultBF16. Old FE_HISTORY wrapper not used",
+    "withdrawn": "all previous native FE / FE_HISTORY / author-hparams / FE sink results. No old numbers relabelled as new runs",
+    "old_checkpoint_policy": "exact owner FE writers/consumers stopped, previous FE CP/replicas deleted per user scope; actual absence only with deletion receipt. HF/C0/dataset/nonFE CP/raw/log/source KEEP",
+    "new_checkpoint_policy": "latest one per run, atomic overwrite at cumulative500/1000/1500/2000; metrics accumulate, no separateW0CP",
+    "rendering": "NOT_SUBMITTED until exact actual ID. Then owner snapshot state; no task pending presented as scheduler PENDING",
+    "dispatch": "requester already directly dispatched SH1 four/SH2 two; GH no duplicate submission instruction",
+    "report": "experiment-reports/global/fe-original-w0-reset-20261011/withdrawn-results.md"
   },
   "columns": {
     "CF": [

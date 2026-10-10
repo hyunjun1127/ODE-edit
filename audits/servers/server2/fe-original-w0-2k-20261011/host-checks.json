@@ -1,0 +1,156 @@
+{
+  "CPU_only": true,
+  "GPU_forward": 0,
+  "allocated_GPU": 1,
+  "author_yaml_PASS": true,
+  "cap2_unchanged": true,
+  "checkpoint_roundtrip": "NOT_RUN_SHARED_SOURCE_PENDING",
+  "exact_FE_cancelled": [
+    "62532",
+    "62868",
+    "62872"
+  ],
+  "live": {
+    "ambiguous": [],
+    "excluded": [],
+    "other_server_detailed_queries": 0,
+    "owner": "janghj",
+    "project": [
+      {
+        "allocated_GPUs": 1,
+        "command": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/scripts/qwen25-alphaedit-62075.sh",
+        "dependency": "(null)",
+        "detail": "JobId=62871 JobName=s2-flucon-qwen25-alphaedit-62075 UserId=janghj(1025) GroupId=janghj(1026) MCS_label=N/A Priority=279 Nice=0 Account=lab QOS=lab_gpu_s2 JobState=RUNNING Reason=None Dependency=(null) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=02:24:30 TimeLimit=2-00:00:00 TimeMin=N/A SubmitTime=2026-10-10T17:26:20 EligibleTime=2026-10-10T22:31:28 AccrueTime=2026-10-10T22:31:28 StartTime=2026-10-10T22:46:28 EndTime=2026-10-12T22:46:28 Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-10-10T22:46:28 Scheduler=Main Partition=gpu AllocNode:Sid=server2:3568888 ReqNodeList=server2 ExcNodeList=(null) NodeList=server2 BatchHost=server2 StepMgrEnabled=Yes NumNodes=1 NumCPUs=6 NumTasks=1 CPUs/Task=6 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=6,mem=58G,node=1,billing=1,gres/gpu=1 AllocTRES=cpu=6,mem=58G,node=1,billing=1,gres/gpu=1 Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=6 MinMemoryNode=58G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/scripts/qwen25-alphaedit-62075.sh SubmitLine=sbatch --parsable --hold --export=NONE --no-requeue --partition=gpu --qos=lab_gpu_s2 --nodelist=server2 --nodes=1 --ntasks=1 --cpus-per-task=6 --mem=59392M --time=2-00:00:00 --job-name=s2-flucon-qwen25-alphaedit-62075 --chdir=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/source --output=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/logs/qwen25-alphaedit-62075-%j.out --error=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/logs/qwen25-alphaedit-62075-%j.err --gres=gpu:a6000:1 --dependency=afterany:62869 /mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/scripts/qwen25-alphaedit-62075.sh WorkDir=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/source StdErr=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/logs/qwen25-alphaedit-62075-62871.err StdIn=/dev/null StdOut=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/logs/qwen25-alphaedit-62075-62871.out TresPerNode=gres/gpu:a6000:1 TresPerTask=cpu=6",
+        "gpus": 1,
+        "job": "62871",
+        "name": "s2-flucon-qwen25-alphaedit-62075",
+        "reason": "server2",
+        "state": "RUNNING",
+        "workdir": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/source"
+      },
+      {
+        "allocated_GPUs": 0,
+        "command": "/mnt/raid5/janghj/ODE-edit/local/qwen-zsre-sphere-b9-resume-20261010/registration-r1/scripts/main.sh",
+        "dependency": "(null)",
+        "detail": "JobId=62538 JobName=s2-qwen25-zsre-sphere-resume-b9 UserId=janghj(1025) GroupId=janghj(1026) MCS_label=N/A Priority=278 Nice=0 Account=lab QOS=lab_gpu_s2 JobState=PENDING Reason=ReqNodeNotAvail,_May_be_reserved_for_other_job Dependency=(null) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=2-00:00:00 TimeMin=N/A SubmitTime=2026-10-10T08:51:20 EligibleTime=2026-10-11T01:07:15 AccrueTime=2026-10-11T01:07:15 StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-10-11T01:10:49 Scheduler=Backfill:* Partition=gpu AllocNode:Sid=server2:2567948 ReqNodeList=server2 ExcNodeList=(null) NodeList= StepMgrEnabled=Yes NumNodes=1-1 NumCPUs=6-6 NumTasks=1 CPUs/Task=6 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=6,mem=58G,node=1,billing=1,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=6 MinMemoryNode=58G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/mnt/raid5/janghj/ODE-edit/local/qwen-zsre-sphere-b9-resume-20261010/registration-r1/scripts/main.sh SubmitLine=sbatch --parsable --hold --export=NONE --no-requeue --partition=gpu --qos=lab_gpu_s2 --nodelist=server2 --nodes=1 --ntasks=1 --cpus-per-task=6 --gres=gpu:a6000:1 --mem=59392M --time=2-00:00:00 --job-name=s2-qwen25-zsre-sphere-resume-b9 --chdir=/mnt/raid5/janghj/ODE-edit/local/qwen-zsre-sphere-b9-resume-20261010/registration-r1/source --output=/mnt/raid5/janghj/ODE-edit/local/qwen-zsre-sphere-b9-resume-20261010/registration-r1/logs/main-%j.out --error=/mnt/raid5/janghj/ODE-edit/local/qwen-zsre-sphere-b9-resume-20261010/registration-r1/logs/main-%j.err --dependency=afterany:62532 /mnt/raid5/janghj/ODE-edit/local/qwen-zsre-sphere-b9-resume-20261010/registration-r1/scripts/main.sh WorkDir=/mnt/raid5/janghj/ODE-edit/local/qwen-zsre-sphere-b9-resume-20261010/registration-r1/source StdErr=/mnt/raid5/janghj/ODE-edit/local/qwen-zsre-sphere-b9-resume-20261010/registration-r1/logs/main-62538.err StdIn=/dev/null StdOut=/mnt/raid5/janghj/ODE-edit/local/qwen-zsre-sphere-b9-resume-20261010/registration-r1/logs/main-62538.out TresPerNode=gres/gpu:a6000:1 TresPerTask=cpu=6",
+        "gpus": 1,
+        "job": "62538",
+        "name": "s2-qwen25-zsre-sphere-resume-b9",
+        "reason": "(ReqNodeNotAvail, May be reserved for other job)",
+        "state": "PENDING",
+        "workdir": "/mnt/raid5/janghj/ODE-edit/local/qwen-zsre-sphere-b9-resume-20261010/registration-r1/source"
+      },
+      {
+        "allocated_GPUs": 0,
+        "command": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/scripts/llama3-alphaedit_blue-39283_1.sh",
+        "dependency": "afterany:62875(unfulfilled)",
+        "detail": "JobId=62876 JobName=s2-flucon-llama3-alphaedit_blue-39283_1 UserId=janghj(1025) GroupId=janghj(1026) MCS_label=N/A Priority=277 Nice=0 Account=lab QOS=lab_gpu_s2 JobState=PENDING Reason=Dependency Dependency=afterany:62875(unfulfilled) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=2-00:00:00 TimeMin=N/A SubmitTime=2026-10-10T17:26:20 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-10-10T17:26:20 Scheduler=Main Partition=gpu AllocNode:Sid=server2:3568888 ReqNodeList=server2 ExcNodeList=(null) NodeList= StepMgrEnabled=Yes NumNodes=1-1 NumCPUs=6-6 NumTasks=1 CPUs/Task=6 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=6,mem=58G,node=1,billing=1,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=6 MinMemoryNode=58G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/scripts/llama3-alphaedit_blue-39283_1.sh SubmitLine=sbatch --parsable --hold --export=NONE --no-requeue --partition=gpu --qos=lab_gpu_s2 --nodelist=server2 --nodes=1 --ntasks=1 --cpus-per-task=6 --mem=59392M --time=2-00:00:00 --job-name=s2-flucon-llama3-alphaedit_blue-39283_1 --chdir=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/source --output=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/logs/llama3-alphaedit_blue-39283_1-%j.out --error=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/logs/llama3-alphaedit_blue-39283_1-%j.err --gres=gpu:a6000:1 --dependency=afterany:62875 /mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/scripts/llama3-alphaedit_blue-39283_1.sh WorkDir=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/source StdErr=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/logs/llama3-alphaedit_blue-39283_1-62876.err StdIn=/dev/null StdOut=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/logs/llama3-alphaedit_blue-39283_1-62876.out TresPerNode=gres/gpu:a6000:1 TresPerTask=cpu=6",
+        "gpus": 1,
+        "job": "62876",
+        "name": "s2-flucon-llama3-alphaedit_blue-39283_1",
+        "reason": "(Dependency)",
+        "state": "PENDING",
+        "workdir": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/source"
+      },
+      {
+        "allocated_GPUs": 0,
+        "command": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/scripts/llama3-alphaedit-42657.sh",
+        "dependency": "afterany:62874(unfulfilled)",
+        "detail": "JobId=62875 JobName=s2-flucon-llama3-alphaedit-42657 UserId=janghj(1025) GroupId=janghj(1026) MCS_label=N/A Priority=277 Nice=0 Account=lab QOS=lab_gpu_s2 JobState=PENDING Reason=Dependency Dependency=afterany:62874(unfulfilled) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=2-00:00:00 TimeMin=N/A SubmitTime=2026-10-10T17:26:20 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-10-10T17:26:20 Scheduler=Main Partition=gpu AllocNode:Sid=server2:3568888 ReqNodeList=server2 ExcNodeList=(null) NodeList= StepMgrEnabled=Yes NumNodes=1-1 NumCPUs=6-6 NumTasks=1 CPUs/Task=6 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=6,mem=58G,node=1,billing=1,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=6 MinMemoryNode=58G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/scripts/llama3-alphaedit-42657.sh SubmitLine=sbatch --parsable --hold --export=NONE --no-requeue --partition=gpu --qos=lab_gpu_s2 --nodelist=server2 --nodes=1 --ntasks=1 --cpus-per-task=6 --mem=59392M --time=2-00:00:00 --job-name=s2-flucon-llama3-alphaedit-42657 --chdir=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/source --output=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/logs/llama3-alphaedit-42657-%j.out --error=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/logs/llama3-alphaedit-42657-%j.err --gres=gpu:a6000:1 --dependency=afterany:62874 /mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/scripts/llama3-alphaedit-42657.sh WorkDir=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/source StdErr=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/logs/llama3-alphaedit-42657-62875.err StdIn=/dev/null StdOut=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/logs/llama3-alphaedit-42657-62875.out TresPerNode=gres/gpu:a6000:1 TresPerTask=cpu=6",
+        "gpus": 1,
+        "job": "62875",
+        "name": "s2-flucon-llama3-alphaedit-42657",
+        "reason": "(Dependency)",
+        "state": "PENDING",
+        "workdir": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/source"
+      },
+      {
+        "allocated_GPUs": 0,
+        "command": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/scripts/llama3-memit-42658.sh",
+        "dependency": "afterany:62871(unfulfilled)",
+        "detail": "JobId=62874 JobName=s2-flucon-llama3-memit-42658 UserId=janghj(1025) GroupId=janghj(1026) MCS_label=N/A Priority=277 Nice=0 Account=lab QOS=lab_gpu_s2 JobState=PENDING Reason=Dependency Dependency=afterany:62871(unfulfilled) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=2-00:00:00 TimeMin=N/A SubmitTime=2026-10-10T17:26:20 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-10-10T17:26:20 Scheduler=Main Partition=gpu AllocNode:Sid=server2:3568888 ReqNodeList=server2 ExcNodeList=(null) NodeList= StepMgrEnabled=Yes NumNodes=1-1 NumCPUs=6-6 NumTasks=1 CPUs/Task=6 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=6,mem=58G,node=1,billing=1,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=6 MinMemoryNode=58G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/scripts/llama3-memit-42658.sh SubmitLine=sbatch --parsable --hold --export=NONE --no-requeue --partition=gpu --qos=lab_gpu_s2 --nodelist=server2 --nodes=1 --ntasks=1 --cpus-per-task=6 --mem=59392M --time=2-00:00:00 --job-name=s2-flucon-llama3-memit-42658 --chdir=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/source --output=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/logs/llama3-memit-42658-%j.out --error=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/logs/llama3-memit-42658-%j.err --gres=gpu:a6000:1 --dependency=afterany:62872 /mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/scripts/llama3-memit-42658.sh WorkDir=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/source StdErr=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/logs/llama3-memit-42658-62874.err StdIn=/dev/null StdOut=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/logs/llama3-memit-42658-62874.out TresPerNode=gres/gpu:a6000:1 TresPerTask=cpu=6",
+        "gpus": 1,
+        "job": "62874",
+        "name": "s2-flucon-llama3-memit-42658",
+        "reason": "(Dependency)",
+        "state": "PENDING",
+        "workdir": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/source"
+      },
+      {
+        "allocated_GPUs": 0,
+        "command": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/scripts/qwen25-sphere-62079.sh",
+        "dependency": "afterany:62870(unfulfilled)",
+        "detail": "JobId=62873 JobName=s2-flucon-qwen25-sphere-62079 UserId=janghj(1025) GroupId=janghj(1026) MCS_label=N/A Priority=277 Nice=0 Account=lab QOS=lab_gpu_s2 JobState=PENDING Reason=Dependency Dependency=afterany:62870(unfulfilled) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=2-00:00:00 TimeMin=N/A SubmitTime=2026-10-10T17:26:20 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-10-10T17:26:20 Scheduler=Main Partition=gpu AllocNode:Sid=server2:3568888 ReqNodeList=server2 ExcNodeList=(null) NodeList= StepMgrEnabled=Yes NumNodes=1-1 NumCPUs=6-6 NumTasks=1 CPUs/Task=6 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=6,mem=58G,node=1,billing=1,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=6 MinMemoryNode=58G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/scripts/qwen25-sphere-62079.sh SubmitLine=sbatch --parsable --hold --export=NONE --no-requeue --partition=gpu --qos=lab_gpu_s2 --nodelist=server2 --nodes=1 --ntasks=1 --cpus-per-task=6 --mem=59392M --time=2-00:00:00 --job-name=s2-flucon-qwen25-sphere-62079 --chdir=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/source --output=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/logs/qwen25-sphere-62079-%j.out --error=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/logs/qwen25-sphere-62079-%j.err --gres=gpu:a6000:1 --dependency=afterany:62870 /mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/scripts/qwen25-sphere-62079.sh WorkDir=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/source StdErr=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/logs/qwen25-sphere-62079-62873.err StdIn=/dev/null StdOut=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/logs/qwen25-sphere-62079-62873.out TresPerNode=gres/gpu:a6000:1 TresPerTask=cpu=6",
+        "gpus": 1,
+        "job": "62873",
+        "name": "s2-flucon-qwen25-sphere-62079",
+        "reason": "(Dependency)",
+        "state": "PENDING",
+        "workdir": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/source"
+      },
+      {
+        "allocated_GPUs": 0,
+        "command": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/scripts/qwen25-memit-62073.sh",
+        "dependency": "afterany:62867(unfulfilled)",
+        "detail": "JobId=62870 JobName=s2-flucon-qwen25-memit-62073 UserId=janghj(1025) GroupId=janghj(1026) MCS_label=N/A Priority=277 Nice=0 Account=lab QOS=lab_gpu_s2 JobState=PENDING Reason=Dependency Dependency=afterany:62867(unfulfilled) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=2-00:00:00 TimeMin=N/A SubmitTime=2026-10-10T17:26:20 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-10-10T17:26:20 Scheduler=Main Partition=gpu AllocNode:Sid=server2:3568888 ReqNodeList=server2 ExcNodeList=(null) NodeList= StepMgrEnabled=Yes NumNodes=1-1 NumCPUs=6-6 NumTasks=1 CPUs/Task=6 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=6,mem=58G,node=1,billing=1,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=6 MinMemoryNode=58G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/scripts/qwen25-memit-62073.sh SubmitLine=sbatch --parsable --hold --export=NONE --no-requeue --partition=gpu --qos=lab_gpu_s2 --nodelist=server2 --nodes=1 --ntasks=1 --cpus-per-task=6 --mem=59392M --time=2-00:00:00 --job-name=s2-flucon-qwen25-memit-62073 --chdir=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/source --output=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/logs/qwen25-memit-62073-%j.out --error=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/logs/qwen25-memit-62073-%j.err --gres=gpu:a6000:1 --dependency=afterany:62868 /mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/scripts/qwen25-memit-62073.sh WorkDir=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/source StdErr=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/logs/qwen25-memit-62073-62870.err StdIn=/dev/null StdOut=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/logs/qwen25-memit-62073-62870.out TresPerNode=gres/gpu:a6000:1 TresPerTask=cpu=6",
+        "gpus": 1,
+        "job": "62870",
+        "name": "s2-flucon-qwen25-memit-62073",
+        "reason": "(Dependency)",
+        "state": "PENDING",
+        "workdir": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/source"
+      },
+      {
+        "allocated_GPUs": 0,
+        "command": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/scripts/gptj-alphaedit_blue-61779.sh",
+        "dependency": "afterany:62866(unfulfilled)",
+        "detail": "JobId=62867 JobName=s2-flucon-gptj-alphaedit_blue-61779 UserId=janghj(1025) GroupId=janghj(1026) MCS_label=N/A Priority=277 Nice=0 Account=lab QOS=lab_gpu_s2 JobState=PENDING Reason=Dependency Dependency=afterany:62866(unfulfilled) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=2-00:00:00 TimeMin=N/A SubmitTime=2026-10-10T17:26:20 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-10-10T17:26:20 Scheduler=Main Partition=gpu AllocNode:Sid=server2:3568888 ReqNodeList=server2 ExcNodeList=(null) NodeList= StepMgrEnabled=Yes NumNodes=1-1 NumCPUs=6-6 NumTasks=1 CPUs/Task=6 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=6,mem=58G,node=1,billing=1,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=6 MinMemoryNode=58G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/scripts/gptj-alphaedit_blue-61779.sh SubmitLine=sbatch --parsable --hold --export=NONE --no-requeue --partition=gpu --qos=lab_gpu_s2 --nodelist=server2 --nodes=1 --ntasks=1 --cpus-per-task=6 --mem=59392M --time=2-00:00:00 --job-name=s2-flucon-gptj-alphaedit_blue-61779 --chdir=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/source --output=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/logs/gptj-alphaedit_blue-61779-%j.out --error=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/logs/gptj-alphaedit_blue-61779-%j.err --gres=gpu:a6000:1 --dependency=afterany:62866 /mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/scripts/gptj-alphaedit_blue-61779.sh WorkDir=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/source StdErr=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/logs/gptj-alphaedit_blue-61779-62867.err StdIn=/dev/null StdOut=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/logs/gptj-alphaedit_blue-61779-62867.out TresPerNode=gres/gpu:a6000:1 TresPerTask=cpu=6",
+        "gpus": 1,
+        "job": "62867",
+        "name": "s2-flucon-gptj-alphaedit_blue-61779",
+        "reason": "(Dependency)",
+        "state": "PENDING",
+        "workdir": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/source"
+      },
+      {
+        "allocated_GPUs": 0,
+        "command": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/scripts/gptj-alphaedit-61778.sh",
+        "dependency": "afterany:62538(unfulfilled)",
+        "detail": "JobId=62866 JobName=s2-flucon-gptj-alphaedit-61778 UserId=janghj(1025) GroupId=janghj(1026) MCS_label=N/A Priority=277 Nice=0 Account=lab QOS=lab_gpu_s2 JobState=PENDING Reason=Dependency Dependency=afterany:62538(unfulfilled) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=2-00:00:00 TimeMin=N/A SubmitTime=2026-10-10T17:26:20 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-10-10T17:26:20 Scheduler=Main Partition=gpu AllocNode:Sid=server2:3568888 ReqNodeList=server2 ExcNodeList=(null) NodeList= StepMgrEnabled=Yes NumNodes=1-1 NumCPUs=6-6 NumTasks=1 CPUs/Task=6 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=6,mem=58G,node=1,billing=1,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=6 MinMemoryNode=58G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/scripts/gptj-alphaedit-61778.sh SubmitLine=sbatch --parsable --hold --export=NONE --no-requeue --partition=gpu --qos=lab_gpu_s2 --nodelist=server2 --nodes=1 --ntasks=1 --cpus-per-task=6 --mem=59392M --time=2-00:00:00 --job-name=s2-flucon-gptj-alphaedit-61778 --chdir=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/source --output=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/logs/gptj-alphaedit-61778-%j.out --error=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/logs/gptj-alphaedit-61778-%j.err --gres=gpu:a6000:1 --dependency=afterany:62864 /mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/scripts/gptj-alphaedit-61778.sh WorkDir=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/source StdErr=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/logs/gptj-alphaedit-61778-62866.err StdIn=/dev/null StdOut=/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/logs/gptj-alphaedit-61778-62866.out TresPerNode=gres/gpu:a6000:1 TresPerTask=cpu=6",
+        "gpus": 1,
+        "job": "62866",
+        "name": "s2-flucon-gptj-alphaedit-61778",
+        "reason": "(Dependency)",
+        "state": "PENDING",
+        "workdir": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/source"
+      }
+    ],
+    "project_scope": "Command/WorkDir inside exact repository registered worktrees or root local",
+    "science_results_queried": false
+  },
+  "native_W0_z_integration_tests": "NOT_RUN_SHARED_SOURCE_PENDING",
+  "preparation": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/host-preparation.json",
+    "sha256": "e5158529c66ded5bef5cfaca9235139ff817fc843b7cdba2abe882dc99959bfb"
+  },
+  "project_width": 2,
+  "zsre_query_parity": {
+    "actual_model_output_parity": "NOT_MEASURED",
+    "input_mismatches": 0,
+    "model_family": "qwen25",
+    "model_forward_calls": 0,
+    "oracle_lock_sha256": "d37227eb52aa1ba1cc0699155c674858b52ff418eaf7814231642f9de8aa2ff3",
+    "queries": 24858,
+    "query_sha256": "6c8111384789cec7059ea1b3c2b1083d761ade2b360c99db3e5c4f1ef4941d78",
+    "requests": 2000,
+    "schema": "zsre-public-query-parity-v1",
+    "status": "PASS_CPU_QUERY_ONLY",
+    "stream_sha256": "93925ec2f74e00a1b3fbdf261e557d10652ae0eca7265b4948958d39de4848b7",
+    "target_mismatches": 0,
+    "token_denominators": {
+      "neighborhood": 11476,
+      "paraphrase": 6691,
+      "rewrite": 6691
+    }
+  }
+}
