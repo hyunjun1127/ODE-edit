@@ -162,7 +162,7 @@ zsRE Loc은 **loc_ans 정답 token 정확도의 요청별 평균**이다. 이전
 | AlphaEdit-BLUE | 89.84† | 99.60† | 97.15† | 76.59† | PENDING: s2-flucon-llama3-alphaedit_blue-39283_1 (62876) | PENDING: s2-flucon-llama3-alphaedit_blue-39283_1 (62876) | 95.87 | 92.28 | 32.83 |
 | MEMIT-FE | 64.55 | 80.45 | 73.68 | 48.85 | 420.07 | 8.40 | 14.81 | 13.57 | 0.56 |
 | AlphaEdit+SPHERE | 86.87 | 99.50 | 94.95 | 71.68 | 619.20 | 33.64 | 95.13 | 91.36 | 31.38 |
-| PRICE (Ours) | 90.98§ | 99.90§ | 93.50§ | 81.50§ | DEFERRED | DEFERRED | ING: pf2k-llama3-zsre-P-beta100-ee (62889) | ING: pf2k-llama3-zsre-P-beta100-ee (62889) | ING: pf2k-llama3-zsre-P-beta100-ee (62889) |
+| PRICE (Ours) | 90.98§ | 99.90§ | 93.50§ | 81.50§ | DEFERRED | DEFERRED | 99.62§ | 94.83§ | 45.31§ |
 
 § 사용자 2026-10-10 결정에 따른 **최종 PRICE method** CF 2K이며, server4 job **62604**로 실행했다.
 - 설정: arm `llama3-P-beta100`. β = c = β_max = 1.0, unit-lr ρ0.05, γ1, cap 끝점 cast, HC-PRICE, 요청별 early exit.
@@ -171,7 +171,7 @@ zsRE Loc은 **loc_ans 정답 token 정확도의 요청별 평균**이다. 이전
 - Eff/Gen/Loc은 strict NLL preference R/P/N 성공률 1,998/2,000 · 3,740/4,000 · 16,300/20,000이다.
 - Score는 반올림 전 성공률의 조화평균(90.9776)이다. 표시는 decimal half-up 둘째 자리다.
 - 이전 FREE100 job 60103 값(99.70 / 92.78 / 82.21, Score 90.98)을 대체했다.
-- CF Flu/Con은 W20 checkpoint로 따로 평가할 예정이라 `DEFERRED`다. zsRE는 같은 설정의 job **62889**(official zsRE stream·evaluator)로 실행 중이다. W0는 본표 zsRE W0 행(38.10 / 37.61 / 38.59)과 같다.
+- CF Flu/Con은 W20 checkpoint로 따로 평가할 예정이라 `DEFERRED`다. zsRE는 같은 설정의 job **62889**(official zsRE stream·evaluator, W20/2,000 edits)이다. W0가 본표 zsRE W0 행(38.10 / 37.61 / 38.59)과 같다. Loc(45.31)이 W0(38.59)보다 높은데, W0 예측 일치율은 62.68%다(원인 미확인). [zsRE 보고](experiment-reports/servers/server4/price-final-2k-20261010/llama3-zsre-report-ko.md)
 - 500 edit마다 resumable checkpoint를 저장했다(가중치, history H, HC 통계).
 [실행·수치·checkpoint 보고](experiment-reports/servers/server4/price-final-2k-20261010/llama3-cf-report-ko.md) ·
 [정확한 수치·SHA](audits/servers/server4/price-final-2k-20261010/llama3-cf-results.json) ·
@@ -341,7 +341,7 @@ Llama historical3개는 원source/lock/CP와 새평가 consumer identity를 분�
 | AlphaEdit-BLUE | 89.23 | 99.55 | 97.53 | 75.06 | PENDING: s2-flucon-gptj-alphaedit_blue-61779 (62867) | PENDING: s2-flucon-gptj-alphaedit_blue-61779 (62867) | 99.75 | 95.71 | 28.83 |
 | MEMIT-FE | 73.85 | 87.15 | 85.70 | 57.22 | PENDING: s2-flucon-gptj-memit_fe-61780 (62868) | PENDING: s2-flucon-gptj-memit_fe-61780 (62868) | 29.20 | 27.65 | 8.45 |
 | AlphaEdit+SPHERE | 88.39 | 99.70 | 95.73 | 74.27 | PENDING: s2-flucon-gptj-sphere-61781 (62869) | PENDING: s2-flucon-gptj-sphere-61781 (62869) | 99.67 | 96.29 | 28.00 |
-| PRICE (Ours) | ING: rent janghj-final2k-r2-gptj (101707) | ING: rent janghj-final2k-r2-gptj (101707) | ING: rent janghj-final2k-r2-gptj (101707) | ING: rent janghj-final2k-r2-gptj (101707) | ING: rent janghj-final2k-r2-gptj (101707) | ING: rent janghj-final2k-r2-gptj (101707) |  |  |  |
+| PRICE (Ours) | ING: rent janghj-final2k-r2-gptj (101707) | ING: rent janghj-final2k-r2-gptj (101707) | ING: rent janghj-final2k-r2-gptj (101707) | ING: rent janghj-final2k-r2-gptj (101707) | ING: rent janghj-final2k-r2-gptj (101707) | ING: rent janghj-final2k-r2-gptj (101707) | ING: pf2k-gptj-zsre-P-beta075-ee (63027) | ING: pf2k-gptj-zsre-P-beta075-ee (63027) | ING: pf2k-gptj-zsre-P-beta075-ee (63027) |
 
 기존 연구 문서와 실험 이력은 아래에 보존합니다. 새 실험의 설정 근거는 `official/`입니다.
 
@@ -514,9 +514,9 @@ secret은 저장소에 기록하지 않는다.
 
 | 모델 | CF 2K | zsRE 2K |
 | :--- | :--- | :--- |
-| Llama | server4 **62604** 완료: W20 99.90 / 93.50 / 81.50, Score 90.98 (본표 반영) | server4 **62889** 실행 중(W0가 본표 W0 행과 같음) |
-| Qwen | rent **101706** 실행 중 (β = c 1.5). 추가로 β = c 2.0 server4 **62845** 실행 중 | 미제출 |
-| GPT-J | rent **101707** 실행 중 | 미제출 |
+| Llama | server4 **62604** 완료: W20 99.90 / 93.50 / 81.50, Score 90.98 (본표 반영) | server4 **62889** 완료: W20 99.62 / 94.83 / 45.31 (본표 반영) |
+| Qwen | rent **101706** 실행 중 (β = c 1.5). 비교용 β = c 2.0(server4 **62845**)은 B10 진입 때 anchor guard로 멈췄다(편집이 쌓여 생긴 sink, 진단 중) | 미제출 |
+| GPT-J | rent **101707** 실행 중 | server4 **63027** 실행 중(W0가 본표 W0 행과 같음) |
 
 - 모든 2K run은 W5·W10·W15·W20마다 all-seen 평가와 resumable checkpoint(가중치, history H, HC 통계)를 남긴다.
 - zsRE는 CF와 같은 설정을 쓴다. 데이터는 official zsRE first-2K stream, 평가는 official zsRE evaluator다.
