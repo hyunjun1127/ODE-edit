@@ -1,0 +1,68 @@
+{
+  "관측시각": "2026-10-10T18:23:49.020037+00:00",
+  "사용자지시": [
+    "CAKE causal score 산출",
+    "논문에서 언급한 그대로",
+    "Qwen2.5-7B 우선"
+  ],
+  "범위": "Qwen2.5-7B-Instruct W0의 causal score 준비. 편집실험이 아니며 parameter update=0.",
+  "논문": "https://aclanthology.org/2026.acl-long.918.pdf#page=22",
+  "논문조건": {
+    "known_facts": 1000,
+    "noise_samples": 10,
+    "restore": "마지막 subject token의 한 층 MLP 출력",
+    "score": "mean_facts(mean_noise(P_restore - P_corrupt))",
+    "layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "layer_rule": "기존 MEMIT/AlphaEdit critical set",
+    "nu": "3*std(subject-only embeddings)"
+  },
+  "이식범위": "논문에는 Qwen2.5-7B-Instruct의 고정 noise/score가 없다. nu=3*sigma_t 원칙을 적용한다. Qwen3-4B score/noise 복사 없음.",
+  "미공개실행설정": "seed, 생성 길이 상한, dtype 등은 hparams engineering에 구분. 논문 원수치의 bitwise 재현을 주장하지 않는다.",
+  "source_commit": "2a9863754693ef5c34bbdf794ab2d34f2c0f8a89",
+  "config_sha256": "e6e3dcac8d8092c916496dd211320cc0822cf4bba2cfb50891e9fd912a13e585",
+  "source_archive_sha256": "db3c7d38c37922d728fc097f55903c8817258d77d7569c27b0bcd705fb5f2adc",
+  "server": "server3",
+  "node": "ubuntu",
+  "job_id": "63249",
+  "job_name": "official-s3-qwen25-cake-causal-score",
+  "scheduler_snapshot": "63249|official-s3-qwen25-cake-causal-score|PENDING||(Resources)",
+  "held_inspection": {
+    "JobId": "63249",
+    "JobName": "official-s3-qwen25-cake-causal-score",
+    "JobState": "PENDING",
+    "UserId": "janghj(1025)",
+    "ReqNodeList": "ubuntu",
+    "NumCPUs": "6-10",
+    "NumTasks": "1",
+    "CPUs/Task": "6",
+    "MinCPUsNode": "6",
+    "MinMemoryNode": "64G",
+    "TresPerNode": "gres/gpu:h200:1",
+    "TimeLimit": "06:00:00",
+    "Command": "/data/janghj/ODE-edit/local/cake-qwen25-causal-score-20261011/run.sbatch",
+    "WorkDir": "/data/janghj",
+    "Dependency": "(null)",
+    "Reason": "JobHeldUser"
+  },
+  "released": true,
+  "CPU_tests": {
+    "passed": 56,
+    "failed": 0
+  },
+  "source_integrity": "PASS_166",
+  "actual_GPU_measurement": "NOT_OBSERVED",
+  "GPU_qualification": "NOT_RUN",
+  "new_GPU_jobs": 1,
+  "server_GPU_cap": 1,
+  "pre_submit_server_GPU_allocations": 0,
+  "원자료경로": "/data/janghj/ODE-edit/local/cake-qwen25-causal-score-20261011",
+  "결과파일": "run-r1/causal-scores.json",
+  "주표변경": false,
+  "기존실험변경": false
+}
