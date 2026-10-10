@@ -4,8 +4,8 @@
 # server<TAB>max_new_run_project_gpus
 # User override 2026-09-16: server4 is limited to 1 project GPU; other servers unchanged.
 # User override 2026-09-17: server4 increases to 2 project GPUs; supersedes 2026-09-16 cap1 prospectively.
-server1	2
-server2	2
+server1	3
+server2	3
 # User override 2026-09-20: server3 project cap1; other servers unchanged.
 # User override 2026-09-20 (latest): RES/GSS_REC two-arm task; server3 project cap2.
 # User override 2026-09-28: MEMIT history baseline; server3 project cap1.
@@ -31,3 +31,9 @@ server4	2
 # no cancellation/restart/new submission or scientific source/config mutation.
 # Stricter task, memory and physical limits remain. Canonical override receipt:
 # messages/head/2026-10-07-server4-cap2-ours-first-policy.json
+# Latest USER 2026-10-10: current SH1/SH2 results+SH1 FLUCON task sets each
+# server1/server2 combined cap3, superseding their older recorded/local cap values.
+# Preserve RUNNING; if above3 drain without cancelling and prevent new allocation.
+# Exact own PENDING resource edges may be reconnected to enforce future width3.
+# More restrictive task/memory/QoS limits and server3/server4 are unchanged.
+# messages/head/2026-10-10-s1-s2-completed-table-s1-flucon-cap3.json

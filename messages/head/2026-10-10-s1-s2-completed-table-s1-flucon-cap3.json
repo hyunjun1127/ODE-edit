@@ -1,0 +1,33 @@
+{
+  "nonce": "USER-GH-S1-S2-COMPLETED-TABLE-S1-FLUCON-CAP3-20261010-R1",
+  "user_requests": ["server1,2에서 완료된 실험들 main table에 갱신하도록 전달하고, server1엔 이어서 flu/con 제출하라고 전달해", "cap 3으로 하자"],
+  "owners": {"server1": "01a04939-f93a-7b50-bca0-65438eab2062", "server2": "01a0493a-074c-7f91-9a13-769116326fef"},
+  "scope": "SH1/SH2 완료 실험 단발 inventory/CPU 원자료 검산/compact table rows, SH1만 미완료 CF checkpoint FLU/CON eval-only 실제 제출. GH sole README 통합.",
+  "gpu_policy": {
+    "server1": 3,
+    "server2": 3,
+    "server3_server4": "UNCHANGED",
+    "running": "기존 RUNNING 취소/재시작/과학 source hotpatch 금지. 기존 초과 allocation은 사실대로 기록하고 3 이하로 자연 감소 전 새 GPU 실행 없음.",
+    "pending": "exact owner/task/source/Command/state 확인 후 필요한 resource-only dependency/일시 hold→검산→release 허용. 새 admission DAG 폭3 이하, 더 엄격한 기존 task cap/메모리/QoS 준수. 불필요한 전량 barrier 금지.",
+    "scientific_mutation": "기존 job 취소/재편집/자동 재제출/우선권 탈취 없음"
+  },
+  "results": {
+    "inventory": "실제 W20/2000·20commit·checkpoint/ordered sample/source/config/raw SHA·job명ID·관측시각 확인. 이미 승인된 resumed 예외는 parent9+child11 ancestry로 검산. scheduler COMPLETED만으로 점수 작성 금지.",
+    "zsre": "실제 frozen public-query evaluator 및 2K query/target provenance, saved predicted-target token correctness의 요청별 평균 E/G/loc_ans 검산. W0agreement/token micro로 대체하지 않음. 오래된 tokenizer 경로/미완료는 미검증 표시.",
+    "CF": "기존 Score/E/G/Loc 의미 유지. generation raw bits/cosine 보존, 표시만 반올림 전 원평균 x100 뒤 half-up2. DEFERRED/미측정/실패를0으로 채우지 않음.",
+    "separation": "native baseline/FE_HISTORY/FE author CF-zsRE 별도 행 유지; 과거 깨진 Qwen context 결과 복구 금지; OURS tuning/heldout 자동 승격 금지.",
+    "delivery": "audits/servers/serverN/completed-table-flucon-cap3-20261010/table-rows.json 및 CSV, experiment-reports/servers/serverN/completed-table-flucon-cap3-20261010/report-ko.md. GH가 실제 셀 통합. README 직접 병렬 수정 금지."
+  },
+  "server1_flucon": {
+    "authorized": "자기 서버의 유효한 본표 baseline 또는 별도 승인된 FE_HISTORY/FE author CF 최종 W20/2K checkpoint 중 FLU/CON 미완료를 eval-only 제출. 실제 파일/manifest/loader/identity 및 ordered cohort 확인. 아직 W20 없는 대상은 미제출 사유 기록.",
+    "deduplicate": "같은 checkpoint/cohort/protocol 완료 생성 원문·점수 또는 기존 등록job 있으면 재사용/실제ID 보고. 새W0/중복generation/재편집/재학습 없음. 과거 사용자 취소 평가를 무조건 복구하지 말고 최신 지시 범위·실제 endpoint를 대조.",
+    "protocol": "기존 CAKE-compatible official full-prefix mask, KV/cache case batching, 같은 first2K generation prompts·reference SHA·seed·model/tokenizer/runtime. 고정IDF/vocab 재fit 없음. 한번 생성으로 FLU/CON 함께, rawlocal/privacy scalar-only W&B 실제job immutableidentity 실시간+boundedfinish/readback.",
+    "submission": "clean non-main WT 최소 필요한 eval caller/control 보완과 CPU/static 검사, main exact source/config/CP/input/ref freeze, cap3 내1GPU/job resource dependency로 held등록→검사→release. 별도 GPUqualification/smoke 없음. 실제ID/name/state/dep/CP/output 회수. 원CP는 consumer 완료까지 KEEP.",
+    "excluded": "zsRE generation, OURS sweep/tuning/heldout의 본표평가, CP삭제/전송, 새로운sciencearm"
+  },
+  "server2": "완료 결과 검산/보고 및 cap3 resource-only 적용. 이번 nonce로 새GPU 평가job 제출 없음. 기존 승인된 작업은 기존 범위에서 계속.",
+  "write_scope": ["official/runners/server1/의 필요한 최소 eval/control 및 CPU검사(SH1만)", "각 서버의 task별 audits/experiment-reports 및 ignored local 산출물", "각 서버 own local admission cap 및 정확PENDING resource dependency", "GH README/control/registry 및 global audit/report"],
+  "preservation": "다른 작업자와 dirtyroot/frozen source/raw/CP/기존W&B 이력 보존. 사용자 model/effort 변경 없음. compact source/보고만 main 비강제게시.",
+  "completion": "nonce OWNER_ACK/accepted turn 및 cap 적용receipt. SH1 실제 평가 제출 또는 정확 기술 blocker, SH2 검산rows 회수. 등록 뒤 단발 snapshot, GPU완료 대기/장기agent polling/새 recurringmonitor/자동retry 없음.",
+  "broadcast": "raw/weights 전송 불필요하면 NO_BROADCAST_NOT_REQUIRED 기록; Git에는 소형 보고와 manifest만"
+}
