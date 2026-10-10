@@ -142,7 +142,7 @@ zsRE Loc은 **loc_ans 정답 token 정확도의 요청별 평균**이다. 이전
 | MEMIT | 58.88‡ | 64.75‡ | 61.70‡ | 51.83‡ | PENDING: s2-flucon-llama3-memit-42658 (62874) | PENDING: s2-flucon-llama3-memit-42658 (62874) | 44.30 | 39.95 | 22.30 |
 | AlphaEdit | 84.80‡ | 99.30‡ | 93.23‡ | 68.59‡ | PENDING: s2-flucon-llama3-alphaedit-42657 (62875) | PENDING: s2-flucon-llama3-alphaedit-42657 (62875) | 95.18 | 91.40 | 31.10 |
 | AlphaEdit-BLUE | 89.84† | 99.60† | 97.15† | 76.59† | PENDING: s2-flucon-llama3-alphaedit_blue-39283_1 (62876) | PENDING: s2-flucon-llama3-alphaedit_blue-39283_1 (62876) | 95.87 | 92.28 | 32.83 |
-| FE (author repo, W0-fixed z) | 미제출 | 미제출 | 미제출 | 미제출 | DEFERRED | DEFERRED | 미제출 | 미제출 | 미제출 |
+| FE (author repo, W0-fixed z) |  |  |  |  |  |  |  |  |  |
 | AlphaEdit+SPHERE | 86.87 | 99.50 | 94.95 | 71.68 | 619.20 | 33.64 | 95.13 | 91.36 | 31.38 |
 | PRICE (Ours) | 90.98§ | 99.90§ | 93.50§ | 81.50§ | DEFERRED | DEFERRED | 99.62§ | 94.83§ | 45.31§ |
 
@@ -263,9 +263,9 @@ SH3 최신 CPU 재검산에서도 위 네 지표 delta0, 신규 본표 적격 �
 | MEMIT | 62.23 | 68.50 | 65.83 | 54.30 | PENDING: s2-flucon-qwen25-memit-62073 (62870) | PENDING: s2-flucon-qwen25-memit-62073 (62870) | 41.49 | 39.44 | 26.39 |
 | AlphaEdit | 83.03 | 99.05 | 97.55 | 63.36 | ING: s2-flucon-qwen25-alphaedit-62075 (62871) | ING: s2-flucon-qwen25-alphaedit-62075 (62871) | 85.05 | 78.18 | 30.79 |
 | AlphaEdit-BLUE | 77.98 | 97.70 | 96.75 | 55.86 | 602.99 | 37.43 | 58.62 | 53.66 | 5.73 |
-| FE (author repo, W0-fixed z) | 미제출 | 미제출 | 미제출 | 미제출 | DEFERRED | DEFERRED | 미제출 | 미제출 | 미제출 |
+| FE (author repo, W0-fixed z) |  |  |  |  |  |  |  |  |  |
 | AlphaEdit+SPHERE | 83.73 | 99.40 | 97.70 | 64.37 | PENDING: s2-flucon-qwen25-sphere-62079 (62873) | PENDING: s2-flucon-qwen25-sphere-62079 (62873) | PENDING: s2-qwen25-zsre-sphere-resume-b9 (62538) | PENDING: s2-qwen25-zsre-sphere-resume-b9 (62538) | PENDING: s2-qwen25-zsre-sphere-resume-b9 (62538) |
-| PRICE (Ours) | ING: rent janghj-final2k-r1-qwen (101706) | ING: rent janghj-final2k-r1-qwen (101706) | ING: rent janghj-final2k-r1-qwen (101706) | ING: rent janghj-final2k-r1-qwen (101706) | ING: rent janghj-final2k-r1-qwen (101706) | ING: rent janghj-final2k-r1-qwen (101706) |  |  |  |
+| PRICE (Ours) | ING: pf2k-qwen25-cf-PN-beta150-ee (63144) | ING: pf2k-qwen25-cf-PN-beta150-ee (63144) | ING: pf2k-qwen25-cf-PN-beta150-ee (63144) | ING: pf2k-qwen25-cf-PN-beta150-ee (63144) | ING: pf2k-qwen25-cf-PN-beta150-ee (63144) | ING: pf2k-qwen25-cf-PN-beta150-ee (63144) | ING: pf2k-qwen25-zsre-PN-beta150-ee (63145) | ING: pf2k-qwen25-zsre-PN-beta150-ee (63145) | ING: pf2k-qwen25-zsre-PN-beta150-ee (63145) |
 
 ### GPT-J-6B
 
@@ -321,7 +321,7 @@ Llama historical3개는 원source/lock/CP와 새평가 consumer identity를 분�
 | MEMIT | 80.63 | 97.90 | 95.38 | 60.58 | 577.93 | 36.84 | 93.52 | 88.86 | 30.81 |
 | AlphaEdit | 88.22 | 99.70 | 96.33 | 73.56 | PENDING: s2-flucon-gptj-alphaedit-61778 (62866) | PENDING: s2-flucon-gptj-alphaedit-61778 (62866) | 99.69 | 96.45 | 27.94 |
 | AlphaEdit-BLUE | 89.23 | 99.55 | 97.53 | 75.06 | PENDING: s2-flucon-gptj-alphaedit_blue-61779 (62867) | PENDING: s2-flucon-gptj-alphaedit_blue-61779 (62867) | 99.75 | 95.71 | 28.83 |
-| FE (author repo, W0-fixed z) | 미제출 | 미제출 | 미제출 | 미제출 | DEFERRED | DEFERRED | 미제출 | 미제출 | 미제출 |
+| FE (author repo, W0-fixed z) |  |  |  |  |  |  |  |  |  |
 | AlphaEdit+SPHERE | 88.39 | 99.70 | 95.73 | 74.27 | 616.18 | 40.89 | 99.67 | 96.29 | 28.00 |
 | PRICE (Ours) | ING: rent janghj-final2k-r2-gptj (101707) | ING: rent janghj-final2k-r2-gptj (101707) | ING: rent janghj-final2k-r2-gptj (101707) | ING: rent janghj-final2k-r2-gptj (101707) | ING: rent janghj-final2k-r2-gptj (101707) | ING: rent janghj-final2k-r2-gptj (101707) | ING: pf2k-gptj-zsre-P-beta075-ee (63027) | ING: pf2k-gptj-zsre-P-beta075-ee (63027) | ING: pf2k-gptj-zsre-P-beta075-ee (63027) |
 
@@ -497,9 +497,10 @@ secret은 저장소에 기록하지 않는다.
 | 모델 | CF 2K | zsRE 2K |
 | :--- | :--- | :--- |
 | Llama | server4 **62604** 완료: W20 99.90 / 93.50 / 81.50, Score 90.98 (본표 반영) | server4 **62889** 완료: W20 99.62 / 94.83 / 45.31 (본표 반영) |
-| Qwen | rent **101706** 실행 중 (β = c 1.5). 비교용 β = c 2.0(server4 **62845**)은 B10 진입 때 anchor guard로 멈췄다(편집이 쌓여 생긴 sink, 진단 중) | 미제출 |
+| Qwen | 정규화 HC(`qwen25-PN-beta150`) server4 **63144** 실행 중. 정규화 전 HC run(rent **101706**)은 ablation으로 남긴다. 비교용 β = c 2.0(server4 **62845**)은 B10 진입 때 anchor guard로 멈췄다(편집이 쌓여 생긴 sink) | 정규화 HC server4 **63145** 실행 중 |
 | GPT-J | rent **101707** 실행 중 | server4 **63027** 실행 중(W0가 본표 W0 행과 같음) |
 
+- **HC 가격 정규화(2026-10-11, Qwen 재실행):** HC 배수를 곱한 뒤 요청마다 가장 싼 층의 가격이 1이 되도록 다시 나눈다(method 항목 `hc_normalize`). 정규화하지 않으면 HC가 배분뿐 아니라 강도도 바꾼다. Qwen 2K B10에서 가장 싼 층 가격 중앙값이 1.159(최대 1.386)였고, Llama 2K B20은 1.034, GPT-J 2K B10은 1.012였다. Llama·GPT-J 본표 값은 아직 정규화 전 HC 결과다.
 - 모든 2K run은 W5·W10·W15·W20마다 all-seen 평가와 resumable checkpoint(가중치, history H, HC 통계)를 남긴다.
 - zsRE는 CF와 같은 설정을 쓴다. 데이터는 official zsRE first-2K stream, 평가는 official zsRE evaluator다.
 - Qwen·GPT-J zsRE는 no-BOS 모델이라 zsRE sink scan을 먼저 해야 한다.
