@@ -1,0 +1,172 @@
+{
+  "nonce": "USER-SH4-GPTJ-W0-63282-INDEPENDENT-20261011-R1",
+  "accepted_turn": "01a127bc-5ece-7d00-ace8-dc9c3c9e618b",
+  "before_at": "2026-10-10T21:34:51.335891+00:00",
+  "after_at": "2026-10-10T21:34:52.812809+00:00",
+  "rows": [
+    {
+      "job_id": "63277",
+      "name": "pf3k-llama3-P-beta100-ee-r3",
+      "before_state": [
+        "RUNNING"
+      ],
+      "before_dependency": "",
+      "after_state": [
+        "RUNNING"
+      ],
+      "after_dependency": "",
+      "held": false,
+      "command": "/data/janghj/ODE-edit/local/price-final-2k-20261010/jobs/run-llama3-P-beta100-ee-3k-from-w25-r3.sh"
+    },
+    {
+      "job_id": "63278",
+      "name": "pf2k-qwen25-zsre-PN-beta150-ee-r3",
+      "before_state": [
+        "RUNNING"
+      ],
+      "before_dependency": "",
+      "after_state": [
+        "RUNNING"
+      ],
+      "after_dependency": "",
+      "held": false,
+      "command": "/data/janghj/ODE-edit/local/price-final-2k-20261010/jobs/run-qwen25-zsre-PN-beta150-ee-r3.sh"
+    },
+    {
+      "job_id": "63282",
+      "name": "s4-gptj-W0-flucon-2k-r1",
+      "before_state": [
+        "PENDING"
+      ],
+      "before_dependency": "afterany:63277(unfulfilled)",
+      "after_state": [
+        "PENDING"
+      ],
+      "after_dependency": "afterany:63277(unfulfilled)?afterany:63278(unfulfilled)",
+      "held": false,
+      "command": "/data/janghj/ODE-edit/local/gptj-w0-flucon-20261011/execution-r1/run.sh"
+    },
+    {
+      "job_id": "63283",
+      "name": "odeedit_replay_memit42658",
+      "before_state": [
+        "PENDING"
+      ],
+      "before_dependency": "afterany:63282(unfulfilled)",
+      "after_state": [
+        "PENDING"
+      ],
+      "after_dependency": "afterany:63277(unfulfilled),afterany:63278(unfulfilled)",
+      "held": false,
+      "command": "/var/tmp/janghj-odeedit-replay-b015-b025-v1/native-memit-42658/replay.sbatch"
+    },
+    {
+      "job_id": "63262",
+      "name": "odeedit_replay_ae42657",
+      "before_state": [
+        "PENDING"
+      ],
+      "before_dependency": "afterany:63283(unfulfilled)",
+      "after_state": [
+        "PENDING"
+      ],
+      "after_dependency": "afterany:63283(unfulfilled)",
+      "held": false,
+      "command": "/var/tmp/janghj-odeedit-replay-b015-b025-v1/native-alphaedit-42657/replay.sbatch"
+    },
+    {
+      "job_id": "63284",
+      "name": "odeedit_replay_blue39283_1",
+      "before_state": [
+        "PENDING"
+      ],
+      "before_dependency": "afterany:63278(unfulfilled)",
+      "after_state": [
+        "PENDING"
+      ],
+      "after_dependency": "afterany:63282(unfulfilled)",
+      "held": false,
+      "command": "/var/tmp/janghj-odeedit-replay-b015-b025-v1/blue-alphaedit-39283_1/replay.sbatch"
+    },
+    {
+      "job_id": "63303",
+      "name": "s4-qwen25-zsre-sphere-resume-b10",
+      "before_state": [
+        "PENDING"
+      ],
+      "before_dependency": "afterany:63284(unfulfilled)",
+      "after_state": [
+        "PENDING"
+      ],
+      "after_dependency": "afterany:63284(unfulfilled)",
+      "held": false,
+      "command": "/var/tmp/ode-edit-janghj-qwen-sphere-resume-20261011/scripts/run.sh"
+    }
+  ],
+  "cap_proof": {
+    "states": 50,
+    "max_simultaneous_GPU": 2,
+    "scope": "all completion orders; each job GPU1; no new admissions assumed"
+  },
+  "resource_semantics": "W0+BLUE+SPHERE use first released slot; MEMIT+Alpha use second released slot. All edges resource-only.",
+  "existing_running_unchanged": true,
+  "source_config_unchanged": true,
+  "new_submissions": 0,
+  "cancellations": 0,
+  "script_config_SHA": {
+    "/data/janghj/ODE-edit/local/gptj-w0-flucon-20261011/execution-r1/run.sh": "aa87942f22f7ebb1754e289dd32c795cf2d4e7b8e66f4ea859d042b4983676c3",
+    "/var/tmp/janghj-odeedit-replay-b015-b025-v1/native-memit-42658/replay.sbatch": "eb8c7c805e774d29235a41f727a56077d90edff996143cbfc40c71b6f0033528",
+    "/var/tmp/janghj-odeedit-replay-b015-b025-v1/native-alphaedit-42657/replay.sbatch": "75e3fa3f47020ebe2e749e37e4f80468685022e42717588802b8a169373f527d",
+    "/var/tmp/janghj-odeedit-replay-b015-b025-v1/blue-alphaedit-39283_1/replay.sbatch": "1461ff4cddc3417b6938f2220befe700519274d4af7cef539cad8f6d6b9aeab4",
+    "/var/tmp/ode-edit-janghj-qwen-sphere-resume-20261011/scripts/run.sh": "286d49c07bce9a1643c06b7f10962183f09fd4c4505653e1025f5e9a9ec15a74",
+    "/data/janghj/ODE-edit/local/gptj-w0-flucon-20261011/execution-r1/config.json": "ba9fd83911be8d18f6d7eeffa0f18f6459b50d01a9f15f542e3e5a5092a22256"
+  },
+  "actions": [
+    [
+      "hold",
+      63284
+    ],
+    [
+      "hold",
+      63283
+    ],
+    [
+      "hold",
+      63282
+    ],
+    [
+      "dependency",
+      63282,
+      "afterany:63277?afterany:63278"
+    ],
+    [
+      "dependency",
+      63283,
+      "afterany:63277:63278"
+    ],
+    [
+      "dependency",
+      63284,
+      "afterany:63282"
+    ],
+    [
+      "release",
+      63284
+    ],
+    [
+      "release",
+      63283
+    ],
+    [
+      "release",
+      63282
+    ]
+  ],
+  "detailed_local_receipts": {
+    "/data/janghj/ODE-edit/local/gptj-w0-flucon-20261011/independent-r1/before.json": "9b2d581625d2a834d8c136f36cc85bbe4495eb7e3d95e3cc73e2a2169c675a2e",
+    "/data/janghj/ODE-edit/local/gptj-w0-flucon-20261011/independent-r1/validated.json": "5c7c7354ddc1babb6032e0a07f84554632cc07e47139aff5516eb84eff952ecc",
+    "/data/janghj/ODE-edit/local/gptj-w0-flucon-20261011/independent-r1/after.json": "acb13ac4a4f5ddc761c3e8b85a11a84ff73c221501a7cb195816931d7d7a9307"
+  },
+  "no_recurring_monitor": true,
+  "README": "Job IDs unchanged; no new result or online validation claimed"
+}
