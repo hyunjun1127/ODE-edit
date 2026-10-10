@@ -59,8 +59,8 @@ Llama는 2026-10-10 재검산 6종, SH2는 17:18 KST 검산 **GPT-J 6종·Qwen F
 총17개 완료 행에 공개-query 최종 평가 수치를 기록했다.
 새 완료 GPT-J SPHERE **61947**(원 편집61735)과 수정 Qwen MEMIT **62081**은 각각2,000건이다.
 MEMIT-FE **62085**와 AlphaEdit **62083**도 완료 raw 검산 수치를 반영했다. SPHERE **62087**은 B10 OOM/W20 없음으로 보존하고,
-수리 cold job **62534**는 실행 전 취소했다. 사용자 승인 B9 재개 **62538**는
-17:18 KST 후속 snapshot에서도 PENDING(`afterany:62532`)이다.
+수리 cold job **62534**는 실행 전 취소했다. B9 재개 **62538**는 B10/1,000건을 저장한 뒤
+디스크 여유 32 GiB 하한으로 중단됐다(OOM 아님). server4 **63303**으로 B11–B20 재개를 등록했으며 현재 PENDING이다.
 깨진 편집 context를 사용한 과거 MEMIT/AlphaEdit 값은 철회하고 수정 cold run 상태를 표시한다.
 입력 CPU 일치가 pretrained 출력의 bitwise 논문 재현을 뜻하지는 않는다.
 기존 값·raw와 CF/FLUCON 일정은 보존한다. 사용자 명시 삭제로 오류 Qwen
@@ -214,12 +214,15 @@ zsRE MEMIT-FE62085의 Eff/Gen 0.00, Loc0.03은 실제 저장 token correctness�
 FLU/CON 후속평가는 실제62870–62873으로 등록·release했으며 아래 생성 셀만 상태를 표시한다.
 [새 완료 수치·raw/source/config 및 평가 준비](experiment-reports/servers/server2/baseline-refresh-s2-flucon-20261010/report-ko.md).
 62087은 B10 `eigh` CUDA OOM으로 FAILED/W20 없음이며 B9 checkpoint를 보존한다.
-최신 사용자 지시로 cold **62534**는 PENDING/실행시간0에서 취소하고, **62538**
-`s2-qwen25-zsre-sphere-resume-b9`를 held 검사 후 release했다(08:51 KST PENDING,
-`afterany:62532`). 원62087의 B1–B9(900건) 출처는 보존하고 수리 source78017702에서
-B10–B20(1,100건)만 이어간다. W/H/context/RNG/cursor를 복원하며 새 W0/첫900건 재편집은 없다.
-이 한 건만 fresh-only의 사용자 승인 예외다. 원 hparams/FP32 GPU eigh 및 buffer 수명 수리 유지,
-CPU17 PASS이며 실제 GPU 복원/OOM 해결/W20은 미관측이다.
+cold **62534**는 실행 전 취소했고, **62538** `s2-qwen25-zsre-sphere-resume-b9`는
+원62087의 B9를 복원해 **B10/1,000 edits checkpoint를 저장**했다. 최종 실패 원인은 CUDA OOM이 아닌
+`RESOURCE_BLOCKED_STORAGE_KEEP_CHECKPOINT`(디스크 여유 32 GiB 하한)이다.
+2026-10-11 사용자 지시로 server4 **63303 / s4-qwen25-zsre-sphere-resume-b10**을 held 검사 후 release했다.
+현재 PENDING(`afterany:63284`)이며, GPU cap 2 안에서 **B11–B20만** 이어간다. 원62087 B1–B9와
+62538 B10의 출처·가중치·history·context·RNG는 보존한다. hparams와 관련 수치 코드 23개 파일은 동일하다.
+server4의 별도 파일시스템에 checkpoint 두 slot을 사전 할당했고, 저장 실패 시 이전 latest를 유지한다.
+CPU26 및 전체 2K query 대조 PASS. server4 GPU 재개 및 최종 W20은 아직 미관측이다.
+[server4 이전·B10 검증·실제 등록](experiment-reports/servers/server4/qwen-zsre-sphere-b10-resume-20261011/report-ko.md).
 [parent SHA·취소·재개 등록 근거](experiment-reports/global/qwen-zsre-sphere-b9-resume-20261010/report-ko.md).
 [최신 원자료·query·상태 검산](experiment-reports/servers/server2/baseline-completed-zsre-audit-20261010/report-ko.md).
 context 판정은 [실제 context 감사](experiment-reports/servers/server2/qwen-context-audit-20261010/report-ko.md)에 구분했다.
@@ -287,7 +290,7 @@ SH3 최신 CPU 재검산에서도 위 네 지표 delta0, 신규 본표 적격 �
 | AlphaEdit | 83.03 | 99.05 | 97.55 | 63.36 | ING: s2-flucon-qwen25-alphaedit-62075 (62871) | ING: s2-flucon-qwen25-alphaedit-62075 (62871) | 85.05 | 78.18 | 30.79 |
 | AlphaEdit-BLUE | 77.98 | 97.70 | 96.75 | 55.86 | 602.99 | 37.43 | 58.62 | 53.66 | 5.73 |
 | FE (author repo, W0-fixed z) | PENDING: 63217 | PENDING: 63217 | PENDING: 63217 | PENDING: 63217 | DEFERRED | DEFERRED | PENDING: 63218 | PENDING: 63218 | PENDING: 63218 |
-| AlphaEdit+SPHERE | 83.73 | 99.40 | 97.70 | 64.37 | PENDING: s2-flucon-qwen25-sphere-62079 (62873) | PENDING: s2-flucon-qwen25-sphere-62079 (62873) | PENDING: s2-qwen25-zsre-sphere-resume-b9 (62538) | PENDING: s2-qwen25-zsre-sphere-resume-b9 (62538) | PENDING: s2-qwen25-zsre-sphere-resume-b9 (62538) |
+| AlphaEdit+SPHERE | 83.73 | 99.40 | 97.70 | 64.37 | PENDING: s2-flucon-qwen25-sphere-62079 (62873) | PENDING: s2-flucon-qwen25-sphere-62079 (62873) | PENDING: s4-qwen25-zsre-sphere-resume-b10 (63303) | PENDING: s4-qwen25-zsre-sphere-resume-b10 (63303) | PENDING: s4-qwen25-zsre-sphere-resume-b10 (63303) |
 | CAKE | PENDING: official-s1-qwen25-cf-cake-2k (63300) | PENDING: official-s1-qwen25-cf-cake-2k (63300) | PENDING: official-s1-qwen25-cf-cake-2k (63300) | PENDING: official-s1-qwen25-cf-cake-2k (63300) | DEFERRED | DEFERRED | PENDING: official-s1-qwen25-zsre-cake-2k (63301) | PENDING: official-s1-qwen25-zsre-cake-2k (63301) | PENDING: official-s1-qwen25-zsre-cake-2k (63301) |
 | PRICE (Ours) | ING: pf2k-qwen25-cf-PN-beta150-ee-resume-w15 (63281) | ING: pf2k-qwen25-cf-PN-beta150-ee-resume-w15 (63281) | ING: pf2k-qwen25-cf-PN-beta150-ee-resume-w15 (63281) | ING: pf2k-qwen25-cf-PN-beta150-ee-resume-w15 (63281) | ING: pf2k-qwen25-cf-PN-beta150-ee-resume-w15 (63281) | ING: pf2k-qwen25-cf-PN-beta150-ee-resume-w15 (63281) | ING: pf2k-qwen25-zsre-PN-beta150-ee-r3 (63278) | ING: pf2k-qwen25-zsre-PN-beta150-ee-r3 (63278) | ING: pf2k-qwen25-zsre-PN-beta150-ee-r3 (63278) |
 

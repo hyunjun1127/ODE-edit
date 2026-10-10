@@ -1,0 +1,12 @@
+{
+  "root": "/var/tmp/ode-edit-janghj-qwen-sphere-resume-20261011",
+  "device": 66308,
+  "input_checkpoint_bytes": 8535444185,
+  "slot_capacity": 8602553049,
+  "slots": 2,
+  "required_free_before_allocation": 36545077387,
+  "observed_free_before_allocation": 42065879040,
+  "min_free_runtime": 8589934592,
+  "raw_budget": 2147483648,
+  "old_files_deleted": 0
+}

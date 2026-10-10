@@ -1,0 +1,51 @@
+{
+  "parent_job": "62538",
+  "state": "FAILED",
+  "exit": "1:0",
+  "reason": "RESOURCE_BLOCKED_STORAGE_KEEP_CHECKPOINT",
+  "last_saved_batch": 10,
+  "edits": 1000,
+  "checkpoint": {
+    "batch": 10,
+    "file": "batch-10-6ab0bea43a595f97.pt",
+    "final_W20": false,
+    "identity_sha256": "cd18f4a1333cdf47a95f913a3cda87056961521af7d41d807f13b06a1335aa9b",
+    "sha256": "6ab0bea43a595f97df631176c0d5a6254eea90038b0c7c6eead8165c575abbd8"
+  },
+  "checkpoint_identity": {
+    "assets_sha256": "11fbe79a7784817f8fb0e1164df936dab7ed1c7480bddc923c509aec58e380ec",
+    "code_commit": "78017702c1d3d5a6843e27e63fcf105206d22dbe",
+    "config_sha256": "dcc7018f54b1f63c8c295ebe5d82b32fb933856e0d0b94b8659c9238ef41a814",
+    "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+    "official_tree_sha256": "a6a4aa4d76f81a44f83792268e69fbcece2bea996cc0169350dff81ebbf13026",
+    "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+    "tokenizer_sha256": "9e3c11a4a87d85a72b6f2d1e4b29ab88532f72d03189b6fa2793da735a2d98aa"
+  },
+  "factual_1000_only": {
+    "accuracy": {},
+    "cases_path": "/mnt/raid5/janghj/ODE-edit/local/qwen-zsre-sphere-b9-resume-20261010/registration-r1/runs/qwen25-zsre-sphere/evaluations/w10-cases.json",
+    "cases_sha256": "df4f34ce7b2b26c51ded41b0979f208e08a48531013b1211d05da015ef5e6bce",
+    "observation_identity_sha256": "b47f82b9a7ef968840aad4a24b5277ae26da69640418b68b9fcb6bc3d98768ec",
+    "summary": {
+      "Efficacy": 92.86148989898989,
+      "Generalization": 88.86187590187589,
+      "Specificity": 40.038428806801434,
+      "Specificity_loc_ans": 40.038428806801434,
+      "requests": 1000
+    },
+    "work": {
+      "elapsed_seconds": 279.0468752142042,
+      "evaluation_profile": "zsre-public-query-v1",
+      "physical_forward_calls": 795,
+      "queries": 12719,
+      "query_sha256": "f035d9890d0fd4148032f4cea222a5c134de03b84082d28df7a6c20307e3c658",
+      "token_denominators": {
+        "neighborhood": 5927,
+        "paraphrase": 3396,
+        "rewrite": 3396
+      }
+    }
+  },
+  "failure_tail": "\n  File \"<frozen runpy>\", line 198, in _run_module_as_main\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"/mnt/raid5/janghj/ODE-edit/local/qwen-zsre-sphere-b9-resume-20261010/registration-r1/source/official/runners/server2/qwen_run.py\", line 1111, in <module>\n    sys.exit(main())\n             ^^^^^^\n  File \"/mnt/raid5/janghj/ODE-edit/local/qwen-zsre-sphere-b9-resume-20261010/registration-r1/source/official/runners/server2/qwen_run.py\", line 1107, in main\n    return execute(args)\n           ^^^^^^^^^^^^^\n  File \"/mnt/raid5/janghj/ODE-edit/local/qwen-zsre-sphere-b9-resume-20261010/registration-r1/source/official/runners/server2/qwen_run.py\", line 925, in execute\n    raise RuntimeError('RESOURCE_BLOCKED_STORAGE_KEEP_CHECKPOINT')\nRuntimeError: RESOURCE_BLOCKED_STORAGE_KEEP_CHECKPOINT\n",
+  "checkpoint_preserved": true
+}

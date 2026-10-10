@@ -1,0 +1,19 @@
+{
+  "actual_model_output_parity": "NOT_MEASURED",
+  "input_mismatches": 0,
+  "model_family": "qwen25",
+  "model_forward_calls": 0,
+  "oracle_lock_sha256": "d37227eb52aa1ba1cc0699155c674858b52ff418eaf7814231642f9de8aa2ff3",
+  "queries": 24858,
+  "query_sha256": "6c8111384789cec7059ea1b3c2b1083d761ade2b360c99db3e5c4f1ef4941d78",
+  "requests": 2000,
+  "schema": "zsre-public-query-parity-v1",
+  "status": "PASS_CPU_QUERY_ONLY",
+  "stream_sha256": "93925ec2f74e00a1b3fbdf261e557d10652ae0eca7265b4948958d39de4848b7",
+  "target_mismatches": 0,
+  "token_denominators": {
+    "neighborhood": 11476,
+    "paraphrase": 6691,
+    "rewrite": 6691
+  }
+}

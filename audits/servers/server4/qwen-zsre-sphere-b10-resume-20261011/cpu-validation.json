@@ -1,0 +1,10 @@
+{
+  "status": "PASS_CPU",
+  "tests": 26,
+  "command": "python -B -m unittest official.runners.server4.test_sphere_b10_resume official.runners.server2.test_sphere_b9_resume official.runners.server2.test_sphere_lifetime official.tests.test_context_cache_mask official.tests.test_zsre_paper",
+  "native_numeric_files_same_as_parent": 23,
+  "transferred_B10_sha256": "6ab0bea43a595f97df631176c0d5a6254eea90038b0c7c6eead8165c575abbd8",
+  "checkpoint_bytes": 8535444185,
+  "actual_pretrained_forward": 0,
+  "GPU_qualification": "NOT_RUN_USER_DISABLED"
+}
