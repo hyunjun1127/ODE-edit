@@ -1,0 +1,186 @@
+{
+  "nonce": "USER-GH-GPTJ-W0-FLUCON-SERVER4-20261011-R1",
+  "server": "server2",
+  "timestamp": "2026-10-10T17:41:40.852065+00:00",
+  "status": "NOT_FOUND_IN_BOUNDED_SCOPE",
+  "scope": [
+    "official-baselines-server2/20261008-r1",
+    "gptj-baselines-fluency-consistency-2k",
+    "base-model-gptj-w0-cohort-curves",
+    "baseline-refresh-s2-flucon-20261010"
+  ],
+  "official_job": "61723",
+  "official_ready": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/W0_CF/READY.json",
+    "bytes": 1101,
+    "sha256": "8e10fbff04ff3c4d89bb2261ec7b55531eb74a5032d8d761df044afbac2323ee"
+  },
+  "official_identity": {
+    "actual_GPU": true,
+    "code_commit": "478464689231595eb63da368cc7c376e775eb559",
+    "dataset": "cf",
+    "factual": {
+      "bytes": 62852193,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/W0_CF/factual/W0.json",
+      "sha256": "e9265e1491f19c3fc3efb45cf79c483a5ad63c542028b9a09b56081a7084420b"
+    },
+    "generation": null,
+    "generation_READY": null,
+    "generation_status": "DEFERRED_NOT_MEASURED",
+    "manifest_sha256": "1131722709554392d29f59ec6770b3dcd891482d7d89943f583e9808fabb8a6a",
+    "model": "gptj",
+    "model_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+    "official_tree_sha256": "41ed261d1fc8c7c0022366c50fa9cb1ae3c05320",
+    "original_native_reference": {
+      "instruction_id": "USER-GH-SH1-SH2-OFFICIAL-NO-GPU-QUAL-RERUN-20261009-R1",
+      "status": "NOT_RUN_USER_DISABLED"
+    },
+    "status": "READY_COLD_W0_COMPLETE",
+    "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+    "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5",
+    "w0_reference": null
+  },
+  "old_generation": [
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-baselines-fluency-consistency-2k/attempt-r1/BASE_MEMIT/generation-raw/observations",
+      "observation_files": 396,
+      "explicit_cold_W0_records": 396,
+      "full2000": false,
+      "observer": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-baselines-fluency-consistency-2k/attempt-r1/BASE_MEMIT/generation-raw/observer-identity.json",
+        "bytes": 585,
+        "sha256": "0378010171b547628973ca6b18a6a85b21dc3047770045f9790ee180d6582761"
+      },
+      "runtime_identity": {
+        "eval_seed": 20261007,
+        "generation_source_sha": "83535c6a47c552cc4e5c6385f3a587d752820150",
+        "model_identity": "ffdee5058501d52e585dd123247546443aec093d7f4f394af7540686da6c5721",
+        "profile": "cf-cake-prompt-inclusive-total100-eos-corrected-v1",
+        "reference_assets_sha256": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+        "route": "UNPADDED_FULL_PREFIX_NO_CACHE",
+        "schema": "counterfact-cake-generation-metrics-v1"
+      },
+      "eligible": false,
+      "reason": "Fewer than 2000 observations; no full native W0 endpoint"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-baselines-fluency-consistency-2k/final-generation-v1/attempt-r1/BASE_MEMIT/generation-raw/observations",
+      "observation_files": 98,
+      "explicit_cold_W0_records": 0,
+      "full2000": false,
+      "observer": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-baselines-fluency-consistency-2k/final-generation-v1/attempt-r1/BASE_MEMIT/generation-raw/observer-identity.json",
+        "bytes": 705,
+        "sha256": "01f446aebf5bf477b7d267d7b08675f1dea0d64986d0046ac23ba80b4e0423f6"
+      },
+      "runtime_identity": {
+        "eval_seed": 20261007,
+        "generation_microbatch": 1,
+        "generation_source_sha": "1413ac0ff550f2132feda355e44519506fc0eb84",
+        "model_identity": "ffdee5058501d52e585dd123247546443aec093d7f4f394af7540686da6c5721",
+        "profile": "cf-cake-prompt-inclusive-total100-eos-corrected-v1",
+        "qualification_receipt_sha256": "f8303a6829590621c6e1603a0c62af223ef0045bec1756cab22ca76588b903a5",
+        "reference_assets_sha256": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+        "route": "UNPADDED_KV_SINGLETON",
+        "schema": "counterfact-cake-generation-metrics-v1"
+      },
+      "eligible": false,
+      "reason": "Fewer than 2000 observations; no full native W0 endpoint"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-baselines-fluency-consistency-2k/native-repo-repair-r1/attempt-r1/BASE_ALPHAEDIT/generation-raw/observations",
+      "observation_files": 558,
+      "explicit_cold_W0_records": 0,
+      "full2000": false,
+      "observer": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-baselines-fluency-consistency-2k/native-repo-repair-r1/attempt-r1/BASE_ALPHAEDIT/generation-raw/observer-identity.json",
+        "bytes": 1673,
+        "sha256": "903182531a100e400ceba8f3224ee1e4552a7e4805db39c3693a7e5a7887f902"
+      },
+      "runtime_identity": {
+        "EOS_stop": false,
+        "case_batching": "ALL_GENERATION_PROMPTS",
+        "eval_seed": 20261007,
+        "generation_source_sha": "adb244e6f9c86b54f73bd6d8fb833b338f470ded",
+        "max_total_tokens": 100,
+        "model_identity": "ffdee5058501d52e585dd123247546443aec093d7f4f394af7540686da6c5721",
+        "n_gen_per_prompt": 1,
+        "original_generator": {
+          "attention_mask": "CAKE_CUMULATIVE_PREFIX",
+          "bitwise_BLUE_equivalence_claim": false,
+          "comparison_commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+          "comparison_file": "util/generate.py",
+          "comparison_file_sha256": "51f41871d750a1fe86f39d4142fe8a5c12a41086c6d4a2cee98b72f809ff0366",
+          "comparison_repository": "BLUE",
+          "compatibility_changes": [
+            "typed_input_cache_logit_finite_checks",
+            "FP32_eval_no_autocast_TF32_guard",
+            "local_token_work_and_observation_metadata",
+            "endpoint_RNG_and_model_native_state_restoration_guards"
+          ],
+          "decode": "CAKE_NO_SKIP_SPECIAL_TOKENS_NFKD_DOUBLE_NEWLINE_REMOVE_ENDOFTEXT",
+          "native_source_modified": false,
+          "primary_commit": "0b378234862bd76c69f58404ef84c27d5f4bf9ef",
+          "primary_file": "util/generate.py",
+          "primary_file_sha256": "43d219ecc1955a4e4f82ea22edc286b4774e52e917d4b375021b8d7329b0adf3",
+          "primary_function": "generate_fast",
+          "primary_repository": "CAKE"
+        },
+        "profile": "cf-cake-native-casebatch-kv-total100-globalrng-v1",
+        "reference_assets_sha256": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+        "route": "NATIVE_CASE_PADDED_KV_GLOBAL_RNG",
+        "sampling_scope": "ENDPOINT_GLOBAL_BATCH_STREAM",
+        "schema": "counterfact-cake-generation-metrics-v1",
+        "top_k": 5
+      },
+      "eligible": false,
+      "reason": "Fewer than 2000 observations; no full native W0 endpoint"
+    }
+  ],
+  "input_members_verified": {
+    "assets": {
+      "bytes": 6187,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/assets/gptj.json",
+      "sha256": "2cc69a62463c85d065ca2478756d9d5bd808e5dfcdfafdf2821708902eb590ab"
+    },
+    "stream": {
+      "bytes": 4145654,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/preparation-cf-display-r1/streams/cf-stream.json",
+      "sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37"
+    },
+    "reference": {
+      "bytes": 7487,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/preparation-r1/generation-local.json",
+      "sha256": "dd799c36c3b22d1b80669161badf9ceb8fa9504d817dff7176fd7a4fdb3989da"
+    },
+    "reference_identity": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+    "runtime": {
+      "executable": "/mnt/raid5/janghj/EasyEdit/.venv/bin/python",
+      "packages": {
+        "numpy": "2.2.6",
+        "safetensors": "0.7.0",
+        "torch": "2.9.1",
+        "transformers": "4.57.1"
+      },
+      "platform": "Linux-5.15.0-179-generic-x86_64-with-glibc2.35",
+      "python": "3.12.12 (main, Oct 10 2025, 12:47:49) [Clang 20.1.4 ]"
+    }
+  },
+  "current_queue": "62538|s2-qwen25-zsre-sphere-resume-b9|PENDING|(ReqNodeNotAvail, May be reserved for other job)\n62874|s2-flucon-llama3-memit-42658|PENDING|(ReqNodeNotAvail, May be reserved for other job)\n62877|s2-flucon-collector|PENDING|(Dependency)\n62876|s2-flucon-llama3-alphaedit_blue-39283_1|PENDING|(Dependency)\n62875|s2-flucon-llama3-alphaedit-42657|PENDING|(Dependency)\n62873|s2-flucon-qwen25-sphere-62079|PENDING|(Dependency)\n62870|s2-flucon-qwen25-memit-62073|PENDING|(Dependency)\n62867|s2-flucon-gptj-alphaedit_blue-61779|PENDING|(Dependency)\n62866|s2-flucon-gptj-alphaedit-61778|PENDING|(Dependency)\n",
+  "matching_W0_registration": null,
+  "W20_registration_excluded": "62864..62876 are edited W20 endpoint evaluations, not W0",
+  "protocol": {
+    "profile": "cf-cake-native-casebatch-kv-total100-globalrng-v1",
+    "route": "NATIVE_CASE_PADDED_KV_GLOBAL_RNG",
+    "seed": 20261007,
+    "EOS_stop": false,
+    "total_tokens": 100,
+    "sampling_scope": "ENDPOINT_GLOBAL_BATCH_STREAM"
+  },
+  "protocol_note": "Native global endpoint RNG is not the old per-row EOS-corrected route. Bind actual official protocol; do not relabel partial legacy observations.",
+  "absence_claim": "Bounded inventory only, not all-filesystem nonexistence proof",
+  "GPU": 0,
+  "submitted": 0,
+  "mutation": 0,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED"
+}
