@@ -83,5 +83,11 @@ generation 평가 runtime은 분리 기록한다. 이관된 CP의 편집 출처�
 독립 reviewer는 사용하지 않았으며 owner CPU audit이다. 시작 전 W&B는
 `NOT_OBSERVED_BEFORE_STARTUP`; 실시간 scalar logging은 실행 job에서 수행한다.
 
+등록 후 bounded startup snapshot에서62864/62865 RUNNING,62866–62877 Dependency PENDING.
+62864 run `72127c318ef04cab`,62865 run `ca687780380b4cfb`의 원격 startup identity 검증은 true,
+scalar SDK 접수 `LOGGING_ACCEPTED`/dropped0다. `SDK_ASYNC_NOT_REMOTE_ACK`이므로 전체 history
+원격 readback이나 최종 점수 완료 PASS로 확대하지 않는다. `startup.json`에 별도 시각/영수증을
+기록했으며 이후 agent 장기 조회 없이 sealed runner/collector가 진행한다.
+
 대형 전송·삭제0, `NO_BROADCAST_NOT_REQUIRED`. 모든 모델/CP/관측 raw는 기존 local에
 남으며 Git에는 소형 source/집계/영수증만 게시한다. 장기 monitor/자동 retry 없음.
