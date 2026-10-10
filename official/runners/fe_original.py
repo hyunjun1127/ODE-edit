@@ -1,5 +1,5 @@
 """Pinned author FE batch_edit + W0 firstforward, not the FE_HISTORY writer."""
-import argparse,copy,importlib.util,json,os,sys,time,traceback,fcntl
+import argparse,copy,importlib.util,json,os,sys,time,traceback,fcntl,hashlib,uuid
 from pathlib import Path
 import numpy as np
 import torch
@@ -8,7 +8,6 @@ from transformers import AutoModelForCausalLM,AutoTokenizer
 from official.experiments.prepare import digest,write_new,file_sha
 from official.experiments.checkpoint import rng_snapshot,rng_restore
 from official.runners.server1.common import read,verify,member,factual_payload
-from official.runners.server1.native import tensor_sha
 from official.baselines import registry
 from official.evaluation.factual import evaluate_counterfact
 from official.evaluation import zsre_paper
@@ -17,6 +16,25 @@ from official.tracking import init,official_zsre_metrics
 INSTRUCTION='USER-FE-ORIGINAL-W0-RESET-20261011-R1'
 AUTHOR='478134dfb24b43f4e18b47e8500893ce3f9cc50f'
 NAMES={'llama3':'llama3-8b','gptj':'gpt-j-6b','qwen25':'qwen2.5-7b'}
+
+def tensor_sha(value):
+    value=value.detach().cpu().contiguous()
+    return hashlib.sha256(value.reshape(-1).view(torch.uint8).numpy().tobytes()).hexdigest()
+
+def state_digest(value):
+    def canonical(v):
+        if isinstance(v,torch.Tensor):return dict(dtype=str(v.dtype),shape=list(v.shape),sha256=tensor_sha(v))
+        if isinstance(v,np.ndarray):return dict(dtype=str(v.dtype),shape=list(v.shape),sha256=hashlib.sha256(v.tobytes()).hexdigest())
+        if isinstance(v,dict):return {str(k):canonical(x) for k,x in v.items()}
+        if isinstance(v,(list,tuple)):return [canonical(x) for x in v]
+        if isinstance(v,np.generic):return v.item()
+        return v
+    return digest(canonical(value))
+
+def observation_root(output,resume):
+    path=output/'resumes'/uuid.uuid4().hex if resume else output
+    path.mkdir(parents=True,exist_ok=not resume)
+    return path
 
 def modules(path):
     sys.path.insert(0,str(path))
@@ -60,6 +78,7 @@ def _save_locked(folder,weights,H,contexts,z_member,batch,identity,cursor,reserv
     assert space.f_bavail*space.f_frsize>=reserve_bytes+estimated,'CHECKPOINT_STORAGE_ADMISSION'
     payload=dict(weights={k:v.detach().cpu().clone() for k,v in weights.items()},cache_c=H.detach().cpu().clone(),contexts=copy.deepcopy(contexts),
         z_member=z_member,batch=batch,cursor=cursor,identity=identity,rng=rng_snapshot())
+    payload['integrity_sha256']=state_digest(payload)
     try:
         with tmp.open('xb') as f:torch.save(payload,f);f.flush();os.fsync(f.fileno())
         actual=tmp.stat().st_size;space=os.statvfs(folder)
@@ -72,18 +91,24 @@ def _save_locked(folder,weights,H,contexts,z_member,batch,identity,cursor,reserv
         if tmp.exists() and not tmp.is_symlink():tmp.unlink()
         raise
     receipt=dict(member(dest),batch=batch,identity=identity,final_W20=batch==20)
-    meta=folder/'latest.json.partial'
-    with meta.open('x') as f:json.dump(receipt,f,sort_keys=True);f.flush();os.fsync(f.fileno())
-    os.replace(meta,folder/'latest.json')
-    fd=os.open(folder,os.O_RDONLY|os.O_DIRECTORY)
-    try:os.fsync(fd)
-    finally:os.close(fd)
+    meta=folder/('latest.json.'+uuid.uuid4().hex+'.partial')
+    try:
+        with meta.open('x') as f:json.dump(receipt,f,sort_keys=True);f.flush();os.fsync(f.fileno())
+        os.replace(meta,folder/'latest.json')
+        fd=os.open(folder,os.O_RDONLY|os.O_DIRECTORY)
+        try:os.fsync(fd)
+        finally:os.close(fd)
+    finally:
+        if meta.exists() and not meta.is_symlink():meta.unlink()
     return receipt
 
 def load_latest(folder,identity):
-    receipt=read(folder/'latest.json');verify({k:receipt[k] for k in ('path','bytes','sha256')})
-    saved=torch.load(receipt['path'],map_location='cpu',weights_only=False)
-    assert saved['identity']==identity==receipt['identity'] and saved['batch']==receipt['batch']
+    # Atomic payload is authoritative; JSON is an advisory, recoverable receipt.
+    path=folder/'latest.pt';assert path.is_file() and not path.is_symlink()
+    saved=torch.load(path,map_location='cpu',weights_only=False)
+    expected=saved.pop('integrity_sha256');assert state_digest(saved)==expected
+    assert saved['identity']==identity and saved['batch'] in (5,10,15,20)
+    assert saved['cursor']['edits']==saved['batch']*100
     return saved
 
 def versions(model,excluded=()):return {k:(v._version,str(v.dtype),tuple(v.shape)) for k,v in model.named_parameters() if k not in excluded}
@@ -105,7 +130,7 @@ def run(config,lock_path,resume=False):
         assert actual['real_path']==m['real_path']
     pre,native=modules(Path(c['author_path']))
     pre.set_random_seed(0);torch.backends.cuda.matmul.allow_tf32=False;torch.backends.cudnn.allow_tf32=False
-    model=AutoModelForCausalLM.from_pretrained(assets['model']['snapshot'],local_files_only=True,torch_dtype=torch.bfloat16,trust_remote_code=True,attn_implementation='eager').to('cuda:0').eval()
+    model=AutoModelForCausalLM.from_pretrained(assets['model']['snapshot'],local_files_only=True,torch_dtype=torch.bfloat16,trust_remote_code=True).to('cuda:0').eval()
     tok=AutoTokenizer.from_pretrained(assets['model']['snapshot'],local_files_only=True,trust_remote_code=True)
     if tok.pad_token is None:tok.pad_token=tok.eos_token
     tok.padding_side='right'
@@ -121,22 +146,26 @@ def run(config,lock_path,resume=False):
     weights={cfg.llms.rewrite_module_tmp.format(l)+'.weight':native.nethook.get_parameter(model,cfg.llms.rewrite_module_tmp.format(l)+'.weight') for l in layers}
     dimension=native.get_fc_dim(model,cfg);H=torch.zeros((len(layers),dimension,dimension),device='cpu')
     out=Path(c['output']);out.mkdir(parents=True,exist_ok=True)
+    observations=observation_root(out,resume)
+    write_new(observations/'runtime.json',dict(attention_backend=getattr(model.config,'_attn_implementation',None),dtype=str(next(model.parameters()).dtype),
+        transformers=__import__('transformers').__version__,torch=torch.__version__,numpy=np.__version__,resume=resume))
     identity=dict(config_sha256=c['config_sha256'],source=lock['source_commit'],author=AUTHOR,stream=c['stream_sha256'],dtype='bfloat16')
     values=dict(server=c['server'],task_id='fe-original-w0-2k-20261011',model=c['model'],model_family={'llama3':'llama','gptj':'gptj','qwen25':'qwen2'}[c['model']],
         writer='fe_author_w0_fixed',baseline='FE-author-repo-W0-fixed-z-sequential',role='scientific',arm=c['arm'],attempt=c['attempt'],
         source_sha=lock['source_commit'],config_sha=c['config_sha256'],dataset=c['dataset'],metric_schema='official-baselines-scalar-v1',instruction_id='USER-OFFICIAL-BASELINES-20261008-R1')
     if c['dataset']=='cf':values['generation_schedule']='DEFERRED_CHECKPOINT_EVALUATION'
-    tracker=init(env_file=c['tracking_env_file'],spool=out/('tracking-resume' if resume else 'tracking'),config=values)
+    if resume:values['attempt']+='-resume-'+observations.name
+    tracker=init(env_file=c['tracking_env_file'],spool=observations/'tracking',config=values)
     def evaluate(rows,prefix,batch,label):
         before=versions(model);rng=rng_snapshot()
         try:
             result=evaluate_counterfact(model,tok,rows,identity=identity,batch_size=16,device='cuda:0') if c['dataset']=='cf' else zsre_paper.evaluate(model,tok,rows,model_family=c['model'],identity=identity,batch_size=16,device='cuda:0')
         finally:rng_restore(rng)
         assert before==versions(model)
-        write_new(out/'factual'/f'{label}.json',result)
+        write_new(observations/'factual'/f'{label}.json',result)
         payload=factual_payload(result,prefix,batch*100) if c['dataset']=='cf' else official_zsre_metrics(result['summary'],config_values=values,endpoint=prefix,edits=batch*100,post_state_edits=batch*100)
         assert tracker.log(payload) is not False
-        return member(out/'factual'/f'{label}.json')
+        return member(observations/'factual'/f'{label}.json')
     exit_code=1
     try:
         requests=registry.requests(records,'MEMIT_FE',c['model'])
@@ -146,6 +175,7 @@ def run(config,lock_path,resume=False):
         if resume:
             saved=load_latest(out/'checkpoint',identity);start=saved['batch']
             assert start<20
+            write_new(observations/'resume-parent.json',dict(checkpoint=member(out/'checkpoint/latest.pt'),identity=identity,batch=start))
             with torch.no_grad():
                 for k,v in weights.items():v.copy_(saved['weights'][k])
             H=saved['cache_c'];contexts=saved['contexts'];z_member=saved['z_member'];verify(z_member)
@@ -180,11 +210,11 @@ def run(config,lock_path,resume=False):
                 disk=os.statvfs(out)
                 assert disk.f_bavail*disk.f_frsize>=c['storage_min_free_bytes'],'RESOURCE_BLOCKED_STORAGE_KEEP_SOURCE'
                 cursor['checkpoint']=save_latest(out/'checkpoint',weights,H,contexts,z_member,batch,identity,dict(batch=batch,edits=batch*100),lock_path=c['checkpoint_lock'],reserve_bytes=c['storage_min_free_bytes'])
-            write_new(out/'commits'/f'batch-{batch:02d}.json',dict(identity=identity,cursor=cursor,z_sha256=z_member['sha256']))
-        write_new(out/'COMPLETE.json',dict(identity=identity,requests=2000,commits=20,final_cursor=cursor,checkpoint=member(out/'checkpoint/latest.pt'),generation='DEFERRED' if c['dataset']=='cf' else 'NOT_APPLICABLE'))
+            write_new(observations/'commits'/f'batch-{batch:02d}.json',dict(identity=identity,cursor=cursor,z_sha256=z_member['sha256']))
+        write_new(observations/'COMPLETE.json',dict(identity=identity,requests=2000,commits=20,final_cursor=cursor,checkpoint=member(out/'checkpoint/latest.pt'),generation='DEFERRED' if c['dataset']=='cf' else 'NOT_APPLICABLE'))
         exit_code=0
     except BaseException as error:
-        write_new(out/'FAILURE.json',dict(type=type(error).__name__,message=str(error),traceback=traceback.format_exc(),checkpoint_keep=True));raise
+        write_new(observations/'FAILURE.json',dict(type=type(error).__name__,message=str(error),traceback=traceback.format_exc(),checkpoint_keep=True));raise
     finally:tracker.finish(exit_code=exit_code,timeout=45)
 
 if __name__=='__main__':

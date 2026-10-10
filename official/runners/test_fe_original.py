@@ -6,6 +6,41 @@ from official.runners import fe_original as f
 from official.runners.fe_original_compat import check
 ROOT=Path('/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/author')
 class Tests(unittest.TestCase):
+ def test_bfloat16_hash_bytes(self):
+  import hashlib
+  x=torch.tensor([1,2,3],dtype=torch.bfloat16)
+  self.assertEqual(f.tensor_sha(x),hashlib.sha256(x.view(torch.uint8).numpy().tobytes()).hexdigest())
+  self.assertNotEqual(f.tensor_sha(x),f.tensor_sha(x.float()))
+ def test_author_default_attention(self):
+  tree=ast.parse(Path(f.__file__).read_text())
+  calls=[n for n in ast.walk(tree) if isinstance(n,ast.Call) and isinstance(n.func,ast.Attribute) and n.func.attr=='from_pretrained']
+  self.assertTrue(calls)
+  self.assertTrue(all('attn_implementation' not in [k.arg for k in n.keywords] for n in calls))
+ def test_payload_authoritative_after_metadata_crash(self):
+  with tempfile.TemporaryDirectory() as d:
+   root=Path(d);identity={'run':1}
+   f.save_latest(root,{'w':torch.ones(2,dtype=torch.bfloat16)},torch.zeros(1),[],{},5,identity,{'edits':500})
+   old=(root/'latest.json').read_bytes();replace=f.os.replace
+   def crash(src,dst):
+    if Path(dst).name=='latest.json':raise OSError('metadata crash')
+    return replace(src,dst)
+   with patch.object(f.os,'replace',side_effect=crash):
+    with self.assertRaises(OSError):f.save_latest(root,{'w':torch.ones(2)*2},torch.zeros(1),[],{},10,identity,{'edits':1000})
+   self.assertEqual((root/'latest.json').read_bytes(),old)
+   self.assertEqual(f.load_latest(root,identity)['batch'],10)
+   self.assertFalse(list(root.glob('*.partial')))
+   (root/'latest.json').unlink()
+   self.assertEqual(f.load_latest(root,identity)['batch'],10)
+   payload=torch.load(root/'latest.pt',weights_only=False);payload['weights']['w'][0]=99;torch.save(payload,root/'latest.pt')
+   with self.assertRaises(AssertionError):f.load_latest(root,identity)
+ def test_resume_observations_preserved(self):
+  with tempfile.TemporaryDirectory() as d:
+   root=Path(d);f.write_new(root/'commits/batch-06.json',{'elapsed':1})
+   first=f.observation_root(root,True);second=f.observation_root(root,True)
+   self.assertNotEqual(first,second)
+   f.write_new(first/'commits/batch-06.json',{'elapsed':2})
+   self.assertEqual(f.read(root/'commits/batch-06.json'),{'elapsed':1})
+   self.assertEqual(f.read(first/'commits/batch-06.json'),{'elapsed':2})
  def test_pinned_native_profiles(self):
   for model,clamp,steps in [('llama3',.75,35),('gptj',.75,25),('qwen25',1,35)]:
    c=f.config_native(ROOT,model,'cf');self.assertEqual(c.llms.clamp_norm_factor,clamp);self.assertEqual(c.llms.v_num_grad_steps,steps);self.assertEqual(c.model_dtype,'bfloat16')

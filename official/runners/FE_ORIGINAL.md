@@ -1,5 +1,7 @@
 # FE original W0-fixed z
 
+Execution/storage repair: tensor hashes use contiguous dtype-preserving uint8 bytes (BF16 supported). Model loading does not force an attention backend; the author/default resolved backend is recorded in each observation runtime.json. Atomic latest.pt carries its own complete identity/cursor/content-integrity digest and is authoritative; latest.json is advisory, so a metadata-write crash cannot invalidate a committed payload. Metadata tmp names are unique and cleaned on exceptions. Resume keeps original observations intact and writes new metrics/commits/runtime/tracking under resumes/<unique-attempt>; resume-parent.json binds the exact saved milestone. CPU tests cover stale/missing metadata, corrupted payload rejection, BF16 hashing and B6 observation collisions. These are storage/CPU checks, not GPU resume parity evidence.
+
 Authority USER-FE-ORIGINAL-W0-RESET-20261011-R1. Native source jugechengzi/FE commit478134dfb24b43f4e18b47e8500893ce3f9cc50f; apply `fe_original_author.patch` to a dedicated clone with `git apply`, then `python -m official.runners.fe_original_compat CLONE` verifies the exact delta. Only missing-unused import, lazy unrelated WISE/data import, and replay output Tensor/tuple/list handling change. Native fitting/key/solve/history remains the author source. FE-memit_main.batch_edit is called, not EasyEdit/FE_HISTORY.
 
 `python -m official.runners.fe_original --config CONFIG --lock LOCK [--resume]`.
