@@ -1,4 +1,4 @@
-"""CAKE Appendix E/E.1: known-fact selection and single-MLP AIE at W0.
+"""CAKE public known_1000 facts and Appendix E/E.1 single-MLP AIE at W0.
 
 This is a Qwen2.5 port of the paper protocol, not a claim that the paper
 reported Qwen2.5 settings. No editing, history writer, gradients or checkpoints.
@@ -11,12 +11,13 @@ import hashlib
 import json
 import math
 from pathlib import Path
-import random
-import re
 import time
 
 import numpy as np
 import torch
+
+PUBLIC_KNOWNS_SHA256 = "61daca55318bb5260c1e62e133debef9102c7b278bbc7b19dd2ac655543f333a"
+PUBLIC_KNOWNS_COUNT = 1209
 
 
 def sha(path):
@@ -33,7 +34,10 @@ def write(path, value):
 
 
 def validate(config):
-    expected = dict(schema="cake-paper-aie-v1", known_facts=1000,
+    expected = dict(schema="cake-public-knowns-aie-v2",
+                    input_facts=PUBLIC_KNOWNS_COUNT, knowns_sha256=PUBLIC_KNOWNS_SHA256,
+                    cohort_rule="all_public_facts_with_correct_next_token",
+                    noise_subjects="all_public_facts",
                     noise_samples=10, restore_token="subject_last", restore_window=1,
                     corrupt_tokens="all_subject_tokens",
                     noise_rule="3_times_subject_embedding_std")
@@ -49,120 +53,79 @@ def validate(config):
     return config
 
 
-def object_position(continuation, object_text):
-    """First correct object mention must precede any other capitalized word.
+def load_knowns(path, config):
+    """Pin the author's public file before loading any model weights."""
+    raw = Path(path).read_bytes()
+    if hashlib.sha256(raw).hexdigest() != config["knowns_sha256"]:
+        raise ValueError("PUBLIC_KNOWNS_SHA256_MISMATCH")
+    records = json.loads(raw)
+    if (len(records) != config["input_facts"]
+            or [r["known_id"] for r in records] != list(range(config["input_facts"]))):
+        raise ValueError("PUBLIC_KNOWNS_COHORT_MISMATCH")
+    for row in records:
+        if not all(isinstance(row.get(k), str) and row[k]
+                   for k in ("prompt", "subject", "attribute")):
+            raise ValueError("PUBLIC_KNOWNS_FIELDS_REQUIRED")
+    return records
 
-    Match the object with word boundaries, then trace its first token. Requiring
-    the complete object mention prevents e.g. United States matching United
-    Kingdom merely because their first subword token is shared.
+
+def known_record(tokenizer, record, predicted_token_id, encoded=None):
+    """Use CAKE calculate_hidden_flow's exact answer.strip() == expect filter.
+
+    Keep the published prompt and known_id. In particular, do not regenerate
+    a prompt from the template, extend it, or accept a multi-token prefix match.
     """
-    match = re.search(r"(?<!\w)" + re.escape(object_text) + r"(?!\w)", continuation)
-    if match is None:
-        return None
-    earlier = re.finditer(r"\b[^\W\d_]\w*", continuation[:match.start()])
-    if any(m.group()[0].isupper() for m in earlier):
-        return None
-    return match.start()
-
-
-def selection_finished(continuation, object_text):
-    if object_position(continuation, object_text) is not None:
-        return True
-    for match in re.finditer(r"\b[^\W\d_]\w*", continuation):
-        if match.group()[0].isupper():
-            # Wait if the object name is still being completed token by token.
-            partial = continuation[match.start():]
-            return not object_text.startswith(partial)
-    return False
-
-
-def known_record(tokenizer, record, prompt_ids, continuation_ids):
-    request = record["requested_rewrite"]
-    object_text = request["target_true"]["str"]
-    decode = lambda ids: tokenizer.decode(ids, skip_special_tokens=False,
-                                          clean_up_tokenization_spaces=False)
-    prompt = decode(prompt_ids)
-    full_ids = prompt_ids + continuation_ids
-    full = decode(full_ids)
-    if not full.startswith(prompt):
-        return None, "NONCONCATENATIVE_DECODE"
-    position = object_position(full[len(prompt):], object_text)
-    if position is None:
-        return None, "OBJECT_NOT_FIRST_CAPITALIZED_MENTION"
-    position += len(prompt)
-    # Retain the actual generated token prefix; do not decode/re-tokenize the
-    # answer into a different next-token target (especially a trailing space).
-    for index in range(len(prompt_ids), len(full_ids)):
-        prefix, through = decode(full_ids[:index]), decode(full_ids[:index + 1])
-        if len(prefix) <= position < len(through):
-            encoded = tokenizer(prefix, add_special_tokens=False,
-                                return_offsets_mapping=True)
-            if encoded["input_ids"] != full_ids[:index]:
-                return None, "PREFIX_TOKENIZATION_MISMATCH"
-            subject = request["subject"]
-            start = prefix.find(subject)
-            if start < 0:
-                return None, "SUBJECT_MISSING"
-            end = start + len(subject)
-            spans = [i for i, (a, b) in enumerate(encoded["offset_mapping"])
-                     if b > start and a < end and b > a]
-            if not spans or spans != list(range(spans[0], spans[-1] + 1)):
-                return None, "SUBJECT_SPAN_MISMATCH"
-            return dict(case_id=record["case_id"], subject=subject,
-                        object_text=object_text, prompt=prefix,
-                        input_ids=full_ids[:index], object_token_id=full_ids[index],
-                        subject_range=[spans[0], spans[-1] + 1]), "ELIGIBLE"
-    return None, "OBJECT_TOKEN_NOT_FOUND"
+    answer = tokenizer.decode([predicted_token_id])
+    if answer.strip() != record["attribute"]:
+        return None, "INCORRECT_NEXT_TOKEN"
+    prompt, subject = record["prompt"], record["subject"]
+    if encoded is None:
+        encoded = tokenizer(prompt, add_special_tokens=False, return_offsets_mapping=True)
+    start = prompt.find(subject)
+    if start < 0:
+        raise ValueError("PUBLIC_SUBJECT_MISSING")
+    end = start + len(subject)
+    spans = [i for i, (a, b) in enumerate(encoded["offset_mapping"])
+             if b > start and a < end and b > a]
+    if not spans or spans != list(range(spans[0], spans[-1] + 1)):
+        raise ValueError("SUBJECT_SPAN_MISMATCH")
+    return dict(case_id=record["known_id"], known_id=record["known_id"], subject=subject,
+                object_text=record["attribute"], prompt=prompt,
+                input_ids=encoded["input_ids"], object_token_id=predicted_token_id,
+                subject_range=[spans[0], spans[-1] + 1]), "ELIGIBLE"
 
 
 def collect_knowns(model, tokenizer, records, config, output, progress):
-    from transformers import StoppingCriteria, StoppingCriteriaList
-
-    options = config["engineering"]
     candidates, counts = [], Counter()
     device = next(model.parameters()).device
-    batch_size = options["generation_batch_size"]
     with (output / "selection.jsonl").open("x") as journal:
-        for offset in range(0, len(records), batch_size):
-            batch = records[offset:offset + batch_size]
-            prompts = [r["requested_rewrite"]["prompt"].format(
-                r["requested_rewrite"]["subject"]) for r in batch]
-            inputs = tokenizer(prompts, padding=True, add_special_tokens=False,
-                               return_tensors="pt").to(device)
-            width = inputs["input_ids"].shape[1]
-            objects = [r["requested_rewrite"]["target_true"]["str"] for r in batch]
-
-            class CompletedMention(StoppingCriteria):
-                def __call__(self, input_ids, scores, **kwargs):
-                    text = tokenizer.batch_decode(input_ids[:, width:],
-                        skip_special_tokens=True, clean_up_tokenization_spaces=False)
-                    return torch.tensor([selection_finished(t, o) for t, o in zip(text, objects)],
-                                        dtype=torch.bool, device=input_ids.device)
-
+        for offset, record in enumerate(records):
+            encoded = tokenizer(record["prompt"], add_special_tokens=False,
+                                return_offsets_mapping=True)
+            # Match the author's repeated-prompt batch shape and the tracing
+            # batch shape, avoiding padding and batch-dependent argmax drift.
+            ids = torch.tensor([encoded["input_ids"]] * (config["noise_samples"] + 1),
+                               device=device)
             with torch.inference_mode():
-                generated = model.generate(**inputs, do_sample=False, num_beams=1,
-                    max_new_tokens=options["max_new_tokens"], use_cache=True,
-                    pad_token_id=tokenizer.pad_token_id,
-                    stopping_criteria=StoppingCriteriaList([CompletedMention()]))
-            rows = generated[:, width:].tolist()
-            for i, (record, row) in enumerate(zip(batch, rows)):
-                prompt_ids = inputs["input_ids"][i][inputs["attention_mask"][i].bool()].tolist()
-                candidate, status = known_record(tokenizer, record, prompt_ids, row)
-                counts[status] += 1
-                if candidate is not None:
-                    candidates.append(candidate)
-                journal.write(json.dumps(dict(case_id=record["case_id"], status=status,
-                    generated_token_ids=row, known=candidate), ensure_ascii=False) + "\n")
+                logits = model(input_ids=ids, attention_mask=torch.ones_like(ids),
+                               use_cache=False).logits[0, -1]
+                predicted = logits.float().softmax(-1).argmax().item()
+            candidate, status = known_record(tokenizer, record, predicted, encoded)
+            counts[status] += 1
+            if candidate is not None:
+                candidates.append(candidate)
+            journal.write(json.dumps(dict(known_id=record["known_id"], status=status,
+                predicted_token_id=predicted, answer=tokenizer.decode([predicted]),
+                known=candidate), ensure_ascii=False) + "\n")
             journal.flush()
-            progress(dict(phase_id=1, **{"causal/candidates_scanned": offset + len(batch),
+            progress(dict(phase_id=1, **{"causal/candidates_scanned": offset + 1,
                                         "causal/eligible_facts": len(candidates)}))
-    if len(candidates) < config["known_facts"]:
-        write(output / "selection-summary.json", dict(counts=dict(counts), eligible=len(candidates)))
-        raise ValueError("FEWER_THAN_1000_BASE_KNOWN_FACTS")
-    selected = random.Random(options["sampling_seed"]).sample(candidates, config["known_facts"])
-    write(output / "knowns.json", dict(selected=selected, eligible=len(candidates),
-        scanned=len(records), counts=dict(counts), sampling_seed=options["sampling_seed"]))
-    return selected
+    write(output / "knowns.json", dict(selected=candidates, eligible=len(candidates),
+        scanned=len(records), counts=dict(counts), cohort_rule=config["cohort_rule"],
+        input_sha256=config["knowns_sha256"], resampled=False))
+    if not candidates:
+        raise ValueError("NO_CORRECT_PUBLIC_KNOWN_FACTS")
+    return candidates
 
 
 def subject_embedding_std(model, tokenizer, knowns):
@@ -252,8 +215,10 @@ def trace_case(model, row, config, noise_scale):
     return result
 
 
-def aggregate(rows, config):
-    if len(rows) != config["known_facts"] or len({r["case_id"] for r in rows}) != len(rows):
+def aggregate(rows, config, expected_case_ids):
+    # The denominator is every eligible public fact, not a hardcoded 1000.
+    if (not expected_case_ids or len(set(expected_case_ids)) != len(expected_case_ids)
+            or [r["case_id"] for r in rows] != list(expected_case_ids)):
         raise ValueError("EXACT_UNIQUE_COHORT_REQUIRED")
     layers, samples = config["layers"], config["noise_samples"]
     scores = {}
@@ -284,13 +249,14 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", required=True)
     parser.add_argument("--model", required=True)
-    parser.add_argument("--counterfact", required=True)
+    parser.add_argument("--knowns", required=True)
     parser.add_argument("--output", required=True)
     parser.add_argument("--source-sha", required=True)
     parser.add_argument("--wandb-env", required=True)
     parser.add_argument("--server", required=True)
     args = parser.parse_args()
     config = validate(json.loads(Path(args.config).read_text()))
+    records = load_knowns(args.knowns, config)
     model_path = Path(args.model).resolve()
     if model_path.name != config["model_revision"]:
         raise ValueError("BASE_MODEL_REVISION_MISMATCH")
@@ -321,21 +287,24 @@ def main():
             torch_dtype=torch.float32, attn_implementation="eager").to("cuda:0").eval()
         model.requires_grad_(False)
         before = parameter_signature(model)
-        records = json.loads(Path(args.counterfact).read_text())
-        if len(records) != 21919 or len({r["case_id"] for r in records}) != len(records):
-            raise ValueError("ORIGINAL_COUNTERFACT_21919_REQUIRED")
         write(output / "identity.json", dict(source_sha=args.source_sha, config=config,
-            config_sha256=sha(args.config), counterfact_sha256=sha(args.counterfact),
+            config_sha256=sha(args.config), input_knowns_sha256=sha(args.knowns),
+            input_knowns_path=str(Path(args.knowns).resolve()), input_facts=len(records),
+            case_id_namespace="published_known_id",
             model_snapshot=str(model_path), model_config_sha256=sha(model_path / "config.json"),
             model_index_sha256=sha(model_path / "model.safetensors.index.json"),
             tokenizer_sha256=sha(model_path / "tokenizer.json"), torch=torch.__version__,
             GPU=torch.cuda.get_device_name(0), W0=True, editing=False, checkpoint_saved=False))
         selected = collect_knowns(model, tokenizer, records, config, output, progress)
-        std, elements = subject_embedding_std(model, tokenizer, selected)
+        # CAKE's automatic s3 rule uses all subjects in the input knowns file,
+        # before the correct_prediction filter (rome/causal_trace.py main).
+        std, elements = subject_embedding_std(model, tokenizer, records)
         scale = 3 * std
         write(output / "noise.json", dict(subject_embedding_std=std, noise_scale=scale,
             elements=elements, correction=1, model_specific_paper_constant=False,
-            rule=config["noise_rule"], knowns_sha256=sha(output / "knowns.json")))
+            rule=config["noise_rule"], subjects=config["noise_subjects"],
+            input_facts=len(records), input_knowns_sha256=sha(args.knowns),
+            knowns_sha256=sha(output / "knowns.json")))
         results = []
         with (output / "traces.jsonl").open("x") as journal:
             for row in selected:
@@ -347,9 +316,11 @@ def main():
                                             "causal/noise_scale": scale}))
         if parameter_signature(model) != before:
             raise ValueError("MODEL_PARAMETERS_MUTATED")
-        score = aggregate(results, config)
+        score = aggregate(results, config, [r["known_id"] for r in selected])
         score.update(status="COMPLETED", model=config["model"], model_revision=config["model_revision"],
             source_sha=args.source_sha, noise_scale=scale, config_sha256=sha(args.config),
+            input_facts=len(records), excluded_facts=len(records) - len(selected),
+            input_knowns_sha256=sha(args.knowns), cohort_rule=config["cohort_rule"],
             knowns_sha256=sha(output / "knowns.json"), traces_sha256=sha(output / "traces.jsonl"),
             parameters_unchanged=True, checkpoint_saved=False)
         write(output / "causal-scores.json", score)

@@ -1,7 +1,10 @@
 """CPU checks of the intervention, cohort and raw-probability definition."""
 from copy import deepcopy
+import hashlib
 import json
 from pathlib import Path
+import re
+import tempfile
 from types import SimpleNamespace
 import unittest
 
@@ -9,8 +12,8 @@ import torch
 from torch import nn
 
 from official.analysis.cake_causal import (
-    aggregate, intervention, known_record, object_position, parameter_signature,
-    selection_finished, subject_embedding_std, trace_case, validate,
+    aggregate, collect_knowns, intervention, known_record, load_knowns,
+    parameter_signature, subject_embedding_std, trace_case, validate,
 )
 from official.tracking.schema import config as tracking_config, metrics
 
@@ -49,21 +52,73 @@ class Toy(nn.Module):
 
 
 class SelectionTests(unittest.TestCase):
-    def test_correct_object_before_other_capitalized_word(self):
-        self.assertEqual(object_position(' the French language. Later', 'French'), 5)
-        self.assertIsNone(object_position(' German rather than French', 'French'))
+    class Tokenizer:
+        def __call__(self, text, **kwargs):
+            offsets = [m.span() for m in re.finditer(r'\S+', text)]
+            return dict(input_ids=list(range(1, len(offsets) + 1)), offset_mapping=offsets)
 
-    def test_word_boundaries_and_complete_object(self):
-        self.assertIsNone(object_position(' Frenchman', 'French'))
-        self.assertIsNone(object_position(' United States', 'United Kingdom'))
-        self.assertEqual(object_position(' United Kingdom', 'United Kingdom'), 1)
+        def decode(self, ids):
+            return ' Paris'
 
-    def test_early_stop_does_not_reject_partial_object(self):
-        self.assertFalse(selection_finished(' Fr', 'French'))
-        self.assertFalse(selection_finished(' United ', 'United Kingdom'))
-        self.assertTrue(selection_finished(' German', 'French'))
-        self.assertTrue(selection_finished(' United States', 'United Kingdom'))
-        self.assertTrue(selection_finished(' French', 'French'))
+    def test_author_exact_next_token_match(self):
+        tok = self.Tokenizer()
+        record = dict(known_id=7, subject='Alice', prompt='Alice lives in France',
+                      attribute='Paris', template='DO NOT USE THIS TEMPLATE')
+        row, status = known_record(tok, record, 3)
+        self.assertEqual(status, 'ELIGIBLE')
+        self.assertEqual(row['prompt'], record['prompt'])
+        self.assertEqual(row['case_id'], record['known_id'])
+        self.assertEqual(row['known_id'], record['known_id'])
+        self.assertEqual(row['input_ids'], [1, 2, 3, 4])
+        self.assertEqual(row['subject_range'], [0, 1])
+        for attribute in ['London', 'paris', 'Paris France', 'Par']:
+            record['attribute'] = attribute
+            self.assertEqual(known_record(tok, record, 3), (None, 'INCORRECT_NEXT_TOKEN'))
+
+    def test_all_eligible_facts_keep_public_order_without_sampling_or_generation(self):
+        tok = self.Tokenizer()
+        # More than 1000 correct predictions must all survive. Toy has no
+        # generate method, so this also rejects accidentally reintroduced generation.
+        records = [dict(known_id=i, subject='Alice', prompt='Alice lives in France',
+                        attribute='London' if i == 10 else 'Paris') for i in range(1209)]
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory)
+            progress = []
+            selected = collect_knowns(Toy().eval(), tok, records, CONFIG, output, progress.append)
+            self.assertEqual([r['known_id'] for r in selected], [i for i in range(1209) if i != 10])
+            report = json.loads((output / 'knowns.json').read_text())
+            self.assertEqual(report['scanned'], 1209)
+            self.assertEqual(report['eligible'], 1208)
+            self.assertFalse(report['resampled'])
+            journal = [json.loads(line) for line in (output / 'selection.jsonl').read_text().splitlines()]
+            self.assertEqual(len(journal), 1209)
+            self.assertEqual(journal[10]['status'], 'INCORRECT_NEXT_TOKEN')
+            self.assertEqual(progress[-1]['causal/eligible_facts'], 1208)
+
+    def test_empty_eligible_cohort_fails_with_exclusion_record(self):
+        record = dict(known_id=7, subject='Alice', prompt='Alice lives in France', attribute='London')
+        with tempfile.TemporaryDirectory() as directory:
+            with self.assertRaisesRegex(ValueError, 'NO_CORRECT_PUBLIC_KNOWN_FACTS'):
+                collect_knowns(Toy().eval(), self.Tokenizer(), [record], CONFIG, Path(directory), lambda _: None)
+            report = json.loads((Path(directory) / 'knowns.json').read_text())
+            self.assertEqual(report['counts'], {'INCORRECT_NEXT_TOKEN': 1})
+
+    def test_input_checksum_and_public_ids_are_required(self):
+        records = [dict(known_id=i, subject='Alice', prompt='Alice lives in France', attribute='Paris')
+                   for i in range(2)]
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / 'known_1000.json'
+            path.write_text(json.dumps(records))
+            config = dict(input_facts=2, knowns_sha256=hashlib.sha256(path.read_bytes()).hexdigest())
+            self.assertEqual(load_knowns(path, config), records)
+            path.write_text(path.read_text() + '\n')
+            with self.assertRaisesRegex(ValueError, 'SHA256_MISMATCH'):
+                load_knowns(path, config)
+            records[-1]['known_id'] = 0
+            path.write_text(json.dumps(records))
+            config['knowns_sha256'] = hashlib.sha256(path.read_bytes()).hexdigest()
+            with self.assertRaisesRegex(ValueError, 'COHORT_MISMATCH'):
+                load_knowns(path, config)
 
     def test_real_qwen_token_boundary(self):
         from transformers import AutoTokenizer
@@ -73,13 +128,12 @@ class SelectionTests(unittest.TestCase):
         tok = AutoTokenizer.from_pretrained(path, local_files_only=True)
         prompt = 'The mother tongue of Danielle Darrieux is'
         base = tok.encode(prompt, add_special_tokens=False)
-        continuation = tok.encode(' French. She was an actress.', add_special_tokens=False)
-        record = dict(case_id=1, requested_rewrite=dict(subject='Danielle Darrieux',
-                      target_true=dict(str='French')))
-        row, status = known_record(tok, record, base, continuation)
+        answer = tok.encode(' French', add_special_tokens=False)[0]
+        record = dict(known_id=1, subject='Danielle Darrieux', attribute='French', prompt=prompt)
+        row, status = known_record(tok, record, answer)
         self.assertEqual(status, 'ELIGIBLE')
         self.assertEqual(row['input_ids'], base)
-        self.assertEqual(row['object_token_id'], continuation[0])
+        self.assertEqual(row['object_token_id'], answer)
         self.assertEqual(row['prompt'], prompt)
         self.assertEqual(tok.decode(base[row['subject_range'][0]:row['subject_range'][1]]).strip(),
                          'Danielle Darrieux')
@@ -153,13 +207,14 @@ class InterventionTests(unittest.TestCase):
 
 
 class AggregateTests(unittest.TestCase):
-    def rows(self):
+    def rows(self, count=37):
         return [dict(case_id=i, corrupted=[.4] * 10,
                      restored={str(l): [.3 + .01 * l] * 10 for l in CONFIG['layers']})
-                for i in range(1000)]
+                for i in range(count)]
 
     def test_aie_is_difference_and_preserves_negative_values(self):
-        result = aggregate(self.rows(), CONFIG)
+        result = aggregate(self.rows(), CONFIG, list(range(37)))
+        self.assertEqual(result['requests'], 37)
         self.assertAlmostEqual(result['causal_scores']['0'], -.06)
         self.assertAlmostEqual(result['physical_layer_scores']['8'], -.02)
         self.assertAlmostEqual(sum(result['layer_weights'].values()), 1)
@@ -167,24 +222,35 @@ class AggregateTests(unittest.TestCase):
 
     def test_reject_missing_or_duplicate_facts(self):
         with self.assertRaises(ValueError):
-            aggregate(self.rows()[:-1], CONFIG)
+            aggregate(self.rows()[:-1], CONFIG, list(range(37)))
         rows = self.rows()
         rows[-1]['case_id'] = rows[0]['case_id']
         with self.assertRaises(ValueError):
-            aggregate(rows, CONFIG)
+            aggregate(rows, CONFIG, list(range(37)))
+        with self.assertRaises(ValueError):
+            aggregate([], CONFIG, [])
+
+    def test_actual_denominator_includes_every_fact_above_1000(self):
+        rows = self.rows(1209)
+        rows[-1]['restored']['4'] = [.9] * 10
+        result = aggregate(rows, CONFIG, list(range(1209)))
+        self.assertEqual(result['requests'], 1209)
+        self.assertAlmostEqual(result['physical_layer_scores']['4'], (1208 * -.06 + .5) / 1209)
 
     def test_reject_missing_noise_or_nan(self):
         rows = self.rows()
         rows[0]['corrupted'] = [0] * 9
         with self.assertRaises(ValueError):
-            aggregate(rows, CONFIG)
+            aggregate(rows, CONFIG, list(range(37)))
         rows[0]['corrupted'] = [float('nan')] * 10
         with self.assertRaises(ValueError):
-            aggregate(rows, CONFIG)
+            aggregate(rows, CONFIG, list(range(37)))
 
     def test_reject_window_or_no_noise_repeats_change(self):
         self.assertEqual(validate(CONFIG), CONFIG)
-        for key, value in [('restore_window', 10), ('noise_samples', 1)]:
+        for key, value in [('restore_window', 10), ('noise_samples', 1), ('input_facts', 1000),
+                           ('knowns_sha256', '0' * 64), ('cohort_rule', 'sample_1000'),
+                           ('noise_subjects', 'only_eligible')]:
             wrong = deepcopy(CONFIG)
             wrong[key] = value
             with self.assertRaises(ValueError):
