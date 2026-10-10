@@ -162,14 +162,20 @@ zsRE Loc은 **loc_ans 정답 token 정확도의 요청별 평균**이다. 이전
 | AlphaEdit-BLUE | 89.84† | 99.60† | 97.15† | 76.59† | PENDING: s2-flucon-llama3-alphaedit_blue-39283_1 (62876) | PENDING: s2-flucon-llama3-alphaedit_blue-39283_1 (62876) | 95.87 | 92.28 | 32.83 |
 | MEMIT-FE | 64.55 | 80.45 | 73.68 | 48.85 | 420.07 | 8.40 | 14.81 | 13.57 | 0.56 |
 | AlphaEdit+SPHERE | 86.87 | 99.50 | 94.95 | 71.68 | 619.20 | 33.64 | 95.13 | 91.36 | 31.38 |
-| PRICE (Ours) | 90.98§ | 99.70§ | 92.78§ | 82.21§ |  |  |  |  |  |
+| PRICE (Ours) | 90.98§ | 99.90§ | 93.50§ | 81.50§ | DEFERRED | DEFERRED | PENDING: pf2k-llama3-zsre-P-beta100-ee (62889) | PENDING: pf2k-llama3-zsre-P-beta100-ee (62889) | PENDING: pf2k-llama3-zsre-P-beta100-ee (62889) |
 
-§ 사용자 2026-10-09 지시에 따라 이전 **FREE100 / MEMIT writer**, Llama job **60103**의
-**W20/2,000 edits** CF 결과를 사용한다(새 official 재실행 결과 아님).
-Eff/Gen/Loc은 기존 strict NLL preference R/P/N 성공률
-1,994/2,000 · 3,711/4,000 · 16,441/20,000이며, Score는 반올림 전 성공률의 조화평균이다.
-소수 둘째 자리 decimal half-up으로 표시하며 미측정 Flu/Con과 zsRE는 빈칸을 유지한다.
-[FREE100 출처·원자료 SHA 검산](experiment-reports/servers/server1/official-baselines-20261008/llama-free100-table-20261009.md).
+§ 사용자 2026-10-10 결정에 따른 **최종 PRICE method** CF 2K이며, server4 job **62604**로 실행했다.
+- 설정: arm `llama3-P-beta100`. β = c = β_max = 1.0, unit-lr ρ0.05, γ1, cap 끝점 cast, HC-PRICE, 요청별 early exit.
+- 데이터: eval-2K 2,000건, B1–B20, baseline과 같은 순서와 context.
+- arm과 runner는 server4 task branch commit `885a0e26`에 있고 main에는 아직 병합하지 않았다. resolved config sha256 `1208f9ce…`.
+- Eff/Gen/Loc은 strict NLL preference R/P/N 성공률 1,998/2,000 · 3,740/4,000 · 16,300/20,000이다.
+- Score는 반올림 전 성공률의 조화평균(90.9776)이다. 표시는 decimal half-up 둘째 자리다.
+- 이전 FREE100 job 60103 값(99.70 / 92.78 / 82.21, Score 90.98)을 대체했다.
+- CF Flu/Con은 W20 checkpoint로 따로 평가할 예정이라 `DEFERRED`다. zsRE는 같은 설정의 job **62889**(official zsRE stream·evaluator)가 대기 중이다.
+- 500 edit마다 resumable checkpoint를 저장했다(가중치, history H, HC 통계).
+[실행·수치·checkpoint 보고](experiment-reports/servers/server4/price-final-2k-20261010/llama3-cf-report-ko.md) ·
+[정확한 수치·SHA](audits/servers/server4/price-final-2k-20261010/llama3-cf-results.json) ·
+[이전 FREE100 출처](experiment-reports/servers/server1/official-baselines-20261008/llama-free100-table-20261009.md).
 
 † 사용자 2026-10-09 지시에 따라 표본·순서를 대조한 기존 Llama BLUE job **39283_1**의
 **B20/2,000 edits** 결과를 반영했다(새 official 재실행 결과 아님).
@@ -277,7 +283,7 @@ SH3 최신 CPU 재검산에서도 위 네 지표 delta0, 신규 본표 적격 �
 | AlphaEdit-BLUE | 77.98 | 97.70 | 96.75 | 55.86 | 602.99 | 37.43 | 58.62 | 53.66 | 5.73 |
 | MEMIT-FE | 50.59 | 51.05 | 51.23 | 49.53 | PENDING: s2-flucon-qwen25-memit_fe-62077 (62872) | PENDING: s2-flucon-qwen25-memit_fe-62077 (62872) | 0.00 | 0.00 | 0.03 |
 | AlphaEdit+SPHERE | 83.73 | 99.40 | 97.70 | 64.37 | PENDING: s2-flucon-qwen25-sphere-62079 (62873) | PENDING: s2-flucon-qwen25-sphere-62079 (62873) | PENDING: s2-qwen25-zsre-sphere-resume-b9 (62538) | PENDING: s2-qwen25-zsre-sphere-resume-b9 (62538) | PENDING: s2-qwen25-zsre-sphere-resume-b9 (62538) |
-| PRICE (Ours) |  |  |  |  |  |  |  |  |  |
+| PRICE (Ours) | ING: rent janghj-final2k-r1-qwen (101706) | ING: rent janghj-final2k-r1-qwen (101706) | ING: rent janghj-final2k-r1-qwen (101706) | ING: rent janghj-final2k-r1-qwen (101706) | ING: rent janghj-final2k-r1-qwen (101706) | ING: rent janghj-final2k-r1-qwen (101706) |  |  |  |
 
 ### GPT-J-6B
 
@@ -335,7 +341,7 @@ Llama historical3개는 원source/lock/CP와 새평가 consumer identity를 분�
 | AlphaEdit-BLUE | 89.23 | 99.55 | 97.53 | 75.06 | PENDING: s2-flucon-gptj-alphaedit_blue-61779 (62867) | PENDING: s2-flucon-gptj-alphaedit_blue-61779 (62867) | 99.75 | 95.71 | 28.83 |
 | MEMIT-FE | 73.85 | 87.15 | 85.70 | 57.22 | PENDING: s2-flucon-gptj-memit_fe-61780 (62868) | PENDING: s2-flucon-gptj-memit_fe-61780 (62868) | 29.20 | 27.65 | 8.45 |
 | AlphaEdit+SPHERE | 88.39 | 99.70 | 95.73 | 74.27 | PENDING: s2-flucon-gptj-sphere-61781 (62869) | PENDING: s2-flucon-gptj-sphere-61781 (62869) | 99.67 | 96.29 | 28.00 |
-| PRICE (Ours) |  |  |  |  |  |  |  |  |  |
+| PRICE (Ours) | ING: rent janghj-final2k-r2-gptj (101707) | ING: rent janghj-final2k-r2-gptj (101707) | ING: rent janghj-final2k-r2-gptj (101707) | ING: rent janghj-final2k-r2-gptj (101707) | ING: rent janghj-final2k-r2-gptj (101707) | ING: rent janghj-final2k-r2-gptj (101707) |  |  |  |
 
 기존 연구 문서와 실험 이력은 아래에 보존합니다. 새 실험의 설정 근거는 `official/`입니다.
 
@@ -472,95 +478,46 @@ secret은 저장소에 기록하지 않는다.
 
 </details>
 
-## PRICE 3개 모델 실험 계획 (2026-10-10)
+## PRICE 최종 method와 main 2K (2026-10-10 갱신)
 
-Llama3-8B-Instruct·Qwen2.5-7B-Instruct·GPT-J-6B에서 **c=0.75를 고정**하고,
-모델마다 first-1K에서 **β ∈ {0.75, 1.0, 1.5, 2.0}**을 sweep한 뒤 같은 규칙으로
-β를 선택하여 main 2K를 진행하는 계획이다. **γ는 Qwen만 1.5**, Llama·GPT-J는 1.0이며,
-최신 사용자 결정에 따라 **HC-PRICE도 main 실험에 포함**한다. c 변경은 ablation으로 분리한다.
-아래 기존 run·수치는 계획 작성 시점의 기록이며, 자원 배치와 예상 시간은 확정된 실행 상태가 아니다.
+500건 β sweep을 마친 뒤 사용자 결정으로 확정한 최종 method다. 이전 계획(c = 0.75 고정, Qwen γ1.5)은 대체됐다.
 
-### 고정 설정
+### 최종 method (세 모델 공통)
 
 | 항목 | 값 |
 | :--- | :--- |
 | 편집 층 | 지정 범위 전 층: Llama·Qwen L4–L8, GPT-J L3–L8 |
-| context | Llama `cf14b`, GPT-J `b454d8`, Qwen `5c01bc1a` — 공용 패키지, baseline과 동일 |
-| sample | sweep: 본실험 첫 1,000건(B1–B10); main: 첫 2,000건. baseline과 같은 순서·batch 경계 |
-| sink 규칙 | GPT-J·Qwen 적용: position 0 또는 W0 sink pair에 EOT, anchor guard 20. Llama는 BOS로 불필요 |
-| step 단위 | 모든 모델에 unit-lr `ρ=0.05` 적용(`lr=ρ × 첫 층 anchor 중앙값`), cap 끝점 cast/반올림 수정 포함 |
-| **c (층별 cap)** | **0.75 고정**. Llama·GPT-J native MEMIT clamp와 같은 값이며, 변경은 ablation에서만 수행 |
-| β_max_scale | 선택한 β와 같은 값 |
-| **γ** | **Qwen 1.5**, Llama·GPT-J 1.0 |
-| **HC-PRICE** | **세 모델 main 실험에 포함**. HC on/off 비교는 별도 ablation으로 유지 |
+| 가격 | 간섭 가격 π(batch leave-one-out) + **HC-PRICE**(writer history cache의 누적 간섭, drift·cascade 할증) |
+| 예산 | 요청별 공유 weighted-L1 Σ π‖R‖/a ≤ β. **c = β**라서 층별 cap은 기본 예산에서 걸리지 않는다. 미충족 요청만 β·max π까지 확장한다 |
+| step 단위 | anchor-unit lr ρ = 0.05, cap 끝점 FP32 cast 수정 |
+| γ | **1** (가격을 그대로 쓴다) |
+| early exit | F < τ_F(0.05)이면 요청별로 멈추고, ≥ 2τ_F이면 재개한다. 업데이트가 약 1/3로 줄어든다 |
+| sink 규칙 | GPT-J·Qwen: position 0 또는 W0 sink pair에 EOT, anchor guard 20. Llama는 BOS라 불필요 |
+| context·sample | 공용 패키지(Llama `cf14b`, Qwen `5c01bc1a`, GPT-J `b454d8`). baseline과 같은 eval-2K 순서·batch 경계 |
+| arm | `<model>-P-beta<b>` (β = c = β_max, γ1, HC). early exit는 runner(`project/run_scripts/price_early_exit`)가 적용한다. arm과 runner는 server4 task branch commit `885a0e26`에 있고 main에는 아직 병합하지 않았다 |
 
-Qwen의 γ=1.5는 가격에 따른 배분과 예산 충족 사이의 mismatch를 검증하기 위한 설정이다.
-계획의 근거가 된 관측에서는 unit-lr로 예산이 첫 step부터 묶였지만, Qwen의 층별 가격 중앙값이
-L4 1.13, L5 1.22, L6 1.52, L7 1.33, L8 1.42로 최대/최소 약 1.35배였고 Llama는 약 1.7배였다.
-실제 지출은 L5가 L4보다 많았으며(0.39 대 0.31), L7·L8에도 약 25%가 배분됐다.
-γ=1.5로 가격 대비를 약 1.57배로 높여 간섭이 작은 층에 먼저 배분되는지 확인한다.
+- **γ1의 근거:** Qwen γ1.5는 실현된 층 배분을 바꾸지 못했다. c 0.75 cap이 요청의 약 1/3을 묶고 있었고, γ1.5는 확장 상한만 부풀렸다(β_max 최대가 base의 9배에서 27배로).
+- **c = β의 근거:** 층별 cap이 기본 예산에서 걸리지 않아 knob이 β 하나로 줄고, 배분이 가격 순서를 따른다(예산이 가장 싼 L4로 더 간다). Llama β1.0 + early exit에서 c 0.75와 성능은 같은 수준이다(W5 Score 93.51 대 93.37, W0 대비 N −1.30 대 −1.32).
 
-구현은 `official/`을 수정하지 않고 β·c를 공통 resolver의 override로 설정한다.
-γ는 기존 task-local `price_gamma_probe` 패키지를 unit-lr보다 먼저 설치하여 적용한다.
+### β 선택 (500건 W5, 같은 cases, Score = R·P·N 조화평균)
 
-```python
-resolve(model, base_arm, override={
-    "beta_base": beta,
-    "c": 0.75,
-    "beta_max_scale": beta,
-})
-```
+| 모델 | 선택 | W5 R / P / N | Score | 최고 baseline W5 |
+| :--- | :--- | :--- | ---: | :--- |
+| Llama | β = c = 1.0 | 100 / 95.00 / 86.54 | 93.51 | MEMIT-BLUE 93.08 |
+| Qwen | β = c = 1.5 | 99.8 / 96.00 / 82.76 | 92.25 | SPHERE 90.66 |
+| GPT-J | β = c = 0.75 | 99.6 / 94.70 / 79.68 | 90.50 | AlphaEdit-BLUE 91.41 |
 
-### β 선택 규칙
+- Qwen β = c 2.0은 P 97.0 / Score 92.06이고, 2.5는 N −6.1로 Score 90.60이다.
+- GPT-J는 early exit 없이 90.73이었지만, method 통일을 위해 early exit를 포함하기로 했다.
 
-세 모델에 동일한 사전 선택 규칙을 적용한다.
+### main 2K
 
-1. first-1K의 W10 all-seen Score(R·P·N 조화평균)가 가장 높은 β를 선택한다.
-2. Score 차이가 0.2 이내이면 W0 대비 N 손실이 작은 β를 선택한다.
+| 모델 | CF 2K | zsRE 2K |
+| :--- | :--- | :--- |
+| Llama | server4 **62604** 완료: W20 99.90 / 93.50 / 81.50, Score 90.98 (본표 반영) | server4 **62889** 대기 |
+| Qwen | rent **101706** 실행 중 (β = c 1.5). 추가로 β = c 2.0 server4 **62845** 대기 | 미제출 |
+| GPT-J | rent **101707** 실행 중 | 미제출 |
 
-### 모델별 sweep과 main
-
-| 모델 | first-1K sweep: 모델마다 4 run | 기존 관련 run / 준비 사항 | main 2K 계획 |
-| :--- | :--- | :--- | :--- |
-| Qwen | β 0.75/1.0/1.5/2.0, c 0.75, γ 1.5 | `100342`: β0.75/c0.75/γ1의 γ ablation 점. `100424`: β2.5/lr0.1 control의 unit-lr off ablation. 계획 작성 시 두 run 진행 중 | 선택 β로 CF 2K, 같은 설정으로 zsRE 2K |
-| GPT-J | β 0.75/1.0/1.5/2.0, c 0.75, γ 1.0 | 기존 held-out γ1·γ1.5 W5 관측. sweep 전에 `b454d8` context로 first-1K 패키지와 sink scan을 새로 준비 | 선택 β로 CF 2K와 zsRE 2K |
-| Llama | β 0.75/1.0/1.5/2.0, c 0.75, γ 1.0 | β1/c1 unit-lr ± HC의 W10 Score 92.7–92.9는 c ablation 참고점 | 선택 β로 CF 2K와 zsRE 2K. 새 결과 완료·검산 후 기존 Llama PRICE 행(`60103`) 교체 |
-
-zsRE는 CF에서 선택한 설정을 그대로 사용하고 별도 튜닝을 하지 않는 안이며,
-적용 여부는 아래 결정 대기 항목에 둔다.
-
-### Ablation
-
-선택된 β를 기준으로 first-1K에서 비교하며, Qwen HC 비교는 아래의 2K 예외를 둔다.
-
-1. **unit-lr off:** 절대 lr과의 C mismatch를 확인한다. Qwen control에서 일부 관측을 확보했다.
-2. **γ:** Qwen γ1 대 γ1.5를 비교한다. 기존 β0.75·γ1 run을 참고점으로 둔다.
-3. **c:** 0.5, 1.0, β를 비교한다. main의 c는 0.75로 고정한다.
-4. **FLAT 가격(π=1) 대 PRICE:** 예산이 묶인 상태에서 가격의 기여를 검증한다.
-5. **HC on/off:** main에는 HC-PRICE를 포함하고, Llama의 기존 비교와 Qwen 2K 추가 대조 1회를 ablation으로 둔다.
-6. **context 깨짐 대 정상, sink 규칙 on/off:** 기존 run에서 확보한 관측을 활용한다.
-
-### 자원과 예상 일정
-
-| 서버 | 담당 계획 | run당 예상 시간 | sweep 4개 예상 시간 |
-| :--- | :--- | :--- | :--- |
-| server3 H200 ×2 | Qwen sweep | 약 3.5–4 h | 2 round, 약 8 h |
-| server4 ×2 | Llama sweep | 약 2.5 h | 2 round, 약 5 h |
-| rent A100 ×2 | GPT-J sweep: 패키지·sink scan 준비 후 | 약 4.5–5 h | 2 round, 약 10 h |
-
-계획 작성 시 rent의 Qwen `100342`와 control `100424` 종료 예상은 각각
-2026-10-10 08:30, 10:00 KST였다. 실제 종료·자원 확보 여부는 제출 시 확인한다.
-두 run을 끝까지 유지하면 GPT-J sweep은 그 뒤에 rent에서 시작하는 안이다.
-후속 main CF 2K는 Qwen 약 7 h, Llama 약 5 h, GPT-J 약 10 h로 예상하며,
-zsRE 2K와 최종 checkpoint의 FLU/CON 평가 시간이 추가로 필요하다.
-
-### 결정 대기 항목
-
-| 항목 | 계획안 / 결정이 필요한 내용 |
-| :--- | :--- |
-| rent의 Qwen 두 run | `100342`와 `100424`를 ablation 자료 확보를 위해 끝까지 유지할지 결정 |
-| Llama sweep 위치 | server4의 GPU 2장 범위에서 진행할지 결정 |
-| zsRE 설정 | CF에서 선택한 설정을 그대로 사용하고 zsRE 전용 튜닝을 생략할지 결정 |
-
-이 항목들이 결정되면 Qwen(server3)·Llama(server4) sweep 패키지를 먼저 준비하고,
-그동안 GPT-J first-1K 패키지와 sink scan을 준비하는 순서다.
+- 모든 2K run은 W5·W10·W15·W20마다 all-seen 평가와 resumable checkpoint(가중치, history H, HC 통계)를 남긴다.
+- zsRE는 CF와 같은 설정을 쓴다. 데이터는 official zsRE first-2K stream, 평가는 official zsRE evaluator다.
+- Qwen·GPT-J zsRE는 no-BOS 모델이라 zsRE sink scan을 먼저 해야 한다.
