@@ -1,0 +1,12 @@
+{
+  "nonce": "USER-GH-S1-S2-FE-AUTHOR-MAIN-REFRESH-20261010-R1",
+  "user_request": "server1과 2에서 실험 마친것들 git main에 최신화 진행하라고 해. main table MEMIT-FE는 fe-author 버전으로 이름을 바꾸고 완료 author 실험을 해당 행에 통합. 표1의 별도 author행을 모델별 본표로 이동",
+  "owners": {"server1": "01a04939-f93a-7b50-bca0-65438eab2062", "server2": "01a0493a-074c-7f91-9a13-769116326fef", "README": "GH"},
+  "task": "각 서버 완료 실험 및 기존 FLU/CON 평가를 한 차례 inventory/원자료검산하고 compact table rows/report를 main 비강제 게시. SH1 Llama author62529/62530, SH2 Qwen author62531/62532의 실제 W20/2000 여부/지표/현 상태를 반드시 포함. 기존 baseline 전체와 generation완료도 회수. 원 job ID는 힌트이며 exact source/config/owner/task/실제 산출물 결속",
+  "table_policy": "Llama/Qwen 본표 MEMIT-FE를 MEMIT-FE (FE author hparams + history)로 명확화. 별도4author행을 해당 모델 CF/zsRE 셀에 통합. 기존 native MEMIT-FE 수치/FLUCON을 author결과로 relabel하지 않고 GH가 이전결과 표/보고에 보존. GPT-J author실험은 기존 승인에 없으므로 기존 GPT-J native행은 legacy로 구분하며 새 author결과를 만들지 않음. 새실험승인0",
+  "validation": "W20/2000, 20commit 또는 승인resume ancestry, orderedcohort/source/config/checkpoint/provenance/rawSHA/분모 확인. zsRE는 frozen public-query 입력증거 및 actual predicted-target loc_ans requestmacro E/G/Loc; W0agreement나tokenmicro 금지. CF 기존 strict NLL Score/E/G/Loc. FLUCON raw bits/cosine 보존 후 unroundedmean*100 halfup2; missing DEFERRED 유지. exactCP/consumer 중복 방지. 기존 검산증거 재사용 가능하나 변경여부 기록",
+  "outputs": "audits/servers/serverN/author-main-refresh-20261010/{table-rows.json,table-rows.csv,inventory.json} 및 experiment-reports/servers/serverN/author-main-refresh-20261010/report-ko.md. compact 각행 model/method/profile/dataset/jobname/ID/state/time/metrics/units/분모/source/config/원자료SHA/공개queryevidence/CP/evalconsumer 포함. 숫자없는 미완료의 실제state도 반환. GH soleREADME 통합; SH직접 README수정0",
+  "bounds": "전용cleanWT, rootdirty/병행main/source/raw/CP/WB 보존. 기존cap2 및 모든job/dependency 그대로. 신규GPU/forward/fit/복원/Slurmsubmit/cancel/hold/전송/삭제/onlinebackfill0. 새로운평가job도이번지시엔없음. 별도OURS/tuning승격0, 기존README PRICE변경보존. 한차례bounded검산 후 완료handoff, recurringmonitor/autoretry0",
+  "completion": "nonce OWNER_ACK/server/acceptedturn 회수, 실제main게시commit 및 exactrows/report를 GH직접회신. 추가승인대기없음. GH는두owner결과를통합해README실제셀갱신/main게시",
+  "model_effort": "기존설정유지"
+}
