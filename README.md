@@ -159,7 +159,7 @@ zsRE Loc은 **loc_ans 정답 token 정확도의 요청별 평균**이다. 이전
 - 설정: arm `llama3-P-beta100`. β = c = β_max = 1.0, unit-lr ρ0.05, γ1, cap 끝점 cast, HC-PRICE, 요청별 early exit.
 - 데이터: eval-2K 2,000건, B1–B20, baseline과 같은 순서와 context.
 - arm과 runner는 server4 task branch commit `885a0e26`에 있고 main에는 아직 병합하지 않았다. resolved config sha256 `1208f9ce…`.
-- HC 가격은 정규화하지 않았다. 정규화 유무의 차이(가장 싼 층 가격 B20까지 ≤ 1.034, 실질 예산 3% 이내)를 잡음으로 보고, 재실행 없이 이 run을 ours로 확정했다(사용자 결정 2026-10-11).
+- 공식 method는 HC 가격 정규화를 포함한다. 이 run은 정규화를 도입하기 전에 돌린 것(`llama3-P-beta100`)이다. 정규화 유무의 차이(가장 싼 층 가격 B20까지 ≤ 1.034, 실질 예산 3% 이내)가 잡음 수준으로 예상되어, 재실행하지 않고 ours로 쓴다(사용자 결정 2026-10-11).
 - Eff/Gen/Loc은 strict NLL preference R/P/N 성공률 1,998/2,000 · 3,740/4,000 · 16,300/20,000이다.
 - Score는 반올림 전 성공률의 조화평균(90.9776)이다. 표시는 decimal half-up 둘째 자리다.
 - 이전 FREE100 job 60103 값(99.70 / 92.78 / 82.21, Score 90.98)을 대체했다.
@@ -339,7 +339,7 @@ Llama historical3개는 원source/lock/CP와 새평가 consumer identity를 분�
 
 ¶ 최종 PRICE method의 GPT-J 2K다. CF는 rent job **101707**, zsRE는 server4 job **63027**이며 둘 다 W20/2,000 edits다.
 - 설정: arm `gptj-P-beta075`(resolved `d8f5ff72…`). β = c = β_max = 0.75, unit-lr ρ0.05, γ1, cap 끝점 cast, HC-PRICE, 요청별 early exit, sink EOT 규칙과 anchor guard 20.
-- HC 가격은 정규화하지 않았다. 정규화 유무의 차이(가장 싼 층 가격 CF 1.012(B10)·zsRE 1.014(B16) 이내)를 잡음으로 보고, 재실행 없이 이 run을 ours로 확정했다(사용자 결정 2026-10-11).
+- 공식 method는 HC 가격 정규화를 포함한다. 이 run은 정규화를 도입하기 전에 돌린 것(`gptj-P-beta075`)이다. 정규화 유무의 차이(가장 싼 층 가격 CF 1.012(B10)·zsRE 1.014(B16) 이내)가 잡음 수준으로 예상되어, 재실행하지 않고 ours로 쓴다(사용자 결정 2026-10-11).
 - CF R/P/N 성공률은 1,996/2,000 · 3,849/4,000 · 14,713/20,000이고, Score는 조화평균 88.2203이다. W0가 본표 W0 행과 같다.
 - zsRE는 official zsRE evaluator 값이며, W0가 본표 zsRE W0 행(27.83 / 27.15 / 27.59)과 같다.
 - CF Flu/Con은 W20 가중치를 baseline과 같은 생성 평가기로 devbox(server1)에서 평가한다(job **63207**).
@@ -489,14 +489,14 @@ secret은 저장소에 기록하지 않는다.
 | 항목 | 값 |
 | :--- | :--- |
 | 편집 층 | 지정 범위 전 층: Llama·Qwen L4–L8, GPT-J L3–L8 |
-| 가격 | 간섭 가격 π(batch leave-one-out) + **HC-PRICE**(writer history cache의 누적 간섭, drift·cascade 할증) |
+| 가격 | 간섭 가격 π(batch leave-one-out) + **HC-PRICE**(writer history cache의 누적 간섭, drift·cascade 할증). HC 배수를 곱한 뒤 요청마다 가장 싼 층이 1이 되도록 **다시 정규화**한다(`hc_normalize`) |
 | 예산 | 요청별 공유 weighted-L1 Σ π‖R‖/a ≤ β. **c = β**라서 층별 cap은 기본 예산에서 걸리지 않는다. 미충족 요청만 β·max π까지 확장한다 |
 | step 단위 | anchor-unit lr ρ = 0.05, cap 끝점 FP32 cast 수정 |
 | γ | **1** (가격을 그대로 쓴다) |
 | early exit | F < τ_F(0.05)이면 요청별로 멈추고, ≥ 2τ_F이면 재개한다. 업데이트가 약 1/3로 줄어든다 |
 | sink 규칙 | GPT-J·Qwen: position 0 또는 W0 sink pair에 EOT, anchor guard 20. Llama는 BOS라 불필요 |
 | context·sample | 공용 패키지(Llama `cf14b`, Qwen `5c01bc1a`, GPT-J `b454d8`). baseline과 같은 eval-2K 순서·batch 경계 |
-| arm | `<model>-P-beta<b>` (β = c = β_max, γ1, HC). early exit는 runner(`project/run_scripts/price_early_exit`)가 적용한다. arm과 runner는 server4 task branch commit `885a0e26`에 있고 main에는 아직 병합하지 않았다 |
+| arm | 공식: `<model>-PN-beta<b>` (β = c = β_max, γ1, HC, HC 정규화). Llama·GPT-J 본표 run은 정규화 도입 전 `<model>-P-beta<b>`다. early exit는 runner(`project/run_scripts/price_early_exit`)가 적용한다. arm과 runner는 server4 task branch에 있고 main에는 아직 병합하지 않았다 |
 
 - **γ1의 근거:** Qwen γ1.5는 실현된 층 배분을 바꾸지 못했다. c 0.75 cap이 요청의 약 1/3을 묶고 있었고, γ1.5는 확장 상한만 부풀렸다(β_max 최대가 base의 9배에서 27배로).
 - **c = β의 근거:** 층별 cap이 기본 예산에서 걸리지 않아 knob이 β 하나로 줄고, 배분이 가격 순서를 따른다(예산이 가장 싼 L4로 더 간다). Llama β1.0 + early exit에서 c 0.75와 성능은 같은 수준이다(W5 Score 93.51 대 93.37, W0 대비 N −1.30 대 −1.32).
@@ -520,7 +520,7 @@ secret은 저장소에 기록하지 않는다.
 | Qwen | 정규화 HC(`qwen25-PN-beta150`) server4 **63144** 실행 중. 정규화 전 HC run(rent **101706**)은 ablation으로 남긴다. 비교용 β = c 2.0(server4 **62845**)은 B10 진입 때 anchor guard로 멈췄다(편집이 쌓여 생긴 sink) | 정규화 HC server4 **63145** 실행 중 |
 | GPT-J | rent **101707** 완료: W20 99.80 / 96.23 / 73.57, Score 88.22 (본표 반영) | server4 **63027** 완료: W20 99.81 / 96.96 / 29.59 (본표 반영) |
 
-- **HC 가격 정규화(2026-10-11, 확정):** HC 배수를 곱한 뒤 요청마다 가장 싼 층의 가격이 1이 되도록 다시 나눈다(method 항목 `hc_normalize`). 정규화하지 않으면 HC가 배분뿐 아니라 강도도 바꾼다. 가장 싼 층 가격 중앙값이 Qwen 2K B10에서 1.159(최대 1.386)였고, Llama 2K B20은 1.034, GPT-J 2K B10은 1.012였다. **ours 본표 결정(사용자, 2026-10-11):** Qwen만 정규화 HC로 재실행한 값을 쓴다. Llama·GPT-J는 정규화 유무 차이를 잡음으로 보고, 재실행 없이 이미 마친 run을 ours로 확정한다.
+- **HC 가격 정규화(2026-10-11, 공식 method에 포함):** HC 배수를 곱한 뒤 요청마다 가장 싼 층의 가격이 1이 되도록 다시 나눈다(method 항목 `hc_normalize`). 정규화하지 않으면 HC가 배분뿐 아니라 강도도 바꾼다. 가장 싼 층 가격 중앙값이 Qwen 2K B10에서 1.159(최대 1.386)였고, Llama 2K B20은 1.034, GPT-J 2K B10은 1.012였다. **본표(사용자 결정):** Qwen은 정규화 HC로 다시 돌린 값을 쓴다. Llama·GPT-J는 정규화 도입 전 run이지만, 차이가 잡음 수준으로 예상되어 재실행하지 않고 그대로 쓴다.
 - 모든 2K run은 W5·W10·W15·W20마다 all-seen 평가와 resumable checkpoint(가중치, history H, HC 통계)를 남긴다.
 - zsRE는 CF와 같은 설정을 쓴다. 데이터는 official zsRE first-2K stream, 평가는 official zsRE evaluator다.
 - Qwen·GPT-J zsRE는 no-BOS 모델이라 zsRE sink scan을 먼저 해야 한다.
