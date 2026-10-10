@@ -1,0 +1,118 @@
+{
+ "job": 63207,
+ "node": "devbox",
+ "model": "gptj",
+ "arm": "gptj-P-beta075",
+ "chain_job": "rent 101707",
+ "state": "W20",
+ "edits_in_state": 2000,
+ "evaluator": "project/run_scripts/price_final_flucon/run.py --model gptj (baseline saved-W20 generation evaluator: NativeGenerationObserver PROFILE, eval seed 20261007; edited weight transformer.h[l].mlp.fc_out)",
+ "files": {
+  "COMPLETE.json": {
+   "path": "/mnt/raid5/janghj/ODE-edit/local/price-final-flucon-20261011/runs/gptj-P-beta075-W20/COMPLETE.json",
+   "sha256": "f3c115e83d353c3a688615519b92ef020efd2df676607bded9260e17eac647b1"
+  },
+  "restore.json": {
+   "path": "/mnt/raid5/janghj/ODE-edit/local/price-final-flucon-20261011/runs/gptj-P-beta075-W20/restore.json",
+   "sha256": "cf45645f79c067d140f7e181d3b953ae1d5fbf2be76200f5973c06609b15eddf"
+  }
+ },
+ "Flu": {
+  "display_unit": "bits x100",
+  "paper_display_x100": "620.09",
+  "raw_unit": "bits",
+  "raw_value": 6.200862281202181
+ },
+ "Con": {
+  "display_unit": "cosine_0_to_1 x100",
+  "paper_display_x100": "41.61",
+  "raw_unit": "cosine_0_to_1",
+  "raw_value": 0.41614366457799296
+ },
+ "summary": {
+  "consistency_count": 2000,
+  "consistency_sum": 832.287329155986,
+  "consistency_unit": "cosine_0_to_1",
+  "fluency_count": 2000,
+  "fluency_sum": 12401.724562404363,
+  "fluency_unit": "bits",
+  "generated_token_count": 1815122,
+  "generation_prompt_count": 20000,
+  "length_cap_no_continuation_prompt_count": 0,
+  "missing_reason_counts": {
+   "asset_not_available": 0,
+   "length_cap_no_continuation": 0,
+   "missing_generation_prompts": 0,
+   "missing_reference": 0,
+   "nonfinite_score": 0,
+   "tokenizer_not_available": 0,
+   "zero_generated_vector": 0,
+   "zero_reference_vector": 0
+  },
+  "ngram_entropy": 6.200862281202181,
+  "planned_count": 2000,
+  "reason_count_unit": "request_occurrences_nonexclusive",
+  "reference_score": 0.41614366457799296
+ },
+ "requests": 2000,
+ "restore": {
+  "cf_order_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+  "checkpoint": {
+   "bytes": 13024,
+   "path": "/mnt/raid5/janghj/ODE-edit/local/price-final-2k-rent-20261010/gptj-2k-tier-P-beta075-w20-early-20261010T164349Z/W20-checkpoint.json",
+   "sha256": "08c4eb8ee0b114273728239feeb9ab7e0ee66457085dfcf69052da4c737b8755"
+  },
+  "cold_W": {
+   "3": "90aadb67c716bc97fedbeabf900d058b35feeb6e01935d5b2ea8f0291e1aaeac",
+   "4": "58409101a8556baa9e29abf62de6653d317cd4900c46a2cc1c14fc14a9f790fa",
+   "5": "30a6e3f3d27483133eec4375b1888f891f71bfe66e075f1ebf1397a9c2a02a71",
+   "6": "6c0b7fe3b66844cba49486b77697deb142aa150082495741d0df3a94f6b2de92",
+   "7": "66134e2e4a0e5bd216851ecf10491149cfb835155e3f3e64bcba599ae475fd6e",
+   "8": "a9364a510d4d61e1d17568b34dc3367b29e90afe6b9d8885194fb989ef0abf0f"
+  },
+  "initial": {
+   "bytes": 1915,
+   "path": "/mnt/raid5/janghj/ODE-edit/local/price-final-2k-rent-20261010/gptj-2k-tier-P-beta075-w20-early-20261010T164349Z/initial.json",
+   "sha256": "6e585894e58212b798472d2f0b0d7b3f1207712990b300ff0090158c000b9dc6"
+  },
+  "label": "gptj-P-beta075-cf2k-rent101707-W20",
+  "layers": [
+   3,
+   4,
+   5,
+   6,
+   7,
+   8
+  ],
+  "model": "gptj",
+  "model_snapshot": "/mnt/raid5/janghj/.cache/huggingface/hub/models--EleutherAI--gpt-j-6b/snapshots/47e169305d2e8376be1d31e765533382721b2cc1",
+  "restored_W": {
+   "3": "8b8c98fc08898d311330580be7cabdafd314c4e2bbe0fadeef5f085c5d58074e",
+   "4": "0fd0eaed65a3756fc9bcfdf4f78a6e2d4a1eb891d7c5664aa019a44094c25c94",
+   "5": "1ef937361fc9f02fe45cacc25ea60bfdfe3b6f5db1309e945275b26d3ffd9050",
+   "6": "48bb054e3f1a9d8eceef8ebda273d49ac1ab838e858caebd5a6f422ae25eb5ec",
+   "7": "a82d412aa4954e4bd45c02fa3c09a1d74ef15d683b32f0be0db2339047c054ae",
+   "8": "d650db86648442c3e0bfd41357b18e03f7429bf423de51f802bf1a94a1e5cf5c"
+  },
+  "tokenizer_sha256": "2aa4f890df82b69576bf881449a8d15c3997db0a3445699e157f81d59e1dad7b",
+  "weights": {
+   "bytes": 1610615793,
+   "path": "/mnt/raid5/janghj/ODE-edit/local/price-final-2k-rent-20261010/gptj-2k-tier-P-beta075-w20-early-20261010T164349Z/W20-editable-weights.pt",
+   "sha256": "950052fd95ff4b92cdc87e58bc3eb9758edd75fa2bd7139f383db1a661c90718"
+  }
+ },
+ "invariants": {
+  "weights_unchanged": true,
+  "RNG_unchanged": true,
+  "checkpoint_unchanged": true,
+  "edits": 0
+ },
+ "endpoint": {
+  "bytes": 2736914,
+  "path": "/mnt/raid5/janghj/ODE-edit/local/price-final-flucon-20261011/runs/gptj-P-beta075-W20/generation/endpoints/ad4ada40e5e335a9c55a10bf40c12958aab72e8273b262be94be303e4813d837.json",
+  "sha256": "2bd251f964413c0b569e1131200561dc3c795525f672e81ee6fab7c2f9576560"
+ },
+ "source": "a6249254b074a6f9e70742076c13fc80c71e1b81",
+ "official_tree": "eee5082a6edc68e873dac3dfe9b2f8aeeb64ba93",
+ "seconds": 9152.419494016096
+}

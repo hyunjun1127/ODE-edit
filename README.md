@@ -338,7 +338,7 @@ Llama historical3개는 원source/lock/CP와 새평가 consumer identity를 분�
 | AlphaEdit-BLUE | 89.23 | 99.55 | 97.53 | 75.06 | PENDING: s2-flucon-gptj-alphaedit_blue-61779 (62867) | PENDING: s2-flucon-gptj-alphaedit_blue-61779 (62867) | 99.75 | 95.71 | 28.83 |
 | FE (author repo, W0-fixed z) | PENDING: official-s1-gptj-cf-fe-original (63153) | PENDING: official-s1-gptj-cf-fe-original (63153) | PENDING: official-s1-gptj-cf-fe-original (63153) | PENDING: official-s1-gptj-cf-fe-original (63153) | DEFERRED | DEFERRED | PENDING: official-s1-gptj-zsre-fe-original (63154) | PENDING: official-s1-gptj-zsre-fe-original (63154) | PENDING: official-s1-gptj-zsre-fe-original (63154) |
 | AlphaEdit+SPHERE | 88.39 | 99.70 | 95.73 | 74.27 | 616.18 | 40.89 | 99.67 | 96.29 | 28.00 |
-| PRICE (Ours) | 88.22¶ | 99.80¶ | 96.23¶ | 73.57¶ | ING: pf2k-flucon-gptj-P-beta075 (63207) | ING: pf2k-flucon-gptj-P-beta075 (63207) | 99.81¶ | 96.96¶ | 29.59¶ |
+| PRICE (Ours) | 88.22¶ | 99.80¶ | 96.23¶ | 73.57¶ | 620.09¶ | 41.61¶ | 99.81¶ | 96.96¶ | 29.59¶ |
 
 GPT-J W0 Flu/Con은 동일 native full2K 완료/등록을 찾지 못해 server4의 **63219**로 generation-only 평가를 등록했다.
 held 검사 후 release, `afterany:63144` PENDING이며 두 생성 셀만 job 번호로 표시한다.
@@ -349,7 +349,7 @@ held 검사 후 release, `afterany:63144` PENDING이며 두 생성 셀만 job �
 - 공식 method는 HC 가격 정규화를 포함한다. 이 run은 정규화를 도입하기 전에 돌린 것(`gptj-P-beta075`)이다. 정규화 유무의 차이(가장 싼 층 가격 CF 1.012(B10)·zsRE 1.014(B16) 이내)가 잡음 수준으로 예상되어, 재실행하지 않고 ours로 쓴다(사용자 결정 2026-10-11).
 - CF R/P/N 성공률은 1,996/2,000 · 3,849/4,000 · 14,713/20,000이고, Score는 조화평균 88.2203이다. W0가 본표 W0 행과 같다.
 - zsRE는 official zsRE evaluator 값이며, W0가 본표 zsRE W0 행(27.83 / 27.15 / 27.59)과 같다.
-- CF Flu/Con은 W20 가중치를 baseline과 같은 생성 평가기로 devbox(server1)에서 평가한다(job **63207**).
+- CF Flu/Con은 W20 가중치를 baseline과 같은 생성 평가기로 devbox(server1)에서 평가했다(job **63207**). 2,000 case/20,000 prompts의 평균 6.2009 bits · 0.4161 cosine에 ×100 후 half-up 둘째 자리만 적용했다. 평가 전후 가중치·RNG·checkpoint 불변을 확인했다. [Flu/Con 원자료 SHA](audits/servers/server1/price-final-flucon-20261011/gptj-P-beta075-W20.json)
 [GPT-J 보고](experiment-reports/servers/server4/price-final-2k-20261010/gptj-report-ko.md) · [정확한 수치·SHA](audits/servers/server4/price-final-2k-20261010/gptj-results.json).
 
 기존 연구 문서와 실험 이력은 아래에 보존합니다. 새 실험의 설정 근거는 `official/`입니다.
@@ -525,7 +525,7 @@ secret은 저장소에 기록하지 않는다.
 | :--- | :--- | :--- |
 | Llama | server4 **62604** 완료: W20 99.90 / 93.50 / 81.50, Score 90.98. Flu/Con devbox **63125** 완료: 628.47 / 33.53 (모두 본표 반영) | server4 **62889** 완료: W20 99.62 / 94.83 / 45.31 (본표 반영) |
 | Qwen | 정규화 HC(`qwen25-PN-beta150`) server4 **63144** 실행 중. 정규화 전 HC run(rent **101706**)은 ablation으로 남긴다. 비교용 β = c 2.0(server4 **62845**)은 B10 진입 때 anchor guard로 멈췄다(편집이 쌓여 생긴 sink) | 정규화 HC server4 **63276**(r2) 실행 중. 첫 run **63145**는 server4 /data 여유 공간 부족(runner 저장공간 guard 16 GiB)으로 B17에서 멈췄다(B15 all-seen 98.83 / 94.66 / 44.30). zsRE는 resume 경로가 없어 같은 preparation·같은 source(e0469ca2)로 처음부터 다시 돌린다. r1 원자료는 devbox에 보관했다 |
-| GPT-J | rent **101707** 완료: W20 99.80 / 96.23 / 73.57, Score 88.22 (본표 반영). Flu/Con devbox **63207** 실행 중 | server4 **63027** 완료: W20 99.81 / 96.96 / 29.59 (본표 반영) |
+| GPT-J | rent **101707** 완료: W20 99.80 / 96.23 / 73.57, Score 88.22. Flu/Con devbox **63207** 완료: 620.09 / 41.61 (모두 본표 반영) | server4 **63027** 완료: W20 99.81 / 96.96 / 29.59 (본표 반영) |
 
 - **HC 가격 정규화(2026-10-11, 공식 method에 포함):** HC 배수를 곱한 뒤 요청마다 가장 싼 층의 가격이 1이 되도록 다시 나눈다(method 항목 `hc_normalize`). 정규화하지 않으면 HC가 배분뿐 아니라 강도도 바꾼다. 가장 싼 층 가격 중앙값이 Qwen 2K B10에서 1.159(최대 1.386)였고, Llama 2K B20은 1.034, GPT-J 2K B10은 1.012였다. **본표(사용자 결정):** Qwen은 정규화 HC로 다시 돌린 값을 쓴다. Llama·GPT-J는 정규화 도입 전 run이지만, 차이가 잡음 수준으로 예상되어 재실행하지 않고 그대로 쓴다.
 - 모든 2K run은 W5·W10·W15·W20마다 all-seen 평가와 resumable checkpoint(가중치, history H, HC 통계)를 남긴다.
