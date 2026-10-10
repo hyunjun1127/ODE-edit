@@ -1,0 +1,48 @@
+diff --git a/precompute_z.py b/precompute_z.py
+index 0ad9911..b625023 100644
+--- a/precompute_z.py
++++ b/precompute_z.py
+@@ -21,7 +21,6 @@ from util.z_cache_manager import (
+     save_z_batch, get_cached_z_count, get_z_cache_path, 
+     print_z_cache_status
+ )
+-from load import load_data
+ from z_methods import get_z_compute_function, get_z_strategy, find_fact_lookup_idx
+ from util import nethook
+ from util.generate import generate_fast
+@@ -360,10 +359,11 @@ def compute_z_batch_first_forward(
+             # 仅在第一层需要修改的层处注入z
+             if cur_layer_name == first_layer_module:
+                 z_to_inject = zs_dict[first_layer][:, sample_idx]
+-                if cur_out[0].shape[0] == 1:
+-                    cur_out[0][0, lookup_idx, :] = z_to_inject
++                hidden = cur_out[0] if isinstance(cur_out, (tuple, list)) else cur_out
++                if hidden.shape[0] == 1:
++                    hidden[0, lookup_idx, :] = z_to_inject
+                 else:
+-                    cur_out[0][lookup_idx, 0, :] = z_to_inject
++                    hidden[lookup_idx, 0, :] = z_to_inject
+             return cur_out
+         
+         with torch.no_grad():
+@@ -400,6 +400,7 @@ def compute_z_batch_first_forward(
+ 
+ @hydra.main(config_path="configs", config_name="config", version_base=None)
+ def precompute_z(cfg: DictConfig) -> None:
++    from load import load_data
+     """
+     Pre-compute z vectors for specified configuration.
+     
+diff --git a/z_methods/__init__.py b/z_methods/__init__.py
+index 4f082f1..4188ef4 100644
+--- a/z_methods/__init__.py
++++ b/z_methods/__init__.py
+@@ -1,6 +1,7 @@
+ from .compute_z import compute_z as compute_z_base
+ from .compute_z import find_fact_lookup_idx
+-from .compute_z_mlp import compute_z as compute_z_mlp
++def compute_z_mlp(*args, **kwargs):
++    raise ImportError('Pinned author tree does not provide compute_z_mlp; unused by firstforward')
+ 
+ # Z方法配置
+ Z_METHODS_CONFIG = {
