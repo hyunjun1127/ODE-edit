@@ -81,9 +81,9 @@ SH1이 세 모델을 source `eaf78c33`으로 등록했다. Qwen 61929는 B1 FP64
 
 | 별도 variant | 모델 | dataset | server | 상태 / job name (ID) | Score (CF) | Eff | Gen | Loc | Flu ×100 (CF) | Con ×100 (CF) |
 | :--- | :--- | :--- | :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: |
-| MEMIT_FE_HISTORY | GPT-J | CF | server1 | W20 COMPLETE: official-s1-cf-gptj-memit-fe-history (61927) | 50.18 | 50.35 | 49.90 | 50.28 | PENDING: official-s1-flucon-eval-gptj-memit_fe_history-cap3 (62581) | PENDING: official-s1-flucon-eval-gptj-memit_fe_history-cap3 (62581) |
-| MEMIT_FE_HISTORY | Llama3 | CF | server1 | W20 COMPLETE: official-s1-cf-llama3-memit-fe-history (61928) | 64.66 | 80.10 | 74.10 | 48.99 | PENDING: official-s1-flucon-eval-llama3-memit_fe_history-cap3 (62582) | PENDING: official-s1-flucon-eval-llama3-memit_fe_history-cap3 (62582) |
-| MEMIT_FE_HISTORY | Qwen2.5 | CF | server1 | W20 COMPLETE: official-s1-cf-qwen25-memit-fe-history (62061) | 49.43 | 48.45 | 48.18 | 51.83 | PENDING: official-s1-flucon-eval-qwen25-memit_fe_history-cap3 (62583) | PENDING: official-s1-flucon-eval-qwen25-memit_fe_history-cap3 (62583) |
+| MEMIT_FE_HISTORY | GPT-J | CF | server1 | W20 COMPLETE: official-s1-cf-gptj-memit-fe-history (61927) | 50.18 | 50.35 | 49.90 | 50.28 | 533.43 | 1.05 |
+| MEMIT_FE_HISTORY | Llama3 | CF | server1 | W20 COMPLETE: official-s1-cf-llama3-memit-fe-history (61928) | 64.66 | 80.10 | 74.10 | 48.99 | 527.39 | 7.58 |
+| MEMIT_FE_HISTORY | Qwen2.5 | CF | server1 | W20 COMPLETE: official-s1-cf-qwen25-memit-fe-history (62061) | 49.43 | 48.45 | 48.18 | 51.83 | ING: official-s1-flucon-eval-qwen25-memit_fe_history-cap3 (62583) | ING: official-s1-flucon-eval-qwen25-memit_fe_history-cap3 (62583) |
 | MEMIT_FE_HISTORY (FE author hparams) | Llama3 | CF | server1 | ING: official-s1-cf-llama3-memit-fe-author-history (62529) |  |  |  |  | DEFERRED | DEFERRED |
 | MEMIT_FE_HISTORY (FE author hparams) | Llama3 | zsRE | server1 | PENDING: official-s1-zsre-llama3-memit-fe-author-history (62530) | — |  |  |  | — | — |
 | MEMIT_FE_HISTORY (FE author hparams) | Qwen2.5 | CF | server2 | PENDING: s2-qwen25-cf-fe-author-history (62531) |  |  |  |  | DEFERRED | DEFERRED |
@@ -93,18 +93,21 @@ SH1이 세 모델을 source `eaf78c33`으로 등록했다. Qwen 61929는 B1 FP64
 Llama3 **0.75/35**, Qwen2.5 **1/35**. 각 행은 W0부터 first-2K를 100건씩 20 batch 편집하며,
 기존 FE_HISTORY의 ridge/history와 batch별 z 재계산을 유지한다. zsRE는 공개-query Eff/Gen/Loc,
 CF는 기존 factual 지표를 사용하고 FLU/CON은 저장 W20 checkpoint에서 후속 평가한다.
-네 job은 held 검사 후 release했다. SH1 author CF62529는 2026-10-10 10:30:05 KST RUNNING,
+네 job은 held 검사 후 release했다. SH1 author CF62529는 2026-10-10 17:10:08 KST RUNNING/18commit,
 zsRE62530은 PENDING/W20 없음이며 SH2 두 행은 10:31:11 KST PENDING 관측이다.
 SH1은 기존62259/62260/62261 뒤62529→62530, SH2는 기존62081/62083/62085 뒤62531→62532의
 afterany 직렬 dependency다. 기존 결과와 합치거나 DOW-KE의 정확한 재현값으로 간주하지 않는다.
 [실제 등록·source/config/profile·checkpoint 경로](experiment-reports/global/fe-author-hparams-2k-20261010/report-ko.md).
 
 2026-10-10 SH1 bounded 검산: 세 모델 모두 실제20 commit/2,000건과 history once·최종CP·raw를
-대조한 완료값이며 native MEMIT-FE 본표 값이 아니다. 세 history checkpoint의 FLU/CON은
-새 평가-only **62581/62582/62583**으로 held 검사·release했고 초기 관측은 PENDING이다.
-62583은 afterany62581, 나머지 두 GPU job은 resource parent가 없으며 GPU0 collector는62584다.
-기존62262/62263 CANCELLED 이력은 보존한다. Server1 cap3/DAG폭3, 완료 native 생성62259–62261은
-재사용하여 중복 제출하지 않았다. 새 history 생성 완료·온라인 readback은 아직 미관측이다.
+대조한 완료값이며 native MEMIT-FE 본표 값이 아니다. 17:10:08 KST 단발 관측에서
+GPT-J **62581**과 Llama **62582** generation이 완료됐고, 각2,000 case/20,000 prompts의
+reference-bound CPU 재채점·원CP/fullSHA·20commit/순서 검산으로 위 FLU/CON 네 수치를 반영했다.
+raw bits/cosine을 보존하고 원평균×100 뒤 half-up2로 표시한다.
+Qwen **62583**은 RUNNING/최종생성점수 없음, GPU0 collector **62584**는 PENDING이다.
+기존62262/62263 CANCELLED 이력은 보존하며 cap3, 기존 평가 및 완료 native 생성62259–62261도 유지한다.
+SH2는62581–62583을 중복 등록하지 않는다. 새 결과 검산은 온라인 readback 검증 주장이 아니다.
+[최신 history 생성 결과·zsRE 재검산·중복방지 인계](experiment-reports/servers/server1/baseline-refresh-s2-flucon-20261010/report-ko.md).
 [최신 결과·실제 평가 등록·checkpoint 결속](experiment-reports/servers/server1/completed-table-flucon-cap3-20261010/report-ko.md).
 [최신 history 및 zsRE 검산](experiment-reports/servers/server1/baseline-completed-zsre-audit-20261010/report-ko.md).
 [완료 결과와 평가 등록](experiment-reports/servers/server1/flucon-paper-scale-20261010/report-ko.md).

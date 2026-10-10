@@ -10,8 +10,12 @@
     "owner_ACK": true,
     "ACK_evidence": "같은 accepted turn의 실제 agentMessage를 read_thread로 확인: OWNER_ACK nonce=USER-GH-S1-S2-BASELINE-REFRESH-S2-FLUCON-20261010-R1 server=server1 accepted=true",
     "transport_history": "첫 thread/resume timeout으로 turn/start 미발행. readback에서 idle/이전완료turn 확인 후 정상 turn/start. 이벤트연결ACK대기시간내미회수이나 exactturn readback에서명시ACK확인. 중복start/실험등록없음.",
-    "stage": "완료자료/기존62581–62584 검산 및 SH2 미평가CP 인계 진행; 새GPU등록권한 없음",
-    "result_receipt": null
+    "stage": "완료12행/미완료author2행 검산 및 SH2인계 완료. history62581/82 generation 수치4셀과62583 RUNNING 상태2셀 GH통합.",
+    "result_receipt": "audits/servers/server1/baseline-refresh-s2-flucon-20261010/table-rows.json",
+    "result_sha256": "aafa6d5e9d4cb85948a4d21c712bd0753635ec6adeedc44ad00123a620222024",
+    "publication": "d6733abb1afe9022584699b36410bd7e685b9d47",
+    "SH2_dedup_received": "SH2같은acceptedturn의agentMessage에서62581/82완료와62583기존등록 수신·dedup반영 명시확인. 재전달/중복instruction없음.",
+    "new_GPU_jobs": 0
   },
   "server2": {
     "session": "01a0493a-074c-7f91-9a13-769116326fef",
@@ -24,7 +28,7 @@
     "new_job_status": "NOT_YET_REPORTED; PENDING으로 표기하지 않음"
   },
   "caps": {"server1": 3, "server2": 3, "others": "UNCHANGED"},
-  "README": "GH sole통합. 이전완료b047b099표 보존, 이번새검산rows/실제job영수증 수신후해당셀갱신",
+  "README": "GH sole통합. SH1새generation 수치4셀/상태2셀 반영, factual/zsRE/다른모델 수치불변. SH2최종rows/실제등록영수증은미수신",
   "preservation": "기존raw/CP/frozen source/job KEEP, 불필요duplicate평가/재편집/새W0 없음",
   "GH_scheduler_mutations": 0,
   "new_monitor": false
