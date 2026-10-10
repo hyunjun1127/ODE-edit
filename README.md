@@ -126,8 +126,10 @@ PRICE/W0 행은 변경하지 않았다. 이전 검산의 원자료는
 
 **CAKE 신규 2K 실행(2026-10-11):** server1에 3모델 × CF·zsRE 6개 job을 등록했다.
 server1은 기존 작업 종료 후 CF·zsRE **두 lane(동시 GPU 최대 2개)**으로 실행한다.
-이 중 **Qwen CF 한 개는 server1 63300을 취소하고 server4 63324로 이관**했다(07:21 KST PENDING, `afterany:63284`).
-server4도 GPU cap 2를 유지하며, 나머지 CAKE 5개는 server1 큐를 유지한다.
+이 중 **Qwen CF 한 개는 server1 63300을 취소하고 server4 63324로 이관**했다.
+사용자의 명시적 cap 예외 지시로 `afterany:63284`를 해제했고, **07:28:48 KST RUNNING**으로 시작했다.
+이 job에 한해 기존 PRICE 2개와 함께 **GPU 3개를 동시 사용**한다. 나머지 CAKE 5개는 server1 큐를 유지한다.
+[cap 예외·실제 실행 영수증](audits/servers/server4/cake-qwen25-cf-move-20261011/cap-exception-63324.json).
 [Qwen CF 이관·동일 설정 검증](experiment-reports/global/cake-qwen25-cf-server4-20261011.md).
 각 run은 **500·1,000·1,500·2,000 edits의 편집층 가중치·history·RNG를 모두 보존**한다.
 CF FLU/CON은 W20 checkpoint 후속 평가로 미루며, 아래 PENDING은 완료 성능이 아니다.
@@ -297,7 +299,7 @@ SH3 최신 CPU 재검산에서도 위 네 지표 delta0, 신규 본표 적격 �
 | AlphaEdit-BLUE | 77.98 | 97.70 | 96.75 | 55.86 | 602.99 | 37.43 | 58.62 | 53.66 | 5.73 |
 | FE (author repo, W0-fixed z) | PENDING: 63217 | PENDING: 63217 | PENDING: 63217 | PENDING: 63217 | DEFERRED | DEFERRED | PENDING: 63218 | PENDING: 63218 | PENDING: 63218 |
 | AlphaEdit+SPHERE | 83.73 | 99.40 | 97.70 | 64.37 | CANCELLED: s2-flucon-qwen25-sphere-62079 (62873) | CANCELLED: s2-flucon-qwen25-sphere-62079 (62873) | CANCELLED: s4-qwen25-zsre-sphere-resume-b10 (63303) | CANCELLED: s4-qwen25-zsre-sphere-resume-b10 (63303) | CANCELLED: s4-qwen25-zsre-sphere-resume-b10 (63303) |
-| CAKE | PENDING: official-s4-qwen25-cf-cake-2k (63324) | PENDING: official-s4-qwen25-cf-cake-2k (63324) | PENDING: official-s4-qwen25-cf-cake-2k (63324) | PENDING: official-s4-qwen25-cf-cake-2k (63324) | DEFERRED | DEFERRED | PENDING: official-s1-qwen25-zsre-cake-2k (63301) | PENDING: official-s1-qwen25-zsre-cake-2k (63301) | PENDING: official-s1-qwen25-zsre-cake-2k (63301) |
+| CAKE | ING: official-s4-qwen25-cf-cake-2k (63324) | ING: official-s4-qwen25-cf-cake-2k (63324) | ING: official-s4-qwen25-cf-cake-2k (63324) | ING: official-s4-qwen25-cf-cake-2k (63324) | DEFERRED | DEFERRED | PENDING: official-s1-qwen25-zsre-cake-2k (63301) | PENDING: official-s1-qwen25-zsre-cake-2k (63301) | PENDING: official-s1-qwen25-zsre-cake-2k (63301) |
 | PRICE (Ours) | 87.63※ | 99.00※ | 95.55※ | 73.17※ | ING: pf2k-flucon-qwen25-PN-beta150 (63305) | ING: pf2k-flucon-qwen25-PN-beta150 (63305) | ING: pf2k-qwen25-zsre-PN-beta150-ee-r3 (63278) | ING: pf2k-qwen25-zsre-PN-beta150-ee-r3 (63278) | ING: pf2k-qwen25-zsre-PN-beta150-ee-r3 (63278) |
 
 ※ Qwen PRICE (Ours)는 HC 가격을 정규화한 최종 method 재실행(arm `qwen25-PN-beta150`, β = c = β_max = 1.5)으로 채운다. CF는 server4 **63144**(B1–B15)를 W15에서 멈추고 **63281**(B16–B20, state join 확인)로 이어 돌려 완료했다(server4 GPU cap 2 정리, 2026-10-11 사용자 결정). W20 all-seen 성공률은 R/P/N 1,980/2,000 · 3,822/4,000 · 14,633/20,000이고, Score는 반올림 전 성공률의 조화평균(87.6310)이다. [원자료 SHA](audits/servers/server4/price-final-2k-20261010/qwen25-cf-results.json). CF Flu/Con은 W20을 같은 생성 평가기로 devbox **63305**에서 잰다. zsRE는 server4 **63278**(r3)이다. HC 가격을 정규화하지 않은 rent run(**101706**, W20 98.65 / 94.25 / 72.48)은 본표에 넣지 않고 ablation으로 남긴다. 정규화하지 않으면 가장 싼 층 가격이 B10에서 1.159(최대 1.386)까지 올라, 편집 강도가 14% 이상 줄기 때문이다.

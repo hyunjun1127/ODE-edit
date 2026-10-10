@@ -1,12 +1,15 @@
 # Qwen2.5 CF CAKE 2K: server1 → server4
 
-사용자 지정 Qwen CF 한 개만 이관했다. 2026-10-11 07:21:34 KST 기준
-server1 **63300은 CANCELLED**, server4 **63324 / official-s4-qwen25-cf-cake-2k는 PENDING**이다.
-새 job을 held 제출·검사한 뒤 원 job을 취소하고 새 job을 release했다. 중복 실행은 없다.
-다른 CAKE 5개 및 기존 실행 job은 변경하지 않았다.
+사용자 지정 Qwen CF 한 개만 이관했다. server1 **63300은 CANCELLED**이며,
+server4 **63324 / official-s4-qwen25-cf-cake-2k는 2026-10-11 07:28:48 KST에 RUNNING**으로 시작했다.
+처음에는 held 제출·검사 후 원 job을 취소하고 새 job을 release하여 PENDING으로 등록했다.
+이후 사용자의 명시적 cap 예외 지시에 따라 63324의 선행 의존성을 제거했다.
+중복 제출 없이 같은 job을 실행하며 다른 CAKE 5개 및 기존 job의 설정·의존성은 변경하지 않았다.
 
-server4에서 `afterany:63284`로 BLUE 뒤에 실행한다. 현재 PRICE 두 job과 OR/AND 자원 의존성,
-MEMIT·AlphaEdit·W0·BLUE·새 CAKE를 포함한 시작/종료 순서 50개 상태를 CPU 열거하여 최대 GPU 2개를 검증했다.
+**현재 63324의 dependency는 없으며**, 기존 PRICE **63277·63278**과 함께 project GPU **3개**를 사용한다.
+이 단일 job의 예외이고 QoS·전체 서버 정책 파일은 수정하지 않았다.
+최초 등록 당시의 cap-2 DAG 검사(50개 상태)는 이전 배치에 대한 기록으로 보존한다.
+[사용자 예외와 실행 관측](../../audits/servers/server4/cake-qwen25-cf-move-20261011/cap-exception-63324.json).
 자원은 GPU 1개, CPU 8개, RAM 58 GiB, 48시간, `lab_gpu_s4`, 자동 requeue 없음이다.
 
 ## 동일한 실험 설정
@@ -16,7 +19,7 @@ MEMIT·AlphaEdit·W0·BLUE·새 CAKE를 포함한 시작/종료 순서 50개 상
 - CAKE hparams·causal scores·native 편집/평가/순차 history 계산은 원 63300과 동일하다.
 - Qwen AlphaEdit 기반 layers 4–8, clamp 4, lr 0.5, 25 steps, L2 1, temperature 0.1을 유지한다.
 - **500/1000/1500/2000 edits의 가중치·history·RNG checkpoint 네 개를 모두 보존**한다.
-- CF FLU/CON은 W20 checkpoint 후속 평가로 유지한다. 현재 GPU 실행·W&B online·성능은 미관측이다.
+- CF FLU/CON은 W20 checkpoint 후속 평가로 유지한다. GPU 할당·모델 로딩 및 W&B `READY_ONLINE`을 확인했으며, 완료 성능은 아직 없다.
 
 원 source는 `a247c7925911990a0dc7230885c54710d540f8f7`, 이관 실행 source는
 `40292095c0ab1020ee22ea777b3d593b5add3c05`이다. 공통 CAKE runner가 server4 Qwen CF 설정을 받아

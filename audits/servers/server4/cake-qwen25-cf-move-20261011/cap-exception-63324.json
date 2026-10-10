@@ -1,0 +1,63 @@
+{
+  "at": "2026-10-11T07:28:48.210775+09:00",
+  "user_request": "아니 pending으로 올리지 말고 cap 깨서 올려",
+  "job_id": "63324",
+  "scope": "Single CAKE job project cap 2 exception; allow third concurrent project GPU",
+  "command": [
+    "scontrol",
+    "update",
+    "JobId=63324",
+    "Dependency="
+  ],
+  "returncode": 0,
+  "other_jobs_changed": 0,
+  "new_submissions": 0,
+  "source_config_output_changes": 0,
+  "global_QoS_policy_changes": 0,
+  "observed_at": "2026-10-11T07:29:25.965882+09:00",
+  "prior_dependency": "afterany:63284(unfulfilled)",
+  "current_dependency": "(null)",
+  "state": "RUNNING",
+  "start_time_kst": "2026-10-11T07:28:48",
+  "allocated": "cpu=8,mem=58G,node=1,billing=1,gres/gpu=1",
+  "server4_concurrent_jobs": [
+    {
+      "JobId": "63324",
+      "JobName": "official-s4-qwen25-cf-cake-2k",
+      "JobState": "RUNNING",
+      "AllocTRES": "cpu=8,mem=58G,node=1,billing=1,gres/gpu=1"
+    },
+    {
+      "JobId": "63277",
+      "JobName": "pf3k-llama3-P-beta100-ee-r3",
+      "JobState": "RUNNING",
+      "AllocTRES": "cpu=8,mem=58G,node=1,billing=1,gres/gpu=1"
+    },
+    {
+      "JobId": "63278",
+      "JobName": "pf2k-qwen25-zsre-PN-beta150-ee-r3",
+      "JobState": "RUNNING",
+      "AllocTRES": "cpu=8,mem=58G,node=1,billing=1,gres/gpu=1"
+    }
+  ],
+  "observed_project_GPUs": 3,
+  "authority": "Explicit user exception for CAKE 63324; existing cap-2 queue remains unchanged",
+  "original_job_63300": "CANCELLED",
+  "prior_cap2_receipt": "submission.json (superseded scheduling only)",
+  "runtime_observation": {
+    "job_id": "63324",
+    "GPU": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+    "attention_backend": "eager",
+    "precision": "float32",
+    "TF32": false,
+    "resume": false,
+    "server": "server4",
+    "runtime_json": "/data/janghj/ODE-edit/local/cake-qwen25-cf-server4-20261011/output/runtime.json"
+  },
+  "tracking_observation": {
+    "run_id": "e50167707e7a46e8",
+    "status": "READY_ONLINE",
+    "dropped_points": 0,
+    "receipt": "/data/janghj/ODE-edit/local/cake-qwen25-cf-server4-20261011/output/tracking/receipt.json"
+  }
+}
