@@ -157,9 +157,9 @@ zsRE Loc은 **loc_ans 정답 token 정확도의 요청별 평균**이다. 이전
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | [W0 (편집 전)](experiment-reports/global/w0-main-table-20261009.md) | 13.36 | 8.20 | 10.95 | 88.56 | 635.22 | 24.64 | 38.10 | 37.61 | 38.59 |
 | FT | 56.59 | 89.25 | 73.30 | 35.50 | 449.50 | 2.90 | 14.63 | 11.82 | 25.25 |
-| MEMIT | 58.88‡ | 64.75‡ | 61.70‡ | 51.83‡ | DEFERRED | DEFERRED | 44.30 | 39.95 | 22.30 |
-| AlphaEdit | 84.80‡ | 99.30‡ | 93.23‡ | 68.59‡ | DEFERRED | DEFERRED | 95.18 | 91.40 | 31.10 |
-| AlphaEdit-BLUE | 89.84† | 99.60† | 97.15† | 76.59† |  |  | 95.87 | 92.28 | 32.83 |
+| MEMIT | 58.88‡ | 64.75‡ | 61.70‡ | 51.83‡ | PENDING: s2-flucon-llama3-memit-42658 (62874) | PENDING: s2-flucon-llama3-memit-42658 (62874) | 44.30 | 39.95 | 22.30 |
+| AlphaEdit | 84.80‡ | 99.30‡ | 93.23‡ | 68.59‡ | PENDING: s2-flucon-llama3-alphaedit-42657 (62875) | PENDING: s2-flucon-llama3-alphaedit-42657 (62875) | 95.18 | 91.40 | 31.10 |
+| AlphaEdit-BLUE | 89.84† | 99.60† | 97.15† | 76.59† | PENDING: s2-flucon-llama3-alphaedit_blue-39283_1 (62876) | PENDING: s2-flucon-llama3-alphaedit_blue-39283_1 (62876) | 95.87 | 92.28 | 32.83 |
 | MEMIT-FE | 64.55 | 80.45 | 73.68 | 48.85 | 420.07 | 8.40 | 14.81 | 13.57 | 0.56 |
 | AlphaEdit+SPHERE | 86.87 | 99.50 | 94.95 | 71.68 | 619.20 | 33.64 | 95.13 | 91.36 | 31.38 |
 | PRICE (Ours) | 90.98§ | 99.70§ | 92.78§ | 82.21§ |  |  |  |  |  |
@@ -176,7 +176,7 @@ Eff/Gen/Loc은 기존 strict NLL preference R/P/N 성공률
 동일 fixed10k 파일의 첫2,000 순서가 현재 official lock과 일치한다.
 Eff/Gen/Loc은 기존 strict NLL preference 집계, Score는 기존 R/P/N 성공률의 조화평균이다.
 Loc은 N success 15,317/20,000 = 76.585%를 소수 둘째 자리로 반올림했다.
-Flu·Con은 미관측으로 기존 빈칸을 유지한다.
+Flu·Con은 이 historical B020 checkpoint를 사용하는 별도 평가62876을 제출해 PENDING으로 표시한다.
 native source/runtime·평가기 차이와 분모 및 대조 근거는
 [BLUE 2K 확인 기록](experiment-reports/servers/server1/official-baselines-20261008/llama-blue-2k-table-check.md)에 구분했다.
 
@@ -184,7 +184,8 @@ native source/runtime·평가기 차이와 분모 및 대조 근거는
 기존 native MEMIT **42658**, native AlphaEdit **42657**의 **B020/2,000 edits**를 반영했다.
 새 official rerun 완료 또는 최종 10K 결과가 아니다. R/P/N 분모는 2,000/4,000/20,000,
 Score는 반올림 전 성공률의 조화평균이며 표시는 소수 둘째 자리 decimal half-up이다.
-Flu/Con은 미평가·DEFERRED이며 zsRE는 별도 새 W20 결과다.
+Flu/Con은 이 historical B020 checkpoint의 별도 평가62874/62875를 제출해 PENDING이며,
+zsRE는 별도 새 W20 결과다. 현재 evaluator로 평가한다고 과거 편집 source/runtime을 재명명하지 않는다.
 동일 표본·순서는 runtime·hparams·평가기 완전동등을 뜻하지 않는다.
 [원 raw SHA·분자/분모·사용자 예외 및 취소 처리 근거](experiment-reports/global/llama-native-cf-historical-b020-20261009.md).
 
@@ -199,7 +200,7 @@ BLUE61962와 수정 MEMIT62073/MEMIT-FE62077/SPHERE62079의 CF W20/2K 수치를 
 CF AlphaEdit62075 및 zsRE62081/62083/62085는 W20/2K 검산 완료다.
 zsRE MEMIT-FE62085의 Eff/Gen 0.00, Loc0.03은 실제 저장 token correctness의 요청별 평균이며
 결측을 채운 0이 아니다(2,000 requests, E/G/Loc token 분모6,691/6,691/11,476).
-FLU/CON 신규평가는 아직 등록 준비 단계이며 실제job ID 영수증 전에는 PENDING으로 쓰지 않는다.
+FLU/CON 후속평가는 실제62870–62873으로 등록·release했으며 아래 생성 셀만 상태를 표시한다.
 [새 완료 수치·raw/source/config 및 평가 준비](experiment-reports/servers/server2/baseline-refresh-s2-flucon-20261010/report-ko.md).
 62087은 B10 `eigh` CUDA OOM으로 FAILED/W20 없음이며 B9 checkpoint를 보존한다.
 최신 사용자 지시로 cold **62534**는 PENDING/실행시간0에서 취소하고, **62538**
@@ -211,7 +212,8 @@ CPU17 PASS이며 실제 GPU 복원/OOM 해결/W20은 미관측이다.
 [parent SHA·취소·재개 등록 근거](experiment-reports/global/qwen-zsre-sphere-b9-resume-20261010/report-ko.md).
 [최신 원자료·query·상태 검산](experiment-reports/servers/server2/baseline-completed-zsre-audit-20261010/report-ko.md).
 context 판정은 [실제 context 감사](experiment-reports/servers/server2/qwen-context-audit-20261010/report-ko.md)에 구분했다.
-CF 네 rerun의 FLU/CON은 DEFERRED이며 최종 checkpoint를 보존한다.
+CF 네 rerun의 원 generation 일정은 DEFERRED로 보존하며, 별도 W20 평가62870–62873을 제출했다.
+원 최종 checkpoint는 평가 consumer가 끝날 때까지 보존한다.
 FT/BLUE는 이번 mask 오류 재편집 대상이 아니다. FT CF61898, FT zsRE61900의 평가-only62072,
 BLUE zsRE61964는 완료 원자료 검산 수치를 아래 표에 반영했다.
 표의 CF Flu는 raw entropy(bits) ×100, Con은 raw TF-IDF cosine ×100이며 둘 다 정답률이 아니다.
@@ -270,11 +272,11 @@ SH3 최신 CPU 재검산에서도 위 네 지표 delta0, 신규 본표 적격 �
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | [W0 (편집 전)](experiment-reports/global/w0-main-table-20261009.md) | 20.88 | 13.95 | 16.60 | 85.14 | 625.21 | 25.91 | 36.42 | 35.26 | 38.40 |
 | FT | 57.45 | 85.50 | 67.50 | 38.90 | 471.02 | 3.01 | 23.25 | 18.54 | 2.34 |
-| MEMIT | 62.23 | 68.50 | 65.83 | 54.30 | DEFERRED | DEFERRED | 41.49 | 39.44 | 26.39 |
-| AlphaEdit | 83.03 | 99.05 | 97.55 | 63.36 | DEFERRED | DEFERRED | 85.05 | 78.18 | 30.79 |
+| MEMIT | 62.23 | 68.50 | 65.83 | 54.30 | PENDING: s2-flucon-qwen25-memit-62073 (62870) | PENDING: s2-flucon-qwen25-memit-62073 (62870) | 41.49 | 39.44 | 26.39 |
+| AlphaEdit | 83.03 | 99.05 | 97.55 | 63.36 | PENDING: s2-flucon-qwen25-alphaedit-62075 (62871) | PENDING: s2-flucon-qwen25-alphaedit-62075 (62871) | 85.05 | 78.18 | 30.79 |
 | AlphaEdit-BLUE | 77.98 | 97.70 | 96.75 | 55.86 | 602.99 | 37.43 | 58.62 | 53.66 | 5.73 |
-| MEMIT-FE | 50.59 | 51.05 | 51.23 | 49.53 | DEFERRED | DEFERRED | 0.00 | 0.00 | 0.03 |
-| AlphaEdit+SPHERE | 83.73 | 99.40 | 97.70 | 64.37 | DEFERRED | DEFERRED | PENDING: s2-qwen25-zsre-sphere-resume-b9 (62538) | PENDING: s2-qwen25-zsre-sphere-resume-b9 (62538) | PENDING: s2-qwen25-zsre-sphere-resume-b9 (62538) |
+| MEMIT-FE | 50.59 | 51.05 | 51.23 | 49.53 | PENDING: s2-flucon-qwen25-memit_fe-62077 (62872) | PENDING: s2-flucon-qwen25-memit_fe-62077 (62872) | 0.00 | 0.00 | 0.03 |
+| AlphaEdit+SPHERE | 83.73 | 99.40 | 97.70 | 64.37 | PENDING: s2-flucon-qwen25-sphere-62079 (62873) | PENDING: s2-flucon-qwen25-sphere-62079 (62873) | PENDING: s2-qwen25-zsre-sphere-resume-b9 (62538) | PENDING: s2-qwen25-zsre-sphere-resume-b9 (62538) | PENDING: s2-qwen25-zsre-sphere-resume-b9 (62538) |
 | PRICE (Ours) |  |  |  |  |  |  |  |  |  |
 
 ### GPT-J-6B
@@ -305,11 +307,19 @@ W&B: [zsRE 전용 페이지](https://forge.coreweave.com/wandb/wkdguswns2256/lay
 Specificity 기록은 수정하지 않으며, 별도 CPU 후처리 결과와 새 source의 지표를 구분한다.
 페이지 설정 원격 검증은 actual run/GPU/성능 완료 검증과 별개다.
 
-**이 CF 실행의 FLU/CON은 W0·W20 모두 `DEFERRED_CHECKPOINT_EVALUATION`이다.**
+**원 CF 실행의 FLU/CON은 W0·W20 모두 `DEFERRED_CHECKPOINT_EVALUATION`이었다.**
 generation 점수·count·progress를 0으로 채우지 않는다. factual 평가는 유지하고,
 매 batch 완료 후 최신 checkpoint 1개와 최종 W20 checkpoint를 보존한다.
-FLU/CON은 이후 별도 2k checkpoint 평가에서 측정하며, 그 consumer 완료 전에는
+이후 별도 2k checkpoint 평가62864–62869를 실제 제출했으며, 그 consumer 완료 전에는
 최종 checkpoint를 삭제하지 않는다. 아래 성능표는 미관측 수치를 채우지 않는다.
+
+**2026-10-10 17:28:13 KST SH2 단발 snapshot:** CF 최종 checkpoint FLU/CON 평가13개
+**62864–62876** 및 GPU0 collector **62877**을 held 검사 후 release했다.
+GPT-J FT62864/MEMIT62865는 RUNNING, 나머지는 Dependency PENDING이다.
+원 편집은 재실행하지 않으며 전체cap3/DAG폭3, 기존62531→62532→62538 및 SH1평가는 유지한다.
+Llama historical3개는 원source/lock/CP와 새평가 consumer identity를 분리했다.
+62864/62865의 W&B startup identity 확인·SDK접수는 최종지표/전체history readback 완료가 아니다.
+[실제 등록·CP/source/config·dependency 근거](experiment-reports/servers/server2/baseline-refresh-s2-flucon-20261010/report-ko.md).
 
 기존 source/config/dependency와 비용은
 [CF 기록](experiment-reports/servers/server2/official-baselines-20261008/deferred-flucon-ready-20261009-r1.md) 및
@@ -319,12 +329,12 @@ FLU/CON은 이후 별도 2k checkpoint 평가에서 측정하며, 그 consumer �
 | Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu ×100 | CF Con ×100 | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | [W0 (편집 전)](experiment-reports/global/w0-main-table-20261009.md) | 24.44 | 17.00 | 19.30 | 82.48 | DEFERRED | DEFERRED | 27.83 | 27.15 | 27.59 |
-| FT | 58.97 | 88.75 | 66.75 | 40.61 | DEFERRED | DEFERRED | 23.15 | 17.95 | 0.62 |
-| MEMIT | 80.63 | 97.90 | 95.38 | 60.58 | DEFERRED | DEFERRED | 93.52 | 88.86 | 30.81 |
-| AlphaEdit | 88.22 | 99.70 | 96.33 | 73.56 | DEFERRED | DEFERRED | 99.69 | 96.45 | 27.94 |
-| AlphaEdit-BLUE | 89.23 | 99.55 | 97.53 | 75.06 | DEFERRED | DEFERRED | 99.75 | 95.71 | 28.83 |
-| MEMIT-FE | 73.85 | 87.15 | 85.70 | 57.22 | DEFERRED | DEFERRED | 29.20 | 27.65 | 8.45 |
-| AlphaEdit+SPHERE | 88.39 | 99.70 | 95.73 | 74.27 | DEFERRED | DEFERRED | 99.67 | 96.29 | 28.00 |
+| FT | 58.97 | 88.75 | 66.75 | 40.61 | ING: s2-flucon-gptj-ft-61650 (62864) | ING: s2-flucon-gptj-ft-61650 (62864) | 23.15 | 17.95 | 0.62 |
+| MEMIT | 80.63 | 97.90 | 95.38 | 60.58 | ING: s2-flucon-gptj-memit-61725 (62865) | ING: s2-flucon-gptj-memit-61725 (62865) | 93.52 | 88.86 | 30.81 |
+| AlphaEdit | 88.22 | 99.70 | 96.33 | 73.56 | PENDING: s2-flucon-gptj-alphaedit-61778 (62866) | PENDING: s2-flucon-gptj-alphaedit-61778 (62866) | 99.69 | 96.45 | 27.94 |
+| AlphaEdit-BLUE | 89.23 | 99.55 | 97.53 | 75.06 | PENDING: s2-flucon-gptj-alphaedit_blue-61779 (62867) | PENDING: s2-flucon-gptj-alphaedit_blue-61779 (62867) | 99.75 | 95.71 | 28.83 |
+| MEMIT-FE | 73.85 | 87.15 | 85.70 | 57.22 | PENDING: s2-flucon-gptj-memit_fe-61780 (62868) | PENDING: s2-flucon-gptj-memit_fe-61780 (62868) | 29.20 | 27.65 | 8.45 |
+| AlphaEdit+SPHERE | 88.39 | 99.70 | 95.73 | 74.27 | PENDING: s2-flucon-gptj-sphere-61781 (62869) | PENDING: s2-flucon-gptj-sphere-61781 (62869) | 99.67 | 96.29 | 28.00 |
 | PRICE (Ours) |  |  |  |  |  |  |  |  |  |
 
 기존 연구 문서와 실험 이력은 아래에 보존합니다. 새 실험의 설정 근거는 `official/`입니다.
