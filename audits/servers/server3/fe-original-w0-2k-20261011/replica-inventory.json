@@ -1,0 +1,131 @@
+{
+  "nonce": "GH-SH3-SH4-FE-RESET-REPLICA-INVENTORY-20261011-R1",
+  "parent": "USER-FE-ORIGINAL-W0-RESET-20261011-R1",
+  "server": "server3",
+  "accepted_turn": "01a12695-8a81-7363-95af-370fc242fea5",
+  "observed_at": "2026-10-10T16:13:58.784330+00:00",
+  "authority_main": "dcb15335",
+  "envelope_sha256": "2b367a3983ef188115908b107b6c021d958ffae6a0d2d5ae6fd5ef3f6765e73d",
+  "full_read": true,
+  "status": "NO_FE_EDITED_CP_REPLICA_FOUND_IN_BOUNDED_REGISTERED_SCOPE",
+  "FE_payload_manifest": [],
+  "FE_payload_count": 0,
+  "preparation_configs": [
+    {
+      "path": "/data/janghj/ODE-edit/local/official-baselines-20261008/inputs/configs/gptj-cf-memit_fe.json",
+      "bytes": 4520,
+      "sha256": "44298538610315337a97f060a62b5c69f797dba7845f6929f119d08644215efc",
+      "FE_content_candidate": true,
+      "run_id": "gptj-cf-memit_fe",
+      "method": "MEMIT_FE",
+      "model": "gptj",
+      "dataset": "cf",
+      "config_sha256": "d2f9630e194982cf9ed872dfb6a71b5f2e1e2007a8f5e09065ee0c9d1145ff67",
+      "ready_to_submit": false,
+      "classification": "PREPARATION_CONFIG_NOT_CHECKPOINT"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/official-baselines-20261008/inputs/configs/llama3-zsre-memit_fe.json",
+      "bytes": 4536,
+      "sha256": "9a2212bdbe25e4131307737e133fd25cad3b2ef5e2909d84a5ec5846b12de99e",
+      "FE_content_candidate": true,
+      "run_id": "llama3-zsre-memit_fe",
+      "method": "MEMIT_FE",
+      "model": "llama3",
+      "dataset": "zsre",
+      "config_sha256": "55ced27b554738fb347972ad40ab39c2314cb3d87af818ee3d4f698b8697b7ce",
+      "ready_to_submit": false,
+      "classification": "PREPARATION_CONFIG_NOT_CHECKPOINT"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/official-baselines-20261008/inputs/configs/llama3-cf-memit_fe.json",
+      "bytes": 4532,
+      "sha256": "00ee40982e5fad7bf64b5e38f1dbb404cfbf5c9e9d3695fcd3c69caff01f3c7b",
+      "FE_content_candidate": true,
+      "run_id": "llama3-cf-memit_fe",
+      "method": "MEMIT_FE",
+      "model": "llama3",
+      "dataset": "cf",
+      "config_sha256": "ee27f5416c508eb39790e2a35efbaf4b86ac2d96623eb351b25b9711deded59e",
+      "ready_to_submit": false,
+      "classification": "PREPARATION_CONFIG_NOT_CHECKPOINT"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/official-baselines-20261008/inputs/configs/gptj-zsre-memit_fe.json",
+      "bytes": 4524,
+      "sha256": "2bef4e2fb64c06c2cce9ff8d46d236ae0ba7900a3dddf47ddef7a028cc11ca32",
+      "FE_content_candidate": true,
+      "run_id": "gptj-zsre-memit_fe",
+      "method": "MEMIT_FE",
+      "model": "gptj",
+      "dataset": "zsre",
+      "config_sha256": "d59aef72835624e12637be252c0303907c656b457db2738eecc4fd4fc5ba771f",
+      "ready_to_submit": false,
+      "classification": "PREPARATION_CONFIG_NOT_CHECKPOINT"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/official-baselines-20261008/inputs/configs/qwen25-cf-memit_fe.json",
+      "bytes": 4513,
+      "sha256": "fc98b52eed6d78a464bb86519d90632b722c94a4c097ffa413c5f7bd19260243",
+      "FE_content_candidate": true,
+      "run_id": "qwen25-cf-memit_fe",
+      "method": "MEMIT_FE",
+      "model": "qwen25",
+      "dataset": "cf",
+      "config_sha256": "31de46061f6708ba09e7d48f98e6192031b928fb54f3b4fa74aab5ceb0175841",
+      "ready_to_submit": false,
+      "classification": "PREPARATION_CONFIG_NOT_CHECKPOINT"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/official-baselines-20261008/inputs/configs/qwen25-zsre-memit_fe.json",
+      "bytes": 4517,
+      "sha256": "6924a9a099b4db416ad11eba633aea98247b91944000f0140b52f4e239b1013b",
+      "FE_content_candidate": true,
+      "run_id": "qwen25-zsre-memit_fe",
+      "method": "MEMIT_FE",
+      "model": "qwen25",
+      "dataset": "zsre",
+      "config_sha256": "b96b7e8d301ff8c4023ff53ad44de75c004aeb840a3d046bbef472ec6691ace8",
+      "ready_to_submit": false,
+      "classification": "PREPARATION_CONFIG_NOT_CHECKPOINT"
+    }
+  ],
+  "payload_metadata_candidates": [],
+  "coverage": {
+    "metadata_roots": [
+      "/data/janghj/ODE-edit/local/fe-reset-replica-inventory-20261011/worktree/audits/servers/server3",
+      "/data/janghj/ODE-edit/local/fe-reset-replica-inventory-20261011/worktree/transfers/verifications",
+      "/data/janghj/ODE-edit/local/fe-reset-replica-inventory-20261011/worktree/runs",
+      "/data/janghj/ODE-edit/local/official-baselines",
+      "/data/janghj/ODE-edit/local/official-baselines-20261008",
+      "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009",
+      "/data/janghj/ODE-edit/local/fixed10k-native-baselines",
+      "/data/janghj/ODE-edit/local/final-checkpoint-archive-policy-20261009"
+    ],
+    "metadata_files_checked": 326,
+    "FE_content_matches": 8,
+    "metadata_depth_limit": 7,
+    "max_metadata_bytes": 2000000,
+    "skipped": [
+      "/data/janghj/ODE-edit/local/official-baselines-20261008/inputs/cf-stream.json",
+      "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009/execution-noqual-r1/streams/cf-stream.json"
+    ],
+    "errors": [],
+    "payload_stat_roots": [
+      "/data/janghj/ODE-edit/local/official-baselines",
+      "/data/janghj/ODE-edit/local/official-baselines-20261008",
+      "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009",
+      "/data/janghj/ODE-edit/local/fixed10k-native-baselines"
+    ],
+    "payload_stat_depth": 7,
+    "local_full_metadata_manifest": "/data/janghj/ODE-edit/local/fe-reset-replica-inventory-20261011/metadata-scan.json",
+    "local_manifest_sha256": "a52fc5acaa29099e2da971a508a162602992c0502d530feeca9920ebf379c34f",
+    "limitations": "Registered metadata and listed own roots only; not full filesystem absence proof. Method cannot be inferred from filename. No unregistered remote replica inquiry."
+  },
+  "classification": "Six MEMIT_FE preparation configs plus matrix and NOT_SUBMITTED planning receipt; no linked executed FE run/consumer/transfer/edited checkpoint evidence. FE_HISTORY/author/sink payload evidence not found. Historical MEMIT-HJ is not FE and preserved.",
+  "original_parent_delete_authority_mapping": "NOT_APPLICABLE_NO_IDENTIFIED_FE_PAYLOAD; this task delete_authorized=false",
+  "delete_authorized": false,
+  "GPU_forward_CPload_transfer_delete_Slurm_mutation": 0,
+  "preservation": "All source/raw/base/model/C0/P/other methods and jobs KEEP",
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED"
+}
