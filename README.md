@@ -155,7 +155,7 @@ zsRE Loc은 **loc_ans 정답 token 정확도의 요청별 평균**이다. 이전
 | AlphaEdit-BLUE | 89.84† | 99.60† | 97.15† | 76.59† | PENDING: s2-flucon-llama3-alphaedit_blue-39283_1 (62876) | PENDING: s2-flucon-llama3-alphaedit_blue-39283_1 (62876) | 95.87 | 92.28 | 32.83 |
 | FE (author repo, W0-fixed z) | ING: official-s1-llama3-cf-fe-original (63151) | ING: official-s1-llama3-cf-fe-original (63151) | ING: official-s1-llama3-cf-fe-original (63151) | ING: official-s1-llama3-cf-fe-original (63151) | DEFERRED | DEFERRED | PENDING: official-s1-llama3-zsre-fe-original (63152) | PENDING: official-s1-llama3-zsre-fe-original (63152) | PENDING: official-s1-llama3-zsre-fe-original (63152) |
 | AlphaEdit+SPHERE | 86.87 | 99.50 | 94.95 | 71.68 | 619.20 | 33.64 | 95.13 | 91.36 | 31.38 |
-| PRICE (Ours) | 90.98§ | 99.90§ | 93.50§ | 81.50§ | ING: pf2k-flucon-llama3-P-beta100 (63125) | ING: pf2k-flucon-llama3-P-beta100 (63125) | 99.62§ | 94.83§ | 45.31§ |
+| PRICE (Ours) | 90.98§ | 99.90§ | 93.50§ | 81.50§ | 628.47§ | 33.53§ | 99.62§ | 94.83§ | 45.31§ |
 
 § 사용자 2026-10-10 결정에 따른 **최종 PRICE method** CF 2K이며, server4 job **62604**로 실행했다.
 - 설정: arm `llama3-P-beta100`. β = c = β_max = 1.0, unit-lr ρ0.05, γ1, cap 끝점 cast, HC-PRICE, 요청별 early exit.
@@ -165,7 +165,8 @@ zsRE Loc은 **loc_ans 정답 token 정확도의 요청별 평균**이다. 이전
 - Eff/Gen/Loc은 strict NLL preference R/P/N 성공률 1,998/2,000 · 3,740/4,000 · 16,300/20,000이다.
 - Score는 반올림 전 성공률의 조화평균(90.9776)이다. 표시는 decimal half-up 둘째 자리다.
 - 이전 FREE100 job 60103 값(99.70 / 92.78 / 82.21, Score 90.98)을 대체했다.
-- CF Flu/Con은 W20 checkpoint를 baseline과 같은 생성 평가기(server1 = devbox, job **63125**)로 평가하는 중이다. zsRE는 같은 설정의 job **62889**(official zsRE stream·evaluator, W20/2,000 edits)이다. W0가 본표 zsRE W0 행(38.10 / 37.61 / 38.59)과 같다. Loc(45.31)이 W0(38.59)보다 높은데, W0 예측 일치율은 62.68%다(원인 미확인). [zsRE 보고](experiment-reports/servers/server4/price-final-2k-20261010/llama3-zsre-report-ko.md)
+- CF Flu/Con은 W20 checkpoint를 baseline과 같은 생성 평가기(server1 = devbox, job **63125**)로 평가했다. 2,000 case/20,000 prompts의 평균 6.2847 bits · 0.3353 cosine에 ×100 후 half-up 둘째 자리만 적용했다. 평가 전후 가중치·RNG·checkpoint 불변을 확인했다. [Flu/Con 원자료 SHA](audits/servers/server1/price-final-flucon-20261011/llama3-P-beta100-W20.json)
+- zsRE는 같은 설정의 job **62889**(official zsRE stream·evaluator, W20/2,000 edits)이다. W0가 본표 zsRE W0 행(38.10 / 37.61 / 38.59)과 같다. Loc(45.31)이 W0(38.59)보다 높은데, W0 예측 일치율은 62.68%다(원인 미확인). [zsRE 보고](experiment-reports/servers/server4/price-final-2k-20261010/llama3-zsre-report-ko.md)
 - 500 edit마다 resumable checkpoint를 저장했다(가중치, history H, HC 통계).
 [실행·수치·checkpoint 보고](experiment-reports/servers/server4/price-final-2k-20261010/llama3-cf-report-ko.md) ·
 [정확한 수치·SHA](audits/servers/server4/price-final-2k-20261010/llama3-cf-results.json) ·
@@ -337,7 +338,7 @@ Llama historical3개는 원source/lock/CP와 새평가 consumer identity를 분�
 | AlphaEdit-BLUE | 89.23 | 99.55 | 97.53 | 75.06 | PENDING: s2-flucon-gptj-alphaedit_blue-61779 (62867) | PENDING: s2-flucon-gptj-alphaedit_blue-61779 (62867) | 99.75 | 95.71 | 28.83 |
 | FE (author repo, W0-fixed z) | PENDING: official-s1-gptj-cf-fe-original (63153) | PENDING: official-s1-gptj-cf-fe-original (63153) | PENDING: official-s1-gptj-cf-fe-original (63153) | PENDING: official-s1-gptj-cf-fe-original (63153) | DEFERRED | DEFERRED | PENDING: official-s1-gptj-zsre-fe-original (63154) | PENDING: official-s1-gptj-zsre-fe-original (63154) | PENDING: official-s1-gptj-zsre-fe-original (63154) |
 | AlphaEdit+SPHERE | 88.39 | 99.70 | 95.73 | 74.27 | 616.18 | 40.89 | 99.67 | 96.29 | 28.00 |
-| PRICE (Ours) | 88.22¶ | 99.80¶ | 96.23¶ | 73.57¶ | PENDING: pf2k-flucon-gptj-P-beta075 (63207) | PENDING: pf2k-flucon-gptj-P-beta075 (63207) | 99.81¶ | 96.96¶ | 29.59¶ |
+| PRICE (Ours) | 88.22¶ | 99.80¶ | 96.23¶ | 73.57¶ | ING: pf2k-flucon-gptj-P-beta075 (63207) | ING: pf2k-flucon-gptj-P-beta075 (63207) | 99.81¶ | 96.96¶ | 29.59¶ |
 
 GPT-J W0 Flu/Con은 동일 native full2K 완료/등록을 찾지 못해 server4의 **63219**로 generation-only 평가를 등록했다.
 held 검사 후 release, `afterany:63144` PENDING이며 두 생성 셀만 job 번호로 표시한다.
