@@ -1,0 +1,26 @@
+{
+  "cycle": false,
+  "future_allocation_limit": 2,
+  "grandfathered_initial_allocation": 3,
+  "lanes": [
+    [
+      "62532",
+      "62538",
+      "62866",
+      "62867",
+      "62868",
+      "62870",
+      "62873"
+    ],
+    [
+      "62869",
+      "62871",
+      "62872",
+      "62874",
+      "62875",
+      "62876"
+    ]
+  ],
+  "new_start_above_cap": false,
+  "reachable_states": 228
+}
