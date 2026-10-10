@@ -13,9 +13,17 @@
     "old_frozen_runs_changed": false,
     "online_verification": "NOT_RUN"
   },
+  "rent_kubernetes_extension": {
+    "instruction_id": "USER-RENT-WANDB-SERVER-JOBID-20261009-R1",
+    "user_quote": "서버 이름은 rent로 하고, job 번호는 날짜시간분 092005 이런식으로 하자.",
+    "changes": ["server allowlist에 rent 추가", "rent Kubernetes Job은 제출 시 KST DDHHMM을 ODEEDIT_RENT_JOB_ID로 받아 execution_backend=kubernetes, run.name job<DDHHMM>", "Slurm identity 규칙과 기존 server1~4 동작 변경 없음"],
+    "evaluator_or_scientific_math_changed": false,
+    "old_frozen_runs_changed": false,
+    "online_verification": "NOT_RUN"
+  },
   "files": [
     {"path": "__init__.py", "upstream_sha256": "f7481e9203c048e2ff2935aed0cd4ebc8d040355bb7b17f15ddd01bc620da89b", "changes": ["export shared official generation-progress phase adapter"]},
-    {"path": "schema.py", "upstream_sha256": "b63cd41816f4022ff85c83130f16fff4380e7e039d0c37f6618c7d008b7aa659", "changes": ["official instruction/dataset/schema and native W0+W20 authority pair", "zsRE rejects CF generation", "official request-macro namespace and actual native denominators", "shared native W20 progress phase-only callback adapter", "explicit deferred CF checkpoint evaluation; no generation metadata or measurements"]},
+    {"path": "schema.py", "upstream_sha256": "b63cd41816f4022ff85c83130f16fff4380e7e039d0c37f6618c7d008b7aa659", "changes": ["official instruction/dataset/schema and native W0+W20 authority pair", "zsRE rejects CF generation", "official request-macro namespace and actual native denominators", "shared native W20 progress phase-only callback adapter", "explicit deferred CF checkpoint evaluation; no generation metadata or measurements", "rent server label and Kubernetes DDHHMM job identity"]},
     {"path": "method.py", "upstream_sha256": "4606fec3bb3403dc942f8308c4e53b3a576ea7c279286fde63d486450fbec173", "changes": ["official request-macro score/requests validation and edits axes", "official W0 accepts actual native prompt/token counts without changing legacy PRICE counts"]},
     {"path": "identity.py", "upstream_sha256": "ba2e33b6036a91919f85378846f7f37825cd5574814277e5ba826818ce188b5b", "changes": []},
     {"path": "client.py", "upstream_sha256": "876ec874c31ca2a2f663cabd64313c6cd7620df25af227baefd205f37084e681", "changes": ["isolated worker module official.tracking.worker and repo PYTHONPATH", "config-aware metric validation"]},
