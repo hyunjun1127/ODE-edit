@@ -35,9 +35,15 @@ own `official/runners/server2/fe_original_prepare.py`는 GPU0 host manifest만 �
 
 ## 현재 미제출 이유
 
+### 최신 후속: host atomic lock 저장 계획 r2
+
+동일 USER 후속에 따라 두 GPU lane은 독립으로 두고, SH1 공용 writer의 host 공용 lock으로 atomic 저장만 직렬화한다. lock 이전 임시파일 생성 금지이며 serialization/fsync/replace까지 같은 lock을 유지해야 한다. 실제 공용 source는 아직 NOT_READY여서 이 계약의 구현 PASS를 주장하지 않는다.
+
+새 host-preparation-r2.json: two latest+one tmp23,569,367,040B + z286,720,000B + raw여유2GiB + 기존reserve32GiB =60,363,309,056B. 새 관측free65,816,817,664B, 여유5,453,508,608B. **이 조건의 용량 부족은 해소**됐으며 아래 r1 부족 수치는 과거 계획으로 보존한다. 추가삭제0/reserve축소0/checkpoint주기축소0/GPUlane직렬화0. 용량 산술 CPU검산과 shared lock 실제검증은 별도다.
+
 SH1 shared API/patch/checkpoint overwrite 및 W0-z integration receipt 아직 NOT_READY. 중복 구현하지 않고 exact shared source를 결속해야 한다. 이것은 추가 사용자 승인 대기가 아니다.
 
-저장량 계획: FP32 H7,177,502,720B + BF16 selectedW678,952,960B/run. 두 latest와 두 atomic 임시파일31,425,822,720B + 두 z upper286,720,000B + metric여유2GiB + 기존 host reserve32GiB =68,219,764,736B. 준비 시점 가용66,027,999,232B로2,191,765,504B 부족. 원 C0 무복사 전제다. 임의 추가 삭제/공유 자산 정리/저장정책 축소로 우회하지 않는다. source-ready 뒤 actual admission 시 재확인이 필요하다.
+과거 r1 저장량 계획: FP32 H7,177,502,720B + BF16 selectedW678,952,960B/run. 두 latest와 두 atomic 임시파일31,425,822,720B + 두 z upper286,720,000B + metric여유2GiB + 기존 host reserve32GiB =68,219,764,736B. 당시 가용66,027,999,232B로2,191,765,504B 부족했으나 위 r2 계약으로 supersede됐다. 원 C0 무복사 전제다. source-ready 뒤 actual admission 시 재확인이 필요하다.
 
 실제 신규 Qwen CF/zsRE job IDs 없음, W&B 새 run 없음, 모델forward0. source-ready/충족된 storage/runtime 검산 없이 가짜 held/PENDING 등록이나 PASS를 만들지 않는다. SH1에 삭제·runtime·자산·storage 숫자를 같은 task direct 전달했고 공용 exact API 요청은 유지한다. CPU host/query 증거는 host-checks.json에 분리한다. checkpoint overwrite/resume/W0z-native shared 검사는 NOT_RUN_SHARED_SOURCE_PENDING.
 

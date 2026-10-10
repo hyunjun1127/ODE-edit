@@ -1,0 +1,13 @@
+{
+  "GPU_lane_serialization": false,
+  "additional_deletions": 0,
+  "headroom_bytes": 5453508608,
+  "new_jobs": [],
+  "nonce": "USER-FE-ORIGINAL-W0-RESET-20261011-R1",
+  "shared_atomic_lock_scope": "before temp creation through serialize/fsync/replace",
+  "source_ready_before_submission_required": true,
+  "source_stage": "SOURCE_INPUT_PENDING_SH1",
+  "storage_capacity_plan": "PASS_CONDITIONAL_ON_SHARED_HOST_LOCK",
+  "supersedes_storage_plan": "status.json; old receipt retained",
+  "writer_lock_actual_verification": "NOT_RUN_SOURCE_NOT_READY"
+}
