@@ -79,7 +79,10 @@ raw SHA를 확인했다. 원 W0agreement/token-micro 값으로 대체하지 않�
 기존 점수를 복사하지 않는다. 이전 표의 history/author/native FE 수치와 출처는
 [철회된 FE 결과 이력](experiment-reports/global/fe-original-w0-reset-20261011/withdrawn-results.md)에 보존했다.
 본문의 이전 FE 완료·KEEP 서술은 당시 이력이며 이 지시가 우선한다.
-이전 FE checkpoint는 사용자 승인으로 삭제 작업 중이다. **삭제 완료/CP 부재는 owner 영수증 확인 후 표시**한다.
+이전 FE checkpoint는 owner 영수증 기준 SH1 11개·54,211,593,935 bytes,
+SH2 6개·23,008,049,946 bytes, 합계 **17개·77,219,643,881 bytes 삭제 완료**다.
+백업/복구사본은 없으며 raw/log/config/source는 보존했다. SH3/4의 제한된 조사에서는 복제본을 찾지 못했으며
+전체 filesystem에 잔여가 없다는 뜻은 아니다.
 HF 원본·C0·데이터·비FE checkpoint 및 raw/log/source는 삭제 대상이 아니다.
 
 새 실행은 저자 commit `478134df`의 native FE-MEMIT, YAML/default BF16,
@@ -88,8 +91,14 @@ HF 원본·C0·데이터·비FE checkpoint 및 raw/log/source는 삭제 대상�
 각 milestone마다 실행별 latest checkpoint 하나를 atomic overwrite한다. 평가 raw는 누적 보존한다.
 CF factual / zsRE public-query requestmacro loc_ans 비교 evaluator는 편집정책과 분리한다.
 SH1: Llama CF→zsRE, GPT-J CF→zsRE의 두 lane. SH2: Qwen CF/zsRE 두 lane.
-각 서버 cap2이며 비FE RUNNING과 원자료를 보존한다. 현재 새6조건은 **미제출(구현·정리 중)**이고,
-실제job ID가 없는 상태를 scheduler PENDING으로 표시하지 않는다.
+각 서버 cap2이며 비FE RUNNING과 원자료를 보존한다. SH1은 네 job을 held 검사 후 release했다.
+2026-10-11 요청자 readback 기준 Llama CF **63151 RUNNING**, zsRE **63152 PENDING**,
+GPT-J CF **63153 PENDING**, zsRE **63154 PENDING**이다. 이는 완료 성능이 아니다.
+SH2 Qwen CF/zsRE는 공통 source/CPU 결속을 마쳤지만 **미제출 — 저장공간 부족**이다.
+admission 가용59,029,065,728B / 필요60,363,309,056B로 1,334,243,328B 부족하며,
+reserve 축소·추가 삭제·자동 재시도 없이 보존한다. 신규 job ID가 없으므로 scheduler PENDING으로 표시하지 않는다.
+미제출 Qwen FE 셀은 공란, 등록된 CF의 Flu/Con은 DEFERRED로 유지한다.
+[실제 등록·삭제·저장공간 영수증 통합](experiment-reports/global/fe-original-w0-reset-20261011/report-ko.md).
 [정본 범위·담당 수락](messages/head/2026-10-11-fe-original-w0-reset.json).
 
 **W0 행은 편집 전 base model을 동일한 2,000개 요청에 평가한 기준값**이며 W20 결과와 구분합니다.
@@ -142,7 +151,7 @@ zsRE Loc은 **loc_ans 정답 token 정확도의 요청별 평균**이다. 이전
 | MEMIT | 58.88‡ | 64.75‡ | 61.70‡ | 51.83‡ | PENDING: s2-flucon-llama3-memit-42658 (62874) | PENDING: s2-flucon-llama3-memit-42658 (62874) | 44.30 | 39.95 | 22.30 |
 | AlphaEdit | 84.80‡ | 99.30‡ | 93.23‡ | 68.59‡ | PENDING: s2-flucon-llama3-alphaedit-42657 (62875) | PENDING: s2-flucon-llama3-alphaedit-42657 (62875) | 95.18 | 91.40 | 31.10 |
 | AlphaEdit-BLUE | 89.84† | 99.60† | 97.15† | 76.59† | PENDING: s2-flucon-llama3-alphaedit_blue-39283_1 (62876) | PENDING: s2-flucon-llama3-alphaedit_blue-39283_1 (62876) | 95.87 | 92.28 | 32.83 |
-| FE (author repo, W0-fixed z) |  |  |  |  |  |  |  |  |  |
+| FE (author repo, W0-fixed z) | ING: official-s1-llama3-cf-fe-original (63151) | ING: official-s1-llama3-cf-fe-original (63151) | ING: official-s1-llama3-cf-fe-original (63151) | ING: official-s1-llama3-cf-fe-original (63151) | DEFERRED | DEFERRED | PENDING: official-s1-llama3-zsre-fe-original (63152) | PENDING: official-s1-llama3-zsre-fe-original (63152) | PENDING: official-s1-llama3-zsre-fe-original (63152) |
 | AlphaEdit+SPHERE | 86.87 | 99.50 | 94.95 | 71.68 | 619.20 | 33.64 | 95.13 | 91.36 | 31.38 |
 | PRICE (Ours) | 90.98§ | 99.90§ | 93.50§ | 81.50§ | ING: pf2k-flucon-llama3-P-beta100 (63125) | ING: pf2k-flucon-llama3-P-beta100 (63125) | 99.62§ | 94.83§ | 45.31§ |
 
@@ -321,7 +330,7 @@ Llama historical3개는 원source/lock/CP와 새평가 consumer identity를 분�
 | MEMIT | 80.63 | 97.90 | 95.38 | 60.58 | 577.93 | 36.84 | 93.52 | 88.86 | 30.81 |
 | AlphaEdit | 88.22 | 99.70 | 96.33 | 73.56 | PENDING: s2-flucon-gptj-alphaedit-61778 (62866) | PENDING: s2-flucon-gptj-alphaedit-61778 (62866) | 99.69 | 96.45 | 27.94 |
 | AlphaEdit-BLUE | 89.23 | 99.55 | 97.53 | 75.06 | PENDING: s2-flucon-gptj-alphaedit_blue-61779 (62867) | PENDING: s2-flucon-gptj-alphaedit_blue-61779 (62867) | 99.75 | 95.71 | 28.83 |
-| FE (author repo, W0-fixed z) |  |  |  |  |  |  |  |  |  |
+| FE (author repo, W0-fixed z) | PENDING: official-s1-gptj-cf-fe-original (63153) | PENDING: official-s1-gptj-cf-fe-original (63153) | PENDING: official-s1-gptj-cf-fe-original (63153) | PENDING: official-s1-gptj-cf-fe-original (63153) | DEFERRED | DEFERRED | PENDING: official-s1-gptj-zsre-fe-original (63154) | PENDING: official-s1-gptj-zsre-fe-original (63154) | PENDING: official-s1-gptj-zsre-fe-original (63154) |
 | AlphaEdit+SPHERE | 88.39 | 99.70 | 95.73 | 74.27 | 616.18 | 40.89 | 99.67 | 96.29 | 28.00 |
 | PRICE (Ours) | ING: rent janghj-final2k-r2-gptj (101707) | ING: rent janghj-final2k-r2-gptj (101707) | ING: rent janghj-final2k-r2-gptj (101707) | ING: rent janghj-final2k-r2-gptj (101707) | ING: rent janghj-final2k-r2-gptj (101707) | ING: rent janghj-final2k-r2-gptj (101707) | ING: pf2k-gptj-zsre-P-beta075-ee (63027) | ING: pf2k-gptj-zsre-P-beta075-ee (63027) | ING: pf2k-gptj-zsre-P-beta075-ee (63027) |
 

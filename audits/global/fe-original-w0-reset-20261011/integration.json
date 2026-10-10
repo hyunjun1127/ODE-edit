@@ -1,0 +1,21 @@
+{
+  "parent_nonce": "USER-FE-ORIGINAL-W0-RESET-20261011-R1",
+  "followup_nonce": "ROOT-FE-ACTUAL4-QWEN-STORAGE-20261011-R1",
+  "baseline_main": "5dce4a30",
+  "note": "실제 등록 영수증과 요청자의 후속 readback 통합. 신규 제출/취소/삭제/모니터 없음.",
+  "state_observation": {"source": "requester followup nonce", "date": "2026-10-11", "exact_time": null, "gh_scheduler_query": false},
+  "source": "03b21d404d6275b5f212974fe130ca98819789de",
+  "official_tree": "7bdebfa8edcd812716a492160f8895b0d8865543",
+  "submission_receipt": "audits/servers/server1/fe-original-w0-2k-20261011/submission.json",
+  "jobs": [
+    {"condition": "llama3-cf", "job_id": "63151", "state": "RUNNING"},
+    {"condition": "llama3-zsre", "job_id": "63152", "state": "PENDING"},
+    {"condition": "gptj-cf", "job_id": "63153", "state": "PENDING"},
+    {"condition": "gptj-zsre", "job_id": "63154", "state": "PENDING"}
+  ],
+  "startup": {"job_id": "63151", "run_id": "2dd26c6040cd43ae", "status": "READY_ONLINE", "evidence": "SH1 local tracking/receipt.json; GH 읽기 전용 확인", "final_metrics_verified": false},
+  "qwen": {"datasets": ["cf", "zsre"], "job_ids": [], "status": "RESOURCE_BLOCKED_STORAGE_KEEP_SOURCE", "source_ready_receipt": "audits/servers/server2/fe-original-w0-2k-20261011/source-ready-r1.json", "required_bytes": 60363309056, "available_bytes": 59029065728, "deficit_bytes": 1334243328, "reserve_bytes": 34359738368},
+  "deleted": {"server1_count": 11, "server1_bytes": 54211593935, "server2_count": 6, "server2_bytes": 23008049946, "count": 17, "bytes": 77219643881, "backup": false, "raw_log_config_source_preserved": true, "whole_filesystem_absence_claim": false},
+  "new_performance_values": 0,
+  "non_fe_table_cells_changed": 0
+}
