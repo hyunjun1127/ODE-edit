@@ -1,0 +1,33 @@
+{
+  "nonce": "USER-GH-S1-S2-COMPLETED-TABLE-S1-FLUCON-CAP3-20261010-R1",
+  "authority_commit": "abeff02c0a014f5c5dabc6fbffa78b25c3809841",
+  "envelope": "messages/head/2026-10-10-s1-s2-completed-table-s1-flucon-cap3.json",
+  "transport": "공식 app-server direct turn/start; exact session/CWD 확인, model/effort override 없음",
+  "ack_readback": "transport는 accepted 반환 후 ACK pending으로 종료. 별도 exact read_thread에서 같은 accepted turn의 명시 OWNER_ACK를 실제 확인. 재전송 없음.",
+  "owners": {
+    "server1": {
+      "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+      "cwd": "/mnt/raid5/janghj/ODE-edit",
+      "accepted_turn": "01a1236d-9293-73b0-aff5-7e2789e84602",
+      "explicit_owner_ACK": true,
+      "stage": "진행 중: cap3/대기DAG 확인, 완료raw 검산 및 중복 없는 CF checkpoint FLUCON 실제등록",
+      "new_FLUCON_submission_receipt": null,
+      "new_table_results": null
+    },
+    "server2": {
+      "session": "01a0493a-074c-7f91-9a13-769116326fef",
+      "cwd": "/mnt/raid5/janghj/ODE-edit",
+      "accepted_turn": "01a1236d-9585-7183-88d1-d29261b81fcc",
+      "explicit_owner_ACK": true,
+      "stage": "진행 중: cap3/DAG 검산 및 완료raw 검산; 이번nonce 신규GPU제출 없음",
+      "owner_initial_allocated_GPUs": 2,
+      "new_table_results": null
+    }
+  },
+  "canonical_caps": {"server1": 3, "server2": 3, "other_servers": "UNCHANGED"},
+  "cap_runtime_final_receipts": "owner 후속 보고 대기; 정본/수신수락과 실제 적용완료 구분",
+  "README_owner": "GH; 새 실제metrics/jobreceipt 수신 후 해당 셀만 통합",
+  "current_GH_README_updates": 0,
+  "GH_job_mutations": 0,
+  "new_recurring_monitor": false
+}
