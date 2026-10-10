@@ -1,0 +1,258 @@
+{
+  "nonce": "GH-SH3-SH4-FE-RESET-REPLICA-INVENTORY-20261011-R1",
+  "server": "server4",
+  "accepted_turn": "01a12695-8e02-7a12-ae54-ccc3cb8e1eb6",
+  "at": "2026-10-10T16:12:42.232834+00:00",
+  "envelope_sha256": "2b367a3983ef188115908b107b6c021d958ffae6a0d2d5ae6fd5ef3f6765e73d",
+  "status": "BOUNDED_SCOPE_ZERO_FE_EDITED_CHECKPOINTS",
+  "rows": [
+    {
+      "attempt": "execution-noqual-r1",
+      "method": "MEMIT_FE",
+      "model": "qwen25",
+      "dataset": "cf",
+      "config_path": "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009/execution-noqual-r1/configs/qwen25-cf-memit_fe.json",
+      "config_sha256": "fc98b52eed6d78a464bb86519d90632b722c94a4c097ffa413c5f7bd19260243",
+      "output_path": "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009/execution-noqual-r1/runs/qwen25-cf-memit_fe",
+      "output_exists": false,
+      "checkpoint_count": 0,
+      "archive_metadata": [
+        {
+          "path": "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009/execution-noqual-r1/archive/qwen25-cf-memit_fe/submission-lock.json",
+          "bytes": 2243,
+          "sha256": "aea823451ef5f96839c2696fabe0571f49b63e7b8cef502cc8b5a659528365b6"
+        },
+        {
+          "path": "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009/execution-noqual-r1/archive/qwen25-cf-memit_fe/authority.json",
+          "bytes": 1091,
+          "sha256": "668070c089151af6473842f68a5fa03037c8d0b6928304d29c3ef0b48e6fda4c"
+        },
+        {
+          "path": "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009/execution-noqual-r1/archive/qwen25-cf-memit_fe/adoption.json",
+          "bytes": 671,
+          "sha256": "f8c2fb8f1affb54d8655d5776b77d39229fe6dedf42c41fcccbe56850a91fa98"
+        }
+      ]
+    },
+    {
+      "attempt": "execution-noqual-r1",
+      "method": "MEMIT_FE",
+      "model": "qwen25",
+      "dataset": "zsre",
+      "config_path": "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009/execution-noqual-r1/configs/qwen25-zsre-memit_fe.json",
+      "config_sha256": "6924a9a099b4db416ad11eba633aea98247b91944000f0140b52f4e239b1013b",
+      "output_path": "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009/execution-noqual-r1/runs/qwen25-zsre-memit_fe",
+      "output_exists": false,
+      "checkpoint_count": 0,
+      "archive_metadata": [
+        {
+          "path": "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009/execution-noqual-r1/archive/qwen25-zsre-memit_fe/submission-lock.json",
+          "bytes": 2233,
+          "sha256": "854f9394125040f1a0c5221b02fa08510f5b5cc3fe170efc98809f9a1237f127"
+        },
+        {
+          "path": "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009/execution-noqual-r1/archive/qwen25-zsre-memit_fe/authority.json",
+          "bytes": 1095,
+          "sha256": "2326b18b320bf0ba2ee94088d5a4c95f7b52b3675834a079213c8e527ef831ef"
+        },
+        {
+          "path": "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009/execution-noqual-r1/archive/qwen25-zsre-memit_fe/adoption.json",
+          "bytes": 675,
+          "sha256": "7ab520c663953919ee6c7351eabaafda22b68908e9732f8495db5725530e7777"
+        }
+      ]
+    },
+    {
+      "attempt": "execution-noqual-r2",
+      "method": "MEMIT_FE",
+      "model": "qwen25",
+      "dataset": "cf",
+      "config_path": "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009/execution-noqual-r2/configs/qwen25-cf-memit_fe.json",
+      "config_sha256": "fc98b52eed6d78a464bb86519d90632b722c94a4c097ffa413c5f7bd19260243",
+      "output_path": "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009/execution-noqual-r2/runs/qwen25-cf-memit_fe",
+      "output_exists": false,
+      "checkpoint_count": 0,
+      "archive_metadata": [
+        {
+          "path": "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009/execution-noqual-r2/archive/qwen25-cf-memit_fe/submission-lock.json",
+          "bytes": 2261,
+          "sha256": "88efa3417abce92cc3ad544721c5bab59e9fbcff234101282b0cb725b657ce6f"
+        },
+        {
+          "path": "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009/execution-noqual-r2/archive/qwen25-cf-memit_fe/authority.json",
+          "bytes": 1091,
+          "sha256": "1649220d911724c949f52751d55b5190408ed8add833fd9e5cde861cf6093bf1"
+        },
+        {
+          "path": "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009/execution-noqual-r2/archive/qwen25-cf-memit_fe/adoption.json",
+          "bytes": 671,
+          "sha256": "08fca79e2f67cda914ebb8df8f95f349982cfd716253ba5d9d550d435cc55d63"
+        },
+        {
+          "path": "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009/execution-noqual-r2/archive/qwen25-cf-memit_fe/submission.json",
+          "bytes": 1452,
+          "sha256": "40f1452f28a25387c445c4aedf036eb00219f28da2f49ecddb6bdbc4e38ac683"
+        }
+      ]
+    },
+    {
+      "attempt": "execution-noqual-r2",
+      "method": "MEMIT_FE",
+      "model": "qwen25",
+      "dataset": "zsre",
+      "config_path": "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009/execution-noqual-r2/configs/qwen25-zsre-memit_fe.json",
+      "config_sha256": "6924a9a099b4db416ad11eba633aea98247b91944000f0140b52f4e239b1013b",
+      "output_path": "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009/execution-noqual-r2/runs/qwen25-zsre-memit_fe",
+      "output_exists": false,
+      "checkpoint_count": 0,
+      "archive_metadata": [
+        {
+          "path": "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009/execution-noqual-r2/archive/qwen25-zsre-memit_fe/submission-lock.json",
+          "bytes": 2251,
+          "sha256": "456d1fac49a6ff882bf16b4f171f980cb270af9401929a2798ca016ffb492197"
+        },
+        {
+          "path": "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009/execution-noqual-r2/archive/qwen25-zsre-memit_fe/authority.json",
+          "bytes": 1095,
+          "sha256": "8d6ea58f94c6d320b5257eda5fddd845a42a401269c45d4a3b6a96e9a294f8bc"
+        },
+        {
+          "path": "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009/execution-noqual-r2/archive/qwen25-zsre-memit_fe/adoption.json",
+          "bytes": 675,
+          "sha256": "97c8239172862b679a7fbce3bfc3a4f80dd34ba8956b56ab367871362a94a503"
+        },
+        {
+          "path": "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009/execution-noqual-r2/archive/qwen25-zsre-memit_fe/submission.json",
+          "bytes": 1456,
+          "sha256": "86bf9c38ffd1156400faf5b7121021cd77a24d3a907d3260939eb5bee5bb5071"
+        }
+      ]
+    },
+    {
+      "attempt": "execution-cf-display-r1",
+      "method": "MEMIT_FE",
+      "model": "qwen25",
+      "dataset": "cf",
+      "config_path": "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009/execution-cf-display-r1/configs/qwen25-cf-memit_fe.json",
+      "config_sha256": "fc98b52eed6d78a464bb86519d90632b722c94a4c097ffa413c5f7bd19260243",
+      "output_path": "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009/execution-cf-display-r1/runs/qwen25-cf-memit_fe",
+      "output_exists": false,
+      "checkpoint_count": 0,
+      "archive_metadata": [
+        {
+          "path": "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009/execution-cf-display-r1/archive/qwen25-cf-memit_fe/submission-lock.json",
+          "bytes": 2281,
+          "sha256": "04d03f392959fca4b60c4dea542b0839e739869d026a8d5f1ddfb8c4ee59fdb9"
+        },
+        {
+          "path": "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009/execution-cf-display-r1/archive/qwen25-cf-memit_fe/authority.json",
+          "bytes": 1099,
+          "sha256": "104e4b1a53d55f30b289d26e11c724e08dc752daff871816f92388d38826f73c"
+        },
+        {
+          "path": "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009/execution-cf-display-r1/archive/qwen25-cf-memit_fe/adoption.json",
+          "bytes": 679,
+          "sha256": "ad0ff0cc056ed21f4f550d762e1f20d7e708be5db616f6f0b5980cd42f10bdb4"
+        },
+        {
+          "path": "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009/execution-cf-display-r1/archive/qwen25-cf-memit_fe/submission.json",
+          "bytes": 1460,
+          "sha256": "826e3e47a19b87e013e745dcc132a33e738766296c31e416f981a99f8631c2f0"
+        }
+      ]
+    },
+    {
+      "attempt": "execution-cf-display-r1",
+      "method": "MEMIT_FE",
+      "model": "qwen25",
+      "dataset": "zsre",
+      "config_path": "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009/execution-cf-display-r1/configs/qwen25-zsre-memit_fe.json",
+      "config_sha256": "6924a9a099b4db416ad11eba633aea98247b91944000f0140b52f4e239b1013b",
+      "output_path": "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009/execution-cf-display-r1/runs/qwen25-zsre-memit_fe",
+      "output_exists": false,
+      "checkpoint_count": 0,
+      "archive_metadata": []
+    }
+  ],
+  "source_config_job_links": [
+    {
+      "model": "qwen25",
+      "method": "MEMIT_FE",
+      "dataset": "cf",
+      "logical_main_row": "qwen25-cf-memit_fe",
+      "old_job_id": "61791",
+      "old_state": "USER_CANCELLED_FOR_SERVER2_MIGRATION",
+      "destination_job_id": null,
+      "config_sha256": "31de46061f6708ba09e7d48f98e6192031b928fb54f3b4fa74aab5ceb0175841",
+      "config_file_sha256": "fc98b52eed6d78a464bb86519d90632b722c94a4c097ffa413c5f7bd19260243",
+      "source": "dc80ec529c940019d1bee27a67a4e908eb37cc64",
+      "ordered_sample_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+      "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+      "completed_edits": 0,
+      "W20_observed": false,
+      "metric_status": "NOT_MEASURED",
+      "metrics": {},
+      "main_result_eligible": false,
+      "migration_status": "SOURCE_CEASED_DESTINATION_NOT_SUBMITTED_BY_SH4"
+    },
+    {
+      "model": "qwen25",
+      "method": "MEMIT_FE",
+      "dataset": "zsre",
+      "logical_main_row": "qwen25-zsre-memit_fe",
+      "old_job_id": "61763",
+      "old_state": "USER_CANCELLED_FOR_SERVER2_MIGRATION",
+      "destination_job_id": null,
+      "config_sha256": "b96b7e8d301ff8c4023ff53ad44de75c004aeb840a3d046bbef472ec6691ace8",
+      "config_file_sha256": "6924a9a099b4db416ad11eba633aea98247b91944000f0140b52f4e239b1013b",
+      "source": "d614add5e4c650821ed8d2503c071a1e02605ca8",
+      "ordered_sample_sha256": "494b15107deb77d9741606b7bddfecb8b350a486bb5a751655b294d4ebc6f1a4",
+      "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+      "completed_edits": 0,
+      "W20_observed": false,
+      "metric_status": "NOT_MEASURED",
+      "metrics": {},
+      "main_result_eligible": false,
+      "migration_status": "SOURCE_CEASED_DESTINATION_NOT_SUBMITTED_BY_SH4"
+    }
+  ],
+  "found_payloads": [],
+  "payload_count": 0,
+  "evidence": [
+    {
+      "path": "/data/janghj/ODE-edit/local/fe-replica-inventory-20261011/worktree/audits/servers/server4/qwen-migration-20261009/result-eligibility.json",
+      "sha256": "37e865c5081dca06ee328d7065cfd3342f8c78dd1d4142e8514ca23c52c2fede"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/fe-replica-inventory-20261011/worktree/audits/servers/server4/qwen-migration-20261009/handoff-manifest.json",
+      "sha256": "e19d900bf9d28108670df8afdbff20287f108f0d992a057aca512cdef39f8f95"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/fe-replica-inventory-20261011/worktree/experiment-reports/servers/server4/qwen-migration-20261009/report-ko.md",
+      "sha256": "cb7aaf06543b290acd1013c6d05c08c11c326f488c4e5462292a3d595e37fec8"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/local/transfers/20260918-official-lifelong-server4-to-server2-r1/completed-receipt.json",
+      "sha256": "70b5d38125096eb8307de4675b2890e47c8ca772740f80c988c1528639ced1a8"
+    }
+  ],
+  "coverage": [
+    "Tracked own audits/reports/runs metadata exact MEMIT_FE/FE_HISTORY/FE author/sink references",
+    "Three registered Qwen baseline attempts: exact method config, expected run path, archive companion metadata",
+    "local/transfers JSON manifests and tracked transfers references; prior storage inventory metadata"
+  ],
+  "limitations": [
+    "No whole-filesystem absence claim",
+    "No model/tensor content loading or hashing",
+    "No new Slurm query; historical job cessation evidence only",
+    "No FE_HISTORY/FE author/sink source-bound checkpoint located within reviewed metadata; other checkpoints remain unclassified/protected"
+  ],
+  "delete_authorized": false,
+  "parent_authority_mapping": "USER-FE-ORIGINAL-W0-RESET-20261011-R1 inventory-only child; no payload deletion authority used",
+  "GPU": 0,
+  "CP_load": 0,
+  "transfer": 0,
+  "delete": 0,
+  "job_mutation": 0,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED"
+}
