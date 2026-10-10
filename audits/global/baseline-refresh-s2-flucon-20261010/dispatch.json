@@ -1,0 +1,31 @@
+{
+  "nonce": "USER-GH-S1-S2-BASELINE-REFRESH-S2-FLUCON-20261010-R1",
+  "authority": "92704580261c4f4b29d98d5a6870d2a967d0a34e",
+  "envelope": "messages/head/2026-10-10-baseline-refresh-s2-missing-flucon.json",
+  "envelope_sha256": "b060543a28f1a178c1c3862e4681fc2c33d2595657c6a7a7df03fcffae6fd884",
+  "transport": "공식 app-server direct; initialize/thread-read/resume/turn-start. exact registry session 및 live CWD=/mnt/raid5/janghj/ODE-edit 확인. model/effort override 없음.",
+  "server1": {
+    "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+    "accepted_turn": "01a124dc-4d21-70f0-9fa7-94452f671f11",
+    "owner_ACK": true,
+    "ACK_evidence": "같은 accepted turn의 실제 agentMessage를 read_thread로 확인: OWNER_ACK nonce=USER-GH-S1-S2-BASELINE-REFRESH-S2-FLUCON-20261010-R1 server=server1 accepted=true",
+    "transport_history": "첫 thread/resume timeout으로 turn/start 미발행. readback에서 idle/이전완료turn 확인 후 정상 turn/start. 이벤트연결ACK대기시간내미회수이나 exactturn readback에서명시ACK확인. 중복start/실험등록없음.",
+    "stage": "완료자료/기존62581–62584 검산 및 SH2 미평가CP 인계 진행; 새GPU등록권한 없음",
+    "result_receipt": null
+  },
+  "server2": {
+    "session": "01a0493a-074c-7f91-9a13-769116326fef",
+    "accepted_turn": "01a124db-95bd-7231-981d-429bbc98305c",
+    "owner_ACK": true,
+    "ACK_evidence": "direct event OWNER_ACK_RECEIVED 및 같은 turn readback accepted=true/정본SHA일치/SH1입력요청 진행 확인",
+    "stage": "자기완료CF CP/공통evalrunner호환성 검산 및 SH1중복제거 입력연결 진행",
+    "actual_new_jobs": [],
+    "submission_receipt": null,
+    "new_job_status": "NOT_YET_REPORTED; PENDING으로 표기하지 않음"
+  },
+  "caps": {"server1": 3, "server2": 3, "others": "UNCHANGED"},
+  "README": "GH sole통합. 이전완료b047b099표 보존, 이번새검산rows/실제job영수증 수신후해당셀갱신",
+  "preservation": "기존raw/CP/frozen source/job KEEP, 불필요duplicate평가/재편집/새W0 없음",
+  "GH_scheduler_mutations": 0,
+  "new_monitor": false
+}
