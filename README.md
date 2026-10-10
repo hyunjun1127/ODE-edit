@@ -144,7 +144,7 @@ zsRE Loc은 **loc_ans 정답 token 정확도의 요청별 평균**이다. 이전
 | AlphaEdit-BLUE | 89.84† | 99.60† | 97.15† | 76.59† | PENDING: s2-flucon-llama3-alphaedit_blue-39283_1 (62876) | PENDING: s2-flucon-llama3-alphaedit_blue-39283_1 (62876) | 95.87 | 92.28 | 32.83 |
 | FE (author repo, W0-fixed z) |  |  |  |  |  |  |  |  |  |
 | AlphaEdit+SPHERE | 86.87 | 99.50 | 94.95 | 71.68 | 619.20 | 33.64 | 95.13 | 91.36 | 31.38 |
-| PRICE (Ours) | 90.98§ | 99.90§ | 93.50§ | 81.50§ | DEFERRED | DEFERRED | 99.62§ | 94.83§ | 45.31§ |
+| PRICE (Ours) | 90.98§ | 99.90§ | 93.50§ | 81.50§ | ING: pf2k-flucon-llama3-P-beta100 (63125) | ING: pf2k-flucon-llama3-P-beta100 (63125) | 99.62§ | 94.83§ | 45.31§ |
 
 § 사용자 2026-10-10 결정에 따른 **최종 PRICE method** CF 2K이며, server4 job **62604**로 실행했다.
 - 설정: arm `llama3-P-beta100`. β = c = β_max = 1.0, unit-lr ρ0.05, γ1, cap 끝점 cast, HC-PRICE, 요청별 early exit.
@@ -153,7 +153,7 @@ zsRE Loc은 **loc_ans 정답 token 정확도의 요청별 평균**이다. 이전
 - Eff/Gen/Loc은 strict NLL preference R/P/N 성공률 1,998/2,000 · 3,740/4,000 · 16,300/20,000이다.
 - Score는 반올림 전 성공률의 조화평균(90.9776)이다. 표시는 decimal half-up 둘째 자리다.
 - 이전 FREE100 job 60103 값(99.70 / 92.78 / 82.21, Score 90.98)을 대체했다.
-- CF Flu/Con은 W20 checkpoint로 따로 평가할 예정이라 `DEFERRED`다. zsRE는 같은 설정의 job **62889**(official zsRE stream·evaluator, W20/2,000 edits)이다. W0가 본표 zsRE W0 행(38.10 / 37.61 / 38.59)과 같다. Loc(45.31)이 W0(38.59)보다 높은데, W0 예측 일치율은 62.68%다(원인 미확인). [zsRE 보고](experiment-reports/servers/server4/price-final-2k-20261010/llama3-zsre-report-ko.md)
+- CF Flu/Con은 W20 checkpoint를 baseline과 같은 생성 평가기(server1 = devbox, job **63125**)로 평가하는 중이다. zsRE는 같은 설정의 job **62889**(official zsRE stream·evaluator, W20/2,000 edits)이다. W0가 본표 zsRE W0 행(38.10 / 37.61 / 38.59)과 같다. Loc(45.31)이 W0(38.59)보다 높은데, W0 예측 일치율은 62.68%다(원인 미확인). [zsRE 보고](experiment-reports/servers/server4/price-final-2k-20261010/llama3-zsre-report-ko.md)
 - 500 edit마다 resumable checkpoint를 저장했다(가중치, history H, HC 통계).
 [실행·수치·checkpoint 보고](experiment-reports/servers/server4/price-final-2k-20261010/llama3-cf-report-ko.md) ·
 [정확한 수치·SHA](audits/servers/server4/price-final-2k-20261010/llama3-cf-results.json) ·
