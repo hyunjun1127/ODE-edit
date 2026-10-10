@@ -1,0 +1,283 @@
+{
+  "CPU_PASS": true,
+  "CPU_controls": 5,
+  "checkpoint_deserialized": false,
+  "generation_checks": [
+    {
+      "job": "61898",
+      "metric": "Flu",
+      "paper_display_x100": "471.02",
+      "raw_unit": "bits",
+      "raw_value": 4.71017497777678,
+      "valid_count": 2000
+    },
+    {
+      "job": "61898",
+      "metric": "Con",
+      "paper_display_x100": "3.01",
+      "raw_unit": "cosine_0_to_1",
+      "raw_value": 0.030072135827285053,
+      "valid_count": 2000
+    },
+    {
+      "job": "61962",
+      "metric": "Flu",
+      "paper_display_x100": "602.99",
+      "raw_unit": "bits",
+      "raw_value": 6.029855922995685,
+      "valid_count": 2000
+    },
+    {
+      "job": "61962",
+      "metric": "Con",
+      "paper_display_x100": "37.43",
+      "raw_unit": "cosine_0_to_1",
+      "raw_value": 0.37431408204466576,
+      "valid_count": 2000
+    }
+  ],
+  "limitation": "CP full payload rehash not repeated; recorded final hash/provenance and fresh presence/stat used. CPU query parity is not pretrained forward parity.",
+  "live_source_binding": [
+    {
+      "command": {
+        "bytes": 1332,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/scripts/qwen25-zsre-memit_fe-gpu.sh",
+        "sha256": "edc3910387ea78e2cda3db040ec09921beaf866316e8ebe13c1821abd186258a"
+      },
+      "dependency": "(null)",
+      "job": "62085",
+      "source": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "source_lock": {
+        "bytes": 71702,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/source-lock.json",
+        "sha256": "fafaeac54b2ccaa1fd52839c8d2f0b740e0d9a35fc99f5ed74b8dd49deaf190e"
+      },
+      "state": "RUNNING"
+    },
+    {
+      "command": {
+        "bytes": 1331,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/scripts/qwen25-cf-alphaedit-gpu.sh",
+        "sha256": "268bd270d4b2867db01903c85db2a6cb0fa46056de9519973bf95b0f2469296e"
+      },
+      "dependency": "(null)",
+      "job": "62075",
+      "source": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "source_lock": {
+        "bytes": 71702,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/source-lock.json",
+        "sha256": "fafaeac54b2ccaa1fd52839c8d2f0b740e0d9a35fc99f5ed74b8dd49deaf190e"
+      },
+      "state": "RUNNING"
+    },
+    {
+      "command": {
+        "bytes": 1173,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-zsre-sphere-b9-resume-20261010/registration-r1/scripts/main.sh",
+        "sha256": "83c6b4cda704dabd6019c0c4dcc0ef2d31b6d818647ba0ebe1cd1f68a2bfa209"
+      },
+      "dependency": "afterany:62532(unfulfilled)",
+      "job": "62538",
+      "source": "78017702c1d3d5a6843e27e63fcf105206d22dbe",
+      "source_lock": {
+        "bytes": 73265,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-zsre-sphere-b9-resume-20261010/registration-r1/source-lock.json",
+        "sha256": "d1ba2406b97e1ca99e6c8096a08c2ee6900f24d5fecf93e56337b6852ef9f36d"
+      },
+      "state": "PENDING"
+    },
+    {
+      "command": {
+        "bytes": 814,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-author-hparams-2k-20261010/registration-r1/scripts/zsre.sh",
+        "sha256": "c939f73a8381425462341a51a1263fe618ea5c1360228a743d3b35f86bc916a8"
+      },
+      "dependency": "afterany:62531(unfulfilled)",
+      "job": "62532",
+      "source": "a8c4c611a37210ddfa9e7db222dca6678d4cd678",
+      "source_lock": {
+        "bytes": 118738,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-author-hparams-2k-20261010/registration-r1/execution-lock.json",
+        "sha256": "40d8701756ca9e97291e550fb217eea4116094f6970ca1720566327c95565435"
+      },
+      "state": "PENDING"
+    },
+    {
+      "command": {
+        "bytes": 812,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-author-hparams-2k-20261010/registration-r1/scripts/cf.sh",
+        "sha256": "869c9dfb5eb7bb621dbc886e7abb20c5afd4a33889425f51ba30b40c0b50ae94"
+      },
+      "dependency": "afterany:62083(unfulfilled),afterany:62085(unfulfilled)",
+      "job": "62531",
+      "source": "a8c4c611a37210ddfa9e7db222dca6678d4cd678",
+      "source_lock": {
+        "bytes": 118738,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-author-hparams-2k-20261010/registration-r1/execution-lock.json",
+        "sha256": "40d8701756ca9e97291e550fb217eea4116094f6970ca1720566327c95565435"
+      },
+      "state": "PENDING"
+    },
+    {
+      "command": {
+        "bytes": 1333,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/scripts/qwen25-zsre-alphaedit-gpu.sh",
+        "sha256": "416bea33035031e956880547e23823ec676f49910504608661fca40fd7ba5eec"
+      },
+      "dependency": "afterany:62075(unfulfilled)",
+      "job": "62083",
+      "source": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "source_lock": {
+        "bytes": 71702,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/source-lock.json",
+        "sha256": "fafaeac54b2ccaa1fd52839c8d2f0b740e0d9a35fc99f5ed74b8dd49deaf190e"
+      },
+      "state": "PENDING"
+    }
+  ],
+  "model_forward": 0,
+  "raw_metrics_unchanged": true,
+  "scheduler_queries": 0,
+  "source": {
+    "bytes": 3800,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-completed-cap3-20261010/audits/servers/server2/completed-table-flucon-cap3-20261010/validate.py",
+    "sha256": "aef40d2819e86a9b96ebd1ada7160667babab42a2f8859da5b23e81875e07e46"
+  },
+  "source_members_rechecked": [
+    {
+      "bytes": 8479,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-native-eval-r2/source/official/evaluation/zsre_paper.py",
+      "sha256": "d6a5b34eafd27660a2dee4632c638b6bf4c3614246071711cf5159a002415a45"
+    },
+    {
+      "bytes": 4774,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-native-eval-r2/source/official/evaluation/zsre_query_parity.py",
+      "sha256": "9883f16036525278bbfcdb45f5f08cc8c799f638a26f91b4d9da2a0d70103803"
+    },
+    {
+      "bytes": 966,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-native-eval-r2/source/official/evaluation/zsre_public_sources/lock.json",
+      "sha256": "83f7f9aeafe28136f87f252a0783bf282929321ef6af9fbf2596f85d1f995ae6"
+    },
+    {
+      "bytes": 8479,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/source/official/evaluation/zsre_paper.py",
+      "sha256": "d6a5b34eafd27660a2dee4632c638b6bf4c3614246071711cf5159a002415a45"
+    },
+    {
+      "bytes": 4774,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/source/official/evaluation/zsre_query_parity.py",
+      "sha256": "9883f16036525278bbfcdb45f5f08cc8c799f638a26f91b4d9da2a0d70103803"
+    },
+    {
+      "bytes": 966,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/source/official/evaluation/zsre_public_sources/lock.json",
+      "sha256": "83f7f9aeafe28136f87f252a0783bf282929321ef6af9fbf2596f85d1f995ae6"
+    },
+    {
+      "bytes": 8479,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/source/official/evaluation/zsre_paper.py",
+      "sha256": "d6a5b34eafd27660a2dee4632c638b6bf4c3614246071711cf5159a002415a45"
+    },
+    {
+      "bytes": 4774,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/source/official/evaluation/zsre_query_parity.py",
+      "sha256": "9883f16036525278bbfcdb45f5f08cc8c799f638a26f91b4d9da2a0d70103803"
+    },
+    {
+      "bytes": 966,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/source/official/evaluation/zsre_public_sources/lock.json",
+      "sha256": "83f7f9aeafe28136f87f252a0783bf282929321ef6af9fbf2596f85d1f995ae6"
+    },
+    {
+      "bytes": 8479,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/source/official/evaluation/zsre_paper.py",
+      "sha256": "d6a5b34eafd27660a2dee4632c638b6bf4c3614246071711cf5159a002415a45"
+    },
+    {
+      "bytes": 4774,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/source/official/evaluation/zsre_query_parity.py",
+      "sha256": "9883f16036525278bbfcdb45f5f08cc8c799f638a26f91b4d9da2a0d70103803"
+    },
+    {
+      "bytes": 966,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/source/official/evaluation/zsre_public_sources/lock.json",
+      "sha256": "83f7f9aeafe28136f87f252a0783bf282929321ef6af9fbf2596f85d1f995ae6"
+    },
+    {
+      "bytes": 8479,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/source/official/evaluation/zsre_paper.py",
+      "sha256": "d6a5b34eafd27660a2dee4632c638b6bf4c3614246071711cf5159a002415a45"
+    },
+    {
+      "bytes": 4774,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/source/official/evaluation/zsre_query_parity.py",
+      "sha256": "9883f16036525278bbfcdb45f5f08cc8c799f638a26f91b4d9da2a0d70103803"
+    },
+    {
+      "bytes": 966,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/source/official/evaluation/zsre_public_sources/lock.json",
+      "sha256": "83f7f9aeafe28136f87f252a0783bf282929321ef6af9fbf2596f85d1f995ae6"
+    },
+    {
+      "bytes": 8479,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/source/official/evaluation/zsre_paper.py",
+      "sha256": "d6a5b34eafd27660a2dee4632c638b6bf4c3614246071711cf5159a002415a45"
+    },
+    {
+      "bytes": 4774,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/source/official/evaluation/zsre_query_parity.py",
+      "sha256": "9883f16036525278bbfcdb45f5f08cc8c799f638a26f91b4d9da2a0d70103803"
+    },
+    {
+      "bytes": 966,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/source/official/evaluation/zsre_public_sources/lock.json",
+      "sha256": "83f7f9aeafe28136f87f252a0783bf282929321ef6af9fbf2596f85d1f995ae6"
+    },
+    {
+      "bytes": 8479,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/source/official/evaluation/zsre_paper.py",
+      "sha256": "d6a5b34eafd27660a2dee4632c638b6bf4c3614246071711cf5159a002415a45"
+    },
+    {
+      "bytes": 4774,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/source/official/evaluation/zsre_query_parity.py",
+      "sha256": "9883f16036525278bbfcdb45f5f08cc8c799f638a26f91b4d9da2a0d70103803"
+    },
+    {
+      "bytes": 966,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/source/official/evaluation/zsre_public_sources/lock.json",
+      "sha256": "83f7f9aeafe28136f87f252a0783bf282929321ef6af9fbf2596f85d1f995ae6"
+    },
+    {
+      "bytes": 8479,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/source/official/evaluation/zsre_paper.py",
+      "sha256": "d6a5b34eafd27660a2dee4632c638b6bf4c3614246071711cf5159a002415a45"
+    },
+    {
+      "bytes": 4774,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/source/official/evaluation/zsre_query_parity.py",
+      "sha256": "9883f16036525278bbfcdb45f5f08cc8c799f638a26f91b4d9da2a0d70103803"
+    },
+    {
+      "bytes": 966,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/source/official/evaluation/zsre_public_sources/lock.json",
+      "sha256": "83f7f9aeafe28136f87f252a0783bf282929321ef6af9fbf2596f85d1f995ae6"
+    },
+    {
+      "bytes": 8479,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/source/official/evaluation/zsre_paper.py",
+      "sha256": "d6a5b34eafd27660a2dee4632c638b6bf4c3614246071711cf5159a002415a45"
+    },
+    {
+      "bytes": 4774,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/source/official/evaluation/zsre_query_parity.py",
+      "sha256": "9883f16036525278bbfcdb45f5f08cc8c799f638a26f91b4d9da2a0d70103803"
+    },
+    {
+      "bytes": 966,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/source/official/evaluation/zsre_public_sources/lock.json",
+      "sha256": "83f7f9aeafe28136f87f252a0783bf282929321ef6af9fbf2596f85d1f995ae6"
+    }
+  ]
+}
