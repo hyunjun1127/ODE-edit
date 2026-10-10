@@ -1,0 +1,70 @@
+{
+  "bytes": 4697694212,
+  "count": 4,
+  "files": [
+    {
+      "bytes": 1174422225,
+      "config": {
+        "bytes": 11340,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-checkpoint-r1/configs/llama3-cf-memit_fe.json",
+        "sha256": "00e1e97e1cdecfc9e25f2dddf495aa2ce8b530253ff1ce62c30455df7744a700"
+      },
+      "inode": 243441576,
+      "mtime_ns": 1791487024201986565,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-checkpoint-r1/runs/qualification-memit_fe/split/checkpoint/batch-02-843db12b07d3856a.pt",
+      "pointer": {
+        "bytes": 237,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-checkpoint-r1/runs/qualification-memit_fe/split/checkpoint/latest.json",
+        "sha256": "b400da32367557c2bff38c49865e0f69b1330ccf7b146d8947a8548145a9de25"
+      }
+    },
+    {
+      "bytes": 1174422801,
+      "config": {
+        "bytes": 11340,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-checkpoint-r1/configs/llama3-cf-memit_fe.json",
+        "sha256": "00e1e97e1cdecfc9e25f2dddf495aa2ce8b530253ff1ce62c30455df7744a700"
+      },
+      "inode": 243441558,
+      "mtime_ns": 1791485384658654429,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-checkpoint-r1/runs/qualification-memit_fe/continuous/checkpoint/batch-03-31bce0c33c074902.pt",
+      "pointer": {
+        "bytes": 237,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-checkpoint-r1/runs/qualification-memit_fe/continuous/checkpoint/latest.json",
+        "sha256": "1bfb41544a9c5aa4374d7ea8d03424e4a7a9f4f74994268aef19316b73ecb93f"
+      }
+    },
+    {
+      "bytes": 1174424401,
+      "config": {
+        "bytes": 6178,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-display-score-repair-r1/preparation-r1/configs/cf-memit_fe.json",
+        "sha256": "7ed1f70a57337832eeb2c605cb8b2358a1ce4ad739154e715218bbc8304ddf27"
+      },
+      "inode": 243466866,
+      "mtime_ns": 1791537575364083879,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-display-score-repair-r1/preparation-r1/runs/cf-memit_fe/checkpoint/batch-20-b7fc2fc9c3e7f7b0.pt",
+      "pointer": {
+        "bytes": 237,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-display-score-repair-r1/preparation-r1/runs/cf-memit_fe/checkpoint/latest.json",
+        "sha256": "cace8c72786ca903706f6a6061bf6389f9e6935be1660bb9e678d705c4bcc5d1"
+      }
+    },
+    {
+      "bytes": 1174424785,
+      "config": {
+        "bytes": 6098,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/configs/zsre-memit_fe.json",
+        "sha256": "9236ee489eec1a668cc03f26b94022830c4379a94f877024ed1f55e3cb254207"
+      },
+      "inode": 243469445,
+      "mtime_ns": 1791513556873402234,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/runs/zsre-memit_fe/checkpoint/batch-20-6fc4a968859a87d5.pt",
+      "pointer": {
+        "bytes": 237,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/no-gpu-qualification-r1/preparation-r1/runs/zsre-memit_fe/checkpoint/latest.json",
+        "sha256": "cec99b77002965c1ff14eafb395eebd7bcb7aa92d01b7d9bd0ccd1edf88a4ca3"
+      }
+    }
+  ]
+}

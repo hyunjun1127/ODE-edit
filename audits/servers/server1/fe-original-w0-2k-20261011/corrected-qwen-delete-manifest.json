@@ -1,0 +1,19 @@
+{
+  "bytes": 8535429071,
+  "config": {
+    "bytes": 3632,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/server1/preparation-r1/configs/qwen25.json",
+    "sha256": "a172c29d3b61b417f115da3cb581bbda606768f72a43871fdb3db6c9a534ef34"
+  },
+  "inode": 243934747,
+  "payload": {
+    "bytes": 8535429071,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/server1/preparation-r1/runs/qwen25/checkpoint/batch-20-6fe6a1f7ef8f7333.pt",
+    "sha256": "6fe6a1f7ef8f73336069373a9c370366f87e9cc7bd0a7bbc1e5660c18a08f903"
+  },
+  "terminal": {
+    "bytes": 3991,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/server1/preparation-r1/runs/qwen25/COMPLETE.json",
+    "sha256": "45a04b14c927a6da59a4d369af10e12dc1fec29bb3104a0714155edb333ee2bc"
+  }
+}

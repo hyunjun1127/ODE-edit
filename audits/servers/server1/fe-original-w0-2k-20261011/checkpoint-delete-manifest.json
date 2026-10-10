@@ -1,0 +1,166 @@
+{
+  "authorization": "USER-FE-ORIGINAL-W0-RESET-20261011-R1",
+  "bytes": 40978470652,
+  "configs": [
+    {
+      "config": {
+        "bytes": 3318,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/configs/gptj.json",
+        "sha256": "8c3dec291369262ee0d60a0236617f070c4ba6dfd73fc035d350d94ae8e4c0a6"
+      },
+      "method": "MEMIT_FE_HISTORY",
+      "output": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/runs/gptj"
+    },
+    {
+      "config": {
+        "bytes": 3317,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/configs/qwen25.json",
+        "sha256": "d45838b8db9071f307678604ee290c2fc9c2825fa6a0e9505c6b9d64c6f7e975"
+      },
+      "method": "MEMIT_FE_HISTORY",
+      "output": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/runs/qwen25"
+    },
+    {
+      "config": {
+        "bytes": 3325,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/configs/llama3.json",
+        "sha256": "c4543cb0124539d6e73858ce8d7f6c906688709811ee63403afb75ba9538f982"
+      },
+      "method": "MEMIT_FE_HISTORY",
+      "output": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/runs/llama3"
+    },
+    {
+      "config": {
+        "bytes": 3422,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/oom-repair-r1/preparation/configs/qwen25.json",
+        "sha256": "6f17aaa31792ade7bb92110b648c47ed21138c93f80a34c53f5df97c230a7d97"
+      },
+      "method": "MEMIT_FE_HISTORY",
+      "output": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/oom-repair-r1/preparation/runs/qwen25"
+    },
+    {
+      "config": {
+        "bytes": 3836,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/preparation-r2/configs/zsre.json",
+        "sha256": "36a126cd7dde3fc2b3bcddf6d50f7db0a845cfa561ccddd34ec02c191220e7e6"
+      },
+      "method": "MEMIT_FE_HISTORY",
+      "output": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/preparation-r2/runs/zsre"
+    },
+    {
+      "config": {
+        "bytes": 3612,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/preparation-r2/configs/cf.json",
+        "sha256": "be5e2c1a25353880a45554aa1135e023679a01c54993349eb2c2e2d38761332b"
+      },
+      "method": "MEMIT_FE_HISTORY",
+      "output": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/preparation-r2/runs/cf"
+    },
+    {
+      "config": {
+        "bytes": 5623,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/preparation-r1/configs/memit_fe.json",
+        "sha256": "54476a1b6bd8708dc5b9e2001670209dbeb93c04171630169b0891845bdce544"
+      },
+      "method": "MEMIT_FE",
+      "output": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/preparation-r1/runs/memit_fe"
+    },
+    {
+      "config": {
+        "bytes": 5911,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/preparation-r2/configs/memit_fe.json",
+        "sha256": "be7679fd93dce88774307b76bbcc063b5ac8174a26aad829aeda6e615ae0d332"
+      },
+      "method": "MEMIT_FE",
+      "output": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/preparation-r2/runs/memit_fe"
+    }
+  ],
+  "count": 6,
+  "files": [
+    {
+      "bytes": 8053084885,
+      "config": {
+        "bytes": 3318,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/configs/gptj.json",
+        "sha256": "8c3dec291369262ee0d60a0236617f070c4ba6dfd73fc035d350d94ae8e4c0a6"
+      },
+      "device": 2304,
+      "inode": 243902002,
+      "method": "MEMIT_FE_HISTORY",
+      "mtime_ns": 1791552066348200542,
+      "nlink": 1,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/runs/gptj/checkpoint/batch-20-49c14636ee25bec2.pt"
+    },
+    {
+      "bytes": 8535426767,
+      "config": {
+        "bytes": 3317,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/configs/qwen25.json",
+        "sha256": "d45838b8db9071f307678604ee290c2fc9c2825fa6a0e9505c6b9d64c6f7e975"
+      },
+      "device": 2304,
+      "inode": 243900007,
+      "method": "MEMIT_FE_HISTORY",
+      "mtime_ns": 1791537694523925210,
+      "nlink": 1,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/runs/qwen25/checkpoint/batch-00-8c866d11956f4866.pt"
+    },
+    {
+      "bytes": 5284843395,
+      "config": {
+        "bytes": 3325,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/configs/llama3.json",
+        "sha256": "c4543cb0124539d6e73858ce8d7f6c906688709811ee63403afb75ba9538f982"
+      },
+      "device": 2304,
+      "inode": 243902024,
+      "method": "MEMIT_FE_HISTORY",
+      "mtime_ns": 1791556847943832684,
+      "nlink": 1,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/runs/llama3/checkpoint/batch-20-aef60873019a3c69.pt"
+    },
+    {
+      "bytes": 8535429135,
+      "config": {
+        "bytes": 3422,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/oom-repair-r1/preparation/configs/qwen25.json",
+        "sha256": "6f17aaa31792ade7bb92110b648c47ed21138c93f80a34c53f5df97c230a7d97"
+      },
+      "device": 2304,
+      "inode": 243902023,
+      "method": "MEMIT_FE_HISTORY",
+      "mtime_ns": 1791556397848253130,
+      "nlink": 1,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/oom-repair-r1/preparation/runs/qwen25/checkpoint/batch-20-28f264425edcf198.pt"
+    },
+    {
+      "bytes": 5284843075,
+      "config": {
+        "bytes": 3836,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/preparation-r2/configs/zsre.json",
+        "sha256": "36a126cd7dde3fc2b3bcddf6d50f7db0a845cfa561ccddd34ec02c191220e7e6"
+      },
+      "device": 2304,
+      "inode": 244164120,
+      "method": "MEMIT_FE_HISTORY",
+      "mtime_ns": 1791647217390132650,
+      "nlink": 1,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/preparation-r2/runs/zsre/checkpoint/batch-16-929d59dc343f01d1.pt"
+    },
+    {
+      "bytes": 5284843395,
+      "config": {
+        "bytes": 3612,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/preparation-r2/configs/cf.json",
+        "sha256": "be5e2c1a25353880a45554aa1135e023679a01c54993349eb2c2e2d38761332b"
+      },
+      "device": 2304,
+      "inode": 244102220,
+      "method": "MEMIT_FE_HISTORY",
+      "mtime_ns": 1791622310791908796,
+      "nlink": 1,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/preparation-r2/runs/cf/checkpoint/batch-20-423b5dadc3027c73.pt"
+    }
+  ],
+  "writer_state": "62530|CANCELLED by 1025\n"
+}

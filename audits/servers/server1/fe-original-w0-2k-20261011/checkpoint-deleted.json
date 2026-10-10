@@ -1,0 +1,17 @@
+{
+  "all_exact_targets_absent": true,
+  "backup_created": false,
+  "count": 6,
+  "deleted": [
+    "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/runs/gptj/checkpoint/batch-20-49c14636ee25bec2.pt",
+    "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/runs/qwen25/checkpoint/batch-00-8c866d11956f4866.pt",
+    "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/runs/llama3/checkpoint/batch-20-aef60873019a3c69.pt",
+    "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/oom-repair-r1/preparation/runs/qwen25/checkpoint/batch-20-28f264425edcf198.pt",
+    "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/preparation-r2/runs/zsre/checkpoint/batch-16-929d59dc343f01d1.pt",
+    "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/preparation-r2/runs/cf/checkpoint/batch-20-423b5dadc3027c73.pt"
+  ],
+  "filesystem_available_delta": 40846573568,
+  "logical_bytes": 40978470652,
+  "raw_logs_config_retained": true,
+  "remaining_inventory_scope": "config-bound official server1; other legacy/replica roots still being audited"
+}
