@@ -1,0 +1,37 @@
+{
+  "after_allocated": 1,
+  "before_allocated": 1,
+  "cancelled_jobs": 0,
+  "changes": {
+    "63217": [],
+    "63296": [
+      "63217"
+    ],
+    "63297": [
+      "63218"
+    ]
+  },
+  "cycle": false,
+  "lanes": [
+    [
+      "63217",
+      "63296",
+      "63298",
+      "63300"
+    ],
+    [
+      "63154",
+      "63218",
+      "63297",
+      "63299",
+      "63301"
+    ]
+  ],
+  "new_jobs": 0,
+  "nonce": "USER-GH-SERVER1-TWO-LANES-20261011-R1",
+  "observed_at": "2026-10-10T21:29:17.737640+00:00",
+  "source_closure_verified": true,
+  "source_config_script_unchanged": true,
+  "temporary_holds_remaining": 0,
+  "width": 2
+}
