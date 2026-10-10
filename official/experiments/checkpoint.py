@@ -45,12 +45,13 @@ def _sync_directory(path):
 
 
 def save(folder, *, batch, weights, cache_c, contexts, evaluation_cursor, identity,
-         method, evaluation_complete):
+         method, evaluation_complete, interval=1):
     """Call only after that batch's edit and scheduled evaluations both finish."""
     validate_identity(identity)
-    if not evaluation_complete or type(batch) is not int or not 0 <= batch <= 20:
+    if (not evaluation_complete or type(batch) is not int or not 0 <= batch <= 20
+            or type(interval) is not int or interval not in (1, 5) or batch % interval):
         raise ValueError("BATCH_NOT_COMMITTABLE")
-    has_history = method in ("ALPHAEDIT", "ALPHAEDIT_BLUE", "SPHERE", "MEMIT_FE_HISTORY")
+    has_history = method in ("ALPHAEDIT", "ALPHAEDIT_BLUE", "SPHERE", "MEMIT_FE_HISTORY", "CAKE")
     if has_history != bool(cache_c):
         raise ValueError("NATIVE_HISTORY_SCHEMA")
     if not weights or any(t.dtype != torch.float32 for t in weights.values()):
@@ -69,7 +70,7 @@ def save(folder, *, batch, weights, cache_c, contexts, evaluation_cursor, identi
             raise ValueError("INVALID_CHECKPOINT_MEMBER")
         if not (folder / previous["file"]).is_file():
             raise ValueError("PREVIOUS_CHECKPOINT_MISSING")
-        if batch != previous["batch"] + 1:
+        if batch != previous["batch"] + interval:
             raise ValueError("NONCONTIGUOUS_CHECKPOINT_BATCH")
     elif batch != 0:
         raise ValueError("INITIAL_W0_CHECKPOINT_REQUIRED")

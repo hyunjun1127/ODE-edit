@@ -224,3 +224,35 @@ W0 한 번 및 chain별 W20 한 번이며 zsRE에 CF generation 지표를 넣지
 정확한 upstream bytes와 변경 후 SHA는 `SOURCES.json`에 결속한다. CPU fixture와
 fake SDK 검산은 실제 pretrained/GPU qualification 또는 W&B online/readback PASS가
 아니다. 기존 봉인 job/source는 hotpatch·취소·재시작하지 않는다.
+
+## CAKE 3모델 × CF·zsRE 2K (2026-10-11)
+
+`baselines/cake/`는 CAKE 저자 commit `0b378234862bd76c69f58404ef84c27d5f4bf9ef`의
+층별 residual 배분·projected solve·batch 후 history 누적을 사용한다. target/key 계산은
+같은 식의 `baselines/blue/` 호환 helper를 사용한다. 원본 함수 AST와 두 batch의
+rectangular Linear writer/history를 CPU에서 대조한다.
+
+`hparams/CAKE/{llama3,gptj,qwen25}.json`은 이 실행의 설정이다. Llama와 GPT-J는
+저자 CAKE 설정 그대로이며 L2는 각각 10·30이다. Qwen2.5는 공식 AlphaEdit 편집
+설정을 유지하고, 공개 known facts로 측정한 job 63264의 L4–L8 causal score와
+저자의 temperature 0.1을 쓴다. 원본·측정 출처는 `hparams/CAKE/sources.json`에 있다.
+
+server1 runner는 `python -m official.runners.server1.cake_run --config CONFIG --lock LOCK`이다.
+EasyEdit 경로에서는 모델·stream·기존 nullspace projector 자산만 읽는다. 수치 코드는
+main의 `official/`을 frozen archive로 묶어 실행한다. 공용 context는 Llama `cf14b857`,
+GPT-J `b454d83e`, Qwen `5c01bc1a`다. 2K를 100건씩 순차 편집하고 native history를 켠다.
+FP32/eager, seed 0, TF32 off이며, CF와 zsRE는 각각의 공식 평가기를 사용한다.
+CF FLU/CON은 저장한 W20을 이용한 후속 평가로 미룬다.
+
+각 실행은 500·1,000·1,500·2,000 edits마다 편집층 가중치, native history, RNG,
+context, 원모델 revision과 source/config/asset identity를 저장한다. 출력의
+`milestones/edit-0500`, `edit-1000`, `edit-1500`, `edit-2000`을 모두 보존하며,
+`checkpoint/`의 최신 파일 교체로 삭제되지 않는다. 각 디렉터리는 공통
+`official.experiments.checkpoint.load`로 읽을 수 있다. 편집하지 않은 가중치는
+기록된 원모델 snapshot에서 복원한다. `--resume`은 같은 source/config의 최신
+checkpoint에서 재개하며 이미 완료된 W20은 다시 편집하지 않는다.
+
+등록기는 `python -m official.runners.server1.cake_submit prepare|register`다.
+server1의 기존 작업 frontier 뒤에 CF·zsRE 두 lane을 붙이고, 각 lane은
+Llama → GPT-J → Qwen 순서로 한 GPU씩 실행한다. 새 실행의 동시 GPU 수는 최대 2이며,
+held 상태에서 실제 job/script/resource/dependency를 확인한 뒤 release한다.

@@ -1767,10 +1767,11 @@
       "upstream_path": "official/README.md",
       "path": "README.md",
       "upstream_sha256": "92ec6723d4e7268276109cfd4ac20435b34c4a654607faaac5b662cbcff94d4a",
-      "sha256": "e8f24baf694b2100d79a3cc1b66d4fda73e5062c7144db824c04c3ca1704839f",
+      "sha256": "7466110579984ca866ce6842288402a94848f95afe6ad14f77b30d5907b35efe",
       "changes": [
         "GH reviewed official compatibility/API documentation; original provenance retained",
-        "2026-10-09: document model-specific PRICE config"
+        "2026-10-09: document model-specific PRICE config",
+        "Document native CAKE 3-model 2K runner, two lanes, and permanent 500-edit checkpoint milestones."
       ],
       "review_nonce": "SH1-GH-OFFICIAL-COMPAT-REVIEW-20261008-R1",
       "installed_revisions": [
@@ -2274,6 +2275,61 @@
         "사용자 승인 W20 평가 전용; 공개 원문 SHA/URL은 zsre_public_sources/lock.json 참조"
       ],
       "review_nonce": "USER-GH-ZSRE-SAVED-WEIGHTS-2K-REEVAL-20261009-R1"
+    },
+    {
+      "component": "cake",
+      "repository": "https://github.com/zjh-vinky/CAKE",
+      "commit": "0b378234862bd76c69f58404ef84c27d5f4bf9ef",
+      "upstream_path": "Cake/Cake_main.py",
+      "path": "baselines/cake/Cake_main.py",
+      "upstream_sha256": "d1ae01c7f1d5f6f8af899a589b8e407171c1a5dbb69b8ad6ff08e39f02823e20",
+      "sha256": "e011fd13e64627c1f3521cf3c91fb38e636d961fb4754487b0f6d6276afa7ace",
+      "changes": [
+        "Imports use official BLUE target/key helpers with Tensor/tuple and cumulative KV mask compatibility; author apply/solve/history unchanged.",
+        "Removed unused notebooks.util import."
+      ]
+    },
+    {
+      "component": "cake",
+      "repository": "https://github.com/zjh-vinky/CAKE",
+      "commit": "0b378234862bd76c69f58404ef84c27d5f4bf9ef",
+      "upstream_path": "Cake/Cake_hparams.py",
+      "path": "baselines/cake/Cake_hparams.py",
+      "upstream_sha256": "a2281bd837df6b9c1619ca913b2f760f81a549c8ff276b0b77c80bc8ae14abbb",
+      "sha256": "1221682d07d49fb50ba0211c9e55c3307473409ef77cc076658ccec7bc2d0953",
+      "changes": [
+        "HyperParams import remapped to official.baselines.blue.util.hparams."
+      ]
+    },
+    {
+      "component": "cake",
+      "repository": "https://github.com/zjh-vinky/CAKE",
+      "commit": "0b378234862bd76c69f58404ef84c27d5f4bf9ef",
+      "upstream_path": "LICENSE",
+      "path": "baselines/cake/LICENSE",
+      "upstream_sha256": "e67be850493c2a738ebed178044a2e32fc9546b5d1971f880d24736e57f69051",
+      "sha256": "e67be850493c2a738ebed178044a2e32fc9546b5d1971f880d24736e57f69051",
+      "changes": []
+    },
+    {
+      "component": "cake",
+      "repository": "https://github.com/zjh-vinky/CAKE",
+      "commit": "0b378234862bd76c69f58404ef84c27d5f4bf9ef",
+      "upstream_path": "hparams/Cake/Llama3-8B.json",
+      "path": "hparams/CAKE/llama3.json",
+      "upstream_sha256": "457b63f35bf12d6b1020b87b7d241684963f32a48db94eca1ba89c0a6729bd3e",
+      "sha256": "457b63f35bf12d6b1020b87b7d241684963f32a48db94eca1ba89c0a6729bd3e",
+      "changes": []
+    },
+    {
+      "component": "cake",
+      "repository": "https://github.com/zjh-vinky/CAKE",
+      "commit": "0b378234862bd76c69f58404ef84c27d5f4bf9ef",
+      "upstream_path": "hparams/Cake/EleutherAI_gpt-j-6B.json",
+      "path": "hparams/CAKE/gptj.json",
+      "upstream_sha256": "a37d65b4f7b8c9a8ce439abadb4548010777ec0b6547d00d64cea8e12adc22d0",
+      "sha256": "a37d65b4f7b8c9a8ce439abadb4548010777ec0b6547d00d64cea8e12adc22d0",
+      "changes": []
     }
   ],
   "zsre_loc_definition_revision": {

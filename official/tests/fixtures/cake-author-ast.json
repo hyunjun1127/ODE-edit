@@ -1,0 +1,10 @@
+{
+  "author_commit": "0b378234862bd76c69f58404ef84c27d5f4bf9ef",
+  "file_sha256": "d1ae01c7f1d5f6f8af899a589b8e407171c1a5dbb69b8ad6ff08e39f02823e20",
+  "functions": {
+    "apply_Cake_to_model": "5f1812d1401d324195337d3559b1988a07e7549171a8afc6058d82bf2fc3363d",
+    "upd_matrix_match_shape": "a67a59441aa96a57d1b0326c30ec09d78487296e070eaf9343b2b73587ede5d9",
+    "get_context_templates": "a81b516ecb81dedf05ea6f43ba14ca0fa6916326639dc5b390581addc7cb4ac0",
+    "compute_layer_weights": "947cce518c3d12cb01e391e8a4fccab8a4a885a4f95c7395743ff42a8ea4871d"
+  }
+}
