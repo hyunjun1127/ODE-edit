@@ -1,0 +1,25 @@
+{
+  "README_owner": "GH",
+  "at": "2026-10-10T15:03:41.017325+00:00",
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "cap": 2,
+  "checkpoint_load": 0,
+  "collector_proof": {
+    "bytes": 5515,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/registration-r1/collector-results.json",
+    "sha256": "28280649b3d1536cce061422fb92dbeb66d71026838a7295956d3fab3fc2e654"
+  },
+  "job_mutations": 0,
+  "new_GPU": 0,
+  "nonce": "USER-GH-S1-S2-FE-AUTHOR-MAIN-REFRESH-20261010-R1",
+  "old_native_FE_relabel": false,
+  "scheduler_queries": 1,
+  "scheduler_snapshot_summary": {
+    "62529": "COMPLETED",
+    "62530": "RUNNING",
+    "62583": "COMPLETED",
+    "62584": "COMPLETED",
+    "other_previously_completed": "COMPLETED"
+  },
+  "server": "server1"
+}
