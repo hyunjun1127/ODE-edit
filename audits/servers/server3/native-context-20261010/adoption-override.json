@@ -1,0 +1,17 @@
+{
+  "user_quote": "llama하고 gpt-j 는 context 이상이 없었으니깐 baseline에서 사용한 것을 기준으로 하고, qwen만 이상이 있었으니 qwen 만 새로운거 사용하는 걸로 해",
+  "observed_at": "2026-10-09T16:05:16.932845+00:00",
+  "effective": {
+    "qwen25": "NEW_CONTEXT_62101_FOR_NEW_AUTHORIZED_INPUT_FREEZE",
+    "gptj": "KEEP_EXISTING_BASELINE_CONTEXT",
+    "llama3": "KEEP_EXISTING_BASELINE_CONTEXT"
+  },
+  "generated_nonadopted": {
+    "gptj": "62102",
+    "llama3": "62103"
+  },
+  "existing_deliveries": "KEEP_PROVENANCE_ONLY_FOR_GPTJ_LLAMA; delivery is not adoption",
+  "source_jobs": "NO_HOTPATCH_NO_CANCEL_NO_RESUBMIT",
+  "baseline_identity": "Each consumer binds exact context from its baseline source/config; do not substitute arbitrary historic baseline or newly generated payload",
+  "deletion": 0
+}

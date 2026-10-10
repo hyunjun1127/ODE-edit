@@ -1,0 +1,78 @@
+{
+  "effective_cap": 2,
+  "files": [
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/servers/local/gpu-caps.tsv",
+      "bytes": 45,
+      "sha256": "c3f8721feb735f601afca890b13155a2889537319032b084f82b96438eeabdd2",
+      "row": [
+        "server2",
+        "server2",
+        "2",
+        "60416",
+        "odeedit_*,odealloc_*"
+      ]
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-completed-cap3-20261010/servers/local/gpu-caps.tsv",
+      "bytes": 45,
+      "sha256": "c3f8721feb735f601afca890b13155a2889537319032b084f82b96438eeabdd2",
+      "row": [
+        "server2",
+        "server2",
+        "2",
+        "60416",
+        "odeedit_*,odealloc_*"
+      ]
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-missing-flucon-20261010/servers/local/gpu-caps.tsv",
+      "bytes": 45,
+      "sha256": "c3f8721feb735f601afca890b13155a2889537319032b084f82b96438eeabdd2",
+      "row": [
+        "server2",
+        "server2",
+        "2",
+        "60416",
+        "odeedit_*,odealloc_*"
+      ]
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-fe-author-hparams-2k-20261010/servers/local/gpu-caps.tsv",
+      "bytes": 45,
+      "sha256": "c3f8721feb735f601afca890b13155a2889537319032b084f82b96438eeabdd2",
+      "row": [
+        "server2",
+        "server2",
+        "2",
+        "60416",
+        "odeedit_*,odealloc_*"
+      ]
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-sphere-b9-resume-20261010/servers/local/gpu-caps.tsv",
+      "bytes": 45,
+      "sha256": "c3f8721feb735f601afca890b13155a2889537319032b084f82b96438eeabdd2",
+      "row": [
+        "server2",
+        "server2",
+        "2",
+        "60416",
+        "odeedit_*,odealloc_*"
+      ]
+    },
+    {
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-cap2-lane-adjust-20261010/servers/local/gpu-caps.tsv",
+      "bytes": 45,
+      "sha256": "c3f8721feb735f601afca890b13155a2889537319032b084f82b96438eeabdd2",
+      "row": [
+        "server2",
+        "server2",
+        "2",
+        "60416",
+        "odeedit_*,odealloc_*"
+      ]
+    }
+  ],
+  "old_frozen_sources_modified": false
+}

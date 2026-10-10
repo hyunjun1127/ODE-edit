@@ -1,0 +1,52 @@
+{
+  "frozen_evaluator": {
+    "bytes": 8479,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/registration-r1/source/official/evaluation/zsre_paper.py",
+    "sha256": "d6a5b34eafd27660a2dee4632c638b6bf4c3614246071711cf5159a002415a45"
+  },
+  "frozen_public_lock": {
+    "bytes": 966,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/registration-r1/source/official/evaluation/zsre_public_sources/lock.json",
+    "sha256": "83f7f9aeafe28136f87f252a0783bf282929321ef6af9fbf2596f85d1f995ae6"
+  },
+  "frozen_query_module": {
+    "bytes": 4774,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/zsre-2k-reeval-20261009/registration-r1/source/official/evaluation/zsre_query_parity.py",
+    "sha256": "9883f16036525278bbfcdb45f5f08cc8c799f638a26f91b4d9da2a0d70103803"
+  },
+  "proof": {
+    "actual_model_output_parity": "NOT_MEASURED",
+    "input_mismatches": 0,
+    "model_family": "llama3",
+    "model_forward_calls": 0,
+    "oracle_lock_sha256": "d37227eb52aa1ba1cc0699155c674858b52ff418eaf7814231642f9de8aa2ff3",
+    "queries": 24535,
+    "query_sha256": "7909c567881531b62db728ecc06308a3387324cc4e1c907b76bb50d8dd862efc",
+    "requests": 2000,
+    "schema": "zsre-public-query-parity-v1",
+    "status": "PASS_CPU_QUERY_ONLY",
+    "stream_sha256": "93925ec2f74e00a1b3fbdf261e557d10652ae0eca7265b4948958d39de4848b7",
+    "target_mismatches": 0,
+    "token_denominators": {
+      "neighborhood": 12465,
+      "paraphrase": 6035,
+      "rewrite": 6035
+    }
+  },
+  "semantics": "public loader/evaluator AST: native prefix/space/BOS/decode-retokenize exact; not pretrained forward parity",
+  "stream": {
+    "allocated_bytes": 1490944,
+    "bytes": 1490821,
+    "ctime_ns": 1791471157440487346,
+    "device": 2304,
+    "expected_sha256": null,
+    "inode": 243438034,
+    "mtime_ns": 1791471157440487346,
+    "nlink": 1,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/streams/zsre-stream.json",
+    "real_path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/streams/zsre-stream.json",
+    "sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+    "verification": "FRESH_SHA256"
+  },
+  "tokenizer_sha256": "63411f4ee2a0111d0c3902d14c85a1d003dafc765573c60282957f558bf02453"
+}

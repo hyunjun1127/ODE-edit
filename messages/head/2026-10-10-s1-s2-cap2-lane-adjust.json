@@ -1,0 +1,16 @@
+{
+  "nonce": "USER-GH-S1-S2-CAP2-LANE-ADJUST-20261010-R1",
+  "user_request": "server1과 2이제 cap 2로 할테니깐 lane 맞춰",
+  "owners": {"server1": "01a04939-f93a-7b50-bca0-65438eab2062", "server2": "01a0493a-074c-7f91-9a13-769116326fef"},
+  "policy": {"server1": 2, "server2": 2, "other_servers": "UNCHANGED", "supersedes": "앞선 server1/server2 cap3 지시만 대체. 더엄격한task/memory/node/QoS는유지"},
+  "assignment": "두 SH는 실제 own project RUNNING/allocation/admitted PENDING 전체를 확인하고 local admission cap2 및 실행 가능한 후속2lane dependency를 실제 적용. 단순정책수락에서멈추지말고 bounded 전후receipt main게시/GH직접회신.",
+  "current_runs": "이미RUNNING/COMPLETING/할당받은 job은취소·suspend·restart·requeue하지않고보존. 기존할당이2초과면legacy수치를그대로기록하고자연종료로감소. 새job은총량2이하가보장되기전시작금지. 기존frozenconfig/source/archive/WB/CP/실험수치변경금지.",
+  "pending_repair": "exact owner/task/source/Command/WorkDir/state/start/runtime/allocation 원제출자료와현재scheduler를검산한 own미시작PENDING에만 temporaryhold→resource dependency update→검산→release. 조작직전재확인해RUNNING으로변했으면그job수정중단/KEEP하고remaining graph를재계산. 후속afterany race방지위해영향descendants먼저보호. 취소/새submit없음.",
+  "DAG": "여러task/science/eval/준비가동일server projectcap을공유. 필요한input/afterok/원consumer의존성은보존하고resource-only afterany edge를 union하여futureGPU동시폭<=2/cycle0. 임의성능gate/불필요한전체barrier없음. GPU0collector는cap슬롯에세지않고owner GPU dependency coverage유지. 더이상필요없는임시hold남기지않음. 마지막boundedsnapshot으로pending/resource조정영수증과불변sourceSHA기록.",
+  "known_jobs_are_hints": {"server1": "마지막관측history62583및author62529/62530,collector62584;반드시현재전체ownerqueue확인", "server2": "기존62531→62532→62538 lane과새CFgeneration62864..62876+GPU0collector62877의기존3lane;현재상태fresh확인,구snapshot가정변경금지"},
+  "write_scope": ["각서버root/liveadmission 및own prepWT ignoredlocal gpu-caps의자기server행만2로갱신", "정확미시작ownPENDING의resource-only schedulerdependency/일시holdrelease", "audits/servers/serverN/cap2-lane-adjust-20261010 및 experiment-reports/servers/serverN/cap2-lane-adjust-20261010/report-ko.md", "GH control/registry/envelope/globalaudit/report;README는필요한정확상태만GH통합"],
+  "limits": "기존 job source/config/launcher/raw/CP 불변. 새과학/GPU/FLUCON중복제출/취소/삭제/전송/모델설정변경0. 현재미완료작업은새cap내서계속하며다른server불변. dirtyroot/다른작업자변경보존,nonforce main게시.",
+  "checks": "CPU graph검산과exact scheduler before/after 검산필수. source/config/checkpoint mutation0확인. 독립review여부사실기록;새GPUqualification/모델forward없음.",
+  "completion": "nonce OWNER_ACK/server/acceptedturn 먼저회신. 최종 actualallocation(GPU수)/cap2/activejobID별state/변경pendingID·old→newdep/보호RUNNING/2laneproof/hold잔존0/취소0/실행source불변/maincommit 회수. 긴GPU완료wait/recurringmonitor/heartbeat/자동retry없음. 추가USER승인대기없이구현·적용. model/effortoverride없음.",
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED;자원조정소형영수증만"
+}

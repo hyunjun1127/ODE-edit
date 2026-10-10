@@ -1,0 +1,33 @@
+{
+  "upstream_commit": "0b378234862bd76c69f58404ef84c27d5f4bf9ef",
+  "upstream_url": "https://github.com/zjh-vinky/CAKE",
+  "llama3": "저자 Cake/Llama3-8B.json 원본",
+  "gptj": "저자 Cake/EleutherAI_gpt-j-6B.json 원본; L2=30",
+  "qwen25": {
+    "base": "official/hparams/ALPHAEDIT/qwen25.json",
+    "editing_hparams_unchanged": true,
+    "causal_job": "63264",
+    "causal_score_sha256": "847a340128caa1aa3e527c61c7da2bb6d7d775dbc8a6de8934bed1cd6af94ff5",
+    "input_facts": 1209,
+    "eligible_facts": 725,
+    "public_knowns_sha256": "61daca55318bb5260c1e62e133debef9102c7b278bbc7b19dd2ac655543f333a",
+    "source_commit": "12da9101ab0a96adc4977e2e67f3b86d83aa52a7",
+    "base_sha256": "a4b63bfec211e77da407040e1c20749c534a5da78043fd20dca7aa9266a101cb",
+    "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+    "physical_layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "causal_scores": {
+      "0": 0.05130670255754999,
+      "1": 0.0221233708820684,
+      "2": 0.130932552514356,
+      "3": 0.10128784656361207,
+      "4": 0.017651738252646577
+    }
+  },
+  "adaptation": "CAKE apply/solve/history 원본. 동일한 target/key 계산은 official BLUE 호환 helpers를 재사용해 Tensor/tuple 출력 및 누적 KV mask 수정 유지."
+}

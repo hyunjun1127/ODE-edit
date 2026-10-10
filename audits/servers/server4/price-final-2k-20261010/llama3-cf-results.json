@@ -1,0 +1,140 @@
+{
+ "GPU_peak_bytes": 46866417664,
+ "W0": {
+  "N": {
+   "denominator": 20000,
+   "numerator": 17711
+  },
+  "P": {
+   "denominator": 4000,
+   "numerator": 438
+  },
+  "R": {
+   "denominator": 2000,
+   "numerator": 164
+  }
+ },
+ "W20_N": {
+  "denominator": 20000,
+  "numerator": 16300,
+  "rate": 0.815
+ },
+ "W20_P": {
+  "denominator": 4000,
+  "numerator": 3740,
+  "rate": 0.935
+ },
+ "W20_R": {
+  "denominator": 2000,
+  "numerator": 1998,
+  "rate": 0.999
+ },
+ "W20_score": 90.97763890410414,
+ "archive_sha256": "8acf7ef0ad3ddac8abc27c7999cfced088917f605ef9defed6447213b9eef64a",
+ "attempt": "server4:/data/janghj/ODE-edit/local/price-final-2k-20261010/execution-llama3-r2",
+ "checkpoints": {
+  "W10": {
+   "history_bytes": 4110420613,
+   "history_sha256": "d1a9092350c074be8162c2e1f62cc10bf8482e8b262028c57e919b1b78d716dd",
+   "requests": 1000,
+   "weights_bytes": 1174407912,
+   "weights_sha256": "f9b28161fc337e2b185ec2424ab82fe6188401518f2421ac14cb7c61a4cb3767"
+  },
+  "W15": {
+   "history_bytes": 4110420613,
+   "history_sha256": "afb8d665bdc7da0a3a49a7430fef76efab799e900a8c988d287d74e1b6e6432f",
+   "requests": 1500,
+   "weights_bytes": 1174407912,
+   "weights_sha256": "c57fccb6c79c6397fa48587bffd544020258535acc62b00d77d1d087b41d1b41"
+  },
+  "W20": {
+   "history_bytes": 4110420613,
+   "history_sha256": "bba86fff7a04168b80466816b614fd108245460d090cc9aef6cd5556a90f1f08",
+   "requests": 2000,
+   "weights_bytes": 1174407912,
+   "weights_sha256": "a440c5362bb211bd9b2b88ea86bc4ca5783590bc6e269d8f2842fde06c8d8d72"
+  },
+  "W5": {
+   "history_bytes": 4110420602,
+   "history_sha256": "3a2bd517d2ef85b246eea25ef2fd6e569ef53b749414a19c3730f43b6ba509da",
+   "requests": 500,
+   "weights_bytes": 1174407901,
+   "weights_sha256": "bcb724d9ac52d767d61f09b44f7074fb8eaa73c47dc08642392d2e56af2ffc8a"
+  }
+ },
+ "config_sha": "78522466553c16d1e9a25e0a7fee50fea768ed4a20ae59d99ea6175a995b38f7",
+ "context_semantic": "cf14b8571136b0413ded1ea8aa283a004ecbddbd818a6a8744b0296b63f72191",
+ "display": {
+  "Eff": "99.90",
+  "Gen": "93.50",
+  "Loc": "81.50",
+  "Score": "90.98",
+  "rounding": "decimal half-up, two places; Score from unrounded rates"
+ },
+ "early_exit": {
+  "implementation": "project/run_scripts/price_early_exit (runner patch; official fit unchanged)",
+  "rule": "pause at F < tau_F (0.05), resume at F >= 2 tau_F, fit ends when no request updates"
+ },
+ "eval2k_ordered_ids_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+ "job": 62604,
+ "method": {
+  "endpoint_cast_mode": "cap_endpoint_toward_zero_v1",
+  "gamma": 1.0,
+  "hc": true,
+  "lr_rule": "anchor_unit",
+  "rho": 0.05
+ },
+ "official_arm": "llama3-P-beta100",
+ "plan": "main2k",
+ "raw_sha256": {
+  "W0-result.json": "212da65d07df1b39b928f708da5edb14b5d5e06369812f74860332c9ac44f05f",
+  "batch-20/commit.json": "cc55e05b1f0e6b60d8742d8d87f954b92dfd8a4908ca481c8d96aed043597b37",
+  "batch-20/post/summary.json": "f46f5936a26830c237877034872f52e42a6ddd883fdc0bceb23bc89156e62b42",
+  "result.json": "54970244dcd6fb8a3c5a9074a271ae2fb8187e1c80d88d686e83e91694c7d0b4"
+ },
+ "replaces": {
+  "previous": "FREE100 job 60103: 99.70/92.78/82.21, Score 90.98196945746398",
+  "row": "Llama PRICE (Ours) CF"
+ },
+ "resolved_config_sha256": "1208f9ce35b89fd530e522d8ee49b35fa212cd8057e94983a9f6d3702a8ff737",
+ "seconds": 16364.597701441497,
+ "server": "server4",
+ "slice_identity": "17358c33c747cf1fadf7b3c0460aac0032ead1677c5fddff98e724402a3a75e7",
+ "slurm": {
+  "end": "2026-10-10T17:39:13",
+  "job": 62604,
+  "name": "pf2k-llama3-P-beta100-ee",
+  "node": "server4",
+  "start": "2026-10-10T13:06:20",
+  "state": "COMPLETED"
+ },
+ "source_commit": "885a0e2624e40a2355aaba10a9b644319b2398e3",
+ "task": "price-final-2k-20261010",
+ "tier": "tier-P-beta100",
+ "trajectory": {
+  "W10": {
+   "N": 84.88,
+   "P": 95.55,
+   "R": 100.0,
+   "score": 93.03172787019787
+  },
+  "W15": {
+   "N": 83.1,
+   "P": 94.56666666666666,
+   "R": 99.86666666666667,
+   "score": 91.96361804082326
+  },
+  "W20": {
+   "N": 81.5,
+   "P": 93.5,
+   "R": 99.9,
+   "score": 90.97763890410414
+  },
+  "W5": {
+   "N": 86.53999999999999,
+   "P": 95.0,
+   "R": 100.0,
+   "score": 93.51135342536388
+  }
+ }
+}

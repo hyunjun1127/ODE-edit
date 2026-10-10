@@ -1,0 +1,89 @@
+{
+ "task": "price-final-2k-20261010",
+ "instruction": "USER 2026-10-10: \"server4에 llama zsre run 올리자. CF beta100 run과 동일한 세팅으로 올려라. 그리고 main table에 최신화해\"",
+ "run": {
+  "server": "server4",
+  "job": 62889,
+  "job_name": "pf2k-llama3-zsre-P-beta100-ee",
+  "start": "2026-10-10T19:58:22+09:00",
+  "end": "2026-10-10T23:17:07+09:00",
+  "status": "COMPLETE",
+  "attempt": "server4:/data/janghj/ODE-edit/local/price-final-2k-20261010/execution-llama3-zsre-r1",
+  "source_commit": "685322f54e43286b23126168bf626f4e3d16322a",
+  "arm": "llama3-P-beta100",
+  "resolved_config_sha256_prefix": "1208f9ce35b89fd5",
+  "slice_identity_prefix": "dca62a6f7107de6e",
+  "method": "beta_base = c = beta_max_scale = 1.0, anchor-unit lr rho 0.05, gamma 1, cap-endpoint FP32 cast, HC-PRICE, per-request early exit (pause F<0.05, resume F>=0.10)",
+  "data": "official zsRE first-2K stream (official normalize_records, target answers[0]), B1-B20 of 100, stream sha256 f42ee4bc6e98b113..., sample sha256 494b15107deb77d9...",
+  "evaluator": "official.evaluation.factual zsRE: W0 reference once, current batch after every commit, all-seen at W5/W10/W15/W20; Eff=Efficacy, Gen=Generalization, Loc=Specificity_loc_ans (teacher-forced token accuracy, request macro)"
+ },
+ "W0": {
+  "Efficacy": 38.10160714285714,
+  "Generalization": 37.60940476190476,
+  "Specificity_loc_ans": 38.58583024956696,
+  "W0_agreement": 100.0,
+  "requests": 2000,
+  "matches_README_W0_row": "38.10 / 37.61 / 38.59"
+ },
+ "all_seen": {
+  "W5": {
+   "Efficacy": 99.41666666666666,
+   "Generalization": 95.88333333333334,
+   "Specificity_loc_ans": 45.17262066435255,
+   "W0_agreement": 68.76548540414097,
+   "requests": 500,
+   "cohort_sha256_prefix": "01e90a1b629c8942"
+  },
+  "W10": {
+   "Efficacy": 99.60833333333333,
+   "Generalization": 95.33357142857143,
+   "Specificity_loc_ans": 44.856407199477026,
+   "W0_agreement": 66.6927164117412,
+   "requests": 1000,
+   "cohort_sha256_prefix": "b08347804daab599"
+  },
+  "W15": {
+   "Efficacy": 99.60388888888889,
+   "Generalization": 95.03674603174602,
+   "Specificity_loc_ans": 45.167848437182904,
+   "W0_agreement": 64.5547202230067,
+   "requests": 1500,
+   "cohort_sha256_prefix": "b29970ab2c3381c7"
+  },
+  "W20": {
+   "Efficacy": 99.61958333333332,
+   "Generalization": 94.83208333333333,
+   "Specificity_loc_ans": 45.310873324644405,
+   "W0_agreement": 62.68065723564222,
+   "requests": 2000,
+   "cohort_sha256_prefix": "172cb5f0270c8b8b"
+  }
+ },
+ "display": {
+  "rule": "decimal half-up, 2 places",
+  "Eff": "99.62",
+  "Gen": "94.83",
+  "Loc": "45.31"
+ },
+ "checkpoints": {
+  "W5": {
+   "weights": "cb9563e6aa46a211",
+   "history": "e6dc3c0cd5acc72b"
+  },
+  "W10": {
+   "weights": "9c55488b018fceb8",
+   "history": "8f4fc884f6904f09"
+  },
+  "W15": {
+   "weights": "8c206abcb56de6f0",
+   "history": "2cfb553967dd8ef1"
+  },
+  "W20": {
+   "weights": "a9af16056b74456e",
+   "history": "a620167a9aaf3851"
+  }
+ },
+ "batch20_commit_sha256_prefix": "009e4823e477fb3e",
+ "note_loc_above_W0": "Loc (Specificity_loc_ans) 45.31 is above W0 38.59 while agreement with W0 predictions falls to 62.68%: predictions on unrelated NQ prompts change, more often toward loc_ans. Cause not examined.",
+ "wandb": "server4-PRICE_P-beta100-llama3-zsre-ee-job62889 (bridge run 93c5b65f82ac417a9ffabf097297b7d9)"
+}

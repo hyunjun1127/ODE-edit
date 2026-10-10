@@ -1,0 +1,48 @@
+{
+  "physical_layer_scores": {
+    "4": 0.05130670255754999,
+    "5": 0.0221233708820684,
+    "6": 0.130932552514356,
+    "7": 0.10128784656361207,
+    "8": 0.017651738252646577
+  },
+  "causal_scores": {
+    "0": 0.05130670255754999,
+    "1": 0.0221233708820684,
+    "2": 0.130932552514356,
+    "3": 0.10128784656361207,
+    "4": 0.017651738252646577
+  },
+  "layer_weights": {
+    "4": 0.15805869809137119,
+    "5": 0.11805293837856135,
+    "6": 0.3504524277733888,
+    "7": 0.2605456044669085,
+    "8": 0.11289033128977011
+  },
+  "layers": [
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "temperature": 0.1,
+  "requests": 725,
+  "noise_samples": 10,
+  "score_definition": "mean_facts(mean_noise(p_restored_object_token - p_corrupted_object_token))",
+  "status": "COMPLETED",
+  "model": "Qwen/Qwen2.5-7B-Instruct",
+  "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+  "source_sha": "12da9101ab0a96adc4977e2e67f3b86d83aa52a7",
+  "noise_scale": 0.04736168123781681,
+  "config_sha256": "708f6bb6d4afe0d4d0f71b0d9a129bb3053ea4402ad0ecde05da3e4453873f7b",
+  "input_facts": 1209,
+  "excluded_facts": 484,
+  "input_knowns_sha256": "61daca55318bb5260c1e62e133debef9102c7b278bbc7b19dd2ac655543f333a",
+  "cohort_rule": "all_public_facts_with_correct_next_token",
+  "knowns_sha256": "dcb0b6418adc9e28ff8b41728c8ae2f088008f44663fef188376a89ebed74d7c",
+  "traces_sha256": "84e5be748692e432848f3e2d6aa577f8efc1ab935e77c3cd213716160bb315d9",
+  "parameters_unchanged": true,
+  "checkpoint_saved": false
+}

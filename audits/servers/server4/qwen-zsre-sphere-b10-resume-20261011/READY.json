@@ -1,0 +1,24 @@
+{
+  "actual_model_forward": 0,
+  "config": {
+    "bytes": 23358,
+    "path": "/var/tmp/ode-edit-janghj-qwen-sphere-resume-20261011/transfer.json",
+    "sha256": "14f6eb1d16e14ffe506429fe20b2c6d048787b8dfbf0ec7b7028c0659909ef00"
+  },
+  "next_batch": 11,
+  "numeric_files_unchanged": 23,
+  "start_batch": 10,
+  "status": "PASS_CPU_ASSETS_B10",
+  "storage": {
+    "device": 66308,
+    "input_checkpoint_bytes": 8535444185,
+    "min_free_runtime": 8589934592,
+    "observed_free_before_allocation": 42065879040,
+    "old_files_deleted": 0,
+    "raw_budget": 2147483648,
+    "required_free_before_allocation": 36545077387,
+    "root": "/var/tmp/ode-edit-janghj-qwen-sphere-resume-20261011",
+    "slot_capacity": 8602553049,
+    "slots": 2
+  }
+}

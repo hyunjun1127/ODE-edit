@@ -1,0 +1,148 @@
+{
+  "observed_at_kst": "2026-10-10T02:30:04.463962+09:00",
+  "source_commit": "69bfbb2cdffe24072733950c671e47597ff9fbd5",
+  "upstream": {
+    "commit": "0b378234862bd76c69f58404ef84c27d5f4bf9ef",
+    "source": "local/cake-qwen-reference-20261009/experiments/py/eval_utils_counterfact.py",
+    "source_sha256": "ee00ee9cfb1be1cb1e5d1495fd15b2d1bfef9426af2b159095b924e6bdd0da26",
+    "functions": "def n_gram_entropy(gen_texts, agg=\"arith\"):\n    assert agg in [\"arith\", \"geom\"]\n\n    return (scipy.stats.mstats.gmean if agg == \"geom\" else np.mean)(\n        [compute_n_gram_entropy(txt) for txt in gen_texts]\n    ).item()\n\ndef compute_n_gram_entropy(sentence, ns=None, weights=None, agg=\"arith\"):\n    if ns is None:\n        ns = [2, 3]\n    if weights is None:\n        weights = [2 / 3, 4 / 3]\n    assert agg in [\"arith\", \"geom\"]\n\n    entropy_list = []\n    for n in ns:\n        fdist = compute_freq(sentence, n)\n        freqs = np.array([freq for _, freq in fdist.items()])\n        freqs = freqs / freqs.sum()\n\n        entropy_list.append(np.sum(-freqs * np.log(freqs) / np.log(2)))\n\n    entropy_list = np.array(entropy_list) * np.array(weights)\n\n    return (scipy.stats.mstats.gmean if agg == \"geom\" else np.mean)(entropy_list)\n\ndef compute_freq(sentence, n=2):\n    tokens = nltk.word_tokenize(sentence)\n    ngrams = nltk.ngrams(tokens, n)\n    return nltk.FreqDist(ngrams)\n\ndef tfidf_similarity(text_a, text_b, vec):\n    # encs = vec.transform([text_a, text_b]).A\n    encs = vec.transform([text_a, text_b]).toarray()\n    norm = np.linalg.norm\n    return (np.dot(encs[0], encs[1]) / norm(encs[0]) / norm(encs[1])).item()"
+  },
+  "assets": {
+    "attribute_snippets.json": {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-baselines-fluency-consistency-2k/inputs/reference-r1/download-r1/attribute_snippets.json",
+      "sha256": "10b5c1cd105e54d5983c72de1b45bfc88bc7af786f7b99def2557886ff23385b"
+    },
+    "idf.npy": {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-baselines-fluency-consistency-2k/inputs/reference-r1/download-r1/idf.npy",
+      "sha256": "c073d642589d4ac6432f467230329b36364a01e72de63a77a3624b745b923dda"
+    },
+    "tfidf_vocab.json": {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/gptj-baselines-fluency-consistency-2k/inputs/reference-r1/download-r1/tfidf_vocab.json",
+      "sha256": "8a78c4f20d8d85dadfd14e283d71af255482ff18aa0eb8a81716024c05ff888b"
+    }
+  },
+  "model_loads": 0,
+  "GPU_forwards": 0,
+  "tfidf_refit": false,
+  "raw_mutations": 0,
+  "reference_pair_count": 737,
+  "endpoints": {
+    "W0": {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-r1/shared-w0/qwen25-cf/generation/endpoints/c5769896e180c209d2888d0aaa0275daad256c10b40b1c933f3954565cb7a6ee.json",
+      "sha256": "871003294dbbaf968762f6039e2b4e5afb280d213d0cc4df37c4c956e84e5b71",
+      "runtime": "084a7f4055414abe931ed5a7613f41cb5bf89b8d44da79e16b84203eed45d6fc",
+      "record_count": 2000,
+      "prompt_count": 20000,
+      "continuation_token_count": 1815707,
+      "stored_summary": {
+        "consistency_count": 2000,
+        "consistency_sum": 518.2485546535825,
+        "consistency_unit": "cosine_0_to_1",
+        "fluency_count": 2000,
+        "fluency_sum": 12504.211592454372,
+        "fluency_unit": "bits",
+        "generated_token_count": 1815707,
+        "generation_prompt_count": 20000,
+        "length_cap_no_continuation_prompt_count": 0,
+        "missing_reason_counts": {
+          "asset_not_available": 0,
+          "length_cap_no_continuation": 0,
+          "missing_generation_prompts": 0,
+          "missing_reference": 0,
+          "nonfinite_score": 0,
+          "tokenizer_not_available": 0,
+          "zero_generated_vector": 0,
+          "zero_reference_vector": 0
+        },
+        "ngram_entropy": 6.252105796227186,
+        "planned_count": 2000,
+        "reason_count_unit": "request_occurrences_nonexclusive",
+        "reference_score": 0.2591242773267912
+      },
+      "recomputed_native": {
+        "ngram_entropy": 6.252105796227186,
+        "reference_score": 0.2591242773267912
+      },
+      "paper_display_times_100": {
+        "Flu": 625.2105796227186,
+        "Con": 25.91242773267912
+      },
+      "max_case_abs_error": {
+        "Flu": 2.6645352591003757e-15,
+        "Con": 1.1102230246251565e-15
+      },
+      "summary_abs_error": {
+        "Flu": 0.0,
+        "Con": 0.0
+      },
+      "all_raw_members_sha_verified": true,
+      "raw_endpoint_metrics_equal": true,
+      "direct_vs_cached_reference_transform_max_abs_error": 0.0,
+      "diagnostic_not_benchmark": {
+        "mean_repeated_trigram_fraction": 0.049676172570949084,
+        "prompts_with_repeated_trigram_fraction_at_least_half": 5
+      },
+      "all_case_scores_match_atol_1e_10": true
+    },
+    "W20_FT_61898": {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-r1/runs/qwen25-cf-ft/generation/endpoints/9686a26a2ef66a495c2a45495e50de2f89089c8ea4a55ee1fd7be2f26e13950d.json",
+      "sha256": "21c6011a88a8edf6005965461bd479f7e6ced4b665c0b0a3af219339db43956c",
+      "runtime": "084a7f4055414abe931ed5a7613f41cb5bf89b8d44da79e16b84203eed45d6fc",
+      "record_count": 2000,
+      "prompt_count": 20000,
+      "continuation_token_count": 1815707,
+      "stored_summary": {
+        "consistency_count": 2000,
+        "consistency_sum": 60.144271654570105,
+        "consistency_unit": "cosine_0_to_1",
+        "fluency_count": 2000,
+        "fluency_sum": 9420.34995555356,
+        "fluency_unit": "bits",
+        "generated_token_count": 1815707,
+        "generation_prompt_count": 20000,
+        "length_cap_no_continuation_prompt_count": 0,
+        "missing_reason_counts": {
+          "asset_not_available": 0,
+          "length_cap_no_continuation": 0,
+          "missing_generation_prompts": 0,
+          "missing_reference": 0,
+          "nonfinite_score": 0,
+          "tokenizer_not_available": 0,
+          "zero_generated_vector": 0,
+          "zero_reference_vector": 0
+        },
+        "ngram_entropy": 4.71017497777678,
+        "planned_count": 2000,
+        "reason_count_unit": "request_occurrences_nonexclusive",
+        "reference_score": 0.030072135827285053
+      },
+      "recomputed_native": {
+        "ngram_entropy": 4.71017497777678,
+        "reference_score": 0.03007213582728505
+      },
+      "paper_display_times_100": {
+        "Flu": 471.017497777678,
+        "Con": 3.007213582728505
+      },
+      "max_case_abs_error": {
+        "Flu": 2.6645352591003757e-15,
+        "Con": 2.220446049250313e-16
+      },
+      "summary_abs_error": {
+        "Flu": 0.0,
+        "Con": 3.469446951953614e-18
+      },
+      "all_raw_members_sha_verified": true,
+      "raw_endpoint_metrics_equal": true,
+      "direct_vs_cached_reference_transform_max_abs_error": 0.0,
+      "diagnostic_not_benchmark": {
+        "mean_repeated_trigram_fraction": 0.4363412392375208,
+        "prompts_with_repeated_trigram_fraction_at_least_half": 8421
+      },
+      "all_case_scores_match_atol_1e_10": true
+    }
+  },
+  "W0_W20_ordered_occurrences_equal": true,
+  "W0_W20_record_prompts_and_reference_ids_equal": true,
+  "seconds": 83.75061964150518
+}

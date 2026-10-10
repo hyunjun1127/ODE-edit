@@ -1,0 +1,142 @@
+{
+  "W_and_B": {
+    "online_PASS": false,
+    "run_id": null,
+    "shared_schema": "CPU_PASS",
+    "state": "NOT_OBSERVED_PENDING_START",
+    "url": null
+  },
+  "accepted_turn": "01a126e6-c815-7ba1-8a01-f186b8f18c4e",
+  "authority": "884c913e7c15a51365ed3b2dd52349b64dead0e8",
+  "automatic_retry": false,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED: same-host frozen source/input; compact metadata only in Git",
+  "cap_proof": {
+    "additional_CPU_job63220_GPU": 0,
+    "cap": 2,
+    "corrected_inventory": "All owned pending required_nodes checked; squeue -w alone excludes held jobs",
+    "existing_job_mutations": 0,
+    "lanes": [
+      [
+        "63144",
+        "63219"
+      ],
+      [
+        "63145"
+      ]
+    ]
+  },
+  "checks": {
+    "CPU_tests": 9,
+    "GPU": "NOT_RUN_NOT_QUALIFICATION",
+    "external_task_imports": 0,
+    "model_weights_fullSHA": "MANDATORY_RUNTIME_BEFORE_LOAD",
+    "python_files_verified": 365,
+    "source_files_verified": 166
+  },
+  "config_sha256": "4bc1905379d3a972734b47f677bf7228e75354ceeccbf32fdcab6ae4ee71020e",
+  "dependency": "afterany:63144",
+  "duplicate_inventory": {
+    "bytes": 9526,
+    "path": "/data/janghj/ODE-edit/local/gptj-w0-flucon-20261011/worktree/audits/servers/server2/gptj-w0-flucon-20261011/inventory.json",
+    "sha256": "0ef75fc1923771f5ad46c04e169211b0baa65a0c026d9225aa2e91c9a8ffc629"
+  },
+  "duplicate_result": "NOT_FOUND_IN_BOUNDED_SCOPE",
+  "held_inspection": "PASS",
+  "job_id": "63219",
+  "job_name": "s4-gptj-W0-flucon-2k-r1",
+  "launcher": {
+    "bytes": 708,
+    "path": "/data/janghj/ODE-edit/local/gptj-w0-flucon-20261011/execution-r1/run.sh",
+    "sha256": "aa87942f22f7ebb1754e289dd32c795cf2d4e7b8e66f4ea859d042b4983676c3"
+  },
+  "local_receipts": {
+    "freeze.json": {
+      "bytes": 1037,
+      "path": "/data/janghj/ODE-edit/local/gptj-w0-flucon-20261011/execution-r1/freeze.json",
+      "sha256": "b956985b928df1dc9058b67b1408af4582a4e7321d93806fb667b1db45fbe9d3"
+    },
+    "held-inspection.json": {
+      "bytes": 63405,
+      "path": "/data/janghj/ODE-edit/local/gptj-w0-flucon-20261011/execution-r1/held-inspection.json",
+      "sha256": "f18457757054cad33581387afe517353d81c495aeb08b85dd056b8073e2ec06c"
+    },
+    "release.json": {
+      "bytes": 2106,
+      "path": "/data/janghj/ODE-edit/local/gptj-w0-flucon-20261011/execution-r1/release.json",
+      "sha256": "5959e8e4ba97431625334f08a4c6aabe39bf9f5e3017de3fabeedbf2d6940907"
+    },
+    "sbatch-response.json": {
+      "bytes": 61,
+      "path": "/data/janghj/ODE-edit/local/gptj-w0-flucon-20261011/execution-r1/sbatch-response.json",
+      "sha256": "9b1dc7961eaa2c34d6308eef4e9dd9904a9621192373fee1a924d6e59b20cd0b"
+    },
+    "submission-intent.json": {
+      "bytes": 5601,
+      "path": "/data/janghj/ODE-edit/local/gptj-w0-flucon-20261011/execution-r1/submission-intent.json",
+      "sha256": "3562c3b578fd4f1fc5e66416f65f2cef66aeec7f8c7295d2469282b752e845ec"
+    }
+  },
+  "model_manifest_sha256": "40fbd3f57fadd84f104c40fe2b33b5ee188149470b34c854f252ab06960b55a1",
+  "model_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+  "noCP": true,
+  "nonce": "USER-GH-GPTJ-W0-FLUCON-SERVER4-20261011-R1",
+  "observed_at": "2026-10-10T17:49:05.212292+00:00",
+  "old61723": "FACTUAL_ONLY_GENERATION_DEFERRED_NOT_RELABELED",
+  "output": "/data/janghj/ODE-edit/local/gptj-w0-flucon-20261011/execution-r1/output",
+  "raw_or_tensor_upload": false,
+  "reason": "afterany:63144 unfulfilled",
+  "recurring_monitor": false,
+  "reference_identity": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+  "released": true,
+  "resources": {
+    "CPU": 8,
+    "GPU": 1,
+    "export": "NONE",
+    "memory_MiB": 59392,
+    "qos": "lab_gpu_s4",
+    "requeue": 0,
+    "wall_hours": 48
+  },
+  "runtime": {
+    "nltk": "3.6.5",
+    "numpy": "2.2.6",
+    "scikit-learn": "1.7.2",
+    "scipy": "1.15.3",
+    "tokenizers": "0.22.1",
+    "torch": "2.9.1",
+    "transformers": "4.57.1"
+  },
+  "runtime_source": "9d2420afc9dfa3574973109a9de3b3518ee8b1ee",
+  "server": "server4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "source_lock": {
+    "CPU_preflight": "PASS",
+    "GPU_preflight": "NOT_RUN_NOT_AUTHORIZED",
+    "base_model_manifest_sha256": "40fbd3f57fadd84f104c40fe2b33b5ee188149470b34c854f252ab06960b55a1",
+    "config": {
+      "bytes": 61552,
+      "path": "/data/janghj/ODE-edit/local/gptj-w0-flucon-20261011/execution-r1/config.json",
+      "sha256": "ba9fd83911be8d18f6d7eeffa0f18f6459b50d01a9f15f542e3e5a5092a22256"
+    },
+    "job_ids": [],
+    "model_weight_fullSHA": "RUNTIME_BEFORE_MODEL_LOAD_REQUIRED",
+    "reference_identity": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+    "source": "9d2420afc9dfa3574973109a9de3b3518ee8b1ee",
+    "source_archive": {
+      "bytes": 4362240,
+      "path": "/data/janghj/ODE-edit/local/gptj-w0-flucon-20261011/execution-r1/source.tar",
+      "sha256": "26c5029c8389c1875daae01eb5fdd9d3361a93dc9ad73e71348943ce06168080"
+    },
+    "source_files": 472,
+    "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+    "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+  },
+  "state": "PENDING",
+  "stream": {
+    "bytes": 4145654,
+    "path": "/data/janghj/ODE-edit/local/qwen-baselines-12-20261009/execution-noqual-r2/streams/cf-stream.json",
+    "sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37"
+  },
+  "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5",
+  "tracking_ready_nonce": "GH-SH4-GPTJ-W0-FLUCON-TRACKING-READY-20261011-R1"
+}

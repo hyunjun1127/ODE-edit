@@ -1,0 +1,194 @@
+{
+  "FT": {
+    "jobs": [
+      "61898",
+      "61900"
+    ],
+    "source_sha256": "96f74bfa49bc2ed3b8899858441672dd105ce3b20cdfb4ed2ecc668852efa22a",
+    "status": "NO_GENERATED_EDIT_CONTEXT_NATIVE_FT"
+  },
+  "actual_matching": [
+    {
+      "cell": "qwen25-cf-alphaedit_blue",
+      "config_sha256": "75eda8349ee37245ff224d7e79381bea38b1b43edf4bfedebc4c5ee33cfae1d1",
+      "context_canonical_sha256": "5c01bc1a91c0890af2897f18b7a5f95de011badc1eca5e27f44199acc0cb6515",
+      "context_line_sha256": "32656a4ea6b5306355804930d67d4914b10e16c7d9e27b8cae07c78091e1f2be",
+      "equal_reference_exact": true,
+      "job_id": "61962",
+      "line": 19,
+      "log_path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-native-eval-r2/logs/qwen25-cf-alphaedit_blue-61962.out",
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5",
+      "status": "ACTUAL_CONTEXT_MATCHES_NEW_VERIFIED_REFERENCE_KEEP",
+      "token_IDs_equal_reference_exact": true
+    },
+    {
+      "cell": "qwen25-zsre-alphaedit_blue",
+      "config_sha256": "50f602127849c8d634a3a455b26d1c346221d06fda48f83713a5b283fbf844c5",
+      "context_canonical_sha256": "5c01bc1a91c0890af2897f18b7a5f95de011badc1eca5e27f44199acc0cb6515",
+      "context_line_sha256": "32656a4ea6b5306355804930d67d4914b10e16c7d9e27b8cae07c78091e1f2be",
+      "equal_reference_exact": true,
+      "job_id": "61964",
+      "line": 19,
+      "log_path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-native-eval-r2/logs/qwen25-zsre-alphaedit_blue-61964.out",
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5",
+      "status": "ACTUAL_CONTEXT_MATCHES_NEW_VERIFIED_REFERENCE_KEEP",
+      "token_IDs_equal_reference_exact": true
+    },
+    {
+      "cell": "qwen25-cf-memit",
+      "config_sha256": "f6877eb7c243a4d6817ba4613132a9688ff56e48889ae6f4f22978673a94f946",
+      "context_canonical_sha256": "5c01bc1a91c0890af2897f18b7a5f95de011badc1eca5e27f44199acc0cb6515",
+      "context_line_sha256": "32656a4ea6b5306355804930d67d4914b10e16c7d9e27b8cae07c78091e1f2be",
+      "equal_reference_exact": true,
+      "job_id": "62073",
+      "line": 19,
+      "log_path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/logs/qwen25-cf-memit-62073.out",
+      "source": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "status": "ACTUAL_CONTEXT_MATCHES_NEW_VERIFIED_REFERENCE_KEEP",
+      "token_IDs_equal_reference_exact": true
+    },
+    {
+      "cell": "qwen25-cf-sphere",
+      "config_sha256": "9696fd995705458292900358c4765902ffdb3c988035d6a30627eed930e223ae",
+      "context_canonical_sha256": "5c01bc1a91c0890af2897f18b7a5f95de011badc1eca5e27f44199acc0cb6515",
+      "context_line_sha256": "32656a4ea6b5306355804930d67d4914b10e16c7d9e27b8cae07c78091e1f2be",
+      "equal_reference_exact": true,
+      "job_id": "62079",
+      "line": 109,
+      "log_path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/logs/qwen25-cf-sphere-62079.out",
+      "source": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "status": "ACTUAL_CONTEXT_MATCHES_NEW_VERIFIED_REFERENCE_KEEP",
+      "token_IDs_equal_reference_exact": true
+    }
+  ],
+  "additional_rerun_required": false,
+  "checkpoint_loads": 0,
+  "exact_accounting": "61898|s2-qwen25-cf-ft-gpu|janghj|COMPLETED|server2|/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-r1\n61900|s2-qwen25-zsre-ft-gpu|janghj|COMPLETED|server2|/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-r1\n61962|s2-qwen25-cf-alphaedit_blue-gpu|janghj|RUNNING|server2|/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-native-eval-r2\n61964|s2-qwen25-zsre-alphaedit_blue-gpu|janghj|RUNNING|server2|/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-native-eval-r2\n62072|s2-qwen25-zsre-ft-eval-gpu|janghj|COMPLETED|server2|/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1\n62073|s2-qwen25-cf-memit-gpu|janghj|RUNNING|server2|/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1\n62075|s2-qwen25-cf-alphaedit-gpu|janghj|PENDING|None assigned|/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1\n62077|s2-qwen25-cf-memit_fe-gpu|janghj|PENDING|None assigned|/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1\n62079|s2-qwen25-cf-sphere-gpu|janghj|RUNNING|server2|/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1\n62081|s2-qwen25-zsre-memit-gpu|janghj|PENDING|None assigned|/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1\n62083|s2-qwen25-zsre-alphaedit-gpu|janghj|PENDING|None assigned|/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1\n62085|s2-qwen25-zsre-memit_fe-gpu|janghj|PENDING|None assigned|/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1\n62087|s2-qwen25-zsre-sphere-gpu|janghj|PENDING|None assigned|/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1\n",
+  "historical_broken": [
+    {
+      "cell": "qwen25-zsre-memit",
+      "config_sha256": "12b28e9d9903364086bb6c6b1315eee902b86ed3be356a8d62e37fd45cbed912",
+      "context_canonical_sha256": "dcfa41cc403c109b0bd3077e710849658424b745128a43511e748bcae04a0b7f",
+      "context_line_sha256": "eb8f1c4b3dd9f21bd697ee66ddb7240ffbf7c74c7ad6069fc62714c65e25e92d",
+      "equal_reference_exact": false,
+      "job_id": "61956",
+      "line": 19,
+      "log_path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-native-eval-r2/logs/qwen25-zsre-memit-61956.out",
+      "replacement_job": "62081",
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5",
+      "status": "OLD_REPETITIVE_CONTEXT_ALREADY_SUPERSEDED"
+    },
+    {
+      "cell": "qwen25-zsre-alphaedit",
+      "config_sha256": "3cea7da80cd6c3824e6d6b19d0cb0ce6f5dc109e6a98e6e98fa1c72bdb8e9b0a",
+      "context_canonical_sha256": "dcfa41cc403c109b0bd3077e710849658424b745128a43511e748bcae04a0b7f",
+      "context_line_sha256": "eb8f1c4b3dd9f21bd697ee66ddb7240ffbf7c74c7ad6069fc62714c65e25e92d",
+      "equal_reference_exact": false,
+      "job_id": "61960",
+      "line": 109,
+      "log_path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-native-eval-r2/logs/qwen25-zsre-alphaedit-61960.out",
+      "replacement_job": "62083",
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5",
+      "status": "OLD_REPETITIVE_CONTEXT_ALREADY_SUPERSEDED"
+    },
+    {
+      "cell": "qwen25-zsre-memit_fe",
+      "config_sha256": "017caf1fdf2e9b64727fbf42a2eb9ba2781a496fa19aed22153a453c0fe3ccf7",
+      "context_canonical_sha256": "dcfa41cc403c109b0bd3077e710849658424b745128a43511e748bcae04a0b7f",
+      "context_line_sha256": "eb8f1c4b3dd9f21bd697ee66ddb7240ffbf7c74c7ad6069fc62714c65e25e92d",
+      "equal_reference_exact": false,
+      "job_id": "61968",
+      "line": 19,
+      "log_path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-native-eval-r2/logs/qwen25-zsre-memit_fe-61968.out",
+      "replacement_job": "62085",
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5",
+      "status": "OLD_REPETITIVE_CONTEXT_ALREADY_SUPERSEDED"
+    }
+  ],
+  "job_mutations": 0,
+  "model_forward_calls": 0,
+  "observed_at_utc": "2026-10-09T16:17:50.470481+00:00",
+  "old_raw_CP_KEEP": true,
+  "pending_fixed": [
+    {
+      "cell": "qwen25-cf-alphaedit",
+      "config_sha256": "4db616aad47772619ad502628ed124c29268b9c32b256c6875a4fc8fb1fc061d",
+      "job_id": "62075",
+      "old_context_injection": false,
+      "source": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "status": "REGISTERED_FIXED_SOURCE_CONTEXT_NOT_GENERATED_YET"
+    },
+    {
+      "cell": "qwen25-cf-memit_fe",
+      "config_sha256": "9a5ab5a117288655361b8b0c7881b9fb8653f1aa1082699c4dd94c19f33a488e",
+      "job_id": "62077",
+      "old_context_injection": false,
+      "source": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "status": "REGISTERED_FIXED_SOURCE_CONTEXT_NOT_GENERATED_YET"
+    },
+    {
+      "cell": "qwen25-zsre-memit",
+      "config_sha256": "93e6f98a2a1c06e7da4320c6b5cd7837396781c6a377c8199cd8fb86f018a5c0",
+      "job_id": "62081",
+      "old_context_injection": false,
+      "source": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "status": "REGISTERED_FIXED_SOURCE_CONTEXT_NOT_GENERATED_YET"
+    },
+    {
+      "cell": "qwen25-zsre-alphaedit",
+      "config_sha256": "b0e17e76bba6bc28f09cb776da3d61d811d1e5736fce7fd4ef2bfceb324ba342",
+      "job_id": "62083",
+      "old_context_injection": false,
+      "source": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "status": "REGISTERED_FIXED_SOURCE_CONTEXT_NOT_GENERATED_YET"
+    },
+    {
+      "cell": "qwen25-zsre-memit_fe",
+      "config_sha256": "848bbc9855cc4c3bcac196bb2c4213ff83e47a98338a130a782ca0da4fb69e88",
+      "job_id": "62085",
+      "old_context_injection": false,
+      "source": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "status": "REGISTERED_FIXED_SOURCE_CONTEXT_NOT_GENERATED_YET"
+    },
+    {
+      "cell": "qwen25-zsre-sphere",
+      "config_sha256": "dcc7018f54b1f63c8c295ebe5d82b32fb933856e0d0b94b8659c9238ef41a814",
+      "job_id": "62087",
+      "old_context_injection": false,
+      "source": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "status": "REGISTERED_FIXED_SOURCE_CONTEXT_NOT_GENERATED_YET"
+    }
+  ],
+  "raw_context_or_tokens_published": false,
+  "reason": "Affected old trajectories already replaced by 62073/75/77/79/81/83/85/87; current observed contexts match new reference exactly.",
+  "reference_canonical_sha256": "5c01bc1a91c0890af2897f18b7a5f95de011badc1eca5e27f44199acc0cb6515",
+  "reference_file_sha256": "caf43aaf6e04f8b894f49051cbca4312e51b63ac42466be4edd82a70d7589dea",
+  "reference_job": "62101",
+  "reference_provenance": {
+    "GPU_qualification": "NOT_RUN",
+    "W0_evaluation": 0,
+    "config_sha256": "ec115508a812e202cfb265a45ed2674aa8ac4fffccaf315462f1d9f48ff802c1",
+    "context_sha256": "caf43aaf6e04f8b894f49051cbca4312e51b63ac42466be4edd82a70d7589dea",
+    "context_tokens_sha256": "0d7b2d9be47d1409d3c1f9672b111e4d26e932f2c9e5d4a22f2784fe1ab4e58e",
+    "edits": 0,
+    "fit": 0,
+    "generator_sha256": "35506690c41ecb7d59f11660da41dde50338f5a2ba9613735e045a8c7ab98db4",
+    "job_id": "62101",
+    "model_family": "qwen25",
+    "model_manifest_sha256": "0013cd199e0ae16b296bf73d2d9bd5a9b7a0a0ae0463c9ea3890d86420dc1c89",
+    "model_weight_verification": "RUNTIME_FULL_SHA_PASS",
+    "native_module": "official.baselines.easyedit.models.memit.memit_main",
+    "native_module_sha256": "39b0c91b586a136be2b6bdfabbcc17705fb3cc07e7f17e739fe565906d9d6ea7",
+    "profile": "official-native-edit-context-fiveprompts-total10-topk5",
+    "revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+    "runtime": {
+      "gpu": "NVIDIA H200 NVL",
+      "torch": "2.9.1+cu128",
+      "transformers": "4.57.1"
+    },
+    "seconds": 8.715567724779248,
+    "seed": 0,
+    "source": "70b63f001ae200eed70d5278028b1cc7d33ce009",
+    "status": "CONTEXT_GENERATED"
+  }
+}

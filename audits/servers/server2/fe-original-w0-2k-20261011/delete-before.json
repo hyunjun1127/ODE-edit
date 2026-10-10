@@ -1,0 +1,190 @@
+{
+  "accounting": "61734|janghj|COMPLETED|server2\n61780|janghj|COMPLETED|server2\n61946|janghj|COMPLETED|server2\n62077|janghj|COMPLETED|server2\n62085|janghj|COMPLETED|server2\n62531|janghj|COMPLETED|server2\n62532|janghj|CANCELLED by 1025|server2\n62868|janghj|CANCELLED by 1025|None assigned\n62872|janghj|CANCELLED by 1025|None assigned\n",
+  "items": [
+    {
+      "bytes": 1610637709,
+      "ctime_ns": 1791513545153974664,
+      "dev": 2304,
+      "identity": {
+        "assets_sha256": "8ce64b6771ff8da49d584784ea190ad8575a3a073f03fcc94c93568d31db6463",
+        "code_commit": "478464689231595eb63da368cc7c376e775eb559",
+        "config_sha256": "d59aef72835624e12637be252c0303907c656b457db2738eecc4fd4fc5ba771f",
+        "model_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+        "official_tree_sha256": "41ed261d1fc8c7c0022366c50fa9cb1ae3c05320",
+        "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+        "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+      },
+      "inode": 122825961,
+      "job": "61734",
+      "mtime_ns": 1791513540745992308,
+      "nlink": 1,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_MEMIT_FE/checkpoints/batch-20-199a4175bd7bb425.pt",
+      "pointer": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_MEMIT_FE/checkpoints/latest.json",
+        "sha256": "6e0edae7d1a2d432e412aaa1dba2d2944d1157be09b6441b478da04358d79d63"
+      },
+      "receipt": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_MEMIT_FE/result.json",
+        "sha256": "08a93b32706ed0c2e2e83c2c277df876b088de7cbfc0a12eb7e266364b57e970"
+      },
+      "sha256": "199a4175bd7bb425b088afafd27a5e9aa6812a4061a6eca930899bcaca4f41a5"
+    },
+    {
+      "bytes": 1610637645,
+      "ctime_ns": 1791513683041456740,
+      "dev": 2304,
+      "identity": {
+        "assets_sha256": "d842d47ee91049c954e5c7048ef47abba6bfe481acb1228bf5b43119d903ac46",
+        "code_commit": "d31d582ffd425fe3a56a7d23b68d3c58e7e3d955",
+        "config_sha256": "d2f9630e194982cf9ed872dfb6a71b5f2e1e2007a8f5e09065ee0c9d1145ff67",
+        "model_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+        "official_tree_sha256": "ba8f0e36d5551f3ec1d61e50c8996040a16cb6d3",
+        "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+      },
+      "inode": 122825980,
+      "job": "61780",
+      "mtime_ns": 1791513678037474483,
+      "nlink": 1,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/CF_MEMIT_FE/checkpoints/batch-20-464ce442369c35d5.pt",
+      "pointer": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/CF_MEMIT_FE/checkpoints/latest.json",
+        "sha256": "2d8c846b94097c94223ce698473174bd40ddfea0621593d85a4fe5244134e784"
+      },
+      "receipt": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/CF_MEMIT_FE/result.json",
+        "sha256": "612bc4f13b3d89572117dd6f2c021a10a3671358eb53373d5c71305681727274"
+      },
+      "sha256": "464ce442369c35d5a628a0e66412c88856ae89d6bdbe481ae64c7615226c94c6"
+    },
+    {
+      "bytes": 1357958481,
+      "ctime_ns": 1791582000895594443,
+      "dev": 2304,
+      "identity": {
+        "assets_sha256": "11fbe79a7784817f8fb0e1164df936dab7ed1c7480bddc923c509aec58e380ec",
+        "code_commit": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+        "config_sha256": "9a5ab5a117288655361b8b0c7881b9fb8653f1aa1082699c4dd94c19f33a488e",
+        "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+        "official_tree_sha256": "be8dca6334f083a87cf6555899fbb43451d9976a55bb53242fdbbcf52a1dfe95",
+        "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "tokenizer_sha256": "9e3c11a4a87d85a72b6f2d1e4b29ab88532f72d03189b6fa2793da735a2d98aa"
+      },
+      "inode": 123163804,
+      "job": "62077",
+      "mtime_ns": 1791581996695588805,
+      "nlink": 1,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-cf-memit_fe/checkpoint/batch-20-9826e9cee2c90df5.pt",
+      "pointer": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-cf-memit_fe/checkpoint/latest.json",
+        "sha256": "6624691929dc1a7e0df90bb4ac34943943deeb961031495b51dc237b1afbdd2a"
+      },
+      "receipt": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-cf-memit_fe/terminal.json",
+        "sha256": "d8a1092b5db00b1f5c2bcf7fae1236effbfe3c50aeebe35556d0ab364cd30180"
+      },
+      "sha256": "9826e9cee2c90df58ee97c9b877e27a2d2ed3a9dd00f2604716692e8f7320aa8"
+    },
+    {
+      "bytes": 1357958225,
+      "ctime_ns": 1791602679272949691,
+      "dev": 2304,
+      "identity": {
+        "assets_sha256": "11fbe79a7784817f8fb0e1164df936dab7ed1c7480bddc923c509aec58e380ec",
+        "code_commit": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+        "config_sha256": "848bbc9855cc4c3bcac196bb2c4213ff83e47a98338a130a782ca0da4fb69e88",
+        "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+        "official_tree_sha256": "be8dca6334f083a87cf6555899fbb43451d9976a55bb53242fdbbcf52a1dfe95",
+        "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+        "tokenizer_sha256": "9e3c11a4a87d85a72b6f2d1e4b29ab88532f72d03189b6fa2793da735a2d98aa"
+      },
+      "inode": 123227752,
+      "job": "62085",
+      "mtime_ns": 1791602675084976830,
+      "nlink": 1,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-zsre-memit_fe/checkpoint/batch-20-c188d3aac8211919.pt",
+      "pointer": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-zsre-memit_fe/checkpoint/latest.json",
+        "sha256": "a58143f41ec4b4797426bf5c89d520c0e4dde83ced93b92314aa9fa947deedf5"
+      },
+      "receipt": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-zsre-memit_fe/terminal.json",
+        "sha256": "e1e0ef5636c9dfa82ebf4b814fb1022c44e779ce468d801437a4e212ea0a3742"
+      },
+      "sha256": "c188d3aac8211919dd59e1b961c981c9aa5265cd4c8786d4c8a1cbc6d86ef9fb"
+    },
+    {
+      "bytes": 8535429071,
+      "ctime_ns": 1791630305976005210,
+      "dev": 2304,
+      "identity": {
+        "assets_sha256": "a6152d098f0c6667bc026ab905369d0a736ca57b5bc04c7f39cb22d9f16b72e1",
+        "code_commit": "a8c4c611a37210ddfa9e7db222dca6678d4cd678",
+        "config_sha256": "19ee6abf7a11f86a5a91a5af591f880967dfa2e3194c1ff32725fbe98a4ed90b",
+        "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+        "official_tree_sha256": "73e6c5b69a8501fb3522a09716fc2e6d13226c58",
+        "stream_sha256": "39bbd2215177d2aabeb3bd5c2e7f088b454479bf567b3b16f9da70bd0b28c95e",
+        "tokenizer_sha256": "2d0c9194c6e5ec83fec2e820751a9522a56742e3c314a3c27e25496939b4578d"
+      },
+      "inode": 123424327,
+      "job": "62531",
+      "mtime_ns": 1791630280788011776,
+      "nlink": 1,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/fe-author-hparams-2k-20261010/configs-r1/runs/cf/checkpoint/batch-20-b3b66bbd2f9756f6.pt",
+      "pointer": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-author-hparams-2k-20261010/configs-r1/runs/cf/checkpoint/latest.json",
+        "sha256": "0c5e68221e35bbd131988f4163dcf0c5ef4e7c2b91dd9435b35f4c72fcaa7dda"
+      },
+      "receipt": {
+        "bytes": 4140,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-author-hparams-2k-20261010/configs-r1/configs/cf.json",
+        "sha256": "8f846bd483f2820d604c90947409a0736d4faf0c3ffdd2b8cb6d41aab38c15b2"
+      },
+      "sha256": "b3b66bbd2f9756f659448418d860d6986b933ee2791a4652e6f5d5dfd3d55dca"
+    },
+    {
+      "bytes": 8535428815,
+      "ctime_ns": 1791647235724325530,
+      "dev": 2304,
+      "identity": {
+        "assets_sha256": "a6152d098f0c6667bc026ab905369d0a736ca57b5bc04c7f39cb22d9f16b72e1",
+        "code_commit": "a8c4c611a37210ddfa9e7db222dca6678d4cd678",
+        "config_sha256": "fa6bfd0b46d05fec3617c89173479cb015ba4555765cc384433e707f5812b3cd",
+        "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+        "official_tree_sha256": "73e6c5b69a8501fb3522a09716fc2e6d13226c58",
+        "stream_sha256": "93925ec2f74e00a1b3fbdf261e557d10652ae0eca7265b4948958d39de4848b7",
+        "tokenizer_sha256": "2d0c9194c6e5ec83fec2e820751a9522a56742e3c314a3c27e25496939b4578d"
+      },
+      "inode": 123490397,
+      "job": "62532",
+      "mtime_ns": 1791647216392491849,
+      "nlink": 1,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/fe-author-hparams-2k-20261010/configs-r1/runs/zsre/checkpoint/batch-18-a3ed51d764488f42.pt",
+      "pointer": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-author-hparams-2k-20261010/configs-r1/runs/zsre/checkpoint/latest.json",
+        "sha256": "1b0dbee9b7ead590bf18f662b5f81dd6658fe3368d37fcfa1cca1ae87f43cd58"
+      },
+      "receipt": {
+        "bytes": 4331,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-author-hparams-2k-20261010/configs-r1/configs/zsre.json",
+        "sha256": "b9e85f556a3eefab41143bd9ccb9db83ab75c3e9912b528ad5e138f3363992f4"
+      },
+      "sha256": "a3ed51d764488f42a791de67a850b267a29695e43c5861c530bdcdd156faeaf5"
+    }
+  ],
+  "open_descriptors": [],
+  "payload_files_scanned": 878,
+  "same_size_non_targets": [
+    {
+      "is_replica": false,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-zsre-memit/checkpoint/batch-20-ae700e725826ab54.pt",
+      "sha256": "ae700e725826ab547df72df12ca973c15fc0b024650cad55114f7fc0f62ee705"
+    },
+    {
+      "is_replica": false,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-cf-memit/checkpoint/batch-20-4561ee2477393eba.pt",
+      "sha256": "4561ee2477393eba5e18d93b64ac19c9789caa28df64472e72d778a30e17af21"
+    }
+  ],
+  "scope": "six exact manifest-bound FE payloads; other methods and shared assets KEEP"
+}

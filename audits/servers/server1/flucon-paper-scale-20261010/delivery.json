@@ -1,0 +1,14 @@
+{
+  "instruction": "USER-GH-FLUCON-PAPER-SCALE-TABLE-REFRESH-20261010-R1",
+  "target": "GH",
+  "target_session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+  "publication": "1fb4cef609f8ef8530f28256694ecba727b89018",
+  "message_sha256": "0e7107182683f9edc1d4c1b0fe189e791216b18751ed785477b3914c5cf5f145",
+  "direct_status": "COMMUNICATION_HOLD",
+  "error": "app-server response TimeoutError",
+  "accepted_by_GH": "UNKNOWN",
+  "automatic_retry": false,
+  "jobs_registered_released": [62259, 62260, 62261, 62262, 62263, 62264],
+  "README_updated_by_SH1": false,
+  "handoff": "Compact table-rows.json/csv, completed-rows.json and report are published on main; direct acknowledgement is not established."
+}

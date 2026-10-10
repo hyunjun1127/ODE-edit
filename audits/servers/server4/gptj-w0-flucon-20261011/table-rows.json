@@ -1,0 +1,33 @@
+{
+  "factual_zsre_other_models": "UNCHANGED",
+  "owner": "GH_SOLE_README",
+  "rows": [
+    {
+      "cohort_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+      "dataset": "cf",
+      "display": "PENDING: 63219",
+      "endpoint": "W0",
+      "job_id": "63219",
+      "metric": "Flu",
+      "model": "gptj",
+      "paper_display_x100": null,
+      "raw_value": null,
+      "source": "9d2420afc9dfa3574973109a9de3b3518ee8b1ee",
+      "state": "PENDING"
+    },
+    {
+      "cohort_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+      "dataset": "cf",
+      "display": "PENDING: 63219",
+      "endpoint": "W0",
+      "job_id": "63219",
+      "metric": "Con",
+      "model": "gptj",
+      "paper_display_x100": null,
+      "raw_value": null,
+      "source": "9d2420afc9dfa3574973109a9de3b3518ee8b1ee",
+      "state": "PENDING"
+    }
+  ],
+  "science_complete": false
+}

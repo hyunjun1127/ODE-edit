@@ -1,0 +1,20 @@
+{
+  "nonce":"USER-GH-S1-S2-BASELINE-REFRESH-S2-FLUCON-20261010-R1",
+  "meaning":"Historical main-table exceptions already located on server2; references only, not fresh SH1 payload/restore validation or new submission.",
+  "destination_owner":"server2",
+  "fresh_payload_verification_by_SH1":false,
+  "SH2_required":"Fresh fullSHA/bytes, original source/config/context and checkpoint schema/loader/ordered cohort/protocol binding; deduplicate current evals before submission. Do not confuse these with older salted-hash campaign checkpoints.",
+  "model":"llama3",
+  "revision":"8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+  "recorded_ordered_case_ids_sha256":"0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+  "members":[
+    {"method":"MEMIT","job_id":"42658","path":"/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives/server4-migration-20260911-v1/new177-v1/payload/local/fixed10k-native-baselines/attempt-v1/output/main-cell-2/B020/W-method-state.pt","bytes":1174435733,"recorded_sha256":"0119370f71753ee4101f5bafd179328370d1f348453edb5a4bb9122289e0365e"},
+    {"method":"ALPHAEDIT","job_id":"42657","path":"/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives/server4-migration-20260911-v1/new177-v1/payload/local/fixed10k-native-baselines/attempt-v1/output/main-cell-1/B020/W-method-state.pt","bytes":5284852213,"recorded_sha256":"a7f338ced5df28a428129703e07386eec5d038e33d63fa1b885950ef81a6803b"},
+    {"method":"ALPHAEDIT_BLUE","job_id":"39283_1","path":"/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/payload/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-1/B020/W-method-state.pt","bytes":2113956769,"recorded_sha256":"268cf596e963b3455a694ccb2b7599b97ee483ad091cadcc051c185358fcc675"}
+  ],
+  "provenance":["transfers/verifications/2026-09-11-checkpoint-migration-server4-source/migration-map.csv","audits/servers/server4/2026-09-09-blue-downstream-transfer/checkpoint-inventory.csv","experiment-reports/global/llama-native-cf-historical-b020-20261009.md","experiment-reports/servers/server1/official-baselines-20261008/llama-blue-2k-table-check.md"],
+  "new_generation_protocol":"Use existing approved official CAKE-compatible evaluator/reference/seed; retain historical editing identity separately. Existing official checkpoint restore loader cannot be assumed schema-compatible.",
+  "transfer":0,
+  "delete":0,
+  "SH1_new_GPU":0
+}

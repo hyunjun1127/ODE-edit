@@ -1,0 +1,2285 @@
+{
+  "GH_sole_README": true,
+  "accounting": "61650|official-baselines-server2-20261008-r1-cf_checkpoint-FT|janghj|COMPLETED|server2|/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-checkpoint-r1/source\n61725|official-baselines-server2-20261008-r1-no_gpu_qual-CF_MEMIT|janghj|COMPLETED|server2|/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/source\n61778|official-baselines-server2-20261008-r1-cf_display_repair-CF_ALPHAEDIT|janghj|COMPLETED|server2|/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/source\n61779|official-baselines-server2-20261008-r1-cf_display_repair-CF_ALPHAEDIT_BLUE|janghj|COMPLETED|server2|/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/source\n61780|official-baselines-server2-20261008-r1-cf_display_repair-CF_MEMIT_FE|janghj|COMPLETED|server2|/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/source\n61781|official-baselines-server2-20261008-r1-cf_display_repair-CF_SPHERE|janghj|COMPLETED|server2|/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/source\n61898|s2-qwen25-cf-ft-gpu|janghj|COMPLETED|server2|/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-r1\n61942|s2-zsre-reeval-ft|janghj|COMPLETED|server2|/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1\n61943|s2-zsre-reeval-memit|janghj|COMPLETED|server2|/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1\n61944|s2-zsre-reeval-alphaedit|janghj|COMPLETED|server2|/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1\n61945|s2-zsre-reeval-alphaedit_blue|janghj|COMPLETED|server2|/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1\n61946|s2-zsre-reeval-memit_fe|janghj|COMPLETED|server2|/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1\n61947|s2-zsre-reeval-sphere|janghj|COMPLETED|server2|/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1\n61962|s2-qwen25-cf-alphaedit_blue-gpu|janghj|COMPLETED|server2|/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-native-eval-r2\n61964|s2-qwen25-zsre-alphaedit_blue-gpu|janghj|COMPLETED|server2|/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-native-eval-r2\n62072|s2-qwen25-zsre-ft-eval-gpu|janghj|COMPLETED|server2|/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1\n62073|s2-qwen25-cf-memit-gpu|janghj|COMPLETED|server2|/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1\n62075|s2-qwen25-cf-alphaedit-gpu|janghj|RUNNING|server2|/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1\n62077|s2-qwen25-cf-memit_fe-gpu|janghj|COMPLETED|server2|/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1\n62079|s2-qwen25-cf-sphere-gpu|janghj|COMPLETED|server2|/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1\n62081|s2-qwen25-zsre-memit-gpu|janghj|COMPLETED|server2|/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1\n62083|s2-qwen25-zsre-alphaedit-gpu|janghj|PENDING|None assigned|/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1\n62085|s2-qwen25-zsre-memit_fe-gpu|janghj|RUNNING|server2|/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1\n62531|s2-qwen25-cf-fe-author-history|janghj|PENDING|None assigned|/mnt/raid5/janghj/ODE-edit/local/fe-author-hparams-2k-20261010/registration-r1/source\n62532|s2-qwen25-zsre-fe-author-history|janghj|PENDING|None assigned|/mnt/raid5/janghj/ODE-edit/local/fe-author-hparams-2k-20261010/registration-r1/source\n62538|s2-qwen25-zsre-sphere-resume-b9|janghj|PENDING|None assigned|/mnt/raid5/janghj/ODE-edit/local/qwen-zsre-sphere-b9-resume-20261010/registration-r1/source\n",
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "checkpoint_loads": 0,
+  "excluded_broken_context": [
+    61956,
+    61960,
+    61968
+  ],
+  "issues": [],
+  "monitoring_active": false,
+  "nonce": "USER-GH-S1-S2-COMPLETED-TABLE-S1-FLUCON-CAP3-20261010-R1",
+  "numeric_eligible": 20,
+  "observed_at": "2026-10-10T01:31:11.166908+00:00",
+  "old_failed_ancestor_not_separate_main": 62087,
+  "reducer": {
+    "bytes": 10148,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-completed-cap3-20261010/audits/servers/server2/completed-table-flucon-cap3-20261010/review.py",
+    "sha256": "8f589378ba21d9e77a1138f0c0c756fa954bd84b445cbf65651bd4efc6ce4ebe"
+  },
+  "reused_reducer": {
+    "bytes": 9892,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-completed-cap3-20261010/audits/servers/server2/baseline-completed-zsre-audit-20261010/audit.py",
+    "sha256": "8472e6085774313ceff5a5c213cc312445a66c39d2f633f8d7245dac997ee661"
+  },
+  "rows": [
+    {
+      "Con": 0.030072135827285053,
+      "Con_paper_x100": "3.01",
+      "Con_raw_unit": "cosine_0_to_1",
+      "Flu": 4.71017497777678,
+      "Flu_paper_x100": "471.02",
+      "Flu_raw_unit": "bits",
+      "cold_state_identity": {
+        "assets_sha256": "11fbe79a7784817f8fb0e1164df936dab7ed1c7480bddc923c509aec58e380ec",
+        "code_commit": "69bfbb2cdffe24072733950c671e47597ff9fbd5",
+        "config_sha256": "2575c4b98a273f64b1722938d41886c8d8caad516295fc73522bb7491b9f50dd",
+        "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+        "official_tree_sha256": "86f613646c263cffc044507185b45e256a9735caafd74573aa19a7a14cf8797d",
+        "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "tokenizer_sha256": "9e3c11a4a87d85a72b6f2d1e4b29ab88532f72d03189b6fa2793da735a2d98aa"
+      },
+      "config_sha256": "2575c4b98a273f64b1722938d41886c8d8caad516295fc73522bb7491b9f50dd",
+      "dataset": "cf",
+      "denominators": {
+        "Con": 2000,
+        "Flu": 2000,
+        "neighborhood": 20000,
+        "paraphrase": 4000,
+        "rewrite": 2000
+      },
+      "generation_prompts": 20000,
+      "generation_raw": {
+        "observed_requests": 2000,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-r1/runs/qwen25-cf-ft/generation/endpoints/9686a26a2ef66a495c2a45495e50de2f89089c8ea4a55ee1fd7be2f26e13950d.json",
+        "sha256": "21c6011a88a8edf6005965461bd479f7e6ced4b665c0b0a3af219339db43956c",
+        "state": "COMPLETE"
+      },
+      "generation_requests": 2000,
+      "generation_tokens": 1815707,
+      "job_id": "61898",
+      "job_name": "s2-qwen25-cf-ft-gpu",
+      "method": "FT",
+      "metrics": {
+        "Efficacy": 85.5,
+        "Generalization": 67.5,
+        "Score": 57.45182526582473,
+        "Score_AlphaEdit_display": 57.45182526582473,
+        "Specificity": 38.9,
+        "requests": 2000
+      },
+      "model": "qwen25",
+      "numeric_eligible": true,
+      "observed_at": "2026-10-10T01:31:11.166908+00:00",
+      "observed_state": "COMPLETED",
+      "online_delivery": "NOT_REQUERIED",
+      "ordered_cohort_sha256": "b63e14222c3e7f1bd3b78a7b50be24e110a59b15208cda664b3603596668cb84",
+      "ordered_sample_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+      "raw": {
+        "observed_requests": 2000,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-r1/runs/qwen25-cf-ft/evaluations/w20-cases.json",
+        "sha256": "4dd319c2d6d0a9969d0e4f8a998004619aaa22252c7be3e22a9b0781377e096a",
+        "state": "COMPLETE"
+      },
+      "raw_and_terminal_SHA_rechecked": true,
+      "report_path": "experiment-reports/servers/server2/completed-table-flucon-cap3-20261010/report-ko.md",
+      "requests": 2000,
+      "rerun_attempt": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-r1",
+      "reused_prior_CPU_audit": {
+        "bytes": 90373,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-completed-cap3-20261010/audits/servers/server2/baseline-completed-zsre-audit-20261010/audited-final.json",
+        "sha256": "387bd9cf995d88a1c52bf08aa74bf74afcea29e264be1ec71d85a4e56479a462"
+      },
+      "server": "server2",
+      "source_commit": "69bfbb2cdffe24072733950c671e47597ff9fbd5",
+      "status": "W20_RAW_CPU_VERIFIED",
+      "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+      "terminal": {
+        "bytes": 6663,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-r1/runs/qwen25-cf-ft/terminal.json",
+        "sha256": "a52028e34b6ff4bb8dfeddb8cb79f11141236a5c2f50d03df5efdb8f1e4712ef"
+      }
+    },
+    {
+      "Con": 0.37431408204466576,
+      "Con_paper_x100": "37.43",
+      "Con_raw_unit": "cosine_0_to_1",
+      "Flu": 6.029855922995685,
+      "Flu_paper_x100": "602.99",
+      "Flu_raw_unit": "bits",
+      "cold_state_identity": {
+        "assets_sha256": "11fbe79a7784817f8fb0e1164df936dab7ed1c7480bddc923c509aec58e380ec",
+        "code_commit": "5503935821b0ececb4aef09a5bccb5308879a6b5",
+        "config_sha256": "75eda8349ee37245ff224d7e79381bea38b1b43edf4bfedebc4c5ee33cfae1d1",
+        "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+        "official_tree_sha256": "a66c769f77d6070b35ff85b37351ba3406c39cb86b827611ee9634b92dbd2bde",
+        "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "tokenizer_sha256": "9e3c11a4a87d85a72b6f2d1e4b29ab88532f72d03189b6fa2793da735a2d98aa"
+      },
+      "config_sha256": "75eda8349ee37245ff224d7e79381bea38b1b43edf4bfedebc4c5ee33cfae1d1",
+      "dataset": "cf",
+      "denominators": {
+        "Con": 2000,
+        "Flu": 2000,
+        "neighborhood": 20000,
+        "paraphrase": 4000,
+        "rewrite": 2000
+      },
+      "generation_prompts": 20000,
+      "generation_raw": {
+        "observed_requests": 2000,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-native-eval-r2/runs/qwen25-cf-alphaedit_blue/generation/endpoints/d3e82cdf19dc2115c2fcee94816006c3ae65e43ef197c84195bceb49b666b6c6.json",
+        "sha256": "b408ec7ec1ab2edd2c7026655a749a86327c90e3479c579b2754b72370cce071",
+        "state": "COMPLETE"
+      },
+      "generation_requests": 2000,
+      "generation_tokens": 1815707,
+      "job_id": "61962",
+      "job_name": "s2-qwen25-cf-alphaedit_blue-gpu",
+      "method": "ALPHAEDIT_BLUE",
+      "metrics": {
+        "Efficacy": 97.7,
+        "Generalization": 96.75,
+        "Score": 77.97629788389074,
+        "Score_AlphaEdit_display": 77.97629788389074,
+        "Specificity": 55.86,
+        "requests": 2000
+      },
+      "model": "qwen25",
+      "numeric_eligible": true,
+      "observed_at": "2026-10-10T01:31:11.166908+00:00",
+      "observed_state": "COMPLETED",
+      "online_delivery": "NOT_REQUERIED",
+      "ordered_cohort_sha256": "b63e14222c3e7f1bd3b78a7b50be24e110a59b15208cda664b3603596668cb84",
+      "ordered_sample_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+      "raw": {
+        "observed_requests": 2000,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-native-eval-r2/runs/qwen25-cf-alphaedit_blue/evaluations/w20-cases.json",
+        "sha256": "f0130cf958cf220a5e5e73a076564e2cbf0cc55324cff15705c4a7a6c5dbcb9e",
+        "state": "COMPLETE"
+      },
+      "raw_and_terminal_SHA_rechecked": true,
+      "report_path": "experiment-reports/servers/server2/completed-table-flucon-cap3-20261010/report-ko.md",
+      "requests": 2000,
+      "rerun_attempt": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-native-eval-r2",
+      "reused_prior_CPU_audit": {
+        "bytes": 90373,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-completed-cap3-20261010/audits/servers/server2/baseline-completed-zsre-audit-20261010/audited-final.json",
+        "sha256": "387bd9cf995d88a1c52bf08aa74bf74afcea29e264be1ec71d85a4e56479a462"
+      },
+      "server": "server2",
+      "source_commit": "5503935821b0ececb4aef09a5bccb5308879a6b5",
+      "status": "W20_RAW_CPU_VERIFIED",
+      "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+      "terminal": {
+        "bytes": 7203,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-native-eval-r2/runs/qwen25-cf-alphaedit_blue/terminal.json",
+        "sha256": "1afbf670ba624799cade967f8842063be3a39aa0c962546ff1de7176bf906583"
+      }
+    },
+    {
+      "cold_state_identity": {
+        "assets_sha256": "11fbe79a7784817f8fb0e1164df936dab7ed1c7480bddc923c509aec58e380ec",
+        "code_commit": "5503935821b0ececb4aef09a5bccb5308879a6b5",
+        "config_sha256": "50f602127849c8d634a3a455b26d1c346221d06fda48f83713a5b283fbf844c5",
+        "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+        "official_tree_sha256": "a66c769f77d6070b35ff85b37351ba3406c39cb86b827611ee9634b92dbd2bde",
+        "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+        "tokenizer_sha256": "9e3c11a4a87d85a72b6f2d1e4b29ab88532f72d03189b6fa2793da735a2d98aa"
+      },
+      "config_sha256": "50f602127849c8d634a3a455b26d1c346221d06fda48f83713a5b283fbf844c5",
+      "dataset": "zsre",
+      "denominators": {
+        "neighborhood": 11476,
+        "paraphrase": 6691,
+        "rewrite": 6691
+      },
+      "independent_CPU_recomputed": {
+        "Efficacy": 58.616865079365084,
+        "Generalization": 53.6624007936508,
+        "Specificity": 5.727470490106537
+      },
+      "job_id": "61964",
+      "job_name": "s2-qwen25-zsre-alphaedit_blue-gpu",
+      "method": "ALPHAEDIT_BLUE",
+      "metrics": {
+        "Efficacy": 58.616865079365084,
+        "Generalization": 53.6624007936508,
+        "Specificity": 5.727470490106537
+      },
+      "model": "qwen25",
+      "numeric_eligible": true,
+      "observed_at": "2026-10-10T01:31:11.166908+00:00",
+      "observed_state": "COMPLETED",
+      "online_delivery": "NOT_REQUERIED",
+      "ordered_cohort_sha256": "add0c4de5ef09a497ebb87b8b7c0852fe715e6a193c18ec3482c80411ca6c1ef",
+      "ordered_sample_sha256": "494b15107deb77d9741606b7bddfecb8b350a486bb5a751655b294d4ebc6f1a4",
+      "original_edit_job_id": "61964",
+      "raw": {
+        "observed_requests": 2000,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-native-eval-r2/runs/qwen25-zsre-alphaedit_blue/evaluations/w20-cases.json",
+        "sha256": "e1ebf9d524c57b681682de96e77efb2164f1b4b9faa4405ebe27352b36330319",
+        "state": "COMPLETE"
+      },
+      "raw_and_terminal_SHA_rechecked": true,
+      "report_path": "experiment-reports/servers/server2/completed-table-flucon-cap3-20261010/report-ko.md",
+      "requests": 2000,
+      "rerun_attempt": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-native-eval-r2",
+      "reused_prior_CPU_audit": {
+        "bytes": 90373,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-completed-cap3-20261010/audits/servers/server2/baseline-completed-zsre-audit-20261010/audited-final.json",
+        "sha256": "387bd9cf995d88a1c52bf08aa74bf74afcea29e264be1ec71d85a4e56479a462"
+      },
+      "server": "server2",
+      "source_commit": "5503935821b0ececb4aef09a5bccb5308879a6b5",
+      "status": "W20_PUBLIC_QUERY_REQUEST_MACRO_VERIFIED",
+      "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+      "terminal": {
+        "bytes": 6848,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-native-eval-r2/runs/qwen25-zsre-alphaedit_blue/terminal.json",
+        "sha256": "46c53086233d8dd40c5fe8829b64cdda7536699c29960368cad1872070140e5a"
+      },
+      "zsre_audit": {
+        "CPU_query_parity_only": true,
+        "Loc": "loc_ans_target_correctness_NOT_W0_agreement",
+        "actual_query_sha256": "6c8111384789cec7059ea1b3c2b1083d761ade2b360c99db3e5c4f1ef4941d78",
+        "byte_stream_vs_canonical_JSON_distinct": true,
+        "diagnostic_token_micro_NOT_TABLE": {
+          "Efficacy": 56.62830668061575,
+          "Generalization": 52.59303542071439,
+          "Specificity": 9.053677239456256
+        },
+        "eval_only_not_new_edit_experiment": false,
+        "frozen_members": [
+          {
+            "bytes": 8479,
+            "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-native-eval-r2/source/official/evaluation/zsre_paper.py",
+            "sha256": "d6a5b34eafd27660a2dee4632c638b6bf4c3614246071711cf5159a002415a45"
+          },
+          {
+            "bytes": 4774,
+            "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-native-eval-r2/source/official/evaluation/zsre_query_parity.py",
+            "sha256": "9883f16036525278bbfcdb45f5f08cc8c799f638a26f91b4d9da2a0d70103803"
+          },
+          {
+            "bytes": 966,
+            "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-native-eval-r2/source/official/evaluation/zsre_public_sources/lock.json",
+            "sha256": "83f7f9aeafe28136f87f252a0783bf282929321ef6af9fbf2596f85d1f995ae6"
+          }
+        ],
+        "identity": {
+          "assets_sha256": "11fbe79a7784817f8fb0e1164df936dab7ed1c7480bddc923c509aec58e380ec",
+          "code_commit": "5503935821b0ececb4aef09a5bccb5308879a6b5",
+          "config_sha256": "50f602127849c8d634a3a455b26d1c346221d06fda48f83713a5b283fbf844c5",
+          "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+          "official_tree_sha256": "a66c769f77d6070b35ff85b37351ba3406c39cb86b827611ee9634b92dbd2bde",
+          "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+          "tokenizer_sha256": "9e3c11a4a87d85a72b6f2d1e4b29ab88532f72d03189b6fa2793da735a2d98aa"
+        },
+        "independently_recomputed": {
+          "Efficacy": 58.616865079365084,
+          "Generalization": 53.6624007936508,
+          "Specificity": 5.727470490106537
+        },
+        "metric": "100*mean_requests(mean_target_token_correct)",
+        "missing_requests": 0,
+        "original_edit_job_id": "61964",
+        "pretrained_numeric_parity": "NOT_MEASURED",
+        "query_proof": {
+          "actual_model_output_parity": "NOT_MEASURED",
+          "input_mismatches": 0,
+          "model_family": "qwen25",
+          "model_forward_calls": 0,
+          "oracle_lock_sha256": "d37227eb52aa1ba1cc0699155c674858b52ff418eaf7814231642f9de8aa2ff3",
+          "queries": 24858,
+          "query_sha256": "6c8111384789cec7059ea1b3c2b1083d761ade2b360c99db3e5c4f1ef4941d78",
+          "requests": 2000,
+          "schema": "zsre-public-query-parity-v1",
+          "status": "PASS_CPU_QUERY_ONLY",
+          "stream_sha256": "93925ec2f74e00a1b3fbdf261e557d10652ae0eca7265b4948958d39de4848b7",
+          "target_mismatches": 0,
+          "token_denominators": {
+            "neighborhood": 11476,
+            "paraphrase": 6691,
+            "rewrite": 6691
+          }
+        },
+        "requests": 2000,
+        "token_denominators": {
+          "neighborhood": 11476,
+          "paraphrase": 6691,
+          "rewrite": 6691
+        },
+        "tokenizer_sha256": "9e3c11a4a87d85a72b6f2d1e4b29ab88532f72d03189b6fa2793da735a2d98aa"
+      }
+    },
+    {
+      "checkpoint_provenance": {
+        "bytes": 271632161,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-r1/runs/qwen25-zsre-ft/checkpoint/batch-20-55657ef22edfc8b8.pt",
+        "sha256": "55657ef22edfc8b8eead2912bdd716bbef7957989a384fcb32d19de435b2f932"
+      },
+      "config_sha256": "93f630caf6d4ed0c6ef47d5bc1e148d624c3bc36cf6e9364650c09f2372e6b3c",
+      "dataset": "zsre",
+      "denominators": {
+        "neighborhood": 11476,
+        "paraphrase": 6691,
+        "rewrite": 6691
+      },
+      "independent_CPU_recomputed": {
+        "Efficacy": 23.246031746031747,
+        "Generalization": 18.544821428571428,
+        "Specificity": 2.3364180206369682
+      },
+      "job_id": "62072",
+      "job_name": "s2-qwen25-zsre-ft-eval-gpu",
+      "method": "FT",
+      "metrics": {
+        "Efficacy": 23.246031746031747,
+        "Generalization": 18.544821428571428,
+        "Specificity": 2.3364180206369682
+      },
+      "model": "qwen25",
+      "numeric_eligible": true,
+      "observed_at": "2026-10-10T01:31:11.166908+00:00",
+      "observed_state": "COMPLETED",
+      "online_delivery": "NOT_REQUERIED",
+      "ordered_cohort_sha256": "add0c4de5ef09a497ebb87b8b7c0852fe715e6a193c18ec3482c80411ca6c1ef",
+      "original_edit_job_id": 61900,
+      "query_sha256": "6c8111384789cec7059ea1b3c2b1083d761ade2b360c99db3e5c4f1ef4941d78",
+      "raw": {
+        "bytes": 5439917,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/ft-eval/evaluation.json",
+        "sha256": "fe5d0be44c0f2926465d16a351a02f9b8115a5d2ba82294e2ed2bf8588ba5629"
+      },
+      "raw_and_terminal_SHA_rechecked": true,
+      "report_path": "experiment-reports/servers/server2/completed-table-flucon-cap3-20261010/report-ko.md",
+      "requests": 2000,
+      "rerun_attempt": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1",
+      "reused_prior_CPU_audit": {
+        "bytes": 90373,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-completed-cap3-20261010/audits/servers/server2/baseline-completed-zsre-audit-20261010/audited-final.json",
+        "sha256": "387bd9cf995d88a1c52bf08aa74bf74afcea29e264be1ec71d85a4e56479a462"
+      },
+      "server": "server2",
+      "source_commit": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "status": "W20_PUBLIC_QUERY_REQUEST_MACRO_VERIFIED",
+      "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+      "terminal": {
+        "bytes": 942,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/ft-eval/result.json",
+        "sha256": "2e4c33bd59d03e6dbb143f3d08d1ab03622f78d0beb3ab898df9c893eeeaac85"
+      },
+      "zsre_audit": {
+        "CPU_query_parity_only": true,
+        "Loc": "loc_ans_target_correctness_NOT_W0_agreement",
+        "actual_query_sha256": "6c8111384789cec7059ea1b3c2b1083d761ade2b360c99db3e5c4f1ef4941d78",
+        "byte_stream_vs_canonical_JSON_distinct": true,
+        "diagnostic_token_micro_NOT_TABLE": {
+          "Efficacy": 14.093558511433269,
+          "Generalization": 11.881632043042893,
+          "Specificity": 3.0585569884977346
+        },
+        "eval_only_not_new_edit_experiment": true,
+        "frozen_members": [
+          {
+            "bytes": 8479,
+            "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/source/official/evaluation/zsre_paper.py",
+            "sha256": "d6a5b34eafd27660a2dee4632c638b6bf4c3614246071711cf5159a002415a45"
+          },
+          {
+            "bytes": 4774,
+            "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/source/official/evaluation/zsre_query_parity.py",
+            "sha256": "9883f16036525278bbfcdb45f5f08cc8c799f638a26f91b4d9da2a0d70103803"
+          },
+          {
+            "bytes": 966,
+            "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/source/official/evaluation/zsre_public_sources/lock.json",
+            "sha256": "83f7f9aeafe28136f87f252a0783bf282929321ef6af9fbf2596f85d1f995ae6"
+          }
+        ],
+        "identity": {
+          "checkpoint": {
+            "bytes": 271632161,
+            "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-r1/runs/qwen25-zsre-ft/checkpoint/batch-20-55657ef22edfc8b8.pt",
+            "sha256": "55657ef22edfc8b8eead2912bdd716bbef7957989a384fcb32d19de435b2f932"
+          },
+          "config_sha256": "93f630caf6d4ed0c6ef47d5bc1e148d624c3bc36cf6e9364650c09f2372e6b3c",
+          "job_id": "62072",
+          "original_identity": {
+            "assets_sha256": "11fbe79a7784817f8fb0e1164df936dab7ed1c7480bddc923c509aec58e380ec",
+            "code_commit": "69bfbb2cdffe24072733950c671e47597ff9fbd5",
+            "config_sha256": "33d9061fd29fb3d6039d399fa460213ff1e0e4b190cc7a5253161fc30d34fd63",
+            "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+            "official_tree_sha256": "86f613646c263cffc044507185b45e256a9735caafd74573aa19a7a14cf8797d",
+            "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+            "tokenizer_sha256": "9e3c11a4a87d85a72b6f2d1e4b29ab88532f72d03189b6fa2793da735a2d98aa"
+          },
+          "source": "7b5097aa447946e35de42229c22b0c0feabd11ae"
+        },
+        "independently_recomputed": {
+          "Efficacy": 23.246031746031747,
+          "Generalization": 18.544821428571428,
+          "Specificity": 2.3364180206369682
+        },
+        "metric": "100*mean_requests(mean_target_token_correct)",
+        "missing_requests": 0,
+        "original_edit_job_id": 61900,
+        "pretrained_numeric_parity": "NOT_MEASURED",
+        "query_proof": {
+          "actual_model_output_parity": "NOT_MEASURED",
+          "input_mismatches": 0,
+          "model_family": "qwen25",
+          "model_forward_calls": 0,
+          "oracle_lock_sha256": "d37227eb52aa1ba1cc0699155c674858b52ff418eaf7814231642f9de8aa2ff3",
+          "queries": 24858,
+          "query_sha256": "6c8111384789cec7059ea1b3c2b1083d761ade2b360c99db3e5c4f1ef4941d78",
+          "requests": 2000,
+          "schema": "zsre-public-query-parity-v1",
+          "status": "PASS_CPU_QUERY_ONLY",
+          "stream_sha256": "93925ec2f74e00a1b3fbdf261e557d10652ae0eca7265b4948958d39de4848b7",
+          "target_mismatches": 0,
+          "token_denominators": {
+            "neighborhood": 11476,
+            "paraphrase": 6691,
+            "rewrite": 6691
+          }
+        },
+        "requests": 2000,
+        "token_denominators": {
+          "neighborhood": 11476,
+          "paraphrase": 6691,
+          "rewrite": 6691
+        },
+        "tokenizer_sha256": "9e3c11a4a87d85a72b6f2d1e4b29ab88532f72d03189b6fa2793da735a2d98aa"
+      }
+    },
+    {
+      "checkpoint_provenance": {
+        "bytes": 268474909,
+        "device": 2304,
+        "inode": 122767339,
+        "mtime_ns": "1791494259527925474",
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_FT/checkpoints/batch-20-3247882fc1004710.pt",
+        "sha256": "3247882fc10047104b90e93b6b7a3d5e4357de99361c686d6268d1c9cc2131ba"
+      },
+      "config_sha256": "d3ad9e3164e09e869eda32124888a6ec313101694ec221d96c49f4e64c5e1f01",
+      "dataset": "zsre",
+      "denominators": {
+        "neighborhood": 9694,
+        "paraphrase": 5557,
+        "rewrite": 5557
+      },
+      "independent_CPU_recomputed": {
+        "Efficacy": 23.146349206349203,
+        "Generalization": 17.9478373015873,
+        "Specificity": 0.6249613700323515
+      },
+      "job_id": "61942",
+      "job_name": "s2-zsre-reeval-ft",
+      "method": "FT",
+      "metrics": {
+        "Efficacy": 23.146349206349203,
+        "Generalization": 17.9478373015873,
+        "Specificity": 0.6249613700323515
+      },
+      "model": "gptj",
+      "numeric_eligible": true,
+      "observed_at": "2026-10-10T01:31:11.166908+00:00",
+      "observed_state": "COMPLETED",
+      "online_delivery": "NOT_REQUERIED",
+      "ordered_cohort_sha256": "add0c4de5ef09a497ebb87b8b7c0852fe715e6a193c18ec3482c80411ca6c1ef",
+      "original_edit_job_id": 61726,
+      "query_sha256": "2d27e4fc4445e709586e2d80f92dee76dfc1b6ce6cd7d333b6ca318ccb328a4b",
+      "raw": {
+        "bytes": 4657443,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/outputs/FT/evaluation.json",
+        "sha256": "1c3285f44fa7f3ea6153dcbb23b05ddaf0a25123727e4ae7f3d1add8181e73f8"
+      },
+      "raw_and_terminal_SHA_rechecked": true,
+      "report_path": "experiment-reports/servers/server2/completed-table-flucon-cap3-20261010/report-ko.md",
+      "requests": 2000,
+      "rerun_attempt": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1",
+      "reused_prior_CPU_audit": {
+        "bytes": 90373,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-completed-cap3-20261010/audits/servers/server2/baseline-completed-zsre-audit-20261010/audited-final.json",
+        "sha256": "387bd9cf995d88a1c52bf08aa74bf74afcea29e264be1ec71d85a4e56479a462"
+      },
+      "server": "server2",
+      "source_commit": "ce8d536fa7eb4dfdd38f7024381e68d212f44ea0",
+      "status": "W20_PUBLIC_QUERY_REQUEST_MACRO_VERIFIED",
+      "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+      "terminal": {
+        "bytes": 2795,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/outputs/FT/result.json",
+        "sha256": "4e543055477cd73c0056b19eb5b8859dad5aba0fa2bc71e833f6a5b839a604e0"
+      },
+      "zsre_audit": {
+        "CPU_query_parity_only": true,
+        "Loc": "loc_ans_target_correctness_NOT_W0_agreement",
+        "actual_query_sha256": "2d27e4fc4445e709586e2d80f92dee76dfc1b6ce6cd7d333b6ca318ccb328a4b",
+        "byte_stream_vs_canonical_JSON_distinct": true,
+        "diagnostic_token_micro_NOT_TABLE": {
+          "Efficacy": 14.34227100953752,
+          "Generalization": 11.499010257333094,
+          "Specificity": 0.9284093253558903
+        },
+        "eval_only_not_new_edit_experiment": true,
+        "frozen_members": [
+          {
+            "bytes": 8479,
+            "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/source/official/evaluation/zsre_paper.py",
+            "sha256": "d6a5b34eafd27660a2dee4632c638b6bf4c3614246071711cf5159a002415a45"
+          },
+          {
+            "bytes": 4774,
+            "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/source/official/evaluation/zsre_query_parity.py",
+            "sha256": "9883f16036525278bbfcdb45f5f08cc8c799f638a26f91b4d9da2a0d70103803"
+          },
+          {
+            "bytes": 966,
+            "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/source/official/evaluation/zsre_public_sources/lock.json",
+            "sha256": "83f7f9aeafe28136f87f252a0783bf282929321ef6af9fbf2596f85d1f995ae6"
+          }
+        ],
+        "identity": {
+          "actual_job_id": "61942",
+          "checkpoint": {
+            "bytes": 268474909,
+            "device": 2304,
+            "inode": 122767339,
+            "mtime_ns": "1791494259527925474",
+            "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_FT/checkpoints/batch-20-3247882fc1004710.pt",
+            "sha256": "3247882fc10047104b90e93b6b7a3d5e4357de99361c686d6268d1c9cc2131ba"
+          },
+          "config_sha256": "d3ad9e3164e09e869eda32124888a6ec313101694ec221d96c49f4e64c5e1f01",
+          "eval_source": "ce8d536fa7eb4dfdd38f7024381e68d212f44ea0",
+          "evaluator_sha256": "d6a5b34eafd27660a2dee4632c638b6bf4c3614246071711cf5159a002415a45",
+          "original_identity": {
+            "assets_sha256": "8ce64b6771ff8da49d584784ea190ad8575a3a073f03fcc94c93568d31db6463",
+            "code_commit": "478464689231595eb63da368cc7c376e775eb559",
+            "config_sha256": "183657b9bffe5e02ddb0401f5f5d0a6ee5058c8b3258f76f7e7c74af53402d24",
+            "model_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+            "official_tree_sha256": "41ed261d1fc8c7c0022366c50fa9cb1ae3c05320",
+            "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+            "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+          },
+          "original_job_id": 61726,
+          "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+          "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+        },
+        "independently_recomputed": {
+          "Efficacy": 23.146349206349203,
+          "Generalization": 17.9478373015873,
+          "Specificity": 0.6249613700323515
+        },
+        "metric": "100*mean_requests(mean_target_token_correct)",
+        "missing_requests": 0,
+        "original_edit_job_id": 61726,
+        "pretrained_numeric_parity": "NOT_MEASURED",
+        "query_proof": {
+          "actual_model_output_parity": "NOT_MEASURED",
+          "input_mismatches": 0,
+          "model_family": "gptj",
+          "model_forward_calls": 0,
+          "oracle_lock_sha256": "d37227eb52aa1ba1cc0699155c674858b52ff418eaf7814231642f9de8aa2ff3",
+          "queries": 20808,
+          "query_sha256": "2d27e4fc4445e709586e2d80f92dee76dfc1b6ce6cd7d333b6ca318ccb328a4b",
+          "requests": 2000,
+          "schema": "zsre-public-query-parity-v1",
+          "status": "PASS_CPU_QUERY_ONLY",
+          "stream_sha256": "93925ec2f74e00a1b3fbdf261e557d10652ae0eca7265b4948958d39de4848b7",
+          "target_mismatches": 0,
+          "token_denominators": {
+            "neighborhood": 9694,
+            "paraphrase": 5557,
+            "rewrite": 5557
+          }
+        },
+        "requests": 2000,
+        "token_denominators": {
+          "neighborhood": 9694,
+          "paraphrase": 5557,
+          "rewrite": 5557
+        },
+        "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+      }
+    },
+    {
+      "checkpoint_provenance": {
+        "bytes": 1610637581,
+        "device": 2304,
+        "inode": 122767374,
+        "mtime_ns": "1791494657184127153",
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_MEMIT/checkpoints/batch-20-fdab7aeaba960372.pt",
+        "sha256": "fdab7aeaba960372d52170a79fe023f8f825058d9c5a4c8f344470cfa94c135c"
+      },
+      "config_sha256": "6a34f7210f0e5af52c26e4e906de837aa50b9deb3890edcac742905a2ebc6f9e",
+      "dataset": "zsre",
+      "denominators": {
+        "neighborhood": 9694,
+        "paraphrase": 5557,
+        "rewrite": 5557
+      },
+      "independent_CPU_recomputed": {
+        "Efficacy": 93.51850732600732,
+        "Generalization": 88.86412545787546,
+        "Specificity": 30.80990243838416
+      },
+      "job_id": "61943",
+      "job_name": "s2-zsre-reeval-memit",
+      "method": "MEMIT",
+      "metrics": {
+        "Efficacy": 93.51850732600732,
+        "Generalization": 88.86412545787546,
+        "Specificity": 30.80990243838416
+      },
+      "model": "gptj",
+      "numeric_eligible": true,
+      "observed_at": "2026-10-10T01:31:11.166908+00:00",
+      "observed_state": "COMPLETED",
+      "online_delivery": "NOT_REQUERIED",
+      "ordered_cohort_sha256": "add0c4de5ef09a497ebb87b8b7c0852fe715e6a193c18ec3482c80411ca6c1ef",
+      "original_edit_job_id": 61728,
+      "query_sha256": "2d27e4fc4445e709586e2d80f92dee76dfc1b6ce6cd7d333b6ca318ccb328a4b",
+      "raw": {
+        "bytes": 4645817,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/outputs/MEMIT/evaluation.json",
+        "sha256": "e21b15c49944d4b9f1d7ced6b44e0b674b28f659d59a6b34c22d433864d759e6"
+      },
+      "raw_and_terminal_SHA_rechecked": true,
+      "report_path": "experiment-reports/servers/server2/completed-table-flucon-cap3-20261010/report-ko.md",
+      "requests": 2000,
+      "rerun_attempt": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1",
+      "reused_prior_CPU_audit": {
+        "bytes": 90373,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-completed-cap3-20261010/audits/servers/server2/baseline-completed-zsre-audit-20261010/audited-final.json",
+        "sha256": "387bd9cf995d88a1c52bf08aa74bf74afcea29e264be1ec71d85a4e56479a462"
+      },
+      "server": "server2",
+      "source_commit": "ce8d536fa7eb4dfdd38f7024381e68d212f44ea0",
+      "status": "W20_PUBLIC_QUERY_REQUEST_MACRO_VERIFIED",
+      "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+      "terminal": {
+        "bytes": 2808,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/outputs/MEMIT/result.json",
+        "sha256": "577280d21187ae76eaf1d69a7988431f669a76b14663bb8249491901e7388a91"
+      },
+      "zsre_audit": {
+        "CPU_query_parity_only": true,
+        "Loc": "loc_ans_target_correctness_NOT_W0_agreement",
+        "actual_query_sha256": "2d27e4fc4445e709586e2d80f92dee76dfc1b6ce6cd7d333b6ca318ccb328a4b",
+        "byte_stream_vs_canonical_JSON_distinct": true,
+        "diagnostic_token_micro_NOT_TABLE": {
+          "Efficacy": 93.7016375742307,
+          "Generalization": 90.12056865215044,
+          "Specificity": 40.54054054054054
+        },
+        "eval_only_not_new_edit_experiment": true,
+        "frozen_members": [
+          {
+            "bytes": 8479,
+            "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/source/official/evaluation/zsre_paper.py",
+            "sha256": "d6a5b34eafd27660a2dee4632c638b6bf4c3614246071711cf5159a002415a45"
+          },
+          {
+            "bytes": 4774,
+            "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/source/official/evaluation/zsre_query_parity.py",
+            "sha256": "9883f16036525278bbfcdb45f5f08cc8c799f638a26f91b4d9da2a0d70103803"
+          },
+          {
+            "bytes": 966,
+            "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/source/official/evaluation/zsre_public_sources/lock.json",
+            "sha256": "83f7f9aeafe28136f87f252a0783bf282929321ef6af9fbf2596f85d1f995ae6"
+          }
+        ],
+        "identity": {
+          "actual_job_id": "61943",
+          "checkpoint": {
+            "bytes": 1610637581,
+            "device": 2304,
+            "inode": 122767374,
+            "mtime_ns": "1791494657184127153",
+            "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_MEMIT/checkpoints/batch-20-fdab7aeaba960372.pt",
+            "sha256": "fdab7aeaba960372d52170a79fe023f8f825058d9c5a4c8f344470cfa94c135c"
+          },
+          "config_sha256": "6a34f7210f0e5af52c26e4e906de837aa50b9deb3890edcac742905a2ebc6f9e",
+          "eval_source": "ce8d536fa7eb4dfdd38f7024381e68d212f44ea0",
+          "evaluator_sha256": "d6a5b34eafd27660a2dee4632c638b6bf4c3614246071711cf5159a002415a45",
+          "original_identity": {
+            "assets_sha256": "8ce64b6771ff8da49d584784ea190ad8575a3a073f03fcc94c93568d31db6463",
+            "code_commit": "478464689231595eb63da368cc7c376e775eb559",
+            "config_sha256": "6247b216833ef34d00f5ba71175dd1b07b1be384192833e350b12b3ed595184f",
+            "model_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+            "official_tree_sha256": "41ed261d1fc8c7c0022366c50fa9cb1ae3c05320",
+            "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+            "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+          },
+          "original_job_id": 61728,
+          "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+          "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+        },
+        "independently_recomputed": {
+          "Efficacy": 93.51850732600732,
+          "Generalization": 88.86412545787546,
+          "Specificity": 30.80990243838416
+        },
+        "metric": "100*mean_requests(mean_target_token_correct)",
+        "missing_requests": 0,
+        "original_edit_job_id": 61728,
+        "pretrained_numeric_parity": "NOT_MEASURED",
+        "query_proof": {
+          "actual_model_output_parity": "NOT_MEASURED",
+          "input_mismatches": 0,
+          "model_family": "gptj",
+          "model_forward_calls": 0,
+          "oracle_lock_sha256": "d37227eb52aa1ba1cc0699155c674858b52ff418eaf7814231642f9de8aa2ff3",
+          "queries": 20808,
+          "query_sha256": "2d27e4fc4445e709586e2d80f92dee76dfc1b6ce6cd7d333b6ca318ccb328a4b",
+          "requests": 2000,
+          "schema": "zsre-public-query-parity-v1",
+          "status": "PASS_CPU_QUERY_ONLY",
+          "stream_sha256": "93925ec2f74e00a1b3fbdf261e557d10652ae0eca7265b4948958d39de4848b7",
+          "target_mismatches": 0,
+          "token_denominators": {
+            "neighborhood": 9694,
+            "paraphrase": 5557,
+            "rewrite": 5557
+          }
+        },
+        "requests": 2000,
+        "token_denominators": {
+          "neighborhood": 9694,
+          "paraphrase": 5557,
+          "rewrite": 5557
+        },
+        "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+      }
+    },
+    {
+      "checkpoint_provenance": {
+        "bytes": 8053090197,
+        "device": 2304,
+        "inode": 122767498,
+        "mtime_ns": "1791502521970827935",
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_ALPHAEDIT/checkpoints/batch-20-2b1ea832469fbee3.pt",
+        "sha256": "2b1ea832469fbee3b3331fb518126889c0d3d6bd29f16924892254cd216a37c5"
+      },
+      "config_sha256": "19fc9d468a736d6cc736e25032bd67c0e33b6797e9ac3c27333e4e64c3f2f9d9",
+      "dataset": "zsre",
+      "denominators": {
+        "neighborhood": 9694,
+        "paraphrase": 5557,
+        "rewrite": 5557
+      },
+      "independent_CPU_recomputed": {
+        "Efficacy": 99.6918315018315,
+        "Generalization": 96.45428113553113,
+        "Specificity": 27.9417010245744
+      },
+      "job_id": "61944",
+      "job_name": "s2-zsre-reeval-alphaedit",
+      "method": "ALPHAEDIT",
+      "metrics": {
+        "Efficacy": 99.6918315018315,
+        "Generalization": 96.45428113553113,
+        "Specificity": 27.9417010245744
+      },
+      "model": "gptj",
+      "numeric_eligible": true,
+      "observed_at": "2026-10-10T01:31:11.166908+00:00",
+      "observed_state": "COMPLETED",
+      "online_delivery": "NOT_REQUERIED",
+      "ordered_cohort_sha256": "add0c4de5ef09a497ebb87b8b7c0852fe715e6a193c18ec3482c80411ca6c1ef",
+      "original_edit_job_id": 61730,
+      "query_sha256": "2d27e4fc4445e709586e2d80f92dee76dfc1b6ce6cd7d333b6ca318ccb328a4b",
+      "raw": {
+        "bytes": 4643957,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/outputs/ALPHAEDIT/evaluation.json",
+        "sha256": "82eb5b2929680f2dae2fcd405fdba7072a2338849ca11cb76060fb150f3a58d6"
+      },
+      "raw_and_terminal_SHA_rechecked": true,
+      "report_path": "experiment-reports/servers/server2/completed-table-flucon-cap3-20261010/report-ko.md",
+      "requests": 2000,
+      "rerun_attempt": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1",
+      "reused_prior_CPU_audit": {
+        "bytes": 90373,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-completed-cap3-20261010/audits/servers/server2/baseline-completed-zsre-audit-20261010/audited-final.json",
+        "sha256": "387bd9cf995d88a1c52bf08aa74bf74afcea29e264be1ec71d85a4e56479a462"
+      },
+      "server": "server2",
+      "source_commit": "ce8d536fa7eb4dfdd38f7024381e68d212f44ea0",
+      "status": "W20_PUBLIC_QUERY_REQUEST_MACRO_VERIFIED",
+      "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+      "terminal": {
+        "bytes": 2822,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/outputs/ALPHAEDIT/result.json",
+        "sha256": "a0f537919407efc920d8c51b899ec7000b335e345976e9243f9a0179da0f045f"
+      },
+      "zsre_audit": {
+        "CPU_query_parity_only": true,
+        "Loc": "loc_ans_target_correctness_NOT_W0_agreement",
+        "actual_query_sha256": "2d27e4fc4445e709586e2d80f92dee76dfc1b6ce6cd7d333b6ca318ccb328a4b",
+        "byte_stream_vs_canonical_JSON_distinct": true,
+        "diagnostic_token_micro_NOT_TABLE": {
+          "Efficacy": 99.442145042289,
+          "Generalization": 96.81482814468238,
+          "Specificity": 38.43614606973386
+        },
+        "eval_only_not_new_edit_experiment": true,
+        "frozen_members": [
+          {
+            "bytes": 8479,
+            "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/source/official/evaluation/zsre_paper.py",
+            "sha256": "d6a5b34eafd27660a2dee4632c638b6bf4c3614246071711cf5159a002415a45"
+          },
+          {
+            "bytes": 4774,
+            "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/source/official/evaluation/zsre_query_parity.py",
+            "sha256": "9883f16036525278bbfcdb45f5f08cc8c799f638a26f91b4d9da2a0d70103803"
+          },
+          {
+            "bytes": 966,
+            "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/source/official/evaluation/zsre_public_sources/lock.json",
+            "sha256": "83f7f9aeafe28136f87f252a0783bf282929321ef6af9fbf2596f85d1f995ae6"
+          }
+        ],
+        "identity": {
+          "actual_job_id": "61944",
+          "checkpoint": {
+            "bytes": 8053090197,
+            "device": 2304,
+            "inode": 122767498,
+            "mtime_ns": "1791502521970827935",
+            "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_ALPHAEDIT/checkpoints/batch-20-2b1ea832469fbee3.pt",
+            "sha256": "2b1ea832469fbee3b3331fb518126889c0d3d6bd29f16924892254cd216a37c5"
+          },
+          "config_sha256": "19fc9d468a736d6cc736e25032bd67c0e33b6797e9ac3c27333e4e64c3f2f9d9",
+          "eval_source": "ce8d536fa7eb4dfdd38f7024381e68d212f44ea0",
+          "evaluator_sha256": "d6a5b34eafd27660a2dee4632c638b6bf4c3614246071711cf5159a002415a45",
+          "original_identity": {
+            "assets_sha256": "8ce64b6771ff8da49d584784ea190ad8575a3a073f03fcc94c93568d31db6463",
+            "code_commit": "478464689231595eb63da368cc7c376e775eb559",
+            "config_sha256": "690de995de96adf3b51c9efd7c8f5a04a4da4f5db269d1c5de133dbbfbd83078",
+            "model_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+            "official_tree_sha256": "41ed261d1fc8c7c0022366c50fa9cb1ae3c05320",
+            "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+            "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+          },
+          "original_job_id": 61730,
+          "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+          "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+        },
+        "independently_recomputed": {
+          "Efficacy": 99.6918315018315,
+          "Generalization": 96.45428113553113,
+          "Specificity": 27.9417010245744
+        },
+        "metric": "100*mean_requests(mean_target_token_correct)",
+        "missing_requests": 0,
+        "original_edit_job_id": 61730,
+        "pretrained_numeric_parity": "NOT_MEASURED",
+        "query_proof": {
+          "actual_model_output_parity": "NOT_MEASURED",
+          "input_mismatches": 0,
+          "model_family": "gptj",
+          "model_forward_calls": 0,
+          "oracle_lock_sha256": "d37227eb52aa1ba1cc0699155c674858b52ff418eaf7814231642f9de8aa2ff3",
+          "queries": 20808,
+          "query_sha256": "2d27e4fc4445e709586e2d80f92dee76dfc1b6ce6cd7d333b6ca318ccb328a4b",
+          "requests": 2000,
+          "schema": "zsre-public-query-parity-v1",
+          "status": "PASS_CPU_QUERY_ONLY",
+          "stream_sha256": "93925ec2f74e00a1b3fbdf261e557d10652ae0eca7265b4948958d39de4848b7",
+          "target_mismatches": 0,
+          "token_denominators": {
+            "neighborhood": 9694,
+            "paraphrase": 5557,
+            "rewrite": 5557
+          }
+        },
+        "requests": 2000,
+        "token_denominators": {
+          "neighborhood": 9694,
+          "paraphrase": 5557,
+          "rewrite": 5557
+        },
+        "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+      }
+    },
+    {
+      "checkpoint_provenance": {
+        "bytes": 2684378777,
+        "device": 2304,
+        "inode": 122768929,
+        "mtime_ns": "1791504878856258948",
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_ALPHAEDIT_BLUE/checkpoints/batch-20-4f8e35034122ae8b.pt",
+        "sha256": "4f8e35034122ae8b041e73db9f920cdba8dd1980cdb77d18f91f596e3d8aaffb"
+      },
+      "config_sha256": "2e7c15f7b4ed9b46b599cfb703096fdde9c651870ff12b29978abab46438d54e",
+      "dataset": "zsre",
+      "denominators": {
+        "neighborhood": 9694,
+        "paraphrase": 5557,
+        "rewrite": 5557
+      },
+      "independent_CPU_recomputed": {
+        "Efficacy": 99.75147435897436,
+        "Generalization": 95.708894993895,
+        "Specificity": 28.834338825411812
+      },
+      "job_id": "61945",
+      "job_name": "s2-zsre-reeval-alphaedit_blue",
+      "method": "ALPHAEDIT_BLUE",
+      "metrics": {
+        "Efficacy": 99.75147435897436,
+        "Generalization": 95.708894993895,
+        "Specificity": 28.834338825411812
+      },
+      "model": "gptj",
+      "numeric_eligible": true,
+      "observed_at": "2026-10-10T01:31:11.166908+00:00",
+      "observed_state": "COMPLETED",
+      "online_delivery": "NOT_REQUERIED",
+      "ordered_cohort_sha256": "add0c4de5ef09a497ebb87b8b7c0852fe715e6a193c18ec3482c80411ca6c1ef",
+      "original_edit_job_id": 61732,
+      "query_sha256": "2d27e4fc4445e709586e2d80f92dee76dfc1b6ce6cd7d333b6ca318ccb328a4b",
+      "raw": {
+        "bytes": 4643909,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/outputs/ALPHAEDIT_BLUE/evaluation.json",
+        "sha256": "859d17b6c23aed520a5b2acb1bd635f8e9cad05f2f9d26907967a9baab55b804"
+      },
+      "raw_and_terminal_SHA_rechecked": true,
+      "report_path": "experiment-reports/servers/server2/completed-table-flucon-cap3-20261010/report-ko.md",
+      "requests": 2000,
+      "rerun_attempt": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1",
+      "reused_prior_CPU_audit": {
+        "bytes": 90373,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-completed-cap3-20261010/audits/servers/server2/baseline-completed-zsre-audit-20261010/audited-final.json",
+        "sha256": "387bd9cf995d88a1c52bf08aa74bf74afcea29e264be1ec71d85a4e56479a462"
+      },
+      "server": "server2",
+      "source_commit": "ce8d536fa7eb4dfdd38f7024381e68d212f44ea0",
+      "status": "W20_PUBLIC_QUERY_REQUEST_MACRO_VERIFIED",
+      "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+      "terminal": {
+        "bytes": 2843,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/outputs/ALPHAEDIT_BLUE/result.json",
+        "sha256": "c4cdbbb5df211710ae6dbb5619c7f3f27f97472a1defaaaeb3e128e043329662"
+      },
+      "zsre_audit": {
+        "CPU_query_parity_only": true,
+        "Loc": "loc_ans_target_correctness_NOT_W0_agreement",
+        "actual_query_sha256": "2d27e4fc4445e709586e2d80f92dee76dfc1b6ce6cd7d333b6ca318ccb328a4b",
+        "byte_stream_vs_canonical_JSON_distinct": true,
+        "diagnostic_token_micro_NOT_TABLE": {
+          "Efficacy": 99.51412632715494,
+          "Generalization": 96.45492172035271,
+          "Specificity": 39.25108314421291
+        },
+        "eval_only_not_new_edit_experiment": true,
+        "frozen_members": [
+          {
+            "bytes": 8479,
+            "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/source/official/evaluation/zsre_paper.py",
+            "sha256": "d6a5b34eafd27660a2dee4632c638b6bf4c3614246071711cf5159a002415a45"
+          },
+          {
+            "bytes": 4774,
+            "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/source/official/evaluation/zsre_query_parity.py",
+            "sha256": "9883f16036525278bbfcdb45f5f08cc8c799f638a26f91b4d9da2a0d70103803"
+          },
+          {
+            "bytes": 966,
+            "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/source/official/evaluation/zsre_public_sources/lock.json",
+            "sha256": "83f7f9aeafe28136f87f252a0783bf282929321ef6af9fbf2596f85d1f995ae6"
+          }
+        ],
+        "identity": {
+          "actual_job_id": "61945",
+          "checkpoint": {
+            "bytes": 2684378777,
+            "device": 2304,
+            "inode": 122768929,
+            "mtime_ns": "1791504878856258948",
+            "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_ALPHAEDIT_BLUE/checkpoints/batch-20-4f8e35034122ae8b.pt",
+            "sha256": "4f8e35034122ae8b041e73db9f920cdba8dd1980cdb77d18f91f596e3d8aaffb"
+          },
+          "config_sha256": "2e7c15f7b4ed9b46b599cfb703096fdde9c651870ff12b29978abab46438d54e",
+          "eval_source": "ce8d536fa7eb4dfdd38f7024381e68d212f44ea0",
+          "evaluator_sha256": "d6a5b34eafd27660a2dee4632c638b6bf4c3614246071711cf5159a002415a45",
+          "original_identity": {
+            "assets_sha256": "8ce64b6771ff8da49d584784ea190ad8575a3a073f03fcc94c93568d31db6463",
+            "code_commit": "478464689231595eb63da368cc7c376e775eb559",
+            "config_sha256": "1f44babb02b1bebb6eee893ff19624ca3051afb0e5ba04d3d379bc9d43fcfefe",
+            "model_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+            "official_tree_sha256": "41ed261d1fc8c7c0022366c50fa9cb1ae3c05320",
+            "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+            "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+          },
+          "original_job_id": 61732,
+          "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+          "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+        },
+        "independently_recomputed": {
+          "Efficacy": 99.75147435897436,
+          "Generalization": 95.708894993895,
+          "Specificity": 28.834338825411812
+        },
+        "metric": "100*mean_requests(mean_target_token_correct)",
+        "missing_requests": 0,
+        "original_edit_job_id": 61732,
+        "pretrained_numeric_parity": "NOT_MEASURED",
+        "query_proof": {
+          "actual_model_output_parity": "NOT_MEASURED",
+          "input_mismatches": 0,
+          "model_family": "gptj",
+          "model_forward_calls": 0,
+          "oracle_lock_sha256": "d37227eb52aa1ba1cc0699155c674858b52ff418eaf7814231642f9de8aa2ff3",
+          "queries": 20808,
+          "query_sha256": "2d27e4fc4445e709586e2d80f92dee76dfc1b6ce6cd7d333b6ca318ccb328a4b",
+          "requests": 2000,
+          "schema": "zsre-public-query-parity-v1",
+          "status": "PASS_CPU_QUERY_ONLY",
+          "stream_sha256": "93925ec2f74e00a1b3fbdf261e557d10652ae0eca7265b4948958d39de4848b7",
+          "target_mismatches": 0,
+          "token_denominators": {
+            "neighborhood": 9694,
+            "paraphrase": 5557,
+            "rewrite": 5557
+          }
+        },
+        "requests": 2000,
+        "token_denominators": {
+          "neighborhood": 9694,
+          "paraphrase": 5557,
+          "rewrite": 5557
+        },
+        "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+      }
+    },
+    {
+      "checkpoint_provenance": {
+        "bytes": 1610637709,
+        "device": 2304,
+        "inode": 122825961,
+        "mtime_ns": "1791513540745992308",
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_MEMIT_FE/checkpoints/batch-20-199a4175bd7bb425.pt",
+        "sha256": "199a4175bd7bb425b088afafd27a5e9aa6812a4061a6eca930899bcaca4f41a5"
+      },
+      "config_sha256": "b770e743f47cce52665291eab6d0cb438e8f61bbb3f749cf358130fb7050d0ca",
+      "dataset": "zsre",
+      "denominators": {
+        "neighborhood": 9694,
+        "paraphrase": 5557,
+        "rewrite": 5557
+      },
+      "independent_CPU_recomputed": {
+        "Efficacy": 29.1998778998779,
+        "Generalization": 27.648009768009768,
+        "Specificity": 8.449205017109922
+      },
+      "job_id": "61946",
+      "job_name": "s2-zsre-reeval-memit_fe",
+      "method": "MEMIT_FE",
+      "metrics": {
+        "Efficacy": 29.1998778998779,
+        "Generalization": 27.648009768009768,
+        "Specificity": 8.449205017109922
+      },
+      "model": "gptj",
+      "numeric_eligible": true,
+      "observed_at": "2026-10-10T01:31:11.166908+00:00",
+      "observed_state": "COMPLETED",
+      "online_delivery": "NOT_REQUERIED",
+      "ordered_cohort_sha256": "add0c4de5ef09a497ebb87b8b7c0852fe715e6a193c18ec3482c80411ca6c1ef",
+      "original_edit_job_id": 61734,
+      "query_sha256": "2d27e4fc4445e709586e2d80f92dee76dfc1b6ce6cd7d333b6ca318ccb328a4b",
+      "raw": {
+        "bytes": 4653606,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/outputs/MEMIT_FE/evaluation.json",
+        "sha256": "6d3c2b8417db21fcd2ecc904638f83c215ccbbe5492a73df480bed123624e7de"
+      },
+      "raw_and_terminal_SHA_rechecked": true,
+      "report_path": "experiment-reports/servers/server2/completed-table-flucon-cap3-20261010/report-ko.md",
+      "requests": 2000,
+      "rerun_attempt": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1",
+      "reused_prior_CPU_audit": {
+        "bytes": 90373,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-completed-cap3-20261010/audits/servers/server2/baseline-completed-zsre-audit-20261010/audited-final.json",
+        "sha256": "387bd9cf995d88a1c52bf08aa74bf74afcea29e264be1ec71d85a4e56479a462"
+      },
+      "server": "server2",
+      "source_commit": "ce8d536fa7eb4dfdd38f7024381e68d212f44ea0",
+      "status": "W20_PUBLIC_QUERY_REQUEST_MACRO_VERIFIED",
+      "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+      "terminal": {
+        "bytes": 2820,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/outputs/MEMIT_FE/result.json",
+        "sha256": "6089fc5aadc1a8cb411e065d5d784dc5d4b2440c8713405a947e6a1af6aa882b"
+      },
+      "zsre_audit": {
+        "CPU_query_parity_only": true,
+        "Loc": "loc_ans_target_correctness_NOT_W0_agreement",
+        "actual_query_sha256": "2d27e4fc4445e709586e2d80f92dee76dfc1b6ce6cd7d333b6ca318ccb328a4b",
+        "byte_stream_vs_canonical_JSON_distinct": true,
+        "diagnostic_token_micro_NOT_TABLE": {
+          "Efficacy": 30.430088177073962,
+          "Generalization": 28.86449523123988,
+          "Specificity": 12.017742933773468
+        },
+        "eval_only_not_new_edit_experiment": true,
+        "frozen_members": [
+          {
+            "bytes": 8479,
+            "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/source/official/evaluation/zsre_paper.py",
+            "sha256": "d6a5b34eafd27660a2dee4632c638b6bf4c3614246071711cf5159a002415a45"
+          },
+          {
+            "bytes": 4774,
+            "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/source/official/evaluation/zsre_query_parity.py",
+            "sha256": "9883f16036525278bbfcdb45f5f08cc8c799f638a26f91b4d9da2a0d70103803"
+          },
+          {
+            "bytes": 966,
+            "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/source/official/evaluation/zsre_public_sources/lock.json",
+            "sha256": "83f7f9aeafe28136f87f252a0783bf282929321ef6af9fbf2596f85d1f995ae6"
+          }
+        ],
+        "identity": {
+          "actual_job_id": "61946",
+          "checkpoint": {
+            "bytes": 1610637709,
+            "device": 2304,
+            "inode": 122825961,
+            "mtime_ns": "1791513540745992308",
+            "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_MEMIT_FE/checkpoints/batch-20-199a4175bd7bb425.pt",
+            "sha256": "199a4175bd7bb425b088afafd27a5e9aa6812a4061a6eca930899bcaca4f41a5"
+          },
+          "config_sha256": "b770e743f47cce52665291eab6d0cb438e8f61bbb3f749cf358130fb7050d0ca",
+          "eval_source": "ce8d536fa7eb4dfdd38f7024381e68d212f44ea0",
+          "evaluator_sha256": "d6a5b34eafd27660a2dee4632c638b6bf4c3614246071711cf5159a002415a45",
+          "original_identity": {
+            "assets_sha256": "8ce64b6771ff8da49d584784ea190ad8575a3a073f03fcc94c93568d31db6463",
+            "code_commit": "478464689231595eb63da368cc7c376e775eb559",
+            "config_sha256": "d59aef72835624e12637be252c0303907c656b457db2738eecc4fd4fc5ba771f",
+            "model_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+            "official_tree_sha256": "41ed261d1fc8c7c0022366c50fa9cb1ae3c05320",
+            "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+            "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+          },
+          "original_job_id": 61734,
+          "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+          "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+        },
+        "independently_recomputed": {
+          "Efficacy": 29.1998778998779,
+          "Generalization": 27.648009768009768,
+          "Specificity": 8.449205017109922
+        },
+        "metric": "100*mean_requests(mean_target_token_correct)",
+        "missing_requests": 0,
+        "original_edit_job_id": 61734,
+        "pretrained_numeric_parity": "NOT_MEASURED",
+        "query_proof": {
+          "actual_model_output_parity": "NOT_MEASURED",
+          "input_mismatches": 0,
+          "model_family": "gptj",
+          "model_forward_calls": 0,
+          "oracle_lock_sha256": "d37227eb52aa1ba1cc0699155c674858b52ff418eaf7814231642f9de8aa2ff3",
+          "queries": 20808,
+          "query_sha256": "2d27e4fc4445e709586e2d80f92dee76dfc1b6ce6cd7d333b6ca318ccb328a4b",
+          "requests": 2000,
+          "schema": "zsre-public-query-parity-v1",
+          "status": "PASS_CPU_QUERY_ONLY",
+          "stream_sha256": "93925ec2f74e00a1b3fbdf261e557d10652ae0eca7265b4948958d39de4848b7",
+          "target_mismatches": 0,
+          "token_denominators": {
+            "neighborhood": 9694,
+            "paraphrase": 5557,
+            "rewrite": 5557
+          }
+        },
+        "requests": 2000,
+        "token_denominators": {
+          "neighborhood": 9694,
+          "paraphrase": 5557,
+          "rewrite": 5557
+        },
+        "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+      }
+    },
+    {
+      "checkpoint_provenance": {
+        "bytes": 8053090069,
+        "device": 2304,
+        "inode": 122826057,
+        "mtime_ns": "1791522383608308170",
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_SPHERE/checkpoints/batch-20-5820a31b1a507b42.pt",
+        "sha256": "5820a31b1a507b42455f6c9e96df7f4757f4e2103e8365dc4d3716b1bb8307b7"
+      },
+      "checkpoint_stat": {
+        "bytes": 8053090069,
+        "checkpoint_deserialized": false,
+        "device": 2304,
+        "full_payload_rehashed_this_audit": false,
+        "inode": 122826057,
+        "manifest_sha256": "5820a31b1a507b42455f6c9e96df7f4757f4e2103e8365dc4d3716b1bb8307b7",
+        "mtime_ns": "1791522383608308170",
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_SPHERE/checkpoints/batch-20-5820a31b1a507b42.pt"
+      },
+      "config_sha256": "cd0e8288c05e79d1ae4dc42cbceee638a2d82b1b083e8392d379ac63110835bc",
+      "dataset": "zsre",
+      "denominators": {
+        "neighborhood": 9694,
+        "paraphrase": 5557,
+        "rewrite": 5557
+      },
+      "diagnostic_token_micro_NOT_TABLE": {
+        "Efficacy": 99.33417311499011,
+        "Generalization": 96.65287025373402,
+        "Specificity": 38.559933979781306
+      },
+      "eval_only_not_new_chain": true,
+      "job_id": "61947",
+      "job_name": "s2-zsre-reeval-sphere",
+      "method": "SPHERE",
+      "metrics": {
+        "Efficacy": 99.67080586080587,
+        "Generalization": 96.28967490842491,
+        "Specificity": 27.99720049195529
+      },
+      "model": "gptj",
+      "new_since_previous_audit": true,
+      "numeric_eligible": true,
+      "observed_at": "2026-10-10T01:31:11.166908+00:00",
+      "observed_state": "COMPLETED",
+      "online_delivery": "NOT_REQUERIED",
+      "ordered_cohort_sha256": "add0c4de5ef09a497ebb87b8b7c0852fe715e6a193c18ec3482c80411ca6c1ef",
+      "original_edit_job_id": 61735,
+      "query_sha256": "2d27e4fc4445e709586e2d80f92dee76dfc1b6ce6cd7d333b6ca318ccb328a4b",
+      "raw": {
+        "bytes": 4643923,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/outputs/SPHERE/evaluation.json",
+        "sha256": "616f1808fbc3161745b9903138bef37fe134ecd2c9247074769c2f00b0ecd4cd"
+      },
+      "report_path": "experiment-reports/servers/server2/completed-table-flucon-cap3-20261010/report-ko.md",
+      "requests": 2000,
+      "rerun_attempt": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1",
+      "server": "server2",
+      "source_commit": "ce8d536fa7eb4dfdd38f7024381e68d212f44ea0",
+      "status": "W20_PUBLIC_QUERY_REQUEST_MACRO_VERIFIED",
+      "terminal": {
+        "bytes": 2812,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/outputs/SPHERE/result.json",
+        "sha256": "2da12b7a6b00d50eaeaf57194615285543015bb4194d910d48b300d7acb0edd6"
+      },
+      "zsre_audit": {
+        "CPU_query_parity_only": true,
+        "Loc": "loc_ans_target_correctness_NOT_W0_agreement",
+        "byte_stream_vs_canonical_JSON_distinct": true,
+        "frozen_members": [
+          {
+            "bytes": 8479,
+            "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/source/official/evaluation/zsre_paper.py",
+            "sha256": "d6a5b34eafd27660a2dee4632c638b6bf4c3614246071711cf5159a002415a45"
+          },
+          {
+            "bytes": 4774,
+            "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/source/official/evaluation/zsre_query_parity.py",
+            "sha256": "9883f16036525278bbfcdb45f5f08cc8c799f638a26f91b4d9da2a0d70103803"
+          },
+          {
+            "bytes": 966,
+            "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server2/zsre-2k-reeval-20261009/registration-r1/source/official/evaluation/zsre_public_sources/lock.json",
+            "sha256": "83f7f9aeafe28136f87f252a0783bf282929321ef6af9fbf2596f85d1f995ae6"
+          }
+        ],
+        "metric": "100*mean_requests(mean_target_token_correct)",
+        "missing_requests": 0,
+        "pretrained_numeric_parity": "NOT_MEASURED",
+        "query_proof": {
+          "actual_model_output_parity": "NOT_MEASURED",
+          "input_mismatches": 0,
+          "model_family": "gptj",
+          "model_forward_calls": 0,
+          "oracle_lock_sha256": "d37227eb52aa1ba1cc0699155c674858b52ff418eaf7814231642f9de8aa2ff3",
+          "queries": 20808,
+          "query_sha256": "2d27e4fc4445e709586e2d80f92dee76dfc1b6ce6cd7d333b6ca318ccb328a4b",
+          "requests": 2000,
+          "schema": "zsre-public-query-parity-v1",
+          "status": "PASS_CPU_QUERY_ONLY",
+          "stream_sha256": "93925ec2f74e00a1b3fbdf261e557d10652ae0eca7265b4948958d39de4848b7",
+          "target_mismatches": 0,
+          "token_denominators": {
+            "neighborhood": 9694,
+            "paraphrase": 5557,
+            "rewrite": 5557
+          }
+        },
+        "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+      }
+    },
+    {
+      "Con": "DEFERRED",
+      "Flu": "DEFERRED",
+      "checkpoint_receipt": {
+        "batch": 20,
+        "file": "batch-20-4561ee2477393eba.pt",
+        "final_W20": true,
+        "identity_sha256": "3457868bdef4f70f467700aff92c7a7d51b95072a042b60e075c1196e00be494",
+        "sha256": "4561ee2477393eba5e18d93b64ac19c9789caa28df64472e72d778a30e17af21"
+      },
+      "cold_state_identity": {
+        "assets_sha256": "11fbe79a7784817f8fb0e1164df936dab7ed1c7480bddc923c509aec58e380ec",
+        "code_commit": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+        "config_sha256": "f6877eb7c243a4d6817ba4613132a9688ff56e48889ae6f4f22978673a94f946",
+        "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+        "official_tree_sha256": "be8dca6334f083a87cf6555899fbb43451d9976a55bb53242fdbbcf52a1dfe95",
+        "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "tokenizer_sha256": "9e3c11a4a87d85a72b6f2d1e4b29ab88532f72d03189b6fa2793da735a2d98aa"
+      },
+      "commits": 20,
+      "config_sha256": "f6877eb7c243a4d6817ba4613132a9688ff56e48889ae6f4f22978673a94f946",
+      "dataset": "cf",
+      "denominators": {
+        "neighborhood": 20000,
+        "paraphrase": 4000,
+        "rewrite": 2000
+      },
+      "generation_schedule": "DEFERRED_CHECKPOINT_EVALUATION",
+      "job_id": "62073",
+      "job_name": "s2-qwen25-cf-memit-gpu",
+      "method": "MEMIT",
+      "metrics": {
+        "Efficacy": 68.5,
+        "Generalization": 65.825,
+        "Score": 62.230026985355586,
+        "Score_AlphaEdit_display": 62.23072650748002,
+        "Specificity": 54.295,
+        "requests": 2000
+      },
+      "model": "qwen25",
+      "numeric_eligible": true,
+      "observed_at": "2026-10-10T01:31:11.166908+00:00",
+      "observed_state": "COMPLETED",
+      "online_delivery": "NOT_REQUERIED",
+      "ordered_cohort_sha256": "b63e14222c3e7f1bd3b78a7b50be24e110a59b15208cda664b3603596668cb84",
+      "raw": {
+        "observed_requests": 2000,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-cf-memit/evaluations/w20-cases.json",
+        "sha256": "cefab9ca4b831d661cfb92367ccb0d5e38a4ae1fd66c22977b9162238263fa81",
+        "state": "COMPLETE"
+      },
+      "raw_and_terminal_SHA_rechecked": true,
+      "report_path": "experiment-reports/servers/server2/completed-table-flucon-cap3-20261010/report-ko.md",
+      "requests": 2000,
+      "reused_prior_CPU_audit": {
+        "bytes": 90373,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-completed-cap3-20261010/audits/servers/server2/baseline-completed-zsre-audit-20261010/audited-final.json",
+        "sha256": "387bd9cf995d88a1c52bf08aa74bf74afcea29e264be1ec71d85a4e56479a462"
+      },
+      "server": "server2",
+      "source_commit": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "status": "W20_CORRECTED_COLD_CF_RAW_VERIFIED",
+      "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+      "terminal": {
+        "bytes": 6606,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-cf-memit/terminal.json",
+        "sha256": "43f0eaf64657e67561869b87f688e15be7a8ed20972e607ed9769a3eb569fef9"
+      }
+    },
+    {
+      "Con": "DEFERRED",
+      "Flu": "DEFERRED",
+      "config_sha256": "4db616aad47772619ad502628ed124c29268b9c32b256c6875a4fc8fb1fc061d",
+      "dataset": "cf",
+      "generation_schedule": "DEFERRED_CHECKPOINT_EVALUATION",
+      "job_id": "62075",
+      "job_name": "s2-qwen25-cf-alphaedit-gpu",
+      "method": "ALPHAEDIT",
+      "metrics": {},
+      "model": "qwen25",
+      "numeric_eligible": false,
+      "observed_at": "2026-10-10T01:31:11.166908+00:00",
+      "observed_state": "RUNNING",
+      "online_delivery": "NOT_REQUERIED",
+      "report_path": "experiment-reports/servers/server2/completed-table-flucon-cap3-20261010/report-ko.md",
+      "server": "server2",
+      "source_commit": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "status": "RUNNING"
+    },
+    {
+      "Con": "DEFERRED",
+      "Flu": "DEFERRED",
+      "checkpoint_receipt": {
+        "batch": 20,
+        "file": "batch-20-9826e9cee2c90df5.pt",
+        "final_W20": true,
+        "identity_sha256": "d26cb02c551776ac29c1517e2ed11ddc12a089e8f2eb6b75ad350e84ebb3299e",
+        "sha256": "9826e9cee2c90df58ee97c9b877e27a2d2ed3a9dd00f2604716692e8f7320aa8"
+      },
+      "cold_state_identity": {
+        "assets_sha256": "11fbe79a7784817f8fb0e1164df936dab7ed1c7480bddc923c509aec58e380ec",
+        "code_commit": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+        "config_sha256": "9a5ab5a117288655361b8b0c7881b9fb8653f1aa1082699c4dd94c19f33a488e",
+        "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+        "official_tree_sha256": "be8dca6334f083a87cf6555899fbb43451d9976a55bb53242fdbbcf52a1dfe95",
+        "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "tokenizer_sha256": "9e3c11a4a87d85a72b6f2d1e4b29ab88532f72d03189b6fa2793da735a2d98aa"
+      },
+      "commits": 20,
+      "config_sha256": "9a5ab5a117288655361b8b0c7881b9fb8653f1aa1082699c4dd94c19f33a488e",
+      "dataset": "cf",
+      "denominators": {
+        "neighborhood": 20000,
+        "paraphrase": 4000,
+        "rewrite": 2000
+      },
+      "generation_schedule": "DEFERRED_CHECKPOINT_EVALUATION",
+      "job_id": "62077",
+      "job_name": "s2-qwen25-cf-memit_fe-gpu",
+      "method": "MEMIT_FE",
+      "metrics": {
+        "Efficacy": 51.05,
+        "Generalization": 51.225,
+        "Score": 50.59009938622918,
+        "Score_AlphaEdit_display": 50.58847367158684,
+        "Specificity": 49.53,
+        "requests": 2000
+      },
+      "model": "qwen25",
+      "numeric_eligible": true,
+      "observed_at": "2026-10-10T01:31:11.166908+00:00",
+      "observed_state": "COMPLETED",
+      "online_delivery": "NOT_REQUERIED",
+      "ordered_cohort_sha256": "b63e14222c3e7f1bd3b78a7b50be24e110a59b15208cda664b3603596668cb84",
+      "raw": {
+        "observed_requests": 2000,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-cf-memit_fe/evaluations/w20-cases.json",
+        "sha256": "cc31e68d820b4845767fc9e6e0e1502722e78208d130b59c764ff2f46d63413f",
+        "state": "COMPLETE"
+      },
+      "raw_and_terminal_SHA_rechecked": true,
+      "report_path": "experiment-reports/servers/server2/completed-table-flucon-cap3-20261010/report-ko.md",
+      "requests": 2000,
+      "reused_prior_CPU_audit": {
+        "bytes": 90373,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-completed-cap3-20261010/audits/servers/server2/baseline-completed-zsre-audit-20261010/audited-final.json",
+        "sha256": "387bd9cf995d88a1c52bf08aa74bf74afcea29e264be1ec71d85a4e56479a462"
+      },
+      "server": "server2",
+      "source_commit": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "status": "W20_CORRECTED_COLD_CF_RAW_VERIFIED",
+      "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+      "terminal": {
+        "bytes": 6672,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-cf-memit_fe/terminal.json",
+        "sha256": "d8a1092b5db00b1f5c2bcf7fae1236effbfe3c50aeebe35556d0ab364cd30180"
+      }
+    },
+    {
+      "Con": "DEFERRED",
+      "Flu": "DEFERRED",
+      "checkpoint_receipt": {
+        "batch": 20,
+        "file": "batch-20-2fc52d2e87166ffd.pt",
+        "final_W20": true,
+        "identity_sha256": "5b447c57ba6ce1afb30726b4d3db16c1d57f5b61c67c5f62e09fb293ce7f04d6",
+        "sha256": "2fc52d2e87166ffd59ca420c4da4f8e130a384f613614e34d90a00b7962be1ef"
+      },
+      "cold_state_identity": {
+        "assets_sha256": "11fbe79a7784817f8fb0e1164df936dab7ed1c7480bddc923c509aec58e380ec",
+        "code_commit": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+        "config_sha256": "9696fd995705458292900358c4765902ffdb3c988035d6a30627eed930e223ae",
+        "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+        "official_tree_sha256": "be8dca6334f083a87cf6555899fbb43451d9976a55bb53242fdbbcf52a1dfe95",
+        "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "tokenizer_sha256": "9e3c11a4a87d85a72b6f2d1e4b29ab88532f72d03189b6fa2793da735a2d98aa"
+      },
+      "commits": 20,
+      "config_sha256": "9696fd995705458292900358c4765902ffdb3c988035d6a30627eed930e223ae",
+      "dataset": "cf",
+      "denominators": {
+        "neighborhood": 20000,
+        "paraphrase": 4000,
+        "rewrite": 2000
+      },
+      "generation_schedule": "DEFERRED_CHECKPOINT_EVALUATION",
+      "job_id": "62079",
+      "job_name": "s2-qwen25-cf-sphere-gpu",
+      "method": "SPHERE",
+      "metrics": {
+        "Efficacy": 99.4,
+        "Generalization": 97.7,
+        "Score": 83.72646652326851,
+        "Score_AlphaEdit_display": 83.72646652326851,
+        "Specificity": 64.37,
+        "requests": 2000
+      },
+      "model": "qwen25",
+      "numeric_eligible": true,
+      "observed_at": "2026-10-10T01:31:11.166908+00:00",
+      "observed_state": "COMPLETED",
+      "online_delivery": "NOT_REQUERIED",
+      "ordered_cohort_sha256": "b63e14222c3e7f1bd3b78a7b50be24e110a59b15208cda664b3603596668cb84",
+      "raw": {
+        "observed_requests": 2000,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-cf-sphere/evaluations/w20-cases.json",
+        "sha256": "ebec69f45bfebb3409050b3abfa0d692fc91eebd7093dda127238659b246f69f",
+        "state": "COMPLETE"
+      },
+      "raw_and_terminal_SHA_rechecked": true,
+      "report_path": "experiment-reports/servers/server2/completed-table-flucon-cap3-20261010/report-ko.md",
+      "requests": 2000,
+      "reused_prior_CPU_audit": {
+        "bytes": 90373,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-completed-cap3-20261010/audits/servers/server2/baseline-completed-zsre-audit-20261010/audited-final.json",
+        "sha256": "387bd9cf995d88a1c52bf08aa74bf74afcea29e264be1ec71d85a4e56479a462"
+      },
+      "server": "server2",
+      "source_commit": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "status": "W20_CORRECTED_COLD_CF_RAW_VERIFIED",
+      "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+      "terminal": {
+        "bytes": 6628,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-cf-sphere/terminal.json",
+        "sha256": "334b113b77b653d23cf9ea4cdf21277aafe42aece648ebbc93c1fb7197776185"
+      }
+    },
+    {
+      "checkpoint_receipt": {
+        "batch": 20,
+        "file": "batch-20-ae700e725826ab54.pt",
+        "final_W20": true,
+        "identity_sha256": "2c967606e0137e5ae018430d83bd801de733ad28a7bcaafe503690c8ef31e569",
+        "sha256": "ae700e725826ab547df72df12ca973c15fc0b024650cad55114f7fc0f62ee705"
+      },
+      "checkpoint_stat": {
+        "bytes": 1357958225,
+        "checkpoint_deserialized": false,
+        "device": 2304,
+        "full_payload_rehashed_this_audit": false,
+        "inode": 123227725,
+        "manifest_sha256": "ae700e725826ab547df72df12ca973c15fc0b024650cad55114f7fc0f62ee705",
+        "mtime_ns": "1791591821721433549",
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-zsre-memit/checkpoint/batch-20-ae700e725826ab54.pt"
+      },
+      "cold_state_identity": {
+        "assets_sha256": "11fbe79a7784817f8fb0e1164df936dab7ed1c7480bddc923c509aec58e380ec",
+        "code_commit": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+        "config_sha256": "93e6f98a2a1c06e7da4320c6b5cd7837396781c6a377c8199cd8fb86f018a5c0",
+        "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+        "official_tree_sha256": "be8dca6334f083a87cf6555899fbb43451d9976a55bb53242fdbbcf52a1dfe95",
+        "stream_sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+        "tokenizer_sha256": "9e3c11a4a87d85a72b6f2d1e4b29ab88532f72d03189b6fa2793da735a2d98aa"
+      },
+      "commits": 20,
+      "config_sha256": "93e6f98a2a1c06e7da4320c6b5cd7837396781c6a377c8199cd8fb86f018a5c0",
+      "dataset": "zsre",
+      "denominators": {
+        "neighborhood": 11476,
+        "paraphrase": 6691,
+        "rewrite": 6691
+      },
+      "diagnostic_token_micro_NOT_TABLE": {
+        "Efficacy": 48.8417276939172,
+        "Generalization": 46.76431026752354,
+        "Specificity": 35.88358313001046
+      },
+      "generation_schedule": "NOT_APPLICABLE",
+      "job_id": "62081",
+      "job_name": "s2-qwen25-zsre-memit-gpu",
+      "method": "MEMIT",
+      "metrics": {
+        "Efficacy": 41.49242604617605,
+        "Generalization": 39.44256493506493,
+        "Specificity": 26.392390042363424
+      },
+      "model": "qwen25",
+      "new_since_previous_audit": true,
+      "numeric_eligible": true,
+      "observed_at": "2026-10-10T01:31:11.166908+00:00",
+      "observed_state": "COMPLETED",
+      "online_delivery": "NOT_REQUERIED",
+      "ordered_cohort_sha256": "add0c4de5ef09a497ebb87b8b7c0852fe715e6a193c18ec3482c80411ca6c1ef",
+      "query_sha256": "6c8111384789cec7059ea1b3c2b1083d761ade2b360c99db3e5c4f1ef4941d78",
+      "raw": {
+        "observed_requests": 2000,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-zsre-memit/evaluations/w20-cases.json",
+        "sha256": "246a1c74b664741b0d8978d9e7d65ff399384c52658d52b6017e3cebb239941b",
+        "state": "COMPLETE"
+      },
+      "report_path": "experiment-reports/servers/server2/completed-table-flucon-cap3-20261010/report-ko.md",
+      "requests": 2000,
+      "rerun_attempt": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1",
+      "server": "server2",
+      "source_commit": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "status": "W20_PUBLIC_QUERY_REQUEST_MACRO_VERIFIED",
+      "terminal": {
+        "bytes": 6625,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-zsre-memit/terminal.json",
+        "sha256": "cb64490a789ccab6283096abe7eef3d2d98918b0a170f61f2cb1a9cbaf2585ae"
+      },
+      "zsre_audit": {
+        "CPU_query_parity_only": true,
+        "Loc": "loc_ans_target_correctness_NOT_W0_agreement",
+        "byte_stream_vs_canonical_JSON_distinct": true,
+        "frozen_members": [
+          {
+            "bytes": 8479,
+            "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/source/official/evaluation/zsre_paper.py",
+            "sha256": "d6a5b34eafd27660a2dee4632c638b6bf4c3614246071711cf5159a002415a45"
+          },
+          {
+            "bytes": 4774,
+            "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/source/official/evaluation/zsre_query_parity.py",
+            "sha256": "9883f16036525278bbfcdb45f5f08cc8c799f638a26f91b4d9da2a0d70103803"
+          },
+          {
+            "bytes": 966,
+            "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/source/official/evaluation/zsre_public_sources/lock.json",
+            "sha256": "83f7f9aeafe28136f87f252a0783bf282929321ef6af9fbf2596f85d1f995ae6"
+          }
+        ],
+        "metric": "100*mean_requests(mean_target_token_correct)",
+        "missing_requests": 0,
+        "pretrained_numeric_parity": "NOT_MEASURED",
+        "query_proof": {
+          "actual_model_output_parity": "NOT_MEASURED",
+          "input_mismatches": 0,
+          "model_family": "qwen25",
+          "model_forward_calls": 0,
+          "oracle_lock_sha256": "d37227eb52aa1ba1cc0699155c674858b52ff418eaf7814231642f9de8aa2ff3",
+          "queries": 24858,
+          "query_sha256": "6c8111384789cec7059ea1b3c2b1083d761ade2b360c99db3e5c4f1ef4941d78",
+          "requests": 2000,
+          "schema": "zsre-public-query-parity-v1",
+          "status": "PASS_CPU_QUERY_ONLY",
+          "stream_sha256": "93925ec2f74e00a1b3fbdf261e557d10652ae0eca7265b4948958d39de4848b7",
+          "target_mismatches": 0,
+          "token_denominators": {
+            "neighborhood": 11476,
+            "paraphrase": 6691,
+            "rewrite": 6691
+          }
+        },
+        "tokenizer_sha256": "9e3c11a4a87d85a72b6f2d1e4b29ab88532f72d03189b6fa2793da735a2d98aa"
+      }
+    },
+    {
+      "config_sha256": "b0e17e76bba6bc28f09cb776da3d61d811d1e5736fce7fd4ef2bfceb324ba342",
+      "dataset": "zsre",
+      "generation_schedule": "NOT_APPLICABLE",
+      "job_id": "62083",
+      "job_name": "s2-qwen25-zsre-alphaedit-gpu",
+      "method": "ALPHAEDIT",
+      "metrics": {},
+      "model": "qwen25",
+      "numeric_eligible": false,
+      "observed_at": "2026-10-10T01:31:11.166908+00:00",
+      "observed_state": "PENDING",
+      "online_delivery": "NOT_REQUERIED",
+      "report_path": "experiment-reports/servers/server2/completed-table-flucon-cap3-20261010/report-ko.md",
+      "server": "server2",
+      "source_commit": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "status": "PENDING"
+    },
+    {
+      "config_sha256": "848bbc9855cc4c3bcac196bb2c4213ff83e47a98338a130a782ca0da4fb69e88",
+      "dataset": "zsre",
+      "generation_schedule": "NOT_APPLICABLE",
+      "job_id": "62085",
+      "job_name": "s2-qwen25-zsre-memit_fe-gpu",
+      "method": "MEMIT_FE",
+      "metrics": {},
+      "model": "qwen25",
+      "numeric_eligible": false,
+      "observed_at": "2026-10-10T01:31:11.166908+00:00",
+      "observed_state": "RUNNING",
+      "online_delivery": "NOT_REQUERIED",
+      "report_path": "experiment-reports/servers/server2/completed-table-flucon-cap3-20261010/report-ko.md",
+      "server": "server2",
+      "source_commit": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+      "status": "RUNNING"
+    },
+    {
+      "Con": "DEFERRED",
+      "Flu": "DEFERRED",
+      "checkpoint_payload_loaded": false,
+      "cold_state_identity": {
+        "assets_sha256": "6844c5c94b08ae92f9936f0613029e4b60e3ee4147b555569532a89fc7a8787b",
+        "code_commit": "6d35c65de19ec378a30749683762eba87fee50e3",
+        "config_sha256": "2301ce0e2f85f7e874d2295b26ccbd783557a9c522ea6cf63001a5587f8d14ff",
+        "model_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+        "official_tree_sha256": "21780a8a50248c61986848f7bb3a733a15ead064",
+        "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+      },
+      "commits": 20,
+      "config_sha256": "2301ce0e2f85f7e874d2295b26ccbd783557a9c522ea6cf63001a5587f8d14ff",
+      "dataset": "cf",
+      "delta": {
+        "Efficacy": 0.0,
+        "Generalization": 0.0,
+        "Score": 0.0,
+        "Score_AlphaEdit_display": 0.0,
+        "Specificity": 0.0,
+        "requests": 0
+      },
+      "denominators": {
+        "neighborhood": 20000,
+        "paraphrase": 4000,
+        "rewrite": 2000
+      },
+      "elapsed": "01:11:41",
+      "exit_code": "0:0",
+      "job_id": "61650",
+      "job_name": "official-baselines-server2-20261008-r1-cf_checkpoint-FT",
+      "method": "FT",
+      "metrics": {
+        "Efficacy": 88.75,
+        "Generalization": 66.75,
+        "Score": 58.96996481714988,
+        "Score_AlphaEdit_display": 58.96996481714988,
+        "Specificity": 40.61,
+        "requests": 2000
+      },
+      "model": "gptj",
+      "node": "server2",
+      "numeric_eligible": true,
+      "observed_at": "2026-10-10T01:31:11.166908+00:00",
+      "observed_state": "COMPLETED",
+      "old_metrics": {
+        "Efficacy": 88.75,
+        "Generalization": 66.75,
+        "Score": 58.96996481714988,
+        "Score_AlphaEdit_display": 58.96996481714988,
+        "Specificity": 40.61,
+        "requests": 2000
+      },
+      "online_delivery": "NOT_QUERIED",
+      "ordered_cohort_sha256": "b63e14222c3e7f1bd3b78a7b50be24e110a59b15208cda664b3603596668cb84",
+      "raw": {
+        "bytes": 62905275,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-checkpoint-r1/FT/chain/factual/W20.json",
+        "sha256": "f72ec8e70897ec1ce77c8e1a7c3dee16a1c6657116abd1a47ed479daf0e6cc63"
+      },
+      "raw_and_terminal_SHA_rechecked": true,
+      "raw_terminal_rechecked_at": "2026-10-09T22:38:08.468436+00:00",
+      "recent_CPU_audit_reused": true,
+      "report_path": "experiment-reports/servers/server2/completed-table-flucon-cap3-20261010/report-ko.md",
+      "rerun_attempt": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-checkpoint-r1/FT/chain",
+      "reused_prior_CPU_audit": {
+        "bytes": 90373,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-completed-cap3-20261010/audits/servers/server2/baseline-completed-zsre-audit-20261010/audited-final.json",
+        "sha256": "387bd9cf995d88a1c52bf08aa74bf74afcea29e264be1ec71d85a4e56479a462"
+      },
+      "scheduler_snapshot_reused": true,
+      "server": "server2",
+      "source_commit": "6d35c65de19ec378a30749683762eba87fee50e3",
+      "status": "W20_FACTUAL_CPU_VERIFIED",
+      "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+      "terminal": {
+        "bytes": 8444,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-checkpoint-r1/FT/chain/result.json",
+        "sha256": "8d4a8ba7f558bdb0aeda82ab28c4377b2c96792a47151eb25e17eec3d72c20d6"
+      },
+      "workdir": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-checkpoint-r1/source"
+    },
+    {
+      "Con": "DEFERRED",
+      "Flu": "DEFERRED",
+      "checkpoint_payload_loaded": false,
+      "cold_state_identity": {
+        "assets_sha256": "8ce64b6771ff8da49d584784ea190ad8575a3a073f03fcc94c93568d31db6463",
+        "code_commit": "478464689231595eb63da368cc7c376e775eb559",
+        "config_sha256": "f52444f6e12926f8330938d8afdef785ca3815c2200a27b2f423afbacdef7649",
+        "model_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+        "official_tree_sha256": "41ed261d1fc8c7c0022366c50fa9cb1ae3c05320",
+        "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+      },
+      "commits": 20,
+      "config_sha256": "f52444f6e12926f8330938d8afdef785ca3815c2200a27b2f423afbacdef7649",
+      "dataset": "cf",
+      "delta": {
+        "Efficacy": 0.0,
+        "Generalization": 0.0,
+        "Score": 0.0,
+        "Score_AlphaEdit_display": 0.0,
+        "Specificity": 0.0,
+        "requests": 0
+      },
+      "denominators": {
+        "neighborhood": 20000,
+        "paraphrase": 4000,
+        "rewrite": 2000
+      },
+      "elapsed": "02:03:50",
+      "exit_code": "0:0",
+      "job_id": "61725",
+      "job_name": "official-baselines-server2-20261008-r1-no_gpu_qual-CF_MEMIT",
+      "method": "MEMIT",
+      "metrics": {
+        "Efficacy": 97.89999999999999,
+        "Generalization": 95.375,
+        "Score": 80.62805362405693,
+        "Score_AlphaEdit_display": 80.63219744273808,
+        "Specificity": 60.575,
+        "requests": 2000
+      },
+      "model": "gptj",
+      "node": "server2",
+      "numeric_eligible": true,
+      "observed_at": "2026-10-10T01:31:11.166908+00:00",
+      "observed_state": "COMPLETED",
+      "old_metrics": {
+        "Efficacy": 97.89999999999999,
+        "Generalization": 95.375,
+        "Score": 80.62805362405693,
+        "Score_AlphaEdit_display": 80.63219744273808,
+        "Specificity": 60.575,
+        "requests": 2000
+      },
+      "online_delivery": "NOT_QUERIED",
+      "ordered_cohort_sha256": "b63e14222c3e7f1bd3b78a7b50be24e110a59b15208cda664b3603596668cb84",
+      "raw": {
+        "bytes": 62890075,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/CF_MEMIT/factual/W20.json",
+        "sha256": "b970ca2e420a95b80190e26e4c65b02aede6ebdf94965ec02a778c8830369ab0"
+      },
+      "raw_and_terminal_SHA_rechecked": true,
+      "raw_terminal_rechecked_at": "2026-10-09T22:38:08.468436+00:00",
+      "recent_CPU_audit_reused": true,
+      "report_path": "experiment-reports/servers/server2/completed-table-flucon-cap3-20261010/report-ko.md",
+      "rerun_attempt": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/CF_MEMIT",
+      "reused_prior_CPU_audit": {
+        "bytes": 90373,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-completed-cap3-20261010/audits/servers/server2/baseline-completed-zsre-audit-20261010/audited-final.json",
+        "sha256": "387bd9cf995d88a1c52bf08aa74bf74afcea29e264be1ec71d85a4e56479a462"
+      },
+      "scheduler_snapshot_reused": true,
+      "server": "server2",
+      "source_commit": "478464689231595eb63da368cc7c376e775eb559",
+      "status": "W20_FACTUAL_CPU_VERIFIED",
+      "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+      "terminal": {
+        "bytes": 8393,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/CF_MEMIT/result.json",
+        "sha256": "fc4593abf45218d72fb721d2c4e66d9cf60cf0daf47d54cea0c5fb8421baec9e"
+      },
+      "workdir": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/source"
+    },
+    {
+      "Con": "DEFERRED",
+      "Flu": "DEFERRED",
+      "checkpoint_payload_loaded": false,
+      "cold_state_identity": {
+        "assets_sha256": "d842d47ee91049c954e5c7048ef47abba6bfe481acb1228bf5b43119d903ac46",
+        "code_commit": "d31d582ffd425fe3a56a7d23b68d3c58e7e3d955",
+        "config_sha256": "07e3c5741ee8972f328934cc664513e430c356e7b13d6be426c9826d4d4ea1f4",
+        "model_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+        "official_tree_sha256": "ba8f0e36d5551f3ec1d61e50c8996040a16cb6d3",
+        "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+      },
+      "commits": 20,
+      "config_sha256": "07e3c5741ee8972f328934cc664513e430c356e7b13d6be426c9826d4d4ea1f4",
+      "dataset": "cf",
+      "delta": {
+        "Efficacy": 0.0,
+        "Generalization": 0.0,
+        "Score": 0.0,
+        "Score_AlphaEdit_display": 0.0,
+        "Specificity": 0.0,
+        "requests": 0
+      },
+      "denominators": {
+        "neighborhood": 20000,
+        "paraphrase": 4000,
+        "rewrite": 2000
+      },
+      "elapsed": "02:34:51",
+      "exit_code": "0:0",
+      "job_id": "61778",
+      "job_name": "official-baselines-server2-20261008-r1-cf_display_repair-CF_ALPHAEDIT",
+      "method": "ALPHAEDIT",
+      "metrics": {
+        "Efficacy": 99.7,
+        "Generalization": 96.325,
+        "Score": 88.21744303247226,
+        "Score_AlphaEdit_display": 88.21364768868096,
+        "Specificity": 73.55499999999999,
+        "requests": 2000
+      },
+      "model": "gptj",
+      "node": "server2",
+      "numeric_eligible": true,
+      "observed_at": "2026-10-10T01:31:11.166908+00:00",
+      "observed_state": "COMPLETED",
+      "old_metrics": {
+        "Efficacy": 99.7,
+        "Generalization": 96.325,
+        "Score": 88.21744303247226,
+        "Score_AlphaEdit_display": 88.21364768868096,
+        "Specificity": 73.55499999999999,
+        "requests": 2000
+      },
+      "online_delivery": "NOT_QUERIED",
+      "ordered_cohort_sha256": "b63e14222c3e7f1bd3b78a7b50be24e110a59b15208cda664b3603596668cb84",
+      "raw": {
+        "bytes": 62880358,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/CF_ALPHAEDIT/factual/W20.json",
+        "sha256": "7ba6a5093746e1190948e6a0f070e1f262165c4c0eedefff881ddecffc865fa6"
+      },
+      "raw_and_terminal_SHA_rechecked": true,
+      "raw_terminal_rechecked_at": "2026-10-09T22:38:08.468436+00:00",
+      "recent_CPU_audit_reused": true,
+      "report_path": "experiment-reports/servers/server2/completed-table-flucon-cap3-20261010/report-ko.md",
+      "rerun_attempt": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/CF_ALPHAEDIT",
+      "reused_prior_CPU_audit": {
+        "bytes": 90373,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-completed-cap3-20261010/audits/servers/server2/baseline-completed-zsre-audit-20261010/audited-final.json",
+        "sha256": "387bd9cf995d88a1c52bf08aa74bf74afcea29e264be1ec71d85a4e56479a462"
+      },
+      "scheduler_snapshot_reused": true,
+      "server": "server2",
+      "source_commit": "d31d582ffd425fe3a56a7d23b68d3c58e7e3d955",
+      "status": "W20_FACTUAL_CPU_VERIFIED",
+      "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+      "terminal": {
+        "bytes": 8474,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/CF_ALPHAEDIT/result.json",
+        "sha256": "287961165857b6e0120c5a3a91fc32e2e31bae23a19ae3e47aa5b42fbfc86ef4"
+      },
+      "workdir": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/source"
+    },
+    {
+      "Con": "DEFERRED",
+      "Flu": "DEFERRED",
+      "checkpoint_payload_loaded": false,
+      "cold_state_identity": {
+        "assets_sha256": "d842d47ee91049c954e5c7048ef47abba6bfe481acb1228bf5b43119d903ac46",
+        "code_commit": "d31d582ffd425fe3a56a7d23b68d3c58e7e3d955",
+        "config_sha256": "8ed4bea0e271e9e49c384b672d1019352a2b0cd3500537ce86af3c64ee438107",
+        "model_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+        "official_tree_sha256": "ba8f0e36d5551f3ec1d61e50c8996040a16cb6d3",
+        "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+      },
+      "commits": 20,
+      "config_sha256": "8ed4bea0e271e9e49c384b672d1019352a2b0cd3500537ce86af3c64ee438107",
+      "dataset": "cf",
+      "delta": {
+        "Efficacy": 0.0,
+        "Generalization": 0.0,
+        "Score": 0.0,
+        "Score_AlphaEdit_display": 0.0,
+        "Specificity": 0.0,
+        "requests": 0
+      },
+      "denominators": {
+        "neighborhood": 20000,
+        "paraphrase": 4000,
+        "rewrite": 2000
+      },
+      "elapsed": "02:29:57",
+      "exit_code": "0:0",
+      "job_id": "61779",
+      "job_name": "official-baselines-server2-20261008-r1-cf_display_repair-CF_ALPHAEDIT_BLUE",
+      "method": "ALPHAEDIT_BLUE",
+      "metrics": {
+        "Efficacy": 99.55000000000001,
+        "Generalization": 97.52499999999999,
+        "Score": 89.22583945128582,
+        "Score_AlphaEdit_display": 89.22208887058098,
+        "Specificity": 75.05499999999999,
+        "requests": 2000
+      },
+      "model": "gptj",
+      "node": "server2",
+      "numeric_eligible": true,
+      "observed_at": "2026-10-10T01:31:11.166908+00:00",
+      "observed_state": "COMPLETED",
+      "old_metrics": {
+        "Efficacy": 99.55000000000001,
+        "Generalization": 97.52499999999999,
+        "Score": 89.22583945128582,
+        "Score_AlphaEdit_display": 89.22208887058098,
+        "Specificity": 75.05499999999999,
+        "requests": 2000
+      },
+      "online_delivery": "NOT_QUERIED",
+      "ordered_cohort_sha256": "b63e14222c3e7f1bd3b78a7b50be24e110a59b15208cda664b3603596668cb84",
+      "raw": {
+        "bytes": 62890535,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/CF_ALPHAEDIT_BLUE/factual/W20.json",
+        "sha256": "99e3a63e8e7ecda1fdae188c815d820f2aa9bc169eca19cff69834823d1aac7e"
+      },
+      "raw_and_terminal_SHA_rechecked": true,
+      "raw_terminal_rechecked_at": "2026-10-09T22:38:08.468436+00:00",
+      "recent_CPU_audit_reused": true,
+      "report_path": "experiment-reports/servers/server2/completed-table-flucon-cap3-20261010/report-ko.md",
+      "rerun_attempt": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/CF_ALPHAEDIT_BLUE",
+      "reused_prior_CPU_audit": {
+        "bytes": 90373,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-completed-cap3-20261010/audits/servers/server2/baseline-completed-zsre-audit-20261010/audited-final.json",
+        "sha256": "387bd9cf995d88a1c52bf08aa74bf74afcea29e264be1ec71d85a4e56479a462"
+      },
+      "scheduler_snapshot_reused": true,
+      "server": "server2",
+      "source_commit": "d31d582ffd425fe3a56a7d23b68d3c58e7e3d955",
+      "status": "W20_FACTUAL_CPU_VERIFIED",
+      "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+      "terminal": {
+        "bytes": 8603,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/CF_ALPHAEDIT_BLUE/result.json",
+        "sha256": "4019abdcf5bfa4c66baa2e604c9bf3e47f69d5fd03dedb3f6cb257d93ea60cec"
+      },
+      "workdir": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/source"
+    },
+    {
+      "Con": "DEFERRED",
+      "Flu": "DEFERRED",
+      "checkpoint_payload_loaded": false,
+      "cold_state_identity": {
+        "assets_sha256": "d842d47ee91049c954e5c7048ef47abba6bfe481acb1228bf5b43119d903ac46",
+        "code_commit": "d31d582ffd425fe3a56a7d23b68d3c58e7e3d955",
+        "config_sha256": "d2f9630e194982cf9ed872dfb6a71b5f2e1e2007a8f5e09065ee0c9d1145ff67",
+        "model_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+        "official_tree_sha256": "ba8f0e36d5551f3ec1d61e50c8996040a16cb6d3",
+        "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+      },
+      "commits": 20,
+      "config_sha256": "d2f9630e194982cf9ed872dfb6a71b5f2e1e2007a8f5e09065ee0c9d1145ff67",
+      "dataset": "cf",
+      "delta": {
+        "Efficacy": 0.0,
+        "Generalization": 0.0,
+        "Score": 0.0,
+        "Score_AlphaEdit_display": 0.0,
+        "Specificity": 0.0,
+        "requests": 0
+      },
+      "denominators": {
+        "neighborhood": 20000,
+        "paraphrase": 4000,
+        "rewrite": 2000
+      },
+      "elapsed": "02:48:41",
+      "exit_code": "0:0",
+      "job_id": "61780",
+      "job_name": "official-baselines-server2-20261008-r1-cf_display_repair-CF_MEMIT_FE",
+      "method": "MEMIT_FE",
+      "metrics": {
+        "Efficacy": 87.15,
+        "Generalization": 85.7,
+        "Score": 73.85339857055396,
+        "Score_AlphaEdit_display": 73.85617539416491,
+        "Specificity": 57.214999999999996,
+        "requests": 2000
+      },
+      "model": "gptj",
+      "node": "server2",
+      "numeric_eligible": true,
+      "observed_at": "2026-10-10T01:31:11.166908+00:00",
+      "observed_state": "COMPLETED",
+      "old_metrics": {
+        "Efficacy": 87.15,
+        "Generalization": 85.7,
+        "Score": 73.85339857055396,
+        "Score_AlphaEdit_display": 73.85617539416491,
+        "Specificity": 57.214999999999996,
+        "requests": 2000
+      },
+      "online_delivery": "NOT_QUERIED",
+      "ordered_cohort_sha256": "b63e14222c3e7f1bd3b78a7b50be24e110a59b15208cda664b3603596668cb84",
+      "raw": {
+        "bytes": 62890493,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/CF_MEMIT_FE/factual/W20.json",
+        "sha256": "2c7ddfcf28ab457eef08740e205ca864c99e97b9dfdff04f7c970b405285d871"
+      },
+      "raw_and_terminal_SHA_rechecked": true,
+      "raw_terminal_rechecked_at": "2026-10-09T22:38:08.468436+00:00",
+      "recent_CPU_audit_reused": true,
+      "report_path": "experiment-reports/servers/server2/completed-table-flucon-cap3-20261010/report-ko.md",
+      "rerun_attempt": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/CF_MEMIT_FE",
+      "reused_prior_CPU_audit": {
+        "bytes": 90373,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-completed-cap3-20261010/audits/servers/server2/baseline-completed-zsre-audit-20261010/audited-final.json",
+        "sha256": "387bd9cf995d88a1c52bf08aa74bf74afcea29e264be1ec71d85a4e56479a462"
+      },
+      "scheduler_snapshot_reused": true,
+      "server": "server2",
+      "source_commit": "d31d582ffd425fe3a56a7d23b68d3c58e7e3d955",
+      "status": "W20_FACTUAL_CPU_VERIFIED",
+      "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+      "terminal": {
+        "bytes": 8446,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/CF_MEMIT_FE/result.json",
+        "sha256": "612bc4f13b3d89572117dd6f2c021a10a3671358eb53373d5c71305681727274"
+      },
+      "workdir": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/source"
+    },
+    {
+      "Con": "DEFERRED",
+      "Flu": "DEFERRED",
+      "checkpoint_payload_loaded": false,
+      "cold_state_identity": {
+        "assets_sha256": "d842d47ee91049c954e5c7048ef47abba6bfe481acb1228bf5b43119d903ac46",
+        "code_commit": "d31d582ffd425fe3a56a7d23b68d3c58e7e3d955",
+        "config_sha256": "9ccf60c7cfda152445773fa4c1e3d21f348eccd599be5584ca86bb9d8fc83330",
+        "model_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+        "official_tree_sha256": "ba8f0e36d5551f3ec1d61e50c8996040a16cb6d3",
+        "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+      },
+      "commits": 20,
+      "config_sha256": "9ccf60c7cfda152445773fa4c1e3d21f348eccd599be5584ca86bb9d8fc83330",
+      "dataset": "cf",
+      "delta": {
+        "Efficacy": 0.0,
+        "Generalization": 0.0,
+        "Score": 0.0,
+        "Score_AlphaEdit_display": 0.0,
+        "Specificity": 0.0,
+        "requests": 0
+      },
+      "denominators": {
+        "neighborhood": 20000,
+        "paraphrase": 4000,
+        "rewrite": 2000
+      },
+      "elapsed": "02:49:32",
+      "exit_code": "0:0",
+      "job_id": "61781",
+      "job_name": "official-baselines-server2-20261008-r1-cf_display_repair-CF_SPHERE",
+      "method": "SPHERE",
+      "metrics": {
+        "Efficacy": 99.7,
+        "Generalization": 95.72500000000001,
+        "Score": 88.38613473486048,
+        "Score_AlphaEdit_display": 88.38707434537675,
+        "Specificity": 74.265,
+        "requests": 2000
+      },
+      "model": "gptj",
+      "node": "server2",
+      "numeric_eligible": true,
+      "observed_at": "2026-10-10T01:31:11.166908+00:00",
+      "observed_state": "COMPLETED",
+      "old_metrics": {
+        "Efficacy": 99.7,
+        "Generalization": 95.72500000000001,
+        "Score": 88.38613473486048,
+        "Score_AlphaEdit_display": 88.38707434537675,
+        "Specificity": 74.265,
+        "requests": 2000
+      },
+      "online_delivery": "NOT_QUERIED",
+      "ordered_cohort_sha256": "b63e14222c3e7f1bd3b78a7b50be24e110a59b15208cda664b3603596668cb84",
+      "raw": {
+        "bytes": 62879470,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/CF_SPHERE/factual/W20.json",
+        "sha256": "09d1497572c5d3dae73b43377892832a5122ddb02aaab6074da6aa31433ea84e"
+      },
+      "raw_and_terminal_SHA_rechecked": true,
+      "raw_terminal_rechecked_at": "2026-10-09T22:38:08.468436+00:00",
+      "recent_CPU_audit_reused": true,
+      "report_path": "experiment-reports/servers/server2/completed-table-flucon-cap3-20261010/report-ko.md",
+      "rerun_attempt": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/CF_SPHERE",
+      "reused_prior_CPU_audit": {
+        "bytes": 90373,
+        "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-completed-cap3-20261010/audits/servers/server2/baseline-completed-zsre-audit-20261010/audited-final.json",
+        "sha256": "387bd9cf995d88a1c52bf08aa74bf74afcea29e264be1ec71d85a4e56479a462"
+      },
+      "scheduler_snapshot_reused": true,
+      "server": "server2",
+      "source_commit": "d31d582ffd425fe3a56a7d23b68d3c58e7e3d955",
+      "status": "W20_FACTUAL_CPU_VERIFIED",
+      "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+      "terminal": {
+        "bytes": 8396,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/CF_SPHERE/result.json",
+        "sha256": "bb0946d5aade2d9fab38a1679ce57555754615cf44dab43148cd5191c9e1c4b1"
+      },
+      "workdir": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/source"
+    },
+    {
+      "Con": "DEFERRED",
+      "Flu": "DEFERRED",
+      "dataset": "cf",
+      "job_id": "62531",
+      "job_name": "s2-qwen25-cf-fe-author-history",
+      "method": "MEMIT_FE_HISTORY (FE author hparams)",
+      "metrics": {},
+      "model": "qwen25",
+      "numeric_eligible": false,
+      "observed_at": "2026-10-10T01:31:11.166908+00:00",
+      "observed_state": "PENDING",
+      "report_path": "experiment-reports/servers/server2/completed-table-flucon-cap3-20261010/report-ko.md",
+      "server": "server2",
+      "status": "PENDING"
+    },
+    {
+      "dataset": "zsre",
+      "job_id": "62532",
+      "job_name": "s2-qwen25-zsre-fe-author-history",
+      "method": "MEMIT_FE_HISTORY (FE author hparams)",
+      "metrics": {},
+      "model": "qwen25",
+      "numeric_eligible": false,
+      "observed_at": "2026-10-10T01:31:11.166908+00:00",
+      "observed_state": "PENDING",
+      "report_path": "experiment-reports/servers/server2/completed-table-flucon-cap3-20261010/report-ko.md",
+      "server": "server2",
+      "status": "PENDING"
+    },
+    {
+      "ancestry_status": "W20_NOT_YET_OBSERVED",
+      "child_batches": [
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "dataset": "zsre",
+      "job_id": "62538",
+      "job_name": "s2-qwen25-zsre-sphere-resume-b9",
+      "method": "SPHERE",
+      "metrics": {},
+      "model": "qwen25",
+      "numeric_eligible": false,
+      "observed_at": "2026-10-10T01:31:11.166908+00:00",
+      "observed_state": "PENDING",
+      "parent_SHA": "7e44f382ba1f3befcb9f4429f42fd328d55422306f9cef868a920c8bf7ec17b8",
+      "parent_batches": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "report_path": "experiment-reports/servers/server2/completed-table-flucon-cap3-20261010/report-ko.md",
+      "resume_parent_job": "62087",
+      "server": "server2",
+      "status": "PENDING"
+    }
+  ],
+  "source_model_GPU_checks": "CPU_RAW_ONLY_NO_FORWARD"
+}

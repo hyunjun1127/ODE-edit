@@ -1,0 +1,38 @@
+{
+  "nonce": "USER-GH-S1-S2-COMPLETED-TABLE-S1-FLUCON-CAP3-20261010-R1",
+  "authority_commit": "abeff02c0a014f5c5dabc6fbffa78b25c3809841",
+  "envelope": "messages/head/2026-10-10-s1-s2-completed-table-s1-flucon-cap3.json",
+  "transport": "공식 app-server direct turn/start; exact session/CWD 확인, model/effort override 없음",
+  "ack_readback": "transport는 accepted 반환 후 ACK pending으로 종료. 별도 exact read_thread에서 같은 accepted turn의 명시 OWNER_ACK를 실제 확인. 재전송 없음.",
+  "owners": {
+    "server1": {
+      "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+      "cwd": "/mnt/raid5/janghj/ODE-edit",
+      "accepted_turn": "01a1236d-9293-73b0-aff5-7e2789e84602",
+      "explicit_owner_ACK": true,
+      "stage": "완료: cap3/DAG폭3 적용, 완료12행 재검산, history 평가3GPU+1CPU held검사/release. 실제 생성 완료는 미관측.",
+      "new_FLUCON_submission_receipt": "audits/servers/server1/completed-table-flucon-cap3-20261010/submission.json",
+      "new_table_results": "audits/servers/server1/completed-table-flucon-cap3-20261010/table-rows.json",
+      "publication": "f74dcdae5938b6ebab4a8a5944b5644ee948e079",
+      "new_GPU_job_ids": ["62581", "62582", "62583"],
+      "new_CPU_collector": "62584"
+    },
+    "server2": {
+      "session": "01a0493a-074c-7f91-9a13-769116326fef",
+      "cwd": "/mnt/raid5/janghj/ODE-edit",
+      "accepted_turn": "01a1236d-9585-7183-88d1-d29261b81fcc",
+      "explicit_owner_ACK": true,
+      "stage": "완료: cap3 실제 적용/allocated2·DAGwidth2 검산 및26행중20행 적격 raw검산. 새 결과2행 GH 통합.",
+      "owner_initial_allocated_GPUs": 2,
+      "new_table_results": "audits/servers/server2/completed-table-flucon-cap3-20261010/table-rows.json",
+      "publication": "437f3f21900c6e2ca634804fb36b94cff612b83f",
+      "cap_receipt": "audits/servers/server2/completed-table-flucon-cap3-20261010/cap-receipt.json"
+    }
+  },
+  "canonical_caps": {"server1": 3, "server2": 3, "other_servers": "UNCHANGED"},
+  "cap_runtime_final_receipts": "server1 cap3/DAG폭3, server2 cap3/allocated2·DAG폭2 실제 영수증 확인. 다른 서버 불변.",
+  "README_owner": "GH; 새 실제metrics/jobreceipt 수신 후 해당 셀만 통합",
+  "current_GH_README_updates": {"server2": {"new_numeric_cells": 6, "state_cells": 4}, "server1": {"new_numeric_cells": 6, "state_cells": 7}},
+  "GH_job_mutations": 0,
+  "new_recurring_monitor": false
+}

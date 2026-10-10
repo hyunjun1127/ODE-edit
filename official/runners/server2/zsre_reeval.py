@@ -99,12 +99,13 @@ def verify_source(root):
         verify_member(entry)
     return lock
 
-def validate_result(raw,inputs):
+def validate_result(raw,inputs,*,model_family='gptj',counts=None):
+    counts=COUNTS if counts is None else counts
     require(raw["schema"]=="official-zsre-public-query-eval-only-v1","EVAL_SCHEMA")
-    require(raw["model_family"]=="gptj" and len(raw["cases"])==2000,"EVAL_FULL_2K")
+    require(raw["model_family"]==model_family and len(raw["cases"])==2000,"EVAL_FULL_2K")
     require(raw["query_sha256"]==inputs["query_proof"]["query_sha256"],"RUNTIME_QUERY_MISMATCH")
-    require(raw["token_denominators"]==COUNTS,"RUNTIME_DENOMINATORS")
-    require(raw["work"]["queries"]==sum(COUNTS.values()),"RUNTIME_QUERY_COVERAGE")
+    require(raw["token_denominators"]==counts,"RUNTIME_DENOMINATORS")
+    require(raw["work"]["queries"]==sum(counts.values()),"RUNTIME_QUERY_COVERAGE")
     require(raw["model_no_mutation"] is True and raw["RNG_restored"] is True,"EVAL_STATE_GUARD")
     cases=raw["cases"]
     require([c["occurrence_index"] for c in cases]==list(range(1,2001)),"RESULT_ORDER")
@@ -117,7 +118,7 @@ def validate_result(raw,inputs):
             require(bits and bits==c[group+"_prompts_correct"] and
                     bits==[x["correct"] for x in obs],"RAW_CORRECTNESS")
             means.append(math.fsum(bits)/len(bits));tokens+=len(bits)
-        require(tokens==COUNTS[group],"RAW_TOKEN_DENOMINATOR")
+        require(tokens==counts[group],"RAW_TOKEN_DENOMINATOR")
         summary[label]=100*math.fsum(means)/2000
         require(math.isfinite(summary[label]) and
                 abs(summary[label]-raw["summary"][label])<1e-10,"RAW_REDUCER_MISMATCH")

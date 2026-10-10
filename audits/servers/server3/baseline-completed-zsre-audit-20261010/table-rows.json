@@ -1,0 +1,99 @@
+{
+  "nonce": "USER-GH-ALL-SH-BASELINE-COMPLETED-ZSRE-AUDIT-20261010-R1",
+  "accepted_turn": "01a122d0-2dca-7152-b5ba-b513af14972d",
+  "server": "server3",
+  "observed_at": "2026-10-09T22:37:58.388865+00:00",
+  "status": "NO_OWN_COMPLETED_ELIGIBLE_BASELINE",
+  "completed_CF_W20_rows": [],
+  "completed_zsre_W20_rows": [],
+  "main_table_numeric_updates": [],
+  "own_baseline_preparation": {
+    "status": "NO_OWN_MAIN_SUBMISSION_RECEIPT_FOUND",
+    "historical_preflight": {
+      "path": "/data/janghj/ODE-edit/local/official-baselines-20261008/submission-request-preflight-20261009.json",
+      "sha256": "5e7c93f004141dbe57041e125978cd491d47e0ec034604fc7dbe7d0bdc83f35e"
+    },
+    "note": "Old blockers are historical, not reasserted as current asset failure; Qwen baseline migration belongs to SH2."
+  },
+  "zsre_audit": {
+    "status": "NOT_APPLICABLE_NO_OWN_COMPLETED_RAW",
+    "actual_frozen_evaluator_query_profile_sha": "NOT_APPLICABLE_NO_OWN_RUN",
+    "own_fullstream_query_parity": "NOT_APPLICABLE_NO_OWN_RUN",
+    "independent_correctness_reduction": "NOT_APPLICABLE_NO_OWN_RAW",
+    "request_and_token_denominators": null,
+    "Eff_Gen_Loc": null,
+    "accepted_definition": "100 * mean_requests(mean_target_token_correctness); Loc target=loc_ans; W0agreement separate",
+    "legacy_direct_token_concat": "PUBLIC_QUERY_REEVALUATION_REQUIRED if such own results appear; none found",
+    "no_forward_parity_claim": true
+  },
+  "source_read_only_reference": {
+    "official/evaluation/ZSRE_PAPER.md": "e53bf76ea6f19106dbea49595dace8162bd7a3f40136483518480d2311b8ef4c",
+    "official/evaluation/zsre_paper.py": "d6a5b34eafd27660a2dee4632c638b6bf4c3614246071711cf5159a002415a45",
+    "official/evaluation/zsre_query_parity.py": "9883f16036525278bbfcdb45f5f08cc8c799f638a26f91b4d9da2a0d70103803"
+  },
+  "excluded_status_rows": [
+    {
+      "job_id": 62344,
+      "name": "s3-qwen-blue-sweep-1k-lane1",
+      "job_state": [
+        "RUNNING"
+      ],
+      "nodes": "ubuntu",
+      "required_nodes": "ubuntu",
+      "current_working_directory": "/data/janghj/ODE-edit/local/qwen-blue-sweep-1k-20261010/two-lanes-r1",
+      "dependency": "",
+      "tres_per_node": "gres/gpu:1",
+      "reason": "SWEEP_HELDOUT_1K_NOT_MAIN_W20"
+    },
+    {
+      "job_id": 62345,
+      "name": "s3-qwen-blue-sweep-1k-lane2",
+      "job_state": [
+        "PENDING"
+      ],
+      "nodes": "",
+      "required_nodes": "ubuntu",
+      "current_working_directory": "/data/janghj/ODE-edit/local/qwen-blue-sweep-1k-20261010/two-lanes-r1",
+      "dependency": "",
+      "tres_per_node": "gres/gpu:1",
+      "reason": "SWEEP_HELDOUT_1K_NOT_MAIN_W20"
+    },
+    {
+      "job_id": 62477,
+      "name": "pf500-qwen25-s3-F-beta100",
+      "job_state": [
+        "PENDING"
+      ],
+      "nodes": "",
+      "required_nodes": "ubuntu",
+      "current_working_directory": "/data/janghj/ODE-edit/local/price-final-sweep500-20261010/jobs",
+      "dependency": "",
+      "tres_per_node": "gres/gpu:1",
+      "reason": "OURS_PRICE_SWEEP500_NOT_BASELINE"
+    },
+    {
+      "job_id": 62478,
+      "name": "pf500-qwen25-s3-F-beta200",
+      "job_state": [
+        "PENDING"
+      ],
+      "nodes": "",
+      "required_nodes": "ubuntu",
+      "current_working_directory": "/data/janghj/ODE-edit/local/price-final-sweep500-20261010/jobs",
+      "dependency": "afterany:62477(unfulfilled)",
+      "tres_per_node": "gres/gpu:1",
+      "reason": "OURS_PRICE_SWEEP500_NOT_BASELINE"
+    }
+  ],
+  "evidence": {
+    "prior_metadata_SHA_unchanged": 48,
+    "fresh_metadata_records": 4,
+    "scan_errors": [],
+    "raw_metric_recompute": 0,
+    "no_candidates_not_metric_zero": true
+  },
+  "CF_policy": "Keep strict NLL preference and harmonic; missing generation DEFERRED, measured raw*100 half-up2; no withdrawn context result reinstated",
+  "review": "Owner CPU metadata audit; no independent reviewer",
+  "new_GPU_forward_CP_load_mutation": 0,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED"
+}

@@ -1,0 +1,11 @@
+{
+  "nonce": "USER-GH-S1-S2-FE-AUTHOR-MAIN-REFRESH-20261010-R1",
+  "authority": "8d717f7b",
+  "envelope": "messages/head/2026-10-10-s1-s2-author-main-refresh.json",
+  "envelope_sha256": "0fedadab3c031f82efd3237ffc48ed0d21125a7e2269fb896004e4ee6b7aa187",
+  "server1": {"session":"01a04939-f93a-7b50-bca0-65438eab2062", "accepted_turn":"01a12655-c1e4-7b82-bfc5-dff93a151e6b", "OWNER_ACK":true, "evidence":"official direct turn/start accepted 후 exactturn agentMessage readback OWNER_ACK 확인. 최초timeout뒤 idle/이전완료turn 확인으로 새turn미발행 검증, blind 중복전달없음"},
+  "server2": {"session":"01a0493a-074c-7f91-9a13-769116326fef", "accepted_turn":"01a12655-1e13-7380-b3d7-83f4a30b1105", "OWNER_ACK":true, "evidence":"official thread/resume→turn/start accepted 및 직접 OWNER_ACK event 수신"},
+  "boundary":"각 live CWD /mnt/raid5/janghj/ODE-edit, registry exactsession 검증. Git inbox만으로 전달성공주장없음",
+  "scope":"완료결과/상태 단발 검산 및 main 표 통합, 신규GPU/Slurmmutation/CP삭제없음",
+  "README_owner":"GH", "model_effort_override":false, "recurring_monitor":false
+}

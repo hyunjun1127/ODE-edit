@@ -1,0 +1,186 @@
+{
+  "GPU_qualification": "NOT_RUN_USER_DISABLED",
+  "assets": {
+    "gptj": {
+      "context": {
+        "bytes": 290,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/native-context-import/server3-20261010/job-62102/gptj/contexts.json",
+        "sha256": "b8d3523861cfdc973654f5d870cfd18ccba770f00dfd480745c0dff18b69a66b"
+      },
+      "context_provenance": {
+        "bytes": 1181,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/native-context-import/server3-20261010/job-62102/gptj/READY.json",
+        "sha256": "e4911be175a4eb32a5f6617a79a20822a448f15f2b022c4bad55d0b88845ef0c"
+      },
+      "context_sha256": "b454d83e8ad3656a2e4beaed7cbc73b74a6bc50b7d5cc8fa7db0c99a01b9c842",
+      "layers": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "model_asset_checks": [
+        "PRIOR_FULL_SHA_AND_UNCHANGED_STAT",
+        "PRIOR_FULL_SHA_AND_UNCHANGED_STAT",
+        "PRIOR_FULL_SHA_AND_UNCHANGED_STAT",
+        "PRIOR_FULL_SHA_AND_UNCHANGED_STAT",
+        "PRIOR_FULL_SHA_AND_UNCHANGED_STAT",
+        "PRIOR_FULL_SHA_AND_UNCHANGED_STAT",
+        "PRIOR_FULL_SHA_AND_UNCHANGED_STAT",
+        "PRIOR_FULL_SHA_AND_UNCHANGED_STAT"
+      ],
+      "projector": {
+        "bytes": 6442452841,
+        "path": "/mnt/raid5/janghj/EasyEdit/examples/null_space_project_gpt-j-6b.pt",
+        "sha256": "3f4854840e4138cccd01f33df946c9c4dae41244a8be1fa21d9292ce530456a0"
+      },
+      "projector_recomputed": false,
+      "projector_shape": [
+        6,
+        16384,
+        16384
+      ],
+      "projector_threshold": 0.02
+    },
+    "llama3": {
+      "context": {
+        "bytes": 270,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/cake-six-2k-server1-20261011/inputs/llama3-contexts.json",
+        "sha256": "33cec0eef9ec130f26c2f0e17f7c8be39e93c717ebb47eaa5e9f1c88b263524e"
+      },
+      "context_provenance": {
+        "bytes": 356,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/cake-six-2k-server1-20261011/inputs/llama3-context-provenance.json",
+        "sha256": "c705dc172952f224c215173e2d55897c6471e36e31f40e7bb63bd3364d7e007e"
+      },
+      "context_sha256": "cf14b8571136b0413ded1ea8aa283a004ecbddbd818a6a8744b0296b63f72191",
+      "layers": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "model_asset_checks": [
+        "PRIOR_FULL_SHA_AND_UNCHANGED_STAT",
+        "PRIOR_FULL_SHA_AND_UNCHANGED_STAT",
+        "PRIOR_FULL_SHA_AND_UNCHANGED_STAT",
+        "PRIOR_FULL_SHA_AND_UNCHANGED_STAT",
+        "PRIOR_FULL_SHA_AND_UNCHANGED_STAT",
+        "PRIOR_FULL_SHA_AND_UNCHANGED_STAT",
+        "PRIOR_FULL_SHA_AND_UNCHANGED_STAT",
+        "PRIOR_FULL_SHA_AND_UNCHANGED_STAT",
+        "PRIOR_FULL_SHA_AND_UNCHANGED_STAT",
+        "PRIOR_FULL_SHA_AND_UNCHANGED_STAT"
+      ],
+      "projector": {
+        "bytes": 4110419877,
+        "path": "/mnt/raid5/janghj/EasyEdit/examples/null_space_project_Meta-Llama-3-8B-Instruct.pt",
+        "sha256": "6d356468c6408dca694c1907ffde31cddb99f7e67fa2e74502910d5afbede5ec"
+      },
+      "projector_recomputed": false,
+      "projector_shape": [
+        5,
+        14336,
+        14336
+      ],
+      "projector_threshold": 0.02
+    },
+    "qwen25": {
+      "context": {
+        "bytes": 327,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/native-context-import/server3-20261010/job-62101/qwen25/contexts.json",
+        "sha256": "caf43aaf6e04f8b894f49051cbca4312e51b63ac42466be4edd82a70d7589dea"
+      },
+      "context_provenance": {
+        "bytes": 1182,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/native-context-import/server3-20261010/job-62101/qwen25/READY.json",
+        "sha256": "6a3e8d32bc54534c241199f590ad682cf25ac0617d1d918bc3ed02ee6b833688"
+      },
+      "context_sha256": "5c01bc1a91c0890af2897f18b7a5f95de011badc1eca5e27f44199acc0cb6515",
+      "layers": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "model_asset_checks": [
+        "PRIOR_FULL_SHA_AND_UNCHANGED_STAT",
+        "PRIOR_FULL_SHA_AND_UNCHANGED_STAT",
+        "PRIOR_FULL_SHA_AND_UNCHANGED_STAT",
+        "PRIOR_FULL_SHA_AND_UNCHANGED_STAT",
+        "PRIOR_FULL_SHA_AND_UNCHANGED_STAT",
+        "PRIOR_FULL_SHA_AND_UNCHANGED_STAT",
+        "PRIOR_FULL_SHA_AND_UNCHANGED_STAT",
+        "PRIOR_FULL_SHA_AND_UNCHANGED_STAT",
+        "PRIOR_FULL_SHA_AND_UNCHANGED_STAT",
+        "PRIOR_FULL_SHA_AND_UNCHANGED_STAT",
+        "PRIOR_FULL_SHA_AND_UNCHANGED_STAT"
+      ],
+      "projector": {
+        "bytes": 7177504758,
+        "path": "/mnt/raid5/janghj/EasyEdit/examples/null_space_project_Qwen2.5-7B-Instruct.pt",
+        "sha256": "d3a9687d196f7ee06739253813917a632542717ce1166c0433aa7eec70c5c8ff"
+      },
+      "projector_recomputed": false,
+      "projector_shape": [
+        5,
+        18944,
+        18944
+      ],
+      "projector_threshold": 0.02
+    }
+  },
+  "configs": [
+    {
+      "bytes": 3156,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/cake-six-2k-server1-20261011/preparation/configs/llama3-cf.json",
+      "sha256": "9d838fd3764ef2af66f7e35c7175fc31f7e8dab222727065b7b2a7eafb3e0468"
+    },
+    {
+      "bytes": 3152,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/cake-six-2k-server1-20261011/preparation/configs/llama3-zsre.json",
+      "sha256": "657d2cb3caf89a410598dc0eb122a9e52242906f7ec0518d1f945d1ad1f3626a"
+    },
+    {
+      "bytes": 3189,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/cake-six-2k-server1-20261011/preparation/configs/gptj-cf.json",
+      "sha256": "8bcae030b7e8b24588f4551504a7c35fec924081047d98d4232d83b7667bc715"
+    },
+    {
+      "bytes": 3185,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/cake-six-2k-server1-20261011/preparation/configs/gptj-zsre.json",
+      "sha256": "1441317d8eb30a77a8fbdda9d27ea338dbf480bc5e39e5eec241c84089f98ced"
+    },
+    {
+      "bytes": 3212,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/cake-six-2k-server1-20261011/preparation/configs/qwen25-cf.json",
+      "sha256": "e506e1870d6540b1aa25c891af89f1320657372cfe407286f41ef7b8a117f4f5"
+    },
+    {
+      "bytes": 3208,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/cake-six-2k-server1-20261011/preparation/configs/qwen25-zsre.json",
+      "sha256": "4739bd38c919357b64ba05cafa807e5fa4e3d70abdb7b579709e89a83c28a3d5"
+    }
+  ],
+  "instruction": "USER-CAKE-THREE-MODELS-TWO-DATASETS-TWO-LANES-500-CHECKPOINT-20261011",
+  "source_numeric": "official CAKE native",
+  "storage": {
+    "all_24_milestones_bytes": 175791669248,
+    "available_bytes": 467313819648,
+    "checkpoint_bytes_by_model": {
+      "gptj": 8086618112,
+      "llama3": 5318377472,
+      "qwen25": 8568963072
+    },
+    "free_inodes": 334065090,
+    "free_space_reserve_bytes": 68719476736,
+    "old_jobs_growth_reserve_bytes": 68719476736,
+    "raw_bytes": 8589934592,
+    "required_bytes": 347527446528,
+    "rolling_and_temporary_bytes": 25706889216
+  }
+}

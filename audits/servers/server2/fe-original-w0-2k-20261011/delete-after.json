@@ -1,0 +1,18 @@
+{
+  "all_absent": true,
+  "backup_created": false,
+  "count": 6,
+  "deleted_bytes": 23008049946,
+  "filesystem_available_delta": 23007342592,
+  "filesystem_delta_not_exclusive_to_this_task": true,
+  "paths": [
+    "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/ZSRE_MEMIT_FE/checkpoints/batch-20-199a4175bd7bb425.pt",
+    "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/CF_MEMIT_FE/checkpoints/batch-20-464ce442369c35d5.pt",
+    "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-cf-memit_fe/checkpoint/batch-20-9826e9cee2c90df5.pt",
+    "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-zsre-memit_fe/checkpoint/batch-20-c188d3aac8211919.pt",
+    "/mnt/raid5/janghj/ODE-edit/local/fe-author-hparams-2k-20261010/configs-r1/runs/cf/checkpoint/batch-20-b3b66bbd2f9756f6.pt",
+    "/mnt/raid5/janghj/ODE-edit/local/fe-author-hparams-2k-20261010/configs-r1/runs/zsre/checkpoint/batch-18-a3ed51d764488f42.pt"
+  ],
+  "raw_source_metadata_KEEP": true,
+  "recovery": "NOT_AVAILABLE_FROM_THESE_DELETED_PAYLOADS"
+}

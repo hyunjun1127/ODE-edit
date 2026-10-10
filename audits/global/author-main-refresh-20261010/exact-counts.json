@@ -1,0 +1,6 @@
+{
+  "scope": "GH가각서버의저장CFraw를SHA검산후CPU직접읽음. 생성/모델forward/CPload/파일변경없음",
+  "62529": {"raw_sha256":"d6ab2a106c3f23d5dfbcfcfa8d8f4605a6ba7e0d36917f2b5c37851d4a9f3e6e","requests":2000,"success_counts":[1994,3822,15843],"prompt_counts":[2000,4000,20000],"uniform_prompts_per_request":[1,2,10],"exact_pct":["997/10","1911/20","15843/200"],"score_exact":"30185145081/333240850"},
+  "62531": {"raw_sha256":"fc21091bb2583452ecb879e03187b32d4fdd261b7086ef3e305ffeb65281a78c","requests":2000,"success_counts":[968,1928,10065],"prompt_counts":[2000,4000,20000],"uniform_prompts_per_request":[1,2,10],"exact_pct":["242/5","241/5","2013/40"],"score_exact":"32018778/654025"},
+  "rounding": "정확requestmacro 유리수→Decimal half-up2. Qwen Loc=10065/20000*100=50.325→50.33. NumPy50.324999999999996 부동소수 표현오차로50.32를 만들지 않음. raw/summary수정없음"
+}

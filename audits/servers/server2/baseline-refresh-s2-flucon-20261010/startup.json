@@ -1,0 +1,49 @@
+{
+  "at": "2026-10-10T08:28:13.465984+00:00",
+  "postrelease_bounded_snapshot": "62877|s2-flucon-collector|PENDING|(Dependency)\n62876|s2-flucon-llama3-alphaedit_blue-39283_1|PENDING|(Dependency)\n62875|s2-flucon-llama3-alphaedit-42657|PENDING|(Dependency)\n62874|s2-flucon-llama3-memit-42658|PENDING|(Dependency)\n62873|s2-flucon-qwen25-sphere-62079|PENDING|(Dependency)\n62872|s2-flucon-qwen25-memit_fe-62077|PENDING|(Dependency)\n62871|s2-flucon-qwen25-alphaedit-62075|PENDING|(Dependency)\n62870|s2-flucon-qwen25-memit-62073|PENDING|(Dependency)\n62869|s2-flucon-gptj-sphere-61781|PENDING|(Dependency)\n62868|s2-flucon-gptj-memit_fe-61780|PENDING|(Dependency)\n62867|s2-flucon-gptj-alphaedit_blue-61779|PENDING|(Dependency)\n62866|s2-flucon-gptj-alphaedit-61778|PENDING|(Dependency)\n62864|s2-flucon-gptj-ft-61650|RUNNING|server2\n62865|s2-flucon-gptj-memit-61725|RUNNING|server2",
+  "recurring_monitor": false,
+  "rows": [
+    {
+      "SDK_status": "LOGGING_ACCEPTED",
+      "dropped_points": 0,
+      "history_remote_readback": "NOT_CHECKED_NOT_COMPLETE",
+      "identity_member": {
+        "bytes": 1970,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/runs/gptj-ft-61650/tracking/identity.json",
+        "sha256": "bbf4843bab648e04f389c29676c2c35d8827236a995c2049ec84491d8d7896f6"
+      },
+      "job_id": "62864",
+      "point_delivery": "SDK_ASYNC_NOT_REMOTE_ACK",
+      "receipt_member": {
+        "bytes": 2309,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/runs/gptj-ft-61650/tracking/receipt.json",
+        "sha256": "7d29fdd8ffe099658c7509948283f835b7d89c5decb5627dcecba00a1f47fe25"
+      },
+      "run_id": "72127c318ef04cab",
+      "run_name": "server2-gptj-ft-61650-r1-61650-job62864",
+      "startup_remote_identity_verified": true,
+      "url": "https://wandb.ai/wkdguswns2256/layer%20allocation/runs/72127c318ef04cab"
+    },
+    {
+      "SDK_status": "LOGGING_ACCEPTED",
+      "dropped_points": 0,
+      "history_remote_readback": "NOT_CHECKED_NOT_COMPLETE",
+      "identity_member": {
+        "bytes": 1982,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/runs/gptj-memit-61725/tracking/identity.json",
+        "sha256": "75043ffc6a346fe8b1cd9d1a9be4dd65a422c44398686db881bdfbf037d7155f"
+      },
+      "job_id": "62865",
+      "point_delivery": "SDK_ASYNC_NOT_REMOTE_ACK",
+      "receipt_member": {
+        "bytes": 2321,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/runs/gptj-memit-61725/tracking/receipt.json",
+        "sha256": "0d29a16f61faeff975dd6adbedd95e77a9ddc8d7a4d3369d54f2ad4b06073b33"
+      },
+      "run_id": "ca687780380b4cfb",
+      "run_name": "server2-gptj-memit-61725-r1-61725-job62865",
+      "startup_remote_identity_verified": true,
+      "url": "https://wandb.ai/wkdguswns2256/layer%20allocation/runs/ca687780380b4cfb"
+    }
+  ]
+}

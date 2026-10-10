@@ -1,0 +1,68 @@
+{
+  "GPU": 0,
+  "SH2_generation_conditions": {
+    "EOS_stop": false,
+    "case_batching": "ALL_GENERATION_PROMPTS",
+    "eval_seed": 20261007,
+    "generation_source_sha": "601bfb8b3d5514d0d2b13a11d025b02fd53f0f1fe39325daa94ed7307c3ec520",
+    "max_total_tokens": 100,
+    "model_identity": "qwen25@a09a35458c702b33eeacc393d103063234e8bc28",
+    "n_gen_per_prompt": 1,
+    "original_generator": {
+      "attention_mask": "CAKE_CUMULATIVE_PREFIX",
+      "bitwise_BLUE_equivalence_claim": false,
+      "comparison_commit": "311b076a92e4ed0f14f5c8b4909732da781bc5f7",
+      "comparison_file": "util/generate.py",
+      "comparison_file_sha256": "51f41871d750a1fe86f39d4142fe8a5c12a41086c6d4a2cee98b72f809ff0366",
+      "comparison_repository": "BLUE",
+      "compatibility_changes": [
+        "typed_input_cache_logit_finite_checks",
+        "FP32_eval_no_autocast_TF32_guard",
+        "local_token_work_and_observation_metadata",
+        "endpoint_RNG_and_model_native_state_restoration_guards"
+      ],
+      "decode": "CAKE_NO_SKIP_SPECIAL_TOKENS_NFKD_DOUBLE_NEWLINE_REMOVE_ENDOFTEXT",
+      "native_source_modified": false,
+      "primary_commit": "0b378234862bd76c69f58404ef84c27d5f4bf9ef",
+      "primary_file": "util/generate.py",
+      "primary_file_sha256": "43d219ecc1955a4e4f82ea22edc286b4774e52e917d4b375021b8d7329b0adf3",
+      "primary_function": "generate_fast",
+      "primary_repository": "CAKE"
+    },
+    "profile": "cf-cake-native-casebatch-kv-total100-globalrng-v1",
+    "reference_assets_sha256": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+    "route": "NATIVE_CASE_PADDED_KV_GLOBAL_RNG",
+    "sampling_scope": "ENDPOINT_GLOBAL_BATCH_STREAM",
+    "schema": "counterfact-cake-generation-metrics-v1",
+    "top_k": 5
+  },
+  "SH2_receipt": {
+    "bytes": 2391,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-r1/shared-w0/qwen25-cf/w0-receipt.json",
+    "sha256": "638de7feaef47169a15a3466d0f1f77870044e05f8d6f58b4a4c545c85a75b4c"
+  },
+  "SH3_cold_verified": true,
+  "SH3_generation": {
+    "compatibility_with_SH2": "SH2_MUST_BIND_ITS_GENERATION_SOURCE_PROTOCOL_REFERENCE_TOKENIZER_AND_COHORT; no SH3 generation parity claim",
+    "generation_protocol": null,
+    "generation_seed": null,
+    "reference_assets_sha256": null,
+    "status": "NOT_MEASURED_ON_SH3"
+  },
+  "SH3_provenance": {
+    "bytes": 14069,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-flucon-paper-scale-20261010/audits/servers/server3/flucon-paper-scale-20261010/qwen-w0-provenance.json",
+    "sha256": "ff70e6581cc2e94293b6ba5ce265ab89da8ec08e0e2e148189a82205d6036434"
+  },
+  "blockers": [
+    "SH3 tokenizer/model payload historical SHA lists are empty; same revision/path alone is not complete payload identity proof",
+    "SH3 has no generation observation/seed/protocol/reference; no cross-server generation equivalence claim"
+  ],
+  "decision": "KEEP_SELECTED_W0_GENERATION_DEFERRED; SH2 independently verified values retained with separate provenance",
+  "factual_cells": "KEEP_SH3_61813",
+  "ordered_cases_match": true,
+  "requests_match": true,
+  "revision_match": true,
+  "status": "PARTIAL_IDENTITY_MATCH_NOT_FULL_COMPATIBILITY",
+  "stream_match": true
+}

@@ -1,0 +1,26 @@
+{
+  "CPU_tests": 15,
+  "actual_GPU": false,
+  "checks": [
+    "BF16 raw bytes",
+    "author default attention",
+    "author exact patch/YAML",
+    "W0 z single precompute",
+    "latest overwrite and restore",
+    "shared host lock and exception cleanup",
+    "stale/missing metadata recovery",
+    "corrupt payload rejection",
+    "resume raw preservation",
+    "two-lane DAG",
+    "CF R/P/N and official counts",
+    "tracking config"
+  ],
+  "command": "CUDA_VISIBLE_DEVICES='' python -m unittest official.runners.test_fe_original -q",
+  "extra_CPU_payloads": [
+    "current/post100",
+    "all_seen/post500",
+    "all_seen/post2000"
+  ],
+  "passed": true,
+  "source": "03b21d404d6275b5f212974fe130ca98819789de"
+}

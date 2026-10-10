@@ -1,0 +1,13 @@
+{
+  "nonce": "USER-GH-SH4-NATIVE-CONTEXT-ORDER-20261010-R1",
+  "user_instruction": "server4에게는 qwen-gpt-j-llama 순으로 context 만들라고 지시해.",
+  "owner": "SH4",
+  "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+  "cwd": "/data/janghj/ODE-edit",
+  "model_order": ["qwen25", "gptj", "llama3"],
+  "scope": "모델별 native 편집 context 생성 및 identity 봉인. Qwen부터 완료하고 GPT-J, Llama 순서로 진행.",
+  "binding": "각 모델의 기존 승인 revision/tokenizer/native generator/seed/hparams를 결속. Qwen은 full-prefix cache mask 수정 source를 사용. 모델 간 context와 token ID 재사용 금지.",
+  "preservation": "기존 frozen source/context/pack/lock 및 실행 job은 덮어쓰거나 취소하지 않음. 생성 산출물은 별도 경로와 source/model/context SHA로 보존.",
+  "resources": "server4 현행 승인 cap2와 더 엄격한 자원 정책 준수. 입력 생성에 필요한 실행만 등록; 추가 편집 arm/fit/sweep/GPU qualification을 만들지 않음.",
+  "delivery": "직접 owner 수락과 실제 생성/등록 단계 및 산출물 경로를 회신. 수신을 생성 완료로 표시하지 않음. 신규 recurring monitor 없음."
+}

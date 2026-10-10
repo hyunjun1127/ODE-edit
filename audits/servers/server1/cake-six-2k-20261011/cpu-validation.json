@@ -1,0 +1,18 @@
+{
+  "status": "PASS_CPU",
+  "unittest_count": 39,
+  "command": "python -B -m unittest official.tests.test_cake official.tests.test_runtime official.tests.test_context_cache_mask official.tests.test_zsre_paper official.tests.test_cf_native_reference",
+  "coverage": [
+    "native CAKE author function AST equality",
+    "two-batch rectangular Linear solve and native history oracle",
+    "W500/W1000/W1500/W2000 retention after latest rollover",
+    "exact synthetic resume weights/history/RNG",
+    "atomic-write failure preserves last committed checkpoint",
+    "two lanes after the complete legacy frontier",
+    "CF versus zsRE metric mapping and deferred generation",
+    "unchanged pre-existing registry/checkpoint behavior"
+  ],
+  "pretrained_GPU": "NOT_RUN_USER_DISABLED",
+  "online_WB": "NOT_OBSERVED_BEFORE_STARTUP",
+  "source_verification": "PASS_171_PINNED_FILES"
+}

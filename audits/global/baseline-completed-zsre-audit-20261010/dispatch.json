@@ -1,0 +1,51 @@
+{
+  "nonce": "USER-GH-ALL-SH-BASELINE-COMPLETED-ZSRE-AUDIT-20261010-R1",
+  "instruction_commit": "7dacd3fb7a40847da0f136de88a307ff18c2616f",
+  "transport": "공식 app-server direct; exact session/CWD 확인; model/effort override 없음",
+  "owners": [
+    {
+      "server": "server1",
+      "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+      "accepted_turn": "01a122d0-9fb9-7161-a733-50edd65c29da",
+      "owner_ack": true,
+      "state": "OWNER_RESULT_RECEIVED_CPU_REVIEW_COMPLETE",
+      "report": "experiment-reports/servers/server1/baseline-completed-zsre-audit-20261010/report-ko.md",
+      "eligible_completed_observations": 12
+    },
+    {
+      "server": "server2",
+      "session": "01a0493a-074c-7f91-9a13-769116326fef",
+      "accepted_turn": "01a122d0-699d-77a2-9764-77789dcbfa24",
+      "owner_ack": true,
+      "state": "OWNER_RESULT_RECEIVED_CPU_REVIEW_COMPLETE",
+      "report": "experiment-reports/servers/server2/baseline-completed-zsre-audit-20261010/report-ko.md",
+      "eligible_completed_observations": 18
+    },
+    {
+      "server": "server3",
+      "session": "01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3",
+      "accepted_turn": "01a122d0-2dca-7152-b5ba-b513af14972d",
+      "owner_ack": true,
+      "state": "OWNER_RESULT_RECEIVED_CPU_REVIEW_COMPLETE",
+      "report": "experiment-reports/servers/server3/baseline-completed-zsre-audit-20261010/report-ko.md",
+      "eligible_completed_observations": 0
+    },
+    {
+      "server": "server4",
+      "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd",
+      "accepted_turn": "01a122d0-e21c-74f2-8c25-5ee01998b4de",
+      "owner_ack": true,
+      "state": "OWNER_RESULT_RECEIVED_CPU_REVIEW_COMPLETE",
+      "report": "experiment-reports/servers/server4/baseline-completed-zsre-audit-20261010/report-ko.md",
+      "eligible_completed_observations": 0
+    }
+  ],
+  "transport_note": "SH4 첫 resume 연결 timeout 후 read_thread로 idle 및 신규 nonce turn 부재를 확인한 뒤 한 번 turn/start. 위 단일 accepted turn과 명시 ACK를 재확인함. SH1 ACK도 수신 메시지 read로 확인.",
+  "result_status": "전 서버 bounded 결과 회수 완료. GH compact-to-table 검산 후 README 통합. GPU/online parity 주장은 없음.",
+  "README_owner": "GH. SH별 source/query/raw/cohort/분모 검산 결과를 회수하여 검증된 CF/zsRE 셀만 통합.",
+  "zsre_checks": "공개 query/tokenizer/prefix CPU parity 근거; Eff/Gen teacher-forced request macro; Loc loc_ans request macro; W0agreement 별도. 저장 token raw 독립 재집계; 부족 시 UNVERIFIED.",
+  "new_GPU_or_scheduler_mutations": 0,
+  "raw_checkpoint_or_WB_mutations": 0,
+  "recurring_monitor": false,
+  "integration_report": "experiment-reports/global/baseline-completed-zsre-audit-20261010/report-ko.md"
+}

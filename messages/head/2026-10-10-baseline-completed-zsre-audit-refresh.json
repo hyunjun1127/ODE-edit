@@ -1,0 +1,26 @@
+{
+  "nonce": "USER-GH-ALL-SH-BASELINE-COMPLETED-ZSRE-AUDIT-20261010-R1",
+  "user_instruction": "각 서버들에게 baseline들 실험 끝난거 최신화 하라고 전해(main table 갱신, zsre는 지표부분 제대로 산출한거 맞는지 점검)",
+  "repository": "hyunjun1127/ODE-edit",
+  "owners": {
+    "server1": {"session":"01a04939-f93a-7b50-bca0-65438eab2062","cwd":"/mnt/raid5/janghj/ODE-edit"},
+    "server2": {"session":"01a0493a-074c-7f91-9a13-769116326fef","cwd":"/mnt/raid5/janghj/ODE-edit"},
+    "server3": {"session":"01a0b9c8-d12c-7133-b336-cc1b5fc2a6b3","cwd":"/data/janghj/ODE-edit"},
+    "server4": {"session":"01a04939-b5c7-7a03-ba2d-ef3343d62cfd","cwd":"/data/janghj/ODE-edit"}
+  },
+  "work": "한 차례 own baseline 완료 inventory 및 현재 상태 확인. 최근 동일 raw 검산은 SHA/terminal 불변 확인 후 재사용. 새 완료 W20/2000은 실제 raw·20commit·ordered cohort·source/config·checkpoint receipt·job name/ID·관측시각으로 입증하고 compact rows 반환. GH가 README 단독 통합한다.",
+  "zsre_required": [
+    "실제 frozen evaluator/query/profile SHA 확인. 공개-query 경로와 원본 tokenizer/prefix/공백/BOS/decode-retokenize CPU parity evidence가 해당 모델/전체 stream에 결속되어 있는지 확인.",
+    "Eff/Gen은 teacher-forced target token correctness를 요청별 평균한 뒤 요청 간 평균 ×100. Loc은 loc_ans target token correctness의 동일 request-macro. token micro/strict prompt ACC/W0 prediction agreement로 대체 금지.",
+    "저장 predicted/target token IDs 또는 correctness bits에서 CPU 독립 재집계, 실제2000 요청/각 token분모/결측/finite 및 표 수치 대조. 이전 token-ID 직접연결 source 결과는 PUBLIC_QUERY_REEVALUATION_REQUIRED로 분리. CPU query 일치는 pretrained forward parity PASS가 아님.",
+    "완료된 기존 eval-only는 원편집 run과 연결하고 중복 실험으로 세지 않는다. 불충분/불일치는 UNVERIFIED/MISSING을 보고하며 조용히 재명명/0대입 금지."
+  ],
+  "CF": "기존 strict NLL preference/Score 정의 유지. 철회한 Qwen context run은 복구하지 말고 corrected cold run만 적격. 미측정 Flu/Con은 DEFERRED, 완료시 unrounded bits/cosine raw ×100 후 최종half-up2자리; raw/WB 불변.",
+  "scope_exclusions": "OURS/PRICE/tuning/sweep/held-out500/역사 잘못된 context 결과 본표 승격0. 기존 명시 historical 예외는 보존. 이관 복제본 중복보고0. 해당 baseline 완료가 없으면 그 사실만 보고.",
+  "write_paths": ["audits/servers/serverN/baseline-completed-zsre-audit-20261010/**","experiment-reports/servers/serverN/baseline-completed-zsre-audit-20261010/**","local/baseline-completed-zsre-audit-20261010/**"],
+  "git": "전용 non-main WT, compact audit/report/reducer만 ownbranch와main 비강제 게시 허용. SH README 직접수정0; GH 통합. dirty root/frozen source/raw 보존.",
+  "Slurm": "단발 own scheduler 읽기만 허용. 신규 제출/취소/hold/dependency 변경/GPU forward/CP load/재편집/재평가0. 현재 cap 변경0, 기존 별도 승인 작업은 그대로.",
+  "gate": "owner CPU source/query/raw/분모/rounding/diff 검산. 불일치 항목만 numeric 반영 보류. 새 GPU qualification/성능 gate 없음.",
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED: raw/CP 기존 local KEEP, small reports만 Git. 삭제/대형전송/온라인history수정0.",
+  "reply": "먼저 nonce+server+accepted turn OWNER_ACK, 이후 실제 완료/미완료 rows와 zsRE 검사 결과/구체제한/게시 SHA를 direct 회신. GPU완료 대기/recurringmonitor/autoretry0."
+}

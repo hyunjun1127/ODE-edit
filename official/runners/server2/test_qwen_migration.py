@@ -36,6 +36,16 @@ class MigrationTests(unittest.TestCase):
         self.assertIsInstance(guard.body[0],ast.Raise)
         original_body=guard.body[1:]
         self.assertGreater(len(original_body),10)
+        # The 2026-10-10 USER overlay adds one metadata-only context receipt
+        # and skips generation for DEFERRED. Normalize precisely these two
+        # approved AST differences; all native scientific statements stay exact.
+        new.body=[n for n in new.body if not (isinstance(n,ast.If) and
+            ast.unparse(n.test)=="'mask_repair_instruction' in config" and
+            'context_receipt(out, config, native, source, batch)' in ast.unparse(n))]
+        for n in ast.walk(new):
+            if isinstance(n,ast.If) and 'DEFERRED_CHECKPOINT_EVALUATION' in ast.unparse(n.test):
+                self.assertEqual(ast.unparse(n.test),"batch == 20 and config['dataset'] == 'cf' and (config.get('generation_schedule') != 'DEFERRED_CHECKPOINT_EVALUATION')")
+                n.test=ast.parse("batch == 20 and config['dataset'] == 'cf'",mode='eval').body
         self.assertEqual([ast.dump(x) for x in new.body[2:]],[ast.dump(x) for x in original_body])
         self.assertEqual(len(new.body[1].body),1)
         self.assertIsInstance(new.body[1].body[0],ast.Raise)

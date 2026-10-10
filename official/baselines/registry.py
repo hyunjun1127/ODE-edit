@@ -7,6 +7,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SPECS = {
+    "CAKE": ("cake.Cake_main", "CakeHyperParams", "apply_Cake_to_model"),
     "MEMIT_FE_HISTORY": ("memit_fe_history", "MEMITFEHyperParams", "apply_memit_fe_history_to_model"),
     "FT": ("easyedit.models.ft.ft_main", "FTHyperParams", "apply_ft_to_model"),
     "MEMIT": ("easyedit.models.memit.memit_main", "MEMITHyperParams", "apply_memit_to_model"),
@@ -43,7 +44,7 @@ def hparams(method, model, *, overrides=None):
 def requests(records, method, model):
     """Preserve the native input schema for each pinned implementation."""
     import copy
-    easyedit = method != "ALPHAEDIT_BLUE" and (method, model) != ("MEMIT", "llama3")
+    easyedit = method not in ("ALPHAEDIT_BLUE", "CAKE") and (method, model) != ("MEMIT", "llama3")
     result = []
     for record in records:
         row = copy.deepcopy(record["requested_rewrite"])
@@ -62,6 +63,6 @@ def call_options(method, model):
     if (method, model) == ("MEMIT", "llama3"):
         return dict(copy=False, return_orig_weights=False, cache_template=None,
                     beta_hse=0, alpha=0, save_weights=False)
-    if method == "ALPHAEDIT_BLUE":
+    if method in ("ALPHAEDIT_BLUE", "CAKE"):
         return dict(cache_template=None)  # caller supplies native cache_c and P
     return dict(copy=False, return_orig_weights=False)

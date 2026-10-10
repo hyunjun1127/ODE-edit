@@ -1,0 +1,269 @@
+{
+  "nonce": "USER-GH-ALL-SH-COMPLETED-MAIN-TABLE-REFRESH-20261009-R1-SERVER3",
+  "server": "server3",
+  "observed_at": "2026-10-09T14:05:57.047896+00:00",
+  "policy_source": "99ecdba4",
+  "eligible_new_complete_main_rows": 0,
+  "completed_separate_rows": 1,
+  "rows": [
+    {
+      "rerun_attempt": "execution-r1",
+      "model": "Qwen2.5-7B-Instruct",
+      "method": "PRICE Q3-beta250 (selected settings, final eval2k)",
+      "dataset": "CF",
+      "ordered_stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+      "cold_state_identity": {
+        "H": {
+          "4": "c81b58d1c1e79864bc5608c481d50f87547607108aa42e2993be519d184c45f4",
+          "5": "c81b58d1c1e79864bc5608c481d50f87547607108aa42e2993be519d184c45f4",
+          "6": "c81b58d1c1e79864bc5608c481d50f87547607108aa42e2993be519d184c45f4",
+          "7": "c81b58d1c1e79864bc5608c481d50f87547607108aa42e2993be519d184c45f4",
+          "8": "c81b58d1c1e79864bc5608c481d50f87547607108aa42e2993be519d184c45f4"
+        },
+        "W": {
+          "4": "02840e29ec550994801da6ba615897263c3d9277cc18607a61e0d8006d6ecdac",
+          "5": "6653bcfe27ce3b1cd9909facc513607d8e5e22f8fd9adfc39a47984f15e4d03c",
+          "6": "63692e2f4d40f25d13785908af8cb35c294b2a731aa22ab345ba8cea2792fbb1",
+          "7": "2dced8459e4fc6e5ee93f32df07259af0d0e107f6aff70e516f176c8b9010351",
+          "8": "5627dbf35411b2f47a474fc307eba12226823fe252d6a3fb34e37e41f88be813"
+        }
+      },
+      "source_commit": "93341767ccb41a4237e8a762421340622d3580f1",
+      "config_sha256": "a14e7acf1b208984a7c143f1b6d07af3aafa14b187fc098a27cf68e95b96178f",
+      "server": "server3",
+      "job_id": "61813",
+      "job_name": "qwen-price-q3-eot-2k",
+      "observed_state": "W20_FACTUAL_COMPLETE",
+      "observed_at": "2026-10-09T14:05:57.007396+00:00",
+      "main_table_eligible": false,
+      "eligibility_reason": "Q3-selected configuration; no explicit README main promotion/exception found. final scientific eval2k is not the tier tuning run itself.",
+      "Score": 83.77063837622372,
+      "Eff": 98.05,
+      "Gen": 89.95,
+      "Loc": 68.985,
+      "Flu_status": "DEFERRED",
+      "Con_status": "DEFERRED",
+      "metrics": {
+        "R": {
+          "denominator": 2000,
+          "numerator": 1961,
+          "rate": 0.9805,
+          "true_nll_mean": 15.371088093228638,
+          "new_nll_mean": 0.5016024847412973,
+          "desired_token_count": 2024,
+          "desired_token_correct": 1873,
+          "token_micro": 0.9253952569169961,
+          "prompt_macro": 0.9255,
+          "strict_numerator": 1850,
+          "strict_denominator": 2000,
+          "new_strict_numerator": 1850,
+          "success_pct": 98.05,
+          "request_macro_pct": 98.05,
+          "ties": 0
+        },
+        "P": {
+          "denominator": 4000,
+          "numerator": 3598,
+          "rate": 0.8995,
+          "true_nll_mean": 11.918934221848613,
+          "new_nll_mean": 2.7859126142182706,
+          "desired_token_count": 4048,
+          "desired_token_correct": 2400,
+          "token_micro": 0.5928853754940712,
+          "prompt_macro": 0.59225,
+          "strict_numerator": 2354,
+          "strict_denominator": 4000,
+          "new_strict_numerator": 2354,
+          "success_pct": 89.95,
+          "request_macro_pct": 89.95,
+          "ties": 0
+        },
+        "N": {
+          "denominator": 20000,
+          "numerator": 13797,
+          "rate": 0.68985,
+          "true_nll_mean": 6.9902520688280525,
+          "new_nll_mean": 9.312263006651037,
+          "desired_token_count": 20270,
+          "desired_token_correct": 2220,
+          "token_micro": 0.10952146028613714,
+          "prompt_macro": 0.10415,
+          "strict_numerator": 1951,
+          "strict_denominator": 20000,
+          "new_strict_numerator": 765,
+          "success_pct": 68.985,
+          "request_macro_pct": 68.98499999999999,
+          "ties": 0
+        }
+      },
+      "checks": {
+        "raw_rows": 26000,
+        "requests": 2000,
+        "commits": 20,
+        "history_appends": 100,
+        "state_joins": 19,
+        "raw_identity": true,
+        "stored_aggregate_match": true
+      },
+      "program_seconds": 23255.990021480247,
+      "scheduler_elapsed_seconds": 23281,
+      "report_path": "experiment-reports/servers/server3/main-table-refresh-20261009/qwen/report-ko.md",
+      "limitations": [
+        "CPU owner audit; no independent reviewer",
+        "Historical jlz observer; arithmetic validated, no new official evaluator forward or tokenizer parity certification",
+        "W20 editable weights only; exact_resume NOT_AVAILABLE",
+        "No CP load/rehash/transfer/delete; no new GPU/evaluation"
+      ],
+      "main_table_action": "KEEP_Q3_SEPARATE_REPORT_NO_PROMOTION",
+      "old_to_new": {
+        "old": {
+          "Score": 83.77063837622372,
+          "Eff": 98.05,
+          "Gen": 89.95,
+          "Loc": 68.985
+        },
+        "new": {
+          "Score": 83.77063837622372,
+          "Eff": 98.05,
+          "Gen": 89.95,
+          "Loc": 68.985
+        },
+        "delta": {
+          "Score": 0.0,
+          "Eff": 0.0,
+          "Gen": 0.0,
+          "Loc": 0.0
+        }
+      },
+      "raw_inventory": "/data/janghj/ODE-edit/local/official-baselines-20261008/worktree/audits/servers/server3/main-table-refresh-20261009/qwen/inventory.json"
+    },
+    {
+      "model": "Llama3-8B-Instruct",
+      "method": "PRICE L1 selected settings",
+      "dataset": "CF",
+      "job_id": "61821",
+      "job_name": "llama-price-L1-2k",
+      "observed_state": "RUNNING",
+      "observed_at": "2026-10-09T14:05:57.047896+00:00",
+      "source_commit": "50a9110b86a0846710804d58bf3ea783762ff25f",
+      "config_sha256": "f38a21d6682d22a6a22c6d73a0ec605a1f0ef9f6ce6a88b0c11225730861eb83",
+      "slice_identity": "17358c33c747cf1fadf7b3c0460aac0032ead1677c5fddff98e724402a3a75e7",
+      "cold_state_identity": {
+        "H": {
+          "4": "247b7ceac91ef94ef73324eb9f1bcd01c0cdc2edaca228d297b1fa9617d02b09",
+          "5": "247b7ceac91ef94ef73324eb9f1bcd01c0cdc2edaca228d297b1fa9617d02b09",
+          "6": "247b7ceac91ef94ef73324eb9f1bcd01c0cdc2edaca228d297b1fa9617d02b09",
+          "7": "247b7ceac91ef94ef73324eb9f1bcd01c0cdc2edaca228d297b1fa9617d02b09",
+          "8": "247b7ceac91ef94ef73324eb9f1bcd01c0cdc2edaca228d297b1fa9617d02b09"
+        },
+        "W": {
+          "4": "cb0f6b8eabe44e80e892fa707308204022c5c65b03050b806acaf44cb6f6a4bc",
+          "5": "2f849f849721d779f19f4529e825bffe73f56428b82586e30c5c3973507b3460",
+          "6": "0bcffdc51492eaa44ddb35ae913cae6a5bdeb9d07413428dd9b7f00f1d6d5140",
+          "7": "52a2f7b3f8d9ba90212e291227530e5f7e2f74785c60488c0121b6c339782d15",
+          "8": "e849f2ef22f678ecebc1a17315238b66eddd6177c8f8595e48d66a667825c020"
+        }
+      },
+      "rerun_attempt": "execution-r1",
+      "server": "server3",
+      "main_table_eligible": false,
+      "main_table_action": "STATUS_ONLY_PENDING_EXACT_MAIN_ELIGIBILITY; preserve existing 60103 exception",
+      "reason": "Selected L1 final run; W20 result/terminal absent in bounded snapshot, 0 commits then. No completed metric.",
+      "metrics": null,
+      "report_path": "experiment-reports/servers/server3/main-table-refresh-20261009/report-ko.md"
+    }
+  ],
+  "inventory": [
+    {
+      "task": "Qwen Q3 final",
+      "job": "61813",
+      "classification": "COMPLETE_CF_Q3_SEPARATE",
+      "evidence": "/data/janghj/ODE-edit/local/official-baselines-20261008/worktree/audits/servers/server3/main-table-refresh-20261009/qwen/summary.json"
+    },
+    {
+      "task": "Llama L1 final",
+      "job": "61821",
+      "classification": "RUNNING_NO_W20",
+      "evidence": {
+        "path": "/data/janghj/ODE-edit/local/llama-price-final-2k-20261009/execution-r1/final/initial.json",
+        "bytes": 1079,
+        "sha256": "c03479c7d02d18bdee12f0900cd5fe7f60ac656724117d08d83abb6e3ed80a8c"
+      }
+    },
+    {
+      "task": "official baseline server3",
+      "job": null,
+      "classification": "NOT_SUBMITTED_ON_SERVER3",
+      "evidence": {
+        "path": "/data/janghj/ODE-edit/local/official-baselines-20261008/submission-request-preflight-20261009.json",
+        "bytes": 550,
+        "sha256": "5e7c93f004141dbe57041e125978cd491d47e0ec034604fc7dbe7d0bdc83f35e"
+      }
+    },
+    {
+      "task": "zsRE reeval server3",
+      "job": null,
+      "classification": "NOT_APPLICABLE_NO_CP",
+      "evidence": {
+        "path": "audits/servers/server3/zsre-2k-reeval-20261009/inventory.json",
+        "bytes": 18464,
+        "sha256": "e3cf8051f3a608123c768108ca1eb2b849f13db3e727234f47ff1a25512dd8da"
+      }
+    },
+    {
+      "task": "MEMIT-H54007",
+      "classification": "EXCLUDED_NOT_CURRENT_MAIN",
+      "reason": "historical MEMIT-H variant; not stock MEMIT/main exception",
+      "evidence": {
+        "path": "/data/janghj/ODE-edit/local/memit-history-fixed10k/20260928-v1/attempt-repair-r1/output/terminal.json",
+        "bytes": 61674,
+        "sha256": "bfea49152e35f0cf3bb14e298220925e07c2b55849e5848a2f6b27b4b1dc483f"
+      }
+    },
+    {
+      "task": "MEMIT-HJ",
+      "classification": "EXCLUDED_NOT_CURRENT_MAIN",
+      "reason": "historical experimental variants/technical incomplete",
+      "evidence": {
+        "path": "/data/janghj/ODE-edit/local/memit-hj/20260930-v2/attempt-v1/output/terminal.json",
+        "bytes": 882,
+        "sha256": "a91123443f6b82f91e2380fe78afe63f88abdc1f42eed4d52c35c7f01d7c1d03"
+      }
+    },
+    {
+      "task": "JLZ-v10A57699",
+      "classification": "EXCLUDED_NOT_CURRENT_MAIN",
+      "reason": "historical 500 horizon, not W20/2k",
+      "evidence": {
+        "path": "/data/janghj/ODE-edit/local/jlz-realized-subject-v10/20261003-v1/attempt-v2/main-A/terminal.json",
+        "bytes": 474,
+        "sha256": "694cba7e64dc32be2ebded0b5962c9a97deaa87bbe62bfd989441204a586518f"
+      }
+    },
+    {
+      "task": "JLZ-v12",
+      "classification": "EXCLUDED_NOT_CURRENT_MAIN",
+      "reason": "historical JLZ-v12 variant, no main exception",
+      "evidence": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v12-shared-budget/20261004-v1/attempt-s3-r1/main-V12_MAIN/terminal.json",
+        "bytes": 278,
+        "sha256": "0a594fc4408c41944d3b5e359c301476ad695e606d3a1499fd7697f04d2818b9"
+      }
+    },
+    {
+      "task": "JLZ-v12Alpha pilot",
+      "classification": "EXCLUDED_NOT_CURRENT_MAIN",
+      "reason": "pilot excluded",
+      "evidence": {
+        "path": "/data/janghj/ODE-edit/local/jlz-v12-alphaedit-writer/20261004-v1/attempt-r1/pilot-V12_ALPHAEDIT/terminal.json",
+        "bytes": 281,
+        "sha256": "0baa74d4ba830729f957a5911b784e599bad999c5e0487efd25a1027e23bca12"
+      }
+    }
+  ],
+  "scope": "Known own local execution metadata bounded depth5; code/worktree/raw-chunk replicas excluded. Historical statuses not promoted. Exact accounting once for61813/61821; no repeated polling.",
+  "new_GPU_forward_jobs_mutations": 0,
+  "reviewer": "OWNER_CPU_AUDIT",
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "reducer_sha256": "abd022629cc5babc08cc050fc94908690332529db625a828f4845cdbf7afabca"
+}

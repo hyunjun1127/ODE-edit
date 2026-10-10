@@ -1,0 +1,43 @@
+{
+  "nonce": "USER-GH-S1-S2-BASELINE-REFRESH-S2-FLUCON-20261010-R1",
+  "authority": "92704580261c4f4b29d98d5a6870d2a967d0a34e",
+  "envelope": "messages/head/2026-10-10-baseline-refresh-s2-missing-flucon.json",
+  "envelope_sha256": "b060543a28f1a178c1c3862e4681fc2c33d2595657c6a7a7df03fcffae6fd884",
+  "transport": "공식 app-server direct; initialize/thread-read/resume/turn-start. exact registry session 및 live CWD=/mnt/raid5/janghj/ODE-edit 확인. model/effort override 없음.",
+  "server1": {
+    "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+    "accepted_turn": "01a124dc-4d21-70f0-9fa7-94452f671f11",
+    "owner_ACK": true,
+    "ACK_evidence": "같은 accepted turn의 실제 agentMessage를 read_thread로 확인: OWNER_ACK nonce=USER-GH-S1-S2-BASELINE-REFRESH-S2-FLUCON-20261010-R1 server=server1 accepted=true",
+    "transport_history": "첫 thread/resume timeout으로 turn/start 미발행. readback에서 idle/이전완료turn 확인 후 정상 turn/start. 이벤트연결ACK대기시간내미회수이나 exactturn readback에서명시ACK확인. 중복start/실험등록없음.",
+    "stage": "완료12행/미완료author2행 검산 및 SH2인계 완료. history62581/82 generation 수치4셀과62583 RUNNING 상태2셀 GH통합.",
+    "result_receipt": "audits/servers/server1/baseline-refresh-s2-flucon-20261010/table-rows.json",
+    "result_sha256": "aafa6d5e9d4cb85948a4d21c712bd0753635ec6adeedc44ad00123a620222024",
+    "publication": "d6733abb1afe9022584699b36410bd7e685b9d47",
+    "SH2_dedup_received": "SH2같은acceptedturn의agentMessage에서62581/82완료와62583기존등록 수신·dedup반영 명시확인. 재전달/중복instruction없음.",
+    "new_GPU_jobs": 0
+  },
+  "server2": {
+    "session": "01a0493a-074c-7f91-9a13-769116326fef",
+    "accepted_turn": "01a124db-95bd-7231-981d-429bbc98305c",
+    "owner_ACK": true,
+    "ACK_evidence": "direct event OWNER_ACK_RECEIVED 및 같은 turn readback accepted=true/정본SHA일치/SH1입력요청 진행 확인",
+    "stage": "완료23행 원자료CPU검산 및 FLUCON13GPU+1CPU held검사/release 완료. 실제완료생성점수는미관측.",
+    "result_receipt": "audits/servers/server2/baseline-refresh-s2-flucon-20261010/table-rows.json",
+    "result_sha256": "ea0b0c6df054428565e0a489d8df88fd04f118442235a992a9d6fdefcfeb5549",
+    "result_publication": "417a12e7 (owner e2537348)",
+    "actual_new_jobs": ["62864", "62865", "62866", "62867", "62868", "62869", "62870", "62871", "62872", "62873", "62874", "62875", "62876"],
+    "CPU_collector": "62877",
+    "submission_receipt": "audits/servers/server2/baseline-refresh-s2-flucon-20261010/submission.json",
+    "submission_sha256": "ae9da7a1b5d1bc283c090ef333b9077bbf036695128ff25bfd406ad5d7e3bfc5",
+    "publication": "0e30ad58",
+    "execution_source": "417a12e7db55af93346be60f79138a6923324de1",
+    "new_job_status": "2026-10-10 17:28:13 KST bounded snapshot:62864/62865 RUNNING, 나머지 및collector Dependency PENDING",
+    "online": "62864/62865 startup_remote_identity_verified=true; SDK접수/drop0, history전체/finalmetrics readback NOT_COMPLETE"
+  },
+  "caps": {"server1": 3, "server2": 3, "others": "UNCHANGED"},
+  "README": "GH sole통합. 앞선완료셀보존, 신규13평가의FluCon26셀에실제ID/name/RUNNING·PENDING반영. factual/zsRE불변",
+  "preservation": "기존raw/CP/frozen source/job KEEP, 불필요duplicate평가/재편집/새W0 없음",
+  "GH_scheduler_mutations": 0,
+  "new_monitor": false
+}

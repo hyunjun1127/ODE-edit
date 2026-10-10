@@ -1,0 +1,195 @@
+{
+  "at": "2026-10-09T15:34:58.364828+00:00",
+  "cancelled": [
+    {
+      "after": "CANCELLED",
+      "before": "PENDING",
+      "cell": "collector",
+      "job_id": "61974",
+      "kind": "collector",
+      "node": "server2",
+      "owner": "janghj",
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5"
+    },
+    {
+      "after": "CANCELLED",
+      "before": "PENDING",
+      "cell": "qwen25-zsre-sphere",
+      "job_id": "61973",
+      "kind": "archive",
+      "node": "server2",
+      "owner": "janghj",
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5"
+    },
+    {
+      "after": "CANCELLED",
+      "before": "PENDING",
+      "cell": "qwen25-zsre-sphere",
+      "job_id": "61972",
+      "kind": "gpu",
+      "node": "server2",
+      "owner": "janghj",
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5"
+    },
+    {
+      "after": "CANCELLED",
+      "before": "PENDING",
+      "cell": "qwen25-cf-sphere",
+      "job_id": "61971",
+      "kind": "archive",
+      "node": "server2",
+      "owner": "janghj",
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5"
+    },
+    {
+      "after": "CANCELLED",
+      "before": "PENDING",
+      "cell": "qwen25-cf-sphere",
+      "job_id": "61970",
+      "kind": "gpu",
+      "node": "server2",
+      "owner": "janghj",
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5"
+    },
+    {
+      "after": "CANCELLED",
+      "before": "PENDING",
+      "cell": "qwen25-zsre-memit_fe",
+      "job_id": "61969",
+      "kind": "archive",
+      "node": "server2",
+      "owner": "janghj",
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5"
+    },
+    {
+      "after": "COMPLETING",
+      "before": "RUNNING",
+      "cell": "qwen25-zsre-memit_fe",
+      "job_id": "61968",
+      "kind": "gpu",
+      "node": "server2",
+      "owner": "janghj",
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5"
+    },
+    {
+      "after": "CANCELLED",
+      "before": "PENDING",
+      "cell": "qwen25-cf-memit_fe",
+      "job_id": "61967",
+      "kind": "archive",
+      "node": "server2",
+      "owner": "janghj",
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5"
+    },
+    {
+      "after": "CANCELLED",
+      "before": "PENDING",
+      "cell": "qwen25-cf-memit_fe",
+      "job_id": "61966",
+      "kind": "gpu",
+      "node": "server2",
+      "owner": "janghj",
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5"
+    },
+    {
+      "after": "CANCELLED",
+      "before": "PENDING",
+      "cell": "qwen25-zsre-alphaedit",
+      "job_id": "61961",
+      "kind": "archive",
+      "node": "server2",
+      "owner": "janghj",
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5"
+    },
+    {
+      "after": "CANCELLED",
+      "before": "PENDING",
+      "cell": "qwen25-cf-alphaedit",
+      "job_id": "61959",
+      "kind": "archive",
+      "node": "server2",
+      "owner": "janghj",
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5"
+    },
+    {
+      "after": "CANCELLED",
+      "before": "PENDING",
+      "cell": "qwen25-cf-alphaedit",
+      "job_id": "61958",
+      "kind": "gpu",
+      "node": "server2",
+      "owner": "janghj",
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5"
+    },
+    {
+      "after": "CANCELLED",
+      "before": "PENDING",
+      "cell": "qwen25-zsre-memit",
+      "job_id": "61957",
+      "kind": "archive",
+      "node": "server2",
+      "owner": "janghj",
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5"
+    },
+    {
+      "after": "CANCELLED",
+      "before": "PENDING",
+      "cell": "qwen25-cf-memit",
+      "job_id": "61955",
+      "kind": "archive",
+      "node": "server2",
+      "owner": "janghj",
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5"
+    },
+    {
+      "after": "CANCELLED",
+      "before": "PENDING",
+      "cell": "qwen25-cf-memit",
+      "job_id": "61954",
+      "kind": "gpu",
+      "node": "server2",
+      "owner": "janghj",
+      "source": "5503935821b0ececb4aef09a5bccb5308879a6b5"
+    }
+  ],
+  "kept_terminal": [
+    {
+      "job_id": "61960",
+      "state": "COMPLETED"
+    },
+    {
+      "job_id": "61956",
+      "state": "COMPLETED"
+    }
+  ],
+  "original_receipt_sha256": "636f8d68feca16e293f5c5d865bff14a04bc51a578acb54808777fa66bf534bb",
+  "postqueue_cancelled_targets_active": 0,
+  "postqueue_check": "single exact-ID squeue after release returned no rows; timestamp not separately recorded",
+  "protected_GPU": [
+    "61898",
+    "61900",
+    "61962",
+    "61964"
+  ],
+  "protected_eval_resource_lanes": [
+    [
+      "61898",
+      "61942",
+      "61946"
+    ],
+    [
+      "61962",
+      "61943",
+      "61947"
+    ],
+    [
+      "61964",
+      "61944"
+    ],
+    [
+      "61945"
+    ]
+  ],
+  "protected_eval_source_unchanged": true,
+  "raw_CP_log_history_KEEP": true
+}

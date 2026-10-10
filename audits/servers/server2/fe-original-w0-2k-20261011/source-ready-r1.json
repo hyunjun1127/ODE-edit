@@ -1,0 +1,76 @@
+{
+  "GPU_tests": 0,
+  "actual_Qwen_config_schema_checks": 2,
+  "author_lock": {
+    "bytes": 41885,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/source-ready-r1/author-lock.json",
+    "sha256": "82100812e199ccbb447114c5189c596f5dc653c846044504a9d1d2f406be3cc7"
+  },
+  "job_ids": [],
+  "note": "Common test_actual_configs_tracking has no SH2 configs; two explicit Qwen caller/schema checks separately executed. No held registration or release.",
+  "parent": "USER-FE-ORIGINAL-W0-RESET-20261011-R1",
+  "query_proof": {
+    "actual_model_output_parity": "NOT_MEASURED",
+    "input_mismatches": 0,
+    "model_family": "qwen25",
+    "model_forward_calls": 0,
+    "oracle_lock_sha256": "d37227eb52aa1ba1cc0699155c674858b52ff418eaf7814231642f9de8aa2ff3",
+    "queries": 24858,
+    "query_sha256": "6c8111384789cec7059ea1b3c2b1083d761ade2b360c99db3e5c4f1ef4941d78",
+    "requests": 2000,
+    "schema": "zsre-public-query-parity-v1",
+    "status": "PASS_CPU_QUERY_ONLY",
+    "stream_sha256": "93925ec2f74e00a1b3fbdf261e557d10652ae0eca7265b4948958d39de4848b7",
+    "target_mismatches": 0,
+    "token_denominators": {
+      "neighborhood": 11476,
+      "paraphrase": 6691,
+      "rewrite": 6691
+    }
+  },
+  "rows": [
+    {
+      "checkpoint_path": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/runs/qwen25-cf/checkpoint/latest.pt",
+      "config": {
+        "bytes": 46532,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/source-ready-r1/configs/qwen25-cf.json",
+        "sha256": "9a4ac3bb33ad888b6fb45d68c3cf91fe82e667e97f51876cf58a3320b22d534e"
+      },
+      "config_sha256": "c1f92cbd1c744290a8d817062a903e1a062c794f0ddacb5e05db8dd73250f8db",
+      "dataset": "cf",
+      "query_proof": null,
+      "tracking_schema": "CPU_PASS"
+    },
+    {
+      "checkpoint_path": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/runs/qwen25-zsre/checkpoint/latest.pt",
+      "config": {
+        "bytes": 46753,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/source-ready-r1/configs/qwen25-zsre.json",
+        "sha256": "0ed2d37340f8988a71bde1a5c4b4e899dd9b601ff789e797399dfa65358f3911"
+      },
+      "config_sha256": "e5db0035ab2dee352c7783a13f7ad0af864d74a0f6d9c15fe75d1f9e82b8d6e3",
+      "dataset": "zsre",
+      "query_proof": {
+        "bytes": 643,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/source-ready-r1/zsre-query-proof.json",
+        "sha256": "6a3e09fdc8b13dd9f44fc1d32c8c6c5617af230a96c4940b8e1aba73d08f11aa"
+      },
+      "tracking_schema": "CPU_PASS"
+    }
+  ],
+  "server": "server2",
+  "shared_tests": 15,
+  "shared_tests_PASS": true,
+  "source": "03b21d404d6275b5f212974fe130ca98819789de",
+  "status": "RESOURCE_BLOCKED_STORAGE_KEEP_SOURCE",
+  "storage": {
+    "available_bytes": 59029065728,
+    "checkpoint_lock": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/checkpoint-serialization.lock",
+    "deficit_bytes": 1334243328,
+    "new_job_ids": [],
+    "required_free_bytes": 60363309056,
+    "reserve_bytes": 34359738368,
+    "status": "RESOURCE_BLOCKED_STORAGE_KEEP_SOURCE",
+    "sufficient": false
+  }
+}

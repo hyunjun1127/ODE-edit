@@ -1,0 +1,12 @@
+{
+  "nonce": "USER-FE-QWEN-SERVER1-MOVE-20261011-R1",
+  "report_publication": "8953c047",
+  "requester": {"transport_accepted": true, "turn": "01a126e7-bf8b-73f1-88f1-2bc106cd3e76", "owner_ACK_observed": false},
+  "SH2": {"idle_checked": true, "transport_accepted": true, "turn": "01a126ed-2ac6-7ed1-86a7-52102f24b3ce", "owner_ACK_observed": false},
+  "GH": {"status": "COMMUNICATION_HOLD_TIMEOUT", "received": "UNKNOWN", "owner_ACK_observed": false},
+  "unrelated_active_steer": false,
+  "automatic_retry": false,
+  "actual_jobs": [63217, 63218],
+  "released": true,
+  "scientific_completion": "NOT_OBSERVED"
+}

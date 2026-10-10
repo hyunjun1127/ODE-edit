@@ -1,0 +1,286 @@
+{
+  "C0": [
+    {
+      "count": 64421556,
+      "layer": 4,
+      "member": {
+        "allocated_bytes": 1435508736,
+        "bytes": 1435501774,
+        "ctime_ns": 1781174097935294229,
+        "device": 2304,
+        "expected_sha256": "935af1e9a7c5fe690471c668af225b882b3ae49039435f7143cd3c136c1f049b",
+        "inode": 119355603,
+        "mtime_ns": 1778043236919689152,
+        "nlink": 1,
+        "path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+        "real_path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "935af1e9a7c5fe690471c668af225b882b3ae49039435f7143cd3c136c1f049b",
+        "verification": "FRESH_SHA256"
+      },
+      "normalization": "raw uncentered sum/count exactly once",
+      "recompute": false
+    },
+    {
+      "count": 64421556,
+      "layer": 5,
+      "member": {
+        "allocated_bytes": 1435508736,
+        "bytes": 1435501774,
+        "ctime_ns": 1781174100583288838,
+        "device": 2304,
+        "expected_sha256": "7e4730511077be9b7370f29e94036d3ca08e7e0f0023395341e7496e16340519",
+        "inode": 119355604,
+        "mtime_ns": 1778048601212485222,
+        "nlink": 1,
+        "path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_100000.npz",
+        "real_path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "7e4730511077be9b7370f29e94036d3ca08e7e0f0023395341e7496e16340519",
+        "verification": "FRESH_SHA256"
+      },
+      "normalization": "raw uncentered sum/count exactly once",
+      "recompute": false
+    },
+    {
+      "count": 64421556,
+      "layer": 6,
+      "member": {
+        "allocated_bytes": 1435508736,
+        "bytes": 1435501774,
+        "ctime_ns": 1781174103059283788,
+        "device": 2304,
+        "expected_sha256": "d47f4bb2454555740c6bc46ab7f894e170cf6f5fe4bc6c26a3fc93179e18dc2a",
+        "inode": 119355605,
+        "mtime_ns": 1778054511452140739,
+        "nlink": 1,
+        "path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_100000.npz",
+        "real_path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "d47f4bb2454555740c6bc46ab7f894e170cf6f5fe4bc6c26a3fc93179e18dc2a",
+        "verification": "FRESH_SHA256"
+      },
+      "normalization": "raw uncentered sum/count exactly once",
+      "recompute": false
+    },
+    {
+      "count": 64421556,
+      "layer": 7,
+      "member": {
+        "allocated_bytes": 1435508736,
+        "bytes": 1435501774,
+        "ctime_ns": 1781174105587278625,
+        "device": 2304,
+        "expected_sha256": "61526068f1e1283d2e8554b514f9c7ef726957a8582b62c181f393e5589c0b0d",
+        "inode": 119355606,
+        "mtime_ns": 1778061162779622780,
+        "nlink": 1,
+        "path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_100000.npz",
+        "real_path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "61526068f1e1283d2e8554b514f9c7ef726957a8582b62c181f393e5589c0b0d",
+        "verification": "FRESH_SHA256"
+      },
+      "normalization": "raw uncentered sum/count exactly once",
+      "recompute": false
+    },
+    {
+      "count": 64421556,
+      "layer": 8,
+      "member": {
+        "allocated_bytes": 1435508736,
+        "bytes": 1435501774,
+        "ctime_ns": 1781174107995273699,
+        "device": 2304,
+        "expected_sha256": "f5b00a555c9d860af1732ae3c48b1a04ebe8e3427873081fb0cb4cc8b5b30d46",
+        "inode": 119355607,
+        "mtime_ns": 1778068547320713385,
+        "nlink": 1,
+        "path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz",
+        "real_path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "f5b00a555c9d860af1732ae3c48b1a04ebe8e3427873081fb0cb4cc8b5b30d46",
+        "verification": "FRESH_SHA256"
+      },
+      "normalization": "raw uncentered sum/count exactly once",
+      "recompute": false
+    }
+  ],
+  "GPU_observation": false,
+  "algs_yaml": {
+    "bytes": 38,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/author-FE/configs/algs/memit.yaml",
+    "sha256": "4799ac1df4e726e3dd2abcc54201e9f87f1c76cb35680059c0684806df8809d3"
+  },
+  "allseen_checkpoint_edits": [
+    500,
+    1000,
+    1500,
+    2000
+  ],
+  "author_commit": "478134dfb24b43f4e18b47e8500893ce3f9cc50f",
+  "author_tree": "698c1e6259f2cc2bace647f58a0be81e3b380ee2",
+  "author_yaml": {
+    "bytes": 1475,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/author-FE/configs/llms/qwen2.5-7b.yaml",
+    "sha256": "0e1481d06d530746b13aea6df5dec2a4449aef8928120a2a12c4d7da72b50183"
+  },
+  "batch_size": 100,
+  "batches": 20,
+  "clone": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/author-FE",
+  "clone_dirty": false,
+  "current_every_batch": true,
+  "datasets": [
+    "cf",
+    "zsre"
+  ],
+  "dtype": "bfloat16",
+  "hparams": {
+    "C0_weight": 15000,
+    "KL": 0.0625,
+    "L2": 0,
+    "add_old_keys": true,
+    "clamp": 1,
+    "decay": 0.001,
+    "layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "loss_layer": 27,
+    "lr": 0.5,
+    "steps": 35
+  },
+  "instruction": "USER-FE-ORIGINAL-W0-RESET-20261011-R1",
+  "local_author_patch": null,
+  "model_asset_manifest": {
+    "bytes": 18464,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-author-hparams-2k-20261010/preparation-r1/assets.json",
+    "sha256": "fba1dbbbed2ddf61c5d6d2e708e888ce42e5b36e65cc074795f76a2241d82bf6"
+  },
+  "model_members": [
+    {
+      "bytes": 663,
+      "path": "/mnt/raid5/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28/config.json",
+      "sha256": "7463bb0ea78315365e6c6b74de4e73bbcc8359dfb0c5a737584e077d42c0b03c",
+      "verification": "prior fullSHA + unchanged stat"
+    },
+    {
+      "bytes": 243,
+      "path": "/mnt/raid5/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28/generation_config.json",
+      "sha256": "3a8f9087e486054c8a4a08dae2e5a3ba62e23da212b5b8c08bc42cb983c3459f",
+      "verification": "prior fullSHA + unchanged stat"
+    },
+    {
+      "bytes": 1671839,
+      "path": "/mnt/raid5/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28/merges.txt",
+      "sha256": "599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3",
+      "verification": "prior fullSHA + unchanged stat"
+    },
+    {
+      "bytes": 3945441440,
+      "path": "/mnt/raid5/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28/model-00001-of-00004.safetensors",
+      "sha256": "a1333e6293854747c481288ea83b348226af178dd565c49b6f9495ba1966aba7",
+      "verification": "prior fullSHA + unchanged stat"
+    },
+    {
+      "bytes": 3864726352,
+      "path": "/mnt/raid5/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28/model-00002-of-00004.safetensors",
+      "sha256": "f5d25a2772cb825164a2a2c0fb6d51a87e282abf21e4dd75bc5cfb3cd0ea6185",
+      "verification": "prior fullSHA + unchanged stat"
+    },
+    {
+      "bytes": 3864726424,
+      "path": "/mnt/raid5/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28/model-00003-of-00004.safetensors",
+      "sha256": "8efdec4c1bc12317ae1a38dc42b595ce777738a64deea3fcb8a0a91381bcdfd5",
+      "verification": "prior fullSHA + unchanged stat"
+    },
+    {
+      "bytes": 3556377672,
+      "path": "/mnt/raid5/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28/model-00004-of-00004.safetensors",
+      "sha256": "1a72d403cdf0c1ec3cb7f289f17b394a01e64394c2e9b3c0f94dbce3faf879bd",
+      "verification": "prior fullSHA + unchanged stat"
+    },
+    {
+      "bytes": 27752,
+      "path": "/mnt/raid5/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28/model.safetensors.index.json",
+      "sha256": "624bf7c47cd12468fdc16e38a47cf4f19e0415b859a223ba3c027eed2f0e1028",
+      "verification": "prior fullSHA + unchanged stat"
+    },
+    {
+      "bytes": 7031645,
+      "path": "/mnt/raid5/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28/tokenizer.json",
+      "sha256": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539",
+      "verification": "prior fullSHA + unchanged stat"
+    },
+    {
+      "bytes": 7305,
+      "path": "/mnt/raid5/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28/tokenizer_config.json",
+      "sha256": "5b5d4f65d0acd3b2d56a35b56d374a36cbc1c8fa5cf3b3febbbfabf22f359583",
+      "verification": "prior fullSHA + unchanged stat"
+    },
+    {
+      "bytes": 2776833,
+      "path": "/mnt/raid5/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28/vocab.json",
+      "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910",
+      "verification": "prior fullSHA + unchanged stat"
+    }
+  ],
+  "native_contexts": "GENERATE_FRESH_AUTHOR_W0_SEED0; no previous context injected",
+  "new_job_ids": [],
+  "old_checkpoint_reuse": false,
+  "projector_required": false,
+  "requirements": {
+    "bytes": 3658,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/author-FE/requirements.txt",
+    "sha256": "0d95665fac4d4f9b9067a53c3b99f265ea708b3f80ab495ad7029ba1b56d3f17"
+  },
+  "resources": {
+    "CPUs": 6,
+    "GPU": 1,
+    "memory_MiB": 59392,
+    "project_cap": 2,
+    "wall_hours": 48
+  },
+  "runtime": {
+    "hydra-core": "1.3.2",
+    "numpy": "2.2.6",
+    "omegaconf": "2.3.0",
+    "tokenizers": "0.21.4",
+    "torch": "2.9.1",
+    "transformers": "4.51.3"
+  },
+  "runtime_deviations": {
+    "Python": "3.12; author hydra1.2/numpy1.25 pins not compatible; isolated hydra1.3.2/numpy2.2.6 require shared CPU review",
+    "torch": "existing 2.9.1+cu128 readonly site-packages; no torch/model download"
+  },
+  "runtime_python": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/runtime/bin/python",
+  "seed": 0,
+  "server": "server2",
+  "shared_integration": "SOURCE_INPUT_PENDING_SH1",
+  "storage": {
+    "C0_no_copy": true,
+    "H_bytes": 7177502720,
+    "atomic_writer_contract": "host-wide shared lock before temporary creation through serialization/fsync/replace",
+    "metrics_margin_bytes": 2147483648,
+    "observed_free_bytes": 65816817664,
+    "required_free_bytes": 60363309056,
+    "reserve_bytes": 34359738368,
+    "selected_W_BF16_bytes": 678952960,
+    "submission_requires_actual_shared_writer_lock_verification": true,
+    "sufficient": true,
+    "two_latest_plus_one_atomic_bytes": 23569367040,
+    "two_z_upper_bytes": 286720000,
+    "writer_contract_verified": false
+  },
+  "streams": {
+    "cf": {
+      "bytes": 4145654,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/streams/cf-stream.json",
+      "sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37"
+    },
+    "zsre": {
+      "bytes": 1490821,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/streams/zsre-stream.json",
+      "sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c"
+    }
+  },
+  "z_policy": "firstforward all2000 at coldW0 before editing; cache bound source/model/dtype/hparams/stream/context"
+}

@@ -1,0 +1,589 @@
+{
+  "CPU_current_allseen_schema_requests": [
+    100,
+    500,
+    2000
+  ],
+  "CPU_tests": 15,
+  "GPU_qualification": "NOT_RUN_USER_DISABLED",
+  "GPU_scientific_completion": "NOT_OBSERVED",
+  "README_owner": "GH",
+  "author_clone": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/author",
+  "author_commit": "478134dfb24b43f4e18b47e8500893ce3f9cc50f",
+  "author_lock": {
+    "bytes": 41293,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/author-lock.json",
+    "sha256": "458550ba95cdde8c7227fee513197a23d8d311bf884f2810660217fa292cce78"
+  },
+  "author_patch": {
+    "bytes": 1965,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-fe-original-w0-20261011/official/runners/fe_original_author.patch",
+    "sha256": "f3714c699136900b4fa95f95aa48fa0f2a678af73e33e4bfc841184a6c9dc6de"
+  },
+  "automatic_retry": false,
+  "backup_created": false,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "cancelled_FE_jobs": [
+    "62530"
+  ],
+  "cap": 2,
+  "deleted_checkpoints": 11,
+  "deleted_logical_bytes": 54211593935,
+  "deletion_receipts": [
+    {
+      "bytes": 1319,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-fe-original-w0-20261011/audits/servers/server1/fe-original-w0-2k-20261011/checkpoint-deleted.json",
+      "sha256": "acc00ded4dd4922a074a310da14c881dce31adb22d2eaddbfc26f46627730553"
+    },
+    {
+      "bytes": 81,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-fe-original-w0-20261011/audits/servers/server1/fe-original-w0-2k-20261011/native-checkpoint-deleted.json",
+      "sha256": "c33d2874d5badade54daeb564a443518801ff557aaea6c4d1efd8db70354f5e4"
+    },
+    {
+      "bytes": 224,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-fe-original-w0-20261011/audits/servers/server1/fe-original-w0-2k-20261011/corrected-qwen-deleted.json",
+      "sha256": "3aec2806dbacae1359f30e1c4a2090f29fd0da2be48abb8400efd562e00d4846"
+    }
+  ],
+  "execution_lock": {
+    "bytes": 123062,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/registration-r1/execution-lock.json",
+    "sha256": "2bc2c5e6d7fb66aee4d29944e4fa41f7a5c8b10a887e042ced5f1c50844681c0"
+  },
+  "graph": {
+    "gptj-cf": [
+      "63125"
+    ],
+    "gptj-zsre": [
+      "gptj-cf"
+    ],
+    "llama3-cf": [],
+    "llama3-zsre": [
+      "llama3-cf"
+    ]
+  },
+  "held_inspected": true,
+  "instruction": "USER-FE-ORIGINAL-W0-RESET-20261011-R1",
+  "jobs": [
+    {
+      "WB": "NOT_OBSERVED_AT_REGISTRATION",
+      "condition": "gptj-cf",
+      "config": {
+        "bytes": 46579,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/preparation-r2/configs/gptj-cf.json",
+        "sha256": "880eb0b65154815a278f4029bf5224324db18c786cf1ccb8c6093545bbbbd1fe"
+      },
+      "config_sha256": "506fe0bb0d9456aeb199c75828e9c4f37348c785037237ee31c6e3ebafdeb2a6",
+      "dependencies": [
+        [
+          "afterany",
+          "63125"
+        ]
+      ],
+      "generation": "DEFERRED",
+      "hparams": {
+        "act_margin": [
+          15.0,
+          40.0,
+          20.0
+        ],
+        "act_ratio": 0.88,
+        "alpha": 15.0,
+        "attn_module_tmp": "transformer.h.{}.attn",
+        "beta": 40.0,
+        "clamp_norm_factor": 0.75,
+        "constr_pos": "subject",
+        "densities": 0.53,
+        "edit_lr": 1.0,
+        "fact_token": "subject_last",
+        "gamma": 20.0,
+        "hidden_act": "",
+        "inner_params": [
+          "transformer.h[21].mlp.fc_out.weight"
+        ],
+        "kl_factor": 0.0625,
+        "last_kl_factor": 0.0625,
+        "layer_module_tmp": "transformer.h.{}",
+        "layer_selection": "all",
+        "layers": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "lm_head_module": "lm_head",
+        "ln_f_module": "transformer.ln_f",
+        "mask_ratio": 0.2,
+        "merge_alg": "ties",
+        "merge_freq": 1000,
+        "mid_kl_factor": 0.0425,
+        "midlayers": [
+          15
+        ],
+        "mlp_module_tmp": "transformer.h.{}.mlp",
+        "model_parallel": false,
+        "mom2_adjustment": true,
+        "mom2_dataset": "wikipedia",
+        "mom2_dtype": "float32",
+        "mom2_maxseqlen": null,
+        "mom2_n_samples": 100000,
+        "mom2_update_weight": [
+          15000,
+          15000,
+          15000,
+          15000,
+          15000,
+          15000
+        ],
+        "n_iter": 70,
+        "name": "EleutherAI/gpt-j-6B",
+        "nll_factor": 1,
+        "norm_constraint": 1.0,
+        "objective_optimization": "only_label",
+        "replay": false,
+        "retrieve": false,
+        "rewrite_module_tmp": "transformer.h.{}.mlp.fc_out",
+        "save_freq": 500,
+        "v_loss_layer": 27,
+        "v_lr": 0.5,
+        "v_num_grad_steps": 25,
+        "v_weight_decay": 0.5,
+        "weights": 1.0
+      },
+      "job_id": "63153",
+      "job_name": "official-s1-gptj-cf-fe-original",
+      "latest_checkpoint": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/runs/gptj-cf/checkpoint/latest.pt",
+      "ordered_stream_sha256": "39bbd2215177d2aabeb3bd5c2e7f088b454479bf567b3b16f9da70bd0b28c95e",
+      "output": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/runs/gptj-cf",
+      "query_proof": null,
+      "reason": "None",
+      "state": "PENDING",
+      "stream": {
+        "allocated_bytes": 4149248,
+        "bytes": 4145654,
+        "ctime_ns": 1791471157288487255,
+        "device": 2304,
+        "expected_sha256": null,
+        "inode": 243438032,
+        "mtime_ns": 1791471157288487255,
+        "nlink": 1,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/streams/cf-stream.json",
+        "real_path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/streams/cf-stream.json",
+        "sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "verification": "FRESH_SHA256"
+      },
+      "z_cache": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/runs/gptj-cf/z-cache"
+    },
+    {
+      "WB": "NOT_OBSERVED_AT_REGISTRATION",
+      "condition": "gptj-zsre",
+      "config": {
+        "bytes": 46803,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/preparation-r2/configs/gptj-zsre.json",
+        "sha256": "0fba2f0938c4590f6adb145599558c41960378f26c569021852ea5d131e09e9d"
+      },
+      "config_sha256": "ad83272e6e3114e590726dbed4cc0d839df5c69f370331c5682c8e2f3e7fa845",
+      "dependencies": [
+        [
+          "afterany",
+          "63153"
+        ]
+      ],
+      "generation": "NOT_APPLICABLE",
+      "hparams": {
+        "act_margin": [
+          15.0,
+          40.0,
+          20.0
+        ],
+        "act_ratio": 0.88,
+        "alpha": 15.0,
+        "attn_module_tmp": "transformer.h.{}.attn",
+        "beta": 40.0,
+        "clamp_norm_factor": 0.75,
+        "constr_pos": "subject",
+        "densities": 0.53,
+        "edit_lr": 1.0,
+        "fact_token": "subject_last",
+        "gamma": 20.0,
+        "hidden_act": "",
+        "inner_params": [
+          "transformer.h[21].mlp.fc_out.weight"
+        ],
+        "kl_factor": 0.0625,
+        "last_kl_factor": 0.0625,
+        "layer_module_tmp": "transformer.h.{}",
+        "layer_selection": "all",
+        "layers": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "lm_head_module": "lm_head",
+        "ln_f_module": "transformer.ln_f",
+        "mask_ratio": 0.2,
+        "merge_alg": "ties",
+        "merge_freq": 1000,
+        "mid_kl_factor": 0.0425,
+        "midlayers": [
+          15
+        ],
+        "mlp_module_tmp": "transformer.h.{}.mlp",
+        "model_parallel": false,
+        "mom2_adjustment": true,
+        "mom2_dataset": "wikipedia",
+        "mom2_dtype": "float32",
+        "mom2_maxseqlen": null,
+        "mom2_n_samples": 100000,
+        "mom2_update_weight": [
+          15000,
+          15000,
+          15000,
+          15000,
+          15000,
+          15000
+        ],
+        "n_iter": 70,
+        "name": "EleutherAI/gpt-j-6B",
+        "nll_factor": 1,
+        "norm_constraint": 1.0,
+        "objective_optimization": "only_label",
+        "replay": false,
+        "retrieve": false,
+        "rewrite_module_tmp": "transformer.h.{}.mlp.fc_out",
+        "save_freq": 500,
+        "v_loss_layer": 27,
+        "v_lr": 0.5,
+        "v_num_grad_steps": 25,
+        "v_weight_decay": 0.5,
+        "weights": 1.0
+      },
+      "job_id": "63154",
+      "job_name": "official-s1-gptj-zsre-fe-original",
+      "latest_checkpoint": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/runs/gptj-zsre/checkpoint/latest.pt",
+      "ordered_stream_sha256": "93925ec2f74e00a1b3fbdf261e557d10652ae0eca7265b4948958d39de4848b7",
+      "output": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/runs/gptj-zsre",
+      "query_proof": {
+        "bytes": 640,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/preparation/gptj-zsre-query-proof.json",
+        "sha256": "ec0ef0630eedae9b0e2b09cee9d787dff48fd13608bfa19fb6a4244d104b9588"
+      },
+      "reason": "None",
+      "state": "PENDING",
+      "stream": {
+        "allocated_bytes": 1490944,
+        "bytes": 1490821,
+        "ctime_ns": 1791471157440487346,
+        "device": 2304,
+        "expected_sha256": null,
+        "inode": 243438034,
+        "mtime_ns": 1791471157440487346,
+        "nlink": 1,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/streams/zsre-stream.json",
+        "real_path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/streams/zsre-stream.json",
+        "sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+        "verification": "FRESH_SHA256"
+      },
+      "z_cache": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/runs/gptj-zsre/z-cache"
+    },
+    {
+      "WB": "NOT_OBSERVED_AT_REGISTRATION",
+      "condition": "llama3-cf",
+      "config": {
+        "bytes": 46924,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/preparation-r2/configs/llama3-cf.json",
+        "sha256": "2937986fb57c7ee1e726219ee0cc7bcc4027327256a5a3beba9345b9dc5ac9e2"
+      },
+      "config_sha256": "2104ad1ae02ab496ed3f2ff21e0be36cea039a5fa4f46e569d710aa6e3dc1de9",
+      "dependencies": [],
+      "generation": "DEFERRED",
+      "hparams": {
+        "act_margin": [
+          2.0,
+          20.0,
+          10.0
+        ],
+        "act_ratio": 0.5,
+        "alpha": 2.0,
+        "attn_module_tmp": "model.layers.{}.self_attn",
+        "beta": 20.0,
+        "clamp_norm_factor": 0.75,
+        "constr_pos": "subject",
+        "densities": 0.53,
+        "edit_lr": 0.9,
+        "edit_modules": [
+          "model.layers.22.mlp.gate_proj",
+          "model.layers.23.mlp.gate_proj",
+          "model.layers.24.mlp.gate_proj",
+          "model.layers.25.mlp.gate_proj",
+          "model.layers.26.mlp.gate_proj",
+          "model.layers.27.mlp.gate_proj",
+          "model.layers.28.mlp.gate_proj",
+          "model.layers.29.mlp.gate_proj",
+          "model.layers.30.mlp.gate_proj",
+          "model.layers.22.mlp.up_proj",
+          "model.layers.23.mlp.up_proj",
+          "model.layers.24.mlp.up_proj",
+          "model.layers.25.mlp.up_proj",
+          "model.layers.26.mlp.up_proj",
+          "model.layers.27.mlp.up_proj",
+          "model.layers.28.mlp.up_proj",
+          "model.layers.29.mlp.up_proj",
+          "model.layers.30.mlp.up_proj"
+        ],
+        "fact_token": "subject_last",
+        "gamma": 10.0,
+        "hidden_act": "",
+        "inner_params": [
+          "model.layers[29].mlp.down_proj.weight"
+        ],
+        "kl_factor": 0.0625,
+        "lambda_reg": 0.01,
+        "last_kl_factor": 0.0625,
+        "layer_module_tmp": "model.layers.{}",
+        "layer_selection": "all",
+        "layers": [
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "lm_head_module": "lm_head",
+        "ln_f_module": "model.norm",
+        "lr": 0.0005,
+        "mask_ratio": 0.2,
+        "merge_alg": "ties",
+        "merge_freq": 1000,
+        "mid_kl_factor": 0.0425,
+        "midlayers": [
+          15
+        ],
+        "mlp_module_tmp": "model.layers.{}.mlp",
+        "model_parallel": false,
+        "mom2_adjustment": true,
+        "mom2_dataset": "wikipedia",
+        "mom2_dtype": "float32",
+        "mom2_maxseqlen": null,
+        "mom2_n_samples": 100000,
+        "mom2_update_weight": [
+          15000.0,
+          15000.0,
+          15000.0,
+          15000.0,
+          15000.0
+        ],
+        "n_iter": 30,
+        "name": "meta-llama/Meta-Llama-3-8B-Instruct",
+        "nll_factor": 1,
+        "norm_constraint": 1.0,
+        "num_steps": 25,
+        "objective_optimization": "only_label",
+        "replay": false,
+        "retrieve": false,
+        "rewrite_module_tmp": "model.layers.{}.mlp.down_proj",
+        "save_freq": 500,
+        "use_chat_template": true,
+        "v_loss_layer": 31,
+        "v_lr": 0.1,
+        "v_num_grad_steps": 35,
+        "v_weight_decay": 0.5,
+        "weight_decay": 0,
+        "weights": 1.0
+      },
+      "job_id": "63151",
+      "job_name": "official-s1-llama3-cf-fe-original",
+      "latest_checkpoint": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/runs/llama3-cf/checkpoint/latest.pt",
+      "ordered_stream_sha256": "39bbd2215177d2aabeb3bd5c2e7f088b454479bf567b3b16f9da70bd0b28c95e",
+      "output": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/runs/llama3-cf",
+      "query_proof": null,
+      "reason": "Resources",
+      "state": "PENDING",
+      "stream": {
+        "allocated_bytes": 4149248,
+        "bytes": 4145654,
+        "ctime_ns": 1791471157288487255,
+        "device": 2304,
+        "expected_sha256": null,
+        "inode": 243438032,
+        "mtime_ns": 1791471157288487255,
+        "nlink": 1,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/streams/cf-stream.json",
+        "real_path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/streams/cf-stream.json",
+        "sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "verification": "FRESH_SHA256"
+      },
+      "z_cache": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/runs/llama3-cf/z-cache"
+    },
+    {
+      "WB": "NOT_OBSERVED_AT_REGISTRATION",
+      "condition": "llama3-zsre",
+      "config": {
+        "bytes": 47150,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/preparation-r2/configs/llama3-zsre.json",
+        "sha256": "4cc22bda14c51cebec9179928150f1d3a557ee3b7411028a12cfdebe0a78c9ce"
+      },
+      "config_sha256": "8349d319baa8303aeb349b3746bf488188ad9eced121c4c8a60456e1b6678509",
+      "dependencies": [
+        [
+          "afterany",
+          "63151"
+        ]
+      ],
+      "generation": "NOT_APPLICABLE",
+      "hparams": {
+        "act_margin": [
+          2.0,
+          20.0,
+          10.0
+        ],
+        "act_ratio": 0.5,
+        "alpha": 2.0,
+        "attn_module_tmp": "model.layers.{}.self_attn",
+        "beta": 20.0,
+        "clamp_norm_factor": 0.75,
+        "constr_pos": "subject",
+        "densities": 0.53,
+        "edit_lr": 0.9,
+        "edit_modules": [
+          "model.layers.22.mlp.gate_proj",
+          "model.layers.23.mlp.gate_proj",
+          "model.layers.24.mlp.gate_proj",
+          "model.layers.25.mlp.gate_proj",
+          "model.layers.26.mlp.gate_proj",
+          "model.layers.27.mlp.gate_proj",
+          "model.layers.28.mlp.gate_proj",
+          "model.layers.29.mlp.gate_proj",
+          "model.layers.30.mlp.gate_proj",
+          "model.layers.22.mlp.up_proj",
+          "model.layers.23.mlp.up_proj",
+          "model.layers.24.mlp.up_proj",
+          "model.layers.25.mlp.up_proj",
+          "model.layers.26.mlp.up_proj",
+          "model.layers.27.mlp.up_proj",
+          "model.layers.28.mlp.up_proj",
+          "model.layers.29.mlp.up_proj",
+          "model.layers.30.mlp.up_proj"
+        ],
+        "fact_token": "subject_last",
+        "gamma": 10.0,
+        "hidden_act": "",
+        "inner_params": [
+          "model.layers[29].mlp.down_proj.weight"
+        ],
+        "kl_factor": 0.0625,
+        "lambda_reg": 0.01,
+        "last_kl_factor": 0.0625,
+        "layer_module_tmp": "model.layers.{}",
+        "layer_selection": "all",
+        "layers": [
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "lm_head_module": "lm_head",
+        "ln_f_module": "model.norm",
+        "lr": 0.0005,
+        "mask_ratio": 0.2,
+        "merge_alg": "ties",
+        "merge_freq": 1000,
+        "mid_kl_factor": 0.0425,
+        "midlayers": [
+          15
+        ],
+        "mlp_module_tmp": "model.layers.{}.mlp",
+        "model_parallel": false,
+        "mom2_adjustment": true,
+        "mom2_dataset": "wikipedia",
+        "mom2_dtype": "float32",
+        "mom2_maxseqlen": null,
+        "mom2_n_samples": 100000,
+        "mom2_update_weight": [
+          15000.0,
+          15000.0,
+          15000.0,
+          15000.0,
+          15000.0
+        ],
+        "n_iter": 30,
+        "name": "meta-llama/Meta-Llama-3-8B-Instruct",
+        "nll_factor": 1,
+        "norm_constraint": 1.0,
+        "num_steps": 25,
+        "objective_optimization": "only_label",
+        "replay": false,
+        "retrieve": false,
+        "rewrite_module_tmp": "model.layers.{}.mlp.down_proj",
+        "save_freq": 500,
+        "use_chat_template": true,
+        "v_loss_layer": 31,
+        "v_lr": 0.1,
+        "v_num_grad_steps": 35,
+        "v_weight_decay": 0.5,
+        "weight_decay": 0,
+        "weights": 1.0
+      },
+      "job_id": "63152",
+      "job_name": "official-s1-llama3-zsre-fe-original",
+      "latest_checkpoint": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/runs/llama3-zsre/checkpoint/latest.pt",
+      "ordered_stream_sha256": "93925ec2f74e00a1b3fbdf261e557d10652ae0eca7265b4948958d39de4848b7",
+      "output": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/runs/llama3-zsre",
+      "query_proof": {
+        "bytes": 643,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/preparation/llama3-zsre-query-proof.json",
+        "sha256": "7790ca6eea72a2e6f1bdebdb64f79ae1dd2f3151310b1350c5541611b2d5ce53"
+      },
+      "reason": "None",
+      "state": "PENDING",
+      "stream": {
+        "allocated_bytes": 1490944,
+        "bytes": 1490821,
+        "ctime_ns": 1791471157440487346,
+        "device": 2304,
+        "expected_sha256": null,
+        "inode": 243438034,
+        "mtime_ns": 1791471157440487346,
+        "nlink": 1,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/streams/zsre-stream.json",
+        "real_path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/streams/zsre-stream.json",
+        "sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+        "verification": "FRESH_SHA256"
+      },
+      "z_cache": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/runs/llama3-zsre/z-cache"
+    }
+  ],
+  "official_tree": "7bdebfa8edcd812716a492160f8895b0d8865543",
+  "preserved_nonFE_jobs": [
+    "63125"
+  ],
+  "raw_log_config_source_preserved": true,
+  "released": true,
+  "resources": {
+    "collector_memory_MiB": 24576,
+    "collector_wall_seconds": 14400,
+    "cpus": 8,
+    "inode_reserve": 10000,
+    "memory_MiB": 98304,
+    "node": "devbox",
+    "partition": "gpu",
+    "qos": "lab_gpu_s1",
+    "storage_reserve_bytes": 68719476736,
+    "wall_seconds": 172800
+  },
+  "runner": {
+    "bytes": 15576,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-fe-original-w0-20261011/official/runners/fe_original.py",
+    "sha256": "ad6e0a84c8a173944fbc07b813daa06ddb475c1fd51c33d0afb45bf4a8c8862c"
+  },
+  "runtime": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/venv/bin/python",
+  "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+  "source": "03b21d404d6275b5f212974fe130ca98819789de"
+}

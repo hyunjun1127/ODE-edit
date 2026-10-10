@@ -1,0 +1,19 @@
+model,method,dataset,job_id,job_name,scheduler_state,W20,main_eligible,disposition
+qwen25,FT,cf,61783,qwen-cf-ft,FAILED,False,False,MIGRATED_TO_SH2_NO_DUPLICATE_COUNT
+qwen25,MEMIT,cf,61785,qwen-cf-memit,CANCELLED by 1025,False,False,MIGRATED_TO_SH2_NO_DUPLICATE_COUNT
+qwen25,ALPHAEDIT,cf,61787,qwen-cf-alphaedit,CANCELLED by 1025,False,False,MIGRATED_TO_SH2_NO_DUPLICATE_COUNT
+qwen25,ALPHAEDIT_BLUE,cf,61789,qwen-cf-alphaedit_blue,CANCELLED by 1025,False,False,MIGRATED_TO_SH2_NO_DUPLICATE_COUNT
+qwen25,MEMIT_FE,cf,61791,qwen-cf-memit_fe,CANCELLED by 1025,False,False,MIGRATED_TO_SH2_NO_DUPLICATE_COUNT
+qwen25,SPHERE,cf,61793,qwen-cf-sphere,CANCELLED by 1025,False,False,MIGRATED_TO_SH2_NO_DUPLICATE_COUNT
+qwen25,FT,zsre,61755,qwen-zsre-ft,CANCELLED by 1025,False,False,MIGRATED_TO_SH2_NO_DUPLICATE_COUNT
+qwen25,MEMIT,zsre,61757,qwen-zsre-memit,CANCELLED by 1025,False,False,MIGRATED_TO_SH2_NO_DUPLICATE_COUNT
+qwen25,ALPHAEDIT,zsre,61759,qwen-zsre-alphaedit,CANCELLED by 1025,False,False,MIGRATED_TO_SH2_NO_DUPLICATE_COUNT
+qwen25,ALPHAEDIT_BLUE,zsre,61761,qwen-zsre-alphaedit_blue,CANCELLED by 1025,False,False,MIGRATED_TO_SH2_NO_DUPLICATE_COUNT
+qwen25,MEMIT_FE,zsre,61763,qwen-zsre-memit_fe,CANCELLED by 1025,False,False,MIGRATED_TO_SH2_NO_DUPLICATE_COUNT
+qwen25,SPHERE,zsre,61765,qwen-zsre-sphere,CANCELLED by 1025,False,False,MIGRATED_TO_SH2_NO_DUPLICATE_COUNT
+llama3,MEMIT,cf,60917,llama3-baselines-fluency-consistency-2k-MEMIT,CANCELLED by 1025,False,False,CANCELLED_NEVER_STARTED
+llama3,PRUNE,cf,60918,llama3-baselines-fluency-consistency-2k-PRUNE,CANCELLED by 1025,False,False,CANCELLED_NEVER_STARTED
+llama3,RECT,cf,60919,llama3-baselines-fluency-consistency-2k-RECT,CANCELLED by 1025,False,False,CANCELLED_NEVER_STARTED
+llama3,ALPHAEDIT,cf,60920,llama3-baselines-fluency-consistency-2k-ALPHAEDIT,CANCELLED by 1025,False,False,CANCELLED_NEVER_STARTED
+llama3,ALPHAEDIT_BLUE,cf,60921,llama3-baselines-fluency-consistency-2k-ALPHAEDIT_BLUE,CANCELLED by 1025,False,False,CANCELLED_NEVER_STARTED
+llama3,CAKE,cf,60922,llama3-baselines-fluency-consistency-2k-CAKE,CANCELLED by 1025,False,False,CANCELLED_NEVER_STARTED

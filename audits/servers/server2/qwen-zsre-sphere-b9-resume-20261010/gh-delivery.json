@@ -1,0 +1,13 @@
+{
+  "nonce": "SH2-GH-SPHERE-B9-RESUME-RELEASED-20261010-R1",
+  "target_session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+  "stage": "DIRECT_ACCEPTED_NOT_COMPLETED",
+  "method": "turn/steer",
+  "accepted_turn": "01a1230a-e924-7593-87c5-9a864699138b",
+  "scope_checked": "same-task SPHERE/B9 related active turn",
+  "submitted_job": "62538",
+  "publication_at_delivery": "f5a5e97c",
+  "model_effort_override": false,
+  "README_owner": "GH",
+  "README_integration_completion": "NOT_CLAIMED"
+}

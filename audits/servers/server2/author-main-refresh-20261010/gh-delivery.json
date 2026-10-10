@@ -1,0 +1,11 @@
+{
+  "nonce": "USER-GH-S1-S2-FE-AUTHOR-MAIN-REFRESH-20261010-R1",
+  "target_session": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+  "observed_related_turn": "01a12653-8b20-7123-abd0-a65be92ef428",
+  "publication": "f3d7d2b8",
+  "table_rows_sha256": "8bbbcbdaffc683bb568ff2d9fcefcd92d58c489d35bca7ad742ce9df8742f6c5",
+  "status": "DIRECT_DELIVERY_UNCONFIRMED_RPC_TIMEOUT",
+  "error": "TimeoutError: timed out during app-server RPC; no turn/steer acceptance returned",
+  "automatic_retry": false,
+  "git_publication_is_not_direct_ACK": true
+}

@@ -64,8 +64,10 @@
       "upstream_path": "easyeditor/models/SPHERE/SPHERE_main.py",
       "path": "baselines/easyedit/models/SPHERE/SPHERE_main.py",
       "upstream_sha256": "19934699a4604ad5ea87f5ad897d09514b0684b48b8f9fd88a9fc6750f0b208d",
-      "sha256": "19934699a4604ad5ea87f5ad897d09514b0684b48b8f9fd88a9fc6750f0b208d",
-      "changes": []
+      "sha256": "29ad88fe08c909242236405a66f011527112ec1710c5045775586c5bcb4f6692",
+      "changes": [
+        "USER-SH2-QWEN-ZSRE-SPHERE-OOM-RERUN-20261010-R1: release per-layer projected update, P_soft and U eigenvector view after commit, before next projection; unchanged FP32 eigh/formula/order and gradient-enabled target fit"
+      ]
     },
     {
       "component": "easyedit",
@@ -225,7 +227,9 @@
       "path": "baselines/easyedit/models/memit_FE/memit_FE_main.py",
       "upstream_sha256": "3139543c4a0b24b7be797010fc9a86b5aa184161acb54776b01caa6b965ccd86",
       "sha256": "5bdf9fb17dbd5a66469b63f1c8acaa4f3f2ac9cff1e2a480b63427087c4e2e29",
-      "changes": ["USER-GH-SH1-MEMIT-FE-HISTORY-THREE-MODEL-2K-20261009-R1: optional history_entry solve seam; None retains stock FE path, new explicit variant supplies H; upstream provenance preserved"]
+      "changes": [
+        "USER-GH-SH1-MEMIT-FE-HISTORY-THREE-MODEL-2K-20261009-R1: optional history_entry solve seam; None retains stock FE path, new explicit variant supplies H; upstream provenance preserved"
+      ]
     },
     {
       "component": "easyedit",
@@ -314,8 +318,10 @@
       "upstream_path": "easyeditor/util/generate.py",
       "path": "baselines/easyedit/util/generate.py",
       "upstream_sha256": "e4d5528923bc0643e3d6bed12c5bba534d69b2f69ab5f18403b317bc2e35fc38",
-      "sha256": "e4d5528923bc0643e3d6bed12c5bba534d69b2f69ab5f18403b317bc2e35fc38",
-      "changes": []
+      "sha256": "35506690c41ecb7d59f11660da41dde50338f5a2ba9613735e045a8c7ab98db4",
+      "changes": [
+        "2026-10-10 USER-GH-QWEN-BASELINE-MASK-COLD-RERUN-20261010-R1: cached context generation uses full-prefix attention mask; hparams and sampling unchanged"
+      ]
     },
     {
       "component": "easyedit",
@@ -1761,10 +1767,11 @@
       "upstream_path": "official/README.md",
       "path": "README.md",
       "upstream_sha256": "92ec6723d4e7268276109cfd4ac20435b34c4a654607faaac5b662cbcff94d4a",
-      "sha256": "e8f24baf694b2100d79a3cc1b66d4fda73e5062c7144db824c04c3ca1704839f",
+      "sha256": "7466110579984ca866ce6842288402a94848f95afe6ad14f77b30d5907b35efe",
       "changes": [
         "GH reviewed official compatibility/API documentation; original provenance retained",
-        "2026-10-09: document model-specific PRICE config"
+        "2026-10-09: document model-specific PRICE config",
+        "Document native CAKE 3-model 2K runner, two lanes, and permanent 500-edit checkpoint milestones."
       ],
       "review_nonce": "SH1-GH-OFFICIAL-COMPAT-REVIEW-20261008-R1",
       "installed_revisions": [
@@ -1814,12 +1821,15 @@
       "upstream_path": "project/run_scripts/experiment_tracking/schema.py",
       "path": "tracking/schema.py",
       "upstream_sha256": "b63cd41816f4022ff85c83130f16fff4380e7e039d0c37f6618c7d008b7aa659",
-      "sha256": "b3d9086cfaef914e1105643f8d2f84523737c276b0449c669701d6f2f901372a",
+      "sha256": "ec3707fc54262d1273c094180c5b7c3dd0e7060e40d6e34b41a118d1ab9e41a8",
       "changes": [
         "official instruction/dataset/schema and native W0+W20 authority pair",
         "zsRE rejects CF generation",
         "official request-macro namespace and actual native denominators",
-        "shared native W20 progress phase-only callback adapter"
+        "shared native W20 progress phase-only callback adapter",
+        "USER-GH-FLUCON-PAPER-SCALE-TABLE-REFRESH-20261010-R1: narrow checkpoint-bound CF eval_only W20 generation/progress branch; reject factual/fit/W0/current; preserve existing zsRE/enabled/deferred rules",
+        "USER-GH-GPTJ-W0-FLUCON-SERVER4-20261011-R1: server4 GPTJ base-model-bound W0-only generation, no checkpoint/factual/fit/W20; previous schema SHA eb2f46a507b337aac4fb1e76cce2380cc1edb1a50721590248a94d8477c011fd",
+        "Qwen2.5 CAKE AIE 측정 준비 전용 scalar; 편집 성능/FLUCON과 혼용 금지"
       ],
       "review_nonce": "SH1-GH-OFFICIAL-COMPAT-REVIEW-20261008-R1",
       "installed_revisions": [
@@ -1842,10 +1852,16 @@
           "reason": "공통 eval-only zsRE W20 provenance 및 최종 endpoint 범위 검증; 과거 source 보존"
         },
         {
+          "instruction": "USER-QWEN25-CAKE-PAPER-CAUSAL-SCORE-20261011",
+          "previous_sha256": "d95c59ea49aed909b41b5518495652cefffb8d0b23899375d05384d18fba9c16",
+          "sha256": "191d6a9e1df2ca127c6f89126c79c4d4608f7ff891f0bf4ace8c7b9fc09fc2d6",
+          "reason": "Qwen2.5 CAKE AIE 측정 준비 전용 scalar; 편집 성능/FLUCON과 혼용 금지"
+        },
+        {
           "instruction": "USER-RENT-WANDB-SERVER-JOBID-20261009-R1",
-          "previous_sha256": "633344063046eba678595e436b4ff3d3162a062e9b31ff244bc48ab09a9237f1",
-          "sha256": "b3d9086cfaef914e1105643f8d2f84523737c276b0449c669701d6f2f901372a",
-          "reason": "rent server label과 Kubernetes KST DDHHMM job identity; Slurm/server1~4/평가 계산 변경 없음"
+          "previous_sha256": "191d6a9e1df2ca127c6f89126c79c4d4608f7ff891f0bf4ace8c7b9fc09fc2d6",
+          "sha256": "ec3707fc54262d1273c094180c5b7c3dd0e7060e40d6e34b41a118d1ab9e41a8",
+          "reason": "rent server label과 Kubernetes KST DDHHMM job identity; Slurm/server1~4/평가 계산 변경 없음; main 병합 시 그 위에 적용(브랜치 원래 값 b3d9086cfaef)"
         }
       ]
     },
@@ -1989,7 +2005,7 @@
       "upstream_path": null,
       "path": "tracking/README.md",
       "upstream_sha256": null,
-      "sha256": "f72cabbff50890e70c09e18b78ba2795d40a9edc125f542a482df7b82a514452",
+      "sha256": "88b1e0b3d6ec167d07cf8504112e109f7ca9d2c52debacfe665b8817c9f20a0c",
       "changes": [
         "new GH-reviewed distribution artifact; final commit recorded by publication, no fictitious upstream"
       ],
@@ -2009,9 +2025,9 @@
         },
         {
           "instruction": "USER-RENT-WANDB-SERVER-JOBID-20261009-R1",
-          "previous_sha256": "516bfdf3d66781f2c57fea7ca09b7133b1457fa40b583625e6095c47e7edbb0b",
-          "sha256": "f72cabbff50890e70c09e18b78ba2795d40a9edc125f542a482df7b82a514452",
-          "reason": "rent server label과 Kubernetes KST DDHHMM job identity; Slurm/server1~4/평가 계산 변경 없음"
+          "previous_sha256": "5f9cbdb10db6c17e7059834e2c9d46bff0b7473ac2b96ccfd78d239997b8812d",
+          "sha256": "88b1e0b3d6ec167d07cf8504112e109f7ca9d2c52debacfe665b8817c9f20a0c",
+          "reason": "rent server label과 Kubernetes KST DDHHMM job identity; Slurm/server1~4/평가 계산 변경 없음; main 병합 시 그 위에 적용(브랜치 원래 값 f72cabbff508)"
         }
       ]
     },
@@ -2283,6 +2299,61 @@
         "사용자 승인 W20 평가 전용; 공개 원문 SHA/URL은 zsre_public_sources/lock.json 참조"
       ],
       "review_nonce": "USER-GH-ZSRE-SAVED-WEIGHTS-2K-REEVAL-20261009-R1"
+    },
+    {
+      "component": "cake",
+      "repository": "https://github.com/zjh-vinky/CAKE",
+      "commit": "0b378234862bd76c69f58404ef84c27d5f4bf9ef",
+      "upstream_path": "Cake/Cake_main.py",
+      "path": "baselines/cake/Cake_main.py",
+      "upstream_sha256": "d1ae01c7f1d5f6f8af899a589b8e407171c1a5dbb69b8ad6ff08e39f02823e20",
+      "sha256": "e011fd13e64627c1f3521cf3c91fb38e636d961fb4754487b0f6d6276afa7ace",
+      "changes": [
+        "Imports use official BLUE target/key helpers with Tensor/tuple and cumulative KV mask compatibility; author apply/solve/history unchanged.",
+        "Removed unused notebooks.util import."
+      ]
+    },
+    {
+      "component": "cake",
+      "repository": "https://github.com/zjh-vinky/CAKE",
+      "commit": "0b378234862bd76c69f58404ef84c27d5f4bf9ef",
+      "upstream_path": "Cake/Cake_hparams.py",
+      "path": "baselines/cake/Cake_hparams.py",
+      "upstream_sha256": "a2281bd837df6b9c1619ca913b2f760f81a549c8ff276b0b77c80bc8ae14abbb",
+      "sha256": "1221682d07d49fb50ba0211c9e55c3307473409ef77cc076658ccec7bc2d0953",
+      "changes": [
+        "HyperParams import remapped to official.baselines.blue.util.hparams."
+      ]
+    },
+    {
+      "component": "cake",
+      "repository": "https://github.com/zjh-vinky/CAKE",
+      "commit": "0b378234862bd76c69f58404ef84c27d5f4bf9ef",
+      "upstream_path": "LICENSE",
+      "path": "baselines/cake/LICENSE",
+      "upstream_sha256": "e67be850493c2a738ebed178044a2e32fc9546b5d1971f880d24736e57f69051",
+      "sha256": "e67be850493c2a738ebed178044a2e32fc9546b5d1971f880d24736e57f69051",
+      "changes": []
+    },
+    {
+      "component": "cake",
+      "repository": "https://github.com/zjh-vinky/CAKE",
+      "commit": "0b378234862bd76c69f58404ef84c27d5f4bf9ef",
+      "upstream_path": "hparams/Cake/Llama3-8B.json",
+      "path": "hparams/CAKE/llama3.json",
+      "upstream_sha256": "457b63f35bf12d6b1020b87b7d241684963f32a48db94eca1ba89c0a6729bd3e",
+      "sha256": "457b63f35bf12d6b1020b87b7d241684963f32a48db94eca1ba89c0a6729bd3e",
+      "changes": []
+    },
+    {
+      "component": "cake",
+      "repository": "https://github.com/zjh-vinky/CAKE",
+      "commit": "0b378234862bd76c69f58404ef84c27d5f4bf9ef",
+      "upstream_path": "hparams/Cake/EleutherAI_gpt-j-6B.json",
+      "path": "hparams/CAKE/gptj.json",
+      "upstream_sha256": "a37d65b4f7b8c9a8ce439abadb4548010777ec0b6547d00d64cea8e12adc22d0",
+      "sha256": "a37d65b4f7b8c9a8ce439abadb4548010777ec0b6547d00d64cea8e12adc22d0",
+      "changes": []
     }
   ],
   "zsre_loc_definition_revision": {
@@ -2344,6 +2415,24 @@
         "path": "tracking/UPSTREAM.json",
         "previous_sha256": "8070a1b230c8811b24114c6f652b4101cbe37c3622ed81bf062e1434d0c485eb",
         "sha256": "43481a0803164e1eb3979db00eeb38419a14301550da0ebeaaa748fc87df12a6"
+      }
+    ]
+  },
+  "rent_tracking_main_merge_revision": {
+    "instruction": "USER-RENT-WANDB-SERVER-JOBID-20261009-R1",
+    "reason": "rent runner 브랜치에 main 병합: rent label 변경을 main(CAKE 포함) 위에 적용한 파일의 설치 sha",
+    "files": [
+      {
+        "path": "tracking/schema.py",
+        "previous_sha256": "191d6a9e1df2ca127c6f89126c79c4d4608f7ff891f0bf4ace8c7b9fc09fc2d6",
+        "sha256": "ec3707fc54262d1273c094180c5b7c3dd0e7060e40d6e34b41a118d1ab9e41a8",
+        "branch_sha256": "b3d9086cfaef914e1105643f8d2f84523737c276b0449c669701d6f2f901372a"
+      },
+      {
+        "path": "tracking/README.md",
+        "previous_sha256": "5f9cbdb10db6c17e7059834e2c9d46bff0b7473ac2b96ccfd78d239997b8812d",
+        "sha256": "88b1e0b3d6ec167d07cf8504112e109f7ca9d2c52debacfe665b8817c9f20a0c",
+        "branch_sha256": "f72cabbff50890e70c09e18b78ba2795d40a9edc125f542a482df7b82a514452"
       }
     ]
   }

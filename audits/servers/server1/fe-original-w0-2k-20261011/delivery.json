@@ -1,0 +1,12 @@
+{
+  "instruction": "USER-FE-ORIGINAL-W0-RESET-20261011-R1",
+  "SH2_source_transport": "ACCEPTED",
+  "SH2_turn": "01a1269c-42b1-7963-ade8-64e52be450c4",
+  "requester_final_transport": "ACCEPTED",
+  "requester_turn": "01a1268d-44aa-7e80-aa1e-6342ad7ebd0b",
+  "GH_final_transport": "COMMUNICATION_HOLD_TIMEOUT",
+  "GH_owner_ACK": "NOT_OBSERVED",
+  "automatic_retry": false,
+  "main_report_publication": "18508a72",
+  "scientific_completion": "NOT_OBSERVED"
+}

@@ -3,15 +3,89 @@
   "instruction_id": "USER-GH-MAIN-TABLE-FRESH-RERUN-20261009-R1",
   "owner": "GH",
   "target": "README.md#main-results",
-  "models": ["Llama3-8B-Instruct", "Qwen2.5-7B-Instruct", "GPT-J-6B"],
-  "methods": ["FT", "MEMIT", "AlphaEdit", "AlphaEdit-BLUE", "MEMIT-FE", "AlphaEdit+SPHERE", "PRICE (Ours)"],
-  "columns": {"CF": ["Score", "Eff", "Gen", "Loc", "Flu", "Con"], "zsRE": ["Eff", "Gen", "Loc"]},
+  "models": [
+    "Llama3-8B-Instruct",
+    "Qwen2.5-7B-Instruct",
+    "GPT-J-6B"
+  ],
+  "methods": [
+    "FT",
+    "MEMIT",
+    "AlphaEdit",
+    "AlphaEdit-BLUE",
+    "FE (author repo, W0-fixed z)",
+    "AlphaEdit+SPHERE",
+    "PRICE (Ours)"
+  ],
+  "fe_author_selection": {
+    "status": "WITHDRAWN / SUPERSEDED by USER-FE-ORIGINAL-W0-RESET-20261011-R1; historical policy only",
+    "instruction_id": "USER-GH-S1-S2-FE-AUTHOR-MAIN-REFRESH-20261010-R1",
+    "main_label": "MEMIT-FE (FE author hparams + history)",
+    "models": ["Llama3-8B-Instruct", "Qwen2.5-7B-Instruct"],
+    "execution_method": "MEMIT_FE_HISTORY",
+    "profile": "official/hparams/MEMIT_FE_HISTORY_AUTHOR/profiles.json",
+    "source_jobs": {"llama3": {"CF": "62529", "zsRE": "62530"}, "qwen25": {"CF": "62531", "zsRE": "62532"}},
+    "selection": "별도 author4행을 모델별 본표 CF/zsRE 셀로 통합. 완료 raw 검산된 author결과만 사용; native FE 또는 이전 history 점수를 author로 재명명하지 않는다.",
+    "legacy": "Llama/Qwen 이전 native FE 행은 별도 이전설정 표/보고에 보존. GPT-J는 author실험이 없어 기존 native값을 legacy라 명시하며 유지; 새 run 자동승인 없음.",
+    "generation": "author checkpoint와 동일 identity의 generation 결과만 해당 Flu/Con에 연결. legacyCP 평가결과 복사 금지.",
+    "claim": "원저자 clamp/steps + persistent history variant; DOW-KE exact reproduction 주장 아님"
+  },
+  "fe_original_w0_reset": {
+    "instruction_id": "USER-FE-ORIGINAL-W0-RESET-20261011-R1",
+    "main_label": "FE (author repo, W0-fixed z)",
+    "upstream_commit": "478134dfb24b43f4e18b47e8500893ce3f9cc50f",
+    "models": ["llama3", "qwen25", "gptj"],
+    "datasets": ["cf", "zsre"],
+    "source_policy": "author native FE-MEMIT, W0 firstforward whole2K z fixed, native history/solve/YAML/defaultBF16. Old FE_HISTORY wrapper not used",
+    "withdrawn": "all previous native FE / FE_HISTORY / author-hparams / FE sink results. No old numbers relabelled as new runs",
+    "old_checkpoint_policy": "exact owner FE writers/consumers stopped, previous FE CP/replicas deleted per user scope; actual absence only with deletion receipt. HF/C0/dataset/nonFE CP/raw/log/source KEEP",
+    "new_checkpoint_policy": "latest one per run, atomic overwrite at cumulative500/1000/1500/2000; metrics accumulate, no separateW0CP",
+    "rendering": "NOT_SUBMITTED until exact actual ID. Then owner snapshot state; no task pending presented as scheduler PENDING",
+    "dispatch": "USER-FE-QWEN-SERVER1-MOVE-20261011-R1 moves the two unsubmitted SH2 Qwen conditions to SH1 (63217/63218), alongside existing SH1 four (63151..63154). Total six unchanged; SH2 no submit/retry; GH no duplicate submission instruction",
+    "report": "experiment-reports/global/fe-original-w0-reset-20261011/withdrawn-results.md"
+  },
+  "columns": {
+    "CF": [
+      "Score",
+      "Eff",
+      "Gen",
+      "Loc",
+      "Flu",
+      "Con"
+    ],
+    "zsRE": [
+      "Eff",
+      "Gen",
+      "Loc"
+    ]
+  },
   "eligibility": {
     "fresh_cold_start_required": true,
     "historical_completed_or_old_checkpoint_continuation": false,
     "sample_or_order_mismatch_requires_rerun": true,
-    "required_identity": ["rerun_attempt", "model", "method", "dataset", "ordered_sample_sha256", "cold_state_identity", "source_commit", "config_sha256", "server", "job_id", "job_name", "observed_state", "observed_at", "report_path"],
-    "excluded_job_roles": ["qualification", "W0_preparation", "collector", "heldout_tuning", "historical_replay"],
+    "required_identity": [
+      "rerun_attempt",
+      "model",
+      "method",
+      "dataset",
+      "ordered_sample_sha256",
+      "cold_state_identity",
+      "source_commit",
+      "config_sha256",
+      "server",
+      "job_id",
+      "job_name",
+      "observed_state",
+      "observed_at",
+      "report_path"
+    ],
+    "excluded_job_roles": [
+      "qualification",
+      "W0_preparation",
+      "collector",
+      "heldout_tuning",
+      "historical_replay"
+    ],
     "PRICE": "별도로 승인된 새 본실험만 기록한다. 표의 행이 새 arm·tuning·run 권한을 추가하지 않는다."
   },
   "rendering": {
@@ -47,8 +121,8 @@
     "new_experiment_authorization": false,
     "zsre_metric_scope": "기존 exact-token-prefix evaluator; loc_ans 정답 정확도. 원본 호환 재평가 결과로 재명명하지 않는다.",
     "report": "experiment-reports/global/w0-main-table-20261009.md",
-    "Flu_units": "raw entropy bits",
-    "Con_units": "raw TF-IDF cosine 0_to_1"
+    "Flu_units": "paper display: raw entropy bits *100 (not accuracy percent)",
+    "Con_units": "paper display: raw TF-IDF cosine *100 (not accuracy)"
   },
   "updates": {
     "trigger": "SH 제출·상태 변경·완료 보고를 GH가 검증해 main에 비강제 통합한다.",
@@ -60,14 +134,43 @@
       "instruction_id": "USER-SIDE-GH-LLAMA-CF-MEMIT-ALPHA-2K-TABLE-20261009-R1",
       "model": "Llama3-8B-Instruct",
       "dataset": "CF",
-      "methods": ["MEMIT", "AlphaEdit"],
-      "source_jobs": ["42658", "42657"],
+      "methods": [
+        "MEMIT",
+        "AlphaEdit"
+      ],
+      "source_jobs": [
+        "42658",
+        "42657"
+      ],
       "endpoint": "B020/2000 edits",
-      "columns": ["Score", "Eff", "Gen", "Loc"],
+      "columns": [
+        "Score",
+        "Eff",
+        "Gen",
+        "Loc"
+      ],
       "label": "historical ‡, 새 official rerun 완료 아님",
       "generation": "미관측/DEFERRED 그대로, 0 invent 금지",
       "report": "experiment-reports/global/llama-native-cf-historical-b020-20261009.md",
       "scope": "이 두 결과만 fresh-only 원칙 예외. 기존 BLUE † 예외 보존, 다른 모델/방법/zsRE 자동 예외 없음"
+    }
+  ],
+  "explicit_resume_exceptions": [
+    {
+      "instruction_id": "USER-SH2-QWEN-ZSRE-SPHERE-B9-RESUME-20261010-R1",
+      "model": "Qwen2.5-7B-Instruct",
+      "dataset": "zsRE",
+      "method": "AlphaEdit+SPHERE",
+      "parent_job": "62087",
+      "parent_checkpoint_batch": 9,
+      "parent_checkpoint_edits": 900,
+      "parent_checkpoint_sha256": "7e44f382ba1f3befcb9f4429f42fd328d55422306f9cef868a920c8bf7ec17b8",
+      "superseded_cold_job": "62534",
+      "child_execution": "B10..B20 only; native W/history/contexts/RNG/cursor restore",
+      "final_evaluation": "동일 first2000 전체 public-query E/G/Loc; W20 실측 확인 후에만 수치 반영",
+      "provenance": "B1..B9 parent source/config/raw 보존. child source/config/ancestry 별도 기록하며 fresh cold 결과로 바꾸지 않는다.",
+      "report": "experiment-reports/global/qwen-zsre-sphere-b9-resume-20261010/report-ko.md",
+      "scope": "이 parent SHA의 1chain에만 사용자 승인 예외. sample/order 불일치, 다른 모델/방법, prefix 재편집의 자동 승인 없음."
     }
   ],
   "preservation": {
@@ -75,5 +178,29 @@
     "automatic_job_cancellation": false,
     "automatic_new_arms_or_tuning": false,
     "existing_per_server_direct_user_scope_and_resource_limits": "유지. 표 관리만을 이유로 변경하지 않는다."
+  },
+  "generation_paper_display": {
+    "instruction_id": "USER-GH-FLUCON-PAPER-SCALE-TABLE-REFRESH-20261010-R1",
+    "raw": {
+      "Flu": "entropy bits",
+      "Con": "TF-IDF cosine 0..1"
+    },
+    "display": {
+      "Flu": "100 * unrounded raw mean",
+      "Con": "100 * unrounded raw mean"
+    },
+    "rounding": "decimal half-up two places, AFTER multiplication",
+    "Flu_is_accuracy_pct": false,
+    "Flu_may_exceed_100": true,
+    "Con_is_accuracy_pct": false,
+    "raw_json_and_existing_WB_keys": "UNCHANGED",
+    "display_field_names": [
+      "Flu_paper_x100",
+      "Con_paper_x100"
+    ],
+    "display_API": "official.evaluation.generation.paper_display.paper_generation(raw_summary)",
+    "collector_contract": "raw unit/mean/count/provenance 보존; 별도 표시 필드를 한 번만 계산. 표시 문자열 또는 x100 unit은 입력 금지. 반올림된 README 값 사용 금지.",
+    "missing": "DEFERRED/NOT_MEASURED/MISSING/UNVERIFIED stay nonnumeric; no invented zero",
+    "all_tables": "W0, baseline, PRICE and separate approved history use identical display scale."
   }
 }

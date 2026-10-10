@@ -1,0 +1,124 @@
+{
+  "family": "llama3",
+  "job_id": "62103",
+  "status": "READY_VERIFIED_DELIVERED",
+  "observed_at": "2026-10-09T16:04:26.249876+00:00",
+  "accounting": "62103|COMPLETED|00:00:19|0:0",
+  "ready": {
+    "GPU_qualification": "NOT_RUN",
+    "W0_evaluation": 0,
+    "config_sha256": "815b2539751fa217eeebe8b82756dd05399a5297746097c643c464809d70d4d2",
+    "context_sha256": "5706a73281e1cdf3cdcd6c92388ffb6f1ae180e23b6e6a514df73ee9efff3904",
+    "context_tokens_sha256": "c1b4920f86a74b831106de3777a92f7c7f46abe87d146f6e7fb53b7508c61cbf",
+    "edits": 0,
+    "fit": 0,
+    "generator_sha256": "48451031b091753598f74272d38ad6b0f79363d1e8e8efa7c061e4ac189f3d68",
+    "job_id": "62103",
+    "model_family": "llama3",
+    "model_manifest_sha256": "c55697a044ff886ea09ba4ba316db72a31c085e292f5f82bddfdd36d9b694cad",
+    "model_weight_verification": "RUNTIME_FULL_SHA_PASS",
+    "native_module": "official.baselines.sphere.memit.memit_main",
+    "native_module_sha256": "62673febab917557e94244099a1f5d745a6ec3d2f6e25746103c00dfc8864f65",
+    "profile": "official-native-edit-context-fiveprompts-total10-topk5",
+    "revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+    "runtime": {
+      "gpu": "NVIDIA H200 NVL",
+      "torch": "2.9.1+cu128",
+      "transformers": "4.57.1"
+    },
+    "seconds": 7.458352090790868,
+    "seed": 0,
+    "source": "70b63f001ae200eed70d5278028b1cc7d33ce009",
+    "status": "CONTEXT_GENERATED"
+  },
+  "source_paths": [
+    "/data/janghj/ODE-edit/local/native-context-server3-20261010/execution-r1/outputs/llama3/contexts.json",
+    "/data/janghj/ODE-edit/local/native-context-server3-20261010/execution-r1/outputs/llama3/context-token-ids.json",
+    "/data/janghj/ODE-edit/local/native-context-server3-20261010/execution-r1/outputs/llama3/READY.json"
+  ],
+  "deliveries": [
+    {
+      "server": "server1",
+      "destination": "/mnt/raid5/janghj/ODE-edit/local/native-context-import/server3-20261010/job-62103/llama3",
+      "verified": true,
+      "members": [
+        {
+          "name": "contexts.json",
+          "bytes": 354,
+          "sha256": "5706a73281e1cdf3cdcd6c92388ffb6f1ae180e23b6e6a514df73ee9efff3904"
+        },
+        {
+          "name": "context-token-ids.json",
+          "bytes": 859,
+          "sha256": "c1b4920f86a74b831106de3777a92f7c7f46abe87d146f6e7fb53b7508c61cbf"
+        },
+        {
+          "name": "READY.json",
+          "bytes": 1173,
+          "sha256": "d95056a2d4f90245a7b03d1476845abd8f8fd7027df047e28d5afbf23802f5dd"
+        },
+        {
+          "name": "config-provenance.json",
+          "bytes": 55539,
+          "sha256": "dd9c6ceb59052bd506c05744cb223e860efbc1ba3f0fe0c49b556aa28fc132f7"
+        }
+      ]
+    },
+    {
+      "server": "server2",
+      "destination": "/mnt/raid5/janghj/ODE-edit/local/native-context-import/server3-20261010/job-62103/llama3",
+      "verified": true,
+      "members": [
+        {
+          "name": "contexts.json",
+          "bytes": 354,
+          "sha256": "5706a73281e1cdf3cdcd6c92388ffb6f1ae180e23b6e6a514df73ee9efff3904"
+        },
+        {
+          "name": "context-token-ids.json",
+          "bytes": 859,
+          "sha256": "c1b4920f86a74b831106de3777a92f7c7f46abe87d146f6e7fb53b7508c61cbf"
+        },
+        {
+          "name": "READY.json",
+          "bytes": 1173,
+          "sha256": "d95056a2d4f90245a7b03d1476845abd8f8fd7027df047e28d5afbf23802f5dd"
+        },
+        {
+          "name": "config-provenance.json",
+          "bytes": 55539,
+          "sha256": "dd9c6ceb59052bd506c05744cb223e860efbc1ba3f0fe0c49b556aa28fc132f7"
+        }
+      ]
+    },
+    {
+      "server": "server4",
+      "destination": "/data/janghj/ODE-edit/local/native-context-import/server3-20261010/job-62103/llama3",
+      "verified": true,
+      "members": [
+        {
+          "name": "contexts.json",
+          "bytes": 354,
+          "sha256": "5706a73281e1cdf3cdcd6c92388ffb6f1ae180e23b6e6a514df73ee9efff3904"
+        },
+        {
+          "name": "context-token-ids.json",
+          "bytes": 859,
+          "sha256": "c1b4920f86a74b831106de3777a92f7c7f46abe87d146f6e7fb53b7508c61cbf"
+        },
+        {
+          "name": "READY.json",
+          "bytes": 1173,
+          "sha256": "d95056a2d4f90245a7b03d1476845abd8f8fd7027df047e28d5afbf23802f5dd"
+        },
+        {
+          "name": "config-provenance.json",
+          "bytes": 55539,
+          "sha256": "dd9c6ceb59052bd506c05744cb223e860efbc1ba3f0fe0c49b556aa28fc132f7"
+        }
+      ]
+    }
+  ],
+  "source_KEEP": true,
+  "frozen_run_injection": false
+}

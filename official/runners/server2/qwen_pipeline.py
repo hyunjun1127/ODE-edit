@@ -17,7 +17,7 @@ def now():return datetime.now(timezone.utc).isoformat()
 def read(path):return json.loads(Path(path).read_text())
 
 
-def final_evidence(out, commits, pointer, dataset):
+def final_evidence(out, commits, pointer, dataset, deferred=False):
     last=commits[-1]; identity=last['checkpoint_identity']
     if any(c['checkpoint_identity']!=identity for c in commits):
         raise RuntimeError('COMMIT_IDENTITY_CHANGED')
@@ -28,7 +28,7 @@ def final_evidence(out, commits, pointer, dataset):
         raise RuntimeError('FINAL_FACTUAL_INCOMPLETE')
     evidence=dict(factual=dict(state='COMPLETE',observed_requests=2000,
                               path=str(path),sha256=file_sha(path)))
-    if dataset=='cf':
+    if dataset=='cf' and not deferred:
         path=Path(last['generation']['rows_path']); raw=read(path)
         if raw['identity_sha256']!=last['generation']['identity_sha256'] or len(raw['rows'])!=2000:
             raise RuntimeError('FINAL_GENERATION_INCOMPLETE')
@@ -54,7 +54,12 @@ def child(root,command,output,*,dataset,config=None,extra=(),label):
 
 def run(root,logical):
     require_execution_enabled()
-    root=Path(root).resolve(); row=next(r for r in rows() if r['logical_main_row']==logical)
+    root=Path(root).resolve()
+    selected=rows()
+    if (root/'mask-profile.json').is_file():
+        from official.runners.server2.qwen_mask_profile import rows as mask_rows
+        selected=mask_rows()
+    row=next(r for r in selected if r['logical_main_row']==logical)
     config=root/'configs'/f'{logical}.json'
     if read(config)!=row['config']:raise ValueError('CELL_CONFIG_CHANGED')
     dataset=row['config']['dataset'];method=row['config']['method']
@@ -77,7 +82,8 @@ def run(root,logical):
     commits=[read(out/'commits'/f'b{b:02d}.json') for b in range(1,21)]
     if pointer['batch']!=20 or not pointer['final_W20'] or [c['completed_batch'] for c in commits]!=list(range(1,21)):
         raise RuntimeError('W20_JOIN_INCOMPLETE')
-    identity,evidence=final_evidence(out,commits,pointer,dataset)
+    deferred=row['config'].get('generation_schedule')=='DEFERRED_CHECKPOINT_EVALUATION'
+    identity,evidence=final_evidence(out,commits,pointer,dataset,deferred)
     write_new(out/'terminal.json',dict(schema='server2-qwen-official-terminal-v1',
         logical_main_row=logical,actual_job_id=job,completed_at_utc=now(),
         status='W20_COMPLETE',completed_edits=2000,checkpoint=pointer,
@@ -85,6 +91,8 @@ def run(root,logical):
         commits=[dict(path=str(out/'commits'/f'b{b:02d}.json'),sha256=file_sha(out/'commits'/f'b{b:02d}.json')) for b in range(1,21)],
         config_sha256=row['config']['config_sha256'],dataset=dataset,
         qualification=QUALIFICATION_STATUS,
+        generation_schedule=row['config'].get('generation_schedule'),
+        deferred_generation_consumer_pending=deferred,
         archive_pending=True,scientific_job_source_immutable=True))
 
 

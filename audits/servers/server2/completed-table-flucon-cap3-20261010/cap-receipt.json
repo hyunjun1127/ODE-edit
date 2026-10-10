@@ -1,0 +1,112 @@
+{
+  "DAG_width": 2,
+  "accepted_turn": "01a1236d-9585-7183-88d1-d29261b81fcc",
+  "allocated_GPU": 2,
+  "at": "2026-10-10T01:31:11.166908+00:00",
+  "cancels": 0,
+  "effective_cap": 3,
+  "frontier": [
+    "62538"
+  ],
+  "holds": 0,
+  "inventory": {
+    "ambiguous": [],
+    "excluded": [],
+    "other_server_detailed_queries": 0,
+    "owner": "janghj",
+    "project": [
+      {
+        "allocated_GPUs": 1,
+        "command": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/scripts/qwen25-zsre-memit_fe-gpu.sh",
+        "dependency": "(null)",
+        "detail": "JobId=62085 JobName=s2-qwen25-zsre-memit_fe-gpu UserId=janghj(1025) GroupId=janghj(1026) MCS_label=N/A Priority=278 Nice=0 Account=lab QOS=lab_gpu_s2 JobState=RUNNING Reason=None Dependency=(null) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=03:41:07 TimeLimit=2-00:00:00 TimeMin=N/A SubmitTime=2026-10-10T00:46:20 EligibleTime=2026-10-10T06:40:28 AccrueTime=2026-10-10T06:40:28 StartTime=2026-10-10T06:50:15 EndTime=2026-10-12T06:50:15 Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-10-10T06:50:15 Scheduler=Main Partition=gpu AllocNode:Sid=server2:1610677 ReqNodeList=server2 ExcNodeList=(null) NodeList=server2 BatchHost=server2 StepMgrEnabled=Yes NumNodes=1 NumCPUs=6 NumTasks=1 CPUs/Task=6 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=6,mem=58G,node=1,billing=1,gres/gpu=1 AllocTRES=cpu=6,mem=58G,node=1,billing=1,gres/gpu=1 Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=6 MinMemoryNode=58G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/scripts/qwen25-zsre-memit_fe-gpu.sh SubmitLine=sbatch --parsable --hold --partition=gpu --qos=lab_gpu_s2 --nodelist=server2 --nodes=1 --ntasks=1 --cpus-per-task=6 --mem=59392M --time=48:00:00 --export=NONE --no-requeue --job-name=s2-qwen25-zsre-memit_fe-gpu --chdir=/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1 --output=/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/logs/qwen25-zsre-memit_fe-gpu-%j.out --error=/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/logs/qwen25-zsre-memit_fe-gpu-%j.err --gres=gpu:a6000:1 --dependency=afterany:62077 /mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/scripts/qwen25-zsre-memit_fe-gpu.sh WorkDir=/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1 StdErr=/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/logs/qwen25-zsre-memit_fe-gpu-62085.err StdIn=/dev/null StdOut=/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/logs/qwen25-zsre-memit_fe-gpu-62085.out TresPerNode=gres/gpu:a6000:1 TresPerTask=cpu=6",
+        "gpus": 1,
+        "job": "62085",
+        "name": "s2-qwen25-zsre-memit_fe-gpu",
+        "reason": "server2",
+        "state": "RUNNING",
+        "workdir": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1"
+      },
+      {
+        "allocated_GPUs": 1,
+        "command": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/scripts/qwen25-cf-alphaedit-gpu.sh",
+        "dependency": "(null)",
+        "detail": "JobId=62075 JobName=s2-qwen25-cf-alphaedit-gpu UserId=janghj(1025) GroupId=janghj(1026) MCS_label=N/A Priority=277 Nice=0 Account=lab QOS=lab_gpu_s2 JobState=RUNNING Reason=None Dependency=(null) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=02:44:23 TimeLimit=2-00:00:00 TimeMin=N/A SubmitTime=2026-10-10T00:46:19 EligibleTime=2026-10-10T07:46:59 AccrueTime=Unknown StartTime=2026-10-10T07:46:59 EndTime=2026-10-12T07:46:59 Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-10-10T07:46:59 Scheduler=Backfill Partition=gpu AllocNode:Sid=server2:1610677 ReqNodeList=server2 ExcNodeList=(null) NodeList=server2 BatchHost=server2 StepMgrEnabled=Yes NumNodes=1 NumCPUs=6 NumTasks=1 CPUs/Task=6 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=6,mem=58G,node=1,billing=1,gres/gpu=1 AllocTRES=cpu=6,mem=58G,node=1,billing=1,gres/gpu=1 Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=6 MinMemoryNode=58G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/scripts/qwen25-cf-alphaedit-gpu.sh SubmitLine=sbatch --parsable --hold --partition=gpu --qos=lab_gpu_s2 --nodelist=server2 --nodes=1 --ntasks=1 --cpus-per-task=6 --mem=59392M --time=48:00:00 --export=NONE --no-requeue --job-name=s2-qwen25-cf-alphaedit-gpu --chdir=/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1 --output=/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/logs/qwen25-cf-alphaedit-gpu-%j.out --error=/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/logs/qwen25-cf-alphaedit-gpu-%j.err --gres=gpu:a6000:1 --dependency=afterany:61947 /mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/scripts/qwen25-cf-alphaedit-gpu.sh WorkDir=/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1 StdErr=/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/logs/qwen25-cf-alphaedit-gpu-62075.err StdIn=/dev/null StdOut=/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/logs/qwen25-cf-alphaedit-gpu-62075.out TresPerNode=gres/gpu:a6000:1 TresPerTask=cpu=6",
+        "gpus": 1,
+        "job": "62075",
+        "name": "s2-qwen25-cf-alphaedit-gpu",
+        "reason": "server2",
+        "state": "RUNNING",
+        "workdir": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1"
+      },
+      {
+        "allocated_GPUs": 0,
+        "command": "/mnt/raid5/janghj/ODE-edit/local/qwen-zsre-sphere-b9-resume-20261010/registration-r1/scripts/main.sh",
+        "dependency": "afterany:62532(unfulfilled)",
+        "detail": "JobId=62538 JobName=s2-qwen25-zsre-sphere-resume-b9 UserId=janghj(1025) GroupId=janghj(1026) MCS_label=N/A Priority=277 Nice=0 Account=lab QOS=lab_gpu_s2 JobState=PENDING Reason=Dependency Dependency=afterany:62532(unfulfilled) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=2-00:00:00 TimeMin=N/A SubmitTime=2026-10-10T08:51:20 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-10-10T08:51:20 Scheduler=Main Partition=gpu AllocNode:Sid=server2:2567948 ReqNodeList=server2 ExcNodeList=(null) NodeList= StepMgrEnabled=Yes NumNodes=1-1 NumCPUs=6-6 NumTasks=1 CPUs/Task=6 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=6,mem=58G,node=1,billing=1,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=6 MinMemoryNode=58G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/mnt/raid5/janghj/ODE-edit/local/qwen-zsre-sphere-b9-resume-20261010/registration-r1/scripts/main.sh SubmitLine=sbatch --parsable --hold --export=NONE --no-requeue --partition=gpu --qos=lab_gpu_s2 --nodelist=server2 --nodes=1 --ntasks=1 --cpus-per-task=6 --gres=gpu:a6000:1 --mem=59392M --time=2-00:00:00 --job-name=s2-qwen25-zsre-sphere-resume-b9 --chdir=/mnt/raid5/janghj/ODE-edit/local/qwen-zsre-sphere-b9-resume-20261010/registration-r1/source --output=/mnt/raid5/janghj/ODE-edit/local/qwen-zsre-sphere-b9-resume-20261010/registration-r1/logs/main-%j.out --error=/mnt/raid5/janghj/ODE-edit/local/qwen-zsre-sphere-b9-resume-20261010/registration-r1/logs/main-%j.err --dependency=afterany:62532 /mnt/raid5/janghj/ODE-edit/local/qwen-zsre-sphere-b9-resume-20261010/registration-r1/scripts/main.sh WorkDir=/mnt/raid5/janghj/ODE-edit/local/qwen-zsre-sphere-b9-resume-20261010/registration-r1/source StdErr=/mnt/raid5/janghj/ODE-edit/local/qwen-zsre-sphere-b9-resume-20261010/registration-r1/logs/main-62538.err StdIn=/dev/null StdOut=/mnt/raid5/janghj/ODE-edit/local/qwen-zsre-sphere-b9-resume-20261010/registration-r1/logs/main-62538.out TresPerNode=gres/gpu:a6000:1 TresPerTask=cpu=6",
+        "gpus": 1,
+        "job": "62538",
+        "name": "s2-qwen25-zsre-sphere-resume-b9",
+        "reason": "(Dependency)",
+        "state": "PENDING",
+        "workdir": "/mnt/raid5/janghj/ODE-edit/local/qwen-zsre-sphere-b9-resume-20261010/registration-r1/source"
+      },
+      {
+        "allocated_GPUs": 0,
+        "command": "/mnt/raid5/janghj/ODE-edit/local/fe-author-hparams-2k-20261010/registration-r1/scripts/zsre.sh",
+        "dependency": "afterany:62531(unfulfilled)",
+        "detail": "JobId=62532 JobName=s2-qwen25-zsre-fe-author-history UserId=janghj(1025) GroupId=janghj(1026) MCS_label=N/A Priority=277 Nice=0 Account=lab QOS=lab_gpu_s2 JobState=PENDING Reason=Dependency Dependency=afterany:62531(unfulfilled) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=2-00:00:00 TimeMin=N/A SubmitTime=2026-10-10T08:28:38 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-10-10T08:28:38 Scheduler=Main Partition=gpu AllocNode:Sid=server2:2523371 ReqNodeList=server2 ExcNodeList=(null) NodeList= StepMgrEnabled=Yes NumNodes=1-1 NumCPUs=6-6 NumTasks=1 CPUs/Task=6 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=6,mem=58G,node=1,billing=1,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=6 MinMemoryNode=58G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/mnt/raid5/janghj/ODE-edit/local/fe-author-hparams-2k-20261010/registration-r1/scripts/zsre.sh SubmitLine=sbatch --parsable --hold --export=NONE --no-requeue --partition=gpu --qos=lab_gpu_s2 --nodelist=server2 --nodes=1 --ntasks=1 --cpus-per-task=6 --gres=gpu:a6000:1 --mem=59392M --time=2-00:00:00 --job-name=s2-qwen25-zsre-fe-author-history --chdir=/mnt/raid5/janghj/ODE-edit/local/fe-author-hparams-2k-20261010/registration-r1/source --output=/mnt/raid5/janghj/ODE-edit/local/fe-author-hparams-2k-20261010/registration-r1/logs/zsre-%j.out --error=/mnt/raid5/janghj/ODE-edit/local/fe-author-hparams-2k-20261010/registration-r1/logs/zsre-%j.err --dependency=afterany:62531 /mnt/raid5/janghj/ODE-edit/local/fe-author-hparams-2k-20261010/registration-r1/scripts/zsre.sh WorkDir=/mnt/raid5/janghj/ODE-edit/local/fe-author-hparams-2k-20261010/registration-r1/source StdErr=/mnt/raid5/janghj/ODE-edit/local/fe-author-hparams-2k-20261010/registration-r1/logs/zsre-62532.err StdIn=/dev/null StdOut=/mnt/raid5/janghj/ODE-edit/local/fe-author-hparams-2k-20261010/registration-r1/logs/zsre-62532.out TresPerNode=gres/gpu:a6000:1 TresPerTask=cpu=6",
+        "gpus": 1,
+        "job": "62532",
+        "name": "s2-qwen25-zsre-fe-author-history",
+        "reason": "(Dependency)",
+        "state": "PENDING",
+        "workdir": "/mnt/raid5/janghj/ODE-edit/local/fe-author-hparams-2k-20261010/registration-r1/source"
+      },
+      {
+        "allocated_GPUs": 0,
+        "command": "/mnt/raid5/janghj/ODE-edit/local/fe-author-hparams-2k-20261010/registration-r1/scripts/cf.sh",
+        "dependency": "afterany:62083(unfulfilled),afterany:62085(unfulfilled)",
+        "detail": "JobId=62531 JobName=s2-qwen25-cf-fe-author-history UserId=janghj(1025) GroupId=janghj(1026) MCS_label=N/A Priority=277 Nice=0 Account=lab QOS=lab_gpu_s2 JobState=PENDING Reason=Dependency Dependency=afterany:62083(unfulfilled),afterany:62085(unfulfilled) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=2-00:00:00 TimeMin=N/A SubmitTime=2026-10-10T08:28:38 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-10-10T08:28:38 Scheduler=Main Partition=gpu AllocNode:Sid=server2:2523371 ReqNodeList=server2 ExcNodeList=(null) NodeList= StepMgrEnabled=Yes NumNodes=1-1 NumCPUs=6-6 NumTasks=1 CPUs/Task=6 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=6,mem=58G,node=1,billing=1,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=6 MinMemoryNode=58G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/mnt/raid5/janghj/ODE-edit/local/fe-author-hparams-2k-20261010/registration-r1/scripts/cf.sh SubmitLine=sbatch --parsable --hold --export=NONE --no-requeue --partition=gpu --qos=lab_gpu_s2 --nodelist=server2 --nodes=1 --ntasks=1 --cpus-per-task=6 --gres=gpu:a6000:1 --mem=59392M --time=2-00:00:00 --job-name=s2-qwen25-cf-fe-author-history --chdir=/mnt/raid5/janghj/ODE-edit/local/fe-author-hparams-2k-20261010/registration-r1/source --output=/mnt/raid5/janghj/ODE-edit/local/fe-author-hparams-2k-20261010/registration-r1/logs/cf-%j.out --error=/mnt/raid5/janghj/ODE-edit/local/fe-author-hparams-2k-20261010/registration-r1/logs/cf-%j.err --dependency=afterany:62081:62083:62085 /mnt/raid5/janghj/ODE-edit/local/fe-author-hparams-2k-20261010/registration-r1/scripts/cf.sh WorkDir=/mnt/raid5/janghj/ODE-edit/local/fe-author-hparams-2k-20261010/registration-r1/source StdErr=/mnt/raid5/janghj/ODE-edit/local/fe-author-hparams-2k-20261010/registration-r1/logs/cf-62531.err StdIn=/dev/null StdOut=/mnt/raid5/janghj/ODE-edit/local/fe-author-hparams-2k-20261010/registration-r1/logs/cf-62531.out TresPerNode=gres/gpu:a6000:1 TresPerTask=cpu=6",
+        "gpus": 1,
+        "job": "62531",
+        "name": "s2-qwen25-cf-fe-author-history",
+        "reason": "(Dependency)",
+        "state": "PENDING",
+        "workdir": "/mnt/raid5/janghj/ODE-edit/local/fe-author-hparams-2k-20261010/registration-r1/source"
+      },
+      {
+        "allocated_GPUs": 0,
+        "command": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/scripts/qwen25-zsre-alphaedit-gpu.sh",
+        "dependency": "afterany:62075(unfulfilled)",
+        "detail": "JobId=62083 JobName=s2-qwen25-zsre-alphaedit-gpu UserId=janghj(1025) GroupId=janghj(1026) MCS_label=N/A Priority=277 Nice=0 Account=lab QOS=lab_gpu_s2 JobState=PENDING Reason=Dependency Dependency=afterany:62075(unfulfilled) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=2-00:00:00 TimeMin=N/A SubmitTime=2026-10-10T00:46:20 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-10-10T00:46:20 Scheduler=Main Partition=gpu AllocNode:Sid=server2:1610677 ReqNodeList=server2 ExcNodeList=(null) NodeList= StepMgrEnabled=Yes NumNodes=1-1 NumCPUs=6-6 NumTasks=1 CPUs/Task=6 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=6,mem=58G,node=1,billing=1,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=6 MinMemoryNode=58G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/scripts/qwen25-zsre-alphaedit-gpu.sh SubmitLine=sbatch --parsable --hold --partition=gpu --qos=lab_gpu_s2 --nodelist=server2 --nodes=1 --ntasks=1 --cpus-per-task=6 --mem=59392M --time=48:00:00 --export=NONE --no-requeue --job-name=s2-qwen25-zsre-alphaedit-gpu --chdir=/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1 --output=/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/logs/qwen25-zsre-alphaedit-gpu-%j.out --error=/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/logs/qwen25-zsre-alphaedit-gpu-%j.err --gres=gpu:a6000:1 --dependency=afterany:62075 /mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/scripts/qwen25-zsre-alphaedit-gpu.sh WorkDir=/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1 StdErr=/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/logs/qwen25-zsre-alphaedit-gpu-62083.err StdIn=/dev/null StdOut=/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/logs/qwen25-zsre-alphaedit-gpu-62083.out TresPerNode=gres/gpu:a6000:1 TresPerTask=cpu=6",
+        "gpus": 1,
+        "job": "62083",
+        "name": "s2-qwen25-zsre-alphaedit-gpu",
+        "reason": "(Dependency)",
+        "state": "PENDING",
+        "workdir": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1"
+      }
+    ],
+    "project_scope": "Command/WorkDir inside exact repository registered worktrees or root local",
+    "science_results_queried": false
+  },
+  "local_caps": [
+    {
+      "bytes": 45,
+      "path": "/mnt/raid5/janghj/ODE-edit/servers/local/gpu-caps.tsv",
+      "sha256": "ecceb51e164f246f1ae7c5c2c21cb9a096731b7da48dcb213e80d7f777c84b69"
+    },
+    {
+      "bytes": 45,
+      "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh2-completed-cap3-20261010/servers/local/gpu-caps.tsv",
+      "sha256": "ecceb51e164f246f1ae7c5c2c21cb9a096731b7da48dcb213e80d7f777c84b69"
+    }
+  ],
+  "new_GPU_jobs": 0,
+  "nonce": "USER-GH-S1-S2-COMPLETED-TABLE-S1-FLUCON-CAP3-20261010-R1",
+  "other_servers_changed": false,
+  "pending_dependency_changes": 0,
+  "prior_effective_cap": 4,
+  "reason": "Existing exact dependency DAG already satisfies cap3; source/config untouched."
+}

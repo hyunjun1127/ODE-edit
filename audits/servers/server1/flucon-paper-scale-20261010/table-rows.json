@@ -1,0 +1,423 @@
+{
+  "CPU_tests": 52,
+  "README_owner": "GH",
+  "actual_GPU_evaluation": "NOT_OBSERVED_AT_REGISTRATION",
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED_SAME_HOST_CHECKPOINTS_AND_REFERENCE",
+  "collector": {
+    "argv": [
+      "/mnt/raid5/janghj/EasyEdit/.venv/bin/python",
+      "-B",
+      "-u",
+      "-m",
+      "official.runners.server1.flucon_eval",
+      "collect",
+      "--preparation",
+      "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/flucon-paper-scale-20261010/preparation-r2/preparation.json",
+      "--output",
+      "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/flucon-paper-scale-20261010/registration-r1/collector-results.json",
+      "--lock",
+      "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/flucon-paper-scale-20261010/registration-r1/execution-lock.json"
+    ],
+    "config": null,
+    "dependencies": [
+      [
+        "afterany",
+        "62259"
+      ],
+      [
+        "afterany",
+        "62260"
+      ],
+      [
+        "afterany",
+        "62261"
+      ],
+      [
+        "afterany",
+        "62262"
+      ],
+      [
+        "afterany",
+        "62263"
+      ]
+    ],
+    "gpus": 0,
+    "job_id": "62264",
+    "name": "official-s1-flucon-eval-collector",
+    "script": {
+      "bytes": 1074,
+      "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/flucon-paper-scale-20261010/registration-r1/scripts/collector.sh",
+      "sha256": "c79a31c524f5c8d95f92d7732f6c7534f4870a2c0acb085c6e4ac875c33d385c"
+    }
+  },
+  "completed_rows": {
+    "bytes": 42901,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-flucon-paper-scale-20261010/audits/servers/server1/flucon-paper-scale-20261010/completed-rows.json",
+    "sha256": "a88a99c7c5d7450f62a6ec9d1098b61b153bcdb83cb609033cab451d837e7820"
+  },
+  "display_rule": "raw * 100, decimal HALF_UP 2 places, no prior rounding",
+  "excluded": [
+    {
+      "job_id": "61975",
+      "model": "qwen25",
+      "reason": "OLD_CONTEXT_MASK_EXCLUDED"
+    },
+    {
+      "job_id": "62061",
+      "model": "qwen25",
+      "reason": "NOT_COMPLETE_AT_INVENTORY"
+    },
+    {
+      "method": "MEMIT/ALPHAEDIT/ALPHAEDIT_BLUE",
+      "model": "llama3",
+      "reason": "HISTORICAL_REMOTE_CP_NOT_LOCAL_CURRENT_OFFICIAL_COHORT_NO_RESTORE_AUTHORITY"
+    }
+  ],
+  "execution_source": "61ab70384bc909d359537f14a3bbb3691f5c9ce5",
+  "instruction": "USER-GH-FLUCON-PAPER-SCALE-TABLE-REFRESH-20261010-R1",
+  "official_tree": "24aef23257f1a9ecc78703347da786b37c654604",
+  "online_readback": "NOT_OBSERVED_AT_REGISTRATION",
+  "preparation": {
+    "bytes": 188899,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/flucon-paper-scale-20261010/preparation-r2/preparation.json",
+    "sha256": "389ee090dbe7f438d0e75d57f7dbc1f23ce48602460d7f98ce1e201ca12e53e1"
+  },
+  "preserved": {
+    "WandB_raw_keys": true,
+    "checkpoints": true,
+    "old_jobs": true,
+    "old_raw": true
+  },
+  "recorded_at": "2026-10-09T17:53:18.706750+00:00",
+  "rows": [
+    {
+      "Con": {
+        "display_unit": "cosine_0_to_1 x100",
+        "paper_display_x100": "24.64",
+        "raw_unit": "cosine_0_to_1",
+        "raw_value": 0.24636896048599818
+      },
+      "Flu": {
+        "display_unit": "bits x100",
+        "paper_display_x100": "635.22",
+        "raw_unit": "bits",
+        "raw_value": 6.352242334333923
+      },
+      "dataset": "cf",
+      "endpoint": "W0",
+      "identity": {
+        "cohort": "first2000",
+        "endpoint": "W0",
+        "runtime": "f1eeb9d89fb418b2943c435c4692481931831ee913c28592c724b202d3f36c19",
+        "sampling_stream_sha256": "236bfd1953361720a391c15b7c4901dd3ec983d175d482459e57ca064f8bfad1",
+        "state_sha256": "16a1e262bff3b8fb96d7e995d61d0f1f0b7298802152ed512d0fdbed56d5cb74"
+      },
+      "identity_sha256": "3af963649150bee316149d41564a8d0c2db87c708456236fcd3a1599d2ebc526",
+      "method": "W0",
+      "model": "llama3",
+      "new_generation": false,
+      "raw": {
+        "bytes": 2861559,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-display-score-repair-r1/preparation-r1/runs/cf-w0/cf-generation/endpoints/3af963649150bee316149d41564a8d0c2db87c708456236fcd3a1599d2ebc526.json",
+        "sha256": "020e36b8cf4e75a354c5d670c0f23e6abd6885528d19050bb3ae3c3fbaf874e1"
+      },
+      "status": "CPU_EXISTING_RAW_VERIFIED",
+      "summary": {
+        "consistency_count": 2000,
+        "consistency_sum": 492.73792097199635,
+        "consistency_unit": "cosine_0_to_1",
+        "fluency_count": 2000,
+        "fluency_sum": 12704.484668667845,
+        "fluency_unit": "bits",
+        "generated_token_count": 1796707,
+        "generation_prompt_count": 20000,
+        "length_cap_no_continuation_prompt_count": 0,
+        "missing_reason_counts": {
+          "asset_not_available": 0,
+          "length_cap_no_continuation": 0,
+          "missing_generation_prompts": 0,
+          "missing_reference": 0,
+          "nonfinite_score": 0,
+          "tokenizer_not_available": 0,
+          "zero_generated_vector": 0,
+          "zero_reference_vector": 0
+        },
+        "ngram_entropy": 6.352242334333923,
+        "planned_count": 2000,
+        "reason_count_unit": "request_occurrences_nonexclusive",
+        "reference_score": 0.24636896048599818
+      }
+    },
+    {
+      "Con": "EVALUATION_REGISTERED_NOT_OBSERVED",
+      "Flu": "EVALUATION_REGISTERED_NOT_OBSERVED",
+      "checkpoint": {
+        "bytes": 234898529,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-display-score-repair-r1/preparation-r1/runs/cf-ft/checkpoint/batch-20-234624892cd3c1aa.pt",
+        "sha256": "234624892cd3c1aa46ba4276f4b9a7a2dd1e9a4e522d1f5e29a10f0dab77262a"
+      },
+      "config": {
+        "bytes": 4772,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/flucon-paper-scale-20261010/preparation-r2/configs/llama3-ft.json",
+        "sha256": "8e7e4de8bf40de4a5f41c733ed24695c6ef96aa1dc788b4adfd75757c5df10b6"
+      },
+      "dataset": "cf",
+      "dependency": [],
+      "edits_in_this_job": 0,
+      "endpoint": "W20",
+      "factual_cells_unchanged": true,
+      "job_id": "62259",
+      "job_name": "official-s1-flucon-eval-llama3-ft",
+      "method": "FT",
+      "model": "llama3",
+      "ordered_cohort_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+      "original_identity": {
+        "assets_sha256": "2279beeaecf7f073d00b335df93e669a78858f266188fbaab51000adf36adbdf",
+        "code_commit": "34e4d52d821113d56ee6c59b71d553dd01768e73",
+        "config_sha256": "7a50a35275c1eda21551d87c7f76b9dcc8611acfbdaecb6ed9a6c6141d14b84c",
+        "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+        "official_tree_sha256": "db0354edebde9517c200140dbaa717605c4d527e",
+        "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "tokenizer_sha256": "63411f4ee2a0111d0c3902d14c85a1d003dafc765573c60282957f558bf02453"
+      },
+      "original_job": "61771",
+      "planned_requests": 2000,
+      "source": "61ab70384bc909d359537f14a3bbb3691f5c9ce5",
+      "status": "PENDING",
+      "stream": {
+        "allocated_bytes": 4149248,
+        "bytes": 4145654,
+        "ctime_ns": 1791471157288487255,
+        "device": 2304,
+        "expected_sha256": null,
+        "inode": 243438032,
+        "mtime_ns": 1791471157288487255,
+        "nlink": 1,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/streams/cf-stream.json",
+        "real_path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/streams/cf-stream.json",
+        "sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "verification": "FRESH_SHA256"
+      }
+    },
+    {
+      "Con": "EVALUATION_REGISTERED_NOT_OBSERVED",
+      "Flu": "EVALUATION_REGISTERED_NOT_OBSERVED",
+      "checkpoint": {
+        "bytes": 5284844229,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-display-score-repair-r1/preparation-r1/runs/cf-sphere/checkpoint/batch-20-9029520ab0ae39c8.pt",
+        "sha256": "9029520ab0ae39c83838c117fd70746388745db89a9e07cabd5d883a7360de4b"
+      },
+      "config": {
+        "bytes": 5194,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/flucon-paper-scale-20261010/preparation-r2/configs/llama3-sphere.json",
+        "sha256": "74875296fe15cd642ffbafee875bee6f0d37e5f52d6cab42c4c366ad7356d7bc"
+      },
+      "dataset": "cf",
+      "dependency": [],
+      "edits_in_this_job": 0,
+      "endpoint": "W20",
+      "factual_cells_unchanged": true,
+      "job_id": "62260",
+      "job_name": "official-s1-flucon-eval-llama3-sphere",
+      "method": "SPHERE",
+      "model": "llama3",
+      "ordered_cohort_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+      "original_identity": {
+        "assets_sha256": "542be599e62a454f52eb4ed299f8cdfd79072d532bb292d43669195845534705",
+        "code_commit": "34e4d52d821113d56ee6c59b71d553dd01768e73",
+        "config_sha256": "117c3236d9c343053c5aace941d0246e171952fa75cb3c6b468982e4345bdfe4",
+        "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+        "official_tree_sha256": "db0354edebde9517c200140dbaa717605c4d527e",
+        "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "tokenizer_sha256": "63411f4ee2a0111d0c3902d14c85a1d003dafc765573c60282957f558bf02453"
+      },
+      "original_job": "61770",
+      "planned_requests": 2000,
+      "source": "61ab70384bc909d359537f14a3bbb3691f5c9ce5",
+      "status": "PENDING",
+      "stream": {
+        "allocated_bytes": 4149248,
+        "bytes": 4145654,
+        "ctime_ns": 1791471157288487255,
+        "device": 2304,
+        "expected_sha256": null,
+        "inode": 243438032,
+        "mtime_ns": 1791471157288487255,
+        "nlink": 1,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/streams/cf-stream.json",
+        "real_path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/streams/cf-stream.json",
+        "sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "verification": "FRESH_SHA256"
+      }
+    },
+    {
+      "Con": "EVALUATION_REGISTERED_NOT_OBSERVED",
+      "Flu": "EVALUATION_REGISTERED_NOT_OBSERVED",
+      "checkpoint": {
+        "bytes": 1174424401,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/cf-display-score-repair-r1/preparation-r1/runs/cf-memit_fe/checkpoint/batch-20-b7fc2fc9c3e7f7b0.pt",
+        "sha256": "b7fc2fc9c3e7f7b0d93501dfee0920a4ac3f97bfe50a37556a7544f74e2224ff"
+      },
+      "config": {
+        "bytes": 5064,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/flucon-paper-scale-20261010/preparation-r2/configs/llama3-memit_fe.json",
+        "sha256": "2f08341f0fba8802bd79b1ca67bb7f062c0ff30db5ada27c39eb1fd5869c091e"
+      },
+      "dataset": "cf",
+      "dependency": [],
+      "edits_in_this_job": 0,
+      "endpoint": "W20",
+      "factual_cells_unchanged": true,
+      "job_id": "62261",
+      "job_name": "official-s1-flucon-eval-llama3-memit_fe",
+      "method": "MEMIT_FE",
+      "model": "llama3",
+      "ordered_cohort_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+      "original_identity": {
+        "assets_sha256": "2279beeaecf7f073d00b335df93e669a78858f266188fbaab51000adf36adbdf",
+        "code_commit": "34e4d52d821113d56ee6c59b71d553dd01768e73",
+        "config_sha256": "e89943e199d032fe935976801d0965d1a950ac8bec602c250e6df7781c8e757a",
+        "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+        "official_tree_sha256": "db0354edebde9517c200140dbaa717605c4d527e",
+        "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "tokenizer_sha256": "63411f4ee2a0111d0c3902d14c85a1d003dafc765573c60282957f558bf02453"
+      },
+      "original_job": "61773",
+      "planned_requests": 2000,
+      "source": "61ab70384bc909d359537f14a3bbb3691f5c9ce5",
+      "status": "PENDING",
+      "stream": {
+        "allocated_bytes": 4149248,
+        "bytes": 4145654,
+        "ctime_ns": 1791471157288487255,
+        "device": 2304,
+        "expected_sha256": null,
+        "inode": 243438032,
+        "mtime_ns": 1791471157288487255,
+        "nlink": 1,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/streams/cf-stream.json",
+        "real_path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/streams/cf-stream.json",
+        "sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "verification": "FRESH_SHA256"
+      }
+    },
+    {
+      "Con": "EVALUATION_REGISTERED_NOT_OBSERVED",
+      "Flu": "EVALUATION_REGISTERED_NOT_OBSERVED",
+      "checkpoint": {
+        "bytes": 8053084885,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/runs/gptj/checkpoint/batch-20-49c14636ee25bec2.pt",
+        "sha256": "49c14636ee25bec26a6431fda09ac676b0c68d6769d1d4366d189977f119f598"
+      },
+      "config": {
+        "bytes": 5122,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/flucon-paper-scale-20261010/preparation-r2/configs/gptj-memit_fe_history.json",
+        "sha256": "2a2ba2500f32552f86cae31bd55b643ce52de9e8ae9b0d6c5da76b70669b033a"
+      },
+      "dataset": "cf",
+      "dependency": [
+        [
+          "afterany",
+          "62061"
+        ]
+      ],
+      "edits_in_this_job": 0,
+      "endpoint": "W20",
+      "factual_cells_unchanged": true,
+      "job_id": "62262",
+      "job_name": "official-s1-flucon-eval-gptj-memit_fe_history",
+      "method": "MEMIT_FE_HISTORY",
+      "model": "gptj",
+      "ordered_cohort_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+      "original_identity": {
+        "assets_sha256": "7cbf34bcad3bd053ead5c78b76ebfcec147d6d193f2c961d67f727942224b710",
+        "code_commit": "eaf78c331dee72093b2ccdf29f31962799475e34",
+        "config_sha256": "619e77c946a662d7d9a9690c0083326bb76584f15d55ed3c0aba191b026b300f",
+        "model_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+        "official_tree_sha256": "5a270b0fc7800f75dd7321d53d738e2be2840bed",
+        "stream_sha256": "39bbd2215177d2aabeb3bd5c2e7f088b454479bf567b3b16f9da70bd0b28c95e",
+        "tokenizer_sha256": "2aa4f890df82b69576bf881449a8d15c3997db0a3445699e157f81d59e1dad7b"
+      },
+      "original_job": "61927",
+      "planned_requests": 2000,
+      "source": "61ab70384bc909d359537f14a3bbb3691f5c9ce5",
+      "status": "PENDING",
+      "stream": {
+        "allocated_bytes": 4149248,
+        "bytes": 4145654,
+        "ctime_ns": 1791471157288487255,
+        "device": 2304,
+        "expected_sha256": null,
+        "inode": 243438032,
+        "mtime_ns": 1791471157288487255,
+        "nlink": 1,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/streams/cf-stream.json",
+        "real_path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/streams/cf-stream.json",
+        "sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "verification": "FRESH_SHA256"
+      }
+    },
+    {
+      "Con": "EVALUATION_REGISTERED_NOT_OBSERVED",
+      "Flu": "EVALUATION_REGISTERED_NOT_OBSERVED",
+      "checkpoint": {
+        "bytes": 5284843395,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/runs/llama3/checkpoint/batch-20-aef60873019a3c69.pt",
+        "sha256": "aef60873019a3c69c5e874685ae948184ef77c437c5e6b74af261e147879abc4"
+      },
+      "config": {
+        "bytes": 5137,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/flucon-paper-scale-20261010/preparation-r2/configs/llama3-memit_fe_history.json",
+        "sha256": "65effc8c2a39a87a92342c85a41d31bac9f6ae5ec29cd28b18f1f85a3b297271"
+      },
+      "dataset": "cf",
+      "dependency": [
+        [
+          "afterany",
+          "62262"
+        ]
+      ],
+      "edits_in_this_job": 0,
+      "endpoint": "W20",
+      "factual_cells_unchanged": true,
+      "job_id": "62263",
+      "job_name": "official-s1-flucon-eval-llama3-memit_fe_history",
+      "method": "MEMIT_FE_HISTORY",
+      "model": "llama3",
+      "ordered_cohort_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+      "original_identity": {
+        "assets_sha256": "d03386c2a10978fb66984cc81df43d83a4a145e74be6aa84bb7b395acfc088f3",
+        "code_commit": "eaf78c331dee72093b2ccdf29f31962799475e34",
+        "config_sha256": "f6e97420d91acbeb17b4c1fe86b0ca9af94029bf7dfe8565c608a39f2f604472",
+        "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+        "official_tree_sha256": "5a270b0fc7800f75dd7321d53d738e2be2840bed",
+        "stream_sha256": "39bbd2215177d2aabeb3bd5c2e7f088b454479bf567b3b16f9da70bd0b28c95e",
+        "tokenizer_sha256": "5def14f0398b34af845724d57933cb300ae606e3e4b039366e1fdbd81fbcc521"
+      },
+      "original_job": "61928",
+      "planned_requests": 2000,
+      "source": "61ab70384bc909d359537f14a3bbb3691f5c9ce5",
+      "status": "PENDING",
+      "stream": {
+        "allocated_bytes": 4149248,
+        "bytes": 4145654,
+        "ctime_ns": 1791471157288487255,
+        "device": 2304,
+        "expected_sha256": null,
+        "inode": 243438032,
+        "mtime_ns": 1791471157288487255,
+        "nlink": 1,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/streams/cf-stream.json",
+        "real_path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/streams/cf-stream.json",
+        "sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "verification": "FRESH_SHA256"
+      }
+    }
+  ],
+  "source_files_verified": 166,
+  "submission": {
+    "bytes": 28126,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/flucon-paper-scale-20261010/registration-r1/submission.json",
+    "sha256": "803620a46df9dfa6ada3c163e5af10f4b443b8d33e9d333b1cc6db21a36dd31e"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "instruction_id": "USER-SH-FE-AUTHOR-HPARAMS-2K-CF-ZSRE-20261010-R1",
+  "server": "server1",
+  "source_commit": "9c3fe23282bcaf2e353b1494913a323e2f037d39",
+  "official_tree": "17467b484b1d558e7b83a015c375aca81d705215",
+  "author_profile_sha256": "1ffbf9adeec9525b88db3d86a6dc4ace8b98bdaff1d5eb4e4ee064c24b35b125",
+  "execution_lock_sha256": "6cdf1057a5b9f6ec61112eb88abe4246f38ec217eab2800482b686902f8c5fc7",
+  "local_receipt": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/registration-r1/submission.json",
+  "reported_at_utc": "2026-10-09T23:27:55Z",
+  "jobs": [
+    {"model":"llama3","dataset":"cf","method":"MEMIT_FE_HISTORY (FE author hparams)","job_id":62529,"job_name":"official-s1-cf-llama3-memit-fe-author-history","initial_state":"PENDING","afterany":[62259,62260,62261],"config_file_sha256":"be5e2c1a25353880a45554aa1135e023679a01c54993349eb2c2e2d38761332b","checkpoint_directory":"/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/preparation-r2/runs/cf/checkpoint","generation":"DEFERRED_CHECKPOINT_EVALUATION"},
+    {"model":"llama3","dataset":"zsre","method":"MEMIT_FE_HISTORY (FE author hparams)","job_id":62530,"job_name":"official-s1-zsre-llama3-memit-fe-author-history","initial_state":"PENDING","afterany":[62529],"config_file_sha256":"36a126cd7dde3fc2b3bcddf6d50f7db0a845cfa561ccddd34ec02c191220e7e6","checkpoint_directory":"/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/preparation-r2/runs/zsre/checkpoint","evaluator":"official.evaluation.zsre_paper"}
+  ],
+  "held_inspected":true,"released":true,"GPU_qualification":"NOT_RUN_USER_DISABLED",
+  "resources_per_job":{"GPU":1,"CPU":8,"memory_MiB":98304,"wall_hours_ceiling":48,"QOS":"lab_gpu_s1"},
+  "effective_project_cap":4,"admitted_DAG_width":3,"existing_allocated_GPU":3,
+  "CPU_tests":44,"source_verified":166,"external_task_imports":0,
+  "zsre_query_parity":{"requests":2000,"input_mismatches":0,"target_mismatches":0,"receipt_sha256":"7790ca6eea72a2e6f1bdebdb64f79ae1dd2f3151310b1350c5541611b2d5ce53"},
+  "online_readback":"NOT_OBSERVED_BEFORE_STARTUP","science_complete":false,
+  "existing_jobs_modified":false,"cancelled_62262_62263_retained":true,
+  "broadcast":"NO_BROADCAST_NOT_REQUIRED"
+}

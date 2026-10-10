@@ -1,0 +1,130 @@
+{
+ "task": "price-final-2k-20261010",
+ "instruction": "USER 2026-10-11: \"main table 최신화해. qwen만 정규화 쓰인 버전으로 넣을 것이다.(llama와 gpt-j는 거의 잡음 수준이라 넣지 않아도 된다고 판단한다.)\"",
+ "arm": "gptj-P-beta075",
+ "resolved_config_sha256": "d8f5ff729b7d50488eda13af58fed3c765822994834542e7e81fa0fcb2c53359",
+ "method": "beta_base = c = beta_max_scale = 0.75, anchor-unit lr rho 0.05, gamma 1, cap-endpoint FP32 cast, HC-PRICE (price not normalized), per-request early exit, sink EOT rule (position 0 or W0 sink pair) and entry anchor guard 20",
+ "hc_normalization": {
+  "applied": false,
+  "reason": "user 2026-10-11: cheapest-layer HC price stays within noise (CF 2K B10 median 1.012, zsRE 2K B16 1.014)"
+ },
+ "cf": {
+  "run": {
+   "server": "rent",
+   "job": 101707,
+   "status": "COMPLETE",
+   "seconds": 27389,
+   "source_snapshot": "1f906c7e8754 (rent snapshot of 885a0e26)",
+   "delivery": "/mnt/raid5/janghj/ODE-edit/local/price-final-2k-rent-20261010/gptj-2k-final-json-20261010T165810Z (SHA256SUMS 3233d2db…)"
+  },
+  "W20": {
+   "R": [
+    1996,
+    2000
+   ],
+   "P": [
+    3849,
+    4000
+   ],
+   "N": [
+    14713,
+    20000
+   ],
+   "score_exact": 88.22032116927963,
+   "display": {
+    "Score": "88.22",
+    "Eff": "99.80",
+    "Gen": "96.23",
+    "Loc": "73.57"
+   }
+  },
+  "W0": {
+   "R": [
+    340,
+    2000
+   ],
+   "P": [
+    772,
+    4000
+   ],
+   "N": [
+    16495,
+    20000
+   ],
+   "matches_README_W0_row": "17.00 / 19.30 / 82.48"
+  },
+  "W20_checkpoint": {
+   "weights": "950052fd95ff4b92",
+   "history": "d6bd340113a3e462"
+  },
+  "note": "rent message rounded N to 73.56; exact 14713/20000 = 73.565 shows as 73.57 under decimal half-up"
+ },
+ "zsre": {
+  "run": {
+   "server": "server4",
+   "job": 63027,
+   "status": "COMPLETE",
+   "source": "962687f310868d784e94c393b8d314541a5c87a2"
+  },
+  "W0": {
+   "Efficacy": 27.82846764346764,
+   "Generalization": 27.14527625152625,
+   "Specificity": 100.0,
+   "Specificity_loc_ans": 27.594471037411672,
+   "requests": 2000
+  },
+  "all_seen": {
+   "W5": {
+    "Efficacy": 99.76923076923077,
+    "Generalization": 97.43589743589743,
+    "Specificity": 88.26767077918319,
+    "Specificity_loc_ans": 28.7069872758497,
+    "requests": 500,
+    "cohort": "fc9d4214f507b7d2",
+    "weights": "5056b88d5f6de40c",
+    "history": "2e823ef285f11083"
+   },
+   "W10": {
+    "Efficacy": 99.78461538461538,
+    "Generalization": 97.42532967032966,
+    "Specificity": 83.85260582755882,
+    "Specificity_loc_ans": 29.33098799022367,
+    "requests": 1000,
+    "cohort": "66941b0a8a5d59d2",
+    "weights": "562c19da9e8bfd5a",
+    "history": "7277fa5149a39045"
+   },
+   "W15": {
+    "Efficacy": 99.84307692307691,
+    "Generalization": 97.44535205535206,
+    "Specificity": 81.04250856484224,
+    "Specificity_loc_ans": 29.694379888959155,
+    "requests": 1500,
+    "cohort": "60092ae66d338674",
+    "weights": "5ec1309db9195495",
+    "history": "533139e30e4a929e"
+   },
+   "W20": {
+    "Efficacy": 99.81016483516484,
+    "Generalization": 96.95651404151404,
+    "Specificity": 78.64019566503563,
+    "Specificity_loc_ans": 29.586348556157954,
+    "requests": 2000,
+    "cohort": "9ddad91d7be722a7",
+    "weights": "69b09a36bceb1d2c",
+    "history": "404749078c2d419c"
+   }
+  },
+  "display": {
+   "Eff": "99.81",
+   "Gen": "96.96",
+   "Loc": "29.59"
+  },
+  "archive": "devbox /mnt/raid5/janghj/ODE-edit/local/server4-archive-20261010/price-final-2k-20261010/execution-gptj-zsre-r1"
+ },
+ "flucon": {
+  "status": "PENDING",
+  "job": 63207,
+  "evaluator": "project/run_scripts/price_final_flucon (baseline server1 saved-W20 generation evaluator), source a6249254"
+ }
+}

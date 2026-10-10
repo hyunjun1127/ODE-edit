@@ -1,0 +1,675 @@
+{
+  "SH2_inputs": [
+    {
+      "SH2_submit": false,
+      "checkpoint": {
+        "bytes": 8053084885,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/runs/gptj/checkpoint/batch-20-49c14636ee25bec2.pt",
+        "sha256": "49c14636ee25bec26a6431fda09ac676b0c68d6769d1d4366d189977f119f598"
+      },
+      "cohort_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+      "dataset": "cf",
+      "endpoint": {
+        "bytes": 2976241,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/preparation-r1/runs/gptj-memit_fe_history-cap3/generation/endpoints/d5d50897362d398d186f191fad1bcebf7628a8645b5d11a1a1cd760e4843b17b.json",
+        "sha256": "90fcb991278a39b83cfcd24fa2c99ab7571b1896e038689878a85cfe9e1b6dce"
+      },
+      "eval_config": {
+        "bytes": 5232,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/preparation-r1/configs/gptj-memit_fe_history-cap3.json",
+        "sha256": "ff7c22e1f0abcc69dd20f193260f8d49eb9beafc56903518ecb90df934703fbe"
+      },
+      "eval_job": "62581",
+      "loader": {
+        "bytes": 3232,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/registration-r1/source/official/runners/server1/zsre_reeval_restore.py",
+        "sha256": "c6e11b4b729c6097fb82517c5abc6538214d3b1c47146307afdb68a03e12ad6f"
+      },
+      "method": "MEMIT_FE_HISTORY",
+      "model": "gptj",
+      "original_config": {
+        "bytes": 3318,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/configs/gptj.json",
+        "sha256": "8c3dec291369262ee0d60a0236617f070c4ba6dfd73fc035d350d94ae8e4c0a6"
+      },
+      "original_identity": {
+        "assets_sha256": "7cbf34bcad3bd053ead5c78b76ebfcec147d6d193f2c961d67f727942224b710",
+        "code_commit": "eaf78c331dee72093b2ccdf29f31962799475e34",
+        "config_sha256": "619e77c946a662d7d9a9690c0083326bb76584f15d55ed3c0aba191b026b300f",
+        "model_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+        "official_tree_sha256": "5a270b0fc7800f75dd7321d53d738e2be2840bed",
+        "stream_sha256": "39bbd2215177d2aabeb3bd5c2e7f088b454479bf567b3b16f9da70bd0b28c95e",
+        "tokenizer_sha256": "2aa4f890df82b69576bf881449a8d15c3997db0a3445699e157f81d59e1dad7b"
+      },
+      "original_job": "61927",
+      "original_source": "eaf78c331dee72093b2ccdf29f31962799475e34",
+      "payload_full_SHA_rechecked": true,
+      "pointer": {
+        "bytes": 237,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/runs/gptj/checkpoint/latest.json",
+        "sha256": "720f9ffe55e9259bc72fe6f84061ed3fd1e8cb8f87a526bfb2c78834ed948476"
+      },
+      "protocol": "cf-cake-native-casebatch-kv-total100-globalrng-v1",
+      "reference": {
+        "bytes": 6769,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-generation-eval-assets/20261007/reference-ready-r1/manifest.json",
+        "sha256": "6d9a713ab7eaa10871f277e10a3974e0bd5b140c265be80052c279f258876ca8"
+      },
+      "reference_identity": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+      "seed": 20261007,
+      "status": "COMPLETE_NO_DUPLICATE",
+      "stream": {
+        "allocated_bytes": 4149248,
+        "bytes": 4145654,
+        "ctime_ns": 1791471157288487255,
+        "device": 2304,
+        "expected_sha256": null,
+        "inode": 243438032,
+        "mtime_ns": 1791471157288487255,
+        "nlink": 1,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/streams/cf-stream.json",
+        "real_path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/streams/cf-stream.json",
+        "sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "verification": "FRESH_SHA256"
+      }
+    },
+    {
+      "SH2_submit": false,
+      "checkpoint": {
+        "bytes": 5284843395,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/runs/llama3/checkpoint/batch-20-aef60873019a3c69.pt",
+        "sha256": "aef60873019a3c69c5e874685ae948184ef77c437c5e6b74af261e147879abc4"
+      },
+      "cohort_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+      "dataset": "cf",
+      "endpoint": {
+        "bytes": 2983178,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/preparation-r1/runs/llama3-memit_fe_history-cap3/generation/endpoints/debdf702e6f4829420509e5ea75b38326393f3c87078f942f56e4b395e366160.json",
+        "sha256": "6a4fd0118cd7c59ae0da9141b70b93af1a3c2ee95ba8c25b2ccb71184108d528"
+      },
+      "eval_config": {
+        "bytes": 5247,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/preparation-r1/configs/llama3-memit_fe_history-cap3.json",
+        "sha256": "31d93138746400c02302b74914a848bd389a1907f31f255e2a6c853cf4e65731"
+      },
+      "eval_job": "62582",
+      "loader": {
+        "bytes": 3232,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/registration-r1/source/official/runners/server1/zsre_reeval_restore.py",
+        "sha256": "c6e11b4b729c6097fb82517c5abc6538214d3b1c47146307afdb68a03e12ad6f"
+      },
+      "method": "MEMIT_FE_HISTORY",
+      "model": "llama3",
+      "original_config": {
+        "bytes": 3325,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/configs/llama3.json",
+        "sha256": "c4543cb0124539d6e73858ce8d7f6c906688709811ee63403afb75ba9538f982"
+      },
+      "original_identity": {
+        "assets_sha256": "d03386c2a10978fb66984cc81df43d83a4a145e74be6aa84bb7b395acfc088f3",
+        "code_commit": "eaf78c331dee72093b2ccdf29f31962799475e34",
+        "config_sha256": "f6e97420d91acbeb17b4c1fe86b0ca9af94029bf7dfe8565c608a39f2f604472",
+        "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+        "official_tree_sha256": "5a270b0fc7800f75dd7321d53d738e2be2840bed",
+        "stream_sha256": "39bbd2215177d2aabeb3bd5c2e7f088b454479bf567b3b16f9da70bd0b28c95e",
+        "tokenizer_sha256": "5def14f0398b34af845724d57933cb300ae606e3e4b039366e1fdbd81fbcc521"
+      },
+      "original_job": "61928",
+      "original_source": "eaf78c331dee72093b2ccdf29f31962799475e34",
+      "payload_full_SHA_rechecked": true,
+      "pointer": {
+        "bytes": 237,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/runs/llama3/checkpoint/latest.json",
+        "sha256": "6df4377ec257b5b25ca9dd7900f49a203be01093ecc265588ef19c5c0255b85d"
+      },
+      "protocol": "cf-cake-native-casebatch-kv-total100-globalrng-v1",
+      "reference": {
+        "bytes": 6769,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-generation-eval-assets/20261007/reference-ready-r1/manifest.json",
+        "sha256": "6d9a713ab7eaa10871f277e10a3974e0bd5b140c265be80052c279f258876ca8"
+      },
+      "reference_identity": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+      "seed": 20261007,
+      "status": "COMPLETE_NO_DUPLICATE",
+      "stream": {
+        "allocated_bytes": 4149248,
+        "bytes": 4145654,
+        "ctime_ns": 1791471157288487255,
+        "device": 2304,
+        "expected_sha256": null,
+        "inode": 243438032,
+        "mtime_ns": 1791471157288487255,
+        "nlink": 1,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/streams/cf-stream.json",
+        "real_path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/streams/cf-stream.json",
+        "sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "verification": "FRESH_SHA256"
+      }
+    },
+    {
+      "SH2_submit": false,
+      "checkpoint": {
+        "bytes": 8535429071,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/server1/preparation-r1/runs/qwen25/checkpoint/batch-20-6fe6a1f7ef8f7333.pt",
+        "sha256": "6fe6a1f7ef8f73336069373a9c370366f87e9cc7bd0a7bbc1e5660c18a08f903"
+      },
+      "cohort_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+      "dataset": "cf",
+      "eval_config": {
+        "bytes": 5191,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/preparation-r1/configs/qwen25-memit_fe_history-cap3.json",
+        "sha256": "17aad593574ebec135fd1f35dd5eef106fb5d4911a883f4f36af2a721af8c42d"
+      },
+      "eval_job": "62583",
+      "loader": {
+        "bytes": 3232,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/registration-r1/source/official/runners/server1/zsre_reeval_restore.py",
+        "sha256": "c6e11b4b729c6097fb82517c5abc6538214d3b1c47146307afdb68a03e12ad6f"
+      },
+      "method": "MEMIT_FE_HISTORY",
+      "model": "qwen25",
+      "original_config": {
+        "bytes": 3632,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/server1/preparation-r1/configs/qwen25.json",
+        "sha256": "a172c29d3b61b417f115da3cb581bbda606768f72a43871fdb3db6c9a534ef34"
+      },
+      "original_identity": {
+        "assets_sha256": "b4213d8386b27ae3615db0d3041a52eb70f5d8c175f5bbcff0ff745b0ac2aa20",
+        "code_commit": "8da621a9e12fd341a4a70fba95531af6fe4fdb80",
+        "config_sha256": "002dfd21372eaed6439743c474ce381ee9ce44dd8a9cd14995893cda8f22095d",
+        "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+        "official_tree_sha256": "e475f8c01919b675a80122ecf70a0a1293fdfd75",
+        "stream_sha256": "39bbd2215177d2aabeb3bd5c2e7f088b454479bf567b3b16f9da70bd0b28c95e",
+        "tokenizer_sha256": "77c1b476d460584ec70f2781826fda122c953ccd019399343a8efc440c3f75ae"
+      },
+      "original_job": "62061",
+      "original_source": "8da621a9e12fd341a4a70fba95531af6fe4fdb80",
+      "payload_full_SHA_rechecked": true,
+      "pointer": {
+        "bytes": 237,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/server1/preparation-r1/runs/qwen25/checkpoint/latest.json",
+        "sha256": "0fbbf953b832aa28bb51cef11cb37940b3f2bc089b2a25b525edef39da54da9b"
+      },
+      "protocol": "cf-cake-native-casebatch-kv-total100-globalrng-v1",
+      "reference": {
+        "bytes": 6769,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-generation-eval-assets/20261007/reference-ready-r1/manifest.json",
+        "sha256": "6d9a713ab7eaa10871f277e10a3974e0bd5b140c265be80052c279f258876ca8"
+      },
+      "reference_identity": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+      "seed": 20261007,
+      "status": "REGISTERED_NO_DUPLICATE",
+      "stream": {
+        "allocated_bytes": 4149248,
+        "bytes": 4145654,
+        "ctime_ns": 1791471157288487255,
+        "device": 2304,
+        "expected_sha256": null,
+        "inode": 243438032,
+        "mtime_ns": 1791471157288487255,
+        "nlink": 1,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/streams/cf-stream.json",
+        "real_path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/streams/cf-stream.json",
+        "sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "verification": "FRESH_SHA256"
+      }
+    },
+    {
+      "SH2_submit": false,
+      "config": {
+        "bytes": 3612,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/preparation-r2/configs/cf.json",
+        "sha256": "be5e2c1a25353880a45554aa1135e023679a01c54993349eb2c2e2d38761332b"
+      },
+      "method": "MEMIT_FE_HISTORY (FE author hparams)",
+      "model": "llama3",
+      "observed_commits": 19,
+      "original_job": "62529",
+      "source": "9c3fe23282bcaf2e353b1494913a323e2f037d39",
+      "status": "NO_W20_CHECKPOINT"
+    },
+    {
+      "SH2_submit": false,
+      "endpoint": {
+        "bytes": 2885253,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/flucon-paper-scale-20261010/preparation-r2/runs/llama3-sphere/generation/endpoints/38c1c5e6e856075c03a02accd66b3666d07a91dcb0a8e674f82faafc6c82c91c.json",
+        "sha256": "50b8a6994789edcf63357783bf6a3a283040f55b13b721d6f2f351a673209e64"
+      },
+      "eval_job": "62260",
+      "original_job": "61770",
+      "status": "COMPLETED_PREVIOUS_AUDIT_SHA_UNCHANGED"
+    },
+    {
+      "SH2_submit": false,
+      "endpoint": {
+        "bytes": 2871420,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/flucon-paper-scale-20261010/preparation-r2/runs/llama3-ft/generation/endpoints/92b383fa3856d71800c860fcd29aa8d439a47110d4795d382018a875aacd50a0.json",
+        "sha256": "b295d8cbad4d9f15c6a7cccd311933b642b332df12046edbcf7e56e2e69192ed"
+      },
+      "eval_job": "62259",
+      "original_job": "61771",
+      "status": "COMPLETED_PREVIOUS_AUDIT_SHA_UNCHANGED"
+    },
+    {
+      "SH2_submit": false,
+      "endpoint": {
+        "bytes": 2895555,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/flucon-paper-scale-20261010/preparation-r2/runs/llama3-memit_fe/generation/endpoints/48915d6e71288da1cf087de437f6362b234cb70d3ad62e32103ce2a6e07fcb69.json",
+        "sha256": "5fa3edf31621a12541dd95c25a10be84ec55efb2f06564f1d01f35679746bf5a"
+      },
+      "eval_job": "62261",
+      "original_job": "61773",
+      "status": "COMPLETED_PREVIOUS_AUDIT_SHA_UNCHANGED"
+    }
+  ],
+  "accounting": {
+    "at": "2026-10-10T08:10:08.131565+00:00",
+    "rows": "61770|official-s1-cf-sphere|COMPLETED|0:0|04:48:12|2026-10-09T11:39:28|2026-10-09T16:27:40\n61771|official-s1-cf-ft|COMPLETED|0:0|01:52:51|2026-10-09T13:55:43|2026-10-09T15:48:34\n61773|official-s1-cf-memit_fe|COMPLETED|0:0|04:56:02|2026-10-09T13:23:43|2026-10-09T18:19:45\n61927|official-s1-cf-gptj-memit-fe-history|COMPLETED|0:0|04:41:08|2026-10-09T17:40:28|2026-10-09T22:21:36\n61928|official-s1-cf-llama3-memit-fe-history|COMPLETED|0:0|06:00:43|2026-10-09T17:40:28|2026-10-09T23:41:11\n61932|official-s1-zsre-reeval-ft|COMPLETED|0:0|00:10:12|2026-10-09T18:20:13|2026-10-09T18:30:25\n61933|official-s1-zsre-reeval-memit|COMPLETED|0:0|00:10:18|2026-10-09T22:21:45|2026-10-09T22:32:03\n61934|official-s1-zsre-reeval-alphaedit|COMPLETED|0:0|00:10:35|2026-10-09T23:41:24|2026-10-09T23:51:59\n61935|official-s1-zsre-reeval-alphaedit_blue|COMPLETED|0:0|00:10:12|2026-10-09T18:30:13|2026-10-09T18:40:25\n61936|official-s1-zsre-reeval-memit_fe|COMPLETED|0:0|00:10:19|2026-10-09T23:52:24|2026-10-10T00:02:43\n61937|official-s1-zsre-reeval-sphere|COMPLETED|0:0|00:10:27|2026-10-09T18:40:28|2026-10-09T18:50:55\n62061|official-s1-cf-qwen25-memit-fe-history|COMPLETED|0:0|05:29:28|2026-10-10T00:34:24|2026-10-10T06:03:52\n62259|official-s1-flucon-eval-llama3-ft|COMPLETED|0:0|03:15:01|2026-10-10T06:39:59|2026-10-10T09:55:00\n62260|official-s1-flucon-eval-llama3-sphere|COMPLETED|0:0|03:14:29|2026-10-10T06:51:59|2026-10-10T10:06:28\n62261|official-s1-flucon-eval-llama3-memit_fe|COMPLETED|0:0|03:15:23|2026-10-10T07:05:35|2026-10-10T10:20:58\n62529|official-s1-cf-llama3-memit-fe-author-history|RUNNING|0:0|06:48:48|2026-10-10T10:21:20|Unknown\n62530|official-s1-zsre-llama3-memit-fe-author-history|PENDING|0:0|00:00:00|Unknown|Unknown\n62581|official-s1-flucon-eval-gptj-memit_fe_history-cap3|COMPLETED|0:0|02:32:42|2026-10-10T10:34:42|2026-10-10T13:07:24\n62582|official-s1-flucon-eval-llama3-memit_fe_history-cap3|COMPLETED|0:0|03:15:57|2026-10-10T10:34:42|2026-10-10T13:50:39\n62583|official-s1-flucon-eval-qwen25-memit_fe_history-cap3|RUNNING|0:0|02:03:16|2026-10-10T15:06:52|Unknown\n62584|official-s1-flucon-eval-collector|PENDING|0:0|00:00:00|Unknown|Unknown"
+  },
+  "all_existing_jobs_unchanged": true,
+  "at": "2026-10-10T08:10:08.131565+00:00",
+  "cap": 3,
+  "deletions": 0,
+  "eligible_unregistered_local_CF_checkpoints": 0,
+  "evaluations": [
+    {
+      "GPU": 0,
+      "job_id": "62584",
+      "job_name": "official-s1-flucon-eval-collector",
+      "state": "PENDING"
+    },
+    {
+      "Con": {
+        "display_unit": "cosine_0_to_1 x100",
+        "paper_display_x100": "1.05",
+        "raw_unit": "cosine_0_to_1",
+        "raw_value": 0.01054845862757061
+      },
+      "Flu": {
+        "display_unit": "bits x100",
+        "paper_display_x100": "533.43",
+        "raw_unit": "bits",
+        "raw_value": 5.334287172759865
+      },
+      "config": {
+        "bytes": 5232,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/preparation-r1/configs/gptj-memit_fe_history-cap3.json",
+        "sha256": "ff7c22e1f0abcc69dd20f193260f8d49eb9beafc56903518ecb90df934703fbe"
+      },
+      "endpoint": {
+        "bytes": 2976241,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/preparation-r1/runs/gptj-memit_fe_history-cap3/generation/endpoints/d5d50897362d398d186f191fad1bcebf7628a8645b5d11a1a1cd760e4843b17b.json",
+        "sha256": "90fcb991278a39b83cfcd24fa2c99ab7571b1896e038689878a85cfe9e1b6dce"
+      },
+      "job_id": "62581",
+      "job_name": "official-s1-flucon-eval-gptj-memit_fe_history-cap3",
+      "reference_identity": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+      "scoring": "ALL_CASES_CPU_REFERENCE_BOUND_RECHECK",
+      "source": "37094d92d70d0499304da9f7b82ab59340c57232",
+      "state": "COMPLETED",
+      "status": "W20_GENERATION_CPU_RAW_VERIFIED",
+      "summary": {
+        "consistency_count": 2000,
+        "consistency_sum": 21.09691725514122,
+        "consistency_unit": "cosine_0_to_1",
+        "fluency_count": 2000,
+        "fluency_sum": 10668.57434551973,
+        "fluency_unit": "bits",
+        "generated_token_count": 1815122,
+        "generation_prompt_count": 20000,
+        "length_cap_no_continuation_prompt_count": 0,
+        "missing_reason_counts": {
+          "asset_not_available": 0,
+          "length_cap_no_continuation": 0,
+          "missing_generation_prompts": 0,
+          "missing_reference": 0,
+          "nonfinite_score": 0,
+          "tokenizer_not_available": 0,
+          "zero_generated_vector": 0,
+          "zero_reference_vector": 0
+        },
+        "ngram_entropy": 5.334287172759865,
+        "planned_count": 2000,
+        "reason_count_unit": "request_occurrences_nonexclusive",
+        "reference_score": 0.01054845862757061
+      },
+      "terminal": {
+        "bytes": 2361,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/preparation-r1/runs/gptj-memit_fe_history-cap3/COMPLETE.json",
+        "sha256": "e5b8647550a33b194d67cd35248b6820000cbe8424eb00296fac7cff2adb2bca"
+      }
+    },
+    {
+      "Con": {
+        "display_unit": "cosine_0_to_1 x100",
+        "paper_display_x100": "7.58",
+        "raw_unit": "cosine_0_to_1",
+        "raw_value": 0.07580516374408931
+      },
+      "Flu": {
+        "display_unit": "bits x100",
+        "paper_display_x100": "527.39",
+        "raw_unit": "bits",
+        "raw_value": 5.273934747386175
+      },
+      "config": {
+        "bytes": 5247,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/preparation-r1/configs/llama3-memit_fe_history-cap3.json",
+        "sha256": "31d93138746400c02302b74914a848bd389a1907f31f255e2a6c853cf4e65731"
+      },
+      "endpoint": {
+        "bytes": 2983178,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/preparation-r1/runs/llama3-memit_fe_history-cap3/generation/endpoints/debdf702e6f4829420509e5ea75b38326393f3c87078f942f56e4b395e366160.json",
+        "sha256": "6a4fd0118cd7c59ae0da9141b70b93af1a3c2ee95ba8c25b2ccb71184108d528"
+      },
+      "job_id": "62582",
+      "job_name": "official-s1-flucon-eval-llama3-memit_fe_history-cap3",
+      "reference_identity": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+      "scoring": "ALL_CASES_CPU_REFERENCE_BOUND_RECHECK",
+      "source": "37094d92d70d0499304da9f7b82ab59340c57232",
+      "state": "COMPLETED",
+      "status": "W20_GENERATION_CPU_RAW_VERIFIED",
+      "summary": {
+        "consistency_count": 2000,
+        "consistency_sum": 151.61032748817863,
+        "consistency_unit": "cosine_0_to_1",
+        "fluency_count": 2000,
+        "fluency_sum": 10547.869494772349,
+        "fluency_unit": "bits",
+        "generated_token_count": 1796707,
+        "generation_prompt_count": 20000,
+        "length_cap_no_continuation_prompt_count": 0,
+        "missing_reason_counts": {
+          "asset_not_available": 0,
+          "length_cap_no_continuation": 0,
+          "missing_generation_prompts": 0,
+          "missing_reference": 0,
+          "nonfinite_score": 0,
+          "tokenizer_not_available": 0,
+          "zero_generated_vector": 0,
+          "zero_reference_vector": 0
+        },
+        "ngram_entropy": 5.273934747386175,
+        "planned_count": 2000,
+        "reason_count_unit": "request_occurrences_nonexclusive",
+        "reference_score": 0.07580516374408931
+      },
+      "terminal": {
+        "bytes": 2369,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/preparation-r1/runs/llama3-memit_fe_history-cap3/COMPLETE.json",
+        "sha256": "eb3127e3b4743fc7a43cb378b6b7885d2b4cbd9fb0933231118cbf1a64ec5355"
+      }
+    },
+    {
+      "config": {
+        "bytes": 5191,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/preparation-r1/configs/qwen25-memit_fe_history-cap3.json",
+        "sha256": "17aad593574ebec135fd1f35dd5eef106fb5d4911a883f4f36af2a721af8c42d"
+      },
+      "final_metrics": null,
+      "job_id": "62583",
+      "job_name": "official-s1-flucon-eval-qwen25-memit_fe_history-cap3",
+      "source": "37094d92d70d0499304da9f7b82ab59340c57232",
+      "state": "RUNNING",
+      "status": "REGISTERED_EVALUATION_NO_DUPLICATE"
+    }
+  ],
+  "historical_exclusions": "MEMIT/AlphaEdit/BLUE remote historical CP: no verified current local payload/cohort candidate; existing table exceptions KEEP",
+  "new_GPU_jobs": 0,
+  "nonce": "USER-GH-S1-S2-BASELINE-REFRESH-S2-FLUCON-20261010-R1",
+  "queue": {
+    "admitted_DAG_width": 2,
+    "allocated_gpus": 2,
+    "arrays": "EXPANDED_TASK_IDS_INDEX0_VALID; throttle not credited to conservative width",
+    "at": "2026-10-10T08:10:08.131565+00:00",
+    "frontier": [
+      "62530",
+      "62583"
+    ],
+    "jobs": [
+      {
+        "allocated_gpus": 0,
+        "detail": {
+          "Account": "lab",
+          "AccrueTime": "Unknown",
+          "AllocNode:Sid": "devbox:2330187",
+          "AllocTRES": "(null)",
+          "BatchFlag": "1",
+          "CPUs/Task": "8",
+          "Command": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/registration-r1/scripts/zsre.sh",
+          "Contiguous": "0",
+          "CoreSpec": "*",
+          "Deadline": "N/A",
+          "DelayBoot": "00:00:00",
+          "Dependency": "afterany:62529(unfulfilled)",
+          "EligibleTime": "Unknown",
+          "EndTime": "Unknown",
+          "ExcNodeList": "(null)",
+          "Exclusive": "NO",
+          "ExitCode": "0:0",
+          "Features": "(null)",
+          "GroupId": "janghj(1025)",
+          "JobId": "62530",
+          "JobName": "official-s1-zsre-llama3-memit-fe-author-history",
+          "JobState": "PENDING",
+          "KillOnInvalidDependent": "Yes",
+          "LastSchedEval": "2026-10-10T08:27:35",
+          "Licenses": "(null)",
+          "LicensesAlloc": "(null)",
+          "MCS_label": "N/A",
+          "MinCPUsNode": "8",
+          "MinMemoryNode": "96G",
+          "MinTmpDiskNode": "0",
+          "Network": "(null)",
+          "Nice": "0",
+          "NodeList": "",
+          "NtasksPerN:B:S:C": "0:0:*:*",
+          "NumCPUs": "8-14",
+          "NumNodes": "1-1",
+          "NumTasks": "1",
+          "OverSubscribe": "NO",
+          "Partition": "gpu",
+          "Priority": "277",
+          "QOS": "lab_gpu_s1",
+          "Reason": "Dependency",
+          "Reboot": "0",
+          "ReqB:S:C:T": "0:0:*:*",
+          "ReqNodeList": "devbox",
+          "ReqTRES": "cpu=8,mem=96G,node=1,billing=1,gres/gpu=1",
+          "Requeue": "0",
+          "Restarts": "0",
+          "RunTime": "00:00:00",
+          "Scheduler": "Main",
+          "SecsPreSuspend": "0",
+          "Socks/Node": "*",
+          "StartTime": "Unknown",
+          "StdErr": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/registration-r1/logs/zsre-llama3-memit-fe-author-history-62530.err",
+          "StdIn": "/dev/null",
+          "StdOut": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/registration-r1/logs/zsre-llama3-memit-fe-author-history-62530.out",
+          "StepMgrEnabled": "Yes",
+          "SubmitLine": "sbatch --parsable --hold --export=NONE --no-requeue --kill-on-invalid-dep=yes --partition=gpu --qos=lab_gpu_s1 --nodelist=devbox --cpus-per-task=8 --mem=98304M --time=2880 --job-name=official-s1-zsre-llama3-memit-fe-author-history --chdir=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/registration-r1/source --output=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/registration-r1/logs/zsre-llama3-memit-fe-author-history-%j.out --error=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/registration-r1/logs/zsre-llama3-memit-fe-author-history-%j.err --gres=gpu:1 --dependency=afterany:62529 /mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/registration-r1/scripts/zsre.sh",
+          "SubmitTime": "2026-10-10T08:27:35",
+          "SuspendTime": "None",
+          "TimeLimit": "2-00:00:00",
+          "TimeMin": "N/A",
+          "TresPerNode": "gres/gpu:1",
+          "TresPerTask": "cpu=8",
+          "UserId": "janghj(1025)",
+          "WorkDir": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/registration-r1/source"
+        },
+        "display_id": "62530",
+        "gpus": 1,
+        "key": "62530",
+        "original": "JobId=62530 JobName=official-s1-zsre-llama3-memit-fe-author-history UserId=janghj(1025) GroupId=janghj(1025) MCS_label=N/A Priority=277 Nice=0 Account=lab QOS=lab_gpu_s1 JobState=PENDING Reason=Dependency Dependency=afterany:62529(unfulfilled) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:00 TimeLimit=2-00:00:00 TimeMin=N/A SubmitTime=2026-10-10T08:27:35 EligibleTime=Unknown AccrueTime=Unknown StartTime=Unknown EndTime=Unknown Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-10-10T08:27:35 Scheduler=Main Partition=gpu AllocNode:Sid=devbox:2330187 ReqNodeList=devbox ExcNodeList=(null) NodeList= StepMgrEnabled=Yes NumNodes=1-1 NumCPUs=8-14 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=96G,node=1,billing=1,gres/gpu=1 AllocTRES=(null) Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=96G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/registration-r1/scripts/zsre.sh SubmitLine=sbatch --parsable --hold --export=NONE --no-requeue --kill-on-invalid-dep=yes --partition=gpu --qos=lab_gpu_s1 --nodelist=devbox --cpus-per-task=8 --mem=98304M --time=2880 --job-name=official-s1-zsre-llama3-memit-fe-author-history --chdir=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/registration-r1/source --output=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/registration-r1/logs/zsre-llama3-memit-fe-author-history-%j.out --error=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/registration-r1/logs/zsre-llama3-memit-fe-author-history-%j.err --gres=gpu:1 --dependency=afterany:62529 /mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/registration-r1/scripts/zsre.sh WorkDir=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/registration-r1/source StdErr=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/registration-r1/logs/zsre-llama3-memit-fe-author-history-62530.err StdIn=/dev/null StdOut=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/registration-r1/logs/zsre-llama3-memit-fe-author-history-62530.out KillOnInvalidDependent=Yes TresPerNode=gres/gpu:1 TresPerTask=cpu=8",
+        "parents": [
+          "62529"
+        ],
+        "raw_job_id": "62530",
+        "state": "PENDING"
+      },
+      {
+        "allocated_gpus": 1,
+        "detail": {
+          "Account": "lab",
+          "AccrueTime": "2026-10-10T13:07:28",
+          "AllocNode:Sid": "devbox:2653284",
+          "AllocTRES": "cpu=8,mem=64G,node=1,billing=1,gres/gpu=1",
+          "BatchFlag": "1",
+          "BatchHost": "devbox",
+          "CPUs/Task": "8",
+          "Command": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/registration-r1/scripts/qwen25-memit_fe_history-cap3.sh",
+          "Contiguous": "0",
+          "CoreSpec": "*",
+          "Deadline": "N/A",
+          "DelayBoot": "00:00:00",
+          "Dependency": "(null)",
+          "EligibleTime": "2026-10-10T13:07:28",
+          "EndTime": "2026-10-12T15:06:52",
+          "ExcNodeList": "(null)",
+          "Exclusive": "NO",
+          "ExitCode": "0:0",
+          "Features": "(null)",
+          "GroupId": "janghj(1025)",
+          "JobId": "62583",
+          "JobName": "official-s1-flucon-eval-qwen25-memit_fe_history-cap3",
+          "JobState": "RUNNING",
+          "KillOnInvalidDependent": "Yes",
+          "LastSchedEval": "2026-10-10T15:06:52",
+          "Licenses": "(null)",
+          "LicensesAlloc": "(null)",
+          "MCS_label": "N/A",
+          "MinCPUsNode": "8",
+          "MinMemoryNode": "64G",
+          "MinTmpDiskNode": "0",
+          "Network": "(null)",
+          "Nice": "0",
+          "NodeList": "devbox",
+          "NtasksPerN:B:S:C": "0:0:*:*",
+          "NumCPUs": "8",
+          "NumNodes": "1",
+          "NumTasks": "1",
+          "OverSubscribe": "NO",
+          "Partition": "gpu",
+          "Priority": "289",
+          "QOS": "lab_gpu_s1",
+          "Reason": "None",
+          "Reboot": "0",
+          "ReqB:S:C:T": "0:0:*:*",
+          "ReqNodeList": "devbox",
+          "ReqTRES": "cpu=8,mem=64G,node=1,billing=1,gres/gpu=1",
+          "Requeue": "0",
+          "Restarts": "0",
+          "RunTime": "02:03:16",
+          "Scheduler": "Backfill",
+          "SecsPreSuspend": "0",
+          "Socks/Node": "*",
+          "StartTime": "2026-10-10T15:06:52",
+          "StdErr": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/registration-r1/logs/flucon-eval-qwen25-memit_fe_history-cap3-62583.err",
+          "StdIn": "/dev/null",
+          "StdOut": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/registration-r1/logs/flucon-eval-qwen25-memit_fe_history-cap3-62583.out",
+          "StepMgrEnabled": "Yes",
+          "SubmitLine": "sbatch --parsable --hold --export=NONE --no-requeue --kill-on-invalid-dep=yes --partition=gpu --qos=lab_gpu_s1 --nodelist=devbox --cpus-per-task=8 --mem=65536M --time=2880 --job-name=official-s1-flucon-eval-qwen25-memit_fe_history-cap3 --chdir=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/registration-r1/source --output=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/registration-r1/logs/flucon-eval-qwen25-memit_fe_history-cap3-%j.out --error=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/registration-r1/logs/flucon-eval-qwen25-memit_fe_history-cap3-%j.err --gres=gpu:1 --dependency=afterany:62581 /mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/registration-r1/scripts/qwen25-memit_fe_history-cap3.sh",
+          "SubmitTime": "2026-10-10T10:34:40",
+          "SuspendTime": "None",
+          "TimeLimit": "2-00:00:00",
+          "TimeMin": "N/A",
+          "TresPerNode": "gres/gpu:1",
+          "TresPerTask": "cpu=8",
+          "UserId": "janghj(1025)",
+          "WorkDir": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/registration-r1/source"
+        },
+        "display_id": "62583",
+        "gpus": 1,
+        "key": "62583",
+        "original": "JobId=62583 JobName=official-s1-flucon-eval-qwen25-memit_fe_history-cap3 UserId=janghj(1025) GroupId=janghj(1025) MCS_label=N/A Priority=289 Nice=0 Account=lab QOS=lab_gpu_s1 JobState=RUNNING Reason=None Dependency=(null) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=02:03:16 TimeLimit=2-00:00:00 TimeMin=N/A SubmitTime=2026-10-10T10:34:40 EligibleTime=2026-10-10T13:07:28 AccrueTime=2026-10-10T13:07:28 StartTime=2026-10-10T15:06:52 EndTime=2026-10-12T15:06:52 Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-10-10T15:06:52 Scheduler=Backfill Partition=gpu AllocNode:Sid=devbox:2653284 ReqNodeList=devbox ExcNodeList=(null) NodeList=devbox BatchHost=devbox StepMgrEnabled=Yes NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=64G,node=1,billing=1,gres/gpu=1 AllocTRES=cpu=8,mem=64G,node=1,billing=1,gres/gpu=1 Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=64G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/registration-r1/scripts/qwen25-memit_fe_history-cap3.sh SubmitLine=sbatch --parsable --hold --export=NONE --no-requeue --kill-on-invalid-dep=yes --partition=gpu --qos=lab_gpu_s1 --nodelist=devbox --cpus-per-task=8 --mem=65536M --time=2880 --job-name=official-s1-flucon-eval-qwen25-memit_fe_history-cap3 --chdir=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/registration-r1/source --output=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/registration-r1/logs/flucon-eval-qwen25-memit_fe_history-cap3-%j.out --error=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/registration-r1/logs/flucon-eval-qwen25-memit_fe_history-cap3-%j.err --gres=gpu:1 --dependency=afterany:62581 /mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/registration-r1/scripts/qwen25-memit_fe_history-cap3.sh WorkDir=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/registration-r1/source StdErr=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/registration-r1/logs/flucon-eval-qwen25-memit_fe_history-cap3-62583.err StdIn=/dev/null StdOut=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/registration-r1/logs/flucon-eval-qwen25-memit_fe_history-cap3-62583.out KillOnInvalidDependent=Yes TresPerNode=gres/gpu:1 TresPerTask=cpu=8",
+        "parents": [],
+        "raw_job_id": "62583",
+        "state": "RUNNING"
+      },
+      {
+        "allocated_gpus": 1,
+        "detail": {
+          "Account": "lab",
+          "AccrueTime": "Unknown",
+          "AllocNode:Sid": "devbox:2330187",
+          "AllocTRES": "cpu=8,mem=96G,node=1,billing=1,gres/gpu=1",
+          "BatchFlag": "1",
+          "BatchHost": "devbox",
+          "CPUs/Task": "8",
+          "Command": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/registration-r1/scripts/cf.sh",
+          "Contiguous": "0",
+          "CoreSpec": "*",
+          "Deadline": "N/A",
+          "DelayBoot": "00:00:00",
+          "Dependency": "(null)",
+          "EligibleTime": "2026-10-10T10:21:20",
+          "EndTime": "2026-10-12T10:21:20",
+          "ExcNodeList": "(null)",
+          "Exclusive": "NO",
+          "ExitCode": "0:0",
+          "Features": "(null)",
+          "GroupId": "janghj(1025)",
+          "JobId": "62529",
+          "JobName": "official-s1-cf-llama3-memit-fe-author-history",
+          "JobState": "RUNNING",
+          "KillOnInvalidDependent": "Yes",
+          "LastSchedEval": "2026-10-10T10:21:20",
+          "Licenses": "(null)",
+          "LicensesAlloc": "(null)",
+          "MCS_label": "N/A",
+          "MinCPUsNode": "8",
+          "MinMemoryNode": "96G",
+          "MinTmpDiskNode": "0",
+          "Network": "(null)",
+          "Nice": "0",
+          "NodeList": "devbox",
+          "NtasksPerN:B:S:C": "0:0:*:*",
+          "NumCPUs": "8",
+          "NumNodes": "1",
+          "NumTasks": "1",
+          "OverSubscribe": "NO",
+          "Partition": "gpu",
+          "Priority": "277",
+          "QOS": "lab_gpu_s1",
+          "Reason": "None",
+          "Reboot": "0",
+          "ReqB:S:C:T": "0:0:*:*",
+          "ReqNodeList": "devbox",
+          "ReqTRES": "cpu=8,mem=96G,node=1,billing=1,gres/gpu=1",
+          "Requeue": "0",
+          "Restarts": "0",
+          "RunTime": "06:48:48",
+          "Scheduler": "Backfill",
+          "SecsPreSuspend": "0",
+          "Socks/Node": "*",
+          "StartTime": "2026-10-10T10:21:20",
+          "StdErr": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/registration-r1/logs/cf-llama3-memit-fe-author-history-62529.err",
+          "StdIn": "/dev/null",
+          "StdOut": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/registration-r1/logs/cf-llama3-memit-fe-author-history-62529.out",
+          "StepMgrEnabled": "Yes",
+          "SubmitLine": "sbatch --parsable --hold --export=NONE --no-requeue --kill-on-invalid-dep=yes --partition=gpu --qos=lab_gpu_s1 --nodelist=devbox --cpus-per-task=8 --mem=98304M --time=2880 --job-name=official-s1-cf-llama3-memit-fe-author-history --chdir=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/registration-r1/source --output=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/registration-r1/logs/cf-llama3-memit-fe-author-history-%j.out --error=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/registration-r1/logs/cf-llama3-memit-fe-author-history-%j.err --gres=gpu:1 --dependency=afterany:62259:62260:62261 /mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/registration-r1/scripts/cf.sh",
+          "SubmitTime": "2026-10-10T08:27:35",
+          "SuspendTime": "None",
+          "TimeLimit": "2-00:00:00",
+          "TimeMin": "N/A",
+          "TresPerNode": "gres/gpu:1",
+          "TresPerTask": "cpu=8",
+          "UserId": "janghj(1025)",
+          "WorkDir": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/registration-r1/source"
+        },
+        "display_id": "62529",
+        "gpus": 1,
+        "key": "62529",
+        "original": "JobId=62529 JobName=official-s1-cf-llama3-memit-fe-author-history UserId=janghj(1025) GroupId=janghj(1025) MCS_label=N/A Priority=277 Nice=0 Account=lab QOS=lab_gpu_s1 JobState=RUNNING Reason=None Dependency=(null) Requeue=0 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=06:48:48 TimeLimit=2-00:00:00 TimeMin=N/A SubmitTime=2026-10-10T08:27:35 EligibleTime=2026-10-10T10:21:20 AccrueTime=Unknown StartTime=2026-10-10T10:21:20 EndTime=2026-10-12T10:21:20 Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-10-10T10:21:20 Scheduler=Backfill Partition=gpu AllocNode:Sid=devbox:2330187 ReqNodeList=devbox ExcNodeList=(null) NodeList=devbox BatchHost=devbox StepMgrEnabled=Yes NumNodes=1 NumCPUs=8 NumTasks=1 CPUs/Task=8 ReqB:S:C:T=0:0:*:* ReqTRES=cpu=8,mem=96G,node=1,billing=1,gres/gpu=1 AllocTRES=cpu=8,mem=96G,node=1,billing=1,gres/gpu=1 Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=8 MinMemoryNode=96G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null) Command=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/registration-r1/scripts/cf.sh SubmitLine=sbatch --parsable --hold --export=NONE --no-requeue --kill-on-invalid-dep=yes --partition=gpu --qos=lab_gpu_s1 --nodelist=devbox --cpus-per-task=8 --mem=98304M --time=2880 --job-name=official-s1-cf-llama3-memit-fe-author-history --chdir=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/registration-r1/source --output=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/registration-r1/logs/cf-llama3-memit-fe-author-history-%j.out --error=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/registration-r1/logs/cf-llama3-memit-fe-author-history-%j.err --gres=gpu:1 --dependency=afterany:62259:62260:62261 /mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/registration-r1/scripts/cf.sh WorkDir=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/registration-r1/source StdErr=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/registration-r1/logs/cf-llama3-memit-fe-author-history-62529.err StdIn=/dev/null StdOut=/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/fe-author-hparams-2k-20261010/registration-r1/logs/cf-llama3-memit-fe-author-history-62529.out KillOnInvalidDependent=Yes TresPerNode=gres/gpu:1 TresPerTask=cpu=8",
+        "parents": [],
+        "raw_job_id": "62529",
+        "state": "RUNNING"
+      }
+    ],
+    "node": "devbox",
+    "owner": "janghj",
+    "selection": "ALL_OWNER_NODE_GPU_JOBS_NOT_NAME_PATTERNS"
+  },
+  "server": "server1",
+  "transfers": 0
+}

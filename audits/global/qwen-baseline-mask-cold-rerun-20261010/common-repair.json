@@ -1,0 +1,99 @@
+{
+  "nonce": "USER-GH-QWEN-BASELINE-MASK-COLD-RERUN-20261010-R1",
+  "source": "ac19db2fdb0373934552bfedc8038ad9fe8edd0d",
+  "generator_sha256": "35506690c41ecb7d59f11660da41dde50338f5a2ba9613735e045a8c7ab98db4",
+  "upstream_sha256": "e4d5528923bc0643e3d6bed12c5bba534d69b2f69ab5f18403b317bc2e35fc38",
+  "evidence": [
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-rerun-inventory-20261010/inventory.json",
+      "bytes": 12481,
+      "sha256": "7bc7681e30c63808e5e27d3bfd9df69a3ff9dab176901df3a2e8275c447395ed"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-rerun-inventory-20261010/inventory.csv",
+      "bytes": 5775,
+      "sha256": "069f0af1e364fe4b56b4a963d4db260a2dae9f89dccaec309dd04668a4e7052a"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-rerun-inventory-20261010/server1.json",
+      "bytes": 1587,
+      "sha256": "bd145e0988b7870d68376616d294af0b801a2d4d89d229ee8cff0d574ebd22bd"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-rerun-inventory-20261010/server2.json",
+      "bytes": 13518,
+      "sha256": "f4ed7d99b924c08f7c1e94e24724bef05b9be46c88970758926231701a642dc6"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-rerun-inventory-20261010/server4.json",
+      "bytes": 7156,
+      "sha256": "beb2d90cde2414ee78772d004f2b65530446cb21577c9216f1205bd62b162405"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/cake-qwen-audit-20261009/mask-impact.md",
+      "bytes": 11289,
+      "sha256": "ecea2158501b45d91ed69c35f94460da22a2582ec806ef418e5e07f54a009389"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/cake-qwen-audit-20261009/check_model_cache_masks.py",
+      "bytes": 3393,
+      "sha256": "823266cd16053066f3c3bde603171d0ad7e42a0e2310bdc7cb9350edf52fd267"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/cake-qwen-audit-20261009/server2-model-cache-masks.json",
+      "bytes": 20746,
+      "sha256": "b945b86438bf3e691eb98e04dbf2c17fe1ca037ca8836066f7f08240afd0d107"
+    },
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/cake-qwen-audit-20261009/historical-mask-scope.json",
+      "bytes": 2472,
+      "sha256": "8bf65aa81966c13ce9ca0ee508a71141f0e3440c9fade4e82ddfe8c9beeb6808"
+    }
+  ],
+  "cpu": {
+    "command": "CUDA_VISIBLE_DEVICES='' OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 /mnt/raid5/janghj/EasyEdit/.venv/bin/python -m unittest official.tests.test_context_cache_mask -v",
+    "tests": 3,
+    "status": "PASS",
+    "families": [
+      "qwen2",
+      "gptj",
+      "llama"
+    ],
+    "dtype": "float32",
+    "attention": "eager",
+    "atol": 0.000001,
+    "rtol": 0.00001,
+    "pretrained_model_loads": 0,
+    "GPU": 0,
+    "source_verify": {
+      "source_files": 166,
+      "python_files": 325,
+      "imports": 0,
+      "status": "PASS"
+    }
+  },
+  "old_ids": {
+    "server1": [
+      61975
+    ],
+    "server2": [
+      61956,
+      61960,
+      61968,
+      61954,
+      61958,
+      61966,
+      61970,
+      61972
+    ],
+    "server4": [
+      61776,
+      61777
+    ]
+  },
+  "separate_eval_only": 61900,
+  "new_job_ids": [],
+  "stage": "COMMON_SOURCE_PUBLISHED_OWNER_IMPLEMENTATION_PENDING",
+  "readme": "수정 전 수치는 원 보고서 KEEP; 영향8본표+1history RERUN_REQUIRED/미등록 표시",
+  "ours": "EXCLUDED_KEEP"
+}

@@ -36,12 +36,18 @@ def prepare(root,preparation,receiver=None):
     check(not root.exists(),'ATTEMPT_ALREADY_EXISTS')
     check(not cmd(['git','status','--porcelain'],cwd=ROOT),'SOURCE_DIRTY')
     commit=cmd(['git','rev-parse','HEAD'],cwd=ROOT)
+    selected=rows()
+    mask=(preparation/'mask-profile.json').is_file()
+    if mask:
+        from official.runners.server2.qwen_mask_profile import rows as mask_rows
+        selected=mask_rows()
     check(subprocess.run(['git','merge-base','--is-ancestor',commit,'origin/main'],cwd=ROOT).returncode==0,'SOURCE_NOT_PUBLISHED')
     source=root/'source';source.mkdir(parents=True)
     for name in ('logs','scripts','processes'): (root/name).mkdir()
     closure=['official',*AGENT_SEALS,'project/run_scripts/checkpoint_archive',
         'project/run_scripts/server2_qwen_submit.py','project/run_scripts/server2_qwen_archive.py','project/run_scripts/server2_qwen_finish.py',
         'project/run_scripts/server2_qwen_pending_submit.py','project/run_scripts/server2_qwen_pending_control.py']
+    if mask: closure+=['project/run_scripts/server2_qwen_mask_submit.py','project/run_scripts/server2_qwen_mask_control.py']
     subprocess.run(['git','archive','--format=tar','--output='+str(root/'source.tar'),commit,*closure],cwd=ROOT,check=True)
     with tarfile.open(root/'source.tar') as tar:
         for entry in tar.getmembers():
@@ -55,7 +61,7 @@ def prepare(root,preparation,receiver=None):
         dict(relative=str(p.relative_to(source)),sha256=file_sha(p)) for p in sorted(source.rglob('*')) if p.is_file()])
     write_new(root/'source-lock.json',lock)
     for d in ('configs','streams'):shutil.copytree(preparation/d,root/d)
-    for name in ('w0-parent.json','kept.json','query-parity.json'):
+    for name in ('w0-parent.json','kept.json','query-parity.json','mask-profile.json','ft-eval-inputs.json'):
         if (preparation/name).is_file():shutil.copyfile(preparation/name,root/name)
     assets=read(preparation/'assets.candidate.json');assets['output_root']=str(root)
     write_new(root/'assets.json',assets)
@@ -70,13 +76,14 @@ def prepare(root,preparation,receiver=None):
     asset=preflight(root/'assets.json',hash_large=True)
     write_new(root/'asset-preflight.json',asset)
     check(asset['ready_to_submit'],'ASSET_PREFLIGHT_BLOCKED:'+str(asset['blockers']))
-    for row in rows():
+    for row in selected:
         logical=row['logical_main_row'];dataset=row['config']['dataset']
         if (root/'kept.json').exists() and logical in read(root/'kept.json'):continue
         stream=read(root/'streams'/f'{dataset}-stream.lock.json')
         token=_tokenizer_receipt(asset['assets']['model_snapshot']['path'],None,stream)
         archive.adopt(root,logical,checkpoint_identity(row['config'],stream,lock,asset,token),adapter_source=source/'project/run_scripts/server2_qwen_archive.py')
-    roles=[(r['logical_main_row'],k) for r in rows() for k in ('gpu','archive')]+[('collector','collector')]
+    roles=[(r['logical_main_row'],k) for r in selected for k in ('gpu','archive')]+[('collector','collector')]
+    if mask: roles+=[('qwen25-zsre-ft-eval','gpu')]
     for logical,kind in roles:
         env=dict(PYTHONPATH=str(source),PYTHONDONTWRITEBYTECODE='1',PYTHONUNBUFFERED='1',
             HOME=pwd.getpwuid(os.getuid()).pw_dir,USER='janghj',HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1',
@@ -87,24 +94,25 @@ def prepare(root,preparation,receiver=None):
             ODEEDIT_WANDB_ENV_FILE=assets['wandb_env'],WANDB_MODE='online',WANDB_DISABLED='false')
         if kind!='gpu':env['CUDA_VISIBLE_DEVICES']=''
         module='official.runners.server2.qwen_pipeline' if kind=='gpu' else 'project.run_scripts.server2_qwen_finish'
+        if logical=='qwen25-zsre-ft-eval': module='official.runners.server2.qwen_mask_ft_eval'
         argv=[PYTHON,'-B','-m',module,'--root',str(root)]
-        argv+=['--cell',logical] if kind!='collector' else ['--collector']
+        if logical!='qwen25-zsre-ft-eval': argv+=['--cell',logical] if kind!='collector' else ['--collector']
         text='#!/bin/bash\nset -euo pipefail\n'+'\n'.join('export '+k+'='+shlex.quote(v) for k,v in env.items())+'\n'
         text+=shlex.join([PYTHON,'-B','-m','project.run_scripts.server2_qwen_submit','verify','--root',str(root)]+(['--gpu-space'] if kind=='gpu' else []))+'\n'
         text+='exec '+shlex.join(argv)+'\n'
         (root/'scripts'/f'{logical}-{kind}.sh').write_text(text)
     # All twelve retained CP plus four concurrent atomic replacements and raw reserve.
-    sizes=[r['checkpoint_bytes'] for r in rows()]
+    sizes=[r['checkpoint_bytes'] for r in selected]
     required=sum(sizes)+4*max(sizes)+32*1024**3
     check(shutil.disk_usage(root).free>=required,'FULL_RETAINED_CHECKPOINT_BUDGET')
-    write_new(root/'prepared.json',dict(source=commit,cells=12,cap=4,job_ids=[],qualification='NOT_RUN_USER_DISABLED',
+    write_new(root/'prepared.json',dict(source=commit,cells=len(selected),cap=4,job_ids=[],qualification='NOT_RUN_USER_DISABLED',
         retained_CP_bytes=sum(sizes),atomic_four_lane_bytes=4*max(sizes),initial_storage_required_bytes=required,
         storage_reserve_bytes=32*1024**3,archive_without_ready='ARCHIVE_PENDING_KEEP_SOURCE',
-        CF_generation='W0_AND_W20_FIRST2000',zsre_generation='NOT_APPLICABLE'))
+        CF_generation='DEFERRED_CHECKPOINT_EVALUATION' if mask else 'W0_AND_W20_FIRST2000',zsre_generation='NOT_APPLICABLE'))
     paths=[p for d in ('configs','streams','scripts') for p in (root/d).iterdir() if p.is_file()]
     paths += [root/n for n in ('assets.json','cutover.json','archive-policy.json','prepared.json')]
     paths.append(Path(assets['generation_reference_manifest']))
-    paths += [root/n for n in ('w0-parent.json','kept.json','query-parity.json') if (root/n).is_file()]
+    paths += [root/n for n in ('w0-parent.json','kept.json','query-parity.json','mask-profile.json','ft-eval-inputs.json') if (root/n).is_file()]
     if receiver:paths.append(root/'receiver.json')
     write_new(root/'input-lock.json',dict(members=[dict(path=str(p),sha256=file_sha(p)) for p in paths]))
     print(json.dumps({'stage':'PREPARED_NOT_SUBMITTED','source':commit,'required_bytes':required}))
@@ -172,7 +180,7 @@ def register(root,cell,kind,deps,config):
     gpu=kind=='gpu';name='s2-'+cell+'-'+kind
     argv=['sbatch','--parsable','--hold','--partition=gpu','--qos=lab_gpu_s2','--nodelist=server2',
         '--nodes=1','--ntasks=1','--cpus-per-task='+('6' if gpu else '2'),'--mem='+('59392M' if gpu else '4096M'),
-        '--time='+('48:00:00' if gpu else '04:00:00'),'--export=NONE','--no-requeue','--job-name='+name,
+        '--time='+('48:00:00' if gpu and cell!='qwen25-zsre-ft-eval' else '04:00:00'),'--export=NONE','--no-requeue','--job-name='+name,
         '--chdir='+str(root),'--output='+str(root/'logs'/f'{cell}-{kind}-%j.out'),'--error='+str(root/'logs'/f'{cell}-{kind}-%j.err')]
     if gpu:argv+=['--gres=gpu:a6000:1']
     if deps:argv+=['--dependency=afterany:'+':'.join(deps)]
