@@ -1,0 +1,13 @@
+{
+  "nonce": "USER-GH-S1-S2-BASELINE-REFRESH-S2-FLUCON-20261010-R1",
+  "publication": "d6733abb1afe9022584699b36410bd7e685b9d47",
+  "table_rows_sha256": "aafa6d5e9d4cb85948a4d21c712bd0753635ec6adeedc44ad00123a620222024",
+  "message_sha256": "b0b870c739bf42585036fb4ce5347be611ae48222414c6a402dc937a7f5e64a0",
+  "GH": {"transport_accepted": true, "method": "turn/start", "turn": "01a124e6-5f02-78e1-85bb-03890acdd447", "owner_ACK_observed": false},
+  "SH2": {"transport_accepted": true, "method": "turn/steer", "turn": "01a124db-95bd-7231-981d-429bbc98305c", "owner_ACK_observed": false},
+  "README_integrated_by_SH1": false,
+  "automatic_retry": false,
+  "new_GPU_submissions": 0,
+  "checkpoint_transfers": 0,
+  "checkpoint_deletions": 0
+}
