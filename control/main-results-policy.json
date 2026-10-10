@@ -17,6 +17,18 @@
     "AlphaEdit+SPHERE",
     "PRICE (Ours)"
   ],
+  "fe_author_selection": {
+    "instruction_id": "USER-GH-S1-S2-FE-AUTHOR-MAIN-REFRESH-20261010-R1",
+    "main_label": "MEMIT-FE (FE author hparams + history)",
+    "models": ["Llama3-8B-Instruct", "Qwen2.5-7B-Instruct"],
+    "execution_method": "MEMIT_FE_HISTORY",
+    "profile": "official/hparams/MEMIT_FE_HISTORY_AUTHOR/profiles.json",
+    "source_jobs": {"llama3": {"CF": "62529", "zsRE": "62530"}, "qwen25": {"CF": "62531", "zsRE": "62532"}},
+    "selection": "별도 author4행을 모델별 본표 CF/zsRE 셀로 통합. 완료 raw 검산된 author결과만 사용; native FE 또는 이전 history 점수를 author로 재명명하지 않는다.",
+    "legacy": "Llama/Qwen 이전 native FE 행은 별도 이전설정 표/보고에 보존. GPT-J는 author실험이 없어 기존 native값을 legacy라 명시하며 유지; 새 run 자동승인 없음.",
+    "generation": "author checkpoint와 동일 identity의 generation 결과만 해당 Flu/Con에 연결. legacyCP 평가결과 복사 금지.",
+    "claim": "원저자 clamp/steps + persistent history variant; DOW-KE exact reproduction 주장 아님"
+  },
   "columns": {
     "CF": [
       "Score",
