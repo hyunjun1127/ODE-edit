@@ -1,0 +1,281 @@
+{
+ "llama3-cf": {
+  "run": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/runs/llama3-cf",
+  "complete": {
+   "path": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/runs/llama3-cf/COMPLETE.json",
+   "sha256": "4d77fded42393c903e0b1e04a334cde14abcfc3ad5f7edbc84be923f2454b31d"
+  },
+  "all_seen": {
+   "path": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/runs/llama3-cf/factual/all-seen-20.json",
+   "sha256": "7d7de92d6da05c880754583d67bc5328d246dd560db5021c3d77b22ccbb389dc"
+  },
+  "identity": {
+   "author": "478134dfb24b43f4e18b47e8500893ce3f9cc50f",
+   "config_sha256": "2104ad1ae02ab496ed3f2ff21e0be36cea039a5fa4f46e569d710aa6e3dc1de9",
+   "dtype": "bfloat16",
+   "source": "03b21d404d6275b5f212974fe130ca98819789de",
+   "stream": "39bbd2215177d2aabeb3bd5c2e7f088b454479bf567b3b16f9da70bd0b28c95e"
+  },
+  "dataset": "cf",
+  "requests": 2000,
+  "recorded_summary": {
+   "Efficacy": 99.2,
+   "Generalization": 92.0,
+   "Score": 92.10545459663257,
+   "Score_AlphaEdit_display": 92.10545459663257,
+   "Specificity": 86.05000000000001,
+   "requests": 2000
+  },
+  "counts": {
+   "R": {
+    "numerator": 1984,
+    "denominator": 2000
+   },
+   "P": {
+    "numerator": 3680,
+    "denominator": 4000
+   },
+   "N": {
+    "numerator": 17210,
+    "denominator": 20000
+   }
+  },
+  "display": {
+   "Score": "92.11",
+   "Eff": "99.20",
+   "Gen": "92.00",
+   "Loc": "86.05"
+  },
+  "score_unrounded": 92.10545459663257
+ },
+ "llama3-zsre": {
+  "run": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/runs/llama3-zsre",
+  "complete": {
+   "path": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/runs/llama3-zsre/COMPLETE.json",
+   "sha256": "e53ffd2e5e1202dab58b3cbc812a60397dbb706543c537120cfe593eff617926"
+  },
+  "all_seen": {
+   "path": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/runs/llama3-zsre/factual/all-seen-20.json",
+   "sha256": "543fe9462e889420b34aee7a6b3e43ad2bb8d667d872ad66c0440246c43df8a3"
+  },
+  "identity": {
+   "author": "478134dfb24b43f4e18b47e8500893ce3f9cc50f",
+   "config_sha256": "8349d319baa8303aeb349b3746bf488188ad9eced121c4c8a60456e1b6678509",
+   "dtype": "bfloat16",
+   "source": "03b21d404d6275b5f212974fe130ca98819789de",
+   "stream": "93925ec2f74e00a1b3fbdf261e557d10652ae0eca7265b4948958d39de4848b7"
+  },
+  "dataset": "zsre",
+  "requests": 2000,
+  "recorded_summary": {
+   "Efficacy": 93.96595238095237,
+   "Generalization": 89.115,
+   "Specificity": 32.32491592325026,
+   "Specificity_loc_ans": 32.32491592325026,
+   "requests": 2000
+  },
+  "schema": "official-zsre-public-query-eval-only-v1",
+  "query_sha256": "7909c567881531b62db728ecc06308a3387324cc4e1c907b76bb50d8dd862efc",
+  "token_denominators": {
+   "neighborhood": 12465,
+   "paraphrase": 6035,
+   "rewrite": 6035
+  },
+  "display": {
+   "Eff": "93.97",
+   "Gen": "89.12",
+   "Loc": "32.32"
+  },
+  "unrounded": {
+   "Eff": 93.96595238095239,
+   "Gen": 89.115,
+   "Loc": 32.32491592325026
+  }
+ },
+ "gptj-cf": {
+  "run": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/runs/gptj-cf",
+  "complete": {
+   "path": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/runs/gptj-cf/COMPLETE.json",
+   "sha256": "c0f07eef7dbcdc5246db56ae6949fbd66eb2211528c0b523cdb21fff2368b713"
+  },
+  "all_seen": {
+   "path": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/runs/gptj-cf/factual/all-seen-20.json",
+   "sha256": "730138820a66011832daa69b5f0c8b600aa698ed338197578fccb72e42958625"
+  },
+  "identity": {
+   "author": "478134dfb24b43f4e18b47e8500893ce3f9cc50f",
+   "config_sha256": "506fe0bb0d9456aeb199c75828e9c4f37348c785037237ee31c6e3ebafdeb2a6",
+   "dtype": "bfloat16",
+   "source": "03b21d404d6275b5f212974fe130ca98819789de",
+   "stream": "39bbd2215177d2aabeb3bd5c2e7f088b454479bf567b3b16f9da70bd0b28c95e"
+  },
+  "dataset": "cf",
+  "requests": 2000,
+  "recorded_summary": {
+   "Efficacy": 48.949999999999996,
+   "Generalization": 51.525,
+   "Score": 49.79991827122223,
+   "Score_AlphaEdit_display": 49.798361235501446,
+   "Specificity": 49.010000000000005,
+   "requests": 2000
+  },
+  "counts": {
+   "R": {
+    "numerator": 979,
+    "denominator": 2000
+   },
+   "P": {
+    "numerator": 2061,
+    "denominator": 4000
+   },
+   "N": {
+    "numerator": 9802,
+    "denominator": 20000
+   }
+  },
+  "display": {
+   "Score": "49.80",
+   "Eff": "48.95",
+   "Gen": "51.53",
+   "Loc": "49.01"
+  },
+  "score_unrounded": 49.79991827122224
+ },
+ "gptj-zsre": {
+  "run": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/runs/gptj-zsre",
+  "complete": {
+   "path": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/runs/gptj-zsre/COMPLETE.json",
+   "sha256": "f7fcca77386d77f8a7141db8c8f1455fac05b25569cb1c5d803b3e7d13a2a625"
+  },
+  "all_seen": {
+   "path": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/runs/gptj-zsre/factual/all-seen-20.json",
+   "sha256": "b264a1f464c01fd6b20cc01f92ee792ee1b49af37551bcae0e2c764f2629b46d"
+  },
+  "identity": {
+   "author": "478134dfb24b43f4e18b47e8500893ce3f9cc50f",
+   "config_sha256": "ad83272e6e3114e590726dbed4cc0d839df5c69f370331c5682c8e2f3e7fa845",
+   "dtype": "bfloat16",
+   "source": "03b21d404d6275b5f212974fe130ca98819789de",
+   "stream": "93925ec2f74e00a1b3fbdf261e557d10652ae0eca7265b4948958d39de4848b7"
+  },
+  "dataset": "zsre",
+  "requests": 2000,
+  "recorded_summary": {
+   "Efficacy": 98.32076312576314,
+   "Generalization": 91.6968605006105,
+   "Specificity": 28.50527771160963,
+   "Specificity_loc_ans": 28.50527771160963,
+   "requests": 2000
+  },
+  "schema": "official-zsre-public-query-eval-only-v1",
+  "query_sha256": "2d27e4fc4445e709586e2d80f92dee76dfc1b6ce6cd7d333b6ca318ccb328a4b",
+  "token_denominators": {
+   "neighborhood": 9694,
+   "paraphrase": 5557,
+   "rewrite": 5557
+  },
+  "display": {
+   "Eff": "98.32",
+   "Gen": "91.70",
+   "Loc": "28.51"
+  },
+  "unrounded": {
+   "Eff": 98.32076312576312,
+   "Gen": 91.6968605006105,
+   "Loc": 28.505277711609622
+  }
+ },
+ "qwen25-cf": {
+  "run": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/qwen-server1-move-r1/runs/qwen25-cf",
+  "complete": {
+   "path": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/qwen-server1-move-r1/runs/qwen25-cf/COMPLETE.json",
+   "sha256": "59d0556bf92fe7d83555f8c4bc45f087d1dcb70dcb1b01ced3d2aea99fc874ee"
+  },
+  "all_seen": {
+   "path": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/qwen-server1-move-r1/runs/qwen25-cf/factual/all-seen-20.json",
+   "sha256": "8e6a127c40db8b5830136b7d0b6e5e129de3e240c27b30f73755683f3c44a585"
+  },
+  "identity": {
+   "author": "478134dfb24b43f4e18b47e8500893ce3f9cc50f",
+   "config_sha256": "0e91094c3ea95949fcea63a1e3814690ded4cc9e58972a5d949a1cf47f5f8121",
+   "dtype": "bfloat16",
+   "source": "2bac5732fc594e0eaf0d200772a56a640e02bc21",
+   "stream": "39bbd2215177d2aabeb3bd5c2e7f088b454479bf567b3b16f9da70bd0b28c95e"
+  },
+  "dataset": "cf",
+  "requests": 2000,
+  "recorded_summary": {
+   "Efficacy": 99.1,
+   "Generalization": 92.77499999999999,
+   "Score": 89.92537450624296,
+   "Score_AlphaEdit_display": 89.9248371621779,
+   "Specificity": 80.05499999999999,
+   "requests": 2000
+  },
+  "counts": {
+   "R": {
+    "numerator": 1982,
+    "denominator": 2000
+   },
+   "P": {
+    "numerator": 3711,
+    "denominator": 4000
+   },
+   "N": {
+    "numerator": 16011,
+    "denominator": 20000
+   }
+  },
+  "display": {
+   "Score": "89.93",
+   "Eff": "99.10",
+   "Gen": "92.78",
+   "Loc": "80.06"
+  },
+  "score_unrounded": 89.92537450624297
+ },
+ "qwen25-zsre": {
+  "run": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/qwen-server1-move-r1/runs/qwen25-zsre",
+  "complete": {
+   "path": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/qwen-server1-move-r1/runs/qwen25-zsre/COMPLETE.json",
+   "sha256": "855065788d03064bcf80a7f611e8ff8a910f2a38e5d34f98555285c036fd8c03"
+  },
+  "all_seen": {
+   "path": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/qwen-server1-move-r1/runs/qwen25-zsre/factual/all-seen-20.json",
+   "sha256": "bda8ef2092a8b723c36a68dda5b5362ab1eced19a376d0c936fdd9256de46695"
+  },
+  "identity": {
+   "author": "478134dfb24b43f4e18b47e8500893ce3f9cc50f",
+   "config_sha256": "7680c5e6b8843795d2fac07d08c1800703c2f1661f6fa797c66d56afd106e86f",
+   "dtype": "bfloat16",
+   "source": "2bac5732fc594e0eaf0d200772a56a640e02bc21",
+   "stream": "93925ec2f74e00a1b3fbdf261e557d10652ae0eca7265b4948958d39de4848b7"
+  },
+  "dataset": "zsre",
+  "requests": 2000,
+  "recorded_summary": {
+   "Efficacy": 96.42777597402598,
+   "Generalization": 86.73837121212121,
+   "Specificity": 40.3169015009202,
+   "Specificity_loc_ans": 40.3169015009202,
+   "requests": 2000
+  },
+  "schema": "official-zsre-public-query-eval-only-v1",
+  "query_sha256": "6c8111384789cec7059ea1b3c2b1083d761ade2b360c99db3e5c4f1ef4941d78",
+  "token_denominators": {
+   "neighborhood": 11476,
+   "paraphrase": 6691,
+   "rewrite": 6691
+  },
+  "display": {
+   "Eff": "96.43",
+   "Gen": "86.74",
+   "Loc": "40.32"
+  },
+  "unrounded": {
+   "Eff": 96.42777597402598,
+   "Gen": 86.73837121212121,
+   "Loc": 40.3169015009202
+  }
+ }
+}

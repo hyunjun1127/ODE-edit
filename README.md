@@ -93,10 +93,10 @@ HF 원본·C0·데이터·비FE checkpoint 및 raw/log/source는 삭제 대상�
 CF factual / zsRE public-query requestmacro loc_ans 비교 evaluator는 편집정책과 분리한다.
 SH1: Llama CF→zsRE, GPT-J CF→zsRE 및 후속 Qwen CF/zsRE를 소유한다.
 기존 Llama/GPT-J 네 job은 held 검사 후 release했으며 frozen source/config와 비FE 작업은 보존한다.
-2026-10-11 요청자 readback 기준 Llama CF **63151 RUNNING**, zsRE **63152 PENDING**,
-GPT-J CF **63153 PENDING**, zsRE **63154 PENDING**이다. 이는 완료 성능이 아니다.
+**완료(2026-10-11):** Llama CF **63151**·zsRE **63152**, GPT-J CF **63153**·zsRE **63154**, Qwen CF **63217**·zsRE **63218** 모두 COMPLETED.
+표의 FE 행은 각 run의 W20(2,000건) 누적 all-seen raw(`factual/all-seen-20.json`)에서 다시 집계했다. CF는 공식 `reduce.counterfact`(strict NLL, R/P/N 분모 2,000/4,000/20,000, Score는 반올림 전 성공률의 조화평균), zsRE는 baseline 행과 같은 공개-query 평가기(`official-zsre-public-query-eval-only-v1`, request macro, Loc = loc_ans 정확도)다. case 순서는 공식 eval-2K/zsRE 2K 순서와 같고, 표시는 decimal half-up 둘째 자리다. **GPT-J CF는 붕괴했다**(R/P/N 979/2,000 · 2,061/4,000 · 9,802/20,000, Loc이 W0 82.48보다 낮음; 원인 미확인, 같은 설정의 GPT-J zsRE는 정상). [재집계 원자료 SHA·분자·분모](audits/servers/server1/fe-original-w0-2k-20261011/table-rows.json)
 SH2 저장공간 부족으로 미제출이던 Qwen 두 조건은 최신 사용자 지시로 **server1에 재배정**했다.
-Qwen CF **63217**, zsRE **63218**은 held 검사 후 release, 전달된 관측상 모두 **PENDING**이다.
+Qwen CF **63217**, zsRE **63218**은 held 검사 후 release했고 위와 같이 완료했다.
 두 job 모두 `afterany:63152:63154:63207`로 기존 말단을 기다린다. 관측된 기존 GPU3개는 유지하며
 현재 전체 할당이2라고 주장하지 않는다. 새 두 실행의 폭은2로 제한한다. SH2 신규 제출/자동 재시도는 없다.
 기존6조건의 host 변경이며 추가 조건이 아니다. CF Flu/Con은 DEFERRED로 유지한다.
@@ -172,7 +172,7 @@ zsRE Loc은 **loc_ans 정답 token 정확도의 요청별 평균**이다. 이전
 | MEMIT | 58.88‡ | 64.75‡ | 61.70‡ | 51.83‡ | PENDING: s2-flucon-llama3-memit-42658 (62874) | PENDING: s2-flucon-llama3-memit-42658 (62874) | 44.30 | 39.95 | 22.30 |
 | AlphaEdit | 84.80‡ | 99.30‡ | 93.23‡ | 68.59‡ | PENDING: s2-flucon-llama3-alphaedit-42657 (62875) | PENDING: s2-flucon-llama3-alphaedit-42657 (62875) | 95.18 | 91.40 | 31.10 |
 | AlphaEdit-BLUE | 89.84† | 99.60† | 97.15† | 76.59† | PENDING: s2-flucon-llama3-alphaedit_blue-39283_1 (62876) | PENDING: s2-flucon-llama3-alphaedit_blue-39283_1 (62876) | 95.87 | 92.28 | 32.83 |
-| FE (author repo, W0-fixed z) | ING: official-s1-llama3-cf-fe-original (63151) | ING: official-s1-llama3-cf-fe-original (63151) | ING: official-s1-llama3-cf-fe-original (63151) | ING: official-s1-llama3-cf-fe-original (63151) | DEFERRED | DEFERRED | PENDING: official-s1-llama3-zsre-fe-original (63152) | PENDING: official-s1-llama3-zsre-fe-original (63152) | PENDING: official-s1-llama3-zsre-fe-original (63152) |
+| FE (author repo, W0-fixed z) | 92.11 | 99.20 | 92.00 | 86.05 | DEFERRED | DEFERRED | 93.97 | 89.12 | 32.32 |
 | AlphaEdit+SPHERE | 86.87 | 99.50 | 94.95 | 71.68 | 619.20 | 33.64 | 95.13 | 91.36 | 31.38 |
 | CAKE | PENDING: official-s1-llama3-cf-cake-2k (63296) | PENDING: official-s1-llama3-cf-cake-2k (63296) | PENDING: official-s1-llama3-cf-cake-2k (63296) | PENDING: official-s1-llama3-cf-cake-2k (63296) | DEFERRED | DEFERRED | PENDING: official-s1-llama3-zsre-cake-2k (63297) | PENDING: official-s1-llama3-zsre-cake-2k (63297) | PENDING: official-s1-llama3-zsre-cake-2k (63297) |
 | PRICE (Ours) | 90.98§ | 99.90§ | 93.50§ | 81.50§ | 628.47§ | 33.53§ | 99.62§ | 94.83§ | 45.31§ |
@@ -299,9 +299,9 @@ SH3 최신 CPU 재검산에서도 위 네 지표 delta0, 신규 본표 적격 �
 | [W0 (편집 전)](experiment-reports/global/w0-main-table-20261009.md) | 20.88 | 13.95 | 16.60 | 85.14 | 625.21 | 25.91 | 36.42 | 35.26 | 38.40 |
 | FT | 57.45 | 85.50 | 67.50 | 38.90 | 471.02 | 3.01 | 23.25 | 18.54 | 2.34 |
 | MEMIT | 62.23 | 68.50 | 65.83 | 54.30 | PENDING: s2-flucon-qwen25-memit-62073 (62870) | PENDING: s2-flucon-qwen25-memit-62073 (62870) | 41.49 | 39.44 | 26.39 |
-| AlphaEdit | 83.03 | 99.05 | 97.55 | 63.36 | ING: s2-flucon-qwen25-alphaedit-62075 (62871) | ING: s2-flucon-qwen25-alphaedit-62075 (62871) | 85.05 | 78.18 | 30.79 |
+| AlphaEdit | 83.03 | 99.05 | 97.55 | 63.36 | 618.99 | 33.92 | 85.05 | 78.18 | 30.79 |
 | AlphaEdit-BLUE | 77.98 | 97.70 | 96.75 | 55.86 | 602.99 | 37.43 | 58.62 | 53.66 | 5.73 |
-| FE (author repo, W0-fixed z) | PENDING: 63217 | PENDING: 63217 | PENDING: 63217 | PENDING: 63217 | DEFERRED | DEFERRED | PENDING: 63218 | PENDING: 63218 | PENDING: 63218 |
+| FE (author repo, W0-fixed z) | 89.93 | 99.10 | 92.78 | 80.06 | DEFERRED | DEFERRED | 96.43 | 86.74 | 40.32 |
 | AlphaEdit+SPHERE | 83.73 | 99.40 | 97.70 | 64.37 | CANCELLED: s2-flucon-qwen25-sphere-62079 (62873) | CANCELLED: s2-flucon-qwen25-sphere-62079 (62873) | CANCELLED: s4-qwen25-zsre-sphere-resume-b10 (63303) | CANCELLED: s4-qwen25-zsre-sphere-resume-b10 (63303) | CANCELLED: s4-qwen25-zsre-sphere-resume-b10 (63303) |
 | CAKE | ING: official-s4-qwen25-cf-cake-2k (63324) | ING: official-s4-qwen25-cf-cake-2k (63324) | ING: official-s4-qwen25-cf-cake-2k (63324) | ING: official-s4-qwen25-cf-cake-2k (63324) | DEFERRED | DEFERRED | ING: official-s4-qwen25-zsre-cake-2k (63325) | ING: official-s4-qwen25-zsre-cake-2k (63325) | ING: official-s4-qwen25-zsre-cake-2k (63325) |
 | PRICE (Ours) | 87.63※ | 99.00※ | 95.55※ | 73.17※ | ING: pf2k-flucon-qwen25-PN-beta150 (63305) | ING: pf2k-flucon-qwen25-PN-beta150 (63305) | ING: pf2k-qwen25-zsre-PN-beta150-ee-r3 (63278) | ING: pf2k-qwen25-zsre-PN-beta150-ee-r3 (63278) | ING: pf2k-qwen25-zsre-PN-beta150-ee-r3 (63278) |
@@ -362,7 +362,7 @@ Llama historical3개는 원source/lock/CP와 새평가 consumer identity를 분�
 | MEMIT | 80.63 | 97.90 | 95.38 | 60.58 | 577.93 | 36.84 | 93.52 | 88.86 | 30.81 |
 | AlphaEdit | 88.22 | 99.70 | 96.33 | 73.56 | PENDING: s2-flucon-gptj-alphaedit-61778 (62866) | PENDING: s2-flucon-gptj-alphaedit-61778 (62866) | 99.69 | 96.45 | 27.94 |
 | AlphaEdit-BLUE | 89.23 | 99.55 | 97.53 | 75.06 | PENDING: s2-flucon-gptj-alphaedit_blue-61779 (62867) | PENDING: s2-flucon-gptj-alphaedit_blue-61779 (62867) | 99.75 | 95.71 | 28.83 |
-| FE (author repo, W0-fixed z) | PENDING: official-s1-gptj-cf-fe-original (63153) | PENDING: official-s1-gptj-cf-fe-original (63153) | PENDING: official-s1-gptj-cf-fe-original (63153) | PENDING: official-s1-gptj-cf-fe-original (63153) | DEFERRED | DEFERRED | PENDING: official-s1-gptj-zsre-fe-original (63154) | PENDING: official-s1-gptj-zsre-fe-original (63154) | PENDING: official-s1-gptj-zsre-fe-original (63154) |
+| FE (author repo, W0-fixed z) | 49.80 | 48.95 | 51.53 | 49.01 | DEFERRED | DEFERRED | 98.32 | 91.70 | 28.51 |
 | AlphaEdit+SPHERE | 88.39 | 99.70 | 95.73 | 74.27 | 616.18 | 40.89 | 99.67 | 96.29 | 28.00 |
 | CAKE | PENDING: official-s1-gptj-cf-cake-2k (63298) | PENDING: official-s1-gptj-cf-cake-2k (63298) | PENDING: official-s1-gptj-cf-cake-2k (63298) | PENDING: official-s1-gptj-cf-cake-2k (63298) | DEFERRED | DEFERRED | PENDING: official-s1-gptj-zsre-cake-2k (63299) | PENDING: official-s1-gptj-zsre-cake-2k (63299) | PENDING: official-s1-gptj-zsre-cake-2k (63299) |
 | PRICE (Ours) | 88.22¶ | 99.80¶ | 96.23¶ | 73.57¶ | 620.09¶ | 41.61¶ | 99.81¶ | 96.96¶ | 29.59¶ |

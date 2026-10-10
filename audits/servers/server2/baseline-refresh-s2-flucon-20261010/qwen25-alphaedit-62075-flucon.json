@@ -1,0 +1,38 @@
+{
+ "job": 62871,
+ "server": "server2",
+ "row": "Qwen2.5 AlphaEdit CF Flu/Con",
+ "checkpoint_job": "62075 (W20)",
+ "complete": {
+  "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/runs/qwen25-alphaedit-62075/COMPLETE.json",
+  "sha256": "d5e3600e454e303bf053033afb20cbaaa00d09b695f533a2a31f8cd5f5340dcb"
+ },
+ "Flu": {
+  "display_unit": "bits x100",
+  "paper_display_x100": "618.99",
+  "raw_unit": "bits",
+  "raw_value": 6.1898718360821485
+ },
+ "Con": {
+  "display_unit": "cosine_0_to_1 x100",
+  "paper_display_x100": "33.92",
+  "raw_unit": "cosine_0_to_1",
+  "raw_value": 0.33922471903920665
+ },
+ "summary": {
+  "planned_count": 2000,
+  "fluency_count": 2000,
+  "consistency_count": 2000,
+  "generation_prompt_count": 20000,
+  "ngram_entropy": 6.1898718360821485,
+  "reference_score": 0.33922471903920665
+ },
+ "requests": 2000,
+ "source": "417a12e7db55af93346be60f79138a6923324de1",
+ "invariants": {
+  "weights_unchanged": true,
+  "RNG_unchanged": true,
+  "checkpoint_unchanged": true,
+  "edits": 0
+ }
+}
