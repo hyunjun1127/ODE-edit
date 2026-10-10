@@ -10,9 +10,12 @@
       "cwd": "/mnt/raid5/janghj/ODE-edit",
       "accepted_turn": "01a1236d-9293-73b0-aff5-7e2789e84602",
       "explicit_owner_ACK": true,
-      "stage": "진행 중: cap3/대기DAG 확인, 완료raw 검산 및 중복 없는 CF checkpoint FLUCON 실제등록",
-      "new_FLUCON_submission_receipt": null,
-      "new_table_results": null
+      "stage": "완료: cap3/DAG폭3 적용, 완료12행 재검산, history 평가3GPU+1CPU held검사/release. 실제 생성 완료는 미관측.",
+      "new_FLUCON_submission_receipt": "audits/servers/server1/completed-table-flucon-cap3-20261010/submission.json",
+      "new_table_results": "audits/servers/server1/completed-table-flucon-cap3-20261010/table-rows.json",
+      "publication": "f74dcdae5938b6ebab4a8a5944b5644ee948e079",
+      "new_GPU_job_ids": ["62581", "62582", "62583"],
+      "new_CPU_collector": "62584"
     },
     "server2": {
       "session": "01a0493a-074c-7f91-9a13-769116326fef",
@@ -27,9 +30,9 @@
     }
   },
   "canonical_caps": {"server1": 3, "server2": 3, "other_servers": "UNCHANGED"},
-  "cap_runtime_final_receipts": "server2 적용완료 영수증 확인; server1은 별도 후속보고 대기",
+  "cap_runtime_final_receipts": "server1 cap3/DAG폭3, server2 cap3/allocated2·DAG폭2 실제 영수증 확인. 다른 서버 불변.",
   "README_owner": "GH; 새 실제metrics/jobreceipt 수신 후 해당 셀만 통합",
-  "current_GH_README_updates": {"new_numeric_cells": 6, "state_cells": 4, "owner": "server2"},
+  "current_GH_README_updates": {"server2": {"new_numeric_cells": 6, "state_cells": 4}, "server1": {"new_numeric_cells": 6, "state_cells": 7}},
   "GH_job_mutations": 0,
   "new_recurring_monitor": false
 }
