@@ -1,0 +1,220 @@
+{
+  "CPU_tests": 44,
+  "README_owner": "GH",
+  "accepted_turn": "01a1236d-9293-73b0-aff5-7e2789e84602",
+  "actual_GPU_qualification": "NOT_RUN_USER_DISABLED",
+  "admitted_width": 3,
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "cap_file": {
+    "bytes": 880,
+    "path": "/mnt/raid5/janghj/ODE-edit/servers/local/gpu-caps.tsv",
+    "sha256": "3d13877a1fbfc491cd5c4dbf85ef568ea44802da8cd70bfcc0d453cdb0e46b05"
+  },
+  "current_allocated_at_admission": 1,
+  "cwd": "/mnt/raid5/janghj/ODE-edit",
+  "dedup_native_completed": [
+    "62259",
+    "62260",
+    "62261"
+  ],
+  "effective_cap": 3,
+  "execution_lock": {
+    "bytes": 136493,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/registration-r1/execution-lock.json",
+    "sha256": "ba5262d003d6c6c125f420885706189a874409ae442b83880407845de2ca4437"
+  },
+  "existing_jobs_unchanged": true,
+  "held_inspected": true,
+  "host": "devbox",
+  "jobs": [
+    {
+      "GPU": 0,
+      "config": null,
+      "dependency": [
+        [
+          "afterany",
+          "62581"
+        ],
+        [
+          "afterany",
+          "62582"
+        ],
+        [
+          "afterany",
+          "62583"
+        ]
+      ],
+      "initial_state": "PENDING",
+      "job_id": "62584",
+      "job_name": "official-s1-flucon-eval-collector",
+      "script": {
+        "bytes": 1110,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/registration-r1/scripts/collector.sh",
+        "sha256": "9fe9d92ef8b2107f7d3300e51070cd8a06b6d216d1657008902bc190857d1cef"
+      }
+    },
+    {
+      "GPU": 1,
+      "config": {
+        "bytes": 5232,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/preparation-r1/configs/gptj-memit_fe_history-cap3.json",
+        "sha256": "ff7c22e1f0abcc69dd20f193260f8d49eb9beafc56903518ecb90df934703fbe"
+      },
+      "config_sha256": "efbb618f368e77de2aa4a5aff750c69098acc8a42d76784f34b6c6bad2ce9b89",
+      "dataset": "cf",
+      "dependency": [],
+      "initial_state": "PENDING",
+      "job_id": "62581",
+      "job_name": "official-s1-flucon-eval-gptj-memit_fe_history-cap3",
+      "method": "MEMIT_FE_HISTORY",
+      "model": "gptj",
+      "ordered_case_ids_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+      "original_checkpoint": {
+        "bytes": 8053084885,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/runs/gptj/checkpoint/batch-20-49c14636ee25bec2.pt",
+        "sha256": "49c14636ee25bec26a6431fda09ac676b0c68d6769d1d4366d189977f119f598"
+      },
+      "original_identity": {
+        "assets_sha256": "7cbf34bcad3bd053ead5c78b76ebfcec147d6d193f2c961d67f727942224b710",
+        "code_commit": "eaf78c331dee72093b2ccdf29f31962799475e34",
+        "config_sha256": "619e77c946a662d7d9a9690c0083326bb76584f15d55ed3c0aba191b026b300f",
+        "model_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+        "official_tree_sha256": "5a270b0fc7800f75dd7321d53d738e2be2840bed",
+        "stream_sha256": "39bbd2215177d2aabeb3bd5c2e7f088b454479bf567b3b16f9da70bd0b28c95e",
+        "tokenizer_sha256": "2aa4f890df82b69576bf881449a8d15c3997db0a3445699e157f81d59e1dad7b"
+      },
+      "original_job": "61927",
+      "output": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/preparation-r1/runs/gptj-memit_fe_history-cap3",
+      "protocol_instruction": "USER-GH-FLUCON-PAPER-SCALE-TABLE-REFRESH-20261010-R1",
+      "reference_identity": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+      "script": {
+        "bytes": 948,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/registration-r1/scripts/gptj-memit_fe_history-cap3.sh",
+        "sha256": "f9086c382f6d11570998faf060033037b5f907349c837bcd3333f30da2691cbd"
+      }
+    },
+    {
+      "GPU": 1,
+      "config": {
+        "bytes": 5247,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/preparation-r1/configs/llama3-memit_fe_history-cap3.json",
+        "sha256": "31d93138746400c02302b74914a848bd389a1907f31f255e2a6c853cf4e65731"
+      },
+      "config_sha256": "02f6427c40de79e181558c0d4e315fb35ee5a429cc55344bcc9a7b549334a46e",
+      "dataset": "cf",
+      "dependency": [],
+      "initial_state": "PENDING",
+      "job_id": "62582",
+      "job_name": "official-s1-flucon-eval-llama3-memit_fe_history-cap3",
+      "method": "MEMIT_FE_HISTORY",
+      "model": "llama3",
+      "ordered_case_ids_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+      "original_checkpoint": {
+        "bytes": 5284843395,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/memit-fe-history-three-model-2k/preparation-r1/runs/llama3/checkpoint/batch-20-aef60873019a3c69.pt",
+        "sha256": "aef60873019a3c69c5e874685ae948184ef77c437c5e6b74af261e147879abc4"
+      },
+      "original_identity": {
+        "assets_sha256": "d03386c2a10978fb66984cc81df43d83a4a145e74be6aa84bb7b395acfc088f3",
+        "code_commit": "eaf78c331dee72093b2ccdf29f31962799475e34",
+        "config_sha256": "f6e97420d91acbeb17b4c1fe86b0ca9af94029bf7dfe8565c608a39f2f604472",
+        "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+        "official_tree_sha256": "5a270b0fc7800f75dd7321d53d738e2be2840bed",
+        "stream_sha256": "39bbd2215177d2aabeb3bd5c2e7f088b454479bf567b3b16f9da70bd0b28c95e",
+        "tokenizer_sha256": "5def14f0398b34af845724d57933cb300ae606e3e4b039366e1fdbd81fbcc521"
+      },
+      "original_job": "61928",
+      "output": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/preparation-r1/runs/llama3-memit_fe_history-cap3",
+      "protocol_instruction": "USER-GH-FLUCON-PAPER-SCALE-TABLE-REFRESH-20261010-R1",
+      "reference_identity": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+      "script": {
+        "bytes": 950,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/registration-r1/scripts/llama3-memit_fe_history-cap3.sh",
+        "sha256": "611d3e698f8d5bf6393843a8a76475bee3431c63cc3f30ad0ca76abb302b3072"
+      }
+    },
+    {
+      "GPU": 1,
+      "config": {
+        "bytes": 5191,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/preparation-r1/configs/qwen25-memit_fe_history-cap3.json",
+        "sha256": "17aad593574ebec135fd1f35dd5eef106fb5d4911a883f4f36af2a721af8c42d"
+      },
+      "config_sha256": "b3c77648aa0eef179b8011f6e1ba9f0697534efaae5e1250009b58c880822872",
+      "dataset": "cf",
+      "dependency": [
+        [
+          "afterany",
+          "62581"
+        ]
+      ],
+      "initial_state": "PENDING",
+      "job_id": "62583",
+      "job_name": "official-s1-flucon-eval-qwen25-memit_fe_history-cap3",
+      "method": "MEMIT_FE_HISTORY",
+      "model": "qwen25",
+      "ordered_case_ids_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+      "original_checkpoint": {
+        "bytes": 8535429071,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/server1/preparation-r1/runs/qwen25/checkpoint/batch-20-6fe6a1f7ef8f7333.pt",
+        "sha256": "6fe6a1f7ef8f73336069373a9c370366f87e9cc7bd0a7bbc1e5660c18a08f903"
+      },
+      "original_identity": {
+        "assets_sha256": "b4213d8386b27ae3615db0d3041a52eb70f5d8c175f5bbcff0ff745b0ac2aa20",
+        "code_commit": "8da621a9e12fd341a4a70fba95531af6fe4fdb80",
+        "config_sha256": "002dfd21372eaed6439743c474ce381ee9ce44dd8a9cd14995893cda8f22095d",
+        "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+        "official_tree_sha256": "e475f8c01919b675a80122ecf70a0a1293fdfd75",
+        "stream_sha256": "39bbd2215177d2aabeb3bd5c2e7f088b454479bf567b3b16f9da70bd0b28c95e",
+        "tokenizer_sha256": "77c1b476d460584ec70f2781826fda122c953ccd019399343a8efc440c3f75ae"
+      },
+      "original_job": "62061",
+      "output": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/preparation-r1/runs/qwen25-memit_fe_history-cap3",
+      "protocol_instruction": "USER-GH-FLUCON-PAPER-SCALE-TABLE-REFRESH-20261010-R1",
+      "reference_identity": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+      "script": {
+        "bytes": 950,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/registration-r1/scripts/qwen25-memit_fe_history-cap3.sh",
+        "sha256": "b8603d436de4317ad85b805c287226faa465a84abfd6b777902e6b7b61c271da"
+      }
+    }
+  ],
+  "local_submission": {
+    "bytes": 19805,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/completed-table-flucon-cap3-20261010/registration-r1/submission.json",
+    "sha256": "9195c1ca505773ceff83cebc03c26d0690c0f61bfad9ff01e15235e50a4c545a"
+  },
+  "new_generation_complete": false,
+  "nonce": "USER-GH-S1-S2-COMPLETED-TABLE-S1-FLUCON-CAP3-20261010-R1",
+  "official_tree": "aa1dc1a64e563ef46ad3d3c11e9c9a0c8b514d91",
+  "online_readback": "NOT_OBSERVED_BEFORE_STARTUP",
+  "origin": "https://github.com/hyunjun1127/ODE-edit.git",
+  "other_rows_unchanged": true,
+  "pending_existing_adjustments": [],
+  "previous_own_local_cap": 4,
+  "prior_cancelled_eval_ids_preserved": [
+    "62262",
+    "62263"
+  ],
+  "registry": {
+    "bytes": 3681,
+    "path": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-completed-flucon-cap3-20261010/servers/active/server1.md",
+    "sha256": "9fea60de2524a6f70282175c505d7a8f85b8f8df768fecf7edaf91253afa7e69"
+  },
+  "released": true,
+  "resources": {
+    "collector_memory_MiB": 24576,
+    "collector_wall_seconds": 14400,
+    "cpus": 8,
+    "inode_reserve": 10000,
+    "memory_MiB": 65536,
+    "node": "devbox",
+    "partition": "gpu",
+    "qos": "lab_gpu_s1",
+    "storage_reserve_bytes": 68719476736,
+    "wall_seconds": 172800
+  },
+  "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+  "source": "37094d92d70d0499304da9f7b82ab59340c57232",
+  "source_files_verified": 166
+}
