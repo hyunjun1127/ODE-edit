@@ -278,9 +278,9 @@ SH3 최신 CPU 재검산에서도 위 네 지표 delta0, 신규 본표 적격 �
 | AlphaEdit-BLUE | 77.98 | 97.70 | 96.75 | 55.86 | 602.99 | 37.43 | 58.62 | 53.66 | 5.73 |
 | FE (author repo, W0-fixed z) | PENDING: 63217 | PENDING: 63217 | PENDING: 63217 | PENDING: 63217 | DEFERRED | DEFERRED | PENDING: 63218 | PENDING: 63218 | PENDING: 63218 |
 | AlphaEdit+SPHERE | 83.73 | 99.40 | 97.70 | 64.37 | PENDING: s2-flucon-qwen25-sphere-62079 (62873) | PENDING: s2-flucon-qwen25-sphere-62079 (62873) | PENDING: s2-qwen25-zsre-sphere-resume-b9 (62538) | PENDING: s2-qwen25-zsre-sphere-resume-b9 (62538) | PENDING: s2-qwen25-zsre-sphere-resume-b9 (62538) |
-| PRICE (Ours) | ING: pf2k-qwen25-cf-PN-beta150-ee (63144) | ING: pf2k-qwen25-cf-PN-beta150-ee (63144) | ING: pf2k-qwen25-cf-PN-beta150-ee (63144) | ING: pf2k-qwen25-cf-PN-beta150-ee (63144) | ING: pf2k-qwen25-cf-PN-beta150-ee (63144) | ING: pf2k-qwen25-cf-PN-beta150-ee (63144) | ING: pf2k-qwen25-zsre-PN-beta150-ee-r2 (63276) | ING: pf2k-qwen25-zsre-PN-beta150-ee-r2 (63276) | ING: pf2k-qwen25-zsre-PN-beta150-ee-r2 (63276) |
+| PRICE (Ours) | ING: pf2k-qwen25-cf-PN-beta150-ee-resume-w15 (63281) | ING: pf2k-qwen25-cf-PN-beta150-ee-resume-w15 (63281) | ING: pf2k-qwen25-cf-PN-beta150-ee-resume-w15 (63281) | ING: pf2k-qwen25-cf-PN-beta150-ee-resume-w15 (63281) | ING: pf2k-qwen25-cf-PN-beta150-ee-resume-w15 (63281) | ING: pf2k-qwen25-cf-PN-beta150-ee-resume-w15 (63281) | ING: pf2k-qwen25-zsre-PN-beta150-ee-r3 (63278) | ING: pf2k-qwen25-zsre-PN-beta150-ee-r3 (63278) | ING: pf2k-qwen25-zsre-PN-beta150-ee-r3 (63278) |
 
-※ Qwen PRICE (Ours)는 HC 가격을 정규화한 최종 method 재실행(arm `qwen25-PN-beta150`, β = c = β_max = 1.5)으로 채운다. CF는 server4 **63144**, zsRE는 server4 **63276**(r2)이고, CF Flu/Con은 CF W20 뒤에 같은 생성 평가기로 잰다. HC 가격을 정규화하지 않은 rent run(**101706**, W20 98.65 / 94.25 / 72.48)은 본표에 넣지 않고 ablation으로 남긴다. 정규화하지 않으면 가장 싼 층 가격이 B10에서 1.159(최대 1.386)까지 올라, 편집 강도가 14% 이상 줄기 때문이다.
+※ Qwen PRICE (Ours)는 HC 가격을 정규화한 최종 method 재실행(arm `qwen25-PN-beta150`, β = c = β_max = 1.5)으로 채운다. CF는 server4 **63144**를 W15에서 멈추고 **63281**로 이어 돌리며(server4 GPU cap 2 정리, 2026-10-11 사용자 결정), zsRE는 server4 **63278**(r3)이고, CF Flu/Con은 CF W20 뒤에 같은 생성 평가기로 잰다. HC 가격을 정규화하지 않은 rent run(**101706**, W20 98.65 / 94.25 / 72.48)은 본표에 넣지 않고 ablation으로 남긴다. 정규화하지 않으면 가장 싼 층 가격이 B10에서 1.159(최대 1.386)까지 올라, 편집 강도가 14% 이상 줄기 때문이다.
 
 ### GPT-J-6B
 
@@ -331,7 +331,7 @@ Llama historical3개는 원source/lock/CP와 새평가 consumer identity를 분�
 
 | Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu ×100 | CF Con ×100 | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| [W0 (편집 전)](experiment-reports/global/w0-main-table-20261009.md) | 24.44 | 17.00 | 19.30 | 82.48 | PENDING: 63219 | PENDING: 63219 | 27.83 | 27.15 | 27.59 |
+| [W0 (편집 전)](experiment-reports/global/w0-main-table-20261009.md) | 24.44 | 17.00 | 19.30 | 82.48 | PENDING: 63282 | PENDING: 63282 | 27.83 | 27.15 | 27.59 |
 | FT | 58.97 | 88.75 | 66.75 | 40.61 | 510.98 | 3.04 | 23.15 | 17.95 | 0.62 |
 | MEMIT | 80.63 | 97.90 | 95.38 | 60.58 | 577.93 | 36.84 | 93.52 | 88.86 | 30.81 |
 | AlphaEdit | 88.22 | 99.70 | 96.33 | 73.56 | PENDING: s2-flucon-gptj-alphaedit-61778 (62866) | PENDING: s2-flucon-gptj-alphaedit-61778 (62866) | 99.69 | 96.45 | 27.94 |
@@ -341,7 +341,7 @@ Llama historical3개는 원source/lock/CP와 새평가 consumer identity를 분�
 | PRICE (Ours) | 88.22¶ | 99.80¶ | 96.23¶ | 73.57¶ | 620.09¶ | 41.61¶ | 99.81¶ | 96.96¶ | 29.59¶ |
 
 GPT-J W0 Flu/Con은 동일 native full2K 완료/등록을 찾지 못해 server4의 **63219**로 generation-only 평가를 등록했다.
-held 검사 후 release, `afterany:63144` PENDING이며 두 생성 셀만 job 번호로 표시한다.
+held 검사 후 release, `afterany:63144` PENDING이며 두 생성 셀만 job 번호로 표시한다. 2026-10-11 05:00 server4 GPU cap 2·ours 우선 정리로 63219(모델 로드 2분42초 뒤)를 멈추고 같은 run.sh·config로 **63282**(`afterany:63277`, ours 뒤)로 다시 제출했다.
 기존 W0 factual/zsRE 수치는 변경하지 않았다. [확인 범위·제출 근거](experiment-reports/global/gptj-w0-flucon-20261011/report-ko.md).
 
 ¶ 최종 PRICE method의 GPT-J 2K다. CF는 rent job **101707**, zsRE는 server4 job **63027**이며 둘 다 W20/2,000 edits다.
@@ -524,11 +524,11 @@ secret은 저장소에 기록하지 않는다.
 | 모델 | CF 2K | zsRE 2K |
 | :--- | :--- | :--- |
 | Llama | server4 **62604** 완료: W20 99.90 / 93.50 / 81.50, Score 90.98. Flu/Con devbox **63125** 완료: 628.47 / 33.53 (모두 본표 반영) | server4 **62889** 완료: W20 99.62 / 94.83 / 45.31 (본표 반영) |
-| Qwen | 정규화 HC(`qwen25-PN-beta150`) server4 **63144** 실행 중. 정규화 전 HC run(rent **101706**)은 ablation으로 남긴다. 비교용 β = c 2.0(server4 **62845**)은 B10 진입 때 anchor guard로 멈췄다(편집이 쌓여 생긴 sink) | 정규화 HC server4 **63276**(r2) 실행 중. 첫 run **63145**는 server4 /data 여유 공간 부족(runner 저장공간 guard 16 GiB)으로 B17에서 멈췄다(B15 all-seen 98.83 / 94.66 / 44.30). zsRE는 resume 경로가 없어 같은 preparation·같은 source(e0469ca2)로 처음부터 다시 돌린다. r1 원자료는 devbox에 보관했다 |
+| Qwen | 정규화 HC(`qwen25-PN-beta150`) server4 **63144**를 W15(1,500건 all-seen 99.33 / 96.27 / 76.47)에서 멈추고 **63281**로 이어 돌리는 중(state join 확인). 정규화 전 HC run(rent **101706**)은 ablation으로 남긴다. 비교용 β = c 2.0(server4 **62845**)은 B10 진입 때 anchor guard로 멈췄다(편집이 쌓여 생긴 sink) | 정규화 HC server4 **63278**(r3) 실행 중. r2 **63276**은 cap 2 정리로 B2에서 멈췄다(r2의 W0·B1은 r1과 상태 해시까지 같음). 첫 run **63145**는 server4 /data 여유 공간 부족(runner 저장공간 guard 16 GiB)으로 B17에서 멈췄다(B15 all-seen 98.83 / 94.66 / 44.30). zsRE는 resume 경로가 없어 같은 preparation·같은 source(e0469ca2)로 처음부터 다시 돌린다. r1 원자료는 devbox에 보관했다 |
 | GPT-J | rent **101707** 완료: W20 99.80 / 96.23 / 73.57, Score 88.22. Flu/Con devbox **63207** 완료: 620.09 / 41.61 (모두 본표 반영) | server4 **63027** 완료: W20 99.81 / 96.96 / 29.59 (본표 반영) |
 
 - **HC 가격 정규화(2026-10-11, 공식 method에 포함):** HC 배수를 곱한 뒤 요청마다 가장 싼 층의 가격이 1이 되도록 다시 나눈다(method 항목 `hc_normalize`). 정규화하지 않으면 HC가 배분뿐 아니라 강도도 바꾼다. 가장 싼 층 가격 중앙값이 Qwen 2K B10에서 1.159(최대 1.386)였고, Llama 2K B20은 1.034, GPT-J 2K B10은 1.012였다. **본표(사용자 결정):** Qwen은 정규화 HC로 다시 돌린 값을 쓴다. Llama·GPT-J는 정규화 도입 전 run이지만, 차이가 잡음 수준으로 예상되어 재실행하지 않고 그대로 쓴다.
 - 모든 2K run은 W5·W10·W15·W20마다 all-seen 평가와 resumable checkpoint(가중치, history H, HC 통계)를 남긴다.
-- **Llama 3K 연장과 일반 능력 평가(2026-10-11 사용자 요청):** Llama ours를 W20 checkpoint에서 3,000건까지 이어 편집한다(server4 **63238**, B21–B30 = fixed10k 순서의 records[2000:3000], baseline과 같은 표본). 63238은 W25 저장 뒤 B28에서 같은 저장공간 guard로 멈췄고(W25 all-seen 2,500건: 99.92 / 91.18 / 80.67), W25부터 **63277**로 이어 돌린다. AlphaEdit Figure 3의 6개 과제(SST·MRPC·CoLA·RTE·MMLU·NLI, F1)를 500건마다 MEMIT·AlphaEdit(native 42658/42657)·AlphaEdit-BLUE(39283_1)·Ours로 비교한다. 평가기는 job 42706과 같다(BLUE glue_eval, rows 10–110, 0-shot, FP32). devbox **63245**의 W0가 42706 W0와 6개 과제 F1이 같다(평균 68.48, 행 차이는 확률값 1e-16 수준뿐). baseline 1,500·2,500건 checkpoint는 원 runner로 다시 만들어 원 commit 해시와 대조한다(server4 **63260/63261/63262**). 그림은 생성 기준 F1, 대안 지표도 함께 기록한다.
+- **Llama 3K 연장과 일반 능력 평가(2026-10-11 사용자 요청):** Llama ours를 W20 checkpoint에서 3,000건까지 이어 편집한다(server4 **63238**, B21–B30 = fixed10k 순서의 records[2000:3000], baseline과 같은 표본). 63238은 W25 저장 뒤 B28에서 같은 저장공간 guard로 멈췄고(W25 all-seen 2,500건: 99.92 / 91.18 / 80.67), W25부터 **63277**로 이어 돌린다(Qwen ours 63281 뒤 순서). AlphaEdit Figure 3의 6개 과제(SST·MRPC·CoLA·RTE·MMLU·NLI, F1)를 500건마다 MEMIT·AlphaEdit(native 42658/42657)·AlphaEdit-BLUE(39283_1)·Ours로 비교한다. 평가기는 job 42706과 같다(BLUE glue_eval, rows 10–110, 0-shot, FP32). devbox **63245**의 W0가 42706 W0와 6개 과제 F1이 같다(평균 68.48, 행 차이는 확률값 1e-16 수준뿐). baseline 1,500·2,500건 checkpoint는 원 runner로 다시 만들어 원 commit 해시와 대조한다(server4 **63260/63261/63262**). 그림은 생성 기준 F1, 대안 지표도 함께 기록한다.
 - zsRE는 CF와 같은 설정을 쓴다. 데이터는 official zsRE first-2K stream, 평가는 official zsRE evaluator다.
 - Qwen·GPT-J zsRE는 no-BOS 모델이라 zsRE sink scan을 먼저 해야 한다.
