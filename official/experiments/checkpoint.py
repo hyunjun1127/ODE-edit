@@ -44,9 +44,9 @@ def _sync_directory(path):
         os.close(descriptor)
 
 
-def save(folder, *, batch, weights, cache_c, contexts, evaluation_cursor, identity,
-         method, evaluation_complete, interval=1):
-    """Call only after that batch's edit and scheduled evaluations both finish."""
+def make_payload(*, batch, weights, cache_c, contexts, evaluation_cursor, identity,
+                 method, evaluation_complete, interval=1):
+    """The same native state is used by local and remote checkpoint transports."""
     validate_identity(identity)
     if (not evaluation_complete or type(batch) is not int or not 0 <= batch <= 20
             or type(interval) is not int or interval not in (1, 5) or batch % interval):
@@ -58,26 +58,39 @@ def save(folder, *, batch, weights, cache_c, contexts, evaluation_cursor, identi
         raise ValueError("FP32_WEIGHTS_REQUIRED")
     if any(t.dtype != torch.float32 for t in cache_c.values()):
         raise ValueError("FP32_CACHE_C_REQUIRED")
-    folder = Path(folder)
-    folder.mkdir(parents=True, exist_ok=True)
-    pointer = folder / "latest.json"
-    previous = json.loads(pointer.read_text()) if pointer.exists() else None
+    return dict(schema="official-baseline-checkpoint-v1", batch=batch, identity=identity,
+                method=method, weights={k: v.detach().cpu() for k, v in weights.items()},
+                cache_c={k: v.detach().cpu() for k, v in cache_c.items()}, contexts=contexts,
+                rng=rng_snapshot(), evaluation_cursor=evaluation_cursor)
+
+
+def validate_sequence(previous, batch, interval, identity):
     if previous:
-        # Avoid deserializing multi-GiB H matrices a second time at every save.
         if previous.get("identity_sha256") != digest(identity):
             raise ValueError("CHECKPOINT_IDENTITY_MISMATCH")
         if Path(previous["file"]).name != previous["file"]:
             raise ValueError("INVALID_CHECKPOINT_MEMBER")
-        if not (folder / previous["file"]).is_file():
-            raise ValueError("PREVIOUS_CHECKPOINT_MISSING")
         if batch != previous["batch"] + interval:
             raise ValueError("NONCONTIGUOUS_CHECKPOINT_BATCH")
     elif batch != 0:
         raise ValueError("INITIAL_W0_CHECKPOINT_REQUIRED")
-    payload = dict(schema="official-baseline-checkpoint-v1", batch=batch, identity=identity,
-                   method=method, weights={k: v.detach().cpu() for k, v in weights.items()},
-                   cache_c={k: v.detach().cpu() for k, v in cache_c.items()}, contexts=contexts,
-                   rng=rng_snapshot(), evaluation_cursor=evaluation_cursor)
+
+
+def save(folder, *, batch, weights, cache_c, contexts, evaluation_cursor, identity,
+         method, evaluation_complete, interval=1):
+    """Call only after that batch's edit and scheduled evaluations both finish."""
+    payload = make_payload(batch=batch, weights=weights, cache_c=cache_c, contexts=contexts,
+        evaluation_cursor=evaluation_cursor, identity=identity, method=method,
+        evaluation_complete=evaluation_complete, interval=interval)
+    folder = Path(folder)
+    folder.mkdir(parents=True, exist_ok=True)
+    pointer = folder / "latest.json"
+    previous = json.loads(pointer.read_text()) if pointer.exists() else None
+    validate_sequence(previous, batch, interval, identity)
+    if previous:
+        # Avoid deserializing multi-GiB H matrices a second time at every save.
+        if not (folder / previous["file"]).is_file():
+            raise ValueError("PREVIOUS_CHECKPOINT_MISSING")
     temporary = target = None
     committed = False
     try:

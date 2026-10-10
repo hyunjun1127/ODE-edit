@@ -39,7 +39,9 @@ def require(ok, message):
 def validate(c):
     require(c['instruction'] == INSTRUCTION and c['server'] in ('server1', 'server4'), 'CAKE_SCOPE')
     if c['server'] == 'server4':
-        require((c['model'], c['dataset']) == ('qwen25', 'cf'), 'CAKE_SERVER4_SCOPE')
+        require(c['model'] == 'qwen25' and c['dataset'] in ('cf', 'zsre'), 'CAKE_SERVER4_SCOPE')
+    if c.get('checkpoint_archive'):
+        require((c['server'], c['model'], c['dataset']) == ('server4', 'qwen25', 'zsre'), 'CAKE_ARCHIVE_SCOPE')
     require(c['model'] in MODELS and c['dataset'] in ('cf', 'zsre'), 'CAKE_MODEL_DATASET')
     require((c['requests'], c['batch_size'], c['seed'], c['dtype']) == (2000, 100, 0, 'float32'), 'CAKE_STREAM_PRECISION')
     require(c['milestones'] == [5, 10, 15, 20] and c['history'] is True, 'CAKE_CHECKPOINT_HISTORY_POLICY')
@@ -140,7 +142,7 @@ def run(config_path, lock_path, resume=False):
         model_revision=assets['model']['identity']['revision'], tokenizer_sha256=assets['tokenizer_sha256'],
         assets_sha256=assets['assets_sha256'])
     values = dict(server=c['server'], task_id=(TASK if c['server'] == 'server1'
-        else 'cake-qwen25-cf-server4-20261011'), model=c['model'],
+        else f"cake-qwen25-{c['dataset']}-server4-20261011"), model=c['model'],
         model_family={'llama3': 'llama', 'gptj': 'gptj', 'qwen25': 'qwen2'}[c['model']],
         writer='cake_native', baseline='CAKE', role='scientific', arm=c['arm'],
         attempt=c['attempt'] + ('-resume-' + observations.name if resume else ''), source_sha=lock['source_commit'],
@@ -167,13 +169,24 @@ def run(config_path, lock_path, resume=False):
         require(tracker.log(payload(result, c['dataset'], prefix, batch * 100, values)) is not False, 'TRACKING_REJECTED')
         return member(path)
     def save(batch, cursor):
-        return milestones.save(out, lock_path=c['checkpoint_lock'], reserve_bytes=c['storage_min_free_bytes'],
+        saver = milestones.save
+        extra = {}
+        if c.get('checkpoint_archive'):
+            from official.experiments import remote_milestones
+            saver = remote_milestones.save
+            extra['archive'] = c['checkpoint_archive']
+        return saver(out, lock_path=c['checkpoint_lock'], reserve_bytes=c['storage_min_free_bytes'], **extra,
             batch=batch, weights=weights, cache_c={str(l): H[i] for i, l in enumerate(layers)},
             contexts=contexts, evaluation_cursor=cursor, identity=identity, method='CAKE', evaluation_complete=True)
     exit_code = 1
     try:
         if resume:
-            saved = checkpoint.load(out / 'checkpoint', identity); start = saved['batch']
+            if c.get('checkpoint_archive'):
+                from official.experiments import remote_milestones
+                saved = remote_milestones.load(out, identity, c['checkpoint_archive'])
+            else:
+                saved = checkpoint.load(out / 'checkpoint', identity)
+            start = saved['batch']
             require(start in (0, 5, 10, 15), 'RESUME_ALREADY_COMPLETE_OR_INVALID_BATCH')
             require(saved['method'] == 'CAKE' and saved['contexts'] == contexts
                 and set(saved['weights']) == set(weights) and set(saved['cache_c']) == {str(l) for l in layers}, 'RESUME_STATE_SCHEMA')
@@ -185,7 +198,8 @@ def run(config_path, lock_path, resume=False):
                     require(saved['cache_c'][str(layer)].shape == H[i].shape, 'RESUME_HISTORY_SCHEMA')
                     H[i].copy_(saved['cache_c'][str(layer)])
             checkpoint.rng_restore(saved['rng']); del saved
-            milestones.retain(out / 'checkpoint', out / 'milestones')
+            if not c.get('checkpoint_archive'):
+                milestones.retain(out / 'checkpoint', out / 'milestones')
             write_new(observations / 'resume-parent.json', dict(batch=start, pointer=member(out / 'checkpoint/latest.json')))
         else:
             start = 0

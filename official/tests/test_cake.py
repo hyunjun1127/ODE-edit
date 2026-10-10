@@ -40,8 +40,11 @@ class CakeTests(unittest.TestCase):
         moved_back = dict(config, server='server1')
         moved_back['config_sha256'] = digest({k:v for k,v in moved_back.items() if k!='config_sha256'})
         self.assertIs(validate(moved_back), moved_back)
+        moved_zsre = dict(config, dataset='zsre', generation='NOT_APPLICABLE')
+        moved_zsre['config_sha256'] = digest({k:v for k,v in moved_zsre.items() if k!='config_sha256'})
+        self.assertIs(validate(moved_zsre), moved_zsre)
         for changes, error in [({'server':'server2'}, 'CAKE_SCOPE'),
-                               ({'dataset':'zsre'}, 'CAKE_SERVER4_SCOPE'),
+                               ({'model':'gptj'}, 'CAKE_SERVER4_SCOPE'),
                                ({'milestones':[20]}, 'CAKE_CHECKPOINT_HISTORY_POLICY'),
                                ({'history':False}, 'CAKE_CHECKPOINT_HISTORY_POLICY')]:
             changed = dict(config, **changes)
