@@ -1,0 +1,114 @@
+{
+ "job": 63125,
+ "node": "devbox",
+ "model": "llama3",
+ "arm": "llama3-P-beta100",
+ "chain_job": 62604,
+ "state": "W20",
+ "edits_in_state": 2000,
+ "evaluator": "project/run_scripts/price_final_flucon/run.py (baseline saved-W20 generation evaluator: NativeGenerationObserver PROFILE, eval seed 20261007)",
+ "files": {
+  "COMPLETE.json": {
+   "path": "/mnt/raid5/janghj/ODE-edit/local/price-final-flucon-20261011/runs/llama3-P-beta100-W20/COMPLETE.json",
+   "sha256": "aa3eab0af416a6d7012f7ed4dca3379b5a42766be11b4dcc081dd72b72eaf2bd"
+  },
+  "restore.json": {
+   "path": "/mnt/raid5/janghj/ODE-edit/local/price-final-flucon-20261011/runs/llama3-P-beta100-W20/restore.json",
+   "sha256": "a90b489ef3ddc888f6f5393ac4e67503464608d71ebcd5c1e6c94d4ef0f86328"
+  }
+ },
+ "Flu": {
+  "display_unit": "bits x100",
+  "paper_display_x100": "628.47",
+  "raw_unit": "bits",
+  "raw_value": 6.284671837359356
+ },
+ "Con": {
+  "display_unit": "cosine_0_to_1 x100",
+  "paper_display_x100": "33.53",
+  "raw_unit": "cosine_0_to_1",
+  "raw_value": 0.3352554605042781
+ },
+ "summary": {
+  "consistency_count": 2000,
+  "consistency_sum": 670.5109210085562,
+  "consistency_unit": "cosine_0_to_1",
+  "fluency_count": 2000,
+  "fluency_sum": 12569.343674718713,
+  "fluency_unit": "bits",
+  "generated_token_count": 1796707,
+  "generation_prompt_count": 20000,
+  "length_cap_no_continuation_prompt_count": 0,
+  "missing_reason_counts": {
+   "asset_not_available": 0,
+   "length_cap_no_continuation": 0,
+   "missing_generation_prompts": 0,
+   "missing_reference": 0,
+   "nonfinite_score": 0,
+   "tokenizer_not_available": 0,
+   "zero_generated_vector": 0,
+   "zero_reference_vector": 0
+  },
+  "ngram_entropy": 6.284671837359356,
+  "planned_count": 2000,
+  "reason_count_unit": "request_occurrences_nonexclusive",
+  "reference_score": 0.3352554605042781
+ },
+ "requests": 2000,
+ "restore": {
+  "cf_order_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+  "checkpoint": {
+   "bytes": 12845,
+   "path": "/mnt/raid5/janghj/ODE-edit/local/server4-archive-20261010/price-final-2k-20261010/execution-llama3-r2/tier-P-beta100/W20-checkpoint.json",
+   "sha256": "cf71e2be7a670381fffa4b2a0a4e652c4ecb422435cbcf3cc89d3b60f54cf418"
+  },
+  "cold_W": {
+   "4": "cb0f6b8eabe44e80e892fa707308204022c5c65b03050b806acaf44cb6f6a4bc",
+   "5": "2f849f849721d779f19f4529e825bffe73f56428b82586e30c5c3973507b3460",
+   "6": "0bcffdc51492eaa44ddb35ae913cae6a5bdeb9d07413428dd9b7f00f1d6d5140",
+   "7": "52a2f7b3f8d9ba90212e291227530e5f7e2f74785c60488c0121b6c339782d15",
+   "8": "e849f2ef22f678ecebc1a17315238b66eddd6177c8f8595e48d66a667825c020"
+  },
+  "initial": {
+   "bytes": 1508,
+   "path": "/mnt/raid5/janghj/ODE-edit/local/server4-archive-20261010/price-final-2k-20261010/execution-llama3-r2/tier-P-beta100/initial.json",
+   "sha256": "cb869f4250bd010c0df1b9284de59bbea674b87672efb83b08022de117609f23"
+  },
+  "label": "llama3-P-beta100-cf2k-job62604-W20",
+  "layers": [
+   4,
+   5,
+   6,
+   7,
+   8
+  ],
+  "model_snapshot": "/mnt/raid5/janghj/.cache/huggingface/hub/models--meta-llama--Meta-Llama-3-8B-Instruct/snapshots/8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+  "restored_W": {
+   "4": "3f2015ff762917040492446770670ccea2426bb6cdb9ade20935e241546e68e6",
+   "5": "84068b6afc06d125b841ec4c73e6999ab59bd65eea0e6143644daad13948678c",
+   "6": "2a80a1d8ea14085a5749666a2034ee8c21027f7f8ad38fc431669dc44d93b41d",
+   "7": "1cae9f7548afb09b24144c7827d6963533877d648bf4d9c190632ce722164a15",
+   "8": "bece358e47a497617bbb843e463bb4889e286209e6fd145a34473664151a60d0"
+  },
+  "tokenizer_sha256": "5def14f0398b34af845724d57933cb300ae606e3e4b039366e1fdbd81fbcc521",
+  "weights": {
+   "bytes": 1174407912,
+   "path": "/mnt/raid5/janghj/ODE-edit/local/server4-archive-20261010/price-final-2k-20261010/execution-llama3-r2/tier-P-beta100/W20-editable-weights.pt",
+   "sha256": "a440c5362bb211bd9b2b88ea86bc4ca5783590bc6e269d8f2842fde06c8d8d72"
+  }
+ },
+ "invariants": {
+  "weights_unchanged": true,
+  "RNG_unchanged": true,
+  "checkpoint_unchanged": true,
+  "edits": 0
+ },
+ "endpoint": {
+  "bytes": 2745218,
+  "path": "/mnt/raid5/janghj/ODE-edit/local/price-final-flucon-20261011/runs/llama3-P-beta100-W20/generation/endpoints/36a865a71baa72058b0b0426b9db2b1d5e6df63ee8ba502e34b6dc827916f3ff.json",
+  "sha256": "57b2bbf033822b2917a273645382801422e2fb5b74578861f8ef59f14d02f07b"
+ },
+ "source": "5755d2287fe576892f3396e40f87884b28280541",
+ "official_tree": "eee5082a6edc68e873dac3dfe9b2f8aeeb64ba93",
+ "seconds": 11864.843396032229
+}
