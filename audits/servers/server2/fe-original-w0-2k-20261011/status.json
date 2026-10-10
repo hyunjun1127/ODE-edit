@@ -1,0 +1,24 @@
+{
+  "CPU_query": "2000 requests public-query exact mismatch0; no model forward",
+  "README_owner": "GH",
+  "accepted_turn": "01a12690-d7d7-7b91-9e4a-3017570d6f3c",
+  "automatic_retry": false,
+  "blockers": [
+    "SH1 shared source/API NOT_READY",
+    "storage planned68219764736B versus snapshot66027999232B; short2191765504B",
+    "Python3.12 Hydra1.3.2/numpy2.2.6 compatibility deltas await shared CPU integration"
+  ],
+  "cancelled": [
+    "62532",
+    "62868",
+    "62872"
+  ],
+  "deleted_bytes": 23008049946,
+  "deleted_count": 6,
+  "new_jobs": [],
+  "nonce": "USER-FE-ORIGINAL-W0-RESET-20261011-R1",
+  "raw_logs_config_keep": true,
+  "server": "server2",
+  "source": "478134dfb24b43f4e18b47e8500893ce3f9cc50f",
+  "stage": "OLD_FE_STOPPED_AND_PAYLOAD_DELETED_HOST_PREPARED_NEW_SUBMISSION_BLOCKED"
+}
