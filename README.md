@@ -73,51 +73,24 @@ MEMIT-FE **62085**와 AlphaEdit **62083**도 완료 raw 검산 수치를 반영�
 raw SHA를 확인했다. 원 W0agreement/token-micro 값으로 대체하지 않는다.
 [새 완료2행·cap3 실제 적용](experiment-reports/global/completed-table-flucon-cap3-20261010/server2-integration.md).
 
-이전 **MEMIT-FE + history** CF 3행은 FE-author 설정의 본표 결과와 구분해 보존한다.
-SH1이 세 모델을 source `eaf78c33`으로 등록했다. Qwen 61929는 B1 FP64 history 선형계의
-임시 행렬 메모리 부족으로 실패하여 메모리 수리 source `5d6dfd58`의 61975로 cold 재제출했다.
-이후 61975의 context-mask 오류로 다시 cold 제출한 **62061**의 완료값을 사용한다.
-오류가 있던 61975 값은 제외하며 zsRE eval-only 작업과 구분한다.
+**FE 전면 전환 — USER-FE-ORIGINAL-W0-RESET-20261011-R1:**
+기존 native MEMIT-FE, FE_HISTORY, FE author-hparams(+history), FE sink 실험은 모두
+**WITHDRAWN / SUPERSEDED**다. 아래 FE 행은 새 **FE (author repo, W0-fixed z)** 전용이며
+기존 점수를 복사하지 않는다. 이전 표의 history/author/native FE 수치와 출처는
+[철회된 FE 결과 이력](experiment-reports/global/fe-original-w0-reset-20261011/withdrawn-results.md)에 보존했다.
+본문의 이전 FE 완료·KEEP 서술은 당시 이력이며 이 지시가 우선한다.
+이전 FE checkpoint는 사용자 승인으로 삭제 작업 중이다. **삭제 완료/CP 부재는 owner 영수증 확인 후 표시**한다.
+HF 원본·C0·데이터·비FE checkpoint 및 raw/log/source는 삭제 대상이 아니다.
 
-| 별도 variant | 모델 | dataset | server | 상태 / job name (ID) | Score (CF) | Eff | Gen | Loc | Flu ×100 (CF) | Con ×100 (CF) |
-| :--- | :--- | :--- | :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: |
-| MEMIT_FE_HISTORY | GPT-J | CF | server1 | W20 COMPLETE: official-s1-cf-gptj-memit-fe-history (61927) | 50.18 | 50.35 | 49.90 | 50.28 | 533.43 | 1.05 |
-| MEMIT_FE_HISTORY | Llama3 | CF | server1 | W20 COMPLETE: official-s1-cf-llama3-memit-fe-history (61928) | 64.66 | 80.10 | 74.10 | 48.99 | 527.39 | 7.58 |
-| MEMIT_FE_HISTORY | Qwen2.5 | CF | server1 | W20 COMPLETE: official-s1-cf-qwen25-memit-fe-history (62061) | 49.43 | 48.45 | 48.18 | 51.83 | 532.39 | 0.41 |
-
-**FE-author 본표 통합(사용자 최신 지시):** 위에 따로 두었던 Llama/Qwen author 4행은
-아래 모델별 **MEMIT-FE (FE author hparams + history)** 행의 CF/zsRE 셀로 이동했다.
-Llama clamp/steps=0.75/35, Qwen=1/35이며 persistent history와 batch별 z 재계산을 유지한다.
-실행 method는 `MEMIT_FE_HISTORY`다. native MEMIT-FE나 위 이전 history 결과의 이름만 바꾼 것이 아니다.
-GPT-J는 author 실험이 없어 기존 본표 결과를 legacy native로 명시한다. 신규 실험은 추가하지 않았다.
-CF Flu/Con에는 같은 author checkpoint의 평가만 연결하며 이전 설정의 생성 점수를 복사하지 않는다.
-DOW-KE exact reproduction을 주장하지 않는다.
-[author source/config/profile·실제 등록](experiment-reports/global/fe-author-hparams-2k-20261010/report-ko.md).
-
-이전 Llama/Qwen native 설정 결과는 아래 이력 표에 보존한다(최신 author 본표 값 아님).
-구설정 factual 수치는 보존하고, 해당 checkpoint의 후속평가 상태만 이번 owner snapshot으로 확인했다.
-
-| 모델 | 이전 방법 | CF Score | CF Eff | CF Gen | CF Loc | CF Flu ×100 | CF Con ×100 | zsRE Eff | zsRE Gen | zsRE Loc |
-| :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Llama3 | MEMIT-FE (이전 native 설정) | 64.55 | 80.45 | 73.68 | 48.85 | 420.07 | 8.40 | 14.81 | 13.57 | 0.56 |
-| Qwen2.5 | MEMIT-FE (이전 native 설정) | 50.59 | 51.05 | 51.23 | 49.53 | PENDING: s2-flucon-qwen25-memit_fe-62077 (62872) | PENDING: s2-flucon-qwen25-memit_fe-62077 (62872) | 0.00 | 0.00 | 0.03 |
-
-2026-10-10 SH1 bounded 검산: 세 모델 모두 실제20 commit/2,000건과 history once·최종CP·raw를
-대조한 완료값이며 native MEMIT-FE 본표 값이 아니다. 17:10:08 KST 단발 관측에서
-GPT-J **62581**과 Llama **62582** generation이 완료됐고, 각2,000 case/20,000 prompts의
-reference-bound CPU 재채점·원CP/fullSHA·20commit/순서 검산으로 위 FLU/CON 네 수치를 반영했다.
-raw bits/cosine을 보존하고 원평균×100 뒤 half-up2로 표시한다.
-Qwen **62583** 및 GPU0 collector **62584**는 2026-10-11 검산에서 완료됐다.
-2,000 case의 raw Flu5.323883976741921/Con0.0041069385104137695를 ×100해 **532.39/0.41**로 반영했다.
-기존62262/62263 CANCELLED 이력과 완료 native 생성62259–62261은 보존한다. 현재 server1/2 cap은 각각2다.
-SH2는62581–62583을 중복 등록하지 않는다. 새 결과 검산은 온라인 readback 검증 주장이 아니다.
-[최신 history 생성 결과·zsRE 재검산·중복방지 인계](experiment-reports/servers/server1/baseline-refresh-s2-flucon-20261010/report-ko.md).
-[최신 결과·실제 평가 등록·checkpoint 결속](experiment-reports/servers/server1/completed-table-flucon-cap3-20261010/report-ko.md).
-[최신 history 및 zsRE 검산](experiment-reports/servers/server1/baseline-completed-zsre-audit-20261010/report-ko.md).
-[완료 결과와 평가 등록](experiment-reports/servers/server1/flucon-paper-scale-20261010/report-ko.md).
-[최신 SH1 결과](experiment-reports/servers/server1/main-table-refresh-20261009/report-ko.md) ·
-[정확한 수치·source/config·raw SHA](audits/servers/server1/main-table-refresh-20261009/table-rows.json) ·
-[Qwen OOM 수리 이력](experiment-reports/servers/server1/memit-fe-history-three-model-2k/oom-repair-r1.md).
+새 실행은 저자 commit `478134df`의 native FE-MEMIT, YAML/default BF16,
+편집 전 W0 전체2K z 선계산/고정과 native history/solve를 사용한다.
+매 batch current100의 R/P/N, 500/1000/1500/2000 누적 all-seen을 평가하고
+각 milestone마다 실행별 latest checkpoint 하나를 atomic overwrite한다. 평가 raw는 누적 보존한다.
+CF factual / zsRE public-query requestmacro loc_ans 비교 evaluator는 편집정책과 분리한다.
+SH1: Llama CF→zsRE, GPT-J CF→zsRE의 두 lane. SH2: Qwen CF/zsRE 두 lane.
+각 서버 cap2이며 비FE RUNNING과 원자료를 보존한다. 현재 새6조건은 **미제출(구현·정리 중)**이고,
+실제job ID가 없는 상태를 scheduler PENDING으로 표시하지 않는다.
+[정본 범위·담당 수락](messages/head/2026-10-11-fe-original-w0-reset.json).
 
 **W0 행은 편집 전 base model을 동일한 2,000개 요청에 평가한 기준값**이며 W20 결과와 구분합니다.
 2026-10-09 각 서버의 저장 원자료를 직접 확인하고 재집계했습니다.
@@ -134,17 +107,10 @@ SH3 factual 셀은 그대로 유지한다. SH3의 generation 실측 또는 cross
 [분리 출처·generation protocol·참조 SHA 결속](experiment-reports/servers/server2/flucon-paper-scale-20261010/report-ko.md).
 [모델별 출처·단위·원자료 SHA·검산 범위](experiment-reports/global/w0-main-table-20261009.md).
 
-**최신 완료 결과 반영 — 2026-10-11 KST:** SH1/SH2 단발 원자료 검산을 통합했다.
-Llama author CF **62529**, Qwen author CF **62531**의 W20/2,000건 결과를 모델별 본표에 반영했다.
-author zsRE **62530/62532**는 각각 14/16 commit 관측 당시 RUNNING이므로 최종 수치 대신 상태를 표시한다.
-author CF Flu/Con은 두 모델 모두 `DEFERRED`다. 기존 native FE나 구 history의 점수를 섞지 않는다.
-GPT-J FT/MEMIT/SPHERE의 새 generation **62864/62865/62869**와 별도 Qwen history **62583**도 완료 반영했다.
-아래 기존 날짜의 서술은 당시 이력이며, 현재 상태는 이번 표/보고의 관측값이다.
-zsRE 완료17행은 공개-query 증거와 저장 predicted/target의 요청별 E/G/loc_ans를 재확인했다.
-미완료 author 2행·SPHERE 재개1행에는 완료 수치를 넣지 않았다. 기존 PRICE 결과/진행 상태는 보존했다.
-[통합 검산·행 이동·정확한 출처](experiment-reports/global/author-main-refresh-20261010/report-ko.md) ·
-[SH1 완료13/미완료1](experiment-reports/servers/server1/author-main-refresh-20261010/report-ko.md) ·
-[SH2 완료24/미완료2](experiment-reports/servers/server2/author-main-refresh-20261010/report-ko.md).
+**비FE 완료 결과 유지:** 2026-10-11 검산한 GPT-J FT/MEMIT/SPHERE generation 및
+기존 non-FE CF/zsRE 결과는 유지한다. 이전 FE 결과는 위 reset에 따라 철회했으며
+PRICE/W0 행은 변경하지 않았다. 이전 검산의 원자료는
+[철회 전 통합 보고](experiment-reports/global/author-main-refresh-20261010/report-ko.md)에 남긴다.
 
 ### Llama3-8B-Instruct
 
@@ -176,7 +142,7 @@ zsRE Loc은 **loc_ans 정답 token 정확도의 요청별 평균**이다. 이전
 | MEMIT | 58.88‡ | 64.75‡ | 61.70‡ | 51.83‡ | PENDING: s2-flucon-llama3-memit-42658 (62874) | PENDING: s2-flucon-llama3-memit-42658 (62874) | 44.30 | 39.95 | 22.30 |
 | AlphaEdit | 84.80‡ | 99.30‡ | 93.23‡ | 68.59‡ | PENDING: s2-flucon-llama3-alphaedit-42657 (62875) | PENDING: s2-flucon-llama3-alphaedit-42657 (62875) | 95.18 | 91.40 | 31.10 |
 | AlphaEdit-BLUE | 89.84† | 99.60† | 97.15† | 76.59† | PENDING: s2-flucon-llama3-alphaedit_blue-39283_1 (62876) | PENDING: s2-flucon-llama3-alphaedit_blue-39283_1 (62876) | 95.87 | 92.28 | 32.83 |
-| MEMIT-FE (FE author hparams + history) | 90.58 | 99.70 | 95.55 | 79.22 | DEFERRED | DEFERRED | ING: official-s1-zsre-llama3-memit-fe-author-history (62530) | ING: official-s1-zsre-llama3-memit-fe-author-history (62530) | ING: official-s1-zsre-llama3-memit-fe-author-history (62530) |
+| FE (author repo, W0-fixed z) | 미제출 | 미제출 | 미제출 | 미제출 | DEFERRED | DEFERRED | 미제출 | 미제출 | 미제출 |
 | AlphaEdit+SPHERE | 86.87 | 99.50 | 94.95 | 71.68 | 619.20 | 33.64 | 95.13 | 91.36 | 31.38 |
 | PRICE (Ours) | 90.98§ | 99.90§ | 93.50§ | 81.50§ | DEFERRED | DEFERRED | 99.62§ | 94.83§ | 45.31§ |
 
@@ -297,7 +263,7 @@ SH3 최신 CPU 재검산에서도 위 네 지표 delta0, 신규 본표 적격 �
 | MEMIT | 62.23 | 68.50 | 65.83 | 54.30 | PENDING: s2-flucon-qwen25-memit-62073 (62870) | PENDING: s2-flucon-qwen25-memit-62073 (62870) | 41.49 | 39.44 | 26.39 |
 | AlphaEdit | 83.03 | 99.05 | 97.55 | 63.36 | ING: s2-flucon-qwen25-alphaedit-62075 (62871) | ING: s2-flucon-qwen25-alphaedit-62075 (62871) | 85.05 | 78.18 | 30.79 |
 | AlphaEdit-BLUE | 77.98 | 97.70 | 96.75 | 55.86 | 602.99 | 37.43 | 58.62 | 53.66 | 5.73 |
-| MEMIT-FE (FE author hparams + history) | 48.96 | 48.40 | 48.20 | 50.33 | DEFERRED | DEFERRED | ING: s2-qwen25-zsre-fe-author-history (62532) | ING: s2-qwen25-zsre-fe-author-history (62532) | ING: s2-qwen25-zsre-fe-author-history (62532) |
+| FE (author repo, W0-fixed z) | 미제출 | 미제출 | 미제출 | 미제출 | DEFERRED | DEFERRED | 미제출 | 미제출 | 미제출 |
 | AlphaEdit+SPHERE | 83.73 | 99.40 | 97.70 | 64.37 | PENDING: s2-flucon-qwen25-sphere-62079 (62873) | PENDING: s2-flucon-qwen25-sphere-62079 (62873) | PENDING: s2-qwen25-zsre-sphere-resume-b9 (62538) | PENDING: s2-qwen25-zsre-sphere-resume-b9 (62538) | PENDING: s2-qwen25-zsre-sphere-resume-b9 (62538) |
 | PRICE (Ours) | ING: rent janghj-final2k-r1-qwen (101706) | ING: rent janghj-final2k-r1-qwen (101706) | ING: rent janghj-final2k-r1-qwen (101706) | ING: rent janghj-final2k-r1-qwen (101706) | ING: rent janghj-final2k-r1-qwen (101706) | ING: rent janghj-final2k-r1-qwen (101706) |  |  |  |
 
@@ -355,7 +321,7 @@ Llama historical3개는 원source/lock/CP와 새평가 consumer identity를 분�
 | MEMIT | 80.63 | 97.90 | 95.38 | 60.58 | 577.93 | 36.84 | 93.52 | 88.86 | 30.81 |
 | AlphaEdit | 88.22 | 99.70 | 96.33 | 73.56 | PENDING: s2-flucon-gptj-alphaedit-61778 (62866) | PENDING: s2-flucon-gptj-alphaedit-61778 (62866) | 99.69 | 96.45 | 27.94 |
 | AlphaEdit-BLUE | 89.23 | 99.55 | 97.53 | 75.06 | PENDING: s2-flucon-gptj-alphaedit_blue-61779 (62867) | PENDING: s2-flucon-gptj-alphaedit_blue-61779 (62867) | 99.75 | 95.71 | 28.83 |
-| MEMIT-FE (legacy native; author 미실행) | 73.85 | 87.15 | 85.70 | 57.22 | PENDING: s2-flucon-gptj-memit_fe-61780 (62868) | PENDING: s2-flucon-gptj-memit_fe-61780 (62868) | 29.20 | 27.65 | 8.45 |
+| FE (author repo, W0-fixed z) | 미제출 | 미제출 | 미제출 | 미제출 | DEFERRED | DEFERRED | 미제출 | 미제출 | 미제출 |
 | AlphaEdit+SPHERE | 88.39 | 99.70 | 95.73 | 74.27 | 616.18 | 40.89 | 99.67 | 96.29 | 28.00 |
 | PRICE (Ours) | ING: rent janghj-final2k-r2-gptj (101707) | ING: rent janghj-final2k-r2-gptj (101707) | ING: rent janghj-final2k-r2-gptj (101707) | ING: rent janghj-final2k-r2-gptj (101707) | ING: rent janghj-final2k-r2-gptj (101707) | ING: rent janghj-final2k-r2-gptj (101707) | ING: pf2k-gptj-zsre-P-beta075-ee (63027) | ING: pf2k-gptj-zsre-P-beta075-ee (63027) | ING: pf2k-gptj-zsre-P-beta075-ee (63027) |
 
