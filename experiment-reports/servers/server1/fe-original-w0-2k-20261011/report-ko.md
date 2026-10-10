@@ -1,5 +1,7 @@
 # 원저자 FE W0-fixed-z 전환 / SH1
 
+인계 상태: main 보고 게시 `18508a72`. SH2 source/API 전달은 공식 transport 접수, 요청자 최종 인계도 turn/steer 접수(`01a1268d-44aa-7e80-aa1e-6342ad7ebd0b`). 별도 owner ACK/과학완료를 의미하지 않는다. GH 최종 direct 전달은 bounded timeout으로 COMMUNICATION_HOLD/수신 미확인이며 자동 재전송하지 않았다. GH가 읽을 exact 제출 영수증은 아래 main 게시 경로에 보존했다.
+
 USER-FE-ORIGINAL-W0-RESET-20261011-R1. 실행 source `03b21d404d6275b5f212974fe130ca98819789de`, official tree `7bdebfa8edcd812716a492160f8895b0d8865543`. README 통합은 GH 소유이며 이 보고는 완료 성능이 아니다.
 
 | 조건 | 실제 job | 등록 직후 상태 | resource dependency |
