@@ -60,7 +60,8 @@ Llama는 2026-10-10 재검산 6종, SH2는 17:18 KST 검산 **GPT-J 6종·Qwen F
 새 완료 GPT-J SPHERE **61947**(원 편집61735)과 수정 Qwen MEMIT **62081**은 각각2,000건이다.
 MEMIT-FE **62085**와 AlphaEdit **62083**도 완료 raw 검산 수치를 반영했다. SPHERE **62087**은 B10 OOM/W20 없음으로 보존하고,
 수리 cold job **62534**는 실행 전 취소했다. B9 재개 **62538**는 B10/1,000건을 저장한 뒤
-디스크 여유 32 GiB 하한으로 중단됐다(OOM 아님). server4 **63303**으로 B11–B20 재개를 등록했으며 현재 PENDING이다.
+디스크 여유 32 GiB 하한으로 중단됐다(OOM 아님). server4 **63303**으로 B11–B20 재개를 등록했으나,
+2026-10-11 사용자 요청으로 실행 전 취소했다. 기존 checkpoint는 보존한다.
 깨진 편집 context를 사용한 과거 MEMIT/AlphaEdit 값은 철회하고 수정 cold run 상태를 표시한다.
 입력 CPU 일치가 pretrained 출력의 bitwise 논문 재현을 뜻하지는 않는다.
 기존 값·raw와 CF/FLUCON 일정은 보존한다. 사용자 명시 삭제로 오류 Qwen
@@ -124,7 +125,10 @@ PRICE/W0 행은 변경하지 않았다. 이전 검산의 원자료는
 [철회 전 통합 보고](experiment-reports/global/author-main-refresh-20261010/report-ko.md)에 남긴다.
 
 **CAKE 신규 2K 실행(2026-10-11):** server1에 3모델 × CF·zsRE 6개 job을 등록했다.
-기존 작업 종료 후 CF·zsRE **두 lane(동시 GPU 최대 2개)**으로 Llama → GPT-J → Qwen 순서로 실행한다.
+server1은 기존 작업 종료 후 CF·zsRE **두 lane(동시 GPU 최대 2개)**으로 실행한다.
+이 중 **Qwen CF 한 개는 server1 63300을 취소하고 server4 63324로 이관**했다(07:21 KST PENDING, `afterany:63284`).
+server4도 GPU cap 2를 유지하며, 나머지 CAKE 5개는 server1 큐를 유지한다.
+[Qwen CF 이관·동일 설정 검증](experiment-reports/global/cake-qwen25-cf-server4-20261011.md).
 각 run은 **500·1,000·1,500·2,000 edits의 편집층 가중치·history·RNG를 모두 보존**한다.
 CF FLU/CON은 W20 checkpoint 후속 평가로 미루며, 아래 PENDING은 완료 성능이 아니다.
 Llama·GPT-J는 저자 CAKE hparams, Qwen2.5는 공식 AlphaEdit 편집 설정과 공개 knowns의
@@ -218,7 +222,9 @@ cold **62534**는 실행 전 취소했고, **62538** `s2-qwen25-zsre-sphere-resu
 원62087의 B9를 복원해 **B10/1,000 edits checkpoint를 저장**했다. 최종 실패 원인은 CUDA OOM이 아닌
 `RESOURCE_BLOCKED_STORAGE_KEEP_CHECKPOINT`(디스크 여유 32 GiB 하한)이다.
 2026-10-11 사용자 지시로 server4 **63303 / s4-qwen25-zsre-sphere-resume-b10**을 held 검사 후 release했다.
-현재 PENDING(`afterany:63284`)이며, GPU cap 2 안에서 **B11–B20만** 이어간다. 원62087 B1–B9와
+이후 **07:05 KST 사용자 요청으로 63303과 CF FLU/CON 평가 62873을 모두 취소**했다.
+server1–4 전체에서 실행·대기 SPHERE job 0개를 확인했다.
+[취소 영수증](audits/global/sphere-stop-20261011/cancellation.json). 원62087 B1–B9와
 62538 B10의 출처·가중치·history·context·RNG는 보존한다. hparams와 관련 수치 코드 23개 파일은 동일하다.
 server4의 별도 파일시스템에 checkpoint 두 slot을 사전 할당했고, 저장 실패 시 이전 latest를 유지한다.
 CPU26 및 전체 2K query 대조 PASS. server4 GPU 재개 및 최종 W20은 아직 미관측이다.
@@ -290,8 +296,8 @@ SH3 최신 CPU 재검산에서도 위 네 지표 delta0, 신규 본표 적격 �
 | AlphaEdit | 83.03 | 99.05 | 97.55 | 63.36 | ING: s2-flucon-qwen25-alphaedit-62075 (62871) | ING: s2-flucon-qwen25-alphaedit-62075 (62871) | 85.05 | 78.18 | 30.79 |
 | AlphaEdit-BLUE | 77.98 | 97.70 | 96.75 | 55.86 | 602.99 | 37.43 | 58.62 | 53.66 | 5.73 |
 | FE (author repo, W0-fixed z) | PENDING: 63217 | PENDING: 63217 | PENDING: 63217 | PENDING: 63217 | DEFERRED | DEFERRED | PENDING: 63218 | PENDING: 63218 | PENDING: 63218 |
-| AlphaEdit+SPHERE | 83.73 | 99.40 | 97.70 | 64.37 | PENDING: s2-flucon-qwen25-sphere-62079 (62873) | PENDING: s2-flucon-qwen25-sphere-62079 (62873) | PENDING: s4-qwen25-zsre-sphere-resume-b10 (63303) | PENDING: s4-qwen25-zsre-sphere-resume-b10 (63303) | PENDING: s4-qwen25-zsre-sphere-resume-b10 (63303) |
-| CAKE | PENDING: official-s1-qwen25-cf-cake-2k (63300) | PENDING: official-s1-qwen25-cf-cake-2k (63300) | PENDING: official-s1-qwen25-cf-cake-2k (63300) | PENDING: official-s1-qwen25-cf-cake-2k (63300) | DEFERRED | DEFERRED | PENDING: official-s1-qwen25-zsre-cake-2k (63301) | PENDING: official-s1-qwen25-zsre-cake-2k (63301) | PENDING: official-s1-qwen25-zsre-cake-2k (63301) |
+| AlphaEdit+SPHERE | 83.73 | 99.40 | 97.70 | 64.37 | CANCELLED: s2-flucon-qwen25-sphere-62079 (62873) | CANCELLED: s2-flucon-qwen25-sphere-62079 (62873) | CANCELLED: s4-qwen25-zsre-sphere-resume-b10 (63303) | CANCELLED: s4-qwen25-zsre-sphere-resume-b10 (63303) | CANCELLED: s4-qwen25-zsre-sphere-resume-b10 (63303) |
+| CAKE | PENDING: official-s4-qwen25-cf-cake-2k (63324) | PENDING: official-s4-qwen25-cf-cake-2k (63324) | PENDING: official-s4-qwen25-cf-cake-2k (63324) | PENDING: official-s4-qwen25-cf-cake-2k (63324) | DEFERRED | DEFERRED | PENDING: official-s1-qwen25-zsre-cake-2k (63301) | PENDING: official-s1-qwen25-zsre-cake-2k (63301) | PENDING: official-s1-qwen25-zsre-cake-2k (63301) |
 | PRICE (Ours) | 87.63※ | 99.00※ | 95.55※ | 73.17※ | ING: pf2k-flucon-qwen25-PN-beta150 (63305) | ING: pf2k-flucon-qwen25-PN-beta150 (63305) | ING: pf2k-qwen25-zsre-PN-beta150-ee-r3 (63278) | ING: pf2k-qwen25-zsre-PN-beta150-ee-r3 (63278) | ING: pf2k-qwen25-zsre-PN-beta150-ee-r3 (63278) |
 
 ※ Qwen PRICE (Ours)는 HC 가격을 정규화한 최종 method 재실행(arm `qwen25-PN-beta150`, β = c = β_max = 1.5)으로 채운다. CF는 server4 **63144**(B1–B15)를 W15에서 멈추고 **63281**(B16–B20, state join 확인)로 이어 돌려 완료했다(server4 GPU cap 2 정리, 2026-10-11 사용자 결정). W20 all-seen 성공률은 R/P/N 1,980/2,000 · 3,822/4,000 · 14,633/20,000이고, Score는 반올림 전 성공률의 조화평균(87.6310)이다. [원자료 SHA](audits/servers/server4/price-final-2k-20261010/qwen25-cf-results.json). CF Flu/Con은 W20을 같은 생성 평가기로 devbox **63305**에서 잰다. zsRE는 server4 **63278**(r3)이다. HC 가격을 정규화하지 않은 rent run(**101706**, W20 98.65 / 94.25 / 72.48)은 본표에 넣지 않고 ablation으로 남긴다. 정규화하지 않으면 가장 싼 층 가격이 B10에서 1.159(최대 1.386)까지 올라, 편집 강도가 14% 이상 줄기 때문이다.

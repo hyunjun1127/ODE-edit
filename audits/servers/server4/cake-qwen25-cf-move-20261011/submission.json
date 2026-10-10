@@ -1,0 +1,96 @@
+{
+  "at": "2026-10-11T07:21:34.481854+09:00",
+  "old_job_id": "63300",
+  "old_server": "server1",
+  "old_state": "CANCELLED",
+  "job_id": "63324",
+  "server": "server4",
+  "job_name": "official-s4-qwen25-cf-cake-2k",
+  "state": "PENDING",
+  "dependency": "afterany:63284(unfulfilled)",
+  "command": "/data/janghj/ODE-edit/local/cake-qwen25-cf-server4-20261011/scripts/run.sh",
+  "workdir": "/data/janghj/ODE-edit/local/cake-qwen25-cf-server4-20261011/source",
+  "stdout": "/data/janghj/ODE-edit/local/cake-qwen25-cf-server4-20261011/logs/qwen25-cf-cake-2k-63324.out",
+  "resources": {
+    "ReqTRES": "cpu=8,mem=58G,node=1,billing=1,gres/gpu=1",
+    "QOS": "lab_gpu_s4",
+    "TimeLimit": "2-00:00:00",
+    "CPUs/Task": "8",
+    "Requeue": "0"
+  },
+  "source_commit": "40292095c0ab1020ee22ea777b3d593b5add3c05",
+  "parent_source_commit": "a247c7925911990a0dc7230885c54710d540f8f7",
+  "config_sha256": "4c36de11b2f6aba9bee5f2890093d9612e67cbeb86b349d5adb10a1f67885a6e",
+  "parent_config_sha256": "7ff3eb51844dba0afa78f43ba1deba67af17cd0f6156c8bbddede96f5cf955a6",
+  "hparams_sha256": "154c5d1a7a39f7f424df0145e8844bf2b0187d5f4abd676262d714aa3f6a4635",
+  "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+  "tokenizer_sha256": "77c1b476d460584ec70f2781826fda122c953ccd019399343a8efc440c3f75ae",
+  "context_sha256": "5c01bc1a91c0890af2897f18b7a5f95de011badc1eca5e27f44199acc0cb6515",
+  "stream_sha256": "39bbd2215177d2aabeb3bd5c2e7f088b454479bf567b3b16f9da70bd0b28c95e",
+  "scientific_configuration_identical": true,
+  "changed_operational_fields": [
+    "assets",
+    "attempt",
+    "checkpoint_lock",
+    "config_sha256",
+    "context",
+    "context_provenance",
+    "output",
+    "projector",
+    "server",
+    "storage_min_free_bytes",
+    "stream",
+    "tracking_env_file"
+  ],
+  "milestone_edits": [
+    500,
+    1000,
+    1500,
+    2000
+  ],
+  "history": true,
+  "CF_generation": "DEFERRED_TO_W20_CHECKPOINT",
+  "old_output_untouched": true,
+  "other_job_mutations": 0,
+  "held_inspected": true,
+  "released": true,
+  "project_cap_proof": {
+    "cap": 2,
+    "edges": {
+      "63262": "afterany:63283(unfulfilled)",
+      "63277": "(null)",
+      "63278": "(null)",
+      "63282": "afterany:63277(unfulfilled)?afterany:63278(unfulfilled)",
+      "63283": "afterany:63277(unfulfilled),afterany:63278(unfulfilled)",
+      "63284": "afterany:63282(unfulfilled)",
+      "63324": "afterany:63284(unfulfilled)"
+    },
+    "maximum_simultaneous_GPUs": 2,
+    "reachable_states": 50
+  },
+  "CPU_tests": {
+    "command": "python -B -m unittest official.tests.test_cake",
+    "passed": 9
+  },
+  "GPU_qualification": "NOT_RUN_USER_DISABLED",
+  "GPU_execution": "NOT_OBSERVED_PENDING",
+  "WB_online": "NOT_OBSERVED_PENDING",
+  "checkpoint_reserve_bytes": 8589934592,
+  "storage": {
+    "checkpoint_estimated_bytes": 8568963072,
+    "extra_write_allowance_bytes": 8568963072,
+    "free_bytes": 75314618368,
+    "free_reserve_bytes": 8589934592,
+    "other_jobs_growth_allowance_bytes": 17179869184,
+    "raw_allowance_bytes": 2147483648,
+    "required_free_bytes": 70762102784,
+    "retained_milestone_bytes": 34275852288
+  },
+  "full_receipts_root": "/data/janghj/ODE-edit/local/cake-qwen25-cf-server4-20261011",
+  "receipt_sha256": {
+    "READY.json": "2fa959e473e94fd5ca92bcfe89f3f0936b746a3ff34775e3b1ef4e461f78a12b",
+    "config.json": "597b9f470e01afdbed83fcbcbf21b7f9d97eb9c5535395b647537f84bb8f43c6",
+    "held-inspection.json": "add93a5d88d408d0e2020af61d8ba8668b864240d4412f6b61d6d9e6b5a85269",
+    "release.json": "b87e99ade913d23c411f753e6dd80cf68c90b7a9e60f21b46222e3fcfc4f0950"
+  }
+}

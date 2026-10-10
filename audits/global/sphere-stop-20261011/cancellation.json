@@ -1,0 +1,40 @@
+{
+  "at": "2026-10-11T07:05:24.330818+09:00",
+  "request": "모든 서버의 SPHERE 관련 job 중지 및 큐 제거",
+  "owner": "janghj",
+  "cluster": "lab-cluster",
+  "checked_servers": [
+    "server1",
+    "server2",
+    "server3",
+    "server4"
+  ],
+  "action": [
+    "scancel",
+    "63303",
+    "62873"
+  ],
+  "returncode": 0,
+  "jobs": [
+    {
+      "JobId": "63303",
+      "JobName": "s4-qwen25-zsre-sphere-resume-b10",
+      "ReqNodeList": "server4",
+      "JobState": "CANCELLED",
+      "Command": "/var/tmp/ode-edit-janghj-qwen-sphere-resume-20261011/scripts/run.sh",
+      "EndTime": "2026-10-11T07:05:24"
+    },
+    {
+      "JobId": "62873",
+      "JobName": "s2-flucon-qwen25-sphere-62079",
+      "ReqNodeList": "server2",
+      "JobState": "CANCELLED",
+      "Command": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/scripts/qwen25-sphere-62079.sh",
+      "EndTime": "2026-10-11T07:05:24"
+    }
+  ],
+  "remaining_active_sphere_jobs": [],
+  "checkpoint_and_output_deletions": 0,
+  "other_job_mutations": 0,
+  "full_local_receipt": "/mnt/raid5/janghj/ODE-edit/local/sphere-stop-20261011/cancelled.json"
+}
