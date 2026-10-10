@@ -1,0 +1,156 @@
+{
+  "CPU_only": true,
+  "model_forward": 0,
+  "rows": [
+    {
+      "CP_deserialized_CPU_mmap": true,
+      "FP32_finite": true,
+      "batch": 20,
+      "checkpoint": {
+        "bytes": 268474973,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-checkpoint-r1/FT/chain/checkpoints/batch-20-00e743c26d2a9253.pt",
+        "sha256": "00e743c26d2a92534de21485f349fddcafddb0bde9e4c9a41228e8d3811c1e00"
+      },
+      "identity_exact": true,
+      "job": "61650",
+      "model_load": false,
+      "schema": "official-baseline-checkpoint-v1",
+      "weight_count": 2
+    },
+    {
+      "CP_deserialized_CPU_mmap": true,
+      "FP32_finite": true,
+      "batch": 20,
+      "checkpoint": {
+        "bytes": 1610637581,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/CF_MEMIT/checkpoints/batch-20-26bbadd9710d18e5.pt",
+        "sha256": "26bbadd9710d18e53a76440efb70658d72b60811891237853dc9c1f70c6d0f17"
+      },
+      "identity_exact": true,
+      "job": "61725",
+      "model_load": false,
+      "schema": "official-baseline-checkpoint-v1",
+      "weight_count": 6
+    },
+    {
+      "CP_deserialized_CPU_mmap": true,
+      "FP32_finite": true,
+      "batch": 20,
+      "checkpoint": {
+        "bytes": 8053090133,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/CF_ALPHAEDIT/checkpoints/batch-20-22490808f5612b50.pt",
+        "sha256": "22490808f5612b503d7abd413d027f46b6e9079128e2aee816eacd7f197b77b2"
+      },
+      "identity_exact": true,
+      "job": "61778",
+      "model_load": false,
+      "schema": "official-baseline-checkpoint-v1",
+      "weight_count": 6
+    },
+    {
+      "CP_deserialized_CPU_mmap": true,
+      "FP32_finite": true,
+      "batch": 20,
+      "checkpoint": {
+        "bytes": 2684378713,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/CF_ALPHAEDIT_BLUE/checkpoints/batch-20-1ea611106b5975bc.pt",
+        "sha256": "1ea611106b5975bc923783fb8c4a82197ada0d2e5c82285d11a8b9f8ad5ce32a"
+      },
+      "identity_exact": true,
+      "job": "61779",
+      "model_load": false,
+      "schema": "official-baseline-checkpoint-v1",
+      "weight_count": 2
+    },
+    {
+      "CP_deserialized_CPU_mmap": true,
+      "FP32_finite": true,
+      "batch": 20,
+      "checkpoint": {
+        "bytes": 1610637645,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/CF_MEMIT_FE/checkpoints/batch-20-464ce442369c35d5.pt",
+        "sha256": "464ce442369c35d5a628a0e66412c88856ae89d6bdbe481ae64c7615226c94c6"
+      },
+      "identity_exact": true,
+      "job": "61780",
+      "model_load": false,
+      "schema": "official-baseline-checkpoint-v1",
+      "weight_count": 6
+    },
+    {
+      "CP_deserialized_CPU_mmap": true,
+      "FP32_finite": true,
+      "batch": 20,
+      "checkpoint": {
+        "bytes": 8053090005,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/CF_SPHERE/checkpoints/batch-20-e51f13d965378b5b.pt",
+        "sha256": "e51f13d965378b5b6b792577dc7af85cfb6f680b0e346c7a13b4019cd5127caf"
+      },
+      "identity_exact": true,
+      "job": "61781",
+      "model_load": false,
+      "schema": "official-baseline-checkpoint-v1",
+      "weight_count": 6
+    },
+    {
+      "CP_deserialized_CPU_mmap": true,
+      "FP32_finite": true,
+      "batch": 20,
+      "checkpoint": {
+        "bytes": 1357958481,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-cf-memit/checkpoint/batch-20-4561ee2477393eba.pt",
+        "sha256": "4561ee2477393eba5e18d93b64ac19c9789caa28df64472e72d778a30e17af21"
+      },
+      "identity_exact": true,
+      "job": "62073",
+      "model_load": false,
+      "schema": "official-baseline-checkpoint-v1",
+      "weight_count": 5
+    },
+    {
+      "CP_deserialized_CPU_mmap": true,
+      "FP32_finite": true,
+      "batch": 20,
+      "checkpoint": {
+        "bytes": 8535462041,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-cf-alphaedit/checkpoint/batch-20-5b9a36563bc9bce4.pt",
+        "sha256": "5b9a36563bc9bce4b1e8a32bba0bf388a4fd6573ba687774d3d98578a8469973"
+      },
+      "identity_exact": true,
+      "job": "62075",
+      "model_load": false,
+      "schema": "official-baseline-checkpoint-v1",
+      "weight_count": 5
+    },
+    {
+      "CP_deserialized_CPU_mmap": true,
+      "FP32_finite": true,
+      "batch": 20,
+      "checkpoint": {
+        "bytes": 1357958481,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-cf-memit_fe/checkpoint/batch-20-9826e9cee2c90df5.pt",
+        "sha256": "9826e9cee2c90df58ee97c9b877e27a2d2ed3a9dd00f2604716692e8f7320aa8"
+      },
+      "identity_exact": true,
+      "job": "62077",
+      "model_load": false,
+      "schema": "official-baseline-checkpoint-v1",
+      "weight_count": 5
+    },
+    {
+      "CP_deserialized_CPU_mmap": true,
+      "FP32_finite": true,
+      "batch": 20,
+      "checkpoint": {
+        "bytes": 8535462041,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-cf-sphere/checkpoint/batch-20-2fc52d2e87166ffd.pt",
+        "sha256": "2fc52d2e87166ffd59ca420c4da4f8e130a384f613614e34d90a00b7962be1ef"
+      },
+      "identity_exact": true,
+      "job": "62079",
+      "model_load": false,
+      "schema": "official-baseline-checkpoint-v1",
+      "weight_count": 5
+    }
+  ]
+}

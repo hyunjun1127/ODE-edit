@@ -48,5 +48,40 @@ W20 없는 author CP는 제출 대상으로 만들지 않는다.
 남은 두 lane에 필요한 afterany edge만 추가한다. 전체 held inspection 후 release한다.
 실제 IDs와 상태는 후속 `submission.json` 영수증에 기록한다. 이 문단 자체는 제출 완료가 아니다.
 
+## 실제 등록/release 완료
+
+실행 source `417a12e7`(main 게시), 새 attempt
+`/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1`.
+아래 13 GPU 평가와 GPU0 collector62877을 전량 held 등록·exact inspection 후 release했다.
+초기 단발 snapshot은 전부 PENDING이다. 사전 GPU qualification/결과 완료/원격 W&B PASS는 아니다.
+
+| 모델 | 방법 / 원 편집 job | 새 평가 job | afterany |
+| --- | --- | --- | --- |
+| GPTJ | FT61650 | 62864 | 없음 |
+| GPTJ | MEMIT61725 | 62865 | 없음 |
+| GPTJ | AlphaEdit61778 | 62866 | 62864 |
+| GPTJ | BLUE61779 | 62867 | 62866 |
+| GPTJ | FE61780 | 62868 | 62867 |
+| GPTJ | SPHERE61781 | 62869 | 62865 |
+| Qwen | MEMIT62073 | 62870 | 62868 |
+| Qwen | AlphaEdit62075 | 62871 | 62869 |
+| Qwen | FE62077 | 62872 | 62871 |
+| Qwen | SPHERE62079 | 62873 | 62870 |
+| Llama historical | MEMIT42658 | 62874 | 62872 |
+| Llama historical | AlphaEdit42657 | 62875 | 62874 |
+| Llama historical | BLUE39283_1 | 62876 | 62875 |
+
+collector62877은 새 평가13개 전체 afterany. 각 실제 name/config fullSHA/원 CP fullSHA/출력경로는
+own `submission.json`에 수록했다. 기존62531→62532→62538 lane과 함께 DAG폭3이며
+기존 job mutation0. 현재 가용169,822,842,880B 관측, 제출 시 fresh 용량과 64GiB reserve+
+13×2GiB 관측 파일 여유를 재검산했다. CP/모델 대형복사 없음.
+
+추가 CPU actual payload 검산: GPTJ6/Qwen4 모두 schema/batch20/원identity/FP32 finite PASS.
+역사 Llama3도 원 payload fullSHA, 원 execution.lock/local-source.tar, 모델·토크나이저 fullSHA,
+selected tensor dtype/shape-envelope SHA 및 ordered2000을 검산했다. 과거 4.44.2와 현재
+generation 평가 runtime은 분리 기록한다. 이관된 CP의 편집 출처를 최신 official로 바꾸지 않는다.
+독립 reviewer는 사용하지 않았으며 owner CPU audit이다. 시작 전 W&B는
+`NOT_OBSERVED_BEFORE_STARTUP`; 실시간 scalar logging은 실행 job에서 수행한다.
+
 대형 전송·삭제0, `NO_BROADCAST_NOT_REQUIRED`. 모든 모델/CP/관측 raw는 기존 local에
 남으며 Git에는 소형 source/집계/영수증만 게시한다. 장기 monitor/자동 retry 없음.

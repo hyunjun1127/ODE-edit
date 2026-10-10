@@ -1,0 +1,1077 @@
+{
+  "CPU_fixture_tests": 15,
+  "CP_deletions": 0,
+  "CP_transfers": 0,
+  "DAG_width": 3,
+  "GPU_qualification": "NOT_RUN_USER_DISABLED",
+  "admission_member": {
+    "bytes": 11912,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/admission.json",
+    "sha256": "27e1169f81b4888be27abafb4608818b2ceeef72a563f5f6ed1f16bcaeff47be"
+  },
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED",
+  "disk_available_bytes": 169284911104,
+  "effective_cap": 3,
+  "execution_lock": {
+    "bytes": 127505,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/execution-lock.json",
+    "sha256": "665ddc7b5ef09d11100fd38c4dd1cd292677c7741a6f1c22d8d2507bfb85c65f"
+  },
+  "existing_jobs_changed": false,
+  "external_task_imports": 0,
+  "held_inspection_member": {
+    "bytes": 88824,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/held-inspection.json",
+    "sha256": "f1810a42b979d19f38d157da485c721227a9bb739fd37e989412dbcc16d2cafa"
+  },
+  "independent_reviewer": "NOT_USED_OWNER_CPU_AUDIT",
+  "instruction": "USER-GH-S1-S2-BASELINE-REFRESH-S2-FLUCON-20261010-R1",
+  "jobs": [
+    {
+      "GPU": 0,
+      "GPU_complete": false,
+      "argv": [
+        "/mnt/raid5/janghj/EasyEdit/.venv/bin/python",
+        "-B",
+        "-u",
+        "-m",
+        "official.runners.server2.flucon_eval",
+        "collect",
+        "--preparation",
+        "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/historical-r1/preparation.json",
+        "--output",
+        "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/collector-results.json",
+        "--lock",
+        "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/execution-lock.json"
+      ],
+      "dependencies": [
+        [
+          "afterany",
+          "62864"
+        ],
+        [
+          "afterany",
+          "62865"
+        ],
+        [
+          "afterany",
+          "62866"
+        ],
+        [
+          "afterany",
+          "62867"
+        ],
+        [
+          "afterany",
+          "62868"
+        ],
+        [
+          "afterany",
+          "62869"
+        ],
+        [
+          "afterany",
+          "62870"
+        ],
+        [
+          "afterany",
+          "62871"
+        ],
+        [
+          "afterany",
+          "62872"
+        ],
+        [
+          "afterany",
+          "62873"
+        ],
+        [
+          "afterany",
+          "62874"
+        ],
+        [
+          "afterany",
+          "62875"
+        ],
+        [
+          "afterany",
+          "62876"
+        ]
+      ],
+      "held_inspected": true,
+      "job_id": "62877",
+      "job_name": "s2-flucon-collector",
+      "key": "collector",
+      "official_tree": "eee5082a6edc68e873dac3dfe9b2f8aeeb64ba93",
+      "online_readback": "NOT_OBSERVED_BEFORE_STARTUP",
+      "output": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/collector-results.json",
+      "reason": "None",
+      "released": true,
+      "script": {
+        "bytes": 997,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/scripts/collector.sh",
+        "sha256": "036c8953fd95403e2aab1b53bc5e0ddd7f17a2ac1b3d22fccd642911664d9e4b"
+      },
+      "source": "417a12e7db55af93346be60f79138a6923324de1",
+      "state": "PENDING"
+    },
+    {
+      "GPU": 1,
+      "GPU_complete": false,
+      "argv": [
+        "/mnt/raid5/janghj/EasyEdit/.venv/bin/python",
+        "-B",
+        "-u",
+        "-m",
+        "official.runners.server2.flucon_eval",
+        "run",
+        "--config",
+        "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/configs/gptj-alphaedit-61778.json",
+        "--lock",
+        "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/execution-lock.json"
+      ],
+      "checkpoint": {
+        "bytes": 8053090133,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/CF_ALPHAEDIT/checkpoints/batch-20-22490808f5612b50.pt",
+        "sha256": "22490808f5612b503d7abd413d027f46b6e9079128e2aee816eacd7f197b77b2"
+      },
+      "checkpoint_schema": "official-baseline-checkpoint-v1",
+      "config": {
+        "bytes": 4891,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/configs/gptj-alphaedit-61778.json",
+        "sha256": "87becc750cf031030ee596cc103569fd95a1658e5442d5f25fe4ccf4a5703101"
+      },
+      "config_sha256": "58f42de9a3c52ca8a129239dcef6c9722e5f32360357214f04d4f180d4498e07",
+      "dataset": "cf",
+      "dependencies": [
+        [
+          "afterany",
+          "62864"
+        ]
+      ],
+      "endpoint": "W20_FIRST2000",
+      "generation_schedule": "W20_ONLY_FIRST2000",
+      "held_inspected": true,
+      "job_id": "62866",
+      "job_name": "s2-flucon-gptj-alphaedit-61778",
+      "key": "gptj-alphaedit-61778",
+      "method": "ALPHAEDIT",
+      "model": "gptj",
+      "official_tree": "eee5082a6edc68e873dac3dfe9b2f8aeeb64ba93",
+      "online_readback": "NOT_OBSERVED_BEFORE_STARTUP",
+      "original_artifacts_changed": false,
+      "original_identity": {
+        "assets_sha256": "d842d47ee91049c954e5c7048ef47abba6bfe481acb1228bf5b43119d903ac46",
+        "code_commit": "d31d582ffd425fe3a56a7d23b68d3c58e7e3d955",
+        "config_sha256": "07e3c5741ee8972f328934cc664513e430c356e7b13d6be426c9826d4d4ea1f4",
+        "model_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+        "official_tree_sha256": "ba8f0e36d5551f3ec1d61e50c8996040a16cb6d3",
+        "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+      },
+      "original_job_id": "61778",
+      "output": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/runs/gptj-alphaedit-61778",
+      "reason": "None",
+      "reference_identity": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+      "registration_authority": "USER-GH-S1-S2-BASELINE-REFRESH-S2-FLUCON-20261010-R1",
+      "released": true,
+      "script": {
+        "bytes": 858,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/scripts/gptj-alphaedit-61778.sh",
+        "sha256": "f03cbcc74ef5cce6700bc6b48ca53d395849785bf84c21c140adff31235b4a11"
+      },
+      "source": "417a12e7db55af93346be60f79138a6923324de1",
+      "state": "PENDING",
+      "stream": {
+        "bytes": 4145654,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/preparation-cf-display-r1/streams/cf-stream.json",
+        "sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37"
+      }
+    },
+    {
+      "GPU": 1,
+      "GPU_complete": false,
+      "argv": [
+        "/mnt/raid5/janghj/EasyEdit/.venv/bin/python",
+        "-B",
+        "-u",
+        "-m",
+        "official.runners.server2.flucon_eval",
+        "run",
+        "--config",
+        "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/configs/gptj-alphaedit_blue-61779.json",
+        "--lock",
+        "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/execution-lock.json"
+      ],
+      "checkpoint": {
+        "bytes": 2684378713,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/CF_ALPHAEDIT_BLUE/checkpoints/batch-20-1ea611106b5975bc.pt",
+        "sha256": "1ea611106b5975bc923783fb8c4a82197ada0d2e5c82285d11a8b9f8ad5ce32a"
+      },
+      "checkpoint_schema": "official-baseline-checkpoint-v1",
+      "config": {
+        "bytes": 4770,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/configs/gptj-alphaedit_blue-61779.json",
+        "sha256": "cdda442c0c6114aa908f409194bcf9e14c6d9d463f8a5b070b4797db86206fe2"
+      },
+      "config_sha256": "d316449ffa9d4d4729ec767a526e7e97b39420cef66545335e8edd5b8e553d1a",
+      "dataset": "cf",
+      "dependencies": [
+        [
+          "afterany",
+          "62866"
+        ]
+      ],
+      "endpoint": "W20_FIRST2000",
+      "generation_schedule": "W20_ONLY_FIRST2000",
+      "held_inspected": true,
+      "job_id": "62867",
+      "job_name": "s2-flucon-gptj-alphaedit_blue-61779",
+      "key": "gptj-alphaedit_blue-61779",
+      "method": "ALPHAEDIT_BLUE",
+      "model": "gptj",
+      "official_tree": "eee5082a6edc68e873dac3dfe9b2f8aeeb64ba93",
+      "online_readback": "NOT_OBSERVED_BEFORE_STARTUP",
+      "original_artifacts_changed": false,
+      "original_identity": {
+        "assets_sha256": "d842d47ee91049c954e5c7048ef47abba6bfe481acb1228bf5b43119d903ac46",
+        "code_commit": "d31d582ffd425fe3a56a7d23b68d3c58e7e3d955",
+        "config_sha256": "8ed4bea0e271e9e49c384b672d1019352a2b0cd3500537ce86af3c64ee438107",
+        "model_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+        "official_tree_sha256": "ba8f0e36d5551f3ec1d61e50c8996040a16cb6d3",
+        "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+      },
+      "original_job_id": "61779",
+      "output": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/runs/gptj-alphaedit_blue-61779",
+      "reason": "None",
+      "reference_identity": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+      "registration_authority": "USER-GH-S1-S2-BASELINE-REFRESH-S2-FLUCON-20261010-R1",
+      "released": true,
+      "script": {
+        "bytes": 863,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/scripts/gptj-alphaedit_blue-61779.sh",
+        "sha256": "2fc9f254a0bf1783750af4ccb87c04d77aab4aa6164583e7ca2243ed73efc807"
+      },
+      "source": "417a12e7db55af93346be60f79138a6923324de1",
+      "state": "PENDING",
+      "stream": {
+        "bytes": 4145654,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/preparation-cf-display-r1/streams/cf-stream.json",
+        "sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37"
+      }
+    },
+    {
+      "GPU": 1,
+      "GPU_complete": false,
+      "argv": [
+        "/mnt/raid5/janghj/EasyEdit/.venv/bin/python",
+        "-B",
+        "-u",
+        "-m",
+        "official.runners.server2.flucon_eval",
+        "run",
+        "--config",
+        "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/configs/gptj-ft-61650.json",
+        "--lock",
+        "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/execution-lock.json"
+      ],
+      "checkpoint": {
+        "bytes": 268474973,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-checkpoint-r1/FT/chain/checkpoints/batch-20-00e743c26d2a9253.pt",
+        "sha256": "00e743c26d2a92534de21485f349fddcafddb0bde9e4c9a41228e8d3811c1e00"
+      },
+      "checkpoint_schema": "official-baseline-checkpoint-v1",
+      "config": {
+        "bytes": 4539,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/configs/gptj-ft-61650.json",
+        "sha256": "1b7027b3877086d9fa1450b5ebcea2af81577d89d18ea3483e9653000e49a239"
+      },
+      "config_sha256": "276742a4eb8994dc71cd9a9f11c881f89c6e2ee5a876b925867b4607ffa6b241",
+      "dataset": "cf",
+      "dependencies": [],
+      "endpoint": "W20_FIRST2000",
+      "generation_schedule": "W20_ONLY_FIRST2000",
+      "held_inspected": true,
+      "job_id": "62864",
+      "job_name": "s2-flucon-gptj-ft-61650",
+      "key": "gptj-ft-61650",
+      "method": "FT",
+      "model": "gptj",
+      "official_tree": "eee5082a6edc68e873dac3dfe9b2f8aeeb64ba93",
+      "online_readback": "NOT_OBSERVED_BEFORE_STARTUP",
+      "original_artifacts_changed": false,
+      "original_identity": {
+        "assets_sha256": "6844c5c94b08ae92f9936f0613029e4b60e3ee4147b555569532a89fc7a8787b",
+        "code_commit": "6d35c65de19ec378a30749683762eba87fee50e3",
+        "config_sha256": "2301ce0e2f85f7e874d2295b26ccbd783557a9c522ea6cf63001a5587f8d14ff",
+        "model_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+        "official_tree_sha256": "21780a8a50248c61986848f7bb3a733a15ead064",
+        "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+      },
+      "original_job_id": "61650",
+      "output": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/runs/gptj-ft-61650",
+      "reason": "None",
+      "reference_identity": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+      "registration_authority": "USER-GH-S1-S2-BASELINE-REFRESH-S2-FLUCON-20261010-R1",
+      "released": true,
+      "script": {
+        "bytes": 851,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/scripts/gptj-ft-61650.sh",
+        "sha256": "f3f46da8c7f45459b01b00aa29980e41bda2f7da0bc2456700b6b32a78ccef7f"
+      },
+      "source": "417a12e7db55af93346be60f79138a6923324de1",
+      "state": "PENDING",
+      "stream": {
+        "bytes": 4145654,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/preparation-cf-checkpoint-r1/streams/cf-stream.json",
+        "sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37"
+      }
+    },
+    {
+      "GPU": 1,
+      "GPU_complete": false,
+      "argv": [
+        "/mnt/raid5/janghj/EasyEdit/.venv/bin/python",
+        "-B",
+        "-u",
+        "-m",
+        "official.runners.server2.flucon_eval",
+        "run",
+        "--config",
+        "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/configs/gptj-memit-61725.json",
+        "--lock",
+        "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/execution-lock.json"
+      ],
+      "checkpoint": {
+        "bytes": 1610637581,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-no-gpu-qual-r1/CF_MEMIT/checkpoints/batch-20-26bbadd9710d18e5.pt",
+        "sha256": "26bbadd9710d18e53a76440efb70658d72b60811891237853dc9c1f70c6d0f17"
+      },
+      "checkpoint_schema": "official-baseline-checkpoint-v1",
+      "config": {
+        "bytes": 4807,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/configs/gptj-memit-61725.json",
+        "sha256": "167e1a637c56bb7035d835d6cb4e68d41dd2453cb159dc53dbc69ac6d9918830"
+      },
+      "config_sha256": "2474232f39240bba97855c9a5bba4c8eedae02f9a3ab5bae43e5f4c33380ba0e",
+      "dataset": "cf",
+      "dependencies": [],
+      "endpoint": "W20_FIRST2000",
+      "generation_schedule": "W20_ONLY_FIRST2000",
+      "held_inspected": true,
+      "job_id": "62865",
+      "job_name": "s2-flucon-gptj-memit-61725",
+      "key": "gptj-memit-61725",
+      "method": "MEMIT",
+      "model": "gptj",
+      "official_tree": "eee5082a6edc68e873dac3dfe9b2f8aeeb64ba93",
+      "online_readback": "NOT_OBSERVED_BEFORE_STARTUP",
+      "original_artifacts_changed": false,
+      "original_identity": {
+        "assets_sha256": "8ce64b6771ff8da49d584784ea190ad8575a3a073f03fcc94c93568d31db6463",
+        "code_commit": "478464689231595eb63da368cc7c376e775eb559",
+        "config_sha256": "f52444f6e12926f8330938d8afdef785ca3815c2200a27b2f423afbacdef7649",
+        "model_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+        "official_tree_sha256": "41ed261d1fc8c7c0022366c50fa9cb1ae3c05320",
+        "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+      },
+      "original_job_id": "61725",
+      "output": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/runs/gptj-memit-61725",
+      "reason": "None",
+      "reference_identity": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+      "registration_authority": "USER-GH-S1-S2-BASELINE-REFRESH-S2-FLUCON-20261010-R1",
+      "released": true,
+      "script": {
+        "bytes": 854,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/scripts/gptj-memit-61725.sh",
+        "sha256": "54d1820b74e0720276a261ce84a83b25c09ebb9229102b935f674571b9262075"
+      },
+      "source": "417a12e7db55af93346be60f79138a6923324de1",
+      "state": "PENDING",
+      "stream": {
+        "bytes": 4145654,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/preparation-no-gpu-qual-r1/streams/cf-stream.json",
+        "sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37"
+      }
+    },
+    {
+      "GPU": 1,
+      "GPU_complete": false,
+      "argv": [
+        "/mnt/raid5/janghj/EasyEdit/.venv/bin/python",
+        "-B",
+        "-u",
+        "-m",
+        "official.runners.server2.flucon_eval",
+        "run",
+        "--config",
+        "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/configs/gptj-memit_fe-61780.json",
+        "--lock",
+        "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/execution-lock.json"
+      ],
+      "checkpoint": {
+        "bytes": 1610637645,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/CF_MEMIT_FE/checkpoints/batch-20-464ce442369c35d5.pt",
+        "sha256": "464ce442369c35d5a628a0e66412c88856ae89d6bdbe481ae64c7615226c94c6"
+      },
+      "checkpoint_schema": "official-baseline-checkpoint-v1",
+      "config": {
+        "bytes": 4823,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/configs/gptj-memit_fe-61780.json",
+        "sha256": "796cbc526cf65807e87a30ac48a0997e6e8dac217e1fd74adcfb6d85ea76722b"
+      },
+      "config_sha256": "166fe1d675379b16cd9deb882b661a6b73505068520babbc5fe9e1ea54256763",
+      "dataset": "cf",
+      "dependencies": [
+        [
+          "afterany",
+          "62867"
+        ]
+      ],
+      "endpoint": "W20_FIRST2000",
+      "generation_schedule": "W20_ONLY_FIRST2000",
+      "held_inspected": true,
+      "job_id": "62868",
+      "job_name": "s2-flucon-gptj-memit_fe-61780",
+      "key": "gptj-memit_fe-61780",
+      "method": "MEMIT_FE",
+      "model": "gptj",
+      "official_tree": "eee5082a6edc68e873dac3dfe9b2f8aeeb64ba93",
+      "online_readback": "NOT_OBSERVED_BEFORE_STARTUP",
+      "original_artifacts_changed": false,
+      "original_identity": {
+        "assets_sha256": "d842d47ee91049c954e5c7048ef47abba6bfe481acb1228bf5b43119d903ac46",
+        "code_commit": "d31d582ffd425fe3a56a7d23b68d3c58e7e3d955",
+        "config_sha256": "d2f9630e194982cf9ed872dfb6a71b5f2e1e2007a8f5e09065ee0c9d1145ff67",
+        "model_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+        "official_tree_sha256": "ba8f0e36d5551f3ec1d61e50c8996040a16cb6d3",
+        "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+      },
+      "original_job_id": "61780",
+      "output": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/runs/gptj-memit_fe-61780",
+      "reason": "None",
+      "reference_identity": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+      "registration_authority": "USER-GH-S1-S2-BASELINE-REFRESH-S2-FLUCON-20261010-R1",
+      "released": true,
+      "script": {
+        "bytes": 857,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/scripts/gptj-memit_fe-61780.sh",
+        "sha256": "9466e60656c09057973568e6f2b45114e6a588001282869e789ec68bb9245ee7"
+      },
+      "source": "417a12e7db55af93346be60f79138a6923324de1",
+      "state": "PENDING",
+      "stream": {
+        "bytes": 4145654,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/preparation-cf-display-r1/streams/cf-stream.json",
+        "sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37"
+      }
+    },
+    {
+      "GPU": 1,
+      "GPU_complete": false,
+      "argv": [
+        "/mnt/raid5/janghj/EasyEdit/.venv/bin/python",
+        "-B",
+        "-u",
+        "-m",
+        "official.runners.server2.flucon_eval",
+        "run",
+        "--config",
+        "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/configs/gptj-sphere-61781.json",
+        "--lock",
+        "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/execution-lock.json"
+      ],
+      "checkpoint": {
+        "bytes": 8053090005,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/CF_SPHERE/checkpoints/batch-20-e51f13d965378b5b.pt",
+        "sha256": "e51f13d965378b5b6b792577dc7af85cfb6f680b0e346c7a13b4019cd5127caf"
+      },
+      "checkpoint_schema": "official-baseline-checkpoint-v1",
+      "config": {
+        "bytes": 4936,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/configs/gptj-sphere-61781.json",
+        "sha256": "29fcee18a24dac71522ae2ccd81bf8d906da5d54ad61deed010db9826b271b04"
+      },
+      "config_sha256": "56e66a2d58d18f768e0781e93bbb6fbd75ccaad24845d5467885a03315dd413f",
+      "dataset": "cf",
+      "dependencies": [
+        [
+          "afterany",
+          "62865"
+        ]
+      ],
+      "endpoint": "W20_FIRST2000",
+      "generation_schedule": "W20_ONLY_FIRST2000",
+      "held_inspected": true,
+      "job_id": "62869",
+      "job_name": "s2-flucon-gptj-sphere-61781",
+      "key": "gptj-sphere-61781",
+      "method": "SPHERE",
+      "model": "gptj",
+      "official_tree": "eee5082a6edc68e873dac3dfe9b2f8aeeb64ba93",
+      "online_readback": "NOT_OBSERVED_BEFORE_STARTUP",
+      "original_artifacts_changed": false,
+      "original_identity": {
+        "assets_sha256": "d842d47ee91049c954e5c7048ef47abba6bfe481acb1228bf5b43119d903ac46",
+        "code_commit": "d31d582ffd425fe3a56a7d23b68d3c58e7e3d955",
+        "config_sha256": "9ccf60c7cfda152445773fa4c1e3d21f348eccd599be5584ca86bb9d8fc83330",
+        "model_revision": "47e169305d2e8376be1d31e765533382721b2cc1",
+        "official_tree_sha256": "ba8f0e36d5551f3ec1d61e50c8996040a16cb6d3",
+        "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "tokenizer_sha256": "a435eae8f10bebbd17d64ab60736c80dfe41c4946a2407dc89539c59a45ea7e5"
+      },
+      "original_job_id": "61781",
+      "output": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/runs/gptj-sphere-61781",
+      "reason": "None",
+      "reference_identity": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+      "registration_authority": "USER-GH-S1-S2-BASELINE-REFRESH-S2-FLUCON-20261010-R1",
+      "released": true,
+      "script": {
+        "bytes": 855,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/scripts/gptj-sphere-61781.sh",
+        "sha256": "6ed1ac90ad954b3ec17d5c789840828db58d95770a9fb1bf1d822dc07d5d136a"
+      },
+      "source": "417a12e7db55af93346be60f79138a6923324de1",
+      "state": "PENDING",
+      "stream": {
+        "bytes": 4145654,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/preparation-cf-display-r1/streams/cf-stream.json",
+        "sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37"
+      }
+    },
+    {
+      "GPU": 1,
+      "GPU_complete": false,
+      "argv": [
+        "/mnt/raid5/janghj/EasyEdit/.venv/bin/python",
+        "-B",
+        "-u",
+        "-m",
+        "official.runners.server2.flucon_eval",
+        "run",
+        "--config",
+        "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/historical-r1/configs/llama3-alphaedit-42657.json",
+        "--lock",
+        "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/execution-lock.json"
+      ],
+      "checkpoint": {
+        "bytes": 5284852213,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives/server4-migration-20260911-v1/new177-v1/payload/local/fixed10k-native-baselines/attempt-v1/output/main-cell-1/B020/W-method-state.pt",
+        "sha256": "a7f338ced5df28a428129703e07386eec5d038e33d63fa1b885950ef81a6803b"
+      },
+      "checkpoint_schema": "historical-W-method-state",
+      "config": {
+        "bytes": 4883,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/historical-r1/configs/llama3-alphaedit-42657.json",
+        "sha256": "377ae8d3c246620082d940c93dcfa26bac24fd93978445aed91461afc6d7c302"
+      },
+      "config_sha256": "cf790e93a3d0450b6237497cca75bc56dbb5bb5b4003ba8f212c6abc085b67e0",
+      "dataset": "cf",
+      "dependencies": [
+        [
+          "afterany",
+          "62874"
+        ]
+      ],
+      "endpoint": "W20_FIRST2000",
+      "generation_schedule": "W20_ONLY_FIRST2000",
+      "held_inspected": true,
+      "job_id": "62875",
+      "job_name": "s2-flucon-llama3-alphaedit-42657",
+      "key": "llama3-alphaedit-42657",
+      "method": "ALPHAEDIT",
+      "model": "llama3",
+      "official_tree": "eee5082a6edc68e873dac3dfe9b2f8aeeb64ba93",
+      "online_readback": "NOT_OBSERVED_BEFORE_STARTUP",
+      "original_artifacts_changed": false,
+      "original_identity": {
+        "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+        "original_checkpoint_sha256": "a7f338ced5df28a428129703e07386eec5d038e33d63fa1b885950ef81a6803b",
+        "original_config_sha256": "2bd0ac166625497ed7851870c802ce5cae7b06fbd5370c252baa8957e361d2d5",
+        "original_lock_sha256": "f6d1d40170fb0df7bea9dd7101282ce046dc8f4dccac3fd49a43a220f69c227a",
+        "original_source": "582a378906fbcc3304de92011d67d54f28840d76cfb59ee1f6fa00166bda0560",
+        "schema": "historical-consumer-binding-not-original-official-identity",
+        "tokenizer_sha256": "63411f4ee2a0111d0c3902d14c85a1d003dafc765573c60282957f558bf02453"
+      },
+      "original_job_id": "42657",
+      "output": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/historical-r1/runs/llama3-alphaedit-42657",
+      "reason": "None",
+      "reference_identity": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+      "registration_authority": "USER-GH-S1-S2-BASELINE-REFRESH-S2-FLUCON-20261010-R1",
+      "released": true,
+      "script": {
+        "bytes": 859,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/scripts/llama3-alphaedit-42657.sh",
+        "sha256": "929f1919ab00e3fda5f39158c5e8e430b11a18a4a032fe5eb303b481a03aba27"
+      },
+      "source": "417a12e7db55af93346be60f79138a6923324de1",
+      "state": "PENDING",
+      "stream": {
+        "bytes": 4145654,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/streams/cf-stream.json",
+        "sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37"
+      }
+    },
+    {
+      "GPU": 1,
+      "GPU_complete": false,
+      "argv": [
+        "/mnt/raid5/janghj/EasyEdit/.venv/bin/python",
+        "-B",
+        "-u",
+        "-m",
+        "official.runners.server2.flucon_eval",
+        "run",
+        "--config",
+        "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/historical-r1/configs/llama3-alphaedit_blue-39283_1.json",
+        "--lock",
+        "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/execution-lock.json"
+      ],
+      "checkpoint": {
+        "bytes": 2113956769,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/payload/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-1/B020/W-method-state.pt",
+        "sha256": "268cf596e963b3455a694ccb2b7599b97ee483ad091cadcc051c185358fcc675"
+      },
+      "checkpoint_schema": "historical-W-method-state",
+      "config": {
+        "bytes": 4909,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/historical-r1/configs/llama3-alphaedit_blue-39283_1.json",
+        "sha256": "0b4c3d2e70357cdaa10e0c353d92c3c4d730a43b10526bf585aa6431b8a0e730"
+      },
+      "config_sha256": "2bacc58f5b3980eed5bb263a7f908a84a30c1b6198913e1468752b5fb01f5b9a",
+      "dataset": "cf",
+      "dependencies": [
+        [
+          "afterany",
+          "62875"
+        ]
+      ],
+      "endpoint": "W20_FIRST2000",
+      "generation_schedule": "W20_ONLY_FIRST2000",
+      "held_inspected": true,
+      "job_id": "62876",
+      "job_name": "s2-flucon-llama3-alphaedit_blue-39283_1",
+      "key": "llama3-alphaedit_blue-39283_1",
+      "method": "ALPHAEDIT_BLUE",
+      "model": "llama3",
+      "official_tree": "eee5082a6edc68e873dac3dfe9b2f8aeeb64ba93",
+      "online_readback": "NOT_OBSERVED_BEFORE_STARTUP",
+      "original_artifacts_changed": false,
+      "original_identity": {
+        "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+        "original_checkpoint_sha256": "268cf596e963b3455a694ccb2b7599b97ee483ad091cadcc051c185358fcc675",
+        "original_config_sha256": "588603990aa1234e62dd9c47f8449be60ba396358d9c0930c2ea3453606b24c4",
+        "original_lock_sha256": "fae7106e1d42fc92e60f8127e8c313f7d9f72147298c3048d981c74607d8fa87",
+        "original_source": "6cb448801ae2136f627a7c5390e2d042b2dd8456eb01e183d064f1bd5eeed2af",
+        "schema": "historical-consumer-binding-not-original-official-identity",
+        "tokenizer_sha256": "63411f4ee2a0111d0c3902d14c85a1d003dafc765573c60282957f558bf02453"
+      },
+      "original_job_id": "39283_1",
+      "output": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/historical-r1/runs/llama3-alphaedit_blue-39283_1",
+      "reason": "None",
+      "reference_identity": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+      "registration_authority": "USER-GH-S1-S2-BASELINE-REFRESH-S2-FLUCON-20261010-R1",
+      "released": true,
+      "script": {
+        "bytes": 866,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/scripts/llama3-alphaedit_blue-39283_1.sh",
+        "sha256": "4a7c268cc17f44939c8b9e1c7bbd9e9830399afcd888f8c537a537993e168c16"
+      },
+      "source": "417a12e7db55af93346be60f79138a6923324de1",
+      "state": "PENDING",
+      "stream": {
+        "bytes": 4145654,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/streams/cf-stream.json",
+        "sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37"
+      }
+    },
+    {
+      "GPU": 1,
+      "GPU_complete": false,
+      "argv": [
+        "/mnt/raid5/janghj/EasyEdit/.venv/bin/python",
+        "-B",
+        "-u",
+        "-m",
+        "official.runners.server2.flucon_eval",
+        "run",
+        "--config",
+        "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/historical-r1/configs/llama3-memit-42658.json",
+        "--lock",
+        "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/execution-lock.json"
+      ],
+      "checkpoint": {
+        "bytes": 1174435733,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives/server4-migration-20260911-v1/new177-v1/payload/local/fixed10k-native-baselines/attempt-v1/output/main-cell-2/B020/W-method-state.pt",
+        "sha256": "0119370f71753ee4101f5bafd179328370d1f348453edb5a4bb9122289e0365e"
+      },
+      "checkpoint_schema": "historical-W-method-state",
+      "config": {
+        "bytes": 4854,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/historical-r1/configs/llama3-memit-42658.json",
+        "sha256": "85c3ec31f4aa55f39313c98de36ed856a9be4d145a2fe7cf23293966b14b9123"
+      },
+      "config_sha256": "f19352fcbc6889e38cb9159efbaf245eb0afda12903a717e8eb6fbbbd2b478e5",
+      "dataset": "cf",
+      "dependencies": [
+        [
+          "afterany",
+          "62872"
+        ]
+      ],
+      "endpoint": "W20_FIRST2000",
+      "generation_schedule": "W20_ONLY_FIRST2000",
+      "held_inspected": true,
+      "job_id": "62874",
+      "job_name": "s2-flucon-llama3-memit-42658",
+      "key": "llama3-memit-42658",
+      "method": "MEMIT",
+      "model": "llama3",
+      "official_tree": "eee5082a6edc68e873dac3dfe9b2f8aeeb64ba93",
+      "online_readback": "NOT_OBSERVED_BEFORE_STARTUP",
+      "original_artifacts_changed": false,
+      "original_identity": {
+        "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+        "original_checkpoint_sha256": "0119370f71753ee4101f5bafd179328370d1f348453edb5a4bb9122289e0365e",
+        "original_config_sha256": "1d701acd9d2f3ca7bbd91f0b646cda376e57996148a2baebbe853a9631c99b15",
+        "original_lock_sha256": "f6d1d40170fb0df7bea9dd7101282ce046dc8f4dccac3fd49a43a220f69c227a",
+        "original_source": "582a378906fbcc3304de92011d67d54f28840d76cfb59ee1f6fa00166bda0560",
+        "schema": "historical-consumer-binding-not-original-official-identity",
+        "tokenizer_sha256": "63411f4ee2a0111d0c3902d14c85a1d003dafc765573c60282957f558bf02453"
+      },
+      "original_job_id": "42658",
+      "output": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/historical-r1/runs/llama3-memit-42658",
+      "reason": "None",
+      "reference_identity": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+      "registration_authority": "USER-GH-S1-S2-BASELINE-REFRESH-S2-FLUCON-20261010-R1",
+      "released": true,
+      "script": {
+        "bytes": 855,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/scripts/llama3-memit-42658.sh",
+        "sha256": "4341da8aa8deb869d9f01d38c4111d5497d284377cfe432f3e393d952abe9b2e"
+      },
+      "source": "417a12e7db55af93346be60f79138a6923324de1",
+      "state": "PENDING",
+      "stream": {
+        "bytes": 4145654,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/streams/cf-stream.json",
+        "sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37"
+      }
+    },
+    {
+      "GPU": 1,
+      "GPU_complete": false,
+      "argv": [
+        "/mnt/raid5/janghj/EasyEdit/.venv/bin/python",
+        "-B",
+        "-u",
+        "-m",
+        "official.runners.server2.flucon_eval",
+        "run",
+        "--config",
+        "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/configs/qwen25-alphaedit-62075.json",
+        "--lock",
+        "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/execution-lock.json"
+      ],
+      "checkpoint": {
+        "bytes": 8535462041,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-cf-alphaedit/checkpoint/batch-20-5b9a36563bc9bce4.pt",
+        "sha256": "5b9a36563bc9bce4b1e8a32bba0bf388a4fd6573ba687774d3d98578a8469973"
+      },
+      "checkpoint_schema": "official-baseline-checkpoint-v1",
+      "config": {
+        "bytes": 4912,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/configs/qwen25-alphaedit-62075.json",
+        "sha256": "c1961638971f6a1da923ff359623ad047efe2fdabc7b28ab2b5216928d7ed16d"
+      },
+      "config_sha256": "d33881dd84b60539e0c235927468b5f4ba8ffd080daadfa9c0dbd4624685dedb",
+      "dataset": "cf",
+      "dependencies": [
+        [
+          "afterany",
+          "62869"
+        ]
+      ],
+      "endpoint": "W20_FIRST2000",
+      "generation_schedule": "W20_ONLY_FIRST2000",
+      "held_inspected": true,
+      "job_id": "62871",
+      "job_name": "s2-flucon-qwen25-alphaedit-62075",
+      "key": "qwen25-alphaedit-62075",
+      "method": "ALPHAEDIT",
+      "model": "qwen25",
+      "official_tree": "eee5082a6edc68e873dac3dfe9b2f8aeeb64ba93",
+      "online_readback": "NOT_OBSERVED_BEFORE_STARTUP",
+      "original_artifacts_changed": false,
+      "original_identity": {
+        "assets_sha256": "11fbe79a7784817f8fb0e1164df936dab7ed1c7480bddc923c509aec58e380ec",
+        "code_commit": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+        "config_sha256": "4db616aad47772619ad502628ed124c29268b9c32b256c6875a4fc8fb1fc061d",
+        "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+        "official_tree_sha256": "be8dca6334f083a87cf6555899fbb43451d9976a55bb53242fdbbcf52a1dfe95",
+        "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "tokenizer_sha256": "9e3c11a4a87d85a72b6f2d1e4b29ab88532f72d03189b6fa2793da735a2d98aa"
+      },
+      "original_job_id": "62075",
+      "output": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/runs/qwen25-alphaedit-62075",
+      "reason": "None",
+      "reference_identity": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+      "registration_authority": "USER-GH-S1-S2-BASELINE-REFRESH-S2-FLUCON-20261010-R1",
+      "released": true,
+      "script": {
+        "bytes": 860,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/scripts/qwen25-alphaedit-62075.sh",
+        "sha256": "407bb34fa233471de969026bb4c85e89c436e5c90df1e697a70fd23b1945817a"
+      },
+      "source": "417a12e7db55af93346be60f79138a6923324de1",
+      "state": "PENDING",
+      "stream": {
+        "bytes": 4145654,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/streams/cf-stream.json",
+        "sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37"
+      }
+    },
+    {
+      "GPU": 1,
+      "GPU_complete": false,
+      "argv": [
+        "/mnt/raid5/janghj/EasyEdit/.venv/bin/python",
+        "-B",
+        "-u",
+        "-m",
+        "official.runners.server2.flucon_eval",
+        "run",
+        "--config",
+        "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/configs/qwen25-memit-62073.json",
+        "--lock",
+        "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/execution-lock.json"
+      ],
+      "checkpoint": {
+        "bytes": 1357958481,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-cf-memit/checkpoint/batch-20-4561ee2477393eba.pt",
+        "sha256": "4561ee2477393eba5e18d93b64ac19c9789caa28df64472e72d778a30e17af21"
+      },
+      "checkpoint_schema": "official-baseline-checkpoint-v1",
+      "config": {
+        "bytes": 4820,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/configs/qwen25-memit-62073.json",
+        "sha256": "b7b0227e7516c6d8e9693dd19cb3003b837ea44877c44fbf806b3678aa474508"
+      },
+      "config_sha256": "e3987e7c2421d36719e72f884d429616aea18c01b5bed7aac799e77523196e76",
+      "dataset": "cf",
+      "dependencies": [
+        [
+          "afterany",
+          "62868"
+        ]
+      ],
+      "endpoint": "W20_FIRST2000",
+      "generation_schedule": "W20_ONLY_FIRST2000",
+      "held_inspected": true,
+      "job_id": "62870",
+      "job_name": "s2-flucon-qwen25-memit-62073",
+      "key": "qwen25-memit-62073",
+      "method": "MEMIT",
+      "model": "qwen25",
+      "official_tree": "eee5082a6edc68e873dac3dfe9b2f8aeeb64ba93",
+      "online_readback": "NOT_OBSERVED_BEFORE_STARTUP",
+      "original_artifacts_changed": false,
+      "original_identity": {
+        "assets_sha256": "11fbe79a7784817f8fb0e1164df936dab7ed1c7480bddc923c509aec58e380ec",
+        "code_commit": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+        "config_sha256": "f6877eb7c243a4d6817ba4613132a9688ff56e48889ae6f4f22978673a94f946",
+        "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+        "official_tree_sha256": "be8dca6334f083a87cf6555899fbb43451d9976a55bb53242fdbbcf52a1dfe95",
+        "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "tokenizer_sha256": "9e3c11a4a87d85a72b6f2d1e4b29ab88532f72d03189b6fa2793da735a2d98aa"
+      },
+      "original_job_id": "62073",
+      "output": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/runs/qwen25-memit-62073",
+      "reason": "None",
+      "reference_identity": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+      "registration_authority": "USER-GH-S1-S2-BASELINE-REFRESH-S2-FLUCON-20261010-R1",
+      "released": true,
+      "script": {
+        "bytes": 856,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/scripts/qwen25-memit-62073.sh",
+        "sha256": "2564255dba113f244b5a2d797996ab9f0043dd61b533c754ce60d230cbfc110b"
+      },
+      "source": "417a12e7db55af93346be60f79138a6923324de1",
+      "state": "PENDING",
+      "stream": {
+        "bytes": 4145654,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/streams/cf-stream.json",
+        "sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37"
+      }
+    },
+    {
+      "GPU": 1,
+      "GPU_complete": false,
+      "argv": [
+        "/mnt/raid5/janghj/EasyEdit/.venv/bin/python",
+        "-B",
+        "-u",
+        "-m",
+        "official.runners.server2.flucon_eval",
+        "run",
+        "--config",
+        "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/configs/qwen25-memit_fe-62077.json",
+        "--lock",
+        "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/execution-lock.json"
+      ],
+      "checkpoint": {
+        "bytes": 1357958481,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-cf-memit_fe/checkpoint/batch-20-9826e9cee2c90df5.pt",
+        "sha256": "9826e9cee2c90df58ee97c9b877e27a2d2ed3a9dd00f2604716692e8f7320aa8"
+      },
+      "checkpoint_schema": "official-baseline-checkpoint-v1",
+      "config": {
+        "bytes": 4844,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/configs/qwen25-memit_fe-62077.json",
+        "sha256": "92c27a24ef94a8887fd9a4367bbd477dc903136f35cbdb347efd0e2825bfb024"
+      },
+      "config_sha256": "85a52290619490e9c23ba42fcdea6b129d799c14b4adb0cbd898b5399ea79a8a",
+      "dataset": "cf",
+      "dependencies": [
+        [
+          "afterany",
+          "62871"
+        ]
+      ],
+      "endpoint": "W20_FIRST2000",
+      "generation_schedule": "W20_ONLY_FIRST2000",
+      "held_inspected": true,
+      "job_id": "62872",
+      "job_name": "s2-flucon-qwen25-memit_fe-62077",
+      "key": "qwen25-memit_fe-62077",
+      "method": "MEMIT_FE",
+      "model": "qwen25",
+      "official_tree": "eee5082a6edc68e873dac3dfe9b2f8aeeb64ba93",
+      "online_readback": "NOT_OBSERVED_BEFORE_STARTUP",
+      "original_artifacts_changed": false,
+      "original_identity": {
+        "assets_sha256": "11fbe79a7784817f8fb0e1164df936dab7ed1c7480bddc923c509aec58e380ec",
+        "code_commit": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+        "config_sha256": "9a5ab5a117288655361b8b0c7881b9fb8653f1aa1082699c4dd94c19f33a488e",
+        "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+        "official_tree_sha256": "be8dca6334f083a87cf6555899fbb43451d9976a55bb53242fdbbcf52a1dfe95",
+        "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "tokenizer_sha256": "9e3c11a4a87d85a72b6f2d1e4b29ab88532f72d03189b6fa2793da735a2d98aa"
+      },
+      "original_job_id": "62077",
+      "output": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/runs/qwen25-memit_fe-62077",
+      "reason": "None",
+      "reference_identity": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+      "registration_authority": "USER-GH-S1-S2-BASELINE-REFRESH-S2-FLUCON-20261010-R1",
+      "released": true,
+      "script": {
+        "bytes": 859,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/scripts/qwen25-memit_fe-62077.sh",
+        "sha256": "cfc202e5444e1f0504b2f96ea2e4b5961593b5151107cacea8c028a8c10a397c"
+      },
+      "source": "417a12e7db55af93346be60f79138a6923324de1",
+      "state": "PENDING",
+      "stream": {
+        "bytes": 4145654,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/streams/cf-stream.json",
+        "sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37"
+      }
+    },
+    {
+      "GPU": 1,
+      "GPU_complete": false,
+      "argv": [
+        "/mnt/raid5/janghj/EasyEdit/.venv/bin/python",
+        "-B",
+        "-u",
+        "-m",
+        "official.runners.server2.flucon_eval",
+        "run",
+        "--config",
+        "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/configs/qwen25-sphere-62079.json",
+        "--lock",
+        "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/execution-lock.json"
+      ],
+      "checkpoint": {
+        "bytes": 8535462041,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-cf-sphere/checkpoint/batch-20-2fc52d2e87166ffd.pt",
+        "sha256": "2fc52d2e87166ffd59ca420c4da4f8e130a384f613614e34d90a00b7962be1ef"
+      },
+      "checkpoint_schema": "official-baseline-checkpoint-v1",
+      "config": {
+        "bytes": 4954,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/configs/qwen25-sphere-62079.json",
+        "sha256": "e8a192d08be30a27e0f8e53558e311cb180dc1af9e88e90d10a6b4ac3dece021"
+      },
+      "config_sha256": "deeb0f16d6ff71f0ab07569f265e22146b8bd46243fb1d7df289e17b7ac042d2",
+      "dataset": "cf",
+      "dependencies": [
+        [
+          "afterany",
+          "62870"
+        ]
+      ],
+      "endpoint": "W20_FIRST2000",
+      "generation_schedule": "W20_ONLY_FIRST2000",
+      "held_inspected": true,
+      "job_id": "62873",
+      "job_name": "s2-flucon-qwen25-sphere-62079",
+      "key": "qwen25-sphere-62079",
+      "method": "SPHERE",
+      "model": "qwen25",
+      "official_tree": "eee5082a6edc68e873dac3dfe9b2f8aeeb64ba93",
+      "online_readback": "NOT_OBSERVED_BEFORE_STARTUP",
+      "original_artifacts_changed": false,
+      "original_identity": {
+        "assets_sha256": "11fbe79a7784817f8fb0e1164df936dab7ed1c7480bddc923c509aec58e380ec",
+        "code_commit": "7b5097aa447946e35de42229c22b0c0feabd11ae",
+        "config_sha256": "9696fd995705458292900358c4765902ffdb3c988035d6a30627eed930e223ae",
+        "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+        "official_tree_sha256": "be8dca6334f083a87cf6555899fbb43451d9976a55bb53242fdbbcf52a1dfe95",
+        "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+        "tokenizer_sha256": "9e3c11a4a87d85a72b6f2d1e4b29ab88532f72d03189b6fa2793da735a2d98aa"
+      },
+      "original_job_id": "62079",
+      "output": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/runs/qwen25-sphere-62079",
+      "reason": "None",
+      "reference_identity": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+      "registration_authority": "USER-GH-S1-S2-BASELINE-REFRESH-S2-FLUCON-20261010-R1",
+      "released": true,
+      "script": {
+        "bytes": 857,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/scripts/qwen25-sphere-62079.sh",
+        "sha256": "8801a6f88709598a97d6a5c259cc9a249981b4fac8bbc7a4845b0c8605ece711"
+      },
+      "source": "417a12e7db55af93346be60f79138a6923324de1",
+      "state": "PENDING",
+      "stream": {
+        "bytes": 4145654,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/streams/cf-stream.json",
+        "sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37"
+      }
+    }
+  ],
+  "official_sources": 166,
+  "official_tree": "eee5082a6edc68e873dac3dfe9b2f8aeeb64ba93",
+  "recurring_monitor": false,
+  "required_reserve_and_output_bytes": 96636764160,
+  "resources": {
+    "CPUs": 6,
+    "gpus": 1,
+    "memory_MiB": 59392,
+    "node": "server2",
+    "partition": "gpu",
+    "qos": "lab_gpu_s2",
+    "wall_hours": 48
+  },
+  "source": "417a12e7db55af93346be60f79138a6923324de1",
+  "submission_member": {
+    "bytes": 63667,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/registration-r1/submission.json",
+    "sha256": "75279bd644947e7f336ea5ed48d4429001aa38902811f86505cc6e541254c2af"
+  }
+}
