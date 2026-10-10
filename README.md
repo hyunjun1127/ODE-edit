@@ -159,6 +159,7 @@ zsRE Loc은 **loc_ans 정답 token 정확도의 요청별 평균**이다. 이전
 - 설정: arm `llama3-P-beta100`. β = c = β_max = 1.0, unit-lr ρ0.05, γ1, cap 끝점 cast, HC-PRICE, 요청별 early exit.
 - 데이터: eval-2K 2,000건, B1–B20, baseline과 같은 순서와 context.
 - arm과 runner는 server4 task branch commit `885a0e26`에 있고 main에는 아직 병합하지 않았다. resolved config sha256 `1208f9ce…`.
+- HC 가격은 정규화하지 않았다. 가장 싼 층 가격이 B20까지 1.034 이내라 잡음 수준이라는 사용자 판단(2026-10-11)이다.
 - Eff/Gen/Loc은 strict NLL preference R/P/N 성공률 1,998/2,000 · 3,740/4,000 · 16,300/20,000이다.
 - Score는 반올림 전 성공률의 조화평균(90.9776)이다. 표시는 decimal half-up 둘째 자리다.
 - 이전 FREE100 job 60103 값(99.70 / 92.78 / 82.21, Score 90.98)을 대체했다.
@@ -332,7 +333,15 @@ Llama historical3개는 원source/lock/CP와 새평가 consumer identity를 분�
 | AlphaEdit-BLUE | 89.23 | 99.55 | 97.53 | 75.06 | PENDING: s2-flucon-gptj-alphaedit_blue-61779 (62867) | PENDING: s2-flucon-gptj-alphaedit_blue-61779 (62867) | 99.75 | 95.71 | 28.83 |
 | FE (author repo, W0-fixed z) | PENDING: official-s1-gptj-cf-fe-original (63153) | PENDING: official-s1-gptj-cf-fe-original (63153) | PENDING: official-s1-gptj-cf-fe-original (63153) | PENDING: official-s1-gptj-cf-fe-original (63153) | DEFERRED | DEFERRED | PENDING: official-s1-gptj-zsre-fe-original (63154) | PENDING: official-s1-gptj-zsre-fe-original (63154) | PENDING: official-s1-gptj-zsre-fe-original (63154) |
 | AlphaEdit+SPHERE | 88.39 | 99.70 | 95.73 | 74.27 | 616.18 | 40.89 | 99.67 | 96.29 | 28.00 |
-| PRICE (Ours) | ING: rent janghj-final2k-r2-gptj (101707) | ING: rent janghj-final2k-r2-gptj (101707) | ING: rent janghj-final2k-r2-gptj (101707) | ING: rent janghj-final2k-r2-gptj (101707) | ING: rent janghj-final2k-r2-gptj (101707) | ING: rent janghj-final2k-r2-gptj (101707) | ING: pf2k-gptj-zsre-P-beta075-ee (63027) | ING: pf2k-gptj-zsre-P-beta075-ee (63027) | ING: pf2k-gptj-zsre-P-beta075-ee (63027) |
+| PRICE (Ours) | 88.22¶ | 99.80¶ | 96.23¶ | 73.57¶ | PENDING: pf2k-flucon-gptj-P-beta075 (63207) | PENDING: pf2k-flucon-gptj-P-beta075 (63207) | 99.81¶ | 96.96¶ | 29.59¶ |
+
+¶ 최종 PRICE method의 GPT-J 2K다. CF는 rent job **101707**, zsRE는 server4 job **63027**이며 둘 다 W20/2,000 edits다.
+- 설정: arm `gptj-P-beta075`(resolved `d8f5ff72…`). β = c = β_max = 0.75, unit-lr ρ0.05, γ1, cap 끝점 cast, HC-PRICE, 요청별 early exit, sink EOT 규칙과 anchor guard 20.
+- HC 가격은 정규화하지 않았다. 가장 싼 층 가격이 CF 1.012(B10)·zsRE 1.014(B16) 이내라 잡음 수준이라는 사용자 판단(2026-10-11)이다.
+- CF R/P/N 성공률은 1,996/2,000 · 3,849/4,000 · 14,713/20,000이고, Score는 조화평균 88.2203이다. W0가 본표 W0 행과 같다.
+- zsRE는 official zsRE evaluator 값이며, W0가 본표 zsRE W0 행(27.83 / 27.15 / 27.59)과 같다.
+- CF Flu/Con은 W20 가중치를 baseline과 같은 생성 평가기로 devbox(server1)에서 평가한다(job **63207**).
+[GPT-J 보고](experiment-reports/servers/server4/price-final-2k-20261010/gptj-report-ko.md) · [정확한 수치·SHA](audits/servers/server4/price-final-2k-20261010/gptj-results.json).
 
 기존 연구 문서와 실험 이력은 아래에 보존합니다. 새 실험의 설정 근거는 `official/`입니다.
 
@@ -507,9 +516,9 @@ secret은 저장소에 기록하지 않는다.
 | :--- | :--- | :--- |
 | Llama | server4 **62604** 완료: W20 99.90 / 93.50 / 81.50, Score 90.98 (본표 반영) | server4 **62889** 완료: W20 99.62 / 94.83 / 45.31 (본표 반영) |
 | Qwen | 정규화 HC(`qwen25-PN-beta150`) server4 **63144** 실행 중. 정규화 전 HC run(rent **101706**)은 ablation으로 남긴다. 비교용 β = c 2.0(server4 **62845**)은 B10 진입 때 anchor guard로 멈췄다(편집이 쌓여 생긴 sink) | 정규화 HC server4 **63145** 실행 중 |
-| GPT-J | rent **101707** 실행 중 | server4 **63027** 실행 중(W0가 본표 W0 행과 같음) |
+| GPT-J | rent **101707** 완료: W20 99.80 / 96.23 / 73.57, Score 88.22 (본표 반영) | server4 **63027** 완료: W20 99.81 / 96.96 / 29.59 (본표 반영) |
 
-- **HC 가격 정규화(2026-10-11, Qwen 재실행):** HC 배수를 곱한 뒤 요청마다 가장 싼 층의 가격이 1이 되도록 다시 나눈다(method 항목 `hc_normalize`). 정규화하지 않으면 HC가 배분뿐 아니라 강도도 바꾼다. Qwen 2K B10에서 가장 싼 층 가격 중앙값이 1.159(최대 1.386)였고, Llama 2K B20은 1.034, GPT-J 2K B10은 1.012였다. Llama·GPT-J 본표 값은 아직 정규화 전 HC 결과다.
+- **HC 가격 정규화(2026-10-11):** HC 배수를 곱한 뒤 요청마다 가장 싼 층의 가격이 1이 되도록 다시 나눈다(method 항목 `hc_normalize`). 정규화하지 않으면 HC가 배분뿐 아니라 강도도 바꾼다. 가장 싼 층 가격 중앙값이 Qwen 2K B10에서 1.159(최대 1.386)였고, Llama 2K B20은 1.034, GPT-J 2K B10은 1.012였다. **본표는 Qwen만 정규화 HC 재실행을 쓴다.** Llama·GPT-J는 차이가 잡음 수준이라 정규화 전 HC 결과를 그대로 쓴다(사용자 판단).
 - 모든 2K run은 W5·W10·W15·W20마다 all-seen 평가와 resumable checkpoint(가중치, history H, HC 통계)를 남긴다.
 - zsRE는 CF와 같은 설정을 쓴다. 데이터는 official zsRE first-2K stream, 평가는 official zsRE evaluator다.
 - Qwen·GPT-J zsRE는 no-BOS 모델이라 zsRE sink scan을 먼저 해야 한다.
