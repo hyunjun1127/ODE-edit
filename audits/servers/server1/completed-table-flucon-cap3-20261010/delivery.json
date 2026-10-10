@@ -1,0 +1,16 @@
+{
+  "nonce":"USER-GH-S1-S2-COMPLETED-TABLE-S1-FLUCON-CAP3-20261010-R1",
+  "publication":"f74dcdae5938b6ebab4a8a5944b5644ee948e079",
+  "table_rows_sha256":"9ff004351c8e6012d13284b9404a35d57c53cba2657f3deecb77f2aa0d0c3f2e",
+  "submission_sha256":"f5797a5ca1b9747b1c9f8959d3ea9818dc020bbb72eb7775348a2f02ab5d75a1",
+  "initial_interim_transport":"TIMEOUT_ACK_UNOBSERVED",
+  "final_new_result_transport":"REGISTERED_UNIX_WEBSOCKET",
+  "target_session":"01a04939-8873-7673-8dca-4c7fc5e31af0",
+  "accepted":true,
+  "accepted_turn":"01a12378-415e-7922-a9ca-72d280628516",
+  "owner_ACK_observed":false,
+  "message_sha256":"3479c4cabfbc2c05a8ae8a0ee84b5407733baf50762aec3eb60e09371904128c",
+  "automatic_retry":false,
+  "README_integration_owner":"GH",
+  "SH1_README_edits":0
+}
