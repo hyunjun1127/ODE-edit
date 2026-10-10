@@ -52,7 +52,7 @@ experiment provenance는 변경하지 않는다.
 
 - audit 시 `22600`: `PENDING(Resources)`
 - audit 시 `22601`: `PENDING(ReqNodeNotAvail)`
-- server2 registry cap: 3 (최신 USER 2026-10-10); 더 엄격한 task-specific cap 유지
+- server2 registry cap: 2 (최신 USER 2026-10-10 cap2 lane 조정); 더 엄격한 task-specific cap 유지
 - public scheduler host-memory ceiling: GPU당 60 GiB
 - repository request ceiling with headroom: GPU당 59 GiB (`60416M`)
 - `scripts/check-slurm-resource-cap.sh server2 1 60416M`: required before submit

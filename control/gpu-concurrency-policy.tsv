@@ -4,8 +4,8 @@
 # server<TAB>max_new_run_project_gpus
 # User override 2026-09-16: server4 is limited to 1 project GPU; other servers unchanged.
 # User override 2026-09-17: server4 increases to 2 project GPUs; supersedes 2026-09-16 cap1 prospectively.
-server1	3
-server2	3
+server1	2
+server2	2
 # User override 2026-09-20: server3 project cap1; other servers unchanged.
 # User override 2026-09-20 (latest): RES/GSS_REC two-arm task; server3 project cap2.
 # User override 2026-09-28: MEMIT history baseline; server3 project cap1.
@@ -37,3 +37,8 @@ server4	2
 # Exact own PENDING resource edges may be reconnected to enforce future width3.
 # More restrictive task/memory/QoS limits and server3/server4 are unchanged.
 # messages/head/2026-10-10-s1-s2-completed-table-s1-flucon-cap3.json
+# Latest USER 2026-10-10: server1/server2 each combined cap2 supersedes cap3.
+# Preserve RUNNING; resource-only exact PENDING lane repair, future width<=2.
+# If legacy allocation exceeds2, drain without cancellation and block new starts
+# until projected simultaneous allocation is within2. Other servers unchanged.
+# messages/head/2026-10-10-s1-s2-cap2-lane-adjust.json
