@@ -328,7 +328,7 @@ Llama historical3개는 원source/lock/CP와 새평가 consumer identity를 분�
 
 | Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu ×100 | CF Con ×100 | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| [W0 (편집 전)](experiment-reports/global/w0-main-table-20261009.md) | 24.44 | 17.00 | 19.30 | 82.48 | DEFERRED | DEFERRED | 27.83 | 27.15 | 27.59 |
+| [W0 (편집 전)](experiment-reports/global/w0-main-table-20261009.md) | 24.44 | 17.00 | 19.30 | 82.48 | PENDING: 63219 | PENDING: 63219 | 27.83 | 27.15 | 27.59 |
 | FT | 58.97 | 88.75 | 66.75 | 40.61 | 510.98 | 3.04 | 23.15 | 17.95 | 0.62 |
 | MEMIT | 80.63 | 97.90 | 95.38 | 60.58 | 577.93 | 36.84 | 93.52 | 88.86 | 30.81 |
 | AlphaEdit | 88.22 | 99.70 | 96.33 | 73.56 | PENDING: s2-flucon-gptj-alphaedit-61778 (62866) | PENDING: s2-flucon-gptj-alphaedit-61778 (62866) | 99.69 | 96.45 | 27.94 |
@@ -336,6 +336,10 @@ Llama historical3개는 원source/lock/CP와 새평가 consumer identity를 분�
 | FE (author repo, W0-fixed z) | PENDING: official-s1-gptj-cf-fe-original (63153) | PENDING: official-s1-gptj-cf-fe-original (63153) | PENDING: official-s1-gptj-cf-fe-original (63153) | PENDING: official-s1-gptj-cf-fe-original (63153) | DEFERRED | DEFERRED | PENDING: official-s1-gptj-zsre-fe-original (63154) | PENDING: official-s1-gptj-zsre-fe-original (63154) | PENDING: official-s1-gptj-zsre-fe-original (63154) |
 | AlphaEdit+SPHERE | 88.39 | 99.70 | 95.73 | 74.27 | 616.18 | 40.89 | 99.67 | 96.29 | 28.00 |
 | PRICE (Ours) | 88.22¶ | 99.80¶ | 96.23¶ | 73.57¶ | PENDING: pf2k-flucon-gptj-P-beta075 (63207) | PENDING: pf2k-flucon-gptj-P-beta075 (63207) | 99.81¶ | 96.96¶ | 29.59¶ |
+
+GPT-J W0 Flu/Con은 동일 native full2K 완료/등록을 찾지 못해 server4의 **63219**로 generation-only 평가를 등록했다.
+held 검사 후 release, `afterany:63144` PENDING이며 두 생성 셀만 job 번호로 표시한다.
+기존 W0 factual/zsRE 수치는 변경하지 않았다. [확인 범위·제출 근거](experiment-reports/global/gptj-w0-flucon-20261011/report-ko.md).
 
 ¶ 최종 PRICE method의 GPT-J 2K다. CF는 rent job **101707**, zsRE는 server4 job **63027**이며 둘 다 W20/2,000 edits다.
 - 설정: arm `gptj-P-beta075`(resolved `d8f5ff72…`). β = c = β_max = 0.75, unit-lr ρ0.05, γ1, cap 끝점 cast, HC-PRICE, 요청별 early exit, sink EOT 규칙과 anchor guard 20.
