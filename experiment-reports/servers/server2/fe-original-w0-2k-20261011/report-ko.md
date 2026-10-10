@@ -48,3 +48,13 @@ SH1 shared API/patch/checkpoint overwrite 및 W0-z integration receipt 아직 NO
 실제 신규 Qwen CF/zsRE job IDs 없음, W&B 새 run 없음, 모델forward0. source-ready/충족된 storage/runtime 검산 없이 가짜 held/PENDING 등록이나 PASS를 만들지 않는다. SH1에 삭제·runtime·자산·storage 숫자를 같은 task direct 전달했고 공용 exact API 요청은 유지한다. CPU host/query 증거는 host-checks.json에 분리한다. checkpoint overwrite/resume/W0z-native shared 검사는 NOT_RUN_SHARED_SOURCE_PENDING.
 
 README는 GH sole writer. raw/tensor/CP/secret Git0, compact receipts만 main 게시. NO_BROADCAST_NOT_REQUIRED, 장기 monitor/자동retry 없음.
+
+## 최신 source-ready 실제 적용 (03b21d40)
+
+위 SOURCE_INPUT_PENDING 기록은 과거 상태다. SH1 03b21d40(81ed6e26 포함)을 전용 준비 WT에 fast-forward했고, exact 공용 2-file author patch를 author-FE clone에 적용했다. CF current/post100 guard 수리 포함, 편집 알고리즘 변경 없음. 공용 CPU15 PASS와 별도 실제 Qwen CF/zsRE config→tracking schema 2개 PASS. 공용 테스트의 SH1 전용 config 검색은 SH2 config 검사를 대신하지 않으므로 별도 검사했다.
+
+own fe_original_bind.py로 두 config와 author/runtime member lock을 source-ready-r1에 생성했다. 같은 host checkpoint lock, BF16 author YAML, 기존 C0/모델/stream, 새 native W0 context/z 정책을 결속했다. zsRE 전체2000/24858 query CPU parity input/target mismatch0; E/G/Loc token분모6691/6691/11476. GPU/model forward/실제 온라인 관측은0.
+
+**현재 blocker는 source가 아니라 저장공간이다.** 실제 config 준비 종료 시 가용59,029,065,728B, 승인된 two-latest+one-tmp/z/raw/32GiB reserve 계획60,363,309,056B: **1,334,243,328B 부족**. 이전65.82GB 관측은 현재 admission에 재사용하지 않았다. reserve/주기 축소·추가삭제·다른 job 변경 없이 RESOURCE_BLOCKED_STORAGE_KEEP_SOURCE로 기록했다. 신규 job0/held0/release0이며 Slurm PENDING이라고 표현하지 않는다. 임의 자동 retry/공간 polling 없음.
+
+근거: audits/servers/server2/fe-original-w0-2k-20261011/source-ready-r1.json. config/CP 예정 경로와 fullSHA 및 source-ready-r1/storage-admission.json을 결속했다. 실제 source freeze/Slurm 등록은 미완료이며, 추가 사용자 승인 문제가 아닌 현재 수치로 입증된 용량 제약이다.
