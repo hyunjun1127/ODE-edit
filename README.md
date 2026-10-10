@@ -523,11 +523,12 @@ secret은 저장소에 기록하지 않는다.
 
 | 모델 | CF 2K | zsRE 2K |
 | :--- | :--- | :--- |
-| Llama | server4 **62604** 완료: W20 99.90 / 93.50 / 81.50, Score 90.98 (본표 반영) | server4 **62889** 완료: W20 99.62 / 94.83 / 45.31 (본표 반영) |
+| Llama | server4 **62604** 완료: W20 99.90 / 93.50 / 81.50, Score 90.98. Flu/Con devbox **63125** 완료: 628.47 / 33.53 (모두 본표 반영) | server4 **62889** 완료: W20 99.62 / 94.83 / 45.31 (본표 반영) |
 | Qwen | 정규화 HC(`qwen25-PN-beta150`) server4 **63144** 실행 중. 정규화 전 HC run(rent **101706**)은 ablation으로 남긴다. 비교용 β = c 2.0(server4 **62845**)은 B10 진입 때 anchor guard로 멈췄다(편집이 쌓여 생긴 sink) | 정규화 HC server4 **63145** 실행 중 |
-| GPT-J | rent **101707** 완료: W20 99.80 / 96.23 / 73.57, Score 88.22 (본표 반영) | server4 **63027** 완료: W20 99.81 / 96.96 / 29.59 (본표 반영) |
+| GPT-J | rent **101707** 완료: W20 99.80 / 96.23 / 73.57, Score 88.22 (본표 반영). Flu/Con devbox **63207** 실행 중 | server4 **63027** 완료: W20 99.81 / 96.96 / 29.59 (본표 반영) |
 
 - **HC 가격 정규화(2026-10-11, 공식 method에 포함):** HC 배수를 곱한 뒤 요청마다 가장 싼 층의 가격이 1이 되도록 다시 나눈다(method 항목 `hc_normalize`). 정규화하지 않으면 HC가 배분뿐 아니라 강도도 바꾼다. 가장 싼 층 가격 중앙값이 Qwen 2K B10에서 1.159(최대 1.386)였고, Llama 2K B20은 1.034, GPT-J 2K B10은 1.012였다. **본표(사용자 결정):** Qwen은 정규화 HC로 다시 돌린 값을 쓴다. Llama·GPT-J는 정규화 도입 전 run이지만, 차이가 잡음 수준으로 예상되어 재실행하지 않고 그대로 쓴다.
 - 모든 2K run은 W5·W10·W15·W20마다 all-seen 평가와 resumable checkpoint(가중치, history H, HC 통계)를 남긴다.
+- **Llama 3K 연장과 일반 능력 평가(2026-10-11 사용자 요청):** Llama ours를 W20 checkpoint에서 3,000건까지 이어 편집한다(server4 **63238**, B21–B30 = fixed10k 순서의 records[2000:3000], baseline과 같은 표본). AlphaEdit Figure 3의 6개 과제(SST·MRPC·CoLA·RTE·MMLU·NLI, F1)를 500건마다 MEMIT·AlphaEdit(native 42658/42657)·AlphaEdit-BLUE(39283_1)·Ours로 비교한다. 평가기는 job 42706과 같다(BLUE glue_eval, rows 10–110, 0-shot, FP32). devbox **63245**의 W0가 42706 W0와 6개 과제 F1이 같다(평균 68.48, 행 차이는 확률값 1e-16 수준뿐). baseline 1,500·2,500건 checkpoint는 원 runner로 다시 만들어 원 commit 해시와 대조한다(server4 **63260/63261/63262**). 그림은 생성 기준 F1, 대안 지표도 함께 기록한다.
 - zsRE는 CF와 같은 설정을 쓴다. 데이터는 official zsRE first-2K stream, 평가는 official zsRE evaluator다.
 - Qwen·GPT-J zsRE는 no-BOS 모델이라 zsRE sink scan을 먼저 해야 한다.
