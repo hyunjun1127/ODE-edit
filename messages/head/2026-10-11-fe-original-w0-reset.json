@@ -1,0 +1,14 @@
+{
+  "nonce":"USER-FE-ORIGINAL-W0-RESET-20261011-R1",
+  "requester":"01a11b9b-8840-7411-8d76-6c74b12807b0",
+  "owner":"GH:README/정본통합; SH1:공통native연결+Llama/GPTJ; SH2:Qwen",
+  "status":"requester 직접SH1/SH2발송 및 명시OWNER_ACK 확인. GH중복실험dispatch0",
+  "accepted_turns":{"server1":"01a12690-ca7e-7b92-bb0f-a6dcf604aa57","server2":"01a12690-d7d7-7b91-9e4a-3017570d6f3c"},
+  "execution_authority":"SH상세지시는requester local/fe-original-w0-reset-dispatch-20261011/prompt-to-sh1.txt 및 prompt-to-sh2.txt의실제direct전달. 파일은실시간전달fallback이아님",
+  "prompt_sha256":{"server1":"46c34fff12645fbe530aa3b9e6f44d26835a38ca023087d176df6b450d9b14b9","server2":"de1b666faeac17d173716e12793b4af16b687a05142cc4689f4a70c2a98ea143"},
+  "supersedes":"기존nativeFE/FE_HISTORY/author-hparams/sink FE 결과를공식비교에서철회. 이전FE CP KEEP/W0-z고정금지/FE취소금지 이번범위에만대체. OURS/PRICE/다른방법불변",
+  "new_contract":{"author_repo":"https://github.com/jugechengzi/FE.git","author_commit":"478134dfb24b43f4e18b47e8500893ce3f9cc50f","method":"author native FE-MEMIT, W0 firstforward 전체2K layer-z고정, native history/solve, YAML/defaultBF16","models":["llama3","qwen25","gptj"],"datasets":["cf","zsre"],"edits":2000,"batch_size":100,"seed":0,"current":"매batch current100 R/P/N","all_seen":"500/1000/1500/2000 누적평가","checkpoint":"실행별latest하나, milestone마다atomic overwrite;별도W0CP없음;metricraw누적보존","evaluation":"CF기존factual;zsRE public-query requestmacro loc_ans","cap":{"server1":2,"server2":2},"lanes":{"server1":["llama3 CF→zsRE","gptj CF→zsRE"],"server2":["qwen25 CF","qwen25 zsRE"]}},
+  "cleanup":"owner exact FE writer/CP전용consumer식별취소, 모든이전FE checkpoint 및복제/이관본개별실제삭제. HF/C0/P/data/tokenizer/공용cache/비FE CP/raw/log/config/source/WB제외. 기존nonFE afteranyresource경합방지. manifest+삭제후receipt필수. 삭제전에는CP없음이라고미리표기하지않음",
+  "GH_scope":"README기존FE값withdrawn/superseded,작은이력보존. 새6조건실제등록전NOT_SUBMITTED; actualID/receipt확인후상태반영. 신규job중복지시/대형전송/GH직접payload삭제0. 삭제완료와scopecoverage구분",
+  "completion":"actualowner source/job/delete receipts통합후main비강제게시및requester공식direct회신. 기술blocker이면미제출사유명시. GPU결과완료wait/recurringmonitor없음"
+}
