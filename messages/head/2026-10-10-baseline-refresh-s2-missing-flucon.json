@@ -1,0 +1,33 @@
+{
+  "nonce": "USER-GH-S1-S2-BASELINE-REFRESH-S2-FLUCON-20261010-R1",
+  "user_request": "baseline 모든 실험들 거의 끝난 것 같은데 server1,2에 main table 최신화 시키자. 그리고 flu/con 실험 결과 없는거 마찬가지로 run 올리자. server2에 올려ㅑ",
+  "owners": {"server1": "01a04939-f93a-7b50-bca0-65438eab2062", "server2": "01a0493a-074c-7f91-9a13-769116326fef"},
+  "boundary": "각 live session/CWD/origin 및 nonce 중복 확인. SH1/2의 baseline 완료 결과/현상태 단발 회수, CF generation 미평가분은 SH2에서 실제 eval-only 제출. GH sole README 통합. 완료 추정 금지.",
+  "cap": {"server1": 3, "server2": 3, "others": "UNCHANGED", "policy": "기존 allocation와 admitted PENDING을 포함한 DAG폭3, 더 엄격한 task/memory/QoS 유지. 기존 jobs 취소/재시작/hotpatch/우선권 변경 없음. 새평가는 cap 내 resource dependency로 대기, cap증액 없음."},
+  "results": {
+    "scope": "본표 CF/zsRE baseline 및 이미 승인된 별도 FE_HISTORY/FE author 행. native/variant/history/heldout/OURS를 혼합하지 말 것. 오류context 구Qwen 결과 제외, 명시 historical 예외 유지.",
+    "verification": "원source/config·ordered first2K·실제20commit/W20·raw SHA·분모·job명ID·관측시각 검산. SPHERE62538 완료시 parent62087 B9+child11의 사용자 승인 ancestry로 검산. scheduler COMPLETED 단독 근거 금지.",
+    "zsre": "공개-query frozen evaluator/전체2K query-target proof, 저장 predicted-target correctness에서 요청별 token accuracy→요청평균 E/G/loc_ans. W0agreement/tokenmicro/구tokenprefix로 회귀 금지. CPU재집계는 pretrained forward parity 주장이 아님.",
+    "display": "CF Score/E/G/Loc 기존 정의. FLU/CON raw bits/cosine 보존, 표시만 반올림 전 평균x100 half-up2. 결측/실패/DEFERRED는0금지. 완료해당셀만수치/미완료실제state표시.",
+    "outputs": "audits/servers/serverN/baseline-refresh-s2-flucon-20261010/{table-rows.json,table-rows.csv,inventory.json}, experiment-reports/servers/serverN/baseline-refresh-s2-flucon-20261010/report-ko.md. GH가 README통합; SH직접README경합금지."
+  },
+  "server1": {
+    "assignment": "완료/미완료 결과 CPU검산 후 compactrows 즉시 GH전달. 유효 CF W20 중 생성미완료 inventory를 SH2에도 exact CP path/bytes/SHA/원run/source/config/cohort/loader/reference/protocol로 직접 전달. 현재62581/82/83+62584 및 다른 기존 평가 최신상태/완료raw를 먼저 대조하여 중복방지.",
+    "new_GPU": false,
+    "note": "기존 승인 평가 계속유지. 미평가 신규등록 소유는 이번엔SH2. 아직W20없는author행은 미제출사유만 보고. 역사원CP는 실제접근/identity확인전 정상평가가능으로승격금지."
+  },
+  "server2": {
+    "assignment": "자기완료baseline 검산과 함께 SH1/2 유효CF W20/2K의 FLU/CON 미평가 목록을 dedup하여 server2 1GPU/job eval-only 실제등록. 기존main official CAKE호환 evaluator/SH1 eval-only runner 재사용 및 최소host/restore/control adapter CPU검산. 계획/ACK만하고멈추지말고 held검사→release 또는 구체적기술blocker까지 진행.",
+    "dedup": "checkpoint SHA+model/tokenizer/cohort/reference/protocol identity 기준. 완료생성/이미PENDING·RUNNING 평가면재사용·ID보고, Server1평가를취소·이관·중복하지않음. mainbaseline/historical예외와 별도승인history/author행만, OURS/tuning/heldout/zsRE제외.",
+    "evaluation": "저장최종가중치복원만, 재편집/fit/새W0/새milestone없음. 동일first2K generation_prompts에서 한번생성으로Flu와Con함께. 기존full-prefix mask/KV cache/case batching/seed/고정IDF·vocab·reference SHA 유지, TFIDFrefit/과학hparam변경없음.",
+    "freeze": "공통코드복제말고 main official source exactfreeze; runtime/base revision/tokenizer/CP/input/reference/config SHA 및 실제jobID/name W&B scalar-only 실시간·불변identity·boundedfinish/readback. 원raw/source/WB불변.",
+    "submit": "현재cap3/메모리ceiling60416MiB 이하및실제freeRAM/disk/inode/노드QoS확인. 여유lane사용/필요resource dependency만. held owner/fullargv/source/config/input/resources/dependency 확인후release, CPUcollectorown실제IDs. 별도GPUqualification/smoke/pilot/auto retry/장기monitor없음."
+  },
+  "transfer": {
+    "approval": "이번 server2 평가에 필수이며 Server2에 동일SHA 사본이 없을 때만 SH1과 SH2가 exact selected W20 payload+최소manifest/config/context 소비입력을 allowlist로 기록해 Server2 task-local 신규경로로 비파괴복사할 수 있다. 이는 server2실행에 필요한 입력연결이며 broad archive 복사/기존파일overwrite/삭제승인이 아니다.",
+    "checks": "전송전 exactsource/새destination/bytes/fullSHA/용량·reserve/readers 확인, compacttransfer승인근거와검증기록. 수신fullSHA/bytes 독립검증후 사용. 원본KEEP, --delete/모델cache대형복제금지. 동일mount/object면동일객체로명시하고불필요복사없음.",
+    "missing": "source권한/identity/용량불충분은그행만MISSING/BLOCKED로보고; 나머지독립준비계속. 불필요전송은NO_BROADCAST_NOT_REQUIRED."
+  },
+  "write_scope": ["SH1: task별own audits/report/metadata 및 필요한 exact transfer receipt, 기존source/job읽기", "SH2: official/runners/server2/ 최소eval-only adapter/CPUtests와 own task audit/report/run/ignoredlocal", "공통 generation/scoring 변경은 이번범위밖이며필요시GH에근거보고", "GH: README/messages/global audit/report/정확transfer승인기록"],
+  "completion": "먼저 OWNER_ACK nonce/server/accepted=true 및 accepted turn. 각owner검산rows/SH2실제제출receipt 또는기술blocker main비강제게시. job/source/config/CP/output/dependency/초기state 분리보고. CPU검산·heldrelease와실제GPU완료/onlinePASS구별. 모델/effort설정유지, rootdirty/다른사람변경보존, 신규주기monitor없음."
+}
