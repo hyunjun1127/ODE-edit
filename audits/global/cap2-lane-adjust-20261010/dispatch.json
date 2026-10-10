@@ -1,0 +1,34 @@
+{
+  "nonce": "USER-GH-S1-S2-CAP2-LANE-ADJUST-20261010-R1",
+  "authority": "ae2f3eb4f7fb3700dd4df68cb3f042afa115d0bb",
+  "envelope": "messages/head/2026-10-10-s1-s2-cap2-lane-adjust.json",
+  "envelope_sha256": "eb5c622c7970539f39521dceead39d81485356a8a9e9fa9c39218cccf71d7c2a",
+  "transport": "공식 app-server direct. 정확session/liveCWD read확인, idle turn/start. model/effortoverride0.",
+  "server1": {
+    "session": "01a04939-f93a-7b50-bca0-65438eab2062",
+    "accepted_turn": "01a12501-bf77-73f1-94e0-35451fe2931a",
+    "OWNER_ACK": true,
+    "ack_evidence": "동일acceptedturn 실제agentMessage OWNER_ACK accepted=true readback확인",
+    "transport_note": "최초timeout뒤idle/이전완료turn으로새start미발행확인. 후속공식direct turn/start정상accepted;명시ACK readback. 중복등록0.",
+    "progress": "APPLIED: allocated2, 62529→62530 및62583 두lane. localcap2, scheduler변경0, source/config불변",
+    "final_receipt": "audits/servers/server1/cap2-lane-adjust-20261010/receipt.json",
+    "publication": "d5d02084490c1441be2e69c1ca6cfe210dd510b0"
+  },
+  "server2": {
+    "session": "01a0493a-074c-7f91-9a13-769116326fef",
+    "accepted_turn": "01a12500-fa47-7fc0-85f7-1204a696bdf6",
+    "OWNER_ACK": true,
+    "ack_evidence": "direct OWNER_ACK_RECEIVED 및동일acceptedturn readback accepted=true",
+    "progress": "APPLIED: legacy allocated3 KEEP; pending13 hold/release, resource edge3추가; futurecap2/228states/cycle0/잔존hold0",
+    "final_receipt": "audits/servers/server2/cap2-lane-adjust-20261010/after.json",
+    "publication": "01b45a1d",
+    "protected_running": ["62531", "62864", "62865"],
+    "added_afterany_edges": {"62532": "62864", "62869": "62864", "62866": "62538"}
+  },
+  "canonical_caps": {"server1": 2, "server2": 2, "server3": 1, "server4": 2},
+  "canonical_CPU_check": "TSV정확행2/2 및비대상1/2불변PASS. 두 owner 실제적용영수증 회수. GH는저장receipt graph로독립CPU검산, liveGPU재조회없음",
+  "GH_scheduler_mutations": 0,
+  "job_cancellation_authorized": false,
+  "new_GPU_jobs": 0,
+  "recurring_monitor": false
+}
