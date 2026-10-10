@@ -10,14 +10,35 @@ from .common import read,member,verify
 from . import submit as control
 from .fe_history_submit import scheduling
 from .flucon_eval import tracking_values,INSTRUCTION,TASK,LOCAL
+CAP3_AUTHORITY='USER-GH-S1-S2-COMPLETED-TABLE-S1-FLUCON-CAP3-20261010-R1'
+CAP3_LOCAL=LOCAL.parent/'completed-table-flucon-cap3-20261010'
+
+def cap3_scheduling(existing,methods,cap):
+    rows=list(existing['jobs']);graph={}
+    for key in methods:
+        leaves=control.frontier(rows)
+        # Prefer chaining within this evaluation task rather than waiting for an
+        # unrelated long future science chain when either proves the same cap.
+        candidates=[[]]+[[p] for p in leaves if p in graph]+[[p] for p in leaves if p not in graph]+[leaves]
+        for parents in candidates:
+            row=dict(key=key,gpus=1,parents=parents)
+            if control.graph_width(rows+[row])<=cap:
+                graph[key]=parents;rows.append(row);break
+        else:raise ValueError('CAP3_DAG_UNRESOLVED')
+    return graph,control.graph_width(rows)
 
 def register(preparation,attempt):
     preparation=Path(preparation).absolute();prep=read(preparation)
     assert prep['instruction']==INSTRUCTION and 0 < len(prep['configs']) <= 5
-    attempt=Path(attempt).absolute();assert attempt.is_relative_to(LOCAL)
+    cap3=prep.get('registration_authority')==CAP3_AUTHORITY
+    local=CAP3_LOCAL if cap3 else LOCAL
+    attempt=Path(attempt).absolute();assert attempt.is_relative_to(local)
     if (attempt/'submission.json').exists():print(read(attempt/'submission.json'));return
     assert not attempt.exists(),'EXISTING_ATTEMPT_RECONCILE'
-    assert not list(LOCAL.rglob('submission.json')),'EXISTING_REGISTRATION_NO_DUPLICATE'
+    assert not list(local.rglob('submission.json')),'EXISTING_REGISTRATION_NO_DUPLICATE'
+    if cap3:
+        for m in prep['dedup_receipts']:verify(m)
+        assert prep['dedup_verified'] and prep['eligible_checkpoints']
     source=control.command(['git','rev-parse','HEAD']);tree=control.command(['git','rev-parse','HEAD:official'])
     control.command(['git','merge-base','--is-ancestor',source,'origin/main'])
     assert not control.command(['git','status','--porcelain','--','official'])
@@ -28,18 +49,18 @@ def register(preparation,attempt):
         tracking_values(c,source)
     capfile=Path('/mnt/raid5/janghj/ODE-edit/servers/local/gpu-caps.tsv')
     caprows=[r.split('\t') for r in capfile.read_text().splitlines() if r.startswith('server1\t')]
-    assert len(caprows)==1;cap=min(4,int(caprows[0][2]));assert cap>0
+    assert len(caprows)==1;cap=min(3 if cap3 else 4,int(caprows[0][2]));assert cap>0
     resources=dict(control.DEFAULT_RESOURCES,wall_seconds=48*3600)
     assert resources['memory_MiB']<=int(caprows[0][3])<=183296
     existing=control.inventory();assert existing['allocated_gpus']<=cap and existing['admitted_DAG_width']<=cap
     assert not any('flucon-eval' in r['original'] for r in existing['jobs']),'EXISTING_LIVE_REEVAL'
-    methods=[c['key'] for c in configs];graph,width=scheduling(existing,methods,cap)
+    methods=[c['key'] for c in configs];graph,width=(cap3_scheduling if cap3 else scheduling)(existing,methods,cap)
     plan=dict(cap=cap,source=dict(main_commit=source,official_tree=tree),resources=resources)
-    physical=control.resource_preflight(plan);disk=os.statvfs(LOCAL)
+    physical=control.resource_preflight(plan);disk=os.statvfs(local)
     assert disk.f_bavail*disk.f_frsize>=64*(1<<30) and disk.f_favail>10000
     attempt.mkdir(parents=True);(attempt/'logs').mkdir();(attempt/'scripts').mkdir()
     write_new(attempt/'admission.json',dict(existing=existing,effective_cap=cap,DAG_width=width,graph=graph,
-        resources=resources,physical=physical,cap_member=member(capfile),direct_cap_authority='USER_DIRECT_SERVER1_CAP4',
+        resources=resources,physical=physical,cap_member=member(capfile),direct_cap_authority=CAP3_AUTHORITY if cap3 else 'USER_DIRECT_SERVER1_CAP4',
         disk_available_bytes=disk.f_bavail*disk.f_frsize,unchanged_old_jobs=True))
     frozen=control.freeze_source(plan,attempt)
     lock=dict(instruction=INSTRUCTION,source_commit=source,official_tree=tree,source_directory=frozen['directory'],
@@ -79,7 +100,7 @@ def register(preparation,attempt):
     write_new(attempt/'held-inspection.json',dict(jobs=held,inventory=fresh,source_lock=member(lp),GPU_qualification=False))
     for jid in ids.values():control.command(['scontrol','release',jid])
     initial={m:control.metadata(control.command(['scontrol','show','job',jid,'--oneliner'])) for m,jid in ids.items()}
-    result=dict(instruction=INSTRUCTION,source=source,official_tree=tree,jobs=submitted,initial_snapshot=initial,
+    result=dict(instruction=INSTRUCTION,registration_authority=prep.get('registration_authority'),source=source,official_tree=tree,jobs=submitted,initial_snapshot=initial,
                 execution_lock=member(lp),released=True,held_inspected=True,eval_completed=False,online_readback='NOT_OBSERVED_BEFORE_STARTUP')
     write_new(attempt/'submission.json',result);print({m:dict(job_id=ids[m],state=initial[m]['JobState'],dependency=submitted[m]['dependencies']) for m in ids})
 

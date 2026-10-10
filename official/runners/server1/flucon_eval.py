@@ -33,7 +33,7 @@ def display(raw, unit):
 def tracking_values(c,source):
     o=c['original']
     return tracking_config(dict(server='server1',task_id=TASK,arm=c['key'],attempt='r1-'+o['job_id'],
-        source_sha=source,config_sha=c['config_sha256'],model=c['model'],model_family={'llama3':'llama','gptj':'gptj'}[c['model']],
+        source_sha=source,config_sha=c['config_sha256'],model=c['model'],model_family={'llama3':'llama','gptj':'gptj','qwen25':'qwen2'}[c['model']],
         writer=o['method'].lower(),baseline=o['method'],role='eval_only',metric_schema='official-baselines-scalar-v1',dataset='cf',
         instruction_id=INSTRUCTION,evaluation_profile='cf-native-generation-W20-only-v1',
         checkpoint_sha256=o['checkpoint']['sha256'],evaluator_sha256=c['evaluator']['sha256'],
