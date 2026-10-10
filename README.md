@@ -123,6 +123,15 @@ SH3 factual 셀은 그대로 유지한다. SH3의 generation 실측 또는 cross
 PRICE/W0 행은 변경하지 않았다. 이전 검산의 원자료는
 [철회 전 통합 보고](experiment-reports/global/author-main-refresh-20261010/report-ko.md)에 남긴다.
 
+**CAKE 신규 2K 실행(2026-10-11):** server1에 3모델 × CF·zsRE 6개 job을 등록했다.
+기존 작업 종료 후 CF·zsRE **두 lane(동시 GPU 최대 2개)**으로 Llama → GPT-J → Qwen 순서로 실행한다.
+각 run은 **500·1,000·1,500·2,000 edits의 편집층 가중치·history·RNG를 모두 보존**한다.
+CF FLU/CON은 W20 checkpoint 후속 평가로 미루며, 아래 PENDING은 완료 성능이 아니다.
+Llama·GPT-J는 저자 CAKE hparams, Qwen2.5는 공식 AlphaEdit 편집 설정과 공개 knowns의
+실측 causal score(job 63264, 정답 필터 통과 725개)를 사용한다.
+[실행·checkpoint 보고](experiment-reports/servers/server1/cake-six-2k-20261011/report-ko.md) ·
+[실제 job/source/config/dependency](audits/servers/server1/cake-six-2k-20261011/submission.json).
+
 ### Llama3-8B-Instruct
 
 **2026-10-10 SH1 검산: CF FT/SPHERE/MEMIT-FE 및 공개-query zsRE 6종 완료.**
@@ -155,6 +164,7 @@ zsRE Loc은 **loc_ans 정답 token 정확도의 요청별 평균**이다. 이전
 | AlphaEdit-BLUE | 89.84† | 99.60† | 97.15† | 76.59† | PENDING: s2-flucon-llama3-alphaedit_blue-39283_1 (62876) | PENDING: s2-flucon-llama3-alphaedit_blue-39283_1 (62876) | 95.87 | 92.28 | 32.83 |
 | FE (author repo, W0-fixed z) | ING: official-s1-llama3-cf-fe-original (63151) | ING: official-s1-llama3-cf-fe-original (63151) | ING: official-s1-llama3-cf-fe-original (63151) | ING: official-s1-llama3-cf-fe-original (63151) | DEFERRED | DEFERRED | PENDING: official-s1-llama3-zsre-fe-original (63152) | PENDING: official-s1-llama3-zsre-fe-original (63152) | PENDING: official-s1-llama3-zsre-fe-original (63152) |
 | AlphaEdit+SPHERE | 86.87 | 99.50 | 94.95 | 71.68 | 619.20 | 33.64 | 95.13 | 91.36 | 31.38 |
+| CAKE | PENDING: official-s1-llama3-cf-cake-2k (63296) | PENDING: official-s1-llama3-cf-cake-2k (63296) | PENDING: official-s1-llama3-cf-cake-2k (63296) | PENDING: official-s1-llama3-cf-cake-2k (63296) | DEFERRED | DEFERRED | PENDING: official-s1-llama3-zsre-cake-2k (63297) | PENDING: official-s1-llama3-zsre-cake-2k (63297) | PENDING: official-s1-llama3-zsre-cake-2k (63297) |
 | PRICE (Ours) | 90.98§ | 99.90§ | 93.50§ | 81.50§ | 628.47§ | 33.53§ | 99.62§ | 94.83§ | 45.31§ |
 
 § 사용자 2026-10-10 결정에 따른 **최종 PRICE method** CF 2K이며, server4 job **62604**로 실행했다.
@@ -278,6 +288,7 @@ SH3 최신 CPU 재검산에서도 위 네 지표 delta0, 신규 본표 적격 �
 | AlphaEdit-BLUE | 77.98 | 97.70 | 96.75 | 55.86 | 602.99 | 37.43 | 58.62 | 53.66 | 5.73 |
 | FE (author repo, W0-fixed z) | PENDING: 63217 | PENDING: 63217 | PENDING: 63217 | PENDING: 63217 | DEFERRED | DEFERRED | PENDING: 63218 | PENDING: 63218 | PENDING: 63218 |
 | AlphaEdit+SPHERE | 83.73 | 99.40 | 97.70 | 64.37 | PENDING: s2-flucon-qwen25-sphere-62079 (62873) | PENDING: s2-flucon-qwen25-sphere-62079 (62873) | PENDING: s2-qwen25-zsre-sphere-resume-b9 (62538) | PENDING: s2-qwen25-zsre-sphere-resume-b9 (62538) | PENDING: s2-qwen25-zsre-sphere-resume-b9 (62538) |
+| CAKE | PENDING: official-s1-qwen25-cf-cake-2k (63300) | PENDING: official-s1-qwen25-cf-cake-2k (63300) | PENDING: official-s1-qwen25-cf-cake-2k (63300) | PENDING: official-s1-qwen25-cf-cake-2k (63300) | DEFERRED | DEFERRED | PENDING: official-s1-qwen25-zsre-cake-2k (63301) | PENDING: official-s1-qwen25-zsre-cake-2k (63301) | PENDING: official-s1-qwen25-zsre-cake-2k (63301) |
 | PRICE (Ours) | ING: pf2k-qwen25-cf-PN-beta150-ee-resume-w15 (63281) | ING: pf2k-qwen25-cf-PN-beta150-ee-resume-w15 (63281) | ING: pf2k-qwen25-cf-PN-beta150-ee-resume-w15 (63281) | ING: pf2k-qwen25-cf-PN-beta150-ee-resume-w15 (63281) | ING: pf2k-qwen25-cf-PN-beta150-ee-resume-w15 (63281) | ING: pf2k-qwen25-cf-PN-beta150-ee-resume-w15 (63281) | ING: pf2k-qwen25-zsre-PN-beta150-ee-r3 (63278) | ING: pf2k-qwen25-zsre-PN-beta150-ee-r3 (63278) | ING: pf2k-qwen25-zsre-PN-beta150-ee-r3 (63278) |
 
 ※ Qwen PRICE (Ours)는 HC 가격을 정규화한 최종 method 재실행(arm `qwen25-PN-beta150`, β = c = β_max = 1.5)으로 채운다. CF는 server4 **63144**를 W15에서 멈추고 **63281**로 이어 돌리며(server4 GPU cap 2 정리, 2026-10-11 사용자 결정), zsRE는 server4 **63278**(r3)이고, CF Flu/Con은 CF W20 뒤에 같은 생성 평가기로 잰다. HC 가격을 정규화하지 않은 rent run(**101706**, W20 98.65 / 94.25 / 72.48)은 본표에 넣지 않고 ablation으로 남긴다. 정규화하지 않으면 가장 싼 층 가격이 B10에서 1.159(최대 1.386)까지 올라, 편집 강도가 14% 이상 줄기 때문이다.
@@ -338,6 +349,7 @@ Llama historical3개는 원source/lock/CP와 새평가 consumer identity를 분�
 | AlphaEdit-BLUE | 89.23 | 99.55 | 97.53 | 75.06 | PENDING: s2-flucon-gptj-alphaedit_blue-61779 (62867) | PENDING: s2-flucon-gptj-alphaedit_blue-61779 (62867) | 99.75 | 95.71 | 28.83 |
 | FE (author repo, W0-fixed z) | PENDING: official-s1-gptj-cf-fe-original (63153) | PENDING: official-s1-gptj-cf-fe-original (63153) | PENDING: official-s1-gptj-cf-fe-original (63153) | PENDING: official-s1-gptj-cf-fe-original (63153) | DEFERRED | DEFERRED | PENDING: official-s1-gptj-zsre-fe-original (63154) | PENDING: official-s1-gptj-zsre-fe-original (63154) | PENDING: official-s1-gptj-zsre-fe-original (63154) |
 | AlphaEdit+SPHERE | 88.39 | 99.70 | 95.73 | 74.27 | 616.18 | 40.89 | 99.67 | 96.29 | 28.00 |
+| CAKE | PENDING: official-s1-gptj-cf-cake-2k (63298) | PENDING: official-s1-gptj-cf-cake-2k (63298) | PENDING: official-s1-gptj-cf-cake-2k (63298) | PENDING: official-s1-gptj-cf-cake-2k (63298) | DEFERRED | DEFERRED | PENDING: official-s1-gptj-zsre-cake-2k (63299) | PENDING: official-s1-gptj-zsre-cake-2k (63299) | PENDING: official-s1-gptj-zsre-cake-2k (63299) |
 | PRICE (Ours) | 88.22¶ | 99.80¶ | 96.23¶ | 73.57¶ | 620.09¶ | 41.61¶ | 99.81¶ | 96.96¶ | 29.59¶ |
 
 GPT-J W0 Flu/Con은 동일 native full2K 완료/등록을 찾지 못해 server4의 **63219**로 generation-only 평가를 등록했다.
