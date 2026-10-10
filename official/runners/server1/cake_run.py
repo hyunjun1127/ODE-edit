@@ -37,7 +37,9 @@ def require(ok, message):
 
 
 def validate(c):
-    require(c['instruction'] == INSTRUCTION and c['server'] == 'server1', 'CAKE_SCOPE')
+    require(c['instruction'] == INSTRUCTION and c['server'] in ('server1', 'server4'), 'CAKE_SCOPE')
+    if c['server'] == 'server4':
+        require((c['model'], c['dataset']) == ('qwen25', 'cf'), 'CAKE_SERVER4_SCOPE')
     require(c['model'] in MODELS and c['dataset'] in ('cf', 'zsre'), 'CAKE_MODEL_DATASET')
     require((c['requests'], c['batch_size'], c['seed'], c['dtype']) == (2000, 100, 0, 'float32'), 'CAKE_STREAM_PRECISION')
     require(c['milestones'] == [5, 10, 15, 20] and c['history'] is True, 'CAKE_CHECKPOINT_HISTORY_POLICY')
@@ -137,7 +139,8 @@ def run(config_path, lock_path, resume=False):
         code_commit=lock['source_commit'], official_tree_sha256=lock['official_tree'],
         model_revision=assets['model']['identity']['revision'], tokenizer_sha256=assets['tokenizer_sha256'],
         assets_sha256=assets['assets_sha256'])
-    values = dict(server='server1', task_id=TASK, model=c['model'],
+    values = dict(server=c['server'], task_id=(TASK if c['server'] == 'server1'
+        else 'cake-qwen25-cf-server4-20261011'), model=c['model'],
         model_family={'llama3': 'llama', 'gptj': 'gptj', 'qwen25': 'qwen2'}[c['model']],
         writer='cake_native', baseline='CAKE', role='scientific', arm=c['arm'],
         attempt=c['attempt'] + ('-resume-' + observations.name if resume else ''), source_sha=lock['source_commit'],

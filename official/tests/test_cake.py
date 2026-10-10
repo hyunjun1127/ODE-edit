@@ -21,12 +21,34 @@ from official.experiments import checkpoint as cp, milestones
 from official.runners.server1.cake_submit import append_graph
 from official.runners.server1.submit import graph_width
 from official.runners.server1.cake_run import payload
+from official.runners.server1.cake_run import validate, INSTRUCTION, CONTEXT_SHA
+from official.experiments.prepare import digest
 from official.tracking.schema import config as tracking_config, metrics
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
 class CakeTests(unittest.TestCase):
+    def test_server4_move_preserves_config_contract(self):
+        config = dict(instruction=INSTRUCTION, server='server4', model='qwen25', dataset='cf',
+            requests=2000, batch_size=100, seed=0, dtype='float32', milestones=[5,10,15,20],
+            history=True, generation='DEFERRED_TO_W20_CHECKPOINT',
+            hparams=json.loads((ROOT/'hparams/CAKE/qwen25.json').read_text()),
+            context_sha256=CONTEXT_SHA['qwen25'])
+        config['config_sha256'] = digest(config)
+        self.assertIs(validate(config), config)
+        moved_back = dict(config, server='server1')
+        moved_back['config_sha256'] = digest({k:v for k,v in moved_back.items() if k!='config_sha256'})
+        self.assertIs(validate(moved_back), moved_back)
+        for changes, error in [({'server':'server2'}, 'CAKE_SCOPE'),
+                               ({'dataset':'zsre'}, 'CAKE_SERVER4_SCOPE'),
+                               ({'milestones':[20]}, 'CAKE_CHECKPOINT_HISTORY_POLICY'),
+                               ({'history':False}, 'CAKE_CHECKPOINT_HISTORY_POLICY')]:
+            changed = dict(config, **changes)
+            changed['config_sha256'] = digest({k:v for k,v in changed.items() if k!='config_sha256'})
+            with self.assertRaisesRegex(ValueError, error):
+                validate(changed)
+
     def test_author_numeric_functions_unchanged(self):
         lock = json.loads((ROOT / 'tests/fixtures/cake-author-ast.json').read_text())
         functions = {n.name:n for n in ast.parse(Path(native.__file__).read_text()).body if isinstance(n, ast.FunctionDef)}
