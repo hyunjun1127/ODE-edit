@@ -1,0 +1,10 @@
+{
+  "nonce": "USER-GH-S1-S2-COMPLETED-TABLE-S1-FLUCON-CAP3-20261010-R1",
+  "target": "01a04939-8873-7673-8dca-4c7fc5e31af0",
+  "publication": "437f3f21900c6e2ca634804fb36b94cff612b83f",
+  "response": "{\"stage\": \"DIRECT_ACCEPTED_NOT_COMPLETED\", \"method\": \"turn/start\", \"result\": {\"turn\": {\"id\": \"01a12372-66cc-7fe3-93bb-958f2846abe8\", \"items\": [], \"itemsView\": \"notLoaded\", \"status\": \"inProgress\", \"error\": null, \"startedAt\": null, \"completedAt\": null, \"durationMs\": null}}}\n",
+  "returncode": 0,
+  "observed_utc": "2026-10-10T01:34:22.414829+00:00",
+  "README_completed": "NOT_CLAIMED",
+  "model_effort_override": false
+}

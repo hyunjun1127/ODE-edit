@@ -19,15 +19,17 @@
       "cwd": "/mnt/raid5/janghj/ODE-edit",
       "accepted_turn": "01a1236d-9585-7183-88d1-d29261b81fcc",
       "explicit_owner_ACK": true,
-      "stage": "진행 중: cap3/DAG 검산 및 완료raw 검산; 이번nonce 신규GPU제출 없음",
+      "stage": "완료: cap3 실제 적용/allocated2·DAGwidth2 검산 및26행중20행 적격 raw검산. 새 결과2행 GH 통합.",
       "owner_initial_allocated_GPUs": 2,
-      "new_table_results": null
+      "new_table_results": "audits/servers/server2/completed-table-flucon-cap3-20261010/table-rows.json",
+      "publication": "437f3f21900c6e2ca634804fb36b94cff612b83f",
+      "cap_receipt": "audits/servers/server2/completed-table-flucon-cap3-20261010/cap-receipt.json"
     }
   },
   "canonical_caps": {"server1": 3, "server2": 3, "other_servers": "UNCHANGED"},
-  "cap_runtime_final_receipts": "owner 후속 보고 대기; 정본/수신수락과 실제 적용완료 구분",
+  "cap_runtime_final_receipts": "server2 적용완료 영수증 확인; server1은 별도 후속보고 대기",
   "README_owner": "GH; 새 실제metrics/jobreceipt 수신 후 해당 셀만 통합",
-  "current_GH_README_updates": 0,
+  "current_GH_README_updates": {"new_numeric_cells": 6, "state_cells": 4, "owner": "server2"},
   "GH_job_mutations": 0,
   "new_recurring_monitor": false
 }
