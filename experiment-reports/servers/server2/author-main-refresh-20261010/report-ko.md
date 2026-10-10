@@ -31,3 +31,5 @@ Qwen/Llama 본표 label은 GH가 `MEMIT-FE (FE author hparams + history)`로 통
 기존 적격23행은 raw/terminal SHA 불변 확인 후 CF strict reducer 및 zsRE 저장 predicted-target IDs→token correctness→request mean→2000 request mean을 다시 계산했다. zsRE11개 완료행은 frozen public-query evaluator/oracle sourceSHA와 기존 전체stream query proof 결속을 재확인했으며 tokenmicro/W0agreement를 Loc로 쓰지 않았다. CPU query 일치는 pretrained forward parity가 아니다. 원commit/CP/order 증거는 이전 승인 audit를 참조하고, 이번 새 author CP만 전체 payload를 재해시했다.
 
 산출물은 `audits/servers/server2/author-main-refresh-20261010/{table-rows.json,table-rows.csv,inventory.json,review.py,finalize.py}`. raw/text/token/CP는 Git에 없음. 기존 cap2/dependency/job/CP/source/W&B 유지. 독립 reviewer 없음. NO_BROADCAST_NOT_REQUIRED. 장기 monitor/자동retry 없음.
+
+게시 f3d7d2b8 이후 GH 관련 active turn을 확인했으나 실제 전달 RPC가 timeout되어 direct 수신은 미확인이다. 자동 재전송 없음. Git 게시를 GH 직접 ACK로 대신 주장하지 않으며 `gh-delivery.json`에 구체 통신 제한을 기록했다.
