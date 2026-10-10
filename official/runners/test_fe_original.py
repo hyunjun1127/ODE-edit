@@ -6,6 +6,28 @@ from official.runners import fe_original as f
 from official.runners.fe_original_compat import check
 ROOT=Path('/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/author')
 class Tests(unittest.TestCase):
+ def test_two_lane_graph(self):
+  from official.runners.server1.fe_original_submit import lane_graph
+  from official.runners.server1.submit import graph_width
+  for rows in ([],[dict(key='old1',gpus=1,parents=[])],[dict(key='old1',gpus=1,parents=[]),dict(key='old2',gpus=1,parents=[])]):
+   graph=lane_graph(rows)
+   self.assertEqual(graph['llama3-zsre'],['llama3-cf']);self.assertEqual(graph['gptj-zsre'],['gptj-cf'])
+   self.assertEqual(graph_width(rows+[dict(key=k,gpus=1,parents=v) for k,v in graph.items()]),2)
+ def test_current_CF_all_RPN_schema(self):
+  from official.runners.server1.test_tracking_binding import cf_endpoint
+  from official.tracking.method import validate
+  result=cf_endpoint(100);payload=f.cf_payload(result,'current/post',100)
+  self.assertEqual(payload['official/current/post/requests'],100)
+  for kind in 'RPN':self.assertIn('current/post/'+kind+'/count',payload)
+  self.assertFalse(any('all_seen' in k for k in payload))
+  validate(payload,official=True)
+ def test_actual_configs_tracking(self):
+  from official.tracking.schema import config
+  for path in Path('/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/preparation-r2/configs').glob('*.json'):
+   c=f.read(path);f.validate(c)
+   values=dict(server=c['server'],task_id='fe-original-w0-2k-20261011',model=c['model'],model_family={'llama3':'llama','gptj':'gptj'}[c['model']],writer='fe_author_w0_fixed',baseline='FE-author-repo-W0-fixed-z-sequential',role='scientific',arm=c['arm'],attempt=c['attempt'],source_sha='a'*40,config_sha=c['config_sha256'],dataset=c['dataset'],metric_schema='official-baselines-scalar-v1',instruction_id='USER-OFFICIAL-BASELINES-20261008-R1')
+   if c['dataset']=='cf':values['generation_schedule']='DEFERRED_CHECKPOINT_EVALUATION'
+   config(values)
  def test_bfloat16_hash_bytes(self):
   import hashlib
   x=torch.tensor([1,2,3],dtype=torch.bfloat16)

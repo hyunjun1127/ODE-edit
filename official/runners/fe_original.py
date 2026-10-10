@@ -36,6 +36,14 @@ def observation_root(output,resume):
     path.mkdir(parents=True,exist_ok=not resume)
     return path
 
+def cf_payload(result,prefix,edits):
+    # Reuse the common reducer; its legacy CF routing only exposes all_seen.
+    # This adapter receives the actual current100 raw, never a cumulative subset label.
+    assert prefix in ('current/post','all_seen/post')
+    if prefix=='current/post':assert len(result['cases'])==100
+    values=factual_payload(result,'all_seen/post',edits)
+    return {k.replace('all_seen/post/',prefix+'/'):v for k,v in values.items()}
+
 def modules(path):
     sys.path.insert(0,str(path))
     import precompute_z
@@ -163,7 +171,7 @@ def run(config,lock_path,resume=False):
         finally:rng_restore(rng)
         assert before==versions(model)
         write_new(observations/'factual'/f'{label}.json',result)
-        payload=factual_payload(result,prefix,batch*100) if c['dataset']=='cf' else official_zsre_metrics(result['summary'],config_values=values,endpoint=prefix,edits=batch*100,post_state_edits=batch*100)
+        payload=cf_payload(result,prefix,batch*100) if c['dataset']=='cf' else official_zsre_metrics(result['summary'],config_values=values,endpoint=prefix,edits=batch*100,post_state_edits=batch*100)
         assert tracker.log(payload) is not False
         return member(observations/'factual'/f'{label}.json')
     exit_code=1

@@ -42,4 +42,17 @@ def main():
             c['config_sha256']=digest(c);validate(c);path=ROOT/'preparation/configs'/f'{name}.json';write_new(path,c);configs.append(member(path))
             print('PREPARED',name,flush=True)
     write_new(ROOT/'preparation/READY.json',dict(configs=configs,CPU=True,GPU=False,author_lock=member(ROOT/'author-lock.json')))
-if __name__=='__main__':main()
+def finalize():
+    """Bind the host lock without redoing the already completed asset/query checks."""
+    old=read(ROOT/'preparation/READY.json');configs=[]
+    for m in old['configs']:
+        c=read(verify(m));c.pop('config_sha256')
+        c['checkpoint_lock']=str(ROOT/'checkpoint-serialization.lock')
+        c['runtime_manifest']=member(ROOT/'author-lock.json')
+        c['config_sha256']=digest(c);validate(c)
+        path=ROOT/'preparation-r2/configs'/Path(m['path']).name
+        write_new(path,c);configs.append(member(path))
+    write_new(ROOT/'preparation-r2/READY.json',dict(old,configs=configs,previous=member(ROOT/'preparation/READY.json')))
+if __name__=='__main__':
+    if '--finalize' in sys.argv:finalize()
+    else:main()
