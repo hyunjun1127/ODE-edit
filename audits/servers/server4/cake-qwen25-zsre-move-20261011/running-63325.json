@@ -1,0 +1,62 @@
+{
+  "observed_at": "2026-10-11T07:45:52.013057+09:00",
+  "job_id": "63325",
+  "state": "RUNNING",
+  "dependency": "(null)",
+  "start_time_kst": "2026-10-11T07:45:19",
+  "allocated": "cpu=8,mem=58G,node=1,billing=1,gres/gpu=1",
+  "original_job_63301": "CANCELLED",
+  "server4_concurrent_jobs": [
+    {
+      "JobId": "63325",
+      "JobName": "official-s4-qwen25-zsre-cake-2k",
+      "JobState": "RUNNING",
+      "AllocTRES": "cpu=8,mem=58G,node=1,billing=1,gres/gpu=1"
+    },
+    {
+      "JobId": "63324",
+      "JobName": "official-s4-qwen25-cf-cake-2k",
+      "JobState": "RUNNING",
+      "AllocTRES": "cpu=8,mem=58G,node=1,billing=1,gres/gpu=1"
+    },
+    {
+      "JobId": "63277",
+      "JobName": "pf3k-llama3-P-beta100-ee-r3",
+      "JobState": "RUNNING",
+      "AllocTRES": "cpu=8,mem=58G,node=1,billing=1,gres/gpu=1"
+    },
+    {
+      "JobId": "63278",
+      "JobName": "pf2k-qwen25-zsre-PN-beta150-ee-r3",
+      "JobState": "RUNNING",
+      "AllocTRES": "cpu=8,mem=58G,node=1,billing=1,gres/gpu=1"
+    }
+  ],
+  "project_GPU_count": 4,
+  "source_commit": "d7a83bedca9a9df6a62978e8c19f90f2dce610c8",
+  "runtime_observation": {
+    "job_id": "63325",
+    "GPU": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+    "attention_backend": "eager",
+    "precision": "float32",
+    "TF32": false,
+    "resume": false,
+    "identity": {
+      "assets_sha256": "b49d904ad6339fcf5d7f23e860ca7899c3a4b4da15ce4907a39c6ccc6d5eea94",
+      "code_commit": "d7a83bedca9a9df6a62978e8c19f90f2dce610c8",
+      "config_sha256": "f040863e277f32bddea1a8e2a1391573c51d9566f5ceb2eb5ba58422435069a7",
+      "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+      "official_tree_sha256": "a7a8c11c38408b5889a28c2332838fdb363a3866",
+      "stream_sha256": "93925ec2f74e00a1b3fbdf261e557d10652ae0eca7265b4948958d39de4848b7",
+      "tokenizer_sha256": "77c1b476d460584ec70f2781826fda122c953ccd019399343a8efc440c3f75ae"
+    }
+  },
+  "tracking_observation": {
+    "run_id": "330306b38a3b4d50",
+    "status": "READY_ONLINE",
+    "dropped_points": 0
+  },
+  "FAILURE_exists": false,
+  "user_request": "zsre도 올려봐",
+  "authority": "Continuation of explicit CF cap exception: run zsRE without dependency as fourth project GPU; QoS limits unchanged"
+}

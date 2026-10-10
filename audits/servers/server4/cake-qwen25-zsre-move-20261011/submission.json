@@ -1,0 +1,163 @@
+{
+  "job_id": "63325",
+  "name": "official-s4-qwen25-zsre-cake-2k",
+  "old_job_id": "63301",
+  "old_state": "CANCELLED",
+  "source_commit": "d7a83bedca9a9df6a62978e8c19f90f2dce610c8",
+  "config_sha256": "f040863e277f32bddea1a8e2a1391573c51d9566f5ceb2eb5ba58422435069a7",
+  "launcher": {
+    "bytes": 721,
+    "path": "/data/janghj/ODE-edit/local/cake-qwen25-zsre-server4-20261011/scripts/run.sh",
+    "sha256": "04efe2697978d8b4497cd458c0b97958154017a95448305d8d37cd32edc206c7"
+  },
+  "user_cap_exception": "Fourth project GPU; user requested zsRE too after explicit CF cap override; no dependency",
+  "held_inspection": {
+    "Account": "lab",
+    "AccrueTime": "Unknown",
+    "AllocNode:Sid": "server4:1414776",
+    "AllocTRES": "(null)",
+    "BatchFlag": "1",
+    "CPUs/Task": "8",
+    "Command": "/data/janghj/ODE-edit/local/cake-qwen25-zsre-server4-20261011/scripts/run.sh",
+    "Contiguous": "0",
+    "CoreSpec": "*",
+    "Deadline": "N/A",
+    "DelayBoot": "00:00:00",
+    "Dependency": "(null)",
+    "EligibleTime": "Unknown",
+    "EndTime": "Unknown",
+    "ExcNodeList": "(null)",
+    "Exclusive": "NO",
+    "ExitCode": "0:0",
+    "Features": "(null)",
+    "GroupId": "janghj(1025)",
+    "JobId": "63325",
+    "JobName": "official-s4-qwen25-zsre-cake-2k",
+    "JobState": "PENDING",
+    "KillOnInvalidDependent": "Yes",
+    "LastSchedEval": "2026-10-11T07:45:08",
+    "Licenses": "(null)",
+    "LicensesAlloc": "(null)",
+    "MCS_label": "N/A",
+    "MinCPUsNode": "8",
+    "MinMemoryNode": "58G",
+    "MinTmpDiskNode": "0",
+    "Network": "(null)",
+    "Nice": "0",
+    "NodeList": "",
+    "NtasksPerN:B:S:C": "0:0:*:*",
+    "NumCPUs": "8-14",
+    "NumNodes": "1-1",
+    "NumTasks": "1",
+    "OverSubscribe": "NO",
+    "Partition": "gpu",
+    "Priority": "0",
+    "QOS": "lab_gpu_s4",
+    "Reason": "JobHeldUser",
+    "Reboot": "0",
+    "ReqB:S:C:T": "0:0:*:*",
+    "ReqNodeList": "server4",
+    "ReqTRES": "cpu=8,mem=58G,node=1,billing=1,gres/gpu=1",
+    "Requeue": "0",
+    "Restarts": "0",
+    "RunTime": "00:00:00",
+    "Scheduler": "Main",
+    "SecsPreSuspend": "0",
+    "Socks/Node": "*",
+    "StartTime": "Unknown",
+    "StdErr": "/data/janghj/ODE-edit/local/cake-qwen25-zsre-server4-20261011/logs/qwen25-zsre-cake-2k-63325.err",
+    "StdIn": "/dev/null",
+    "StdOut": "/data/janghj/ODE-edit/local/cake-qwen25-zsre-server4-20261011/logs/qwen25-zsre-cake-2k-63325.out",
+    "StepMgrEnabled": "Yes",
+    "SubmitLine": "sbatch --parsable --hold --export=NONE --no-requeue --kill-on-invalid-dep=yes --partition=gpu --qos=lab_gpu_s4 --nodelist=server4 --gres=gpu:1 --cpus-per-task=8 --mem=59392M --time=48:00:00 --job-name=official-s4-qwen25-zsre-cake-2k --chdir=/data/janghj/ODE-edit/local/cake-qwen25-zsre-server4-20261011/source --output=/data/janghj/ODE-edit/local/cake-qwen25-zsre-server4-20261011/logs/qwen25-zsre-cake-2k-%j.out --error=/data/janghj/ODE-edit/local/cake-qwen25-zsre-server4-20261011/logs/qwen25-zsre-cake-2k-%j.err /data/janghj/ODE-edit/local/cake-qwen25-zsre-server4-20261011/scripts/run.sh",
+    "SubmitTime": "2026-10-11T07:45:08",
+    "SuspendTime": "None",
+    "TimeLimit": "2-00:00:00",
+    "TimeMin": "N/A",
+    "TresPerNode": "gres/gpu:1",
+    "TresPerTask": "cpu=8",
+    "UserId": "janghj(1025)",
+    "WorkDir": "/data/janghj/ODE-edit/local/cake-qwen25-zsre-server4-20261011/source"
+  },
+  "release_time": "2026-10-11T07:45:19.347579+09:00",
+  "cap_proof": {
+    "cap": 4,
+    "edges": {
+      "63262": "afterany:63283(unfulfilled)",
+      "63277": "(null)",
+      "63278": "(null)",
+      "63282": "afterany:63277(unfulfilled)?afterany:63278(unfulfilled)",
+      "63283": "afterany:63277(unfulfilled),afterany:63278(unfulfilled)",
+      "63284": "afterany:63282(unfulfilled)",
+      "63324": "(null)",
+      "63325": "(null)"
+    },
+    "maximum_simultaneous_GPUs": 4,
+    "reachable_states": 216
+  },
+  "checkpoint_archive": {
+    "host": "codex-server1",
+    "python": "/usr/bin/python3",
+    "reserve_bytes": 137438953472,
+    "root": "/mnt/raid5/janghj/ODE-edit/local/cake-qwen25-zsre-server4-20261011/checkpoint-archive"
+  },
+  "original_output_untouched": true,
+  "scientific_configuration_identical": true,
+  "other_job_mutations": 0,
+  "direct_submit_count": 1,
+  "global_QoS_policy_changes": 0,
+  "milestone_edits": [
+    500,
+    1000,
+    1500,
+    2000
+  ],
+  "runtime_directory": "/data/janghj/ODE-edit/local/cake-qwen25-zsre-server4-20261011",
+  "complete_local_receipts": "/mnt/raid5/janghj/ODE-edit/local/cake-qwen25-zsre-server4-20261011/receipts",
+  "raw_receipts": {
+    "READY.json": {
+      "bytes": 5387,
+      "sha256": "c50459b8ec625978412f1130be8f63f58d86b00ea17a48c6e0b1f5ece154bb2b"
+    },
+    "assets.json": {
+      "bytes": 10419,
+      "sha256": "3cba25e366c1d763d2be88781f98cb40055d9a77b88e5cdd1f8a47cc5c6e707d"
+    },
+    "config.json": {
+      "bytes": 3375,
+      "sha256": "4168e0821099c7b08e389125ff462d1f03cfe0bb72c5bb38101a3bbe4ddf59e9"
+    },
+    "execution-lock.json": {
+      "bytes": 126362,
+      "sha256": "a9795f5aaf6058837c9cf8246fc2a0716582068058b6dc3d837e73ee20ba9f90"
+    },
+    "held-inspection.json": {
+      "bytes": 4135,
+      "sha256": "4d13c5365eb2fc35b50d94ea4b08e6d6d79923c8381c31b073689c31098cc5e5"
+    },
+    "original-cancelled.json": {
+      "bytes": 2787,
+      "sha256": "4bda74ec04a5e536b51b1eae1d510f439b23bf6164198f7207c7311a2fc984be"
+    },
+    "release-intent.json": {
+      "bytes": 73210,
+      "sha256": "7d4b9c1b283676d2f3c0f85507e9b7921fd4b204c2ff97eb6dc66e579dd20775"
+    },
+    "release.json": {
+      "bytes": 68429,
+      "sha256": "d2a9b4d78caf617f0e513ecf181ff9c1c3ac08c65a41d61e512f0d3525d16e7e"
+    },
+    "sbatch-response.json": {
+      "bytes": 61,
+      "sha256": "d89bdf3a980385e5b640886357ca4488669f7a643faf7154584103436408028a"
+    },
+    "submission-intent.json": {
+      "bytes": 69093,
+      "sha256": "0041ed53cdebe7df2e1946d82808fa6566431b695bb29267baeb7692c18f42a1"
+    },
+    "zsre-query-parity.json": {
+      "bytes": 643,
+      "sha256": "6a3e09fdc8b13dd9f44fc1d32c8c6c5617af230a96c4940b8e1aba73d08f11aa"
+    }
+  }
+}
