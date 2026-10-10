@@ -53,6 +53,10 @@ METRICS |= METHOD_METRICS
 EVAL_PROGRESS_METRICS = {'eval_progress/'+key for key in (
     'completed_queries','total_queries','physical_forward_calls','elapsed_seconds')}
 METRICS |= EVAL_PROGRESS_METRICS
+CAUSAL_METRICS = {'causal/' + key for key in (
+    'candidates_scanned', 'eligible_facts', 'traced_facts', 'noise_scale',
+    'layer', 'AIE', 'layer_weight')}
+METRICS |= CAUSAL_METRICS
 GENERATION_PROGRESS_FIELDS=('completed_cases','total_cases','completed_prompts','total_prompts',
     'generated_tokens','new_cases','reused_cases','elapsed_sec','cases_per_sec','prompts_per_sec',
     'tokens_per_sec','physical_forward_calls','prefill_query_tokens','decode_query_tokens','step')
@@ -289,6 +293,21 @@ def metrics(values,*,scientific=False,config_values=None):
     require(all((key=='phase' and type(x) is str and x in GENERATION_PHASES) or
                 (key!='phase' and type(x) in (int,float,bool) and math.isfinite(x))
                 for key,x in values.items()), 'BUILTIN_FINITE_SCALARS_ONLY')
+    if CAUSAL_METRICS & values.keys():
+        require(not scientific and config_values is not None
+                and config_values.get('arm') == 'qwen25-cake-causal-score',
+                'CAUSAL_ASSET_PREPARATION_ONLY')
+        require(set(values) <= CAUSAL_METRICS | {'phase_id', 'time/elapsed_seconds'},
+                'CAUSAL_NOT_EDITING_METRICS')
+        for key in ('causal/candidates_scanned', 'causal/eligible_facts', 'causal/traced_facts', 'causal/layer'):
+            if key in values:
+                require(type(values[key]) is int and values[key] >= 0, 'CAUSAL_INTEGER_COUNT')
+        if 'causal/AIE' in values:
+            require(-1 <= values['causal/AIE'] <= 1, 'CAUSAL_PROBABILITY_DIFFERENCE')
+        if 'causal/layer_weight' in values:
+            require(0 <= values['causal/layer_weight'] <= 1, 'CAUSAL_WEIGHT')
+        if 'causal/noise_scale' in values:
+            require(values['causal/noise_scale'] > 0, 'CAUSAL_NOISE_SCALE')
     if EVAL_PROGRESS_METRICS & values.keys():
         require(config_values is not None and config_values.get('role') == 'eval_only',
                 'EVAL_PROGRESS_REEVAL_ONLY')

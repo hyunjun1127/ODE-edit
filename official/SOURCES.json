@@ -65,7 +65,9 @@
       "path": "baselines/easyedit/models/SPHERE/SPHERE_main.py",
       "upstream_sha256": "19934699a4604ad5ea87f5ad897d09514b0684b48b8f9fd88a9fc6750f0b208d",
       "sha256": "29ad88fe08c909242236405a66f011527112ec1710c5045775586c5bcb4f6692",
-      "changes": ["USER-SH2-QWEN-ZSRE-SPHERE-OOM-RERUN-20261010-R1: release per-layer projected update, P_soft and U eigenvector view after commit, before next projection; unchanged FP32 eigh/formula/order and gradient-enabled target fit"]
+      "changes": [
+        "USER-SH2-QWEN-ZSRE-SPHERE-OOM-RERUN-20261010-R1: release per-layer projected update, P_soft and U eigenvector view after commit, before next projection; unchanged FP32 eigh/formula/order and gradient-enabled target fit"
+      ]
     },
     {
       "component": "easyedit",
@@ -225,7 +227,9 @@
       "path": "baselines/easyedit/models/memit_FE/memit_FE_main.py",
       "upstream_sha256": "3139543c4a0b24b7be797010fc9a86b5aa184161acb54776b01caa6b965ccd86",
       "sha256": "5bdf9fb17dbd5a66469b63f1c8acaa4f3f2ac9cff1e2a480b63427087c4e2e29",
-      "changes": ["USER-GH-SH1-MEMIT-FE-HISTORY-THREE-MODEL-2K-20261009-R1: optional history_entry solve seam; None retains stock FE path, new explicit variant supplies H; upstream provenance preserved"]
+      "changes": [
+        "USER-GH-SH1-MEMIT-FE-HISTORY-THREE-MODEL-2K-20261009-R1: optional history_entry solve seam; None retains stock FE path, new explicit variant supplies H; upstream provenance preserved"
+      ]
     },
     {
       "component": "easyedit",
@@ -315,7 +319,9 @@
       "path": "baselines/easyedit/util/generate.py",
       "upstream_sha256": "e4d5528923bc0643e3d6bed12c5bba534d69b2f69ab5f18403b317bc2e35fc38",
       "sha256": "35506690c41ecb7d59f11660da41dde50338f5a2ba9613735e045a8c7ab98db4",
-      "changes": ["2026-10-10 USER-GH-QWEN-BASELINE-MASK-COLD-RERUN-20261010-R1: cached context generation uses full-prefix attention mask; hparams and sampling unchanged"]
+      "changes": [
+        "2026-10-10 USER-GH-QWEN-BASELINE-MASK-COLD-RERUN-20261010-R1: cached context generation uses full-prefix attention mask; hparams and sampling unchanged"
+      ]
     },
     {
       "component": "easyedit",
@@ -1814,14 +1820,15 @@
       "upstream_path": "project/run_scripts/experiment_tracking/schema.py",
       "path": "tracking/schema.py",
       "upstream_sha256": "b63cd41816f4022ff85c83130f16fff4380e7e039d0c37f6618c7d008b7aa659",
-      "sha256": "d95c59ea49aed909b41b5518495652cefffb8d0b23899375d05384d18fba9c16",
+      "sha256": "191d6a9e1df2ca127c6f89126c79c4d4608f7ff891f0bf4ace8c7b9fc09fc2d6",
       "changes": [
         "official instruction/dataset/schema and native W0+W20 authority pair",
         "zsRE rejects CF generation",
         "official request-macro namespace and actual native denominators",
         "shared native W20 progress phase-only callback adapter",
         "USER-GH-FLUCON-PAPER-SCALE-TABLE-REFRESH-20261010-R1: narrow checkpoint-bound CF eval_only W20 generation/progress branch; reject factual/fit/W0/current; preserve existing zsRE/enabled/deferred rules",
-        "USER-GH-GPTJ-W0-FLUCON-SERVER4-20261011-R1: server4 GPTJ base-model-bound W0-only generation, no checkpoint/factual/fit/W20; previous schema SHA eb2f46a507b337aac4fb1e76cce2380cc1edb1a50721590248a94d8477c011fd"
+        "USER-GH-GPTJ-W0-FLUCON-SERVER4-20261011-R1: server4 GPTJ base-model-bound W0-only generation, no checkpoint/factual/fit/W20; previous schema SHA eb2f46a507b337aac4fb1e76cce2380cc1edb1a50721590248a94d8477c011fd",
+        "Qwen2.5 CAKE AIE 측정 준비 전용 scalar; 편집 성능/FLUCON과 혼용 금지"
       ],
       "review_nonce": "SH1-GH-OFFICIAL-COMPAT-REVIEW-20261008-R1",
       "installed_revisions": [
@@ -1842,6 +1849,12 @@
           "previous_sha256": "464f11fa1f0fa35c82b351ba0cffe079cf59d579b89d934c3b102b1ad9e434d1",
           "sha256": "633344063046eba678595e436b4ff3d3162a062e9b31ff244bc48ab09a9237f1",
           "reason": "공통 eval-only zsRE W20 provenance 및 최종 endpoint 범위 검증; 과거 source 보존"
+        },
+        {
+          "instruction": "USER-QWEN25-CAKE-PAPER-CAUSAL-SCORE-20261011",
+          "previous_sha256": "d95c59ea49aed909b41b5518495652cefffb8d0b23899375d05384d18fba9c16",
+          "sha256": "191d6a9e1df2ca127c6f89126c79c4d4608f7ff891f0bf4ace8c7b9fc09fc2d6",
+          "reason": "Qwen2.5 CAKE AIE 측정 준비 전용 scalar; 편집 성능/FLUCON과 혼용 금지"
         }
       ]
     },
