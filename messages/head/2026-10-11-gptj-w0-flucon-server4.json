@@ -1,0 +1,17 @@
+{
+  "nonce": "USER-GH-GPTJ-W0-FLUCON-SERVER4-20261011-R1",
+  "user_request": "gpt-j 의 W0 flu/con 부분 돌린거 있는지 확인해보고 없으면 server4에서 돌려. main table도 job 번호 걸어놓고. task 진행해",
+  "repository": "hyunjun1127/ODE-edit",
+  "task": "gptj-w0-flucon-20261011",
+  "owner": {"server": "server4", "session": "01a04939-b5c7-7a03-ba2d-ef3343d62cfd", "cwd": "/data/janghj/ODE-edit"},
+  "inventory_owner": {"server": "server2", "session": "01a0493a-074c-7f91-9a13-769116326fef", "cwd": "/mnt/raid5/janghj/ODE-edit", "scope": "기존 GPT-J W0 생성 결과/등록 여부와 동일 model/cohort/protocol 원자료 identity 읽기 전용 확인. 새 제출 권한 없음"},
+  "authority": "완료 raw가 있으면 검산 재사용, 이미 등록된 동일 평가가 있으면 해당 ID 회수. 둘 다 없으면 SH4가 cold GPT-J base W0 CF first2000 Flu/Con 평가-only GPU job 정확히 1개 구현/최소 CPU 검사/source freeze/held 검사/release까지 진행. 추가 승인 불필요.",
+  "scientific_scope": "기존 main GPT-J W0/61723과 동일 고정 model revision/tokenizer/CF first2000 순서 및 공통 CAKE generation/reference/seed/runtime/protocol을 검증해 결속. 모델 편집/fit/체크포인트 복원/재학습/CF factual/zsRE/W0 추가 보조평가 없음. W0 base model만 로드하여 한 생성으로 Flu와 Con 함께 측정. 기존 2K generation prompts/전체 occurrence를 사용.",
+  "implementation": "official/evaluation/generation 및 기존 official generation-only runner/tracking 재사용. full-prefix KV mask/case batch/row RNG/원 길이·EOS·prompt포함 점수 정의 유지. reference attribute_snippets/idf/vocab SHA 고정/refit0. 필요 최소 SH4 adapter만 구현. 별도 pretrained GPU qualification/pilot 금지. 기술 identity 불일치면 보고하고 우회 금지.",
+  "resource": {"project_gpu_cap": 2, "job_gpus": 1, "cpu_max": 8, "memory_ceiling_MiB": 60416, "wall_hours_max": 48, "policy": "server4의 최신 더 엄격한 현행 제한을 확인. RUNNING/admitted PENDING 포함. 기존 job 취소/변경/선점0. 유지 job의 실제 frontier에 자원 의존성 추가하여 등록하며 입력 없는 전체 barrier를 임의 추가하지 않음."},
+  "read_paths": ["공식 source/기존 GPT-J W0 원자료·등록·model/tokenizer/CF/reference assets", "audits/global/w0-main-table-20261009/results.json", "experiment-reports/global/w0-main-table-20261009.md", "관련 서버 등록 경로의 제한된 metadata 및 정확 raw"],
+  "write_paths": ["official/runners/server4/ 해당 task 최소 eval-only adapter/tests", "audits/servers/server4/gptj-w0-flucon-20261011/", "experiment-reports/servers/server4/gptj-w0-flucon-20261011/", "local/gptj-w0-flucon-20261011/", "SH2의 audits/servers/server2/gptj-w0-flucon-20261011/ 및 대응 보고서"],
+  "git_slurm": "SH4 지정 source/소형보고 main 비강제 게시/Slurm 조건부 1개 허용. SH2는 읽기 전용 inventory/소형보고 게시만. shared math/hparams 또는 타서버 source 수정0. root dirty 및 기존 source/raw/CP 보존.",
+  "tracking": "W&B 실제 job ID/name/불변 identity/scalar-only/privacy/실시간/제한된 finish readback. raw entropy bits/cosine 보존, main 표시는 반올림전 raw 평균×100 후 half-up2. W0 관측임을 명시하고 W20나 편집 trajectory로 relabel 금지. noCP/모델tensor dump0; raw local/소형 Git만.",
+  "handoff": "먼저 OWNER_ACK nonce/server/accepted turn. 실제 old inventory/동일평가 중복 여부, 새 실제 job ID/name/state/dependency/source/config/model/stream/reference SHA/output 및 held inspection/release를 반환. exact 시각 포함 단발 snapshot 후 GPU 완료 대기/반복 monitor/자동retry 없음. 필요한 통상 artifact broadcast는 기존정책/불필요시 명시예외. GH가 README GPT-J W0 CF Flu/Con 두 셀에 PENDING 또는 ING: 실제 job 번호만 표시. factual/zsRE/다른모델 행 불변. 미제출을 PENDING으로 표시하지 않음."
+}
