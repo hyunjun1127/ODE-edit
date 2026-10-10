@@ -41,7 +41,7 @@
     "old_checkpoint_policy": "exact owner FE writers/consumers stopped, previous FE CP/replicas deleted per user scope; actual absence only with deletion receipt. HF/C0/dataset/nonFE CP/raw/log/source KEEP",
     "new_checkpoint_policy": "latest one per run, atomic overwrite at cumulative500/1000/1500/2000; metrics accumulate, no separateW0CP",
     "rendering": "NOT_SUBMITTED until exact actual ID. Then owner snapshot state; no task pending presented as scheduler PENDING",
-    "dispatch": "requester already directly dispatched SH1 four/SH2 two; GH no duplicate submission instruction",
+    "dispatch": "USER-FE-QWEN-SERVER1-MOVE-20261011-R1 moves the two unsubmitted SH2 Qwen conditions to SH1 (63217/63218), alongside existing SH1 four (63151..63154). Total six unchanged; SH2 no submit/retry; GH no duplicate submission instruction",
     "report": "experiment-reports/global/fe-original-w0-reset-20261011/withdrawn-results.md"
   },
   "columns": {

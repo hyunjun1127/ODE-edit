@@ -1,5 +1,7 @@
 # FE 원저자 W0-fixed 전환: 실제 등록 및 정리 영수증 통합
 
+최신 후속: `USER-FE-QWEN-SERVER1-MOVE-20261011-R1`로 아래 당시 미제출 Qwen 두 조건을 SH1의63217/63218로 재배정·등록했다. 아래 저장공간 blocker는 당시 SH2 기록이며 현재 SH1 실행의 blocker가 아니다. [최신 실제 등록 보고](../fe-qwen-server1-move-20261011/report-ko.md).
+
 Parent `USER-FE-ORIGINAL-W0-RESET-20261011-R1`, 후속 `ROOT-FE-ACTUAL4-QWEN-STORAGE-20261011-R1`.
 GH는 기존 owner 영수증을 통합했으며 신규 dispatch/Slurm 제출·취소·삭제는 수행하지 않았다.
 

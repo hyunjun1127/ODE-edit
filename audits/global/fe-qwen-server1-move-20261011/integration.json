@@ -1,0 +1,22 @@
+{
+  "nonce": "USER-FE-QWEN-SERVER1-MOVE-20261011-R1",
+  "parent": "USER-FE-ORIGINAL-W0-RESET-20261011-R1",
+  "before_main": "7e778b86e547d4bbcb9dbd1d9d09ecb27c984d32",
+  "owner_receipt": "audits/servers/server1/fe-qwen-server1-move-20261011/submission.json",
+  "source": "2bac5732fc594e0eaf0d200772a56a640e02bc21",
+  "jobs": [
+    {"server": "server1", "dataset": "cf", "job_id": "63217", "state": "PENDING"},
+    {"server": "server1", "dataset": "zsre", "job_id": "63218", "state": "PENDING"}
+  ],
+  "dependency_both": "afterany:63152:63154:63207",
+  "held_inspected": true,
+  "released": true,
+  "legacy_allocated_GPU": 3,
+  "new_execution_width": 2,
+  "server2_new_jobs": 0,
+  "new_scientific_conditions": 0,
+  "new_scores": 0,
+  "changed_metric_cells": 9,
+  "other_table_cells_changed": 0,
+  "note": "SH2 미제출 Qwen2의 SH1 이전. 실제 W20/GPU/온라인 완료 주장은 없음. GH 중복 dispatch/제출0."
+}

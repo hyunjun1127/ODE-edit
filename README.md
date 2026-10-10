@@ -90,14 +90,16 @@ HF 원본·C0·데이터·비FE checkpoint 및 raw/log/source는 삭제 대상�
 매 batch current100의 R/P/N, 500/1000/1500/2000 누적 all-seen을 평가하고
 각 milestone마다 실행별 latest checkpoint 하나를 atomic overwrite한다. 평가 raw는 누적 보존한다.
 CF factual / zsRE public-query requestmacro loc_ans 비교 evaluator는 편집정책과 분리한다.
-SH1: Llama CF→zsRE, GPT-J CF→zsRE의 두 lane. SH2: Qwen CF/zsRE 두 lane.
-각 서버 cap2이며 비FE RUNNING과 원자료를 보존한다. SH1은 네 job을 held 검사 후 release했다.
+SH1: Llama CF→zsRE, GPT-J CF→zsRE 및 후속 Qwen CF/zsRE를 소유한다.
+기존 Llama/GPT-J 네 job은 held 검사 후 release했으며 frozen source/config와 비FE 작업은 보존한다.
 2026-10-11 요청자 readback 기준 Llama CF **63151 RUNNING**, zsRE **63152 PENDING**,
 GPT-J CF **63153 PENDING**, zsRE **63154 PENDING**이다. 이는 완료 성능이 아니다.
-SH2 Qwen CF/zsRE는 공통 source/CPU 결속을 마쳤지만 **미제출 — 저장공간 부족**이다.
-admission 가용59,029,065,728B / 필요60,363,309,056B로 1,334,243,328B 부족하며,
-reserve 축소·추가 삭제·자동 재시도 없이 보존한다. 신규 job ID가 없으므로 scheduler PENDING으로 표시하지 않는다.
-미제출 Qwen FE 셀은 공란, 등록된 CF의 Flu/Con은 DEFERRED로 유지한다.
+SH2 저장공간 부족으로 미제출이던 Qwen 두 조건은 최신 사용자 지시로 **server1에 재배정**했다.
+Qwen CF **63217**, zsRE **63218**은 held 검사 후 release, 전달된 관측상 모두 **PENDING**이다.
+두 job 모두 `afterany:63152:63154:63207`로 기존 말단을 기다린다. 관측된 기존 GPU3개는 유지하며
+현재 전체 할당이2라고 주장하지 않는다. 새 두 실행의 폭은2로 제한한다. SH2 신규 제출/자동 재시도는 없다.
+기존6조건의 host 변경이며 추가 조건이 아니다. CF Flu/Con은 DEFERRED로 유지한다.
+[Qwen 재배정·실제 등록 근거](experiment-reports/global/fe-qwen-server1-move-20261011/report-ko.md).
 [실제 등록·삭제·저장공간 영수증 통합](experiment-reports/global/fe-original-w0-reset-20261011/report-ko.md).
 [정본 범위·담당 수락](messages/head/2026-10-11-fe-original-w0-reset.json).
 
@@ -273,7 +275,7 @@ SH3 최신 CPU 재검산에서도 위 네 지표 delta0, 신규 본표 적격 �
 | MEMIT | 62.23 | 68.50 | 65.83 | 54.30 | PENDING: s2-flucon-qwen25-memit-62073 (62870) | PENDING: s2-flucon-qwen25-memit-62073 (62870) | 41.49 | 39.44 | 26.39 |
 | AlphaEdit | 83.03 | 99.05 | 97.55 | 63.36 | ING: s2-flucon-qwen25-alphaedit-62075 (62871) | ING: s2-flucon-qwen25-alphaedit-62075 (62871) | 85.05 | 78.18 | 30.79 |
 | AlphaEdit-BLUE | 77.98 | 97.70 | 96.75 | 55.86 | 602.99 | 37.43 | 58.62 | 53.66 | 5.73 |
-| FE (author repo, W0-fixed z) |  |  |  |  |  |  |  |  |  |
+| FE (author repo, W0-fixed z) | PENDING: 63217 | PENDING: 63217 | PENDING: 63217 | PENDING: 63217 | DEFERRED | DEFERRED | PENDING: 63218 | PENDING: 63218 | PENDING: 63218 |
 | AlphaEdit+SPHERE | 83.73 | 99.40 | 97.70 | 64.37 | PENDING: s2-flucon-qwen25-sphere-62079 (62873) | PENDING: s2-flucon-qwen25-sphere-62079 (62873) | PENDING: s2-qwen25-zsre-sphere-resume-b9 (62538) | PENDING: s2-qwen25-zsre-sphere-resume-b9 (62538) | PENDING: s2-qwen25-zsre-sphere-resume-b9 (62538) |
 | PRICE (Ours) | ING: pf2k-qwen25-cf-PN-beta150-ee (63144) | ING: pf2k-qwen25-cf-PN-beta150-ee (63144) | ING: pf2k-qwen25-cf-PN-beta150-ee (63144) | ING: pf2k-qwen25-cf-PN-beta150-ee (63144) | ING: pf2k-qwen25-cf-PN-beta150-ee (63144) | ING: pf2k-qwen25-cf-PN-beta150-ee (63144) | ING: pf2k-qwen25-zsre-PN-beta150-ee (63145) | ING: pf2k-qwen25-zsre-PN-beta150-ee (63145) | ING: pf2k-qwen25-zsre-PN-beta150-ee (63145) |
 
