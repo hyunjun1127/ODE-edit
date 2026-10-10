@@ -65,7 +65,7 @@ data=dict(nonce='USER-GH-S1-S2-BASELINE-REFRESH-S2-FLUCON-20261010-R1',accepted_
     broadcast='NO_BROADCAST_NOT_REQUIRED')
 write_new(OUT/'table-rows.json',data)
 with (OUT/'table-rows.csv').open('x',newline='') as f:
-    w=csv.writer(f);w.writerow(['model','dataset','method','job_id','job_name','state','eligible','Eff','Gen','Loc','Score','Flu_x100','Con_x100'])
+    w=csv.writer(f,lineterminator='\n');w.writerow(['model','dataset','method','job_id','job_name','state','eligible','Eff','Gen','Loc','Score','Flu_x100','Con_x100'])
     for r in rows:
         m=r['metrics'] if r['numeric_eligible'] else {}
         w.writerow([r['model'],r['dataset'],r['method'],r['job_id'],r['job_name'],r['status'],r['numeric_eligible'],m.get('Efficacy',''),m.get('Generalization',''),m.get('Specificity',''),m.get('Score',''),r.get('Flu_paper_x100',r.get('Flu','NOT_APPLICABLE')),r.get('Con_paper_x100',r.get('Con','NOT_APPLICABLE'))])
