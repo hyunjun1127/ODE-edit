@@ -64,5 +64,13 @@
   "원자료경로": "/data/janghj/ODE-edit/local/cake-qwen25-causal-score-20261011",
   "결과파일": "run-r1/causal-scores.json",
   "주표변경": false,
-  "기존실험변경": false
+  "기존실험변경": false,
+  "후속상태": {
+    "관측시각": "2026-10-11T03:51:10.551266+09:00",
+    "상태": "CANCELLED_BEFORE_START",
+    "사유": "사용자 지시로 공개 known_1000 입력을 사용하는 신규 job으로 교체",
+    "대체job_id": "63264",
+    "후속기록": "public-knowns-r2.json",
+    "원제출기록": "위 원문은 63249 최초 제출 당시 기록으로 보존한다."
+  }
 }
