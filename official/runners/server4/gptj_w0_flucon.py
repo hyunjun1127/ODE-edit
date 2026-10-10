@@ -31,6 +31,7 @@ def tracking_values(c):
         source_sha=c['source'],config_sha=c['config_sha256'],model='gptj',model_family='gptj',
         writer='none',baseline='W0',role='eval_only',metric_schema='official-baselines-scalar-v1',
         dataset='cf',instruction_id=INSTRUCTION,evaluation_profile='cf-native-generation-W0-only-v1',
+        base_model_sha256=digest([m for m in c['model_members'] if Path(m['path']).suffix in ('.bin','.safetensors')]),
         evaluator_sha256=c['evaluator_sha256'],stream_sha256=c['stream']['sha256'],
         tokenizer_sha256=c['tokenizer_sha256'],source_run_id='61723',
         generation_metric_schema='counterfact-cake-generation-metrics-v1',generation_profile=PROFILE,
@@ -61,6 +62,9 @@ def preflight(c, source_root):
 def run(path):
     c=read(path);source_root=Path(__file__).resolve().parents[3]
     cfg=preflight(c,source_root)
+    import shutil
+    if shutil.disk_usage(Path(c['output']).parent).free<c['storage_reserve_bytes']:
+        raise ValueError('DISK_RESERVE_REQUIRED_KEEP_SOURCE')
     for m in c['model_members']: verify(m)
     verify(c['reference_manifest'])
     import torch
