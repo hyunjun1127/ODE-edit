@@ -1,0 +1,33 @@
+{
+  "observed_at": "2026-10-11T22:0x+09:00",
+  "instruction": "user 2026-10-11: \"server1 cap 남으니 그냥 올려\" (answer to: resubmit Qwen AlphaEdit+SPHERE CF Flu/Con 62873 and zsRE B11-B20 resume 63303, cancelled 07:05 KST)",
+  "source_commit": "5ef9f60d7d6f57e3842cf61e59caf2566f13de07",
+  "registration": "submitted held, scontrol show job + write batch_script equal to the script, released; no automatic retry; no existing job changed",
+  "server1_gpu_lanes": "lane 1: 63537 -> 63538 -> 63569 -> 63570; lane 2: 63555 -> 63556; janghj devbox GPU width 2 (cap 2)",
+  "flucon": {
+    "job": "63569",
+    "name": "s1-flucon-qwen25-sphere-62079",
+    "dependency": "afterany:63538",
+    "replaces": "62873",
+    "config_sha256": "eb489a29 (62873: deeb0f16)",
+    "w20_checkpoint_sha256_prefix": "2fc52d2e",
+    "edit_run": "62079",
+    "unchanged": "shared FP32 eager Flu/Con evaluator (TF32 off), eval seed 20261007, reference identity 75e595c7, CF first-2000 order 0b912d11, 62873 restore function",
+    "differences": "host bindings only (paths of devbox copies, runtime python 3.12.0, output, authority); same RTX A6000 GPU model",
+    "result_file": "server1 /mnt/raid5/janghj/ODE-edit/local/qwen-sphere-s1-resubmit-20261011/flucon/preparation-r1/runs/qwen25-sphere-62079/COMPLETE.json"
+  },
+  "zsre_resume": {
+    "job": "63570",
+    "name": "s1-qwen25-zsre-sphere-resume-b10",
+    "dependency": "afterany:63569",
+    "replaces": "63303",
+    "config_sha256": "4be67c9d (63303: ba945109)",
+    "scientific_config_prefix": "dcc7018f",
+    "parent_b10_sha256_prefix": "6ab0bea4",
+    "chain": "62087 B1-B9 -> 62538 B10 -> 63570 B11-B20; evaluates the first 2,000 at B15 and B20 in the same job",
+    "unchanged": "23 numeric source files, hparams, context 5c01bc1a, stream f42ee4bc, zsRE query proof byte-identical to 63303, two-slot checkpoint policy",
+    "differences": "host bindings only (server label, paths, venv path, tracking task id); GPU RTX PRO 6000 -> RTX A6000 (the model 62087/62538 ran on); bitwise parity not claimed"
+  },
+  "input_copies": "42 files, 17,080,844,153 bytes, sha256 and size checked on source and devbox; receipt server1 /mnt/raid5/janghj/ODE-edit/local/qwen-sphere-s1-resubmit-20261011/transfer/receipt.tsv",
+  "records": "server1 /mnt/raid5/janghj/ODE-edit/local/qwen-sphere-s1-resubmit-20261011/registration-r1/"
+}
