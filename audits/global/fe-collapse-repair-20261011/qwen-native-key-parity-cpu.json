@@ -1,0 +1,15 @@
+{
+  "scope": "Actual pretrained Qwen first five layers, CPU FP32 eager, eight current requests, identical context; no z, no edits; not GPU performance",
+  "keys_equal": true,
+  "key_max_abs": 0.0,
+  "outputs_equal": true,
+  "output_max_abs": 0.0,
+  "key_shape": [
+    8,
+    18944
+  ],
+  "output_shape": [
+    8,
+    3584
+  ]
+}

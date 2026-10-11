@@ -1,0 +1,89 @@
+{
+  "scope": "CPU W0-derived first-edited-layer keys; no z or model edits; projected diagnostics only, not GPU replay or performance",
+  "rows": [
+    {
+      "batch": 1,
+      "elapsed": 2.4499685764312744,
+      "history_difference_frobenius": 0.0013287752111885624,
+      "history_difference_max_abs": 0.0008544921875,
+      "exact_projected_history_norm": 0.018114991351995822,
+      "ours_projected_error_norm": 1.5394519209984664e-08,
+      "author_projected_error_norm": 3.793064443089231e-09,
+      "ours_small_C0_subspace_system_min_eigenvalue": 0.0005095752117949488,
+      "author_small_C0_subspace_system_min_eigenvalue": 0.000509574903519635,
+      "exact_small_C0_subspace_system_min_eigenvalue": 0.0005095749407807798
+    },
+    {
+      "batch": 5,
+      "elapsed": 3.629451274871826,
+      "history_difference_frobenius": 0.059013129018949964,
+      "history_difference_max_abs": 0.0234375,
+      "exact_projected_history_norm": 0.15340071670964345,
+      "ours_projected_error_norm": 2.617725088221329e-07,
+      "author_projected_error_norm": 1.2088143069830157e-07,
+      "ours_small_C0_subspace_system_min_eigenvalue": 0.0005476889869758712,
+      "author_small_C0_subspace_system_min_eigenvalue": 0.000547697862361419,
+      "exact_small_C0_subspace_system_min_eigenvalue": 0.0005476962571025749
+    },
+    {
+      "batch": 10,
+      "elapsed": 3.615572690963745,
+      "history_difference_frobenius": 0.12358347506554769,
+      "history_difference_max_abs": 0.046875,
+      "exact_projected_history_norm": 0.6932172472668684,
+      "ours_projected_error_norm": 4.742417512357368e-07,
+      "author_projected_error_norm": 2.1840984240158403e-07,
+      "ours_small_C0_subspace_system_min_eigenvalue": 0.0006007808452177432,
+      "author_small_C0_subspace_system_min_eigenvalue": 0.0006007893479456372,
+      "exact_small_C0_subspace_system_min_eigenvalue": 0.0006007919082186794
+    },
+    {
+      "batch": 12,
+      "elapsed": 3.2281222343444824,
+      "history_difference_frobenius": 0.12359920479107823,
+      "history_difference_max_abs": 0.046875,
+      "exact_projected_history_norm": 0.7696996078849341,
+      "ours_projected_error_norm": 5.508813184791735e-07,
+      "author_projected_error_norm": 2.7737189898307846e-07,
+      "ours_small_C0_subspace_system_min_eigenvalue": 0.0006164298718162608,
+      "author_small_C0_subspace_system_min_eigenvalue": 0.0006164383973475819,
+      "exact_small_C0_subspace_system_min_eigenvalue": 0.0006164399783992198
+    },
+    {
+      "batch": 13,
+      "elapsed": 3.6189029216766357,
+      "history_difference_frobenius": 0.12360753537452185,
+      "history_difference_max_abs": 0.046875,
+      "exact_projected_history_norm": 0.8209807615306636,
+      "ours_projected_error_norm": 5.409207311736222e-07,
+      "author_projected_error_norm": 2.9699538120176124e-07,
+      "ours_small_C0_subspace_system_min_eigenvalue": 0.0006238609601374441,
+      "author_small_C0_subspace_system_min_eigenvalue": 0.0006238702578975357,
+      "exact_small_C0_subspace_system_min_eigenvalue": 0.0006238709955910202
+    },
+    {
+      "batch": 15,
+      "elapsed": 3.414632797241211,
+      "history_difference_frobenius": 0.12362127399146092,
+      "history_difference_max_abs": 0.046875,
+      "exact_projected_history_norm": 0.9168962438600079,
+      "ours_projected_error_norm": 5.780972887380529e-07,
+      "author_projected_error_norm": 3.595212232066214e-07,
+      "ours_small_C0_subspace_system_min_eigenvalue": 0.0006451417374070099,
+      "author_small_C0_subspace_system_min_eigenvalue": 0.0006451508197166771,
+      "exact_small_C0_subspace_system_min_eigenvalue": 0.0006451508730476685
+    },
+    {
+      "batch": 20,
+      "elapsed": 2.8242239952087402,
+      "history_difference_frobenius": 0.1847602938884754,
+      "history_difference_max_abs": 0.0625,
+      "exact_projected_history_norm": 1.1429041493731198,
+      "ours_projected_error_norm": 9.830160379717499e-07,
+      "author_projected_error_norm": 5.665478253531095e-07,
+      "ours_small_C0_subspace_system_min_eigenvalue": 0.0007068007632439172,
+      "author_small_C0_subspace_system_min_eigenvalue": 0.0007068068046119058,
+      "exact_small_C0_subspace_system_min_eigenvalue": 0.000706804941673985
+    }
+  ]
+}

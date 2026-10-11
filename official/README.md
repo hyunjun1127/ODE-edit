@@ -106,6 +106,19 @@ AlphaEdit-BLUE는 BLUE 저장소를 사용한다. 원본 **17개 파일**과 SHA
 [SPHERE 0c28c000](https://github.com/PlusLabNLP/SPHERE/tree/0c28c000a1482e73573928f63a66e0b1b88ac949),
 [BLUE 311b076a](https://github.com/xpq-tech/BLUE/tree/311b076a92e4ed0f14f5c8b4909732da781bc5f7).
 
+## FE writer 비교 진단
+
+`runners/fe_author_history.py`의 기본 backend는 `EASYEDIT_HISTORY`다.
+`writer_backend: AUTHOR_WRITER_CURRENT_BATCH_Z`는 저자 FE `478134df`의
+`batch_edit` writer·history에 우리 `compute_z`를 연결하는 별도 진단이다.
+원본 writer SHA, 저자 source 전체 manifest, hparams, 고정 context와 모델 revision을 검증한다.
+z는 각 배치 진입 모델에서 현재100건만 계산하며 미래 target cache는 허용하지 않는다.
+저자 FP64 Gram→FP32 history 누적과 가중치 대입을 유지하고, 배치 실패 시 W/H를 복원한다.
+`observe_batches`는 z/K/현재 출력과 case ID를 기록한다. `retain_milestones`는
+500·1,000·1,500·2,000 edits checkpoint를 rolling 저장과 독립적으로 보존한다.
+GPT-J C0 수치 보정은 `covariance_policy: project_roundoff`로 명시해야 한다.
+[수치 결함·진단 상태](../experiment-reports/global/fe-collapse-repair-20261011/report-ko.md).
+
 ## FLU/CON: 기존 자산 유지, 현재 server1 코드 기준
 
 **`attribute_snippets.json`, `idf.npy`, `tfidf_vocab.json`은 기존 자산과 SHA를 그대로

@@ -1,0 +1,29 @@
+{
+  "source": {
+    "allocated_bytes": 1073750016,
+    "bytes": 1073743054,
+    "ctime_ns": 1781173945596764592,
+    "device": 2304,
+    "expected_sha256": null,
+    "inode": 243081839,
+    "mtime_ns": 1779141801105186803,
+    "nlink": 1,
+    "path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/gpt-j-6b/wikipedia_stats/transformer.h.3.mlp.fc_out_float32_mom2_100000.npz",
+    "real_path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/gpt-j-6b/wikipedia_stats/transformer.h.3.mlp.fc_out_float32_mom2_100000.npz",
+    "sha256": "baee403704e2ddcc4c2a669064d29107273f49219a221ae447f361a76208a67f",
+    "verification": "FRESH_SHA256"
+  },
+  "count": 54924275,
+  "normalization": "FP64 sum / exact integer count; no FP32 quotient",
+  "cholesky_info": 13797,
+  "eigenvalues": [
+    -2.0679492951327368e-06,
+    -8.818649272048222e-07,
+    -1.5386781086494035e-08,
+    1.137597719097976e-06,
+    2.1861208497564756e-06,
+    4.4591631665954794e-06,
+    9.773328554508015e-06,
+    3.8367994862761705e-05
+  ]
+}

@@ -1767,11 +1767,12 @@
       "upstream_path": "official/README.md",
       "path": "README.md",
       "upstream_sha256": "92ec6723d4e7268276109cfd4ac20435b34c4a654607faaac5b662cbcff94d4a",
-      "sha256": "7466110579984ca866ce6842288402a94848f95afe6ad14f77b30d5907b35efe",
+      "sha256": "b9168dbe24bbaad0ae79a3ba8e874b07486de7abc6c962d7c5ae74dbaa699ccc",
       "changes": [
         "GH reviewed official compatibility/API documentation; original provenance retained",
         "2026-10-09: document model-specific PRICE config",
-        "Document native CAKE 3-model 2K runner, two lanes, and permanent 500-edit checkpoint milestones."
+        "Document native CAKE 3-model 2K runner, two lanes, and permanent 500-edit checkpoint milestones.",
+        "FE sequential baseline scope documentation: correct batch-entry targets, preserving author W0-fixed as a separate diagnostic. Document pinned author writer/current-batch-z diagnostic and independent milestone retention."
       ],
       "review_nonce": "SH1-GH-OFFICIAL-COMPAT-REVIEW-20261008-R1",
       "installed_revisions": [

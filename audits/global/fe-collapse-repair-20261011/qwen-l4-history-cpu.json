@@ -1,0 +1,162 @@
+[
+  {
+    "batch": 1,
+    "seconds": 56.754420042037964,
+    "key_norm_median": 18.28098314620866,
+    "key_norm_max": 47.87058796474926,
+    "system_cholesky_info": 0,
+    "history_norm": 6021.853689022517
+  },
+  {
+    "batch": 2,
+    "seconds": 49.42755150794983,
+    "key_norm_median": 18.249832756243975,
+    "key_norm_max": 421.73832013920594,
+    "system_cholesky_info": 0,
+    "history_norm": 178093.4712274486
+  },
+  {
+    "batch": 3,
+    "seconds": 47.658822774887085,
+    "key_norm_median": 16.910080684776158,
+    "key_norm_max": 422.0841962208018,
+    "system_cholesky_info": 0,
+    "history_norm": 356170.3001053516
+  },
+  {
+    "batch": 4,
+    "seconds": 48.17652106285095,
+    "key_norm_median": 16.92183601840813,
+    "key_norm_max": 51.99054561203712,
+    "system_cholesky_info": 0,
+    "history_norm": 356230.9708962689
+  },
+  {
+    "batch": 5,
+    "seconds": 48.52191138267517,
+    "key_norm_median": 18.971797427450735,
+    "key_norm_max": 40.432190033169974,
+    "system_cholesky_info": 0,
+    "history_norm": 356291.5759735655
+  },
+  {
+    "batch": 6,
+    "seconds": 49.043536901474,
+    "key_norm_median": 16.467349818893396,
+    "key_norm_max": 48.29211259076376,
+    "system_cholesky_info": 0,
+    "history_norm": 356365.69683875167
+  },
+  {
+    "batch": 7,
+    "seconds": 50.63347601890564,
+    "key_norm_median": 16.22272082043684,
+    "key_norm_max": 420.98358038474265,
+    "system_cholesky_info": 0,
+    "history_norm": 533468.7851641481
+  },
+  {
+    "batch": 8,
+    "seconds": 50.51930069923401,
+    "key_norm_median": 18.977239818692496,
+    "key_norm_max": 426.42290125148975,
+    "system_cholesky_info": 0,
+    "history_norm": 715246.4315068574
+  },
+  {
+    "batch": 9,
+    "seconds": 48.05622482299805,
+    "key_norm_median": 19.465893689579644,
+    "key_norm_max": 47.13334796821958,
+    "system_cholesky_info": 0,
+    "history_norm": 715291.2067206221
+  },
+  {
+    "batch": 10,
+    "seconds": 48.463451623916626,
+    "key_norm_median": 18.484656779258003,
+    "key_norm_max": 422.0841962208018,
+    "system_cholesky_info": 0,
+    "history_norm": 893405.6903709307
+  },
+  {
+    "batch": 11,
+    "seconds": 48.69041323661804,
+    "key_norm_median": 19.212696981163912,
+    "key_norm_max": 47.44988133761954,
+    "system_cholesky_info": 0,
+    "history_norm": 893442.8529622268
+  },
+  {
+    "batch": 12,
+    "seconds": 47.84469175338745,
+    "key_norm_median": 18.845693355875746,
+    "key_norm_max": 52.501797128868326,
+    "system_cholesky_info": 0,
+    "history_norm": 893486.578432761
+  },
+  {
+    "batch": 13,
+    "seconds": 51.00515866279602,
+    "key_norm_median": 17.6621728044057,
+    "key_norm_max": 46.19622725586779,
+    "system_cholesky_info": 0,
+    "history_norm": 893522.0920237039
+  },
+  {
+    "batch": 14,
+    "seconds": 49.220914363861084,
+    "key_norm_median": 17.015229936161443,
+    "key_norm_max": 53.51878805715453,
+    "system_cholesky_info": 0,
+    "history_norm": 893556.738489551
+  },
+  {
+    "batch": 15,
+    "seconds": 46.501412868499756,
+    "key_norm_median": 20.240456195555463,
+    "key_norm_max": 56.12195600873755,
+    "system_cholesky_info": 0,
+    "history_norm": 893608.9486633332
+  },
+  {
+    "batch": 16,
+    "seconds": 46.59567737579346,
+    "key_norm_median": 18.20833950304697,
+    "key_norm_max": 40.0664873252489,
+    "system_cholesky_info": 0,
+    "history_norm": 893648.3703407513
+  },
+  {
+    "batch": 17,
+    "seconds": 49.51642322540283,
+    "key_norm_median": 16.54588011091378,
+    "key_norm_max": 416.7607738348391,
+    "system_cholesky_info": 0,
+    "history_norm": 1067259.7386526323
+  },
+  {
+    "batch": 18,
+    "seconds": 48.5093936920166,
+    "key_norm_median": 17.839477860687296,
+    "key_norm_max": 427.79743703101076,
+    "system_cholesky_info": 0,
+    "history_norm": 1250110.0134464235
+  },
+  {
+    "batch": 19,
+    "seconds": 48.73872971534729,
+    "key_norm_median": 17.380637491392232,
+    "key_norm_max": 66.86531600016515,
+    "system_cholesky_info": 0,
+    "history_norm": 1250143.2751193943
+  },
+  {
+    "batch": 20,
+    "seconds": 47.54496145248413,
+    "key_norm_median": 17.599551314782715,
+    "key_norm_max": 415.4040570528058,
+    "system_cholesky_info": 0,
+    "history_norm": 1422647.8840289915
+  }
+]

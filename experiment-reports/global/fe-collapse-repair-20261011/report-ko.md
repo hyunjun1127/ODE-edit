@@ -167,3 +167,29 @@ source `6d063860`, 기존 정상2개 lane 변경0, 진단용 한 개 lane 추가
 저자 모듈의 실제 `batch_edit` 작은 CPU 입력에서도 업데이트·history가 예상 산식과
 bit-identical임을 확인했다. GPU2K 완료나 붕괴 해소는 아직 주장하지 않는다.
 [진단 제출 영수증](../../../audits/global/fe-collapse-repair-20261011/author-sequential-submission.json).
+
+## 추가 CPU 원인 분리
+
+- GPT-J 원본 moment sum을 **FP64로 올린 뒤 count로 나눠도** 최소 고유값은
+  -2.06795e-6이며 Cholesky13797로 실패한다. 마지막 FP32 나눗셈만의 문제가 아니다.
+  [원본 자산과 FP64 normalization 검사](../../../audits/global/fe-collapse-repair-20261011/gptj-normalization-precision.json).
+- 실제 pretrained Qwen의 첫 편집층 L4 이전 부분을 CPU FP32로 실행해20배치 key를
+  수집했다. L4 입력은 L4 이상 편집에 의존하지 않는다. 같은 C0와 FP32 history로
+  만든20개 시스템은 모두 Cholesky를 통과했다. 이는 CPU 경로 검사이며 GPU 성능이나
+  중간층의 전체 동역학을 검증한 것은 아니다.
+  [20배치 검사](../../../audits/global/fe-collapse-repair-20261011/qwen-l4-history-cpu.json).
+- 같은 L4 key로 저자 FP64 Gram→FP32 누적과 우리 FP32 Gram 누적을 비교했다.
+  B20에서 history Frobenius 차이는0.18476이지만, C0의 가장 작은16개 방향에서
+  system 최소 고유값은 각각0.0007068068과0.0007068008이다. 이 관측으로는
+  첫 층의 history 정밀도 차이가 Qwen 붕괴를 유발했다는 주장을 뒷받침하지 못한다.
+  [제한된 부분공간 비교](../../../audits/global/fe-collapse-repair-20261011/qwen-history-precision-cpu.json).
+
+- 실제 Qwen pretrained 하위5개 층, 동일8건/context에서 저자 helper와 우리 helper의
+  L4 key 및 현재 block output은 **bit-identical**이다. CPU FP32 확인이며 누적 편집
+  전체나 GPU writer 결과가 같다는 뜻은 아니다.
+  [실제 helper 대조](../../../audits/global/fe-collapse-repair-20261011/qwen-native-key-parity-cpu.json).
+- 저자 clone의 원본 대비 수정은 이전 W0 runner용 `precompute_z.py`,
+  `z_methods/__init__.py` 두 파일뿐이다. 이번 adapter는 둘 다 import/call하지 않는다.
+  `batch_edit`, key/representation helper는 원본 그대로이며 전체 실제 bytes도 봉인했다.
+  [upstream 차이](../../../audits/global/fe-collapse-repair-20261011/author-sequential-source-diff.json).
+- `official.tools.verify` source integrity/외부 task import 검사 PASS.

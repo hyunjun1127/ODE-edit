@@ -1,0 +1,17 @@
+{
+  "author_commit": "478134dfb24b43f4e18b47e8500893ce3f9cc50f",
+  "modified_files": [
+    {
+      "path": "precompute_z.py",
+      "upstream_sha256": "b5b68a2587e97f371d5ab386a282b62a6af5310aa0ac2e5753a2322cc4b33d95",
+      "actual_sha256": "770f274d156207a8336375914dbfa3f99fc2a74ab61b51d83e6e8f6ba6dc4184"
+    },
+    {
+      "path": "z_methods/__init__.py",
+      "upstream_sha256": "cc536da6ca44a234f6e7091eb5543bd95120383b6bde8bb24ebd784212d6ee66",
+      "actual_sha256": "39a0d973f08a83d41aa68ec666a6b8107f725eb496172673e583513c8d680992"
+    }
+  ],
+  "writer_exact_upstream": true,
+  "scope": "Modified precompute_z.py and z_methods/__init__.py belong to earlier W0 runner compatibility and are not imported or called by the current-batch-z author writer adapter."
+}
