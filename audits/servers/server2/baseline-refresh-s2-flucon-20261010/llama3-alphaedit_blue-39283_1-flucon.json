@@ -1,0 +1,88 @@
+{
+ "job": 62876,
+ "server": "server2",
+ "slurm": {
+  "job": 62876,
+  "job_name": "s2-flucon-llama3-alphaedit_blue-39283_1",
+  "state": "COMPLETED",
+  "exit_code": "0:0",
+  "start": "2026-10-11T11:59:49+09:00",
+  "end": "2026-10-11T15:09:52+09:00",
+  "elapsed": "03:10:03",
+  "node": "server2"
+ },
+ "row": "Llama3-8B-Instruct AlphaEdit-BLUE CF Flu/Con (historical BLUE 39283_1 B020, README marker †)",
+ "checkpoint_job": "39283_1 (historical AlphaEdit-BLUE, B020 / 2,000 edits)",
+ "complete": {
+  "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/historical-r1/runs/llama3-alphaedit_blue-39283_1/COMPLETE.json",
+  "bytes": 2347,
+  "sha256": "b81b9fc4638b580757f051e955e956f7c35dfb1e12bb6eaf32b1466d63729ac3"
+ },
+ "restore": {
+  "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/historical-r1/runs/llama3-alphaedit_blue-39283_1/restore.json",
+  "bytes": 680,
+  "sha256": "ff8b27066f26fe635eedc2e48618e9e96805eb6beef59012bf7f131b8d23ca14"
+ },
+ "config": {
+  "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/historical-r1/configs/llama3-alphaedit_blue-39283_1.json",
+  "bytes": 4909,
+  "sha256": "0b4c3d2e70357cdaa10e0c353d92c3c4d730a43b10526bf585aa6431b8a0e730"
+ },
+ "endpoint": {
+  "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/historical-r1/runs/llama3-alphaedit_blue-39283_1/generation/endpoints/4387293e13418cd9b5371ee848d924b508e9c9e9803dbf752baae5b0884b46a0.json",
+  "bytes": 2869231,
+  "sha256": "1f79c5b98451960707449d13985c2d4cbdb61a0e8e53729893fa4de2c3a81c7f"
+ },
+ "Flu": {
+  "display_unit": "bits x100",
+  "paper_display_x100": "630.45",
+  "raw_unit": "bits",
+  "raw_value": 6.304490910970368
+ },
+ "Con": {
+  "display_unit": "cosine_0_to_1 x100",
+  "paper_display_x100": "33.98",
+  "raw_unit": "cosine_0_to_1",
+  "raw_value": 0.33981823457842936
+ },
+ "summary": {
+  "planned_count": 2000,
+  "fluency_count": 2000,
+  "consistency_count": 2000,
+  "generation_prompt_count": 20000,
+  "generated_token_count": 1796707,
+  "ngram_entropy": 6.304490910970368,
+  "reference_score": 0.33981823457842936,
+  "missing_reason_counts": {
+   "asset_not_available": 0,
+   "length_cap_no_continuation": 0,
+   "missing_generation_prompts": 0,
+   "missing_reference": 0,
+   "nonfinite_score": 0,
+   "tokenizer_not_available": 0,
+   "zero_generated_vector": 0,
+   "zero_reference_vector": 0
+  }
+ },
+ "requests": 2000,
+ "source": "417a12e7db55af93346be60f79138a6923324de1",
+ "original_checkpoint": {
+  "bytes": 2113956769,
+  "path": "/mnt/raid5/janghj/ODE-edit/local/blue-checkpoint-downstream/20260909-v1/imports/initial6-v1/payload/local/blue-lifelong-b100x100/attempt-checkpoint-r2/output/main-cell-1/B020/W-method-state.pt",
+  "sha256": "268cf596e963b3455a694ccb2b7599b97ee483ad091cadcc051c185358fcc675"
+ },
+ "invariants": {
+  "weights_unchanged": true,
+  "RNG_unchanged": true,
+  "checkpoint_unchanged": true,
+  "edits": 0
+ },
+ "checks": {
+  "recomputed_from_endpoint_rows": "2,000 rows; mean n-gram entropy and mean TF-IDF cosine (math.fsum) equal COMPLETE.json raw values bit for bit; x100 then decimal half-up",
+  "case_order": "eval-2K order, sha256 0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+  "checkpoint_identity": "original_checkpoint sha256 268cf596… equals the AlphaEdit-BLUE 39283_1 B020 checkpoint recorded in experiment-reports/servers/server1/official-baselines-20261008/llama-blue-2k-table-check.md and audits/servers/server2/baseline-refresh-s2-flucon-20261010/inventory.json (VERIFIED_HISTORICAL_B020_2000); binding historical-r1/bindings/39283_1.json ordered_case_ids_sha256 0b912d11…",
+  "runtime_parity": "old_runtime_parity NOT_CLAIMED (as the † CF cells)",
+  "observation_files": "all 2,000 generation/observations files match the endpoint raw_member bytes/sha256; their per-case metrics equal the endpoint rows and each binds checkpoint sha256 268cf596… (20,000 prompts, 1,796,707 continuation tokens)",
+  "checkpoint_rehash": "sha256sum of original_checkpoint on server2 completed 2026-10-11 15:14 KST (after the job) = 268cf596…, 2,113,956,769 bytes"
+ }
+}

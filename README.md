@@ -211,7 +211,7 @@ zsRE Loc은 **loc_ans 정답 token 정확도의 요청별 평균**이다. 이전
 | FT | 56.59 | 89.25 | 73.30 | 35.50 | 449.50 | 2.90 | 14.63 | 11.82 | 25.25 |
 | MEMIT | 58.88‡ | 64.75‡ | 61.70‡ | 51.83‡ | 507.87‡ | 5.38‡ | 44.30 | 39.95 | 22.30 |
 | AlphaEdit | 84.80‡ | 99.30‡ | 93.23‡ | 68.59‡ | 619.92‡ | 32.33‡ | 95.18 | 91.40 | 31.10 |
-| AlphaEdit-BLUE | 89.84† | 99.60† | 97.15† | 76.59† | PENDING: s2-flucon-llama3-alphaedit_blue-39283_1 (62876) | PENDING: s2-flucon-llama3-alphaedit_blue-39283_1 (62876) | 95.87 | 92.28 | 32.83 |
+| AlphaEdit-BLUE | 89.84† | 99.60† | 97.15† | 76.59† | 630.45† | 33.98† | 95.87 | 92.28 | 32.83 |
 | FE (author hparams + history) | 90.57 | 99.60 | 95.38 | 79.37 | DEFERRED | DEFERRED | PENDING: official-s4-llama3-zsre-fe-author-hparams-2k (63357) | PENDING: official-s4-llama3-zsre-fe-author-hparams-2k (63357) | PENDING: official-s4-llama3-zsre-fe-author-hparams-2k (63357) |
 | AlphaEdit+SPHERE | 86.87 | 99.50 | 94.95 | 71.68 | 619.20 | 33.64 | 95.13 | 91.36 | 31.38 |
 | CAKE | PENDING: official-s1-llama3-cf-cake-2k (63296) | PENDING: official-s1-llama3-cf-cake-2k (63296) | PENDING: official-s1-llama3-cf-cake-2k (63296) | PENDING: official-s1-llama3-cf-cake-2k (63296) | DEFERRED | DEFERRED | PENDING: official-s1-llama3-zsre-cake-2k (63297) | PENDING: official-s1-llama3-zsre-cake-2k (63297) | PENDING: official-s1-llama3-zsre-cake-2k (63297) |
@@ -237,7 +237,10 @@ zsRE Loc은 **loc_ans 정답 token 정확도의 요청별 평균**이다. 이전
 동일 fixed10k 파일의 첫2,000 순서가 현재 official lock과 일치한다.
 Eff/Gen/Loc은 기존 strict NLL preference 집계, Score는 기존 R/P/N 성공률의 조화평균이다.
 Loc은 N success 15,317/20,000 = 76.585%를 소수 둘째 자리로 반올림했다.
-Flu·Con은 이 historical B020 checkpoint를 사용하는 별도 평가62876을 제출해 PENDING으로 표시한다.
+Flu·Con은 이 historical B020 checkpoint를 사용하는 별도 평가62876을 제출했다.
+**62876**(server2)은 2026-10-11 15:09 KST에 완료됐다. 2,000 case/20,000 prompts의 평균 6.3045 bits · 0.3398 cosine에 ×100 후 half-up 둘째 자리만 적용했다(630.45 / 33.98).
+평가 전후 가중치·RNG·checkpoint 불변이며 checkpoint SHA는 아래 BLUE 2K 확인 기록의 B020과 같다.
+[62876 원자료 SHA](audits/servers/server2/baseline-refresh-s2-flucon-20261010/llama3-alphaedit_blue-39283_1-flucon.json).
 native source/runtime·평가기 차이와 분모 및 대조 근거는
 [BLUE 2K 확인 기록](experiment-reports/servers/server1/official-baselines-20261008/llama-blue-2k-table-check.md)에 구분했다.
 
