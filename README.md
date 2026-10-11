@@ -100,8 +100,9 @@ Native loader는 전체 JSON을 읽고 target fitting/use만 현재100건으로 
 
 **Qwen FE 데이터 변경 진단(2026-10-11 사용자 지시):** 기존 CF fixed-10K 파일의 **2,001–4,000번째 2,000건**으로
 공식 FE 현재 모델 z 실행을 추가했다. 기존 63385와 case 중복 0건이며, 코드·BF16·author hparams·seed 0·history는 동일하다.
-server1 **63561 / s1-qwen25-cf-fe-next2k-train → 63562 / s1-qwen25-cf-fe-next2k-evaluate**,
-등록 직후 **PENDING(편집 GPU 배정 대기 / 평가 afterany:63561)**이다. W0 및 500건마다 checkpoint를 저장한다.
+사용자 지시로 server4 **63563 / s4-qwen25-cf-fe-next2k-train → 63564 / s4-qwen25-cf-fe-next2k-evaluate**로 옮겼다.
+**PENDING(편집 Resources / 평가 afterany:63563)**이며 server4 cap 2를 지킨다.
+server1의 63561·63562는 GPU 실행 없이 취소했다. W0 및 500건마다 가중치·history checkpoint를 저장한다.
 데이터가 다른 진단이므로 본표의 기존 CF 결과를 교체하지 않는다.
 [선택 규칙·설정·진행 결과](experiment-reports/global/fe-qwen-cf-altdata-20261011/report-ko.md).
 

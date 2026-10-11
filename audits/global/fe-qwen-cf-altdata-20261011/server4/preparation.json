@@ -1,0 +1,66 @@
+{
+  "GPU_execution": false,
+  "checkpoint_history_batches": [
+    0,
+    5,
+    10,
+    15,
+    20
+  ],
+  "config": {
+    "bytes": 47065,
+    "path": "/data/janghj/ODE-edit/local/fe-qwen-cf-altdata-20261011/server4-r1/configs/qwen25.json",
+    "sha256": "9fdd76d9ae31b1cdae45ccd10cf402b4c61367099cc43bab4b6612cd8d090d72"
+  },
+  "evaluator_files_equal": 524,
+  "execution_lock": {
+    "bytes": 137836,
+    "path": "/data/janghj/ODE-edit/local/fe-qwen-cf-altdata-20261011/server4-r1/execution-lock.json",
+    "sha256": "dc236a7e1433b60732ff3a1f9501998d2ca4fd6f4b68502f9600e5a161b03d81"
+  },
+  "free_bytes": 76217819136,
+  "known_other_peak_headroom_bytes": 19327352832,
+  "memory_request_MiB": {
+    "evaluate": 49152,
+    "train": 59392
+  },
+  "model_and_C0_all_sha_equal": true,
+  "reference_config": {
+    "bytes": 49251,
+    "path": "/data/janghj/ODE-edit/local/fe-qwen-cf-altdata-20261011/server4-r1/inputs/server1-config.json",
+    "sha256": "70a4b6bec63520f8dafd018608205d1cf126295e07c37df205c929999353e06b"
+  },
+  "required_bytes": 50782535680,
+  "reserve_bytes": 8589934592,
+  "resolved_config_changed_keys": [
+    "zs_cache_dir",
+    "data_dir",
+    "results_dir",
+    "cache_dir",
+    "diagnostic_checkpoint_dir",
+    "diagnostic_reserve_bytes",
+    "diagnostic_identity_sha256"
+  ],
+  "runtime": {
+    "hydra": "1.3.2",
+    "numpy": "1.26.4",
+    "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+    "torch": "2.9.1+cu128",
+    "transformers": "4.51.3"
+  },
+  "schema": "fe-qwen-next2k-server4-preparation-v1",
+  "scripts": [
+    {
+      "bytes": 2858,
+      "path": "/data/janghj/ODE-edit/local/fe-qwen-cf-altdata-20261011/server4-r1/qwen25.sh",
+      "sha256": "eacfd63d2e7ecb6154427e8c73b0b8408b71b7c17b3e0398dd8bb9905e81d855"
+    },
+    {
+      "bytes": 841,
+      "path": "/data/janghj/ODE-edit/local/fe-qwen-cf-altdata-20261011/server4-r1/qwen25-eval.sh",
+      "sha256": "7cfa5d010c519ddadea195eae9d26e8f51ac5be2b8ba574765c460f53522725d"
+    }
+  ],
+  "source_files_equal": 171,
+  "stream_sha_equal": true
+}
