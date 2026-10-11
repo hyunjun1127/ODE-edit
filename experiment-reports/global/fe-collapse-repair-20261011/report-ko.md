@@ -6,7 +6,7 @@
 아래 author W0-fixed 결과와 CPU 대조는 별도 경로의 원인 후보 조사이며 현재 baseline의 회복 증거가 아니다.
 초기 조사에서 이 경로를 현재 기준으로 바꾼 것은 잘못이었다. Qwen/GPT-J의 현재 기준 재검증이 남아 있다.
 
-## 현재 진행 상태 (2026-10-11 14:26 KST)
+## 현재 진행 상태 (2026-10-11 14:40 KST)
 
 공식 `main.py` + 현재 배치 z 진단을 server1에서 진행 중이다. 기존 정상 cap2에
 허용된 진단용 한 개 lane을 추가했다. 후속 원인 분리 실험은 기존 CAKE 작업이
@@ -494,3 +494,23 @@ Qwen W0-reference 대조의 B5 checkpoint에서도 실제 가중치/H/순서/SHA
 B6 L5 잔차는14.1875(원 대조892), 업데이트 norm은16.279(원 대조1951.1764)다.
 이 수치들은 가중치와 z의 관측이며 CF 성능으로 보고하지 않는다.
 [Qwen W0-reference B5 저장 상태](../../../audits/global/fe-collapse-repair-20261011/native-qwen-online-b05-prior-audit.json).
+
+## GPT-J의 동일 history와 보정된 500건 checkpoint
+
+63386/63389의 B5를 직접 비교했다. 원본/보정본 L3 history는 **비트 단위로 동일**하며,
+trace는 양쪽 모두201,056.61914980412다. 같은500건·순서·context·hparams도 확인했다.
+L4–L8 history는 앞 층의 편집 가중치가 달라진 결과로 서로 다르지만 모두 finite·대칭·비영이다.
+따라서 L3 업데이트 감소는 history를 생략하거나 약하게 적용해서 얻은 결과가 아니다.
+
+보정본 B5의 여섯 층 `15000*C0+H`가 모두 Cholesky를 통과했다. L3 weight norm은
+**140.96**이며 원본은350,207.89다. 원본/보정 checkpoint 파일의 검사 전후 SHA도 같다.
+2K 성능은 별도 공통 평가가 끝난 뒤 판단한다.
+[history 직접 비교](../../../audits/global/fe-collapse-repair-20261011/native-gptj-paired-b05-history.json) ·
+[보정본 B5 전체 층 검사](../../../audits/global/fe-collapse-repair-20261011/native-gptj-repaired-b05-prior-audit.json).
+
+Qwen 원본 대조의 공통 평가도 요청별 raw NLL에서 독립 재집계했다. 각 요청 안에서
+prompt별 선호 비율을 평균하고 전체 요청 평균 및 조화평균 Score를 계산했으며,
+W0/500/1000/1500/2000의 모든 Eff/Gen/Loc/Score가 저장된 summary와 일치한다.
+W20에서는 rewrite/paraphrase/neighborhood의 목표 토큰 정답 수가 모두0임을 raw에서
+확인했다. 약50의 선호 점수를 정상적인 편집 성능으로 해석하면 안 된다.
+[raw 독립 재집계](../../../audits/global/fe-collapse-repair-20261011/native-qwen-independent-metrics.json).
