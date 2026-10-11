@@ -20,6 +20,7 @@ from omegaconf import OmegaConf
 import torch
 
 from official.diagnostics.fe_native import checkpoint_observer, sequential_z, patch as native_patch
+from official.diagnostics.fe_native.evaluate import validate_payload, restore_weights
 
 
 class Tokens(dict):
@@ -84,6 +85,34 @@ def requests():
 
 
 class NativeTests(unittest.TestCase):
+    def test_readonly_evaluation_rejects_reordered_checkpoint(self):
+        model = Model()
+        cfg = config()
+        cfg.bs = 100
+        cfg.num_edits = 2000
+        cfg.model_dtype = 'bfloat16'
+        cfg.diagnostic_identity_sha256 = 'a'*64
+        rows = [dict(case_id=i) for i in range(2000)]
+        payload = dict(schema='native-fe-sequential-diagnostic-v1', identity_sha256='a'*64,
+            z_policy='CURRENT_BATCH_ENTRY_NO_FUTURE_TARGETS', completed_batches=5, completed_edits=500,
+            seen_case_ids=list(range(500)), config=OmegaConf.to_container(cfg),
+            weights={k:p.detach().clone() for k,p in model.named_parameters()})
+        validate_payload(payload, {'identity_sha256':'a'*64}, rows, 5)
+        payload['seen_case_ids'][0], payload['seen_case_ids'][1] = 1, 0
+        with self.assertRaisesRegex(ValueError, 'NATIVE_EVAL_STREAM_ORDER'):
+            validate_payload(payload, {'identity_sha256':'a'*64}, rows, 5)
+
+    def test_restore_validates_all_shapes_before_writing(self):
+        model = Model()
+        weights = {k:torch.ones_like(p) for k,p in model.named_parameters()}
+        before = {k:p.detach().clone() for k,p in model.named_parameters()}
+        invalid = dict(weights, **{'layers.1.weight':torch.ones(2,3)})
+        with self.assertRaisesRegex(ValueError, 'NATIVE_EVAL_WEIGHT_SHAPE_DTYPE_FINITE'):
+            restore_weights(model, invalid)
+        self.assertTrue(all(torch.equal(p,before[k]) for k,p in model.named_parameters()))
+        restore_weights(model, weights)
+        self.assertTrue(all(torch.equal(p,weights[k]) for k,p in model.named_parameters()))
+
     def test_targets_use_only_this_batch_and_current_weights(self):
         model = Model()
         seen = []

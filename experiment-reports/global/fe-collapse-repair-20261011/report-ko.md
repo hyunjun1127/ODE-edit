@@ -226,7 +226,7 @@ writer/history를 유지하고, 현재 batch-entry 모델의 해당100건만 fir
   기존EasyEdit공분산NPZ는원본bytes그대로저자get_cov경로에연결한다. GPT-J음의고유값보정도이진단에는없다.
   모델파일전체SHA와C0전체SHA를재검증했다. nativeget_cov가기존FP32sum/count와bit-identical인것을
   QwenL4/GPT-JL3에서CPU로확인했다. 원본통계파일을새로계산하거나덮어쓰지않았다.
-- native환경은torch2.9.1+cu128/transformers4.51.3/hydra1.3.2/numpy2.2.6이다.
+- native환경은torch2.9.1+cu128/transformers4.51.3/hydra1.3.2/numpy1.26.4이다.
   저자requirements의모든dependency버전이같다는주장은하지않는다. Python/Hydra는로컬호환환경이다.
 - 기존CF2Kcase ID와순서를유지한다. 새seed/표본은아직실행하지않았다.
 - CPU6개검사통과: 실제저자apply+writer의history/배치시점, 작은입력에서저자firstforward재생과일치,

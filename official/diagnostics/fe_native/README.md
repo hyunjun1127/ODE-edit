@@ -36,3 +36,10 @@ FE_NATIVE_AUTHOR_ROOT=/path/to/pinned/FE python -m unittest official.tests.test_
 They exercise the actual native apply loop and unchanged writer on small tensors, batch-entry
 target scope, persistent history, target replay parity, model mutation rejection, and snapshot
 roundtrips. GPU performance must be established by the submitted native runs.
+
+`evaluate.py` is an independent, read-only checkpoint evaluator. It runs after native
+training, checks checkpoint/config/stream identities, restores only the selected weights
+into a fresh BF16 model, and records common CF per-case raw observations at W0 and each
+available 500-edit checkpoint. W0 uses all 2,000 requests; W5/W10/W15/W20 use all seen
+requests at that point. The checkpoint file SHA is verified before and after evaluation.
+It never invokes target fitting or modifies the native training program.
