@@ -15,7 +15,8 @@ covariance loading, LU solve, key precision, history accumulation, and weight as
 The `algs/memit/compute_z.py` used here is the author's existing function; its only difference from
 `z_methods/compute_z.py` is two informational print statements. Forward replay follows the author's
 `compute_z_batch_first_forward` on bare prompts, with support for tensor/tuple block outputs.
-No ODE runner, EasyEdit algorithm, prior repair, shared context override, or FP32 override is used.
+The editing process has no ODE runner or EasyEdit algorithm imports. The default control
+uses the original prior and native contexts and precision.
 
 There is a separate observation-only addition: `checkpoint_observer.py` saves native weights,
 history, contexts, RNG and case IDs at W0 and every 500 edits. It does not evaluate or update the
@@ -23,8 +24,8 @@ model. Snapshot tests verify unchanged weights/history/RNG. The final native `sa
 runs normally. Milestone payloads contain resume state but automatic native resume is not implemented.
 
 Paths/cache aliases and data-format conversion adapt local assets without changing the 2,000
-ordered CF requests. Original covariance NPZs are used without repair, including GPT-J L3.
-The diagnostic is kept separate from the current baseline main table. If alternative samples
+ordered CF requests. The original-prior control uses the existing covariance NPZs, including
+GPT-J L3. The diagnostic is kept separate from the current baseline main table. If alternative samples
 are needed later, declare their seed/order before seeing results and retain the original failure.
 
 CPU checks:
@@ -43,3 +44,35 @@ into a fresh BF16 model, and records common CF per-case raw observations at W0 a
 available 500-edit checkpoint. W0 uses all 2,000 requests; W5/W10/W15/W20 use all seen
 requests at that point. The checkpoint file SHA is verified before and after evaluation.
 It never invokes target fitting or modifies the native training program.
+
+## Explicit causal controls
+
+The following controls separate the target reference from request arrival and covariance
+validity. All retain the native writer, author hparams, persistent history, BF16 and the same
+ordered requests. A control is recorded in its own immutable configuration and output folder.
+
+| Control | Target reference | Requests fitted at a time | Covariance |
+| --- | --- | --- | --- |
+| Current sequential diagnostic | Current batch-entry model | Current 100 only | Original NPZ |
+| GPT-J numerical repair | Current batch-entry model | Current 100 only | Derived L3 NPZ; other layers original |
+| Qwen initial-model control | Initial model W0 | Current 100 on arrival only | Original NPZ |
+
+`+diagnostic_z_reference=initial_model_on_arrival` enables the third row. `TargetSupplier`
+saves the initial selected weights on CPU, temporarily restores them for the arriving batch's
+target computation, and restores all editing weights before the native writer runs. The same
+restoration happens if fitting raises. There is no future target cache. This option changes the
+reference model relative to the default and must be labeled separately; it does not silently
+replace the current baseline. The default is `batch_entry`.
+
+`covariance.py` creates a separate native-format NPZ from an explicitly identified defective
+FP32 moment cache. It preserves the count and other metadata, applies the documented
+storage-resolution repair, and writes an FP64 summed moment. It verifies the reloaded matrix
+is positive definite and records the original/derived SHA and correction size. It rejects
+healthy assets and never modifies the source NPZ. Only the repair control points the author's
+native cache path to this derived file; the author YAML and solver remain unchanged.
+
+The checkpoint records the target reference, and the evaluator rejects a configuration with
+a different reference. CPU checks also exercise initial-reference restoration on success and
+failure, derived covariance roundtrips, metadata preservation and rejection of wrong sources.
+Run registrations, scientific differences and current evidence are in the
+[FE investigation report](../../../experiment-reports/global/fe-collapse-repair-20261011/report-ko.md).

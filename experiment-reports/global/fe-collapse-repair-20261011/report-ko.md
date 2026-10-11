@@ -6,10 +6,11 @@
 아래 author W0-fixed 결과와 CPU 대조는 별도 경로의 원인 후보 조사이며 현재 baseline의 회복 증거가 아니다.
 초기 조사에서 이 경로를 현재 기준으로 바꾼 것은 잘못이었다. Qwen/GPT-J의 현재 기준 재검증이 남아 있다.
 
-## 현재 진행 상태 (2026-10-11 13:06 KST)
+## 현재 진행 상태 (2026-10-11 13:20 KST)
 
 공식 `main.py` + 현재 배치 z 진단을 server1에서 진행 중이다. 기존 정상 cap2에
-허용된 진단용 한 개 lane을 추가했다. 실행·평가는 다음 순서이며 최대 동시3 GPU다.
+허용된 진단용 한 개 lane을 추가했다. 후속 원인 분리 실험은 기존 CAKE 두 작업이
+모두 종료된 뒤 비는 슬롯에서 병렬로 실행한다. 전체 최대 동시3 GPU는 유지한다.
 
 | 작업 | job | 의존성/관측 상태 |
 | --- | --- | --- |
@@ -17,6 +18,13 @@
 | Qwen 저장 checkpoint 공통 평가 | 63387 | PENDING afterany:63385 |
 | GPT-J CF native sequential 2K | 63386 | PENDING afterany:63387 |
 | GPT-J 저장 checkpoint 공통 평가 | 63388 | PENDING afterany:63386 |
+| GPT-J L3 C0만 보정한 native 2K → 평가 | 63389 → 63390 | PENDING, CAKE63298·63299 모두 종료 후 |
+| Qwen 현재100건의 W0-reference z → 평가 | 63391 → 63392 | PENDING, CAKE63298·63299 모두 종료 후 |
+
+63389/63391의 자원 의존성만 조정했다. 두 작업을 hold한 상태에서 실제 Slurm 설정과
+전체 사용자/server1 GPU DAG의 최대 폭3을 확인하고 hold를 모두 해제했다. 새 제출이나
+source/config/output 변경은 없으며 CAKE 작업 자체도 변경하지 않았다.
+[대기 의존성 전후 검산](../../../audits/global/fe-collapse-repair-20261011/native-causal-parallel-after-cake.json).
 
 후속 평가는 저장된 W0/500/1000/1500/2000 가중치를 별도 프로세스에서 읽는다.
 편집은 계속 저자 `main.py`가 수행하며 실행 중인 source/config/output 변경은0이다.
@@ -305,7 +313,8 @@ CPU12개 검사에서 현재 요청 범위, 성공/예외 시 editing state 복�
 source49ab6b20, 동일 저자478134df, 동일2K 순서/author hparams/BF16/history다.
 Qwen 대조는 미래 target을 계산하지 않지만 **현재 모델 기준 z와는 다른 reference**다.
 이 두 효과를 구분하기 위한 진단이며 baseline 결과를 덮어쓰지 않았다.
-실제 추가 lane 전체는63385→63387→63386→63388→63389→63390→63391→63392다.
+등록 당시 추가 lane은63385→63387→63386→63388→63389→63390→63391→63392였다.
+13:20 KST에 후속 두 대조의 자원 의존성을 위 현재 진행 상태에 기재한 구조로 조정했다.
 기존 job 변경0, held 실제 검사 후 전부 release했으며 최대 동시3 GPU다.
 GPU 성능 회복은 아직 미확인이다. Qwen63385는B6에서 L5 잔차892/update1951까지 증가했다.
 

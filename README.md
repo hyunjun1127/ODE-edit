@@ -106,6 +106,8 @@ CAKE 자원 순서를 **63296 → 63298**, **63297 → 63299**로 복구하고 �
 [실제 등록](audits/global/fe-collapse-repair-20261011/native-submission.json).
 후속 원인 분리 대조는 **63389 GPT-J C0 수치 보정 / 63391 Qwen 현재100건의 W0-reference z**가 PENDING이며,
 각 checkpoint 평가는63390/63392다. 저자 hparams/history를 유지하고 미래 target은 계산하지 않는다.
+두 대조는 기존 CAKE63298·63299가 모두 종료된 뒤 비는 슬롯에서 병렬로 시작하며,
+server1 최대 동시3 GPU를 유지한다. [의존성 전후 검산](audits/global/fe-collapse-repair-20261011/native-causal-parallel-after-cake.json).
 Qwen 대조는 현재 모델 기준 z와 다른 프로토콜로 구분한다.
 [설정 차이·등록](experiment-reports/global/fe-collapse-repair-20261011/report-ko.md#두-원인-분리-대조-등록-1206-kst).
 
