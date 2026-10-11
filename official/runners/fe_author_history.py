@@ -46,6 +46,9 @@ def validate_config(c):
     assert c['server'] in ('server1','server2','server3','server4') and c['dataset'] in ('cf','zsre')
     if c['server']=='server4':
         assert (c['model'],c['dataset'])==('llama3','zsre') and c.get('checkpoint_archive')
+    if c['server']=='server3':
+        # Llama CF rerun with the W20 checkpoint kept locally for the deferred Flu/Con evaluation.
+        assert (c['model'],c['dataset'])==('llama3','cf') and not c.get('checkpoint_archive')
     if c.get('checkpoint_archive'):
         assert (c['server'],c['model'],c['dataset'])==('server4','llama3','zsre')
     assert (c['batch_size'],c['batches'],c['requests'],c['edit_seed'])==(100,20,2000,0)

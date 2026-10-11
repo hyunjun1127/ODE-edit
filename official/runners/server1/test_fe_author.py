@@ -37,6 +37,12 @@ class AuthorTests(unittest.TestCase):
                 t=tracking_config(run.tracking_values(c,{'source_commit':'a'*40}))
                 self.assertEqual((t['server'],t['model'],t['dataset']),(server,model,dataset))
                 self.assertEqual('generation_schedule' in t,dataset=='cf')
+    def test_server3_only_llama_cf_local_checkpoint(self):
+        c=config('llama3','cf','server3');run.validate_config(c)
+        self.assertEqual(tracking_config(run.tracking_values(c,{'source_commit':'a'*40}))['server'],'server3')
+        for model,dataset,extra in [('llama3','zsre',{}),('qwen25','cf',{}),('llama3','cf',{'checkpoint_archive':{'host':'x'}})]:
+            c=config(model,dataset,'server3');c.pop('config_sha256');c.update(extra);c['config_sha256']=digest(c)
+            with self.assertRaises((ValueError,AssertionError)):run.validate_config(c)
     def test_tampered_config_rejected(self):
         for field,value in [('model','gptj'),('hparams',{}),('author_profile_sha256','x'*64),('storage_min_free_bytes',-1)]:
             c=config();c[field]=value;c.pop('config_sha256');c['config_sha256']=digest(c)
