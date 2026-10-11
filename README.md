@@ -127,7 +127,7 @@ covariance·z policy·writer 필드를 더했는데 checkpoint 검사는 핵심 
 
 **FE·CAKE CF Flu/Con과 FE zsRE 제출(2026-10-11 사용자 지시, 20:13 KST 관측):** "FE Flu/Con, CAKE Flu/Con 모두 각각 server1,2에 나눠서 제출하고 FE zsRE는 server4에"와 "gpt-j의 zsRE도 server4에서 제출해"에 따라 held 검사 후 release했다.
 - **CF Flu/Con 6개**(source `3a1b6138`): 저장된 W20 편집 가중치를 다른 Flu/Con 칸과 같은 공용 평가기(FP32 eager, TF32 off)에 복원해 잰다. BF16으로 편집한 GPT-J·Qwen FE는 저장된 BF16 가중치를 FP32로 정확히 변환한다. server1: GPT-J FE **63537** → GPT-J CAKE **63538**(collector 63539). server2: Llama FE **63540** → Qwen FE **63541**, Llama CAKE **63542** → Qwen CAKE **63543**(collector 63544).
-- **FE zsRE 2개**(server4, source `9a12b857`): Llama **63545**는 실패한 63357과 과학 설정이 같다(hparams·stream·순서 동일, config `6b1bda84` ← `b35dde63`). checkpoint를 server1로 스트림 저장하지 않고 server4에 두는 것만 다르다. GPT-J **63546**(편집) → **63547**(평가)는 CF 63389/63390과 같은 공식 FE `main.py`(BF16), L3 C0 수치 보정, 현재 모델 z이고 데이터만 zsRE 첫 2,000건이다. GPT-J zsRE 평가는 CF 행처럼 BF16이며 baseline zsRE 행은 FP32 평가다. server4 GPU 2개 중 1개는 downstream 63529가 쓰므로 세 job은 남은 한 자리에서 차례로 돈다. Qwen FE zsRE는 제출하지 않았다.
+- **FE zsRE 2개**(server4, source `9a12b857`): Llama **63545**는 실패한 63357과 과학 설정이 같다(hparams·stream·순서 동일, config `6b1bda84` ← `b35dde63`). checkpoint를 server1로 스트림 저장하지 않고 server4에 두는 것만 다르다. GPT-J **63546**(편집) → **63547**(평가)는 CF 63389/63390과 같은 공식 FE `main.py`(BF16), L3 C0 수치 보정, 현재 모델 z이고 데이터만 zsRE 첫 2,000건이다. GPT-J zsRE 평가는 CF 행처럼 BF16이며 baseline zsRE 행은 FP32 평가다. server4 GPU 2개 중 1개는 downstream 63529가 쓰므로 세 job은 남은 한 자리에서 차례로 돈다. Qwen FE zsRE는 이후 사용자 지시("Qwen FE zsRE 제출해. server1")로 server1 **63555**(편집) → **63556**(평가)에 등록했다(source `bc2b084f`). CF 63385/63387과 데이터만 다르고(zsRE 첫 2,000건, GPT-J와 같은 변환 파일), 공식 FE `main.py`(BF16)·원 C0(보정 없음)·현재 모델 z·snapshot 설정은 같다.
 [job·config·source 기록](audits/global/fe-flucon-zsre-submit-20261011/submission.json).
 
 **W0 행은 편집 전 base model을 동일한 2,000개 요청에 평가한 기준값**이며 W20 결과와 구분합니다.
@@ -346,7 +346,7 @@ SH3 최신 CPU 재검산에서도 위 네 지표 delta0, 신규 본표 적격 �
 | MEMIT | 62.23 | 68.50 | 65.83 | 54.30 | 562.02 | 6.24 | 41.49 | 39.44 | 26.39 |
 | AlphaEdit | 83.03 | 99.05 | 97.55 | 63.36 | 618.99 | 33.92 | 85.05 | 78.18 | 30.79 |
 | AlphaEdit-BLUE | 77.98 | 97.70 | 96.75 | 55.86 | 602.99 | 37.43 | 58.62 | 53.66 | 5.73 |
-| FE (author hparams + history) | 50.18 | 50.90 | 49.95 | 49.72 | PENDING: s2-flucon-qwen25-fe_author_native-63385 (63541) | PENDING: s2-flucon-qwen25-fe_author_native-63385 (63541) |  |  |  |
+| FE (author hparams + history) | 50.18 | 50.90 | 49.95 | 49.72 | PENDING: s2-flucon-qwen25-fe_author_native-63385 (63541) | PENDING: s2-flucon-qwen25-fe_author_native-63385 (63541) || PENDING: s1-qwen25-zsre-fe-native-main-seqz-2k (63555) | PENDING: s1-qwen25-zsre-fe-native-main-seqz-2k (63555) | PENDING: s1-qwen25-zsre-fe-native-main-seqz-2k (63555) |
 | AlphaEdit+SPHERE | 83.73 | 99.40 | 97.70 | 64.37 | CANCELLED: s2-flucon-qwen25-sphere-62079 (62873) | CANCELLED: s2-flucon-qwen25-sphere-62079 (62873) | CANCELLED: s4-qwen25-zsre-sphere-resume-b10 (63303) | CANCELLED: s4-qwen25-zsre-sphere-resume-b10 (63303) | CANCELLED: s4-qwen25-zsre-sphere-resume-b10 (63303) |
 | CAKE | 67.98 | 81.30 | 70.10 | 56.94 | PENDING: s2-flucon-qwen25-cake-63324 (63543) | PENDING: s2-flucon-qwen25-cake-63324 (63543) | 88.39 | 82.57 | 33.79 |
 | PRICE (Ours) | 87.63※ | 99.00※ | 95.55※ | 73.17※ | 620.95※ | 31.46※ | 98.72※ | 93.97※ | 45.17※ |
