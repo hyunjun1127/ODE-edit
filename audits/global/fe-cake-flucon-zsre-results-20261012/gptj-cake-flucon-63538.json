@@ -1,0 +1,289 @@
+{
+ "schema": "fe-cake-flucon-result-audit-v1",
+ "observed_at": "2026-10-12T01:30:00+09:00",
+ "result": "GPT-J CAKE CF Flu/Con (W20, 2,000 case)",
+ "row": {
+  "table": "GPT-J-6B",
+  "method": "CAKE",
+  "cells": [
+   "CF Flu ×100",
+   "CF Con ×100"
+  ],
+  "replaced_status": "PENDING: s1-flucon-gptj-cake-63298 (63538)"
+ },
+ "job": {
+  "id": "63538",
+  "name": "s1-flucon-gptj-cake-63298",
+  "server": "server1",
+  "state": "COMPLETED",
+  "exit_code": "0:0",
+  "start": "2026-10-11T22:28:59+09:00",
+  "end": "2026-10-12T01:03:11+09:00",
+  "elapsed": "02:34:12",
+  "node": "devbox"
+ },
+ "evaluator": {
+  "source_commit": "3a1b61385d912ef9c8958c1d15c331a32e72662f",
+  "entry": "official.runners.fe_cake_flucon run -> official.runners.server1.flucon_eval.run (공용 평가기, 변경 없음)",
+  "precision": "FP32 eager, TF32 off",
+  "generation": "NativeGenerationObserver PROFILE, eval seed 20261007, W20_ONLY_FIRST2000",
+  "reference_identity": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+  "cf_order": "CF first 2,000 (ordered_case_ids_sha256 0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4, stream sha256 66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37)"
+ },
+ "completion": {
+  "COMPLETE_json": {
+   "host": "server1",
+   "path": "/mnt/raid5/janghj/ODE-edit/local/fe-cake-flucon-20261011/preparation-s1-r1/runs/gptj-cake-63298/COMPLETE.json",
+   "bytes": 2223,
+   "sha256": "815409627295557cbc21e28c2a02128bac8db9a5d05a03f5a4316a101aa4b761"
+  },
+  "FAILURE_json": "없음",
+  "restore_json": {
+   "host": "server1",
+   "path": "/mnt/raid5/janghj/ODE-edit/local/fe-cake-flucon-20261011/preparation-s1-r1/runs/gptj-cake-63298/restore.json",
+   "bytes": 2093,
+   "sha256": "9f096a1a09c6aef9bd3581e76af67f2678235299c146243061b6000c1b813b05"
+  },
+  "config": {
+   "host": "server1",
+   "path": "/mnt/raid5/janghj/ODE-edit/local/fe-cake-flucon-20261011/preparation-s1-r1/configs/gptj-cake-63298.json",
+   "bytes": 6239,
+   "sha256": "321434a9930544d38fb46da714d2b0a5af58f72a9632b94a74c3aa3783b1916e"
+  },
+  "observer_identity": {
+   "host": "server1",
+   "path": "/mnt/raid5/janghj/ODE-edit/local/fe-cake-flucon-20261011/preparation-s1-r1/runs/gptj-cake-63298/generation/observer-identity.json",
+   "bytes": 1846,
+   "sha256": "803c4cec359b8b44b56630ce9a1df9aaafc25f4890ecc9defbef40e5150c0189"
+  },
+  "native_execution": {
+   "host": "server1",
+   "path": "/mnt/raid5/janghj/ODE-edit/local/fe-cake-flucon-20261011/preparation-s1-r1/runs/gptj-cake-63298/generation/native-executions/99e63d5fedf7bdd1c72f7d58d2e1728a5b94d24f92cb6e80470fadc16da2ada1.json",
+   "bytes": 147720,
+   "sha256": "c83be4a81a4bc474644d3741485f071f869ebbfb9500399311bea2fa53e4db0a"
+  },
+  "invariants": {
+   "weights_unchanged": true,
+   "RNG_unchanged": true,
+   "checkpoint_unchanged": true,
+   "edits": 0,
+   "requests": 2000
+  },
+  "collector": {
+   "job": "63539",
+   "state": "COMPLETED",
+   "exit_code": "0:0",
+   "end": "2026-10-12T01:12:17+09:00",
+   "status": "CPU_RAW_VERIFIED",
+   "file": {
+    "host": "server1",
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-cake-flucon-20261011/registration-s1-r1/collector-results.json",
+    "bytes": 3601,
+    "sha256": "e87b46679126efcd0419f647546363315a2fec89bd0140f8da778c6ac36701e4"
+   }
+  }
+ },
+ "W20_identity": {
+  "edit_job": "63298 (CAKE CF 2K, server1)",
+  "checkpoint": {
+   "host": "server1",
+   "path": "/mnt/raid5/janghj/ODE-edit/local/cake-six-2k-server1-20261011/runs/gptj-cf/checkpoint/batch-20-da58f9b4452488a3.pt",
+   "bytes": 8053082005,
+   "sha256": "da58f9b4452488a3aede31f65b6fd0fc97d4df7871c6001d33251345475611e0",
+   "rehash_2026_10_12": "da58f9b4452488a3aede31f65b6fd0fc97d4df7871c6001d33251345475611e0",
+   "schema": "official-baseline-checkpoint-v1",
+   "method": "CAKE",
+   "stored_dtype": "float32",
+   "cast": "none: FP32 copied exactly",
+   "checkpoint_meta": {
+    "batch": 20,
+    "identity_code_commit": "a247c7925911990a0dc7230885c54710d540f8f7",
+    "identity_config_sha256": "61bd66b5b5cfb8557123c32c26d2f11782c4ae771293fb74fb30a34a54916fc6",
+    "method": "CAKE",
+    "schema": "official-baseline-checkpoint-v1"
+   }
+  },
+  "restored_selected_weights_fp32_sha256": {
+   "transformer.h.3.mlp.fc_out.weight": "235bf476c1dd0e7252cd4b4a97c0473a32329fd51f52885dbb5afde253da138b",
+   "transformer.h.4.mlp.fc_out.weight": "97a5c6ee37430045dc6cb18c0974918a59a7307827979e78b02ead2b4113b8ca",
+   "transformer.h.5.mlp.fc_out.weight": "c35e19b0d5a6376c0aacecbb155db82a6f3b73ae469db6864ec26d0bc4ac3d5f",
+   "transformer.h.6.mlp.fc_out.weight": "e309e5e4e73c212dda4df5b4d2e1bcee39bb3159d8a7510ac9f891287079b021",
+   "transformer.h.7.mlp.fc_out.weight": "725b0b89e3466613790f36744b46bad88d4a3e0f1997863857b92ba251382d0e",
+   "transformer.h.8.mlp.fc_out.weight": "dddc346937e4549d1bd0928b47e72c3bed878d8c7a1c9956c93bf90ae7b6da02"
+  },
+  "recorded_W20_hash_match_in_run": "NO_TENSOR_RECORD_IN_RUN",
+  "tensor_rehash_2026_10_12": {
+   "tensors": {
+    "transformer.h.3.mlp.fc_out.weight": {
+     "dtype": "float32",
+     "shape": [
+      4096,
+      16384
+     ],
+     "stored_sha256": "235bf476c1dd0e7252cd4b4a97c0473a32329fd51f52885dbb5afde253da138b",
+     "fp32_sha256": "235bf476c1dd0e7252cd4b4a97c0473a32329fd51f52885dbb5afde253da138b",
+     "finite": true
+    },
+    "transformer.h.4.mlp.fc_out.weight": {
+     "dtype": "float32",
+     "shape": [
+      4096,
+      16384
+     ],
+     "stored_sha256": "97a5c6ee37430045dc6cb18c0974918a59a7307827979e78b02ead2b4113b8ca",
+     "fp32_sha256": "97a5c6ee37430045dc6cb18c0974918a59a7307827979e78b02ead2b4113b8ca",
+     "finite": true
+    },
+    "transformer.h.5.mlp.fc_out.weight": {
+     "dtype": "float32",
+     "shape": [
+      4096,
+      16384
+     ],
+     "stored_sha256": "c35e19b0d5a6376c0aacecbb155db82a6f3b73ae469db6864ec26d0bc4ac3d5f",
+     "fp32_sha256": "c35e19b0d5a6376c0aacecbb155db82a6f3b73ae469db6864ec26d0bc4ac3d5f",
+     "finite": true
+    },
+    "transformer.h.6.mlp.fc_out.weight": {
+     "dtype": "float32",
+     "shape": [
+      4096,
+      16384
+     ],
+     "stored_sha256": "e309e5e4e73c212dda4df5b4d2e1bcee39bb3159d8a7510ac9f891287079b021",
+     "fp32_sha256": "e309e5e4e73c212dda4df5b4d2e1bcee39bb3159d8a7510ac9f891287079b021",
+     "finite": true
+    },
+    "transformer.h.7.mlp.fc_out.weight": {
+     "dtype": "float32",
+     "shape": [
+      4096,
+      16384
+     ],
+     "stored_sha256": "725b0b89e3466613790f36744b46bad88d4a3e0f1997863857b92ba251382d0e",
+     "fp32_sha256": "725b0b89e3466613790f36744b46bad88d4a3e0f1997863857b92ba251382d0e",
+     "finite": true
+    },
+    "transformer.h.8.mlp.fc_out.weight": {
+     "dtype": "float32",
+     "shape": [
+      4096,
+      16384
+     ],
+     "stored_sha256": "dddc346937e4549d1bd0928b47e72c3bed878d8c7a1c9956c93bf90ae7b6da02",
+     "fp32_sha256": "dddc346937e4549d1bd0928b47e72c3bed878d8c7a1c9956c93bf90ae7b6da02",
+     "finite": true
+    }
+   },
+   "equals_payload_tensor_sha256": true,
+   "equals_restored_fp32_sha256": true
+  },
+  "edit_run_pointer": {
+   "host": "server1",
+   "path": "/mnt/raid5/janghj/ODE-edit/local/cake-six-2k-server1-20261011/runs/gptj-cf/checkpoint/latest.json",
+   "bytes": 237,
+   "sha256": "cffc556e083eff3ae27cfbe4352997f6ce585b6eae138c302d7b2305419639fd"
+  },
+  "edit_run_pointer_fields": {
+   "batch": 20,
+   "final_W20": true,
+   "file": "batch-20-da58f9b4452488a3.pt",
+   "identity_sha256": "3353770f95cccec49cede1236d5fed578eeafff868f61334e9e61d6e6de5e82a"
+  },
+  "checkpoint_identity_config_sha256": "61bd66b5b5cfb8557123c32c26d2f11782c4ae771293fb74fb30a34a54916fc6",
+  "table_row_audit": "audits/servers/server1/cake-six-2k-20261011/w20-table-row-63298.json (W20_checkpoint.latest.sha256 da58f9b4…, identity.config_sha256 61bd66b5…)",
+  "match": "복원한 checkpoint(sha256 da58f9b4…)가 63298의 latest.json(final_W20) 및 CAKE 행 audit의 W20 checkpoint와 같다. CAKE run은 텐서별 W20 SHA를 기록하지 않아(NO_TENSOR_RECORD_IN_RUN) checkpoint의 FP32 텐서 SHA를 다시 계산해 restore.json과 같음을 확인했다."
+ },
+ "raw": {
+  "endpoint": {
+   "bytes": 2780975,
+   "path": "/mnt/raid5/janghj/ODE-edit/local/fe-cake-flucon-20261011/preparation-s1-r1/runs/gptj-cake-63298/generation/endpoints/99e63d5fedf7bdd1c72f7d58d2e1728a5b94d24f92cb6e80470fadc16da2ada1.json",
+   "sha256": "556ae2cc0355605efe0f69d05279b911d1ea1d8fc7a3fef399c979660cfe9b4e",
+   "host": "server1"
+  },
+  "observations": {
+   "dir": "/mnt/raid5/janghj/ODE-edit/local/fe-cake-flucon-20261011/preparation-s1-r1/runs/gptj-cake-63298/generation/observations",
+   "each_file_sha256_equals_endpoint_raw_member": true,
+   "files": 2000,
+   "sorted_sha256sum_manifest_sha256": "e5a4df7b52b65e0329d39658e9828fbf1f49faee0e1fd441957008100ecd7956",
+   "total_bytes": 64102110,
+   "host": "server1"
+  },
+  "cases": 2000,
+  "prompts": 20000,
+  "generated_tokens": 1815122,
+  "case_order_equals_cf_stream_first2000": true
+ },
+ "recount": {
+  "method": "독립 CPU 재집계(2026-10-12): 2,000개 raw 관측 파일의 생성 원문 10개/case를 직접 다시 채점했다. Flu = nltk.word_tokenize 2-gram/3-gram entropy(bits)의 (2/3·H2 + 4/3·H3)/2 평균, Con = 고정 MEMIT idf.npy/tfidf_vocab.json TF-IDF로 생성문 묶음과 (relation_id, target_new.id) reference snippet 묶음의 cosine. run 요약은 쓰지 않았고, raw 파일에 저장된 case별 지표 평균(level 1)도 따로 대조했다. 표시는 반올림 전 평균 ×100 후 소수 둘째 자리 decimal half-up.",
+  "reference": {
+   "manifest": {
+    "bytes": 6769,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-generation-eval-assets/20261007/reference-ready-r1/manifest.json",
+    "sha256": "6d9a713ab7eaa10871f277e10a3974e0bd5b140c265be80052c279f258876ca8"
+   },
+   "assets": {
+    "attribute_snippets.json": {
+     "bytes": 926285719,
+     "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-generation-eval-assets/20261007/download-r1/attribute_snippets.json",
+     "sha256": "10b5c1cd105e54d5983c72de1b45bfc88bc7af786f7b99def2557886ff23385b"
+    },
+    "idf.npy": {
+     "bytes": 11042168,
+     "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-generation-eval-assets/20261007/download-r1/idf.npy",
+     "sha256": "c073d642589d4ac6432f467230329b36364a01e72de63a77a3624b745b923dda"
+    },
+    "tfidf_vocab.json": {
+     "bytes": 31639072,
+     "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-generation-eval-assets/20261007/download-r1/tfidf_vocab.json",
+     "sha256": "8a78c4f20d8d85dadfd14e283d71af255482ff18aa0eb8a81716024c05ff888b"
+    }
+   },
+   "punkt": {
+    "path": "/mnt/raid5/janghj/nltk_data/tokenizers/punkt/PY3/english.pickle",
+    "sha256": "5cad3758596392364e3be9803dbd7ebeda384b68937b488a01365f5551bb942c"
+   },
+   "nltk": "3.6.5",
+   "sklearn": "1.7.2",
+   "numpy": "2.2.6"
+  },
+  "rescored_from_texts": {
+   "Con_cosine": 0.41025394733081316,
+   "Flu_bits": 6.136762412794571
+  },
+  "stored_per_case_mean": {
+   "Con_cosine": 0.4102539473308133,
+   "Flu_bits": 6.136762412794571
+  },
+  "max_abs_per_case_diff_stored_vs_rescored": {
+   "Con_cosine": 2.942091015256665e-14,
+   "Flu_bits": 2.6645352591003757e-15
+  },
+  "run_summary": {
+   "Con_cosine": 0.4102539473308133,
+   "Flu_bits": 6.136762412794571,
+   "consistency_count": 2000,
+   "fluency_count": 2000,
+   "generated_token_count": 1815122,
+   "generation_prompt_count": 20000
+  },
+  "abs_diff_vs_run_summary": {
+   "Con": 1.1102230246251565e-16,
+   "Flu": 0.0
+  },
+  "display_x100": {
+   "Con": "41.03",
+   "Flu": "613.68"
+  },
+  "run_display_x100": {
+   "Con": "41.03",
+   "Flu": "613.68"
+  },
+  "matches_run_summary": true
+ },
+ "README_cells": {
+  "CF Flu ×100": "613.68",
+  "CF Con ×100": "41.03"
+ },
+ "note": "FP32로 저장된 편집 가중치를 그대로 복사했다."
+}

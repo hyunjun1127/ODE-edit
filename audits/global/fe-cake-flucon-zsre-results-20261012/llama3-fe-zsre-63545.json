@@ -1,0 +1,338 @@
+{
+ "schema": "fe-zsre-result-audit-v1",
+ "observed_at": "2026-10-12T01:30:00+09:00",
+ "result": "Llama3 FE zsRE (W20, 2,000 요청, 공개 query 평가기)",
+ "row": {
+  "table": "Llama3-8B-Instruct",
+  "method": "FE (author hparams + history)",
+  "cells": [
+   "zsRE Eff",
+   "zsRE Gen",
+   "zsRE Loc"
+  ],
+  "replaced_status": "ING: official-s4-llama3-zsre-fe-author-history-local (63545)"
+ },
+ "job": {
+  "id": "63545",
+  "name": "official-s4-llama3-zsre-fe-author-history-local",
+  "server": "server4",
+  "state": "COMPLETED",
+  "exit_code": "0:0",
+  "start": "2026-10-11T20:12:28+09:00",
+  "end": "2026-10-11T23:40:52+09:00",
+  "elapsed": "03:28:24",
+  "node": "server4"
+ },
+ "run": {
+  "source_commit": "9a12b857975328f74ba047b3c922516764013802",
+  "implementation": "official.runners.fe_author_history (수정 EasyEdit FE + history, FP32)",
+  "config_sha256": "6b1bda84f2e87fa5c80db49b1e416468f10306a1eb1390eb26297141be1b7281",
+  "rerun_of": {
+   "job": "63357",
+   "config_sha256": "b35dde639824300ece65b38b518e7a112655f0c1600b83f5c077e2c043a53dc2",
+   "note": "과학 설정 동일(hparams·stream·순서). checkpoint를 server4에 두는 운영 차이만 있다."
+  },
+  "evaluator": "official-zsre-public-query-eval-only-v1 (request macro, Loc = loc_ans)",
+  "precision": "FP32",
+  "query_sha256": "7909c567881531b62db728ecc06308a3387324cc4e1c907b76bb50d8dd862efc",
+  "stream_sha256": "93925ec2f74e00a1b3fbdf261e557d10652ae0eca7265b4948958d39de4848b7",
+  "queries": 24535
+ },
+ "completion": {
+  "COMPLETE_json": {
+   "host": "server4",
+   "path": "/data/janghj/ODE-edit/local/fe-zsre-lane-b-s4-20261011/llama-zsre-local-r1/runs/zsre/COMPLETE.json",
+   "bytes": 4474,
+   "sha256": "087d96a5b3a65627af224dca88fdf6fa8e7da852fd7d3a2ac779e748a2cfc6c6"
+  },
+  "FAILURE_json": "없음",
+  "fields": {
+   "requests": 2000,
+   "native_apply_calls": 20,
+   "checkpoint_W20_preserved": true,
+   "history_appends_per_layer": 20,
+   "final_completed_batch": 20
+  },
+  "commits": "batch-01..20 모두 존재; 각 commit identity = COMPLETE.identity, edit.before = 이전 commit의 after, successful_calls 1..20; commit 20 cursor = COMPLETE.final_cursor",
+  "commit_batch20": {
+   "host": "server4",
+   "path": "/data/janghj/ODE-edit/local/fe-zsre-lane-b-s4-20261011/llama-zsre-local-r1/runs/zsre/commits/batch-20.json",
+   "bytes": 4336,
+   "sha256": "ff1e6092ae09c97367a23fbfa5da64b9efd4e7556394c522f08308a5d90b0478"
+  },
+  "factual_milestones": {
+   "W0": {
+    "host": "server4",
+    "path": "/data/janghj/ODE-edit/local/fe-zsre-lane-b-s4-20261011/llama-zsre-local-r1/runs/zsre/factual/W0.json",
+    "bytes": 5373821,
+    "sha256": "01e5a776ac274c2d2795b5812150732911e0e11c681fb28c112c5a66ccf5c4cf"
+   },
+   "W5": {
+    "host": "server4",
+    "path": "/data/janghj/ODE-edit/local/fe-zsre-lane-b-s4-20261011/llama-zsre-local-r1/runs/zsre/factual/batch-05.json",
+    "bytes": 1330556,
+    "sha256": "ee3ccedf35b6da6af086b19263e70127139881b58ba557ae2fa627e48530fb4d"
+   },
+   "W10": {
+    "host": "server4",
+    "path": "/data/janghj/ODE-edit/local/fe-zsre-lane-b-s4-20261011/llama-zsre-local-r1/runs/zsre/factual/batch-10.json",
+    "bytes": 2728644,
+    "sha256": "78aee8a5edf7ecf240e0fec6230e0744377443e820e39d6e38cba988b4e68338"
+   },
+   "W15": {
+    "host": "server4",
+    "path": "/data/janghj/ODE-edit/local/fe-zsre-lane-b-s4-20261011/llama-zsre-local-r1/runs/zsre/factual/batch-15.json",
+    "bytes": 4045328,
+    "sha256": "35100c381106e577fe2edda446483aa44ad594f9fc225093540486b9bd68ff77"
+   },
+   "W20": {
+    "host": "server4",
+    "path": "/data/janghj/ODE-edit/local/fe-zsre-lane-b-s4-20261011/llama-zsre-local-r1/runs/zsre/factual/batch-20.json",
+    "bytes": 5364817,
+    "sha256": "8d730dac7b7ce1f32993cc032d5ab70b75a2a8ec41b08dca5441483607e0eac0"
+   }
+  },
+  "note": "W5/W10/W15/W20 factual 파일은 해당 commit cursor의 factual member(sha256)와 같다."
+ },
+ "W20_identity": {
+  "checkpoint": {
+   "host": "server4",
+   "path": "/data/janghj/ODE-edit/local/fe-zsre-lane-b-s4-20261011/llama-zsre-local-r1/runs/zsre/checkpoint/batch-20-9a8802adc0e2f008.pt",
+   "bytes": 5284843587,
+   "sha256": "9a8802adc0e2f00805cca235e796d6da18d97ae560100a06f0f600a0f5cf4cb7",
+   "rehash_2026_10_12": "9a8802adc0e2f00805cca235e796d6da18d97ae560100a06f0f600a0f5cf4cb7",
+   "pointer": {
+    "host": "server4",
+    "path": "/data/janghj/ODE-edit/local/fe-zsre-lane-b-s4-20261011/llama-zsre-local-r1/runs/zsre/checkpoint/latest.json",
+    "bytes": 237,
+    "sha256": "2b4b49f587ff1b7186577fc678dcd91903f23b6059f60a2edc2bbe57bcbb15be"
+   },
+   "checkpoint_meta": {
+    "batch": 20,
+    "identity_code_commit": "9a12b857975328f74ba047b3c922516764013802",
+    "identity_config_sha256": "6b1bda84f2e87fa5c80db49b1e416468f10306a1eb1390eb26297141be1b7281",
+    "method": "MEMIT_FE_HISTORY",
+    "schema": "official-baseline-checkpoint-v1"
+   }
+  },
+  "recorded_W20_selected_weights_sha256": {
+   "model.layers.4.mlp.down_proj.weight": "c8c5d1e7ff73e655f61811f681230d38812c19eb82840362905e4c091a4e0cbe",
+   "model.layers.5.mlp.down_proj.weight": "34502548bcd0dc6638f0d3990e4df41d7099272f89d593e159347740426ee1d4",
+   "model.layers.6.mlp.down_proj.weight": "f48a1320bcf643d1be2fcc7ed933aaba5dc8016e2aed640b43321a3d3d4d0982",
+   "model.layers.7.mlp.down_proj.weight": "71a7aef7d5636ae4f5167d7f1e89878a5e9ae5d262ab671cb4ae757cc97915e3",
+   "model.layers.8.mlp.down_proj.weight": "1e32b4f1dff25ad42b9938cb73b71fc49fc57d5ce9ae4205f90ceae7d5a08d7b"
+  },
+  "tensor_rehash_2026_10_12": {
+   "model.layers.4.mlp.down_proj.weight": {
+    "fp32_sha256": "c8c5d1e7ff73e655f61811f681230d38812c19eb82840362905e4c091a4e0cbe",
+    "finite": true
+   },
+   "model.layers.5.mlp.down_proj.weight": {
+    "fp32_sha256": "34502548bcd0dc6638f0d3990e4df41d7099272f89d593e159347740426ee1d4",
+    "finite": true
+   },
+   "model.layers.6.mlp.down_proj.weight": {
+    "fp32_sha256": "f48a1320bcf643d1be2fcc7ed933aaba5dc8016e2aed640b43321a3d3d4d0982",
+    "finite": true
+   },
+   "model.layers.7.mlp.down_proj.weight": {
+    "fp32_sha256": "71a7aef7d5636ae4f5167d7f1e89878a5e9ae5d262ab671cb4ae757cc97915e3",
+    "finite": true
+   },
+   "model.layers.8.mlp.down_proj.weight": {
+    "fp32_sha256": "1e32b4f1dff25ad42b9938cb73b71fc49fc57d5ce9ae4205f90ceae7d5a08d7b",
+    "finite": true
+   }
+  },
+  "match": "W20 checkpoint에서 다시 계산한 FP32 텐서 SHA 5개가 COMPLETE.final_cursor(= commit batch-20)의 기록 W20 after-weights와 같다. 평가 파일 factual/batch-20.json은 같은 commit의 factual member다."
+ },
+ "raw": {
+  "W20": {
+   "path": "/data/janghj/ODE-edit/local/fe-zsre-lane-b-s4-20261011/llama-zsre-local-r1/runs/zsre/factual/batch-20.json",
+   "bytes": 5364817,
+   "sha256": "8d730dac7b7ce1f32993cc032d5ab70b75a2a8ec41b08dca5441483607e0eac0",
+   "requests": 2000,
+   "tokens": {
+    "neighborhood": {
+     "correct": 5091,
+     "total": 12465
+    },
+    "paraphrase": {
+     "correct": 5433,
+     "total": 6035
+    },
+    "rewrite": {
+     "correct": 5668,
+     "total": 6035
+    }
+   },
+   "unrounded": {
+    "Eff": 94.9032738095238,
+    "Gen": 90.43416666666667,
+    "Loc": 32.71660032776006
+   },
+   "display": {
+    "Eff": "94.90",
+    "Gen": "90.43",
+    "Loc": "32.72"
+   },
+   "file_summary": {
+    "Eff": 94.9032738095238,
+    "Gen": 90.43416666666667,
+    "Loc": 32.71660032776006
+   },
+   "equals_file_summary": true,
+   "flag_mismatches_vs_token_ids": 0,
+   "host": "server4"
+  },
+  "W0": {
+   "path": "/data/janghj/ODE-edit/local/fe-zsre-lane-b-s4-20261011/llama-zsre-local-r1/runs/zsre/factual/W0.json",
+   "bytes": 5373821,
+   "sha256": "01e5a776ac274c2d2795b5812150732911e0e11c681fb28c112c5a66ccf5c4cf",
+   "requests": 2000,
+   "tokens": {
+    "neighborhood": {
+     "correct": 5032,
+     "total": 12465
+    },
+    "paraphrase": {
+     "correct": 2789,
+     "total": 6035
+    },
+    "rewrite": {
+     "correct": 2857,
+     "total": 6035
+    }
+   },
+   "unrounded": {
+    "Eff": 36.991190476190475,
+    "Gen": 36.344226190476185,
+    "Loc": 31.894064421739472
+   },
+   "display": {
+    "Eff": "36.99",
+    "Gen": "36.34",
+    "Loc": "31.89"
+   },
+   "file_summary": {
+    "Eff": 36.991190476190475,
+    "Gen": 36.344226190476185,
+    "Loc": 31.894064421739472
+   },
+   "equals_file_summary": true,
+   "flag_mismatches_vs_token_ids": 0,
+   "host": "server4"
+  },
+  "copy_for_recount": "server4 원자료를 rsync로 읽기 전용 복사해 server1에서 재집계했다. 복사본 sha256이 server4 원본과 같다."
+ },
+ "recount": {
+  "method": "독립 CPU 재집계(2026-10-12): 요청별 저장 observation의 predicted_token_id == target_token_id로 token 정답 여부를 다시 만들고 (저장 flag 미사용) official/evaluation/reduce.py::zsre(요청 내 token 평균 → 요청 평균, Loc = loc_ans 정답 정확도)를 적용했다. 표시는 소수 둘째 자리 decimal half-up.",
+  "reducer": {
+   "path": "official/evaluation/reduce.py",
+   "sha256": "6e7f61feaa99ddeaac964c6c1f8c5b4e8a4caf31a2e8eed53df5fed9812ab10d",
+   "note": "9a12b857·bc2b084f·3a1b6138·origin/main에서 바이트 동일"
+  },
+  "W20": {
+   "unrounded": {
+    "Eff": 94.9032738095238,
+    "Gen": 90.43416666666667,
+    "Loc": 32.71660032776006
+   },
+   "display": {
+    "Eff": "94.90",
+    "Gen": "90.43",
+    "Loc": "32.72"
+   },
+   "tokens": {
+    "neighborhood": {
+     "correct": 5091,
+     "total": 12465
+    },
+    "paraphrase": {
+     "correct": 5433,
+     "total": 6035
+    },
+    "rewrite": {
+     "correct": 5668,
+     "total": 6035
+    }
+   },
+   "matches_run_summary": true
+  },
+  "W0": {
+   "unrounded": {
+    "Eff": 36.991190476190475,
+    "Gen": 36.344226190476185,
+    "Loc": 31.894064421739472
+   },
+   "display": {
+    "Eff": "36.99",
+    "Gen": "36.34",
+    "Loc": "31.89"
+   },
+   "tokens": {
+    "neighborhood": {
+     "correct": 5032,
+     "total": 12465
+    },
+    "paraphrase": {
+     "correct": 2789,
+     "total": 6035
+    },
+    "rewrite": {
+     "correct": 2857,
+     "total": 6035
+    }
+   },
+   "expected_table_W0": "36.99 / 36.34 / 31.89",
+   "matches_table_W0": true,
+   "per_request_identical_to_CAKE_63297_W0": true,
+   "CAKE_63297_W0_file": {
+    "host": "server1",
+    "bytes": 5373492,
+    "sha256": "0685f0f7db118e4343a052bfba3f253277a26ee392f361252911d6859e97effb",
+    "path": "/mnt/raid5/janghj/ODE-edit/local/cake-six-2k-server1-20261011/runs/llama3-zsre/factual/W0-first2000.json"
+   }
+  },
+  "trajectory_seen_requests": {
+   "W5": {
+    "requests": 500,
+    "display": {
+     "Eff": "95.05",
+     "Gen": "90.42",
+     "Loc": "33.34"
+    }
+   },
+   "W10": {
+    "requests": 1000,
+    "display": {
+     "Eff": "95.06",
+     "Gen": "90.32",
+     "Loc": "33.33"
+    }
+   },
+   "W15": {
+    "requests": 1500,
+    "display": {
+     "Eff": "95.31",
+     "Gen": "90.07",
+     "Loc": "32.87"
+    }
+   },
+   "W20": {
+    "requests": 2000,
+    "display": {
+     "Eff": "94.90",
+     "Gen": "90.43",
+     "Loc": "32.72"
+    }
+   }
+  }
+ },
+ "README_cells": {
+  "zsRE Eff": "94.90",
+  "zsRE Gen": "90.43",
+  "zsRE Loc": "32.72"
+ },
+ "note": "편집·평가 모두 FP32이며 baseline zsRE 행과 같은 공개 query 평가기다."
+}

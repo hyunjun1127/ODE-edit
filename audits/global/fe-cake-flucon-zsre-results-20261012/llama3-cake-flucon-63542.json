@@ -1,0 +1,286 @@
+{
+ "schema": "fe-cake-flucon-result-audit-v1",
+ "observed_at": "2026-10-12T01:30:00+09:00",
+ "result": "Llama3 CAKE CF Flu/Con (W20, 2,000 case)",
+ "row": {
+  "table": "Llama3-8B-Instruct",
+  "method": "CAKE",
+  "cells": [
+   "CF Flu ×100",
+   "CF Con ×100"
+  ],
+  "replaced_status": "PENDING: s2-flucon-llama3-cake-63296 (63542)"
+ },
+ "job": {
+  "id": "63542",
+  "name": "s2-flucon-llama3-cake-63296",
+  "server": "server2",
+  "state": "COMPLETED",
+  "exit_code": "0:0",
+  "start": "2026-10-11T21:33:28+09:00",
+  "end": "2026-10-12T00:47:26+09:00",
+  "elapsed": "03:13:58",
+  "node": "server2"
+ },
+ "evaluator": {
+  "source_commit": "3a1b61385d912ef9c8958c1d15c331a32e72662f",
+  "entry": "official.runners.fe_cake_flucon run -> official.runners.server1.flucon_eval.run (공용 평가기, 변경 없음)",
+  "precision": "FP32 eager, TF32 off",
+  "generation": "NativeGenerationObserver PROFILE, eval seed 20261007, W20_ONLY_FIRST2000",
+  "reference_identity": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+  "cf_order": "CF first 2,000 (ordered_case_ids_sha256 0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4, stream sha256 66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37)"
+ },
+ "completion": {
+  "COMPLETE_json": {
+   "host": "server2",
+   "path": "/mnt/raid5/janghj/ODE-edit/local/fe-cake-flucon-20261011/preparation-s2-r1/runs/llama3-cake-63296/COMPLETE.json",
+   "bytes": 2251,
+   "sha256": "c457e585c499340c3b85b0980c5776f85047b8b37230bc382731f95f52b244e0"
+  },
+  "FAILURE_json": "없음",
+  "restore_json": {
+   "host": "server2",
+   "path": "/mnt/raid5/janghj/ODE-edit/local/fe-cake-flucon-20261011/preparation-s2-r1/runs/llama3-cake-63296/restore.json",
+   "bytes": 1917,
+   "sha256": "c176c78cb2fa339b8b3ed33b75c14dcf98f0a1fe1b85f6ef8b5f75cde47e6883"
+  },
+  "config": {
+   "host": "server2",
+   "path": "/mnt/raid5/janghj/ODE-edit/local/fe-cake-flucon-20261011/preparation-s2-r1/configs/llama3-cake-63296.json",
+   "bytes": 8075,
+   "sha256": "3475f65fd0adf263e96448a978504864dc14a4d509defcf8c983c94cdec4d1e9"
+  },
+  "observer_identity": {
+   "host": "server2",
+   "path": "/mnt/raid5/janghj/ODE-edit/local/fe-cake-flucon-20261011/preparation-s2-r1/runs/llama3-cake-63296/generation/observer-identity.json",
+   "bytes": 1848,
+   "sha256": "bad2ecf0c6817c9f308e667f6116848ae23535a74960245ce347e827de84b8f5"
+  },
+  "native_execution": {
+   "host": "server2",
+   "path": "/mnt/raid5/janghj/ODE-edit/local/fe-cake-flucon-20261011/preparation-s2-r1/runs/llama3-cake-63296/generation/native-executions/fbdc0d649414a4b855bf8c315187313625f364256f97da1e1732a087cbf95d4a.json",
+   "bytes": 147720,
+   "sha256": "b04a010492ec552b91ac4fd4f72b85c7481e3e22dfa169f24a796dde35493ef7"
+  },
+  "invariants": {
+   "weights_unchanged": true,
+   "RNG_unchanged": true,
+   "checkpoint_unchanged": true,
+   "edits": 0,
+   "requests": 2000
+  },
+  "collector": {
+   "job": "63544",
+   "state": "PENDING (63541/63543 대기)",
+   "note": "collector가 아직 돌지 않아 run 출력에서 직접 검산했다."
+  }
+ },
+ "W20_identity": {
+  "edit_job": "63296 (CAKE CF 2K, server1)",
+  "checkpoint": {
+   "host": "server2",
+   "path": "/mnt/raid5/janghj/ODE-edit/local/fe-cake-flucon-20261011/inputs/llama3-cake-63296/runs/llama3-cf/checkpoint/batch-20-ab95a58c41b9a3aa.pt",
+   "bytes": 5284840965,
+   "sha256": "ab95a58c41b9a3aa48eaefb0fc429b3a3307b72045c49c98b546a826c18cd778",
+   "rehash_2026_10_12": "ab95a58c41b9a3aa48eaefb0fc429b3a3307b72045c49c98b546a826c18cd778",
+   "schema": "official-baseline-checkpoint-v1",
+   "method": "CAKE",
+   "stored_dtype": "float32",
+   "cast": "none: FP32 copied exactly",
+   "checkpoint_meta": {
+    "batch": 20,
+    "identity_code_commit": "a247c7925911990a0dc7230885c54710d540f8f7",
+    "identity_config_sha256": "053ee039a2e7515740629cdbf2ecfd824cc3d833f2cf840d8616af806b27e5d8",
+    "method": "CAKE",
+    "schema": "official-baseline-checkpoint-v1"
+   }
+  },
+  "restored_selected_weights_fp32_sha256": {
+   "model.layers.4.mlp.down_proj.weight": "050b89fdbe82232c35319b3c8999758b01e14456ddf3d26c8848fa6bb54eceb1",
+   "model.layers.5.mlp.down_proj.weight": "e73ee23f6c819337e840a63dcb4540178f803c576127d5d6b949d078f75cf86d",
+   "model.layers.6.mlp.down_proj.weight": "3f6f2c62585981c94ec296b3e5e30c64970bedf7ab9c43b38715b17ef91d8fae",
+   "model.layers.7.mlp.down_proj.weight": "55b34ae2131203175cd28c021a9fe0381bc6cd9a77030b274b623934a56170f4",
+   "model.layers.8.mlp.down_proj.weight": "43b53fae6c4709e7c6ae069ca9a27064fd53c589d95cbd75fc5735abb35bffc3"
+  },
+  "recorded_W20_hash_match_in_run": "NO_TENSOR_RECORD_IN_RUN",
+  "tensor_rehash_2026_10_12": {
+   "tensors": {
+    "model.layers.4.mlp.down_proj.weight": {
+     "dtype": "float32",
+     "shape": [
+      4096,
+      14336
+     ],
+     "stored_sha256": "050b89fdbe82232c35319b3c8999758b01e14456ddf3d26c8848fa6bb54eceb1",
+     "fp32_sha256": "050b89fdbe82232c35319b3c8999758b01e14456ddf3d26c8848fa6bb54eceb1",
+     "finite": true
+    },
+    "model.layers.5.mlp.down_proj.weight": {
+     "dtype": "float32",
+     "shape": [
+      4096,
+      14336
+     ],
+     "stored_sha256": "e73ee23f6c819337e840a63dcb4540178f803c576127d5d6b949d078f75cf86d",
+     "fp32_sha256": "e73ee23f6c819337e840a63dcb4540178f803c576127d5d6b949d078f75cf86d",
+     "finite": true
+    },
+    "model.layers.6.mlp.down_proj.weight": {
+     "dtype": "float32",
+     "shape": [
+      4096,
+      14336
+     ],
+     "stored_sha256": "3f6f2c62585981c94ec296b3e5e30c64970bedf7ab9c43b38715b17ef91d8fae",
+     "fp32_sha256": "3f6f2c62585981c94ec296b3e5e30c64970bedf7ab9c43b38715b17ef91d8fae",
+     "finite": true
+    },
+    "model.layers.7.mlp.down_proj.weight": {
+     "dtype": "float32",
+     "shape": [
+      4096,
+      14336
+     ],
+     "stored_sha256": "55b34ae2131203175cd28c021a9fe0381bc6cd9a77030b274b623934a56170f4",
+     "fp32_sha256": "55b34ae2131203175cd28c021a9fe0381bc6cd9a77030b274b623934a56170f4",
+     "finite": true
+    },
+    "model.layers.8.mlp.down_proj.weight": {
+     "dtype": "float32",
+     "shape": [
+      4096,
+      14336
+     ],
+     "stored_sha256": "43b53fae6c4709e7c6ae069ca9a27064fd53c589d95cbd75fc5735abb35bffc3",
+     "fp32_sha256": "43b53fae6c4709e7c6ae069ca9a27064fd53c589d95cbd75fc5735abb35bffc3",
+     "finite": true
+    }
+   },
+   "equals_payload_tensor_sha256": true,
+   "equals_restored_fp32_sha256": true
+  },
+  "transfer": {
+   "receipt": {
+    "host": "server2",
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-cake-flucon-20261011/transfer/receipt.tsv",
+    "bytes": 17800,
+    "sha256": "410f05f01273a30e500060ce3e81a0a042829f2fb16bc4244c23be2829a42739"
+   },
+   "source": "rke-server1:/mnt/raid5/janghj/ODE-edit/local/cake-six-2k-server1-20261011/runs/llama3-cf/checkpoint/batch-20-ab95a58c41b9a3aa.pt"
+  },
+  "edit_run_pointer": {
+   "host": "server1",
+   "path": "/mnt/raid5/janghj/ODE-edit/local/cake-six-2k-server1-20261011/runs/llama3-cf/checkpoint/latest.json",
+   "bytes": 237,
+   "sha256": "2c8342429a0a28788b46476a5287c5b13d4fe230f641561a97eeb62a6015d775"
+  },
+  "edit_run_pointer_fields": {
+   "batch": 20,
+   "final_W20": true,
+   "file": "batch-20-ab95a58c41b9a3aa.pt",
+   "identity_sha256": "b5fb1b2ce822a5d7a59e03d23fb49d813389df7d7fe15c6a63847309453f08dc"
+  },
+  "edit_run_pointer_copy_server2": {
+   "host": "server2",
+   "path": "/mnt/raid5/janghj/ODE-edit/local/fe-cake-flucon-20261011/inputs/llama3-cake-63296/runs/llama3-cf/checkpoint/latest.json",
+   "bytes": 237,
+   "sha256": "2c8342429a0a28788b46476a5287c5b13d4fe230f641561a97eeb62a6015d775"
+  },
+  "checkpoint_identity_config_sha256": "053ee039a2e7515740629cdbf2ecfd824cc3d833f2cf840d8616af806b27e5d8",
+  "table_row_audit": "audits/servers/server1/cake-six-2k-20261011/w20-table-row-63296.json (W20_checkpoint.latest.sha256 ab95a58c…, identity.config_sha256 053ee039…)",
+  "match": "server2 복사본 checkpoint(sha256 ab95a58c…)가 server1 원본 latest.json(final_W20) 및 CAKE 행 audit의 W20 checkpoint와 같다. CAKE run은 텐서별 W20 SHA를 기록하지 않아(NO_TENSOR_RECORD_IN_RUN) checkpoint의 FP32 텐서 SHA를 다시 계산해 restore.json과 같음을 확인했다."
+ },
+ "raw": {
+  "endpoint": {
+   "bytes": 2789299,
+   "path": "/mnt/raid5/janghj/ODE-edit/local/fe-cake-flucon-20261011/preparation-s2-r1/runs/llama3-cake-63296/generation/endpoints/fbdc0d649414a4b855bf8c315187313625f364256f97da1e1732a087cbf95d4a.json",
+   "sha256": "8008ef2a9d1e280d60b6d31fb07da0bc79c6059d3cd6ff08d0989153c7f14b6d",
+   "host": "server2"
+  },
+  "observations": {
+   "dir": "/mnt/raid5/janghj/ODE-edit/local/fe-cake-flucon-20261011/preparation-s2-r1/runs/llama3-cake-63296/generation/observations",
+   "each_file_sha256_equals_endpoint_raw_member": true,
+   "files": 2000,
+   "sorted_sha256sum_manifest_sha256": "6be26c66537ab83bbade4db01aef7a3bbb92fe21fd80edc118c8a4662cd558e5",
+   "total_bytes": 66413857,
+   "host": "server2"
+  },
+  "cases": 2000,
+  "prompts": 20000,
+  "generated_tokens": 1796707,
+  "case_order_equals_cf_stream_first2000": true,
+  "copy_for_recount": "server2 원자료(COMPLETE/restore/endpoint/native-execution/observer-identity, observations 2,000개)를 rsync로 읽기 전용 복사해 server1에서 재집계했다. 복사 전후 sha256과 정렬 observation sha256 목록 digest가 server2 원본과 같다."
+ },
+ "recount": {
+  "method": "독립 CPU 재집계(2026-10-12): 2,000개 raw 관측 파일의 생성 원문 10개/case를 직접 다시 채점했다. Flu = nltk.word_tokenize 2-gram/3-gram entropy(bits)의 (2/3·H2 + 4/3·H3)/2 평균, Con = 고정 MEMIT idf.npy/tfidf_vocab.json TF-IDF로 생성문 묶음과 (relation_id, target_new.id) reference snippet 묶음의 cosine. run 요약은 쓰지 않았고, raw 파일에 저장된 case별 지표 평균(level 1)도 따로 대조했다. 표시는 반올림 전 평균 ×100 후 소수 둘째 자리 decimal half-up.",
+  "reference": {
+   "manifest": {
+    "bytes": 6769,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-generation-eval-assets/20261007/reference-ready-r1/manifest.json",
+    "sha256": "6d9a713ab7eaa10871f277e10a3974e0bd5b140c265be80052c279f258876ca8"
+   },
+   "assets": {
+    "attribute_snippets.json": {
+     "bytes": 926285719,
+     "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-generation-eval-assets/20261007/download-r1/attribute_snippets.json",
+     "sha256": "10b5c1cd105e54d5983c72de1b45bfc88bc7af786f7b99def2557886ff23385b"
+    },
+    "idf.npy": {
+     "bytes": 11042168,
+     "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-generation-eval-assets/20261007/download-r1/idf.npy",
+     "sha256": "c073d642589d4ac6432f467230329b36364a01e72de63a77a3624b745b923dda"
+    },
+    "tfidf_vocab.json": {
+     "bytes": 31639072,
+     "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-generation-eval-assets/20261007/download-r1/tfidf_vocab.json",
+     "sha256": "8a78c4f20d8d85dadfd14e283d71af255482ff18aa0eb8a81716024c05ff888b"
+    }
+   },
+   "punkt": {
+    "path": "/mnt/raid5/janghj/nltk_data/tokenizers/punkt/PY3/english.pickle",
+    "sha256": "5cad3758596392364e3be9803dbd7ebeda384b68937b488a01365f5551bb942c"
+   },
+   "nltk": "3.6.5",
+   "sklearn": "1.7.2",
+   "numpy": "2.2.6"
+  },
+  "rescored_from_texts": {
+   "Con_cosine": 0.3050222390533739,
+   "Flu_bits": 6.238793126641152
+  },
+  "stored_per_case_mean": {
+   "Con_cosine": 0.30502223905337394,
+   "Flu_bits": 6.238793126641152
+  },
+  "max_abs_per_case_diff_stored_vs_rescored": {
+   "Con_cosine": 2.4424906541753444e-14,
+   "Flu_bits": 2.6645352591003757e-15
+  },
+  "run_summary": {
+   "Con_cosine": 0.30502223905337394,
+   "Flu_bits": 6.238793126641152,
+   "consistency_count": 2000,
+   "fluency_count": 2000,
+   "generated_token_count": 1796707,
+   "generation_prompt_count": 20000
+  },
+  "abs_diff_vs_run_summary": {
+   "Con": 5.551115123125783e-17,
+   "Flu": 0.0
+  },
+  "display_x100": {
+   "Con": "30.50",
+   "Flu": "623.88"
+  },
+  "run_display_x100": {
+   "Con": "30.50",
+   "Flu": "623.88"
+  },
+  "matches_run_summary": true
+ },
+ "README_cells": {
+  "CF Flu ×100": "623.88",
+  "CF Con ×100": "30.50"
+ },
+ "note": "FP32로 저장된 편집 가중치를 그대로 복사했다."
+}

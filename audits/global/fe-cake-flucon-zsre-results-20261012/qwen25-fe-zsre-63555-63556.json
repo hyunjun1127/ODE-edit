@@ -1,0 +1,535 @@
+{
+ "schema": "fe-zsre-result-audit-v1",
+ "observed_at": "2026-10-12T01:30:00+09:00",
+ "result": "Qwen2.5 FE zsRE (W20, 2,000 요청, 공개 query 평가기, BF16) — 붕괴",
+ "row": {
+  "table": "Qwen2.5-7B-Instruct",
+  "method": "FE (author hparams + history)",
+  "cells": [
+   "zsRE Eff",
+   "zsRE Gen",
+   "zsRE Loc"
+  ],
+  "replaced_status": "PENDING: s1-qwen25-zsre-fe-native-main-seqz-2k (63555)"
+ },
+ "jobs": [
+  {
+   "id": "63555",
+   "name": "s1-qwen25-zsre-fe-native-main-seqz-2k",
+   "role": "편집(공식 FE main.py)",
+   "server": "server1",
+   "state": "COMPLETED",
+   "exit_code": "0:0",
+   "start": "2026-10-11T22:23:36+09:00",
+   "end": "2026-10-11T23:58:03+09:00",
+   "elapsed": "01:34:27",
+   "node": "devbox"
+  },
+  {
+   "id": "63556",
+   "name": "s1-qwen25-zsre-fe-native-milestone-eval",
+   "role": "평가(W0/W5/W10/W15/W20)",
+   "server": "server1",
+   "state": "COMPLETED",
+   "exit_code": "0:0",
+   "start": "2026-10-12T00:03:28+09:00",
+   "end": "2026-10-12T00:12:20+09:00",
+   "elapsed": "00:08:52",
+   "node": "devbox"
+  }
+ ],
+ "run": {
+  "source_commit": "bc2b084f8c9335fab9fbdb305c9ebfe13c100dba",
+  "author_main_py": "478134dfb24b43f4e18b47e8500893ce3f9cc50f",
+  "native_patch_source": "60eea6e2f7aeec94743f27cd5df1e67cc160fe84",
+  "native_config_identity_sha256": "b2557b7c6ca882b683357793e37207ebe7193bb418535f3dd8623a307eef449e",
+  "template": "CF 63385/63387과 데이터만 다름(zsRE 첫 2,000건), BF16·원 C0(보정 없음)·add_old_keys history·batch 진입 z",
+  "evaluator": "official.diagnostics.fe_native.evaluate -> official.evaluation.zsre_paper (official-zsre-public-query-eval-only-v1)",
+  "precision": "bfloat16 (sdpa attention)",
+  "query_sha256": "6c8111384789cec7059ea1b3c2b1083d761ade2b360c99db3e5c4f1ef4941d78",
+  "stream_sha256": "93925ec2f74e00a1b3fbdf261e557d10652ae0eca7265b4948958d39de4848b7",
+  "queries": 24858
+ },
+ "completion": {
+  "evaluation_COMPLETE": {
+   "host": "server1",
+   "path": "/mnt/raid5/janghj/ODE-edit/local/fe-zsre-qwen-native-s1-20261011/qwen-zsre-native-r1/evaluations/qwen25/COMPLETE.json",
+   "bytes": 8136,
+   "sha256": "139f6c41459b943e2d7539172c50c762eb30d6e2e7a004757a2b2f7a4f545d1f"
+  },
+  "evaluation_fields": {
+   "W20_available": true,
+   "missing_milestones": [],
+   "dataset": "zsre"
+  },
+  "FAILURE_json": "없음(편집·평가 모두)",
+  "edit_log": "NATIVE_FE_BATCH_COMPLETE 1..20 모두 기록, NATIVE_FE_CHECKPOINT B00/B05/B10/B15/B20 기록",
+  "edit_log_file": {
+   "host": "server1",
+   "path": "/mnt/raid5/janghj/ODE-edit/local/fe-zsre-qwen-native-s1-20261011/registration-r1/logs/edit-63555.out",
+   "bytes": 3545061,
+   "sha256": "612edb484033aa2e709f9af41fc7318d0990e57c6ef98c9eacbb1424403aa265"
+  },
+  "author_end_of_run_summary": {
+   "file": {
+    "host": "server1",
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-zsre-qwen-native-s1-20261011/qwen-zsre-native-r1/runs/qwen25/results/summary_results.csv",
+    "bytes": 299,
+    "sha256": "31f4f80939733c357ea9e1df6cf32594e921497191cb8829a0ca2aadbde4eba6"
+   },
+   "values": "rewrite/paraphrase/neighborhood_prompts_correct 모두 0.0 (원저자 main.py 자체 평가도 붕괴)"
+  },
+  "receipts": {
+   "B00": {
+    "host": "server1",
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-zsre-qwen-native-s1-20261011/qwen-zsre-native-r1/evaluations/qwen25/B00-receipt.json",
+    "bytes": 1424,
+    "sha256": "efd41324273a456f1de4c3f5d6af96fd18c70484c82aacdb3d09ad198b8f1968"
+   },
+   "B05": {
+    "host": "server1",
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-zsre-qwen-native-s1-20261011/qwen-zsre-native-r1/evaluations/qwen25/B05-receipt.json",
+    "bytes": 1426,
+    "sha256": "f050292e63997a29deb119bc7957996fdba2bdaefc5c283664edd289e852dbc6"
+   },
+   "B10": {
+    "host": "server1",
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-zsre-qwen-native-s1-20261011/qwen-zsre-native-r1/evaluations/qwen25/B10-receipt.json",
+    "bytes": 1432,
+    "sha256": "094723848904a19cd670f1ab3e2ffad7b7b4268f4fc935f165c4e72e06c7edb0"
+   },
+   "B15": {
+    "host": "server1",
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-zsre-qwen-native-s1-20261011/qwen-zsre-native-r1/evaluations/qwen25/B15-receipt.json",
+    "bytes": 1440,
+    "sha256": "495557c49e6fc5b089bc42bc74d2a08f97ecf70d12a942abc917421266267485"
+   },
+   "B20": {
+    "host": "server1",
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-zsre-qwen-native-s1-20261011/qwen-zsre-native-r1/evaluations/qwen25/B20-receipt.json",
+    "bytes": 1376,
+    "sha256": "565720dc7eda1d48291fc8217c114aa1a0f738e3006f9ad1159e9027312bde67"
+   }
+  }
+ },
+ "W20_identity": {
+  "checkpoint": {
+   "host": "server1",
+   "path": "/mnt/raid5/janghj/ODE-edit/local/fe-zsre-qwen-native-s1-20261011/qwen-zsre-native-r1/runs/qwen25/checkpoints/B20.pt",
+   "bytes": 7856481369,
+   "sha256": "71a8608493aee89d2e4125c797e0407e446c31cd1290f563e394394856447c86",
+   "rehash_2026_10_12": "71a8608493aee89d2e4125c797e0407e446c31cd1290f563e394394856447c86",
+   "checkpoint_meta": {
+    "completed_batches": 20,
+    "completed_edits": 2000,
+    "identity_sha256": "b2557b7c6ca882b683357793e37207ebe7193bb418535f3dd8623a307eef449e",
+    "schema": "native-fe-sequential-diagnostic-v1",
+    "z_policy": "CURRENT_BATCH_ENTRY_NO_FUTURE_TARGETS"
+   }
+  },
+  "edit_run_B20_receipt": {
+   "host": "server1",
+   "path": "/mnt/raid5/janghj/ODE-edit/local/fe-zsre-qwen-native-s1-20261011/qwen-zsre-native-r1/runs/qwen25/checkpoints/B20.json",
+   "bytes": 378,
+   "sha256": "84f0eb356ece263fd90c51c9c854f0c715aa52df282d18d6041128feb6153c62"
+  },
+  "match": "평가 63556의 B20 checkpoint sha256(71a86084…)가 편집 63555의 B20 receipt·로그 NATIVE_FE_CHECKPOINT 및 2026-10-12 재해시와 같다. payload identity_sha256 = native config b2557b7c…, completed_batches 20 / edits 2000, seen_case_ids 순서는 평가기가 검사했다."
+ },
+ "raw": {
+  "W20": {
+   "path": "/mnt/raid5/janghj/ODE-edit/local/fe-zsre-qwen-native-s1-20261011/qwen-zsre-native-r1/evaluations/qwen25/B20.json",
+   "bytes": 5489648,
+   "sha256": "145b44b23d948a4b636fff4fb60c93231a2387961e95a4567b0ac7beced9d4a6",
+   "requests": 2000,
+   "tokens": {
+    "neighborhood": {
+     "correct": 0,
+     "total": 11476
+    },
+    "paraphrase": {
+     "correct": 0,
+     "total": 6691
+    },
+    "rewrite": {
+     "correct": 0,
+     "total": 6691
+    }
+   },
+   "unrounded": {
+    "Eff": 0.0,
+    "Gen": 0.0,
+    "Loc": 0.0
+   },
+   "display": {
+    "Eff": "0.00",
+    "Gen": "0.00",
+    "Loc": "0.00"
+   },
+   "file_summary": {
+    "Eff": 0.0,
+    "Gen": 0.0,
+    "Loc": 0.0
+   },
+   "equals_file_summary": true,
+   "flag_mismatches_vs_token_ids": 0,
+   "host": "server1"
+  },
+  "W0_bf16": {
+   "path": "/mnt/raid5/janghj/ODE-edit/local/fe-zsre-qwen-native-s1-20261011/qwen-zsre-native-r1/evaluations/qwen25/B00.json",
+   "bytes": 5417632,
+   "sha256": "9667a90ea4be1aff8ee3758ebdb83e37879f0f47b81ed0222a44b6bf0373f18f",
+   "requests": 2000,
+   "tokens": {
+    "neighborhood": {
+     "correct": 5444,
+     "total": 11476
+    },
+    "paraphrase": {
+     "correct": 2969,
+     "total": 6691
+    },
+    "rewrite": {
+     "correct": 3037,
+     "total": 6691
+    }
+   },
+   "unrounded": {
+    "Eff": 36.4832233044733,
+    "Gen": 35.28576298701299,
+    "Loc": 38.42867241610005
+   },
+   "display": {
+    "Eff": "36.48",
+    "Gen": "35.29",
+    "Loc": "38.43"
+   },
+   "file_summary": {
+    "Eff": 36.4832233044733,
+    "Gen": 35.28576298701299,
+    "Loc": 38.42867241610005
+   },
+   "equals_file_summary": true,
+   "flag_mismatches_vs_token_ids": 0,
+   "host": "server1"
+  },
+  "milestones": {
+   "W5": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-zsre-qwen-native-s1-20261011/qwen-zsre-native-r1/evaluations/qwen25/B05.json",
+    "bytes": 1336865,
+    "sha256": "1263cb7dfd0264a46cc2af08361a1e7be403db340c5398bfe119f9b116d92052",
+    "requests": 500,
+    "tokens": {
+     "neighborhood": {
+      "correct": 1428,
+      "total": 2993
+     },
+     "paraphrase": {
+      "correct": 1427,
+      "total": 1571
+     },
+     "rewrite": {
+      "correct": 1527,
+      "total": 1571
+     }
+    },
+    "unrounded": {
+     "Eff": 97.2860101010101,
+     "Gen": 87.55117604617605,
+     "Loc": 39.50461286758207
+    },
+    "display": {
+     "Eff": "97.29",
+     "Gen": "87.55",
+     "Loc": "39.50"
+    },
+    "file_summary": {
+     "Eff": 97.2860101010101,
+     "Gen": 87.55117604617605,
+     "Loc": 39.50461286758207
+    },
+    "equals_file_summary": true,
+    "flag_mismatches_vs_token_ids": 0,
+    "host": "server1"
+   },
+   "W10": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-zsre-qwen-native-s1-20261011/qwen-zsre-native-r1/evaluations/qwen25/B10.json",
+    "bytes": 2757483,
+    "sha256": "36d557eb8e5c228d826c6f3b11b5b4304e4956bc72c504b91f3a6ce0822785b0",
+    "requests": 1000,
+    "tokens": {
+     "neighborhood": {
+      "correct": 2800,
+      "total": 5927
+     },
+     "paraphrase": {
+      "correct": 3097,
+      "total": 3396
+     },
+     "rewrite": {
+      "correct": 3309,
+      "total": 3396
+     }
+    },
+    "unrounded": {
+     "Eff": 97.86062409812409,
+     "Gen": 89.01835858585858,
+     "Loc": 38.22997926444487
+    },
+    "display": {
+     "Eff": "97.86",
+     "Gen": "89.02",
+     "Loc": "38.23"
+    },
+    "file_summary": {
+     "Eff": 97.86062409812409,
+     "Gen": 89.01835858585858,
+     "Loc": 38.22997926444487
+    },
+    "equals_file_summary": true,
+    "flag_mismatches_vs_token_ids": 0,
+    "host": "server1"
+   },
+   "W15": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-zsre-qwen-native-s1-20261011/qwen-zsre-native-r1/evaluations/qwen25/B15.json",
+    "bytes": 4120814,
+    "sha256": "482b5b217378b8f4fc3adbc0fb7ffd6863a3f8d1dc9d59482c68076d5e96c0c9",
+    "requests": 1500,
+    "tokens": {
+     "neighborhood": {
+      "correct": 45,
+      "total": 8842
+     },
+     "paraphrase": {
+      "correct": 4,
+      "total": 4933
+     },
+     "rewrite": {
+      "correct": 8,
+      "total": 4933
+     }
+    },
+    "unrounded": {
+     "Eff": 0.09351851851851853,
+     "Gen": 0.04574074074074074,
+     "Loc": 0.31325204394796974
+    },
+    "display": {
+     "Eff": "0.09",
+     "Gen": "0.05",
+     "Loc": "0.31"
+    },
+    "file_summary": {
+     "Eff": 0.09351851851851853,
+     "Gen": 0.04574074074074074,
+     "Loc": 0.31325204394796974
+    },
+    "equals_file_summary": true,
+    "flag_mismatches_vs_token_ids": 0,
+    "host": "server1"
+   }
+  }
+ },
+ "recount": {
+  "method": "독립 CPU 재집계(2026-10-12): 요청별 저장 observation의 predicted_token_id == target_token_id로 token 정답 여부를 다시 만들고 (저장 flag 미사용) official/evaluation/reduce.py::zsre(요청 내 token 평균 → 요청 평균, Loc = loc_ans 정답 정확도)를 적용했다. 표시는 소수 둘째 자리 decimal half-up.",
+  "reducer": {
+   "path": "official/evaluation/reduce.py",
+   "sha256": "6e7f61feaa99ddeaac964c6c1f8c5b4e8a4caf31a2e8eed53df5fed9812ab10d"
+  },
+  "W20": {
+   "unrounded": {
+    "Eff": 0.0,
+    "Gen": 0.0,
+    "Loc": 0.0
+   },
+   "display": {
+    "Eff": "0.00",
+    "Gen": "0.00",
+    "Loc": "0.00"
+   },
+   "tokens": {
+    "neighborhood": {
+     "correct": 0,
+     "total": 11476
+    },
+    "paraphrase": {
+     "correct": 0,
+     "total": 6691
+    },
+    "rewrite": {
+     "correct": 0,
+     "total": 6691
+    }
+   },
+   "matches_run_summary": true
+  },
+  "W0_bf16": {
+   "unrounded": {
+    "Eff": 36.4832233044733,
+    "Gen": 35.28576298701299,
+    "Loc": 38.42867241610005
+   },
+   "display": {
+    "Eff": "36.48",
+    "Gen": "35.29",
+    "Loc": "38.43"
+   },
+   "tokens": {
+    "neighborhood": {
+     "correct": 5444,
+     "total": 11476
+    },
+    "paraphrase": {
+     "correct": 2969,
+     "total": 6691
+    },
+    "rewrite": {
+     "correct": 3037,
+     "total": 6691
+    }
+   },
+   "table_W0_fp32": "36.42 / 35.26 / 38.40",
+   "note": "BF16 평가 W0라 FP32 평가인 표 W0 행과 소수 둘째 자리에서 다르다."
+  },
+  "trajectory_seen_requests": {
+   "W5": {
+    "requests": 500,
+    "display": {
+     "Eff": "97.29",
+     "Gen": "87.55",
+     "Loc": "39.50"
+    }
+   },
+   "W10": {
+    "requests": 1000,
+    "display": {
+     "Eff": "97.86",
+     "Gen": "89.02",
+     "Loc": "38.23"
+    }
+   },
+   "W15": {
+    "requests": 1500,
+    "display": {
+     "Eff": "0.09",
+     "Gen": "0.05",
+     "Loc": "0.31"
+    }
+   },
+   "W20": {
+    "requests": 2000,
+    "display": {
+     "Eff": "0.00",
+     "Gen": "0.00",
+     "Loc": "0.00"
+    }
+   }
+  }
+ },
+ "collapse_evidence": {
+  "predicted_token_ids_W20": {
+   "neighborhood": {
+    "top": [
+     [
+      121502,
+      7246
+     ],
+     [
+      95988,
+      4104
+     ],
+     [
+      30599,
+      38
+     ]
+    ],
+    "total": 11476,
+    "unique": 23
+   },
+   "paraphrase": {
+    "top": [
+     [
+      95988,
+      4512
+     ],
+     [
+      121502,
+      2130
+     ],
+     [
+      30599,
+      10
+     ]
+    ],
+    "total": 6691,
+    "unique": 20
+   },
+   "rewrite": {
+    "top": [
+     [
+      95988,
+      4567
+     ],
+     [
+      121502,
+      2054
+     ],
+     [
+      98249,
+      23
+     ]
+    ],
+    "total": 6691,
+    "unique": 22
+   }
+  },
+  "z_error_max_per_batch_from_edit_log": {
+   "1-13": "37.6-44.2",
+   "14": 148.0,
+   "15": 52224.0,
+   "16": 107520.0,
+   "17": 201728.0,
+   "18": 1548288.0,
+   "19": 4980736.0,
+   "20": 58720256.0
+  },
+  "selected_weight_max_abs": {
+   "model.layers.4.mlp.down_proj.weight": {
+    "B00": 0.6640625,
+    "B10": 7.59375,
+    "B20": 13.5625,
+    "B20_finite": true
+   },
+   "model.layers.5.mlp.down_proj.weight": {
+    "B00": 0.66796875,
+    "B10": 1.1953125,
+    "B20": 8585216.0,
+    "B20_finite": true
+   },
+   "model.layers.6.mlp.down_proj.weight": {
+    "B00": 0.796875,
+    "B10": 1.03125,
+    "B20": 81920.0,
+    "B20_finite": true
+   },
+   "model.layers.7.mlp.down_proj.weight": {
+    "B00": 0.72265625,
+    "B10": 0.7734375,
+    "B20": 31488.0,
+    "B20_finite": true
+   },
+   "model.layers.8.mlp.down_proj.weight": {
+    "B00": 0.703125,
+    "B10": 0.66015625,
+    "B20": 13248.0,
+    "B20_finite": true
+   }
+  },
+  "note": "W10까지 정상(97.86 / 89.02 / 38.23)이다가 batch 14부터 z error가 커지고 W15에서 0.09 / 0.05 / 0.31로 무너졌다. W20 가중치는 유한하지만 layer 5 down_proj 최대 |w|가 8.6×10^6이고, W20 예측은 query 종류마다 소수 token ID(95988, 121502 등)로 수렴했다. Qwen CF FE 행(50.18)의 붕괴와 같은 양상이다."
+ },
+ "README_cells": {
+  "zsRE Eff": "0.00",
+  "zsRE Gen": "0.00",
+  "zsRE Loc": "0.00"
+ },
+ "precision_note": "Qwen FE zsRE 평가는 CF FE 행(63385/63387)처럼 BF16이며, baseline zsRE 행은 FP32 평가다."
+}
