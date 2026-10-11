@@ -100,7 +100,8 @@ CAKE 자원 순서를 **63296 → 63298**, **63297 → 63299**로 복구하고 �
 실제 진단 lane은63385→63387(Qwen 평가)→63386→63388(GPT-J 평가)이며, 후속 평가는 저장 가중치만 읽는다.
 저자 hparams·BF16·context 생성·writer·누적history·원 C0를 유지하고, z만 현재 배치 진입 모델에서100건씩 계산한다.
 500건마다 가중치/history/RNG를 저장하며 sample은 기존2K 순서와 같다. 공식 main.py 원본 SHA와 writer 본문 일치를 확인했다.
-기존 baseline 성능 행을 이 별도 진단 결과로 대체하지 않는다. **GPU2K 결과·붕괴 해소는 아직 미확인**이다.
+Qwen은 2K 편집과 checkpoint 검증을 마치고 평가 중이다. 최종 export와 B20 가중치는 비트 단위로 일치한다.
+기존 baseline 성능 행을 이 별도 진단 결과로 대체하지 않는다. **2K 성능 평가·수정 대조군의 회복 확인은 진행 중**이다.
 [실행 경로·원본 대조](audits/global/fe-collapse-repair-20261011/native-execution-proof.json) ·
 [z 공급부 변경 diff](audits/global/fe-collapse-repair-20261011/native-target-supply.patch) ·
 [실제 등록](audits/global/fe-collapse-repair-20261011/native-submission.json).

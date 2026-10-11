@@ -6,7 +6,7 @@
 아래 author W0-fixed 결과와 CPU 대조는 별도 경로의 원인 후보 조사이며 현재 baseline의 회복 증거가 아니다.
 초기 조사에서 이 경로를 현재 기준으로 바꾼 것은 잘못이었다. Qwen/GPT-J의 현재 기준 재검증이 남아 있다.
 
-## 현재 진행 상태 (2026-10-11 13:20 KST)
+## 현재 진행 상태 (2026-10-11 13:31 KST)
 
 공식 `main.py` + 현재 배치 z 진단을 server1에서 진행 중이다. 기존 정상 cap2에
 허용된 진단용 한 개 lane을 추가했다. 후속 원인 분리 실험은 기존 CAKE 두 작업이
@@ -14,7 +14,7 @@
 
 | 작업 | job | 의존성/관측 상태 |
 | --- | --- | --- |
-| Qwen CF native sequential 2K | 63385 | RUNNING, B15/1.5K checkpoint 검증 완료 |
+| Qwen CF native sequential 2K | 63385 | 2K 편집·checkpoint 검증 완료, 저자 평가 RUNNING |
 | Qwen 저장 checkpoint 공통 평가 | 63387 | PENDING afterany:63385 |
 | GPT-J CF native sequential 2K | 63386 | PENDING afterany:63387 |
 | GPT-J 저장 checkpoint 공통 평가 | 63388 | PENDING afterany:63386 |
@@ -370,3 +370,19 @@ history 영역만 sparse hole로 변환하여 약 6.68 GiB를 확보했다. 논�
 모든 byte와 SHA, 가중치/H는 그대로다. checkpoint나 다른 실험의 산출물은 삭제하지 않았다.
 [저장 전후 SHA와 할당량](../../../audits/global/fe-collapse-repair-20261011/native-qwen-w0-storage-sparse.json) ·
 [실제 장비와 Slurm 할당](../../../audits/global/fe-collapse-repair-20261011/native-server1-hardware.json).
+
+## Qwen native 2K 편집 완료, 성능 평가 진행 중
+
+63385는 같은 2,000건의 편집을 모두 마쳤다. W0/500/1000/1500/2000 checkpoint가
+저장됐고 B20의 다섯 편집층 가중치는 저자 `save_model`의 최종 export와 비트 단위로
+일치한다. 원래 2K case의 순서와 파일 SHA도 검사했다. B20의 가중치/H는 finite,
+H는 대칭이며 다섯 층의 `15000*C0+H` 모두 Cholesky를 통과했다. 검사 중 파일 내용은
+바뀌지 않았다. L5 weight norm은 246,640,023.22다.
+
+[2K 가중치와 history 검사](../../../audits/global/fe-collapse-repair-20261011/native-qwen-b20-prior-audit.json) ·
+[저자 최종 export와의 일치](../../../audits/global/fe-collapse-repair-20261011/native-qwen-b20-native-final-parity.json).
+
+최종 배치 100건의 z-fit 목표 확률 평균은 약 2.55e-6이며 100건 모두 1% 미만이다.
+이는 z 최적화 상태를 보여 주는 수치로, CF 성능 지표가 아니다. 저자 W0/W20 평가와
+후속 공통 checkpoint 평가를 진행한다. 수정 대조군의 2K 회복은 아직 확인되지 않았다.
+[20배치 fit 상태](../../../audits/global/fe-collapse-repair-20261011/native-qwen-fit-quality-2k.json).

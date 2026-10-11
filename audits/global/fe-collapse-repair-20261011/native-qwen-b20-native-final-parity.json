@@ -1,0 +1,62 @@
+{
+  "config": "local/fe-collapse-repair-20261011/native-r2/configs/qwen25.json",
+  "identity": "04fff304614b0673ee999f015b2ee81afaab5a69ada9b9a7767aeff8589dbd8f",
+  "checkpoint": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/qwen25/checkpoints/B20.pt",
+    "sha256": "1c9dad7424428291aa308aee32681241c3bf06dd90ea3dfaf7208483d0d08cce",
+    "bytes": 7856481561,
+    "completed_batches": 20,
+    "completed_edits": 2000,
+    "identity_sha256": "04fff304614b0673ee999f015b2ee81afaab5a69ada9b9a7767aeff8589dbd8f"
+  },
+  "native_final": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/qwen25/cache/saved_weights/memit/counterfact_stream_2000-native-sequential-qwen25-Qwen-Qwen2.5-7B-Instruct.pt",
+    "sha256": "139248a00e552ff02b2e081070cacfc12356c7a712ec8ee580344380c16f6289",
+    "bytes": 678957167
+  },
+  "weights": {
+    "model.layers.4.mlp.down_proj.weight": {
+      "dtype": "torch.bfloat16",
+      "shape": [
+        3584,
+        18944
+      ],
+      "bit_identical": true
+    },
+    "model.layers.5.mlp.down_proj.weight": {
+      "dtype": "torch.bfloat16",
+      "shape": [
+        3584,
+        18944
+      ],
+      "bit_identical": true
+    },
+    "model.layers.6.mlp.down_proj.weight": {
+      "dtype": "torch.bfloat16",
+      "shape": [
+        3584,
+        18944
+      ],
+      "bit_identical": true
+    },
+    "model.layers.7.mlp.down_proj.weight": {
+      "dtype": "torch.bfloat16",
+      "shape": [
+        3584,
+        18944
+      ],
+      "bit_identical": true
+    },
+    "model.layers.8.mlp.down_proj.weight": {
+      "dtype": "torch.bfloat16",
+      "shape": [
+        3584,
+        18944
+      ],
+      "bit_identical": true
+    }
+  },
+  "files_unchanged": true,
+  "complete_original_stream": true,
+  "scope": "CPU artifact identity and final selected weights, not accuracy"
+}
