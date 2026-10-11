@@ -108,6 +108,10 @@ Qwen의 공통 CF Score는 500건87.14 → 1K49.91 → 2K50.18로 붕괴했다(2
 [실제 등록](audits/global/fe-collapse-repair-20261011/native-submission.json).
 후속 원인 분리 대조는 **63389 GPT-J C0 수치 보정 / 63391 Qwen 현재100건의 W0-reference z** 모두 RUNNING이며,
 각 checkpoint 평가는63390/63392다. 저자 hparams/history를 유지하고 미래 target은 계산하지 않는다.
+Qwen63391은2K 편집·저자 평가를 완료했고 **Eff99.1 / Gen92.8 / Loc80.1, 반올림 성분의 Score89.95**다.
+W20 가중치·history는 과거 W0 선계산 참조와 비트 단위로 같으며, 현재100건만 계산한 결과다.
+공통 평가63392는 진행 중이다. 동일 W0-on-arrival protocol의 GPT-J 검증 **63425→63426**도 후속 등록했다.
+이들은 명시적으로 구분한 native 진단이며 기존 batch-entry baseline 행을 자동 대체하지 않는다.
 Qwen63391은 실제 종료된 CAKE zsRE63299의 슬롯에서 시작했다. GPT-J 보정63389도 CAKE CF63298 종료 후 시작했으며,
 server1 최대 동시3 GPU를 유지한다. [빈 슬롯·의존성 검산](audits/global/fe-collapse-repair-20261011/native-qwen-released-zsre-slot.json).
 Qwen 대조는 현재 모델 기준 z와 다른 프로토콜로 구분한다.

@@ -571,3 +571,18 @@ writer 변경을 섞지 않았다. 이 후속 검증도 기본 baseline 정의�
 스트리밍 I/O 구현으로 설명하지 않는다. 새 실행의 저자 평가와 공통 CF 평가는 진행 중이다.
 [과거 참조와2K tensor 직접 비교](../../../audits/global/fe-collapse-repair-20261011/native-qwen-online-b20-precompute-parity.json) ·
 [새 native 최종 export와 일치](../../../audits/global/fe-collapse-repair-20261011/native-qwen-online-b20-native-final-parity.json).
+
+## Qwen 2K 저자 평가에서 회복 확인
+
+63391은 `COMPLETED 0:0`이며 저자 자체 W20 결과는 **Eff99.1 / Gen92.8 / Loc80.1 (%)**다.
+저자가 소수3자리로 반올림한 세 성분의 조화평균은**89.9521**이다. 같은 저자 평가의
+현재 모델 z 대조63385는 Eff49.8 / Gen48.8 / Loc48.4, 조화평균48.993이었다.
+새 W0 값은13.8 / 16.2 / 85.0으로 대조의 W0와 같다. 고정된 동일2K 사례에서
+저자 hparams를 유지한 채 회복했으며 샘플을 교체하지 않았다.
+
+B20의 다섯 층 가중치/H는 finite, H는 대칭이고 모든 `15000*C0+H`가 Cholesky를
+통과했다. L5 weight norm은160.5712(현재 모델 z 대조246,640,023.22)다.
+공통 평가63392는 실행 중이다. 저자의 반올림 성분과 공통 평가의 full-precision
+집계를 섞지 않고, 최종 동일 평가 비교는63392 완료 뒤 별도로 기록한다.
+[새 저자 원 평가·SHA](../../../audits/global/fe-collapse-repair-20261011/native-qwen-online-author-evaluation.json) ·
+[W20 가중치·history·prior 검사](../../../audits/global/fe-collapse-repair-20261011/native-qwen-online-b20-prior-audit.json).

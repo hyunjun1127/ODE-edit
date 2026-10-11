@@ -1,0 +1,51 @@
+{
+  "job": "63391",
+  "native_config": "214fe1a955e794680f745bcf055f2d8c0396fb4801e1a5ba931a98b0497c789a",
+  "sacct": "63391|COMPLETED|0:0|2026-10-11T14:04:17|2026-10-11T15:18:41|01:14:24\n",
+  "metric_definition": "Mean per-request preference of token-mean NLL; components rounded to 3 decimals by native author code",
+  "score_definition": "Harmonic mean computed here from the already rounded native components",
+  "native_results": {
+    "before": {
+      "raw": {
+        "rewrite_prompts_probs": 0.138,
+        "paraphrase_prompts_probs": 0.162,
+        "neighborhood_prompts_probs": 0.85,
+        "rewrite_prompts_correct": 0.006,
+        "paraphrase_prompts_correct": 0.004,
+        "neighborhood_prompts_correct": 0.143,
+        "rewrite_prompts_diff": -0.089,
+        "paraphrase_prompts_diff": -0.106,
+        "neighborhood_prompts_diff": -0.089
+      },
+      "percentages": {
+        "Efficacy": 13.8,
+        "Generalization": 16.2,
+        "Specificity": 85.0,
+        "Score_from_rounded_native_components": 20.554017219746463
+      },
+      "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/qwen_online_w0/results/counterfact_stream_2000/Qwen-Qwen2.5-7B-Instruct/qwen_online_w0",
+      "sha256": "686fc4ffc4188b8b66b32c59ecb21242f3c9b1e1fd9a7bf321926318f90b0a0c"
+    },
+    "after": {
+      "raw": {
+        "rewrite_prompts_probs": 0.991,
+        "paraphrase_prompts_probs": 0.928,
+        "neighborhood_prompts_probs": 0.801,
+        "rewrite_prompts_correct": 0.973,
+        "paraphrase_prompts_correct": 0.578,
+        "neighborhood_prompts_correct": 0.126,
+        "rewrite_prompts_diff": 0.944,
+        "paraphrase_prompts_diff": 0.459,
+        "neighborhood_prompts_diff": -0.064
+      },
+      "percentages": {
+        "Efficacy": 99.1,
+        "Generalization": 92.80000000000001,
+        "Specificity": 80.10000000000001,
+        "Score_from_rounded_native_components": 89.95212586297357
+      },
+      "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/qwen_online_w0/results/counterfact_stream_2000/Qwen-Qwen2.5-7B-Instruct/memit-qwen_online_w0",
+      "sha256": "aae04945ab5009e5e3e844de25c63cc0fe59af3db3639696ec9890396baf3508"
+    }
+  }
+}
