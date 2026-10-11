@@ -69,4 +69,16 @@ class AuthorTests(unittest.TestCase):
         self.assertIsNone(run.load_native_context({},None,None))
         with self.assertRaises(KeyError):run.load_native_context({'native_context':{}},{},None)
 
+    def test_server4_is_only_llama_zsre_with_remote_recovery(self):
+        for model,dataset,archive,accepted in [('llama3','zsre',True,True),('llama3','cf',True,False),
+                ('qwen25','zsre',True,False),('llama3','zsre',False,False)]:
+            c=config(model,dataset,'server4');c.pop('config_sha256')
+            if archive:c['checkpoint_archive']={'host':'fixture','root':'/archive'}
+            c['config_sha256']=digest(c)
+            if accepted:
+                run.validate_config(c)
+                self.assertEqual(run.tracking_values(c,{'source_commit':'a'*40})['server'],'server4')
+            else:
+                with self.assertRaises(AssertionError):run.validate_config(c)
+
 if __name__=='__main__':unittest.main()

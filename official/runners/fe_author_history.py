@@ -26,7 +26,11 @@ from .server1.fe_history_prepare import runtime
 def validate_config(c):
     assert c['schema']=='official-fe-author-history-v1' and c['instruction_id']==INSTRUCTION
     assert c['task_id']==TASK and c['method']==METHOD and c['model'] in ('llama3','qwen25')
-    assert c['server'] in ('server1','server2') and c['dataset'] in ('cf','zsre')
+    assert c['server'] in ('server1','server2','server4') and c['dataset'] in ('cf','zsre')
+    if c['server']=='server4':
+        assert (c['model'],c['dataset'])==('llama3','zsre') and c.get('checkpoint_archive')
+    if c.get('checkpoint_archive'):
+        assert (c['server'],c['model'],c['dataset'])==('server4','llama3','zsre')
     assert (c['batch_size'],c['batches'],c['requests'],c['edit_seed'])==(100,20,2000,0)
     assert c['qualification']=='NOT_RUN_USER_DISABLED' and c['milestones']==[5,10,15,20]
     assert c['hparams']==profile(c['model'])['hparams']
@@ -151,14 +155,23 @@ def run(config_path,lock_path,resume=False):
     def save(batch,cursor):
         disk=os.statvfs(output)
         assert disk.f_bavail*disk.f_frsize>=c['storage_min_free_bytes'],'RESOURCE_BLOCKED_STORAGE_KEEP_SOURCE'
-        return checkpoint.save(output/'checkpoint',batch=batch,weights=weights,cache_c=H,
+        args=dict(batch=batch,weights=weights,cache_c=H,
             contexts=dict(method=METHOD,successful_calls=batch,context_templates=native.CONTEXT_TEMPLATES_CACHE),
             evaluation_cursor=cursor,identity=identity,method=METHOD,evaluation_complete=True)
+        if c.get('checkpoint_archive'):
+            from official.experiments import remote_milestones
+            return remote_milestones.save(output,archive=c['checkpoint_archive'],lock_path=output/'checkpoint.lock',
+                reserve_bytes=c['storage_min_free_bytes'],interval=1,**args)['latest']
+        return checkpoint.save(output/'checkpoint',**args)
     exit_code=1
     try:
         seed_edit(); start=0
         if resume:
-            saved=checkpoint.load(output/'checkpoint',identity)
+            if c.get('checkpoint_archive'):
+                from official.experiments import remote_milestones
+                saved=remote_milestones.load(output,identity,c['checkpoint_archive'])
+            else:
+                saved=checkpoint.load(output/'checkpoint',identity)
             assert saved['method']==METHOD and set(saved['weights'])==set(weights) and set(saved['cache_c'])==set(H)
             assert saved['contexts']['successful_calls']==saved['batch']==saved['evaluation_cursor']['completed_batch']
             with torch.no_grad():

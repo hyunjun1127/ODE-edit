@@ -48,6 +48,10 @@ def publish(destination,ref):
  for old in rolling.glob('batch-??-????????????????.pt'):
   if old!=target:old.unlink()
  sync(rolling)
+ # Non-milestone states are rolling recovery points, not permanent archives.
+ for old in (root/'states').glob('batch-*'):
+  if old!=destination:shutil.rmtree(old)
+ if (root/'states').exists():sync(root/'states')
 with (root/'.archive.lock').open('a+b') as guard:
  fcntl.flock(guard,fcntl.LOCK_EX)
  pointer=root/'checkpoint/latest.json'
@@ -55,7 +59,8 @@ with (root/'.archive.lock').open('a+b') as guard:
  operation=spec['operation']
  if operation=='status':
   # Recover a commit interrupted between milestone rename and rolling publication.
-  refs=[(p,json.loads((p/'latest.json').read_text())) for p in (root/'milestones').glob('edit-*')]
+  paths=list((root/'milestones').glob('edit-*'))+list((root/'states').glob('batch-*'))
+  refs=[(p,json.loads((p/'latest.json').read_text())) for p in paths]
   if refs:
    p,ref=max(refs,key=lambda item:item[1]['batch'])
    assert ref['identity_sha256']==spec['identity_sha256'], 'ARCHIVE_IDENTITY_MISMATCH'
@@ -81,12 +86,13 @@ with (root/'.archive.lock').open('a+b') as guard:
   elif operation=='commit':
    ref=spec['ref'];filename=ref['file'];payload=stage/'payload.pt'
    assert previous==spec['previous'], 'ARCHIVE_PREVIOUS_MISMATCH_RESUME_REQUIRED'
-   assert Path(filename).name==filename and ref['batch'] in (0,5,10,15,20)
+   assert Path(filename).name==filename and type(ref['batch']) is int and 0<=ref['batch']<=20
    assert payload.is_file() and not payload.is_symlink() and payload.stat().st_size==spec['bytes']
    assert sha(payload)==ref['sha256'], 'ARCHIVE_PAYLOAD_SHA_MISMATCH'
    os.rename(payload,stage/filename);atomic(stage/'latest.json',ref);sync(stage)
-   parent=root/'milestones';parent.mkdir(exist_ok=True)
-   destination=parent/f"edit-{ref['batch']*100:04d}"
+   retained=ref['batch'] in (0,5,10,15,20)
+   parent=root/('milestones' if retained else 'states');parent.mkdir(exist_ok=True)
+   destination=parent/(f"edit-{ref['batch']*100:04d}" if retained else f"batch-{ref['batch']:02d}")
    assert not destination.exists(), 'ARCHIVE_ALREADY_EXISTS_RESUME_REQUIRED'
    os.rename(stage,destination);sync(parent)
    publish(destination,ref)
@@ -152,13 +158,17 @@ def _write_atomic(path, value):
 
 
 def _mirror(output, archive, ref):
-    info=dict(host=archive['host'],directory=archive['root']+'/milestones/'+f"edit-{ref['batch']*100:04d}",ref=ref)
-    for folder in [Path(output)/'checkpoint',Path(output)/'milestones'/f"edit-{ref['batch']*100:04d}"]:
+    retained=ref['batch'] in (0,*milestones.MILESTONES)
+    relative=('milestones/'+f"edit-{ref['batch']*100:04d}" if retained else 'states/'+f"batch-{ref['batch']:02d}")
+    info=dict(host=archive['host'],directory=archive['root']+'/'+relative,ref=ref)
+    folders=[Path(output)/'checkpoint']
+    if retained:folders.append(Path(output)/relative)
+    for folder in folders:
         _write_atomic(folder/'remote.json',info)
         _write_atomic(folder/'latest.json',ref)
 
 
-def save(output, *, archive, lock_path, reserve_bytes=0, **kwargs):
+def save(output, *, archive, lock_path, reserve_bytes=0, interval=5, **kwargs):
     output,lock_path=Path(output),Path(lock_path)
     output.mkdir(parents=True,exist_ok=True);lock_path.parent.mkdir(parents=True,exist_ok=True)
     if lock_path.is_symlink():raise ValueError('CHECKPOINT_LOCK_SYMLINK')
@@ -167,8 +177,8 @@ def save(output, *, archive, lock_path, reserve_bytes=0, **kwargs):
         if shutil.disk_usage(output).free<reserve_bytes:raise ValueError('CHECKPOINT_METADATA_STORAGE')
         latest=output/'checkpoint/latest.json'
         previous=json.loads(latest.read_text()) if latest.exists() else None
-        checkpoint.validate_sequence(previous,kwargs['batch'],5,kwargs['identity'])
-        payload=checkpoint.make_payload(interval=5,**kwargs)
+        checkpoint.validate_sequence(previous,kwargs['batch'],interval,kwargs['identity'])
+        payload=checkpoint.make_payload(interval=interval,**kwargs)
         estimated=sum(t.numel()*t.element_size() for group in ['weights','cache_c'] for t in payload[group].values())+32*2**20
         spec=dict(root=archive['root'],stage='.incoming-'+uuid.uuid4().hex,previous=previous,
             reserve_bytes=archive['reserve_bytes'],estimated_bytes=estimated)

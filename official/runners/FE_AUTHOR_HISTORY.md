@@ -11,7 +11,14 @@ Shared CLI: `python -m official.runners.fe_author_history --config CONFIG --lock
 Default is independent coldW0/H0. `--resume` remains explicit same-identity checkpoint recovery only,
 not used for the new cold chains. Shared config validator: `validate_config(config)`.
 Schema `official-fe-author-history-v1`, instruction_id above, task_id `fe-author-hparams-2k-20261010`,
-method `MEMIT_FE_HISTORY`, model `llama3|qwen25`, server `server1|server2`, dataset `cf|zsre`.
+method `MEMIT_FE_HISTORY`, model `llama3|qwen25`, server `server1|server2|server4`, dataset `cf|zsre`.
+The 2026-10-11 user request enables only Llama3 zsRE on server4, using the same
+EasyEdit history implementation and author clamp/steps overlay. Server4 requires
+`checkpoint_archive`: native W/H/context/RNG is streamed to server1 after each
+batch with SHA-checked atomic commit. Only the latest non-milestone state is kept;
+W0 and W500/W1000/W1500/W2000 are retained independently. Compute-server paths
+contain remote pointers. `--resume` fetches and verifies the remote latest state.
+Existing server1/server2 local checkpoint behavior remains unchanged.
 Owner supplies distinct absolute output, arm, tracking_env_file, runtime, assets member, ordered stream member/digest,
 author_profile_sha256, hparams, storage_min_free_bytes and canonical config_sha256 (digest excluding itself).
 See SH1 prepare module for exact normalized asset structure: existing full-hashed model members/snapshot/identity,

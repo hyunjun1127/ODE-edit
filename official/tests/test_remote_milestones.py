@@ -83,5 +83,25 @@ class RemoteMilestoneTests(unittest.TestCase):
                     remote.load(local,dict(args['identity'],code_commit='wrong'),args['archive'])
                 remote.save(local,batch=10,**args)
 
+    def test_every_batch_recovery_bounds_transient_states_and_keeps_milestones(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root=Path(temporary);local=root/'local';args=self.args(root)
+            with patch.object(remote,'_command',self.command),patch.object(remote,'_fetch',self.fetch):
+                for batch in range(21):
+                    args['weights']['W'].add_(1);args['cache_c']['4'].add_(2)
+                    remote.save(local,batch=batch,interval=1,**args)
+                    current=cp.load(root/'remote/checkpoint',args['identity'])
+                    self.assertEqual(current['batch'],batch)
+                    self.assertTrue(torch.equal(current['cache_c']['4'],args['cache_c']['4']))
+                    self.assertEqual(len(list((root/'remote/states').glob('batch-*'))),int(batch%5!=0))
+                    self.assertEqual(list(local.rglob('*.pt')),[])
+                    if batch==7:
+                        restored=remote.load(local,args['identity'],args['archive'])
+                        self.assertEqual(restored['batch'],7)
+                self.assertEqual(len(list((root/'remote/milestones').glob('edit-*'))),5)
+                for batch in [0,5,10,15,20]:
+                    loaded=cp.load(root/'remote/milestones'/f'edit-{batch*100:04d}',args['identity'])
+                    self.assertTrue(torch.equal(loaded['weights']['W'],torch.full((2,3),batch+2.)))
+
 
 if __name__=='__main__':unittest.main()
