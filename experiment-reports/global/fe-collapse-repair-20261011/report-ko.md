@@ -6,14 +6,14 @@
 아래 author W0-fixed 결과와 CPU 대조는 별도 경로의 원인 후보 조사이며 현재 baseline의 회복 증거가 아니다.
 초기 조사에서 이 경로를 현재 기준으로 바꾼 것은 잘못이었다. Qwen/GPT-J의 현재 기준 재검증이 남아 있다.
 
-## 현재 진행 상태 (2026-10-11 12:33 KST)
+## 현재 진행 상태 (2026-10-11 13:06 KST)
 
 공식 `main.py` + 현재 배치 z 진단을 server1에서 진행 중이다. 기존 정상 cap2에
 허용된 진단용 한 개 lane을 추가했다. 실행·평가는 다음 순서이며 최대 동시3 GPU다.
 
 | 작업 | job | 의존성/관측 상태 |
 | --- | --- | --- |
-| Qwen CF native sequential 2K | 63385 | RUNNING, B10/1K checkpoint 검증 완료 |
+| Qwen CF native sequential 2K | 63385 | RUNNING, B15/1.5K checkpoint 검증 완료 |
 | Qwen 저장 checkpoint 공통 평가 | 63387 | PENDING afterany:63385 |
 | GPT-J CF native sequential 2K | 63386 | PENDING afterany:63387 |
 | GPT-J 저장 checkpoint 공통 평가 | 63388 | PENDING afterany:63386 |
@@ -348,3 +348,16 @@ GPT-J의 native BF16 첫 편집층 input key를 CPU에서20배치 계산하고 �
 20회 모두 Cholesky13797로 실패했고, 보정 C0는20회 모두 통과했다.
 원래 저자 context와 고정 CF2K를 사용한 CPU 검사이며 CUDA 수치/2K 성능 회복 증거와는 구분한다.
 [20배치 원본/보정 대조](../../../audits/global/fe-collapse-repair-20261011/native-gptj-l3-prior-stream-cpu.json).
+
+## 1.5K checkpoint와 저장 공간 확인
+
+Qwen B15에서도 가중치/H가 finite이고 history는 대칭이며 다섯 층의
+`15000*C0+H`가 Cholesky를 통과했다. L5 weight norm은 2,064,563.40으로
+증가했다. 검사 전후 checkpoint SHA는 동일하다. 아직 CF 성능 평가가 끝난 것은 아니다.
+[1.5K 재로딩 검산](../../../audits/global/fe-collapse-repair-20261011/native-qwen-b15-prior-audit.json).
+
+server1 진단 노드는 RTX A6000 48GB 장비다. W0 snapshot의 0으로 초기화된
+history 영역만 sparse hole로 변환하여 약 6.68 GiB를 확보했다. 논리적인 파일 크기,
+모든 byte와 SHA, 가중치/H는 그대로다. checkpoint나 다른 실험의 산출물은 삭제하지 않았다.
+[저장 전후 SHA와 할당량](../../../audits/global/fe-collapse-repair-20261011/native-qwen-w0-storage-sparse.json) ·
+[실제 장비와 Slurm 할당](../../../audits/global/fe-collapse-repair-20261011/native-server1-hardware.json).
