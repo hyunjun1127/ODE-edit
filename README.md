@@ -159,10 +159,14 @@ server1은 기존 작업 종료 후 CF·zsRE **두 lane(동시 GPU 최대 2개)*
 case 순서는 공식 eval-2K/zsRE 2K 순서와 같다. CF all-seen Score는 W5 90.70에서 W20 67.98로 계속 내려간다.
 [CF 원자료 SHA·분자·분모](audits/servers/server4/cake-qwen25-cf-move-20261011/w20-table-row-63324.json) ·
 [zsRE 원자료 SHA·token 분모](audits/servers/server4/cake-qwen25-zsre-move-20261011/w20-table-row-63325.json).
+**Llama CF 63296·zsRE 63297은 2026-10-11 11:27·11:32 KST에 server1에서 COMPLETED**(W20/2,000 edits)이며 아래 Llama CAKE 행에 반영했다. 값은 각 run의 `factual/all-seen-20.json`을 같은 공식 reducer로 다시 집계한 것이다. CF는 strict NLL R/P/N 1,984/2,000 · 3,486/4,000 · 15,304/20,000, Score는 반올림 전 성공률의 조화평균(86.6461)이고, zsRE는 공개-query 평가기(token 분모 6,035/6,035/12,465)다.
+**GPT-J CF 63298·zsRE 63299는 2026-10-11 14:19·14:00 KST에 server1에서 COMPLETED**(W20/2,000 edits)이며 아래 GPT-J CAKE 행에 반영했다. 같은 방식으로 CF는 R/P/N 1,994/2,000 · 3,856/4,000 · 14,642/20,000, Score 88.0724이고, zsRE token 분모는 5,557/5,557/9,694다.
+네 run의 case 순서는 공식 eval-2K/zsRE 2K 순서와 같고, CF W0는 본표 W0 행과 같다. zsRE W0 행은 기존 exact-token-prefix 평가기 관측이라 이 run들의 공개-query W0(Llama 36.99 / 36.34 / 31.89, GPT-J 27.79 / 27.10 / 27.54)와 직접 비교하지 않는다. all-seen 값은 W5→W20에 완만하게만 내려간다(CF Score Llama 87.14→86.65, GPT-J 90.73→88.07).
+[Llama CF](audits/servers/server1/cake-six-2k-20261011/w20-table-row-63296.json) · [Llama zsRE](audits/servers/server1/cake-six-2k-20261011/w20-table-row-63297.json) · [GPT-J CF](audits/servers/server1/cake-six-2k-20261011/w20-table-row-63298.json) · [GPT-J zsRE](audits/servers/server1/cake-six-2k-20261011/w20-table-row-63299.json) 원자료 SHA·분자·분모.
 server4 디스크 여유를 위해 **zsRE checkpoint는 server1에 직접 전송하여 SHA 확인 후 원자적으로 보존**한다.
 server4에는 포인터를 남기며, CF는 기존 저장 방식을 유지한다.
 각 run은 **500·1,000·1,500·2,000 edits의 편집층 가중치·history·RNG를 모두 보존**한다.
-CF FLU/CON은 W20 checkpoint 후속 평가로 미루며, 아래 PENDING은 완료 성능이 아니다.
+CF FLU/CON은 W20 checkpoint 후속 평가로 미루며, 표에는 DEFERRED로 둔다.
 Llama·GPT-J는 저자 CAKE hparams, Qwen2.5는 공식 AlphaEdit 편집 설정과 공개 knowns의
 실측 causal score(job 63264, 정답 필터 통과 725개)를 사용한다.
 [실행·checkpoint 보고](experiment-reports/servers/server1/cake-six-2k-20261011/report-ko.md) ·
@@ -200,7 +204,7 @@ zsRE Loc은 **loc_ans 정답 token 정확도의 요청별 평균**이다. 이전
 | AlphaEdit-BLUE | 89.84† | 99.60† | 97.15† | 76.59† | 630.45† | 33.98† | 95.87 | 92.28 | 32.83 |
 | FE (author hparams + history) | 90.57 | 99.60 | 95.38 | 79.37 | DEFERRED | DEFERRED | FAILED: official-s4-llama3-zsre-fe-author-hparams-2k (63357) | FAILED: official-s4-llama3-zsre-fe-author-hparams-2k (63357) | FAILED: official-s4-llama3-zsre-fe-author-hparams-2k (63357) |
 | AlphaEdit+SPHERE | 86.87 | 99.50 | 94.95 | 71.68 | 619.20 | 33.64 | 95.13 | 91.36 | 31.38 |
-| CAKE | PENDING: official-s1-llama3-cf-cake-2k (63296) | PENDING: official-s1-llama3-cf-cake-2k (63296) | PENDING: official-s1-llama3-cf-cake-2k (63296) | PENDING: official-s1-llama3-cf-cake-2k (63296) | DEFERRED | DEFERRED | PENDING: official-s1-llama3-zsre-cake-2k (63297) | PENDING: official-s1-llama3-zsre-cake-2k (63297) | PENDING: official-s1-llama3-zsre-cake-2k (63297) |
+| CAKE | 86.65 | 99.20 | 87.15 | 76.52 | DEFERRED | DEFERRED | 94.73 | 89.34 | 32.72 |
 | PRICE (Ours) | 90.98§ | 99.90§ | 93.50§ | 81.50§ | 628.47§ | 33.53§ | 99.62§ | 94.83§ | 45.31§ |
 
 § 사용자 2026-10-10 결정에 따른 **최종 PRICE method** CF 2K이며, server4 job **62604**로 실행했다.
@@ -400,7 +404,7 @@ Llama historical3개는 원source/lock/CP와 새평가 consumer identity를 분�
 | AlphaEdit-BLUE | 89.23 | 99.55 | 97.53 | 75.06 | 621.35 | 42.00 | 99.75 | 95.71 | 28.83 |
 | FE (author hparams + history) | 85.39 | 98.50 | 94.80 | 69.29 | DEFERRED | DEFERRED | 재검증 필요 | 재검증 필요 | 재검증 필요 |
 | AlphaEdit+SPHERE | 88.39 | 99.70 | 95.73 | 74.27 | 616.18 | 40.89 | 99.67 | 96.29 | 28.00 |
-| CAKE | PENDING: official-s1-gptj-cf-cake-2k (63298) | PENDING: official-s1-gptj-cf-cake-2k (63298) | PENDING: official-s1-gptj-cf-cake-2k (63298) | PENDING: official-s1-gptj-cf-cake-2k (63298) | DEFERRED | DEFERRED | PENDING: official-s1-gptj-zsre-cake-2k (63299) | PENDING: official-s1-gptj-zsre-cake-2k (63299) | PENDING: official-s1-gptj-zsre-cake-2k (63299) |
+| CAKE | 88.07 | 99.70 | 96.40 | 73.21 | DEFERRED | DEFERRED | 99.73 | 97.01 | 28.25 |
 | PRICE (Ours) | 88.22¶ | 99.80¶ | 96.23¶ | 73.57¶ | 620.09¶ | 41.61¶ | 99.81¶ | 96.96¶ | 29.59¶ |
 
 GPT-J W0 Flu/Con은 동일 native full2K 완료/등록을 찾지 못해 server4의 **63219**로 generation-only 평가를 등록했다.

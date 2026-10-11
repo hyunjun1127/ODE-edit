@@ -1,0 +1,187 @@
+{
+ "job": 63296,
+ "server": "server1",
+ "slurm": {
+  "job": 63296,
+  "job_name": "official-s1-llama3-cf-cake-2k",
+  "state": "COMPLETED",
+  "exit_code": "0:0",
+  "start": "2026-10-11T07:52:51+09:00",
+  "end": "2026-10-11T11:27:20+09:00",
+  "elapsed": "03:34:29",
+  "node": "devbox"
+ },
+ "dataset": "cf",
+ "requests": 2000,
+ "row": "Llama3-8B-Instruct CAKE CF Score/Eff/Gen/Loc",
+ "owner_note": "CAKE run of another session; origin/main still showed PENDING when this row was filled. Values re-reduced only from the run's own completion/result files.",
+ "identity": {
+  "assets_sha256": "d03386c2a10978fb66984cc81df43d83a4a145e74be6aa84bb7b395acfc088f3",
+  "code_commit": "a247c7925911990a0dc7230885c54710d540f8f7",
+  "config_sha256": "053ee039a2e7515740629cdbf2ecfd824cc3d833f2cf840d8616af806b27e5d8",
+  "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+  "official_tree_sha256": "4cbd54794df6ca9a8ae6fa01069c5ad115569099",
+  "stream_sha256": "39bbd2215177d2aabeb3bd5c2e7f088b454479bf567b3b16f9da70bd0b28c95e",
+  "tokenizer_sha256": "5def14f0398b34af845724d57933cb300ae606e3e4b039366e1fdbd81fbcc521"
+ },
+ "edits": 2000,
+ "batches": 20,
+ "W20_checkpoint": {
+  "latest": {
+   "batch": 20,
+   "file": "batch-20-ab95a58c41b9a3aa.pt",
+   "final_W20": true,
+   "identity_sha256": "b5fb1b2ce822a5d7a59e03d23fb49d813389df7d7fe15c6a63847309453f08dc",
+   "sha256": "ab95a58c41b9a3aa48eaefb0fc429b3a3307b72045c49c98b546a826c18cd778"
+  },
+  "milestone": "/mnt/raid5/janghj/ODE-edit/local/cake-six-2k-server1-20261011/runs/llama3-cf/milestones/edit-2000"
+ },
+ "milestones": [
+  {
+   "bytes": 237,
+   "path": "/mnt/raid5/janghj/ODE-edit/local/cake-six-2k-server1-20261011/runs/llama3-cf/milestones/edit-0500/latest.json",
+   "sha256": "c27fdc384538696637a5348a575b9857c6b598292530732ac8ac58fb91d001c8"
+  },
+  {
+   "bytes": 238,
+   "path": "/mnt/raid5/janghj/ODE-edit/local/cake-six-2k-server1-20261011/runs/llama3-cf/milestones/edit-1000/latest.json",
+   "sha256": "d0ef7cc3ae81fd96acfbbd223d4997da2d66eba7f81c639f0ecc100ba828c2bc"
+  },
+  {
+   "bytes": 238,
+   "path": "/mnt/raid5/janghj/ODE-edit/local/cake-six-2k-server1-20261011/runs/llama3-cf/milestones/edit-1500/latest.json",
+   "sha256": "4f3d8040e198bffde1ee140d9e057191213291b387219850f93d06d91ff2b101"
+  },
+  {
+   "bytes": 237,
+   "path": "/mnt/raid5/janghj/ODE-edit/local/cake-six-2k-server1-20261011/runs/llama3-cf/milestones/edit-2000/latest.json",
+   "sha256": "2c8342429a0a28788b46476a5287c5b13d4fe230f641561a97eeb62a6015d775"
+  }
+ ],
+ "generation": "DEFERRED_TO_W20_CHECKPOINT",
+ "files": {
+  "runs/llama3-cf/COMPLETE.json": {
+   "path": "server1:/mnt/raid5/janghj/ODE-edit/local/cake-six-2k-server1-20261011/runs/llama3-cf/COMPLETE.json",
+   "bytes": 3040,
+   "sha256": "7ff99865887862bcf67ed5031ec6bb55509fbe3cebaff98b39b8a374415a4681"
+  },
+  "runs/llama3-cf/factual/all-seen-20.json": {
+   "path": "server1:/mnt/raid5/janghj/ODE-edit/local/cake-six-2k-server1-20261011/runs/llama3-cf/factual/all-seen-20.json",
+   "bytes": 64087269,
+   "sha256": "bc0e19722f82c2c11deec5be6b0a090ebf06c1164146d614b7651acd252bde38"
+  },
+  "runs/llama3-cf/factual/W0-first2000.json": {
+   "path": "server1:/mnt/raid5/janghj/ODE-edit/local/cake-six-2k-server1-20261011/runs/llama3-cf/factual/W0-first2000.json",
+   "bytes": 64063092,
+   "sha256": "e26abde6d345a9c3aad0e3d131e914636c63bde063db3d31576259b9da95a874"
+  },
+  "runs/llama3-cf/commits/batch-20.json": {
+   "path": "server1:/mnt/raid5/janghj/ODE-edit/local/cake-six-2k-server1-20261011/runs/llama3-cf/commits/batch-20.json",
+   "bytes": 1720,
+   "sha256": "36132176c07206c5176183a88075a3c08536cffa964beea2bc9c59410b54094a"
+  },
+  "runs/llama3-cf/checkpoint/latest.json": {
+   "path": "server1:/mnt/raid5/janghj/ODE-edit/local/cake-six-2k-server1-20261011/runs/llama3-cf/checkpoint/latest.json",
+   "bytes": 237,
+   "sha256": "2c8342429a0a28788b46476a5287c5b13d4fe230f641561a97eeb62a6015d775"
+  },
+  "runs/llama3-cf/runtime.json": {
+   "path": "server1:/mnt/raid5/janghj/ODE-edit/local/cake-six-2k-server1-20261011/runs/llama3-cf/runtime.json",
+   "bytes": 4752,
+   "sha256": "73e06017bdd501ca5fc7965636c0def0e6560414fdaf47e5d4f237eff9c645a8"
+  },
+  "runs/llama3-cf/tracking/receipt.json": {
+   "path": "server1:/mnt/raid5/janghj/ODE-edit/local/cake-six-2k-server1-20261011/runs/llama3-cf/tracking/receipt.json",
+   "bytes": 3413,
+   "sha256": "7af0ac30445fe50bbdd78a66d054d19bf8e7583eaf7b71aaaa5d40b85085fd8c"
+  },
+  "preparation/configs/llama3-cf.json": {
+   "path": "server1:/mnt/raid5/janghj/ODE-edit/local/cake-six-2k-server1-20261011/preparation/configs/llama3-cf.json",
+   "bytes": 3156,
+   "sha256": "9d838fd3764ef2af66f7e35c7175fc31f7e8dab222727065b7b2a7eafb3e0468"
+  }
+ },
+ "ordered_case_ids_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+ "case_order": "equals the official eval-2K order: first 2,000 records of the CF stream (sha256 66edc483…, canonical 39bbd221…); W0 and all-seen-05/10/15/20 case ids are prefixes of it, occurrence_index 1..N",
+ "recorded_summary": {
+  "Efficacy": 99.2,
+  "Generalization": 87.15,
+  "Score": 86.64611943479751,
+  "Score_AlphaEdit_display": 86.64611943479751,
+  "Specificity": 76.52,
+  "requests": 2000
+ },
+ "reducer": "official reduce.counterfact: strict NLL preference per prompt (R/P: new<true, N: true<new), per-request rate, request macro; Score = harmonic mean of unrounded rates",
+ "counts": {
+  "R": {
+   "numerator": 1984,
+   "denominator": 2000
+  },
+  "P": {
+   "numerator": 3486,
+   "denominator": 4000
+  },
+  "N": {
+   "numerator": 15304,
+   "denominator": 20000
+  }
+ },
+ "unrounded": {
+  "R": 99.2,
+  "P": 87.15,
+  "N": 76.52
+ },
+ "score_unrounded": 86.64611943479751,
+ "display": {
+  "Score": "86.65",
+  "Eff": "99.20",
+  "Gen": "87.15",
+  "Loc": "76.52"
+ },
+ "note_prompts_correct": "the file's *_prompts_correct flags are argmax exact match of the desired target (strict_acc_pct 97.0 / 59.3 / 19.82), a separate metric not used in the table",
+ "trajectory_all_seen": {
+  "W5": "98.00 / 80.30 / 84.96, Score 87.14",
+  "W10": "98.70 / 85.15 / 81.13, Score 87.72",
+  "W15": "99.47 / 86.37 / 79.01, Score 87.49",
+  "W20": "99.20 / 87.15 / 76.52, Score 86.65"
+ },
+ "W0": {
+  "file": "factual/W0-first2000.json (same run, before the first edit)",
+  "requests": 2000,
+  "counts": {
+   "R": {
+    "numerator": 164,
+    "denominator": 2000
+   },
+   "P": {
+    "numerator": 438,
+    "denominator": 4000
+   },
+   "N": {
+    "numerator": 17711,
+    "denominator": 20000
+   }
+  },
+  "unrounded": {
+   "R": 8.200000000000001,
+   "P": 10.95,
+   "N": 88.55499999999999
+  },
+  "score_unrounded": 13.358992242602808,
+  "display": "13.36 / 8.20 / 10.95 / 88.56 (Score/Eff/Gen/Loc)",
+  "README_W0_row": "13.36 / 8.20 / 10.95 / 88.56",
+  "matches_README_W0_row": true,
+  "README_W0_source": "server1 61768 official-s1-cf-w0 (audits/global/w0-main-table-20261009/results.json): same R/P/N correct counts 164/2,000 · 438/4,000 · 17,711/20,000"
+ },
+ "completion": {
+  "slurm": "COMPLETED 0:0",
+  "COMPLETE_json": "present; final_cursor all-seen sha256 = factual/all-seen-20.json; checkpoint/latest.json = final_cursor latest = milestones/edit-2000/latest.json; 20 commits (edits 100..2000, identity = COMPLETE.identity), batch-20 cursor = final_cursor; W20 .pt hard-linked into milestones/edit-2000",
+  "runtime": "job_id 63296, resume false, float32, TF32 off, eager attention, NVIDIA RTX A6000"
+ },
+ "wandb": {
+  "run_id": "b78c321747394bc4",
+  "status": "FINISHED_SDK_FLUSHED",
+  "dropped_points": 0
+ },
+ "Flu_Con": "DEFERRED (generation DEFERRED_TO_W20_CHECKPOINT)"
+}

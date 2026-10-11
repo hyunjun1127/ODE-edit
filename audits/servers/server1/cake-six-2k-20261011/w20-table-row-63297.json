@@ -1,0 +1,196 @@
+{
+ "job": 63297,
+ "server": "server1",
+ "slurm": {
+  "job": 63297,
+  "job_name": "official-s1-llama3-zsre-cake-2k",
+  "state": "COMPLETED",
+  "exit_code": "0:0",
+  "start": "2026-10-11T08:13:51+09:00",
+  "end": "2026-10-11T11:32:15+09:00",
+  "elapsed": "03:18:24",
+  "node": "devbox"
+ },
+ "dataset": "zsre",
+ "requests": 2000,
+ "row": "Llama3-8B-Instruct CAKE zsRE Eff/Gen/Loc",
+ "owner_note": "CAKE run of another session; origin/main still showed PENDING when this row was filled. Values re-reduced only from the run's own completion/result files.",
+ "identity": {
+  "assets_sha256": "d03386c2a10978fb66984cc81df43d83a4a145e74be6aa84bb7b395acfc088f3",
+  "code_commit": "a247c7925911990a0dc7230885c54710d540f8f7",
+  "config_sha256": "00d9e41a893da40657702cd382f61ec2aec9a39c4bffabce70c989900b4fce5f",
+  "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+  "official_tree_sha256": "4cbd54794df6ca9a8ae6fa01069c5ad115569099",
+  "stream_sha256": "93925ec2f74e00a1b3fbdf261e557d10652ae0eca7265b4948958d39de4848b7",
+  "tokenizer_sha256": "5def14f0398b34af845724d57933cb300ae606e3e4b039366e1fdbd81fbcc521"
+ },
+ "edits": 2000,
+ "batches": 20,
+ "W20_checkpoint": {
+  "latest": {
+   "batch": 20,
+   "file": "batch-20-9c8731d7ec1f8603.pt",
+   "final_W20": true,
+   "identity_sha256": "b648db65aa524bd584c6f72af271942ec368958bc7911c31e54c94d2218b7436",
+   "sha256": "9c8731d7ec1f86038fcc04c6db0abacc7c34dfc4f10c378cd166424748483bc2"
+  },
+  "milestone": "/mnt/raid5/janghj/ODE-edit/local/cake-six-2k-server1-20261011/runs/llama3-zsre/milestones/edit-2000"
+ },
+ "milestones": [
+  {
+   "bytes": 237,
+   "path": "/mnt/raid5/janghj/ODE-edit/local/cake-six-2k-server1-20261011/runs/llama3-zsre/milestones/edit-0500/latest.json",
+   "sha256": "01c4d02fe02954585b98cdd0ee597bdc033ff0c26720e03a488606ef991590ea"
+  },
+  {
+   "bytes": 238,
+   "path": "/mnt/raid5/janghj/ODE-edit/local/cake-six-2k-server1-20261011/runs/llama3-zsre/milestones/edit-1000/latest.json",
+   "sha256": "23a1be7ed9c628066a0cb283615543af0296c37ac594e5fa54aac8e3fb7203a7"
+  },
+  {
+   "bytes": 238,
+   "path": "/mnt/raid5/janghj/ODE-edit/local/cake-six-2k-server1-20261011/runs/llama3-zsre/milestones/edit-1500/latest.json",
+   "sha256": "635d94025e3edff0cefbfcc9b9379fda6351e0ff9656acb91f02808fd652c72f"
+  },
+  {
+   "bytes": 237,
+   "path": "/mnt/raid5/janghj/ODE-edit/local/cake-six-2k-server1-20261011/runs/llama3-zsre/milestones/edit-2000/latest.json",
+   "sha256": "f130bc9d19e62f5b5bd1f48f75d137395f0ae9c5690326a5a0980ab2da13f697"
+  }
+ ],
+ "generation": "NOT_APPLICABLE",
+ "files": {
+  "runs/llama3-zsre/COMPLETE.json": {
+   "path": "server1:/mnt/raid5/janghj/ODE-edit/local/cake-six-2k-server1-20261011/runs/llama3-zsre/COMPLETE.json",
+   "bytes": 3042,
+   "sha256": "0ec3b2ac013d68b19100ee60b9cc3602e427e522694028f8cbdb2e5ab5b8a2ec"
+  },
+  "runs/llama3-zsre/factual/all-seen-20.json": {
+   "path": "server1:/mnt/raid5/janghj/ODE-edit/local/cake-six-2k-server1-20261011/runs/llama3-zsre/factual/all-seen-20.json",
+   "bytes": 5365053,
+   "sha256": "728db8f99c73a5ac535252bfe3fe2863c0cb81090bb8f43198443b5f16c336d8"
+  },
+  "runs/llama3-zsre/factual/W0-first2000.json": {
+   "path": "server1:/mnt/raid5/janghj/ODE-edit/local/cake-six-2k-server1-20261011/runs/llama3-zsre/factual/W0-first2000.json",
+   "bytes": 5373492,
+   "sha256": "0685f0f7db118e4343a052bfba3f253277a26ee392f361252911d6859e97effb"
+  },
+  "runs/llama3-zsre/commits/batch-20.json": {
+   "path": "server1:/mnt/raid5/janghj/ODE-edit/local/cake-six-2k-server1-20261011/runs/llama3-zsre/commits/batch-20.json",
+   "bytes": 1724,
+   "sha256": "9163e710dc42b2a1421a8042b468e07adb06ce66a69ccdadcd2ca09a67e28849"
+  },
+  "runs/llama3-zsre/checkpoint/latest.json": {
+   "path": "server1:/mnt/raid5/janghj/ODE-edit/local/cake-six-2k-server1-20261011/runs/llama3-zsre/checkpoint/latest.json",
+   "bytes": 237,
+   "sha256": "f130bc9d19e62f5b5bd1f48f75d137395f0ae9c5690326a5a0980ab2da13f697"
+  },
+  "runs/llama3-zsre/runtime.json": {
+   "path": "server1:/mnt/raid5/janghj/ODE-edit/local/cake-six-2k-server1-20261011/runs/llama3-zsre/runtime.json",
+   "bytes": 4748,
+   "sha256": "0e924bea6c164e360e1001a2f8e43bd322f09f4e11a5a67280aa59b16a6b2bab"
+  },
+  "runs/llama3-zsre/tracking/receipt.json": {
+   "path": "server1:/mnt/raid5/janghj/ODE-edit/local/cake-six-2k-server1-20261011/runs/llama3-zsre/tracking/receipt.json",
+   "bytes": 2272,
+   "sha256": "aa83398c453e34216b5e315ed94c11fbb9a0010f1c7a6fcc401a9e701d84107b"
+  },
+  "preparation/configs/llama3-zsre.json": {
+   "path": "server1:/mnt/raid5/janghj/ODE-edit/local/cake-six-2k-server1-20261011/preparation/configs/llama3-zsre.json",
+   "bytes": 3152,
+   "sha256": "657d2cb3caf89a410598dc0eb122a9e52242906f7ec0518d1f945d1ad1f3626a"
+  },
+  "preparation/llama3-zsre-query-proof.json": {
+   "path": "server1:/mnt/raid5/janghj/ODE-edit/local/cake-six-2k-server1-20261011/preparation/llama3-zsre-query-proof.json",
+   "bytes": 643,
+   "sha256": "7790ca6eea72a2e6f1bdebdb64f79ae1dd2f3151310b1350c5541611b2d5ce53"
+  }
+ },
+ "ordered_case_ids_sha256": "494b15107deb77d9741606b7bddfecb8b350a486bb5a751655b294d4ebc6f1a4",
+ "case_order": "equals the first 2,000 zsRE records (case_id 0..1999, zsRE stream sha256 f42ee4bc…, canonical 93925ec2…); W0 and all-seen-05/10/15/20 case ids are prefixes of it, occurrence_index 1..N",
+ "recorded_summary": {
+  "Efficacy": 94.7250992063492,
+  "Generalization": 89.34450396825396,
+  "Specificity": 32.71643215451292,
+  "Specificity_loc_ans": 32.71643215451292,
+  "requests": 2000
+ },
+ "reducer": "official reduce.zsre (public-query evaluator official-zsre-public-query-eval-only-v1): per-request mean of token flags, request macro; Loc = loc_ans token accuracy",
+ "schema": "official-zsre-public-query-eval-only-v1",
+ "query_sha256": "7909c567881531b62db728ecc06308a3387324cc4e1c907b76bb50d8dd862efc",
+ "token_denominators": {
+  "neighborhood": 12465,
+  "paraphrase": 6035,
+  "rewrite": 6035
+ },
+ "tokens": {
+  "rewrite": {
+   "correct": 5647,
+   "total": 6035
+  },
+  "paraphrase": {
+   "correct": 5359,
+   "total": 6035
+  },
+  "neighborhood": {
+   "correct": 5076,
+   "total": 12465
+  }
+ },
+ "unrounded": {
+  "Eff": 94.7250992063492,
+  "Gen": 89.34450396825396,
+  "Loc": 32.71643215451292
+ },
+ "display": {
+  "Eff": "94.73",
+  "Gen": "89.34",
+  "Loc": "32.72"
+ },
+ "query_identity": "same public-query set (query_sha256 7909c567…) as the README Llama zsRE baseline re-evaluations 61932–61937 (audits/global/zsre-2k-reeval-20261009/query-parity.json, token denominators 6,035/6,035/12,465); preparation query proof PASS_CPU_QUERY_ONLY (0 input / 0 target mismatches); W0 uses the same queries",
+ "trajectory_all_seen": {
+  "W5": "94.24 / 89.20 / 32.93",
+  "W10": "94.61 / 89.45 / 32.84",
+  "W15": "94.92 / 89.61 / 33.05",
+  "W20": "94.73 / 89.34 / 32.72"
+ },
+ "W0": {
+  "file": "factual/W0-first2000.json (same run, before the first edit; same public-query evaluator)",
+  "requests": 2000,
+  "tokens": {
+   "rewrite": {
+    "correct": 2857,
+    "total": 6035
+   },
+   "paraphrase": {
+    "correct": 2789,
+    "total": 6035
+   },
+   "neighborhood": {
+    "correct": 5032,
+    "total": 12465
+   }
+  },
+  "unrounded": {
+   "Eff": 36.991190476190475,
+   "Gen": 36.344226190476185,
+   "Loc": 31.894064421739472
+  },
+  "display": "36.99 / 36.34 / 31.89",
+  "README_W0_row": "38.10 / 37.61 / 38.59",
+  "matches_README_W0_row": false,
+  "comparison_applicable": false,
+  "README_W0_source": "server1 61710 official-s1-zsre-w0; exact-token-prefix evaluator, E/G/Loc correct tokens 2,933/6,035 · 2,875/6,035 · 4,921/10,465 (no target BOS)",
+  "reason": "the README zsRE W0 row is the earlier exact-token-prefix evaluator observation; the README W0 note states it is not the same evaluator as the public-query W20 evaluation used by this run and by the README zsRE baseline rows (Llama: extra-space query handling, Loc with BOS 12,465 vs 10,465 tokens)"
+ },
+ "completion": {
+  "slurm": "COMPLETED 0:0",
+  "COMPLETE_json": "present; final_cursor all-seen sha256 = factual/all-seen-20.json; checkpoint/latest.json = final_cursor latest = milestones/edit-2000/latest.json; 20 commits (edits 100..2000, identity = COMPLETE.identity), batch-20 cursor = final_cursor; W20 .pt hard-linked into milestones/edit-2000",
+  "runtime": "job_id 63297, resume false, float32, TF32 off, eager attention, NVIDIA RTX A6000"
+ },
+ "wandb": {
+  "run_id": "a505c62d735f4bb1",
+  "status": "FINISHED_SDK_FLUSHED",
+  "dropped_points": 0
+ }
+}
