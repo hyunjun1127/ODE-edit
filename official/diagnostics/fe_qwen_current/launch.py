@@ -18,6 +18,15 @@ def launch(config,lockfile):
     for m in lock['source_members']+lock['author_members']+lock['configs']+lock['model_members']:
         verify(m)
     verify(lock['selection_lock']);verify(c['stream']);verify(c['native_data'])
+    if c.get('stage')=='final_benchmark':
+        from official.diagnostics.fe_qwen_current.benchmark import validated_selection
+        proof=validated_selection(c['selected_result'])
+        if c['L2']!=proof['selection']['selected_L2'] or c.get('cold_start') is not True:
+            raise ValueError('FINAL_SELECTED_COLD_CONTRACT')
+        if c['dataset']=='zsre':
+            parity=read(verify(c['query_parity']))
+            if parity['status']!='PASS_CPU_QUERY_ONLY' or parity['requests']!=2000 or parity['stream_sha256']!=digest(read(c['stream']['path'])):
+                raise ValueError('FINAL_PUBLIC_QUERY_PROOF')
     for m in c['C0']:
         verify(m['original'])
         if Path(m['link']).resolve()!=Path(m['original']['path']).resolve():raise ValueError('C0_LINK')
@@ -35,7 +44,7 @@ def launch(config,lockfile):
     with lockpath.open('a+b') as storage_lock:
         fcntl.flock(storage_lock.fileno(),fcntl.LOCK_EX)
         stat=os.statvfs(base)
-        budget=admit_remaining(c,[read(m['path']) for m in lock['configs']],stat.f_bavail*stat.f_frsize)
+        budget=admit_remaining(c,[read(verify(m)) for m in lock['configs']+lock.get('storage_configs',[])],stat.f_bavail*stat.f_frsize)
         write_new(out/'startup-admission.json',budget)
         fcntl.flock(storage_lock.fileno(),fcntl.LOCK_UN)
     env=dict(os.environ,FE_WORKING_LOCK=str(Path(lockfile).resolve()),
@@ -43,7 +52,7 @@ def launch(config,lockfile):
         TRANSFORMERS_OFFLINE='1',HF_HUB_CACHE=lock['hf_cache'],TOKENIZERS_PARALLELISM='false',
         OMP_NUM_THREADS=str(lock['cpus']),MKL_NUM_THREADS=str(lock['cpus']),OPENBLAS_NUM_THREADS=str(lock['cpus']))
     args=[lock['python'],'-B','-u','main.py','llms=qwen2.5-7b','algs=memit',
-        f"algs.L2={c['L2']}",'bs=100','num_edits=2000','seed=0','data=heldout-native.json',
+        f"algs.L2={c['L2']}",'bs=100','num_edits=2000','seed=0',f"data={Path(c['native_data']['path']).name}",
         f'data_dir={base}/data',f'cache_dir={base}/cache',f'results_dir={out}/unused-native-results',
         f'zs_cache_dir={out}/unused-target-cache','save_name=not-exported','load_name=not-loaded',
         '+diagnostic_z_reference=batch_entry',f'+working_config={Path(config).resolve()}',

@@ -1,0 +1,38 @@
+{
+  "instruction": "USER-FE-QWEN-WORKING-CURRENT-Z-20261012-R1",
+  "role": "READ_ONLY_ORIGINAL_MAIN_STREAM_BINDING",
+  "streams": {
+    "cf": {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/streams/cf-stream.json",
+      "bytes": 4145654,
+      "sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+      "requests": 2000,
+      "ordered_case_ids_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4"
+    },
+    "zsre": {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/streams/zsre-stream.json",
+      "bytes": 1490821,
+      "sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c",
+      "requests": 2000,
+      "ordered_case_ids_sha256": "494b15107deb77d9741606b7bddfecb8b350a486bb5a751655b294d4ebc6f1a4"
+    }
+  },
+  "public_query": {
+    "status": "PASS_CPU_QUERY_ONLY",
+    "model_family": "qwen25",
+    "requests": 2000,
+    "queries": 24858,
+    "token_denominators": {"rewrite": 6691, "paraphrase": 6691, "neighborhood": 11476},
+    "stream_sha256": "93925ec2f74e00a1b3fbdf261e557d10652ae0eca7265b4948958d39de4848b7",
+    "query_sha256": "6c8111384789cec7059ea1b3c2b1083d761ade2b360c99db3e5c4f1ef4941d78",
+    "oracle_lock_sha256": "d37227eb52aa1ba1cc0699155c674858b52ff418eaf7814231642f9de8aa2ff3",
+    "input_mismatches": 0,
+    "target_mismatches": 0,
+    "model_forward_calls": 0,
+    "actual_model_output_parity": "NOT_MEASURED"
+  },
+  "tokenizer_snapshot": "/mnt/raid5/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28",
+  "source_side_transfers": 0,
+  "GPU_calls": 0,
+  "raw_or_case_ids_in_git": false
+}

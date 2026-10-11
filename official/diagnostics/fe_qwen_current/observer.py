@@ -20,7 +20,7 @@ from official.runners.server1.common import read, verify, member, factual_payloa
 from official.runners.fe_original import cf_payload, versions
 from official.diagnostics.fe_qwen_current.storage import save_latest, finite_tensor
 from official.evaluation.factual import evaluate_counterfact, _plan, validate_retained_observation
-from official.tracking import init
+from official.tracking import init, official_zsre_metrics
 from official.tracking.schema import bind_job_identity, job_identity
 from official.diagnostics.fe_qwen_current.contract import SPEC, tracking_config
 
@@ -95,8 +95,10 @@ def _state(cfg,model,tok,requests):
     tracker=init(env_file=c['tracking_env_file'],spool=out/'tracking',config=values)
     identity=dict(config_sha256=c['config_sha256'],source=lock['source_commit'],
         author=SPEC['author_commit'],stream_sha256=c['stream']['sha256'],
-        split='heldout_fixed10k_4000_6000',selection_contract_sha256=digest(SPEC),
+        split=c['split'] if c.get('stage')=='final_benchmark' else 'heldout_fixed10k_4000_6000',selection_contract_sha256=digest(SPEC),
         z_reference='batch_entry',L2=c['L2'],dtype='bfloat16',job_id=job['job_id'],job_identity=job)
+    if c.get('stage')=='final_benchmark':
+        identity.update(dataset=c['dataset'],stage='final_benchmark',selected_result=c['selected_result'])
     names={cfg.llms.rewrite_module_tmp.format(l)+'.weight' for l in cfg.llms.layers}
     _STATE=dict(c=c,rows=rows,out=out,tracker=tracker,identity=identity,values=values,
                 model=model,tok=tok,excluded=names,nonedited=versions(model,names),last_batch=-1,finished=False)
@@ -132,18 +134,30 @@ def snapshot(cfg,model,tok,cache_c,contexts,batch,requests):
     receipts=[]
     for endpoint,rows,label in endpoints:
         started=time.monotonic()
-        result=preserved_evaluation(model,cache_c,lambda:evaluate_counterfact(
-            model,tok,rows,identity=dict(s['identity'],endpoint=endpoint,edits=batch*100),
-            batch_size=16,device=str(next(model.parameters()).device)))
+        zsre=s['c']['dataset']=='zsre'
+        if zsre:
+            from official.evaluation.zsre_paper import evaluate, build_queries
+            from official.diagnostics.fe_qwen_current.benchmark import reduce_zsre
+            evaluator=lambda:evaluate(model,tok,rows,model_family='qwen25',
+                identity=dict(s['identity'],endpoint=endpoint,edits=batch*100),
+                batch_size=16,device=str(next(model.parameters()).device))
+        else:
+            evaluator=lambda:evaluate_counterfact(model,tok,rows,
+                identity=dict(s['identity'],endpoint=endpoint,edits=batch*100),
+                batch_size=16,device=str(next(model.parameters()).device))
+        result=preserved_evaluation(model,cache_c,evaluator)
         if len(result['cases'])!=len(rows) or result['summary']['requests']!=len(rows):
             raise ValueError('ENDPOINT_COVERAGE')
         path=s['out']/'factual'/f'{label}.json';write_new(path,result);receipts.append(member(path))
         # CPU-only tokenizer query plan retained for an independent post-run reducer.
-        signatures=_plan(rows,'cf',tok)[2]
+        signatures=build_queries(tok,rows,model_family='qwen25') if zsre else _plan(rows,'cf',tok)[2]
         querypath=s['out']/'queries'/f'{label}.json';write_new(querypath,signatures)
-        audit=validate_retained_observation(result,'cf',input_signature=signatures)
+        audit=reduce_zsre(result,signatures) if zsre else validate_retained_observation(result,'cf',input_signature=signatures)
         write_new(s['out']/'raw-audits'/f'{label}.json',audit)
-        payload=factual_payload(result,endpoint,0) if batch==0 else cf_payload(result,endpoint,batch*100)
+        if zsre:
+            payload=official_zsre_metrics(result['summary'],config_values=s['values'],endpoint=endpoint,
+                edits=batch*100,post_state_edits=batch*100)
+        else:payload=factual_payload(result,endpoint,0) if batch==0 else cf_payload(result,endpoint,batch*100)
         payload['batch']=batch
         if s['tracker'].log(payload) is False:raise ValueError('TRACKING_NOT_ACCEPTED')
         write_new(s['out']/'evaluations'/f'{label}.json',dict(raw=receipts[-1],elapsed_sec=time.monotonic()-started,

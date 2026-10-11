@@ -66,7 +66,7 @@ def select(results):
 def tracking_config(config, source):
     # Existing transport's task_id is the SDK group. No shared logger fork.
     l2=str(config['L2']).replace('.','p')
-    return dict(server=config['server'],task_id='fe-qwen-current-z-heldout-selection-20261012',
+    values=dict(server=config['server'],task_id='fe-qwen-current-z-heldout-selection-20261012',
         model='qwen25',model_family='qwen2',writer='fe_native_batch_entry_z',
         baseline='FE-heldout-control' if config['L2']==0 else 'FE-heldout-tuned-L2',
         role='scientific',arm=f'heldout4000-6000-L2-{l2}-clamp1-steps35-lr0p5-wd0p001',
@@ -76,3 +76,11 @@ def tracking_config(config, source):
         dataset='cf',metric_schema='official-baselines-scalar-v1',
         instruction_id='USER-OFFICIAL-BASELINES-20261008-R1',
         generation_schedule='DEFERRED_CHECKPOINT_EVALUATION')
+    if config.get('stage')=='final_benchmark':
+        values.update(task_id='fe-qwen-current-z-final-benchmark-20261012',
+            baseline='FE-selected-tuned-L2',dataset=config['dataset'],
+            arm=f"final-{config['dataset']}-L2-{l2}-cold-first2000",
+            evaluation_profile='selected-native-current-z-final-first2000',
+            observation_identity=config['selected_result']['sha256'])
+        if config['dataset']=='zsre':values.pop('generation_schedule')
+    return values

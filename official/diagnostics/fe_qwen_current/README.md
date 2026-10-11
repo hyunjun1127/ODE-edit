@@ -114,3 +114,67 @@ CPU evidence only: selector failure/tie cases, exact native writer/L2 consumptio
 RNG/state-neutral observations, BF16 latest overwrite/roundtrip, actual CF current
 and all-seen scalar payloads, independent raw tamper rejection, and existing
 native/transport regression tests. No pretrained GPU or online PASS is inferred.
+# Conditional final CF / zsRE benchmarks
+
+Execution remains requester/root-owned on rent. This API does not submit jobs.
+Do not change the frozen `selection-r3` source, configs or running processes.
+
+After all four held-out arms resolve as valid W20 or explicit numerical failure,
+run the existing `collect` command. `selection-result.json` must be `SELECTED`.
+The final preparer **independently re-runs that CPU raw selection audit**, checks
+the saved receipt byte member and exact reconstructed result, and refuses
+NO_PROMOTION, missing arms, technical/resource failures, or L2=0 promotion.
+
+Use the same bindings schema with these additional members:
+
+```json
+{
+  "stage": "final_benchmark",
+  "selected_result": {"path": "/workspace/checkpoints/fe-qwen-working-20261012/selection-r3/selection-result.json", "bytes": 0, "sha256": "ACTUAL_RECEIPT_SHA_REQUIRED"},
+  "zsre_stream": {"path": "ABSOLUTE_ORIGINAL_ZSRE_STREAM", "bytes": 1490821, "sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c"},
+  "planned_latest_count": 6
+}
+```
+
+The example receipt bytes/SHA are placeholders, not an admissible receipt.
+Keep original `fixed_stream`, `main_stream`, `alt_stream`, model/C0 members,
+host lock and >=32GiB rent reserve. Model members must be regular resolved blob
+paths; the snapshot alias is separately checked. No model download occurs.
+
+```sh
+python -m official.diagnostics.fe_qwen_current.prepare NEW_FINAL_ROOT final-bindings.json
+PYTHONPATH=NEW_FINAL_ROOT/source python -m official.diagnostics.fe_qwen_current.launch NEW_FINAL_ROOT/configs/final-cf-L2-SELECTED.json NEW_FINAL_ROOT/lock.json
+PYTHONPATH=NEW_FINAL_ROOT/source python -m official.diagnostics.fe_qwen_current.launch NEW_FINAL_ROOT/configs/final-zsre-L2-SELECTED.json NEW_FINAL_ROOT/lock.json
+python -m official.diagnostics.fe_qwen_current.benchmark NEW_FINAL_ROOT
+```
+
+Read the actual returned config member names (decimal L2 uses `p`, e.g. `0p1`).
+Preparation requires clean published HEAD and creates a new frozen source and
+native clone, not an in-place edit. It returns exactly two configs with the same
+selected L2 and independent cold HF loads. It does not restore held-out weights.
+No main-benchmark metric influences selection or creates another configuration.
+
+CF uses the exact original main first2000 SHA already locked by selection.
+zsRE retains each original edit request once; only its evaluator expands native
+public decode/re-tokenize queries. The preparer uses the local native tokenizer
+and executes the pinned public query AST parity check over all 2000 requests.
+This is CPU input parity, not pretrained output parity.
+
+Both runs retain W0 full2000, each committed current100 and all-seen
+500/1000/1500/2000 raw. CF retains strict NLL / R/P/N diagnostics and official
+request-macro scores. zsRE records public-query E/G/loc_ans request-macro metrics
+under `zsre/*`, not CF NLL or W0 agreement relabels. The independent reducer
+checks ordered case/query/target mapping, predicted IDs, correctness bits, token
+denominators, finite work and request-macro arithmetic. Final collection audits
+all 25 endpoints per run, 20 commits plus W0, final checkpoint SHA, and reports
+zsRE W20 Loc minus W0 Loc. It requires both final W20 endpoints before emitting
+`both_W20_complete`; it makes no automatic recovery claim.
+
+Final group is `fe-qwen-current-z-final-benchmark-20261012`, separate from
+held-out selection. Existing current/all-seen metric names/axes remain standard.
+CF generation stays DEFERRED; zsRE has no generation config. Runtime selected
+L2, native current-entry z/history/writer/BF16/default backend are unchanged.
+Milestone raw is persisted before latest-only checkpoint replacement under the
+same host serialization lock. Storage admission credits only identity-bound
+materialized held-out/final latest payloads; reserve, one atomic tmp and raw
+margin remain budgeted. No checkpoint removal or automatic job submission.
