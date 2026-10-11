@@ -14,6 +14,12 @@ source `6209019e`, 각100건의 배치 진입 z, author hparams, history, FP32,5
 최신 cap2 lane:63296→63373→63298 및63297→63374→63299. 두 신규 job은PENDING에서 실제held검사 후release.
 [최신 실제 등록](../../audits/global/fe-collapse-repair-20261011/sequential-submission.json).
 
+사용자 승인: **이번 FE 진단만 cap2 예외**, 서버는 **server1**.
+저자 writer + 현재100건 z 비교63375(Qwen CF, RUNNING)→63376(GPT-J CF, PENDING)를
+한 개 추가 lane으로 등록했다. 정상 두 lane은 그대로이며 최대 동시3 GPU다.
+source `6d063860`; 기존 job의 source/config/dependency 변경0, server3 제출0.
+[실제 held 검사·release](../../audits/global/fe-collapse-repair-20261011/author-sequential-submission.json).
+
 ## 현재 authority
 
 - server: `server1`

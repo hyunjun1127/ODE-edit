@@ -97,6 +97,14 @@ Qwen은 기존 수치 설정을 유지한 원인 진단이다. 둘 다 author hp
 최신 server1 cap2 lane은 **63296 → 63373 → 63298**, **63297 → 63374 → 63299**다.
 현재2K 성능 회복은 미확인이다. [실제 제출·자원 검산](audits/global/fe-collapse-repair-20261011/sequential-submission.json).
 
+**별도 writer 비교 진단:** 사용자 승인으로 server1의 cap2 밖에 진단용 한 개 lane을 추가했다.
+Qwen CF **63375 / official-s1-qwen25-cf-fe-author-seq-diag-2k**가 RUNNING이며,
+GPT-J CF **63376 / official-s1-gptj-cf-fe-author-seq-diag-2k**는63375 후속 PENDING이다.
+source `6d063860`의 저자 writer·history + 우리 현재 배치 z 조합이다. 미래 W0 target은 사용하지 않는다.
+기존 두 lane과 실행은 유지하고, 이 비교 결과를 현재 baseline의 성능으로 대체하지 않는다.
+매100건 재개 상태와500건마다 가중치를 저장한다. GPU 성능 결과는 아직 없다.
+[진단 제출·cap 예외 영수증](audits/global/fe-collapse-repair-20261011/author-sequential-submission.json).
+
 
 **FE author-hparams 추가 실행(2026-10-11 사용자 지시):** Llama3 **zsRE 2K 한 개**를 기존 수정 EasyEdit FE + history와
 원저자 clamp **0.75**·step **35**(lr 0.1) 설정으로 새로 제출했다. z는 각 batch 진입 모델에서 계산한다.

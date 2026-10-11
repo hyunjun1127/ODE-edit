@@ -161,3 +161,9 @@ Llama author-hparam + history63357은 같은 baseline 계약이며 수정하지 
 관련 CPU 테스트71개 통과. 두 모델의 저자 모듈과 YAML/hparam 일치를 실제 import로 확인했다.
 사용자는 이 진단에 한해 cap2 예외와 **server1 사용**을 승인했다. 기존 cap2 lane과
 CAKE 실행은 유지하며 진단용 한 개 추가 lane을 준비한다. server3에는 신규 job을 제출하지 않았다.
+
+실제 제출: **63375 Qwen RUNNING**, **63376 GPT-J PENDING afterany:63375**.
+source `6d063860`, 기존 정상2개 lane 변경0, 진단용 한 개 lane 추가로 최대3 GPU.
+저자 모듈의 실제 `batch_edit` 작은 CPU 입력에서도 업데이트·history가 예상 산식과
+bit-identical임을 확인했다. GPU2K 완료나 붕괴 해소는 아직 주장하지 않는다.
+[진단 제출 영수증](../../../audits/global/fe-collapse-repair-20261011/author-sequential-submission.json).
