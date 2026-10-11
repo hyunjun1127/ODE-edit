@@ -1,0 +1,91 @@
+{
+ "schema": "fe-current-z-table-rows-v1",
+ "definition": "official reduce.counterfact strict NLL preference on *_prompts_probs (rewrite/paraphrase target_new<target_true, neighborhood target_true<target_new); Score = harmonic mean of unrounded R/P/N; display decimal half-up 2 places",
+ "protocol": "official FE main.py (author 478134df), author hparams, BF16, native writer, persistent history, z fitted on the batch-entry (current) model for the current 100 requests",
+ "rows": {
+  "gptj": {
+   "arm": "gptj_repaired",
+   "training_job": "63389",
+   "evaluation_job": "63390",
+   "covariance_repair": "L3 project_roundoff (b3c7fb20)",
+   "raw": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/evaluations/gptj_repaired/B20.json",
+    "bytes": 62710795,
+    "sha256": "aedfc73b6f0887aace0148812fdb1030586be36971fe35902d3d73410480f2e5"
+   },
+   "requests": 2000,
+   "ordered_case_ids_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+   "counts": {
+    "R": {
+     "numerator": 1970,
+     "denominator": 2000
+    },
+    "P": {
+     "numerator": 3792,
+     "denominator": 4000
+    },
+    "N": {
+     "numerator": 13857,
+     "denominator": 20000
+    }
+   },
+   "score_unrounded": 85.38750539718711,
+   "display": {
+    "Score": "85.39",
+    "Eff": "98.50",
+    "Gen": "94.80",
+    "Loc": "69.29"
+   },
+   "recorded_summary": {
+    "Efficacy": 98.5,
+    "Generalization": 94.8,
+    "Score": 85.38750539718713,
+    "Score_AlphaEdit_display": 85.39003667896573,
+    "Specificity": 69.28500000000001,
+    "requests": 2000
+   }
+  },
+  "qwen25": {
+   "arm": "qwen_current",
+   "training_job": "63385",
+   "evaluation_job": "63387",
+   "covariance_repair": "none (C0 healthy)",
+   "raw": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-eval-r1/results/qwen25/B20.json",
+    "bytes": 63006259,
+    "sha256": "7ad7926853486898f0ca1a4da5513f9d4acead9dcb2a92ea73a9e88df42d5c03"
+   },
+   "requests": 2000,
+   "ordered_case_ids_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+   "counts": {
+    "R": {
+     "numerator": 1018,
+     "denominator": 2000
+    },
+    "P": {
+     "numerator": 1998,
+     "denominator": 4000
+    },
+    "N": {
+     "numerator": 9943,
+     "denominator": 20000
+    }
+   },
+   "score_unrounded": 50.183135854003055,
+   "display": {
+    "Score": "50.18",
+    "Eff": "50.90",
+    "Gen": "49.95",
+    "Loc": "49.72"
+   },
+   "recorded_summary": {
+    "Efficacy": 50.9,
+    "Generalization": 49.95,
+    "Score": 50.183135854003055,
+    "Score_AlphaEdit_display": 50.184833943099896,
+    "Specificity": 49.714999999999996,
+    "requests": 2000
+   }
+  }
+ }
+}

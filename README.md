@@ -96,6 +96,7 @@ z는 **각 배치 진입 모델에서 그 배치 100건만** 계산한다. 미�
 5개 편집·5개 공통 평가 모두 COMPLETED이며, 25개 checkpoint 지표를 raw에서 독립 재집계했다.
 history 누적과 최종 가중치 저장도 확인했다. clamp/step/lr와 sample 순서는 바꾸지 않았다.
 W0-on-arrival은 위의 **현재 모델 z baseline과 구분**하며 기존 FE 성능 행을 자동 대체하지 않는다.
+**본표 FE 행 반영(2026-10-11 사용자 지시, 현재 모델 z):** GPT-J는 C0만 수치 보정한 **63389 → 63390** W20 (R/P/N 1,970/2,000 · 3,792/4,000 · 13,857/20,000 → **85.39 / 98.50 / 94.80 / 69.29**), Qwen은 **63385 → 63387** W20 (1,018/2,000 · 1,998/4,000 · 9,943/20,000 → **50.18 / 50.90 / 49.95 / 49.72**, 붕괴)이다. 두 행은 공식 FE `main.py`(BF16)로, Llama 행(63382)은 수정 EasyEdit FE(FP32)로 돌렸다. 설정(author hparams, 누적 history, 현재 모델 z)은 같고 구현이 다르다. W0-on-arrival(Qwen 89.93, GPT-J 89.17)은 본표에 넣지 않는다. 두 모델의 FE Flu/Con과 zsRE는 실행하지 않았다. [raw 재집계](audits/global/fe-collapse-repair-20261011/table-rows-current-z.json).
 Native loader는 전체 JSON을 읽고 target fitting/use만 현재100건으로 제한한다.
 [전체 비교표·원인·검증 결과](experiment-reports/global/fe-collapse-repair-20261011/report-ko.md) ·
 [작동하는 native 구현](official/diagnostics/fe_native/README.md) ·
@@ -340,7 +341,7 @@ SH3 최신 CPU 재검산에서도 위 네 지표 delta0, 신규 본표 적격 �
 | MEMIT | 62.23 | 68.50 | 65.83 | 54.30 | 562.02 | 6.24 | 41.49 | 39.44 | 26.39 |
 | AlphaEdit | 83.03 | 99.05 | 97.55 | 63.36 | 618.99 | 33.92 | 85.05 | 78.18 | 30.79 |
 | AlphaEdit-BLUE | 77.98 | 97.70 | 96.75 | 55.86 | 602.99 | 37.43 | 58.62 | 53.66 | 5.73 |
-| FE (author hparams + history) | 재검증 준비 (63374 취소) | 재검증 준비 (63374 취소) | 재검증 준비 (63374 취소) | 재검증 준비 (63374 취소) | DEFERRED | DEFERRED | 재검증 필요 | 재검증 필요 | 재검증 필요 |
+| FE (author hparams + history) | 50.18 | 50.90 | 49.95 | 49.72 | DEFERRED | DEFERRED | 재검증 필요 | 재검증 필요 | 재검증 필요 |
 | AlphaEdit+SPHERE | 83.73 | 99.40 | 97.70 | 64.37 | CANCELLED: s2-flucon-qwen25-sphere-62079 (62873) | CANCELLED: s2-flucon-qwen25-sphere-62079 (62873) | CANCELLED: s4-qwen25-zsre-sphere-resume-b10 (63303) | CANCELLED: s4-qwen25-zsre-sphere-resume-b10 (63303) | CANCELLED: s4-qwen25-zsre-sphere-resume-b10 (63303) |
 | CAKE | 67.98 | 81.30 | 70.10 | 56.94 | DEFERRED | DEFERRED | 88.39 | 82.57 | 33.79 |
 | PRICE (Ours) | 87.63※ | 99.00※ | 95.55※ | 73.17※ | 620.95※ | 31.46※ | 98.72※ | 93.97※ | 45.17※ |
@@ -401,7 +402,7 @@ Llama historical3개는 원source/lock/CP와 새평가 consumer identity를 분�
 | MEMIT | 80.63 | 97.90 | 95.38 | 60.58 | 577.93 | 36.84 | 93.52 | 88.86 | 30.81 |
 | AlphaEdit | 88.22 | 99.70 | 96.33 | 73.56 | 614.00 | 40.76 | 99.69 | 96.45 | 27.94 |
 | AlphaEdit-BLUE | 89.23 | 99.55 | 97.53 | 75.06 | 621.35 | 42.00 | 99.75 | 95.71 | 28.83 |
-| FE (author hparams + history) | 재검증 준비 (63373 취소) | 재검증 준비 (63373 취소) | 재검증 준비 (63373 취소) | 재검증 준비 (63373 취소) | DEFERRED | DEFERRED | 재검증 필요 | 재검증 필요 | 재검증 필요 |
+| FE (author hparams + history) | 85.39 | 98.50 | 94.80 | 69.29 | DEFERRED | DEFERRED | 재검증 필요 | 재검증 필요 | 재검증 필요 |
 | AlphaEdit+SPHERE | 88.39 | 99.70 | 95.73 | 74.27 | 616.18 | 40.89 | 99.67 | 96.29 | 28.00 |
 | CAKE | PENDING: official-s1-gptj-cf-cake-2k (63298) | PENDING: official-s1-gptj-cf-cake-2k (63298) | PENDING: official-s1-gptj-cf-cake-2k (63298) | PENDING: official-s1-gptj-cf-cake-2k (63298) | DEFERRED | DEFERRED | PENDING: official-s1-gptj-zsre-cake-2k (63299) | PENDING: official-s1-gptj-zsre-cake-2k (63299) | PENDING: official-s1-gptj-zsre-cake-2k (63299) |
 | PRICE (Ours) | 88.22¶ | 99.80¶ | 96.23¶ | 73.57¶ | 620.09¶ | 41.61¶ | 99.81¶ | 96.96¶ | 29.59¶ |
