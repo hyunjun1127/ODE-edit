@@ -193,3 +193,18 @@ bit-identical임을 확인했다. GPU2K 완료나 붕괴 해소는 아직 주장
   `batch_edit`, key/representation helper는 원본 그대로이며 전체 실제 bytes도 봉인했다.
   [upstream 차이](../../../audits/global/fe-collapse-repair-20261011/author-sequential-source-diff.json).
 - `official.tools.verify` source integrity/외부 task import 검사 PASS.
+
+## 최신 사용자 정정: 공식 runner 자체를 사용
+
+63375/63376은 우리 runner가 저자 batch_edit를 호출하는 조합이며, 공식 main.py에서 z 부분만 변경한 실행이 아니다.
+이 구분을 명확히 하지 못한 것은 구현 범위 오류다. 63375는18분27초 뒤 W0 저장에서
+INCOMPLETE_CHECKPOINT_IDENTITY로 실패했고 편집0건이다. 63376은같은오류예방을 위해2분30초에중단했다.
+공통 identity 수정은 다른 작업자가 main4841f720에 반영했다. 여기에 실제 FE10필드 identity로
+W0/B1 저장·재개 및 covariance/backend 불일치 거부 회귀검사와 평가 전 사전검사를 추가했다.
+기존 공식 runner 자체를 실행하는 진단으로 변경한다. 저자 hparams/BF16/원 covariance/저자 context 생성/
+writer/history를 유지하고, 현재 batch-entry 모델의 해당100건만 firstforward z를 계산한다.
+따라서 GPT-J의 수치 보정은 이 비교에 섞지 않는다. 각500건 저장은 관측용 I/O로 구분한다.
+기존 실패 stream을 그대로 사용한다. 표본 실험이 필요하면 고정된 다른seed/order를 사전선언하고
+원래 실패 결과와 함께 보고한다. 성공 표본만 본표에 대체하지 않는다.
+63373/63374는취소, CAKE63298/63299 의존성복구와hold해제 완료.
+[실제 상태 영수증](../../../audits/global/fe-collapse-repair-20261011/native-runner-scope-correction.json).

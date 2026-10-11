@@ -90,21 +90,14 @@ Qwen은 batch-entry 경로의 후반 L5 잔차 폭증을 별도로 조사한다.
 [진단 범위·증거·검증 상태](experiment-reports/global/fe-collapse-repair-20261011/report-ko.md) ·
 [취소·원상복구 영수증](audits/global/fe-collapse-repair-20261011/sequential-scope-correction.json).
 
-**현재 기준의 FE 재검증 등록:** main source `6209019e`로 GPT-J CF **63373 / official-s1-gptj-cf-fe-seq-repair-2k**와
-Qwen CF **63374 / official-s1-qwen25-cf-fe-seq-trace-2k**를 PENDING 등록했다. GPT-J만 명시적 C0 수치 보정을 적용하며,
-Qwen은 기존 수치 설정을 유지한 원인 진단이다. 둘 다 author hparams·FP32·현재 배치 진입 z·history를 유지한다.
-기존 context는 GPT-J `b454d83e`, Qwen `5c01bc1a`로 동일하다. 매100건 재개 상태와500건마다 checkpoint를 보존한다.
-최신 server1 cap2 lane은 **63296 → 63373 → 63298**, **63297 → 63374 → 63299**다.
-현재2K 성능 회복은 미확인이다. [실제 제출·자원 검산](audits/global/fe-collapse-repair-20261011/sequential-submission.json).
-
-**별도 writer 비교 진단:** 사용자 승인으로 server1의 cap2 밖에 진단용 한 개 lane을 추가했다.
-Qwen CF **63375 / official-s1-qwen25-cf-fe-author-seq-diag-2k**가 RUNNING이며,
-GPT-J CF **63376 / official-s1-gptj-cf-fe-author-seq-diag-2k**는63375 후속 PENDING이다.
-source `6d063860`의 저자 writer·history + 우리 현재 배치 z 조합이다. 미래 W0 target은 사용하지 않는다.
-기존 두 lane과 실행은 유지하고, 이 비교 결과를 현재 baseline의 성능으로 대체하지 않는다.
-매100건 재개 상태와500건마다 가중치를 저장한다. GPU 성능 결과는 아직 없다.
-[진단 제출·cap 예외 영수증](audits/global/fe-collapse-repair-20261011/author-sequential-submission.json).
-
+**FE 진단 runner 정정 (2026-10-11):** 우리 runner에서 저자 writer를 호출한 진단은
+사용자가 요청한 “공식 FE runner에서 z 계산 시점만 변경”과 다르므로 철회했다.
+63375는 W0 평가 후 checkpoint identity 오류로 실패했고 **편집은 0건**이다.
+63376은 같은 오류로 진행하지 않도록 중단했다. 대기63373/63374도 취소했으며,
+CAKE 자원 순서를 **63296 → 63298**, **63297 → 63299**로 복구하고 임시 hold를 모두 해제했다.
+공식 `main.py` + 저자 설정/연산을 기준으로 현재 배치 진입 모델에서 해당100건의 z만 계산하는
+새 server1 진단을 준비한다. 기존 결과를 이 진단의 결과로 대체하지 않는다.
+[실제 취소·복구](audits/global/fe-collapse-repair-20261011/native-runner-scope-correction.json).
 
 **FE author-hparams 추가 실행(2026-10-11 사용자 지시):** Llama3 **zsRE 2K 한 개**를 기존 수정 EasyEdit FE + history와
 원저자 clamp **0.75**·step **35**(lr 0.1) 설정으로 새로 제출했다. z는 각 batch 진입 모델에서 계산한다.
@@ -333,7 +326,7 @@ SH3 최신 CPU 재검산에서도 위 네 지표 delta0, 신규 본표 적격 �
 | MEMIT | 62.23 | 68.50 | 65.83 | 54.30 | PENDING: s2-flucon-qwen25-memit-62073 (62870) | PENDING: s2-flucon-qwen25-memit-62073 (62870) | 41.49 | 39.44 | 26.39 |
 | AlphaEdit | 83.03 | 99.05 | 97.55 | 63.36 | 618.99 | 33.92 | 85.05 | 78.18 | 30.79 |
 | AlphaEdit-BLUE | 77.98 | 97.70 | 96.75 | 55.86 | 602.99 | 37.43 | 58.62 | 53.66 | 5.73 |
-| FE (author hparams + history) | PENDING 진단: official-s1-qwen25-cf-fe-seq-trace-2k (63374) | PENDING 진단: official-s1-qwen25-cf-fe-seq-trace-2k (63374) | PENDING 진단: official-s1-qwen25-cf-fe-seq-trace-2k (63374) | PENDING 진단: official-s1-qwen25-cf-fe-seq-trace-2k (63374) | DEFERRED | DEFERRED | 재검증 필요 | 재검증 필요 | 재검증 필요 |
+| FE (author hparams + history) | 재검증 준비 (63374 취소) | 재검증 준비 (63374 취소) | 재검증 준비 (63374 취소) | 재검증 준비 (63374 취소) | DEFERRED | DEFERRED | 재검증 필요 | 재검증 필요 | 재검증 필요 |
 | AlphaEdit+SPHERE | 83.73 | 99.40 | 97.70 | 64.37 | CANCELLED: s2-flucon-qwen25-sphere-62079 (62873) | CANCELLED: s2-flucon-qwen25-sphere-62079 (62873) | CANCELLED: s4-qwen25-zsre-sphere-resume-b10 (63303) | CANCELLED: s4-qwen25-zsre-sphere-resume-b10 (63303) | CANCELLED: s4-qwen25-zsre-sphere-resume-b10 (63303) |
 | CAKE | 67.98 | 81.30 | 70.10 | 56.94 | DEFERRED | DEFERRED | 88.39 | 82.57 | 33.79 |
 | PRICE (Ours) | 87.63※ | 99.00※ | 95.55※ | 73.17※ | 620.95※ | 31.46※ | 98.72※ | 93.97※ | 45.17※ |
@@ -394,7 +387,7 @@ Llama historical3개는 원source/lock/CP와 새평가 consumer identity를 분�
 | MEMIT | 80.63 | 97.90 | 95.38 | 60.58 | 577.93 | 36.84 | 93.52 | 88.86 | 30.81 |
 | AlphaEdit | 88.22 | 99.70 | 96.33 | 73.56 | 614.00 | 40.76 | 99.69 | 96.45 | 27.94 |
 | AlphaEdit-BLUE | 89.23 | 99.55 | 97.53 | 75.06 | PENDING: s2-flucon-gptj-alphaedit_blue-61779 (62867) | PENDING: s2-flucon-gptj-alphaedit_blue-61779 (62867) | 99.75 | 95.71 | 28.83 |
-| FE (author hparams + history) | PENDING: official-s1-gptj-cf-fe-seq-repair-2k (63373) | PENDING: official-s1-gptj-cf-fe-seq-repair-2k (63373) | PENDING: official-s1-gptj-cf-fe-seq-repair-2k (63373) | PENDING: official-s1-gptj-cf-fe-seq-repair-2k (63373) | DEFERRED | DEFERRED | 재검증 필요 | 재검증 필요 | 재검증 필요 |
+| FE (author hparams + history) | 재검증 준비 (63373 취소) | 재검증 준비 (63373 취소) | 재검증 준비 (63373 취소) | 재검증 준비 (63373 취소) | DEFERRED | DEFERRED | 재검증 필요 | 재검증 필요 | 재검증 필요 |
 | AlphaEdit+SPHERE | 88.39 | 99.70 | 95.73 | 74.27 | 616.18 | 40.89 | 99.67 | 96.29 | 28.00 |
 | CAKE | PENDING: official-s1-gptj-cf-cake-2k (63298) | PENDING: official-s1-gptj-cf-cake-2k (63298) | PENDING: official-s1-gptj-cf-cake-2k (63298) | PENDING: official-s1-gptj-cf-cake-2k (63298) | DEFERRED | DEFERRED | PENDING: official-s1-gptj-zsre-cake-2k (63299) | PENDING: official-s1-gptj-zsre-cake-2k (63299) | PENDING: official-s1-gptj-zsre-cake-2k (63299) |
 | PRICE (Ours) | 88.22¶ | 99.80¶ | 96.23¶ | 73.57¶ | 620.09¶ | 41.61¶ | 99.81¶ | 96.96¶ | 29.59¶ |

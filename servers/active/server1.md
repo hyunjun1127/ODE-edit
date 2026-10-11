@@ -9,16 +9,12 @@ cap2:63296→63298 및63297→63299. 기존 CAKE source/config/output은 그대�
 [실제 취소·복구](../../audits/global/fe-collapse-repair-20261011/sequential-scope-correction.json) ·
 [진단 범위](../../experiment-reports/global/fe-collapse-repair-20261011/report-ko.md).
 
-현재 기준의 후속 등록은63373(GPT-J CF 수치 보정)과63374(Qwen CF 원 설정 진단)다.
-source `6209019e`, 각100건의 배치 진입 z, author hparams, history, FP32,500건마다 checkpoint 보존.
-최신 cap2 lane:63296→63373→63298 및63297→63374→63299. 두 신규 job은PENDING에서 실제held검사 후release.
-[최신 실제 등록](../../audits/global/fe-collapse-repair-20261011/sequential-submission.json).
-
-사용자 승인: **이번 FE 진단만 cap2 예외**, 서버는 **server1**.
-저자 writer + 현재100건 z 비교63375(Qwen CF, RUNNING)→63376(GPT-J CF, PENDING)를
-한 개 추가 lane으로 등록했다. 정상 두 lane은 그대로이며 최대 동시3 GPU다.
-source `6d063860`; 기존 job의 source/config/dependency 변경0, server3 제출0.
-[실제 held 검사·release](../../audits/global/fe-collapse-repair-20261011/author-sequential-submission.json).
+최신 사용자 정정: **공식 FE runner에서 z 계산 시점만 현재 배치로 변경**해야 한다.
+우리 runner 기반63373/63374는PENDING에서 취소했다.63375는 W0 저장 identity 오류로 실패(편집0),
+63376은 같은 오류 예방을 위해 중단했다. 기존 source·로그·W0 산출물은 보존한다.
+CAKE cap2 lane은63296→63298 및63297→63299로 복구했고 임시hold를 모두 해제했다.
+새 공식 runner 진단은 server1에서 준비 중이며, 이번 진단만 한 개 추가 GPU lane을 허용한다.
+[실제 취소·복구](../../audits/global/fe-collapse-repair-20261011/native-runner-scope-correction.json).
 
 ## 현재 authority
 
