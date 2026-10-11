@@ -421,7 +421,7 @@ Llama historical3개는 원source/lock/CP와 새평가 consumer identity를 분�
 | MEMIT | 80.63 | 97.90 | 95.38 | 60.58 | 577.93 | 36.84 | 93.52 | 88.86 | 30.81 |
 | AlphaEdit | 88.22 | 99.70 | 96.33 | 73.56 | 614.00 | 40.76 | 99.69 | 96.45 | 27.94 |
 | AlphaEdit-BLUE | 89.23 | 99.55 | 97.53 | 75.06 | 621.35 | 42.00 | 99.75 | 95.71 | 28.83 |
-| FE (author hparams + history) | 85.39 | 98.50 | 94.80 | 69.29 | 604.55 | 39.03 | PENDING: official-s4-gptj-zsre-fe-native-repaired (63546) | PENDING: official-s4-gptj-zsre-fe-native-repaired (63546) | PENDING: official-s4-gptj-zsre-fe-native-repaired (63546) |
+| FE (author hparams + history) | 85.39 | 98.50 | 94.80 | 69.29 | 604.55 | 39.03 | ING: official-s4-gptj-zsre-fe-native-repaired (63546) | ING: official-s4-gptj-zsre-fe-native-repaired (63546) | ING: official-s4-gptj-zsre-fe-native-repaired (63546) |
 | AlphaEdit+SPHERE | 88.39 | 99.70 | 95.73 | 74.27 | 616.18 | 40.89 | 99.67 | 96.29 | 28.00 |
 | CAKE | 88.07 | 99.70 | 96.40 | 73.21 | 613.68 | 41.03 | 99.73 | 97.01 | 28.25 |
 | PRICE (Ours) | 88.22¶ | 99.80¶ | 96.23¶ | 73.57¶ | 620.09¶ | 41.61¶ | 99.71¶ | 96.87¶ | 29.53¶ |
