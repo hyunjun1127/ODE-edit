@@ -283,7 +283,7 @@ cold **62534**는 실행 전 취소했고, **62538** `s2-qwen25-zsre-sphere-resu
 2026-10-11 사용자 지시로 server4 **63303 / s4-qwen25-zsre-sphere-resume-b10**을 held 검사 후 release했다.
 이후 **07:05 KST 사용자 요청으로 63303과 CF FLU/CON 평가 62873을 모두 취소**했다.
 server1–4 전체에서 실행·대기 SPHERE job 0개를 확인했다.
-**server1 재등록(2026-10-11 사용자 지시 "server1 cap 남으니 그냥 올려"):** 취소한 두 작업을 server1에 같은 과학 설정으로 다시 등록했다(source `5ef9f60d`). CF Flu/Con **63569**는 62079 W20(`2fc52d2e…`)을 62873과 같은 공용 FP32 평가기·seed로 잰다. zsRE **63570**은 62538의 B10(`6ab0bea4…`)에서 B11–B20을 이어 돌리고 B15·B20에서 첫 2,000건을 평가한다(63303과 같은 23개 수치 파일·hparams·stream). 바뀐 것은 경로·서버·runtime뿐이고, 입력 42개 파일(17.1 GB)은 server2·server4에서 복사해 sha256을 대조했다. server1 cap 2를 지키려고 63537 → 63538 → 63569 → 63570 한 줄로 이어 돈다. [등록 기록](audits/global/qwen-sphere-s1-resubmit-20261011/submission.json).
+2026-10-11 21:3x에 두 작업을 server1(63569 Flu/Con, 63570 zsRE 재개)로 다시 등록했으나, 사용자 지시("sphere는 안올려도 된다")로 21:49에 실행 전 취소했다(GPU 사용 없음). 아래 셀은 기존 취소 상태를 유지한다. [등록·취소 기록](audits/global/qwen-sphere-s1-resubmit-20261011/submission.json).
 [취소 영수증](audits/global/sphere-stop-20261011/cancellation.json). 원62087 B1–B9와
 62538 B10의 출처·가중치·history·context·RNG는 보존한다. hparams와 관련 수치 코드 23개 파일은 동일하다.
 server4의 별도 파일시스템에 checkpoint 두 slot을 사전 할당했고, 저장 실패 시 이전 latest를 유지한다.
@@ -356,7 +356,7 @@ SH3 최신 CPU 재검산에서도 위 네 지표 delta0, 신규 본표 적격 �
 | AlphaEdit | 83.03 | 99.05 | 97.55 | 63.36 | 618.99 | 33.92 | 85.05 | 78.18 | 30.79 |
 | AlphaEdit-BLUE | 77.98 | 97.70 | 96.75 | 55.86 | 602.99 | 37.43 | 58.62 | 53.66 | 5.73 |
 | FE (author hparams + history) | 50.18 | 50.90 | 49.95 | 49.72 | PENDING: s2-flucon-qwen25-fe_author_native-63385 (63541) | PENDING: s2-flucon-qwen25-fe_author_native-63385 (63541) | PENDING: s1-qwen25-zsre-fe-native-main-seqz-2k (63555) | PENDING: s1-qwen25-zsre-fe-native-main-seqz-2k (63555) | PENDING: s1-qwen25-zsre-fe-native-main-seqz-2k (63555) |
-| AlphaEdit+SPHERE | 83.73 | 99.40 | 97.70 | 64.37 | PENDING: s1-flucon-qwen25-sphere-62079 (63569) | PENDING: s1-flucon-qwen25-sphere-62079 (63569) | PENDING: s1-qwen25-zsre-sphere-resume-b10 (63570) | PENDING: s1-qwen25-zsre-sphere-resume-b10 (63570) | PENDING: s1-qwen25-zsre-sphere-resume-b10 (63570) |
+| AlphaEdit+SPHERE | 83.73 | 99.40 | 97.70 | 64.37 | CANCELLED: s2-flucon-qwen25-sphere-62079 (62873) | CANCELLED: s2-flucon-qwen25-sphere-62079 (62873) | CANCELLED: s4-qwen25-zsre-sphere-resume-b10 (63303) | CANCELLED: s4-qwen25-zsre-sphere-resume-b10 (63303) | CANCELLED: s4-qwen25-zsre-sphere-resume-b10 (63303) |
 | CAKE | 67.98 | 81.30 | 70.10 | 56.94 | PENDING: s2-flucon-qwen25-cake-63324 (63543) | PENDING: s2-flucon-qwen25-cake-63324 (63543) | 88.39 | 82.57 | 33.79 |
 | PRICE (Ours) | 87.63※ | 99.00※ | 95.55※ | 73.17※ | 620.95※ | 31.46※ | 98.72※ | 93.97※ | 45.17※ |
 

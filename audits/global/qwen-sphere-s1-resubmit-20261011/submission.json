@@ -29,5 +29,16 @@
     "differences": "host bindings only (server label, paths, venv path, tracking task id); GPU RTX PRO 6000 -> RTX A6000 (the model 62087/62538 ran on); bitwise parity not claimed"
   },
   "input_copies": "42 files, 17,080,844,153 bytes, sha256 and size checked on source and devbox; receipt server1 /mnt/raid5/janghj/ODE-edit/local/qwen-sphere-s1-resubmit-20261011/transfer/receipt.tsv",
-  "records": "server1 /mnt/raid5/janghj/ODE-edit/local/qwen-sphere-s1-resubmit-20261011/registration-r1/"
+  "records": "server1 /mnt/raid5/janghj/ODE-edit/local/qwen-sphere-s1-resubmit-20261011/registration-r1/",
+  "cancelled": {
+    "at": "2026-10-11T21:49:56+09:00",
+    "instruction": "user: \"sphere는 안올려도 된다\"",
+    "jobs": [
+      "63569",
+      "63570"
+    ],
+    "state_before": "PENDING (Dependency), never started",
+    "sacct": "CANCELLED, Start None",
+    "note": "the resubmission came from reading \"server1 cap 남으니 그냥 올려\" as the SPHERE answer; the user clarified that SPHERE is not to be run. Input copies on server1 are kept (no deletion without approval)."
+  }
 }
