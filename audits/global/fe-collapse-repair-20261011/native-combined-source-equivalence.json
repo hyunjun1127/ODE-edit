@@ -1,0 +1,180 @@
+{
+  "scope": "Actual frozen source comparison: GPT-J current-model/repaired C0 versus GPT-J W0-on-arrival/repaired C0",
+  "native_files": [
+    {
+      "path": "main.py",
+      "sha256": "ea83923f8cadf39895940cad332076647c87ca8cf0e1e8ffe4ef0e515e10ae16"
+    },
+    {
+      "path": "algs/memit/memit_main.py",
+      "sha256": "6a1cddfe58e610a1436c8d691896696d24d85af98515b9bb4021ffc188b56a0c"
+    },
+    {
+      "path": "algs/memit/native_sequential_z.py",
+      "sha256": "34da2d30ea50b9ae2746877d581cbef2b7834ddac319e033615249ec6661c687"
+    },
+    {
+      "path": "algs/memit/native_checkpoint_observer.py",
+      "sha256": "864e609612c6e99deab1fa1b629c29a186df1fab7895b3356f7e4753395bcd08"
+    },
+    {
+      "path": "algs/memit/compute_z.py",
+      "sha256": "2ecb196ca908a88aa5d4690b24e64a2ad3645c2420e031d1650c1bd738cef685"
+    },
+    {
+      "path": "algs/memit/compute_ks.py",
+      "sha256": "257abf6c1444c67384fc97f0bde935f368827eeb96b803bae879d0892d535879"
+    },
+    {
+      "path": "configs/llms/gpt-j-6b.yaml",
+      "sha256": "35242600bf37cd7391d4fcc093466a3c64c0f69948dd91e4b8b7c295de17adfa"
+    },
+    {
+      "path": "configs/algs/memit.yaml",
+      "sha256": "4799ac1df4e726e3dd2abcc54201e9f87f1c76cb35680059c0684806df8809d3"
+    }
+  ],
+  "evaluation_files": [
+    {
+      "path": "official/evaluation/__init__.py",
+      "sha256": "a6770d63459aa7d48f3c073554eb8e2a862072b6ce085859ce4ba76dc8b974b3"
+    },
+    {
+      "path": "official/evaluation/cf_native_reference.py",
+      "sha256": "0473673abf92e483b19d534743278ee33177ce22e66c059e9788e40ba7e12216"
+    },
+    {
+      "path": "official/evaluation/factual.py",
+      "sha256": "62a9df861db8ab3addd125defaf3dacc47dc9c32d5b4ab8a8cd07a4892a68807"
+    },
+    {
+      "path": "official/evaluation/generation/__init__.py",
+      "sha256": "7b917b363702b848f5a45076f5c9786dae6377898c173c0742a2aa71e52210cb"
+    },
+    {
+      "path": "official/evaluation/generation/assets.py",
+      "sha256": "0648c9c6dfb05cf753c35fa6c2dc86d31fe1c6190e16703a0b5fd0a14689f11a"
+    },
+    {
+      "path": "official/evaluation/generation/common.py",
+      "sha256": "b09cb5b30f45150a7c042353a41c6b28ca31b4695884fd27135e0e2a69f9282c"
+    },
+    {
+      "path": "official/evaluation/generation/compatibility.py",
+      "sha256": "e551d41de018d8d2e4a35832a20134f6ca805c58becb1b6c90152b3fa366ee5d"
+    },
+    {
+      "path": "official/evaluation/generation/generator.py",
+      "sha256": "0b151a0546e2b16ca46276ed9feebc08fc719f024b45f945d5a18d5d5147dacf"
+    },
+    {
+      "path": "official/evaluation/generation/kv_qualification.py",
+      "sha256": "17b282daf9a531eeed4c980afa44a78db30891bd110d5ecae8ecfd552bdc15b8"
+    },
+    {
+      "path": "official/evaluation/generation/metrics.py",
+      "sha256": "c9152f5889bf42ca5761d9dd974ec6676f974eff006b8c38b0c934dccb6dfce9"
+    },
+    {
+      "path": "official/evaluation/generation/native_generator.py",
+      "sha256": "601bfb8b3d5514d0d2b13a11d025b02fd53f0f1fe39325daa94ed7307c3ec520"
+    },
+    {
+      "path": "official/evaluation/generation/native_observer.py",
+      "sha256": "09f8f4915d848dcd820ff4ffc382871f457c107098102bfb8d1a682ff321653a"
+    },
+    {
+      "path": "official/evaluation/generation/native_profile.py",
+      "sha256": "ddd3d6266a02a613beaea052920da763c721990a6f9228bb257ad988156fb0c4"
+    },
+    {
+      "path": "official/evaluation/generation/observer.py",
+      "sha256": "829f279f14d21afc50789ecc32dfa9a9ba3d53ceb629cfb1bb2da24844e5c75c"
+    },
+    {
+      "path": "official/evaluation/generation/paper_display.py",
+      "sha256": "f03e49ef1828abc61266090b518cacadc9d76806202bffd09464ef49f4054304"
+    },
+    {
+      "path": "official/evaluation/generation/progress.py",
+      "sha256": "59e33e185a36d70fa4e9bb37e29484334b2a7b99c3359adc6d5841aec42c7027"
+    },
+    {
+      "path": "official/evaluation/generation/test_assets.py",
+      "sha256": "7283fac4cce6dd82cb3147fae05c677532ba7c1d54f3ada2ed910ab081b47230"
+    },
+    {
+      "path": "official/evaluation/generation/test_generator.py",
+      "sha256": "933508383f4a58e56219ca25ac5eb038954d1b32a9742dab7c3ae688329863b3"
+    },
+    {
+      "path": "official/evaluation/generation/test_metrics.py",
+      "sha256": "b9dc0b03331c7296c8dde6d09c5bc45ce111fd2eb7896f7c84a228f57ff9320f"
+    },
+    {
+      "path": "official/evaluation/generation/test_native_families.py",
+      "sha256": "599f6d67a22e19608a01eb8dfcb8c7956b68ff8a89ab099ee1932442588888d8"
+    },
+    {
+      "path": "official/evaluation/generation/test_native_generator.py",
+      "sha256": "d80bd33330af38fd121caf2354cffdffce884517bb58442fa088d61ad7f5cae8"
+    },
+    {
+      "path": "official/evaluation/generation/test_native_observer.py",
+      "sha256": "d580513275bd2e1c38cb9b829196204885bb53fd02271aee2ac01c045e8c86d1"
+    },
+    {
+      "path": "official/evaluation/generation/test_observer.py",
+      "sha256": "3c4caa1bd7a8d01a6886447db437590930b9170cccf41592fcf4b16474bc20dc"
+    },
+    {
+      "path": "official/evaluation/reduce.py",
+      "sha256": "6e7f61feaa99ddeaac964c6c1f8c5b4e8a4caf31a2e8eed53df5fed9812ab10d"
+    },
+    {
+      "path": "official/evaluation/w0_reference.py",
+      "sha256": "e685c912f3f337132079cdae5a4071d8518259e24d421ace3790c5cc10579ad2"
+    },
+    {
+      "path": "official/evaluation/zsre_paper.py",
+      "sha256": "d6a5b34eafd27660a2dee4632c638b6bf4c3614246071711cf5159a002415a45"
+    },
+    {
+      "path": "official/evaluation/zsre_public_sources/alphaedit_eval_utils_zsre.py",
+      "sha256": "4370a3b2c7eff88bfeffd6412be485c0195bae794f7c7a6d39b9dd9e01299d97"
+    },
+    {
+      "path": "official/evaluation/zsre_public_sources/memit_eval_utils_zsre.py",
+      "sha256": "e4f18c84a813d0a2fb9a5c9426726844117fe365cae72107d51f304a264d77a8"
+    },
+    {
+      "path": "official/evaluation/zsre_public_sources/zsre_dataset.py",
+      "sha256": "a6281375afd9983337c154095fe9aba59c74c36fa34ecfb12838c7b5c341670e"
+    },
+    {
+      "path": "official/evaluation/zsre_query_parity.py",
+      "sha256": "9883f16036525278bbfcdb45f5f08cc8c799f638a26f91b4d9da2a0d70103803"
+    },
+    {
+      "path": "official/diagnostics/fe_native/checkpoint_observer.py",
+      "sha256": "864e609612c6e99deab1fa1b629c29a186df1fab7895b3356f7e4753395bcd08"
+    },
+    {
+      "path": "official/diagnostics/fe_native/covariance.py",
+      "sha256": "8c90a4802aa1487894314a7ac986a745bd46848ee032375736c24578694c3f33"
+    },
+    {
+      "path": "official/diagnostics/fe_native/evaluate.py",
+      "sha256": "1d0deeff1033555b6a39929a8b9880483329cd6107a812744acd977a84a55b26"
+    },
+    {
+      "path": "official/diagnostics/fe_native/patch.py",
+      "sha256": "e1c4ff20b7ead1495223b0bd150caacb7f1bef185faff9753cf8c1132991fb65"
+    },
+    {
+      "path": "official/diagnostics/fe_native/sequential_z.py",
+      "sha256": "34da2d30ea50b9ae2746877d581cbef2b7834ddac319e033615249ec6661c687"
+    }
+  ],
+  "all_listed_files_byte_identical": true
+}

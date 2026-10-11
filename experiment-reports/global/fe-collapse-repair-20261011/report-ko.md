@@ -6,7 +6,7 @@
 초기 author W0-fixed 결과와 CPU 대조는 원인 조사 이력으로 보존한다. 아래 최신 결과에서
 현재 모델 기준 z와 W0-on-arrival z를 구분하며, 후자를 현재 baseline으로 자동 변경하지 않는다.
 
-## 현재 진행 상태 (2026-10-11 15:42 KST)
+## 현재 진행 상태 (2026-10-11 15:49 KST)
 
 저자 `main.py` 원본을 실행한 동일 CF 2K 실험에서 두 원인을 분리했다. 저자 hparams,
 BF16, context 생성, writer, 누적 history, 요청 순서를 유지했다. clamp/step 변경은 없다.
@@ -16,8 +16,8 @@ Qwen의 W0-on-arrival 대조는 현재 모델 기준 z와 다른 프로토콜이
 | --- | --- | --- |
 | Qwen63385 → 63387 | 현재 모델 기준 z, 원본 C0 | 모두 COMPLETED; 공통 Score50.1831 |
 | Qwen63391 → 63392 | 현재100건만 W0에서 target 계산, 원본 C0 | 모두 COMPLETED; 공통 Score89.9254 |
-| GPT-J63386 → 63388 | 현재 모델 기준 z, 원본 C0 | native COMPLETED, 공통 평가 RUNNING; 저자 Score49.63 |
-| GPT-J63389 → 63390 | 현재 모델 기준 z, L3 C0만 수치 보정 | native COMPLETED, 공통 평가 RUNNING; 저자 Score85.32 |
+| GPT-J63386 → 63388 | 현재 모델 기준 z, 원본 C0 | 모두 COMPLETED; 공통 Score49.7537 |
+| GPT-J63389 → 63390 | 현재 모델 기준 z, L3 C0만 수치 보정 | 모두 COMPLETED; 공통 Score85.3875 |
 | GPT-J63425 → 63426 | 현재100건만 W0에서 target 계산 + 같은 보정 C0 | native RUNNING, 후속 공통 평가 PENDING |
 
 여기서 저자 Score는 저자 코드가 이미 반올림한 성분의 조화평균이다. 공통 평가 결과와
@@ -579,3 +579,22 @@ B20의 다섯 층 가중치/H는 finite, H는 대칭이고 모든 `15000*C0+H`�
 집계를 섞지 않고, 최종 동일 평가 비교는63392 완료 뒤 별도로 기록한다.
 [새 저자 원 평가·SHA](../../../audits/global/fe-collapse-repair-20261011/native-qwen-online-author-evaluation.json) ·
 [W20 가중치·history·prior 검사](../../../audits/global/fe-collapse-repair-20261011/native-qwen-online-b20-prior-audit.json).
+
+## GPT-J 공통 평가 완료 (15:49 KST)
+
+원본 C0 대조63386→63388과 C0만 보정한63389→63390이 모두 `COMPLETED 0:0`이다.
+같은 평가 코드로 W0 및500/1000/1500/2000을 평가하고 각 raw의 SHA, case 순서,
+checkpoint/config identity와 무변경 검사를 확인한 뒤 Eff/Gen/Loc/Score를 독립 재집계했다.
+
+| 현재 모델 기준 z | Score | Eff | Gen | Loc |
+| --- | ---: | ---: | ---: | ---: |
+| 원본 GPT-J L3 C0 | 49.7537 | 49.200 | 49.550 | 50.530 |
+| 수치 보정한 L3 C0 | **85.3875** | **98.500** | **94.800** | **69.285** |
+
+W0는 두 경우 모두16.750/19.050/82.235, Score24.1244로 같다. 원본 W20의 실제 정답 token 수는
+rewrite/paraphrase/neighborhood 모두0이다. 선호율이 약50%인 것을 정상 편집 성능으로 해석하지 않는다.
+보정본 Score는500건90.2062 → 1K88.0534 → 1.5K87.0775 → 2K85.3875로 유지됐다.
+
+[원본 raw 재집계](../../../audits/global/fe-collapse-repair-20261011/native-gptj-original-independent-metrics.json) ·
+[보정본 raw 재집계](../../../audits/global/fe-collapse-repair-20261011/native-gptj-repaired-independent-metrics.json) ·
+[추가 W0-on-arrival 대조와 소스 일치](../../../audits/global/fe-collapse-repair-20261011/native-combined-source-equivalence.json).

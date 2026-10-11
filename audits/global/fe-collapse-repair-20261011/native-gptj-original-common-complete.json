@@ -1,0 +1,174 @@
+{
+  "W20_available": true,
+  "evaluation_source": "c400c2beaad62eab6e052d841e088d3cb3e547a4",
+  "missing_milestones": [],
+  "native_config": "25a6afa8d1d4d19801904b4d74193ffe75bb34637bb359540711320068f1c880",
+  "results": {
+    "0": {
+      "checkpoint": {
+        "bytes": 7247777365,
+        "completed_batches": 0,
+        "completed_edits": 0,
+        "identity_sha256": "25a6afa8d1d4d19801904b4d74193ffe75bb34637bb359540711320068f1c880",
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/gptj/checkpoints/B00.pt",
+        "sha256": "4007e9d413e4f984dcc246208dc5e9401d314e078c759bc49b1bba26691faf55"
+      },
+      "evaluation_identity": {
+        "attention_backend": "eager",
+        "author_source": "478134dfb24b43f4e18b47e8500893ce3f9cc50f",
+        "checkpoint_sha256": "4007e9d413e4f984dcc246208dc5e9401d314e078c759bc49b1bba26691faf55",
+        "completed_edits": 0,
+        "dataset": "cf",
+        "evaluation_cases": 2000,
+        "evaluation_source": "c400c2beaad62eab6e052d841e088d3cb3e547a4",
+        "model": "gptj",
+        "native_config": "25a6afa8d1d4d19801904b4d74193ffe75bb34637bb359540711320068f1c880",
+        "native_source": "60eea6e2f7aeec94743f27cd5df1e67cc160fe84",
+        "precision": "bfloat16"
+      },
+      "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-eval-r1/results/gptj/B00.json",
+      "sha256": "b0a5bb03c91710ee63f193ee51eee00273d8b57db1324c1c0a606c4c84ec5254",
+      "summary": {
+        "Efficacy": 16.75,
+        "Generalization": 19.05,
+        "Score": 24.124442899475515,
+        "Score_AlphaEdit_display": 24.124586324891876,
+        "Specificity": 82.235,
+        "requests": 2000
+      }
+    },
+    "10": {
+      "checkpoint": {
+        "bytes": 7247780373,
+        "completed_batches": 10,
+        "completed_edits": 1000,
+        "identity_sha256": "25a6afa8d1d4d19801904b4d74193ffe75bb34637bb359540711320068f1c880",
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/gptj/checkpoints/B10.pt",
+        "sha256": "0da2d8f65a2592bdc2cc4f4f3a06ed3501fe15cfb8d12206dced32b0c7eff8ef"
+      },
+      "evaluation_identity": {
+        "attention_backend": "eager",
+        "author_source": "478134dfb24b43f4e18b47e8500893ce3f9cc50f",
+        "checkpoint_sha256": "0da2d8f65a2592bdc2cc4f4f3a06ed3501fe15cfb8d12206dced32b0c7eff8ef",
+        "completed_edits": 1000,
+        "dataset": "cf",
+        "evaluation_cases": 1000,
+        "evaluation_source": "c400c2beaad62eab6e052d841e088d3cb3e547a4",
+        "model": "gptj",
+        "native_config": "25a6afa8d1d4d19801904b4d74193ffe75bb34637bb359540711320068f1c880",
+        "native_source": "60eea6e2f7aeec94743f27cd5df1e67cc160fe84",
+        "precision": "bfloat16"
+      },
+      "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-eval-r1/results/gptj/B10.json",
+      "sha256": "15d75d290e46c492b844cd82c14af4b2cc233fe6eb40866b98546a2aa4245c59",
+      "summary": {
+        "Efficacy": 48.699999999999996,
+        "Generalization": 51.65,
+        "Score": 49.854733923454106,
+        "Score_AlphaEdit_display": 49.854733923454106,
+        "Specificity": 49.31,
+        "requests": 1000
+      }
+    },
+    "15": {
+      "checkpoint": {
+        "bytes": 7247781845,
+        "completed_batches": 15,
+        "completed_edits": 1500,
+        "identity_sha256": "25a6afa8d1d4d19801904b4d74193ffe75bb34637bb359540711320068f1c880",
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/gptj/checkpoints/B15.pt",
+        "sha256": "b0527e1273621c0fb351ffa4476e8f6eeb0c32e7631f103b805df9fc68c233bc"
+      },
+      "evaluation_identity": {
+        "attention_backend": "eager",
+        "author_source": "478134dfb24b43f4e18b47e8500893ce3f9cc50f",
+        "checkpoint_sha256": "b0527e1273621c0fb351ffa4476e8f6eeb0c32e7631f103b805df9fc68c233bc",
+        "completed_edits": 1500,
+        "dataset": "cf",
+        "evaluation_cases": 1500,
+        "evaluation_source": "c400c2beaad62eab6e052d841e088d3cb3e547a4",
+        "model": "gptj",
+        "native_config": "25a6afa8d1d4d19801904b4d74193ffe75bb34637bb359540711320068f1c880",
+        "native_source": "60eea6e2f7aeec94743f27cd5df1e67cc160fe84",
+        "precision": "bfloat16"
+      },
+      "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-eval-r1/results/gptj/B15.json",
+      "sha256": "ddfd3beb5e23cbfe389f0378ac064bed96b3bb31867dba53ea31454b2ca979b0",
+      "summary": {
+        "Efficacy": 51.53333333333333,
+        "Generalization": 51.46666666666667,
+        "Score": 50.38722458399338,
+        "Score_AlphaEdit_display": 50.38722720000321,
+        "Specificity": 48.3,
+        "requests": 1500
+      }
+    },
+    "20": {
+      "checkpoint": {
+        "bytes": 7247783381,
+        "completed_batches": 20,
+        "completed_edits": 2000,
+        "identity_sha256": "25a6afa8d1d4d19801904b4d74193ffe75bb34637bb359540711320068f1c880",
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/gptj/checkpoints/B20.pt",
+        "sha256": "a461f6ce5c3ecde4a1613e5f04c8718b46839a9335746598cd2ab752e16e4777"
+      },
+      "evaluation_identity": {
+        "attention_backend": "eager",
+        "author_source": "478134dfb24b43f4e18b47e8500893ce3f9cc50f",
+        "checkpoint_sha256": "a461f6ce5c3ecde4a1613e5f04c8718b46839a9335746598cd2ab752e16e4777",
+        "completed_edits": 2000,
+        "dataset": "cf",
+        "evaluation_cases": 2000,
+        "evaluation_source": "c400c2beaad62eab6e052d841e088d3cb3e547a4",
+        "model": "gptj",
+        "native_config": "25a6afa8d1d4d19801904b4d74193ffe75bb34637bb359540711320068f1c880",
+        "native_source": "60eea6e2f7aeec94743f27cd5df1e67cc160fe84",
+        "precision": "bfloat16"
+      },
+      "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-eval-r1/results/gptj/B20.json",
+      "sha256": "6462284f64460c29a1d256644376c5d2b4d8d8d56e24930020ca3b9e24fc4da4",
+      "summary": {
+        "Efficacy": 49.2,
+        "Generalization": 49.55,
+        "Score": 49.75366826664656,
+        "Score_AlphaEdit_display": 49.753668266646564,
+        "Specificity": 50.529999999999994,
+        "requests": 2000
+      }
+    },
+    "5": {
+      "checkpoint": {
+        "bytes": 7247778901,
+        "completed_batches": 5,
+        "completed_edits": 500,
+        "identity_sha256": "25a6afa8d1d4d19801904b4d74193ffe75bb34637bb359540711320068f1c880",
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/gptj/checkpoints/B05.pt",
+        "sha256": "3d92a1e479452b582181112cd48dc769a2d51da5f70a73e945cce36220d5908c"
+      },
+      "evaluation_identity": {
+        "attention_backend": "eager",
+        "author_source": "478134dfb24b43f4e18b47e8500893ce3f9cc50f",
+        "checkpoint_sha256": "3d92a1e479452b582181112cd48dc769a2d51da5f70a73e945cce36220d5908c",
+        "completed_edits": 500,
+        "dataset": "cf",
+        "evaluation_cases": 500,
+        "evaluation_source": "c400c2beaad62eab6e052d841e088d3cb3e547a4",
+        "model": "gptj",
+        "native_config": "25a6afa8d1d4d19801904b4d74193ffe75bb34637bb359540711320068f1c880",
+        "native_source": "60eea6e2f7aeec94743f27cd5df1e67cc160fe84",
+        "precision": "bfloat16"
+      },
+      "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-eval-r1/results/gptj/B05.json",
+      "sha256": "8fbad7c704d191bac6799ce0c8f001fc5d05e27b57ada72af49380a47664f458",
+      "summary": {
+        "Efficacy": 49.6,
+        "Generalization": 50.3,
+        "Score": 49.26697721299947,
+        "Score_AlphaEdit_display": 49.26697721299947,
+        "Specificity": 47.96,
+        "requests": 500
+      }
+    }
+  },
+  "scope": "Native FE checkpoint observation only; current baseline table is not overwritten"
+}
