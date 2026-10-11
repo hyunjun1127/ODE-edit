@@ -430,3 +430,12 @@ Qwen 대조군의 다섯 checkpoint를 서버1 SSD의
 RAID에서 약29.90 GiB를 확보했고, GPT-J W0의0 영역도 내용 변경 없이 sparse 처리해6 GiB를 확보했다.
 [저장 이동 전체 검산](../../../audits/global/fe-collapse-repair-20261011/native-qwen-control-storage-migration.json) ·
 [GPT-J W0 저장 할당량](../../../audits/global/fe-collapse-repair-20261011/native-gptj-w0-storage-sparse.json).
+
+## GPT-J 원본 C0의 실제 native 3번째 배치 폭증
+
+63386의 첫 세 배치에서 L3 잔차는36.0017/35.2775/37.3515였으나 업데이트 norm은
+70.2333/66.3780/**60,005.8906**으로 증가했다. 현재 배치 모델의 z와 저자 runner에서도
+원본 공분산의 불안정성이 재현됐다. B3의 잔차 크기가 약6% 증가하는 동안 업데이트는
+약900배 커졌다. 기존 CPU 공분산/20배치 선형계 검사와 함께 수치 보정 대조의 근거로 삼는다.
+63389는 L3 C0만 보정한 같은 설정이며 아직 대기 중이다. 이 기록은 수정 후 회복 증거가 아니다.
+[native B1–B3 원 로그 수치](../../../audits/global/fe-collapse-repair-20261011/native-gptj-b3-instability.json).

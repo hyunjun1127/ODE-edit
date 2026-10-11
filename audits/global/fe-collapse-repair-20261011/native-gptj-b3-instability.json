@@ -1,0 +1,36 @@
+{
+  "job": 63386,
+  "observed_at_kst": "2026-10-11T14:00:54.059807+09:00",
+  "scope": "Native current-batch model z; original defective L3 C0; displayed log norms",
+  "rows": [
+    {
+      "batch": 1,
+      "layer3": {
+        "residual": 36.0017,
+        "weight": 106.0,
+        "update": 70.2333
+      },
+      "fit_count": 100
+    },
+    {
+      "batch": 2,
+      "layer3": {
+        "residual": 35.2775,
+        "weight": 127.5,
+        "update": 66.378
+      },
+      "fit_count": 100
+    },
+    {
+      "batch": 3,
+      "layer3": {
+        "residual": 37.3515,
+        "weight": 147.0,
+        "update": 60005.8906
+      },
+      "fit_count": 100
+    }
+  ],
+  "source": "60eea6e2f7aeec94743f27cd5df1e67cc160fe84",
+  "raw_log": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/gptj-63386.out"
+}
