@@ -6,7 +6,7 @@
 아래 author W0-fixed 결과와 CPU 대조는 별도 경로의 원인 후보 조사이며 현재 baseline의 회복 증거가 아니다.
 초기 조사에서 이 경로를 현재 기준으로 바꾼 것은 잘못이었다. Qwen/GPT-J의 현재 기준 재검증이 남아 있다.
 
-## 현재 진행 상태 (2026-10-11 14:40 KST)
+## 현재 진행 상태 (2026-10-11 15:08 KST)
 
 공식 `main.py` + 현재 배치 z 진단을 server1에서 진행 중이다. 기존 정상 cap2에
 허용된 진단용 한 개 lane을 추가했다. 후속 원인 분리 실험은 기존 CAKE 작업이
@@ -20,6 +20,7 @@
 | GPT-J 저장 checkpoint 공통 평가 | 63388 | PENDING afterany:63386 |
 | GPT-J L3 C0만 보정한 native 2K → 평가 | 63389 → 63390 | 63389 RUNNING, 63390 후속 PENDING |
 | Qwen 현재100건의 W0-reference z → 평가 | 63391 → 63392 | 63391 RUNNING, 63392 후속 PENDING |
+| GPT-J W0-reference + 보정 C0, 동일 protocol 검증 | 63425 → 63426 | PENDING, 63390·63392 평가 종료 후 시작 |
 
 63389/63391의 자원 의존성만 조정했다. 두 작업을 hold한 상태에서 실제 Slurm 설정과
 전체 사용자/server1 GPU DAG의 최대 폭3을 확인하고 hold를 모두 해제했다. 새 제출이나
@@ -530,3 +531,27 @@ writer는 현재 배치 target과 누적 history만 사용한다. 현재 모델�
 과학적 설정이 다르므로 같은 이름으로 몰래 바꾸지 않는다. 원저자 hparams나 샘플을
 변경하지 않고 선계산을 제거하는 대조로 보고하며, 최종 CF 성능은 아직 평가 전이다.
 [1K 실제 가중치 SHA 대조](../../../audits/global/fe-collapse-repair-20261011/native-qwen-online-b10-precompute-parity.json).
+
+## 두 모델에 같은 target protocol을 쓰는 후속 검증
+
+63389는 C0만 바꿔 원인을 분리한 대조다. Qwen과 GPT-J의 최종 FE 정의를 모델마다
+다르게 정하지 않도록, GPT-J에도 현재100건의 W0-reference target과 같은 보정 C0를
+함께 적용하는2K 검증을 등록했다. **63425 → 63426**, source `b8144315`, identity
+`3029accd3526041723d149ff3affa3f43e1578e3185a2ce1c5effbdd75ebf077`이다.
+63390과63392가 모두 끝난 뒤 시작한다. 신규2개를 held 상태에서 실제 source/config/script,
+GPU/CPU/RAM/노드/QoS/의존성을 확인하고 전체 server1 사용자 DAG 최대 폭3을 검사한 뒤
+release했다. 기존 작업과 source/config/output 변경0, 남은 hold0, 제출 시 GPU 결과는 미관측이다.
+
+기존 RAID checkpoint를 유지하며 새63425의 다섯 snapshot만 server1 SSD
+`/var/tmp/odeedit-fe-collapse-20261011/gptj-online-w0-repaired-checkpoints/`에 저장한다.
+논리 경로는 새 run의 `checkpoints/`로 연결했다. 해당 파일시스템에16 GiB를 남기는
+저장 guard와 전체 예상 용량을 검산했다. 이 차이는 관측 저장 위치이며 편집 산식이나
+hparams 변경이 아니다. 기존 실행의64 GiB guard는 그대로다.
+
+원본/수정 평가 패키지의 `official/evaluation/` Python30개 파일은 byte가 동일하다.
+저자 `main.py` 및 `batch_edit`, `load_cov`, context 생성, shape 변환,
+`current_batch_targets` 본문도 동일하다. 명시된 C0와 target reference 외에 평가식이나
+writer 변경을 섞지 않았다. 이 후속 검증도 기본 baseline 정의를 자동으로 바꾸지 않는다.
+[준비 근거](../../../audits/global/fe-collapse-repair-20261011/native-combined-preparation.json) ·
+[실제 제출·held 검산](../../../audits/global/fe-collapse-repair-20261011/native-combined-submission.json) ·
+[평가·native 함수 동일성](../../../audits/global/fe-collapse-repair-20261011/native-causal-source-equivalence.json).

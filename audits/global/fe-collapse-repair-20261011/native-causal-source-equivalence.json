@@ -1,0 +1,157 @@
+{
+  "control_evaluation_source": "c400c2beaad62eab6e052d841e088d3cb3e547a4",
+  "candidate_evaluation_source": "49ab6b20d258e4cb091ca9ae68098db3930a86e7",
+  "all_evaluation_python_files_identical": true,
+  "evaluation_files": [
+    {
+      "relative_path": "__init__.py",
+      "sha256": "a6770d63459aa7d48f3c073554eb8e2a862072b6ce085859ce4ba76dc8b974b3"
+    },
+    {
+      "relative_path": "cf_native_reference.py",
+      "sha256": "0473673abf92e483b19d534743278ee33177ce22e66c059e9788e40ba7e12216"
+    },
+    {
+      "relative_path": "factual.py",
+      "sha256": "62a9df861db8ab3addd125defaf3dacc47dc9c32d5b4ab8a8cd07a4892a68807"
+    },
+    {
+      "relative_path": "generation/__init__.py",
+      "sha256": "7b917b363702b848f5a45076f5c9786dae6377898c173c0742a2aa71e52210cb"
+    },
+    {
+      "relative_path": "generation/assets.py",
+      "sha256": "0648c9c6dfb05cf753c35fa6c2dc86d31fe1c6190e16703a0b5fd0a14689f11a"
+    },
+    {
+      "relative_path": "generation/common.py",
+      "sha256": "b09cb5b30f45150a7c042353a41c6b28ca31b4695884fd27135e0e2a69f9282c"
+    },
+    {
+      "relative_path": "generation/compatibility.py",
+      "sha256": "e551d41de018d8d2e4a35832a20134f6ca805c58becb1b6c90152b3fa366ee5d"
+    },
+    {
+      "relative_path": "generation/generator.py",
+      "sha256": "0b151a0546e2b16ca46276ed9feebc08fc719f024b45f945d5a18d5d5147dacf"
+    },
+    {
+      "relative_path": "generation/kv_qualification.py",
+      "sha256": "17b282daf9a531eeed4c980afa44a78db30891bd110d5ecae8ecfd552bdc15b8"
+    },
+    {
+      "relative_path": "generation/metrics.py",
+      "sha256": "c9152f5889bf42ca5761d9dd974ec6676f974eff006b8c38b0c934dccb6dfce9"
+    },
+    {
+      "relative_path": "generation/native_generator.py",
+      "sha256": "601bfb8b3d5514d0d2b13a11d025b02fd53f0f1fe39325daa94ed7307c3ec520"
+    },
+    {
+      "relative_path": "generation/native_observer.py",
+      "sha256": "09f8f4915d848dcd820ff4ffc382871f457c107098102bfb8d1a682ff321653a"
+    },
+    {
+      "relative_path": "generation/native_profile.py",
+      "sha256": "ddd3d6266a02a613beaea052920da763c721990a6f9228bb257ad988156fb0c4"
+    },
+    {
+      "relative_path": "generation/observer.py",
+      "sha256": "829f279f14d21afc50789ecc32dfa9a9ba3d53ceb629cfb1bb2da24844e5c75c"
+    },
+    {
+      "relative_path": "generation/paper_display.py",
+      "sha256": "f03e49ef1828abc61266090b518cacadc9d76806202bffd09464ef49f4054304"
+    },
+    {
+      "relative_path": "generation/progress.py",
+      "sha256": "59e33e185a36d70fa4e9bb37e29484334b2a7b99c3359adc6d5841aec42c7027"
+    },
+    {
+      "relative_path": "generation/test_assets.py",
+      "sha256": "7283fac4cce6dd82cb3147fae05c677532ba7c1d54f3ada2ed910ab081b47230"
+    },
+    {
+      "relative_path": "generation/test_generator.py",
+      "sha256": "933508383f4a58e56219ca25ac5eb038954d1b32a9742dab7c3ae688329863b3"
+    },
+    {
+      "relative_path": "generation/test_metrics.py",
+      "sha256": "b9dc0b03331c7296c8dde6d09c5bc45ce111fd2eb7896f7c84a228f57ff9320f"
+    },
+    {
+      "relative_path": "generation/test_native_families.py",
+      "sha256": "599f6d67a22e19608a01eb8dfcb8c7956b68ff8a89ab099ee1932442588888d8"
+    },
+    {
+      "relative_path": "generation/test_native_generator.py",
+      "sha256": "d80bd33330af38fd121caf2354cffdffce884517bb58442fa088d61ad7f5cae8"
+    },
+    {
+      "relative_path": "generation/test_native_observer.py",
+      "sha256": "d580513275bd2e1c38cb9b829196204885bb53fd02271aee2ac01c045e8c86d1"
+    },
+    {
+      "relative_path": "generation/test_observer.py",
+      "sha256": "3c4caa1bd7a8d01a6886447db437590930b9170cccf41592fcf4b16474bc20dc"
+    },
+    {
+      "relative_path": "reduce.py",
+      "sha256": "6e7f61feaa99ddeaac964c6c1f8c5b4e8a4caf31a2e8eed53df5fed9812ab10d"
+    },
+    {
+      "relative_path": "w0_reference.py",
+      "sha256": "e685c912f3f337132079cdae5a4071d8518259e24d421ace3790c5cc10579ad2"
+    },
+    {
+      "relative_path": "zsre_paper.py",
+      "sha256": "d6a5b34eafd27660a2dee4632c638b6bf4c3614246071711cf5159a002415a45"
+    },
+    {
+      "relative_path": "zsre_public_sources/alphaedit_eval_utils_zsre.py",
+      "sha256": "4370a3b2c7eff88bfeffd6412be485c0195bae794f7c7a6d39b9dd9e01299d97"
+    },
+    {
+      "relative_path": "zsre_public_sources/memit_eval_utils_zsre.py",
+      "sha256": "e4f18c84a813d0a2fb9a5c9426726844117fe365cae72107d51f304a264d77a8"
+    },
+    {
+      "relative_path": "zsre_public_sources/zsre_dataset.py",
+      "sha256": "a6281375afd9983337c154095fe9aba59c74c36fa34ecfb12838c7b5c341670e"
+    },
+    {
+      "relative_path": "zsre_query_parity.py",
+      "sha256": "9883f16036525278bbfcdb45f5f08cc8c799f638a26f91b4d9da2a0d70103803"
+    }
+  ],
+  "native_main_identical": true,
+  "native_main_sha256": "ea83923f8cadf39895940cad332076647c87ca8cf0e1e8ffe4ef0e515e10ae16",
+  "native_algorithm_functions_identical": [
+    {
+      "path": "algs/memit/memit_main.py",
+      "function": "batch_edit",
+      "sha256": "071068bed9b526cfddc06e64e1e147e48fb3ac6bd3ef3f7d3eb63eeaa77e9a32"
+    },
+    {
+      "path": "algs/memit/memit_main.py",
+      "function": "load_cov",
+      "sha256": "0646d00bf9f8a0bb5fb3a017e4b796ab0e7a389e84487fbd91353443ea5111bf"
+    },
+    {
+      "path": "algs/memit/memit_main.py",
+      "function": "get_context_templates",
+      "sha256": "00a620cd1745d37b128200427e0e1484a9a2a6b133826e5358a0d74d7491afb4"
+    },
+    {
+      "path": "algs/memit/memit_main.py",
+      "function": "upd_matrix_match_shape",
+      "sha256": "052e38ad53549bbb3d0ea55eeb78c5395ae31f9241698607db9abe50577f4690"
+    },
+    {
+      "path": "algs/memit/native_sequential_z.py",
+      "function": "current_batch_targets",
+      "sha256": "91cba2f1f7cdcfcd2229160ae24744147dbc8a25f5106370ffc0f8265f65273c"
+    }
+  ],
+  "scope": "Candidate package adds explicit target-reference selection and covariance asset choice; no common metric or native writer/body change"
+}
