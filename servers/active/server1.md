@@ -9,6 +9,11 @@ cap2:63296→63298 및63297→63299. 기존 CAKE source/config/output은 그대�
 [실제 취소·복구](../../audits/global/fe-collapse-repair-20261011/sequential-scope-correction.json) ·
 [진단 범위](../../experiment-reports/global/fe-collapse-repair-20261011/report-ko.md).
 
+현재 기준의 후속 등록은63373(GPT-J CF 수치 보정)과63374(Qwen CF 원 설정 진단)다.
+source `6209019e`, 각100건의 배치 진입 z, author hparams, history, FP32,500건마다 checkpoint 보존.
+최신 cap2 lane:63296→63373→63298 및63297→63374→63299. 두 신규 job은PENDING에서 실제held검사 후release.
+[최신 실제 등록](../../audits/global/fe-collapse-repair-20261011/sequential-submission.json).
+
 ## 현재 authority
 
 - server: `server1`

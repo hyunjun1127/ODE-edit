@@ -6,6 +6,41 @@
 아래 author W0-fixed 결과와 CPU 대조는 별도 경로의 원인 후보 조사이며 현재 baseline의 회복 증거가 아니다.
 초기 조사에서 이 경로를 현재 기준으로 바꾼 것은 잘못이었다. Qwen/GPT-J의 현재 기준 재검증이 남아 있다.
 
+## 현재 sequential 기준에서 확인한 것
+
+GPT-J61927은 현재 기준과 같은 수정 EasyEdit FE, author hparams(clamp.75,25steps,lr.5), FP32, 배치 진입 z, 누적 history다.
+CF W5 Score/Eff/Gen/Loc=87.89/98.40/92.90/75.72였으나 W10 Score50.76, W20 Score50.18로 붕괴했다.
+L3 C0 SHA는 위 W0-fixed 실험과 같은 `baee4037…`다. 실제 sequential 로그에서도 다음 역산 폭증을 확인했다.
+
+| 배치 | L3 z 잔차 평균 norm | L3 update norm |
+| --- | ---: | ---: |
+| B2 | 35.2695 | 65.9980 |
+| B3 | 37.3585 | 8,187.7012 |
+| B7 | 38.5402 | 32,351.3276 |
+| B10 | 39.1335 | 3,170,809.0134 |
+
+따라서 공분산 결함은 참고 W0-fixed 경로에만 해당하는 발견이 아니다. 현재 경로에서 수치 보정의 성능 회복을 검증한다.
+원 로그: `local/official-baselines/server1/memit-fe-history-three-model-2k/registration-r1/logs/cf-gptj-memit-fe-history-61927.out`.
+배치별 추출: `audits/global/fe-collapse-repair-20261011/gptj-sequential-61927-norms.json`.
+
+Qwen62531의 L4 weight norm은128.61에서517.08로 누적 증가했다. L5 잔차는B12부터47.39→265.94→1750.72로 증가했다.
+Qwen L4 C0 최소 고유값은3.35836e-8, Frobenius norm1057.3269이며, L5 최소 고유값은6.34088e-5다.
+L4는 양의 정부호여도 작은 방향의 역산에 민감할 수 있다. 이것만으로 붕괴 원인이나 보정의 정당성을 확정하지 않는다.
+Qwen의 원 설정 진단에서 실제 key/target/잔차, write/history key 차이, 붕괴 직전 checkpoint를 확보한다.
+
+main `6209019e`의 현재 경로 수정은 다음과 같다.
+
+- 원저자 hparams를 유지하고 GPT-J 출처를 profile에 추가했다(GPT-J 기존 hparams 변경0).
+- C0 검증/명시적 수리/derived SHA 재개 검증을 `fe_author_history.py`에 연결했다.
+- 미래 target cache 정책을 거부하고, 관측 모드에서 fit 요청이 현재100건 및 동일한 배치 진입 가중치인지 검사한다.
+- 각100건 재개 checkpoint 외에500/1000/1500/2000 및 지정한 진단 경계를 독립 보존한다.
+- CPU 테스트68개 통과. GPU 결과와 구분한다.
+
+실제 등록: **63373 GPT-J CF 수치 보정**, **63374 Qwen CF 원 설정 진단**.
+둘 다 source `6209019e`, current-batch-entry z, author hparams, history, FP32, 동일한 기존 context를 사용한다.
+server1 cap2 lane은63296→63373→63298 및63297→63374→63299다. 등록 당시PENDING이며 GPU 성능 회복은 미확인이다.
+[실제 제출·검산 영수증](../../../audits/global/fe-collapse-repair-20261011/sequential-submission.json).
+
 ## 완료 산출물과 논문 비교
 
 | 실행 | CF Score / Eff / Gen / Loc | zsRE Eff / Gen / Loc |
@@ -109,3 +144,20 @@ Llama author-hparam + history63357은 같은 baseline 계약이며 수정하지 
 - 기존 GPU 실험의 source/config/가중치·기존 FE 결과는 보존했다. 2K 성능 회복은 아직 미확인이다.
 
 로컬 상세 증거: `/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/`.
+
+## 추가 진단: 저자 writer + 현재 배치 z
+
+사용자 요청에 따라 저자 FE `478134df`의 `batch_edit` 본문을 그대로 호출하는
+별도 진단 backend를 추가했다. 우리 `compute_z`로 매 배치 진입 모델에서 해당100건만
+계산하며, 저자 writer에 넘기는 target 열과 sample index도 현재100건으로 한정한다.
+이 경로는 미래2K의 W0 target을 읽거나 생성하지 않는다.
+
+저자 writer의 RHS solve, FP64 key Gram을 FP32 history에 누적하는 방식,
+가중치 단일 cast 대입을 보존한다. FE hparams·FP32·context·입력 순서·C0 정책은
+대응하는63373/63374와 같다. Qwen은 strict, GPT-J는 명시적 roundoff 보정이다.
+배치 실패 시 selected weights와 history를 복원하고, 배치별 z/K/current output을 기록한다.
+새 경로는 비교 진단이며 기존 baseline의 정의를 바꾸지 않는다.
+
+관련 CPU 테스트71개 통과. 두 모델의 저자 모듈과 YAML/hparam 일치를 실제 import로 확인했다.
+사용자는 이 진단에 한해 cap2 예외와 **server1 사용**을 승인했다. 기존 cap2 lane과
+CAKE 실행은 유지하며 진단용 한 개 추가 lane을 준비한다. server3에는 신규 job을 제출하지 않았다.

@@ -5,11 +5,12 @@ import torch
 
 
 @contextmanager
-def observe_batch(native, requests, hparams, weights):
+def observe_batch(native, requests, hparams, weights, *, writer=None):
+    writer = native if writer is None else writer
     expected = [r['case_id'] for r in requests]
     versions = {k: v._version for k, v in weights.items()}
-    originals = {name: getattr(native, name) for name in
-                 ('compute_z', 'compute_ks', 'get_module_input_output_at_words')}
+    owners = dict(compute_z=native, compute_ks=writer, get_module_input_output_at_words=writer)
+    originals = {name: getattr(owner, name) for name, owner in owners.items()}
     captured = dict(case_ids=[], targets=[], keys={}, current_outputs={}, history_keys={})
 
     def target(model, tok, request, *args, **kwargs):
@@ -38,17 +39,19 @@ def observe_batch(native, requests, hparams, weights):
         result = originals['get_module_input_output_at_words'](model, tok, layer, *args, **kwargs)
         if kwargs.get('track') == 'out':
             captured['current_outputs'][str(layer)] = result.detach().cpu().clone()
+        elif writer is not native and isinstance(result, tuple):
+            captured['current_outputs'][str(layer)] = result[1].detach().cpu().clone()
         return result
 
-    native.compute_z, native.compute_ks = target, keys
-    native.get_module_input_output_at_words = output
+    native.compute_z, writer.compute_ks = target, keys
+    writer.get_module_input_output_at_words = output
     try:
         yield captured
         if captured['case_ids'] != expected:
             raise ValueError('FE_CURRENT_BATCH_TARGETS_MISSING')
     finally:
         for name, function in originals.items():
-            setattr(native, name, function)
+            setattr(owners[name], name, function)
 
 
 def summarize(captured):

@@ -26,6 +26,7 @@ from .server1.fe_history_prepare import runtime
 from official.baselines.fe_covariance import POLICIES
 from . import fe_covariance_assets
 from official.baselines.fe_observation import observe_batch, summarize
+from official.baselines import fe_author_sequential
 
 Z_POLICY = 'CURRENT_BATCH_ENTRY_MODEL_NO_FUTURE_TARGETS'
 
@@ -38,7 +39,11 @@ def validate_config(c):
     assert type(c.get('retain_milestones',False)) is bool
     assert all(type(b) is int and 1<=b<=20 for b in c.get('diagnostic_checkpoint_batches',[]))
     assert not any(k in c for k in ('z_cache','z_cache_template','precomputed_targets','w0_targets'))
-    assert c['server'] in ('server1','server2','server4') and c['dataset'] in ('cf','zsre')
+    assert c.get('writer_backend','EASYEDIT_HISTORY') in ('EASYEDIT_HISTORY',fe_author_sequential.BACKEND)
+    if c.get('writer_backend')==fe_author_sequential.BACKEND:
+        assert c['author_commit']==fe_author_sequential.AUTHOR_COMMIT and c['author_path'] and c['author_members']
+        assert c['observe_batches'], 'AUTHOR_COMPARISON_REQUIRES_OBSERVATIONS'
+    assert c['server'] in ('server1','server2','server3','server4') and c['dataset'] in ('cf','zsre')
     if c['server']=='server4':
         assert (c['model'],c['dataset'])==('llama3','zsre') and c.get('checkpoint_archive')
     if c.get('checkpoint_archive'):
@@ -61,7 +66,8 @@ def state(weights,history,calls):
 
 def tracking_values(c,lock):
     values=dict(server=c['server'],task_id=c['task_id'],model=c['model'],model_family={'llama3':'llama','qwen25':'qwen2','gptj':'gptj'}[c['model']],
-        writer='memit_fe_history',baseline=METHOD,role='scientific',arm=c['arm'],attempt=Path(c['output']).parent.parent.name+'-'+c['model']+'-'+c['dataset'],
+        writer='fe_author_sequential' if c.get('writer_backend')==fe_author_sequential.BACKEND else 'memit_fe_history',
+        baseline=METHOD,role='scientific',arm=c['arm'],attempt=Path(c['output']).parent.parent.name+'-'+c['model']+'-'+c['dataset'],
         source_sha=lock['source_commit'],config_sha=c['config_sha256'],dataset=c['dataset'],metric_schema='official-baselines-scalar-v1',
         instruction_id='USER-OFFICIAL-BASELINES-20261008-R1')
     if c['dataset']=='cf':values['generation_schedule']=c['generation_schedule']
@@ -165,9 +171,18 @@ def run(config_path,lock_path,resume=False):
     native.CONTEXT_TEMPLATES_CACHE=load_native_context(c,assets,tok)
     def no_recompute(*a,**kw): raise ValueError('FE_HISTORY_C0_CACHE_MISS_FORBIDDEN')
     native.layer_stats=no_recompute
+    author_writer=author_config=None
+    if c.get('writer_backend')==fe_author_sequential.BACKEND:
+        root=Path(c['author_path']).resolve()
+        for m in c['author_members']:
+            assert Path(verify(m)).resolve().is_relative_to(root)
+        actual={str(p.resolve()) for p in root.rglob('*') if p.is_file() and '__pycache__' not in p.parts and '.git' not in p.parts}
+        assert actual=={str(Path(m['path']).resolve()) for m in c['author_members']}, 'FE_AUTHOR_UNMANIFESTED_SOURCE'
+        author_writer,author_config=fe_author_sequential.load_writer(root,c['model'],hp,covariances)
     identity=dict(config_sha256=c['config_sha256'],stream_sha256=c['stream_sha256'],code_commit=lock['source_commit'],
         official_tree_sha256=lock['official_tree'],model_revision=desc['revision'],tokenizer_sha256=assets['tokenizer_sha256'],assets_sha256=assets['assets_sha256'],
-        covariance_sha256=digest(covariance_receipts),z_policy=Z_POLICY)
+        covariance_sha256=digest(covariance_receipts),z_policy=Z_POLICY,
+        writer_backend=c.get('writer_backend','EASYEDIT_HISTORY'))
     values=tracking_values(c,lock)
     tracker=init(env_file=c['tracking_env_file'],spool=output/('tracking-resume' if resume else 'tracking'),config=values)
     def log(v):
@@ -227,11 +242,15 @@ def run(config_path,lock_path,resume=False):
             requests=registry.requests(records[(batch-1)*100:batch*100],METHOD,c['model'])
             request_hash=digest(requests)
             _,_,apply=registry.implementation(METHOD,c['model'])
+            def edit():
+                if author_writer is not None:
+                    return fe_author_sequential.apply(model,tok,requests,hp,history=H,author=author_writer,config=author_config)
+                return apply(model,tok,requests,hp,history=H,copy=False,return_orig_weights=False,cache_template=None)
             if c.get('observe_batches'):
                 observation=None
                 try:
-                    with observe_batch(native,requests,hp,weights) as observation:
-                        apply(model,tok,requests,hp,history=H,copy=False,return_orig_weights=False,cache_template=None)
+                    with observe_batch(native,requests,hp,weights,writer=author_writer) as observation:
+                        edit()
                 finally:
                     if observation is not None:
                         folder=output/'observations';folder.mkdir(exist_ok=True)
@@ -241,7 +260,7 @@ def run(config_path,lock_path,resume=False):
                         # Incomplete observations still preserve a failed solve's inputs.
                         write_new(folder/f'batch-{batch:02d}.json',dict(summary=summarize(observation),tensors=member(tensor_path)))
             else:
-                apply(model,tok,requests,hp,history=H,copy=False,return_orig_weights=False,cache_template=None)
+                edit()
             assert digest(requests)==request_hash
             model.zero_grad(set_to_none=True)
             for p in model.parameters():p.requires_grad_(False)
@@ -256,6 +275,7 @@ def run(config_path,lock_path,resume=False):
                 before=before,after=after,history_appends_per_layer=1,
                 H0_native_matrix_exact_runtime=batch==1 and not any(r['repaired'] for r in covariance_receipts.values()),
                 z_policy=Z_POLICY,z_request_count=100,z_entry_successful_calls=batch-1,
+                writer_backend=c.get('writer_backend','EASYEDIT_HISTORY'),
                 elapsed_sec=time.monotonic()-started),generation_status='DEFERRED_TO_SAVED_W20_CHECKPOINT' if c['dataset']=='cf' else 'NOT_APPLICABLE')
             try:
                 if batch in c['milestones']: cursor['factual']=factual(records[:batch*100],batch,f'batch-{batch:02d}')
