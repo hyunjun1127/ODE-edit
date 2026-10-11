@@ -1,0 +1,222 @@
+{
+  "scope": "CPU BF16 first-edited-layer keys, unchanged CF 2K; input to first edited layer is independent of higher edits; no z or edits, no GPU bit-parity/accuracy claim",
+  "context_path": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/runs/gptj-cf/contexts.json",
+  "context": [
+    [
+      "{}"
+    ],
+    [
+      "The content published in Cureus is the result of. {}",
+      "Therefore, it is a first object of the invention. {}",
+      "Because I was the first person to be in a. {}",
+      "I'm a bit of a newbie to all. {}",
+      "You are here Categories: . {}"
+    ]
+  ],
+  "rows": [
+    {
+      "batch": 1,
+      "cholesky_info": {
+        "original": 13797,
+        "repaired": 0
+      },
+      "history_frobenius": 7224.800140785372,
+      "key_frobenius": 200.9959607508361,
+      "seconds": 25.181873559951782
+    },
+    {
+      "batch": 2,
+      "cholesky_info": {
+        "original": 13797,
+        "repaired": 0
+      },
+      "history_frobenius": 12992.0102968943,
+      "key_frobenius": 200.09070985632846,
+      "seconds": 23.32406210899353
+    },
+    {
+      "batch": 3,
+      "cholesky_info": {
+        "original": 13797,
+        "repaired": 0
+      },
+      "history_frobenius": 18893.196813046852,
+      "key_frobenius": 198.2974699718434,
+      "seconds": 23.615753173828125
+    },
+    {
+      "batch": 4,
+      "cholesky_info": {
+        "original": 13797,
+        "repaired": 0
+      },
+      "history_frobenius": 24673.933970451253,
+      "key_frobenius": 201.05372007350095,
+      "seconds": 23.647993803024292
+    },
+    {
+      "batch": 5,
+      "cholesky_info": {
+        "original": 13797,
+        "repaired": 0
+      },
+      "history_frobenius": 30375.809479396594,
+      "key_frobenius": 202.20763355350857,
+      "seconds": 24.135228395462036
+    },
+    {
+      "batch": 6,
+      "cholesky_info": {
+        "original": 13797,
+        "repaired": 0
+      },
+      "history_frobenius": 36154.476426649286,
+      "key_frobenius": 201.37234190234653,
+      "seconds": 24.424882888793945
+    },
+    {
+      "batch": 7,
+      "cholesky_info": {
+        "original": 13797,
+        "repaired": 0
+      },
+      "history_frobenius": 41998.766871232256,
+      "key_frobenius": 199.37423711191946,
+      "seconds": 24.905821561813354
+    },
+    {
+      "batch": 8,
+      "cholesky_info": {
+        "original": 13797,
+        "repaired": 0
+      },
+      "history_frobenius": 47667.812519727486,
+      "key_frobenius": 204.5671508064867,
+      "seconds": 24.284235954284668
+    },
+    {
+      "batch": 9,
+      "cholesky_info": {
+        "original": 13797,
+        "repaired": 0
+      },
+      "history_frobenius": 53371.46800138579,
+      "key_frobenius": 201.93720135194053,
+      "seconds": 24.147722482681274
+    },
+    {
+      "batch": 10,
+      "cholesky_info": {
+        "original": 13797,
+        "repaired": 0
+      },
+      "history_frobenius": 58930.09883366261,
+      "key_frobenius": 207.779832054449,
+      "seconds": 24.1499080657959
+    },
+    {
+      "batch": 11,
+      "cholesky_info": {
+        "original": 13797,
+        "repaired": 0
+      },
+      "history_frobenius": 64748.01875718461,
+      "key_frobenius": 199.54981067826026,
+      "seconds": 22.839171648025513
+    },
+    {
+      "batch": 12,
+      "cholesky_info": {
+        "original": 13797,
+        "repaired": 0
+      },
+      "history_frobenius": 70567.87608482255,
+      "key_frobenius": 199.8352045423763,
+      "seconds": 23.14414072036743
+    },
+    {
+      "batch": 13,
+      "cholesky_info": {
+        "original": 13797,
+        "repaired": 0
+      },
+      "history_frobenius": 76277.49110208738,
+      "key_frobenius": 201.48867210910393,
+      "seconds": 25.22005271911621
+    },
+    {
+      "batch": 14,
+      "cholesky_info": {
+        "original": 13797,
+        "repaired": 0
+      },
+      "history_frobenius": 81826.74714851537,
+      "key_frobenius": 204.64234589860888,
+      "seconds": 23.597750186920166
+    },
+    {
+      "batch": 15,
+      "cholesky_info": {
+        "original": 13797,
+        "repaired": 0
+      },
+      "history_frobenius": 87523.38351922414,
+      "key_frobenius": 205.23868200090257,
+      "seconds": 24.75465679168701
+    },
+    {
+      "batch": 16,
+      "cholesky_info": {
+        "original": 13797,
+        "repaired": 0
+      },
+      "history_frobenius": 92961.9107050873,
+      "key_frobenius": 209.9767793620516,
+      "seconds": 24.635984420776367
+    },
+    {
+      "batch": 17,
+      "cholesky_info": {
+        "original": 13797,
+        "repaired": 0
+      },
+      "history_frobenius": 98642.01999769452,
+      "key_frobenius": 203.5377246032387,
+      "seconds": 25.387919425964355
+    },
+    {
+      "batch": 18,
+      "cholesky_info": {
+        "original": 13797,
+        "repaired": 0
+      },
+      "history_frobenius": 104359.91221342234,
+      "key_frobenius": 202.1364895974532,
+      "seconds": 24.056384563446045
+    },
+    {
+      "batch": 19,
+      "cholesky_info": {
+        "original": 13797,
+        "repaired": 0
+      },
+      "history_frobenius": 110077.32764096983,
+      "key_frobenius": 199.7097332155095,
+      "seconds": 23.999034643173218
+    },
+    {
+      "batch": 20,
+      "cholesky_info": {
+        "original": 13797,
+        "repaired": 0
+      },
+      "history_frobenius": 115883.55858447061,
+      "key_frobenius": 201.6887370831336,
+      "seconds": 23.443437814712524
+    }
+  ],
+  "source": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/gptj_native_prior_stream_audit.py",
+    "sha256": "6e1141a0df30ff196b51dbb8fdcbf37f9ce63d7df9b950c58a7b24d83f8c539c"
+  }
+}

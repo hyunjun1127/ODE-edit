@@ -1,0 +1,68 @@
+{
+  "job_source": "60eea6e2f7aeec94743f27cd5df1e67cc160fe84",
+  "model": "qwen25",
+  "checkpoint": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/qwen25/checkpoints/B10.pt",
+    "sha256": "866c413deb72bb562394c53b7e433935ff5fa3b273d5be09ada7cc9ea2046fda",
+    "bytes": 7856478553,
+    "completed_batches": 10,
+    "completed_edits": 1000,
+    "identity_sha256": "04fff304614b0673ee999f015b2ee81afaab5a69ada9b9a7767aeff8589dbd8f"
+  },
+  "identity": "PASS",
+  "CPU_only": true,
+  "scope": "Saved C0 plus rounded history; actual next-batch solve also adds its current key Gram",
+  "layers": {
+    "4": {
+      "weight_norm": 458.13525391521347,
+      "history_trace": 1359119.3302760944,
+      "history_frobenius": 897622.8890152934,
+      "history_symmetric": true,
+      "history_finite": true,
+      "weights_finite": true,
+      "prior_cholesky_info": 0,
+      "seconds": 14.272899389266968
+    },
+    "5": {
+      "weight_norm": 220397.66641343618,
+      "history_trace": 10912951.260182023,
+      "history_frobenius": 2232667.2332806475,
+      "history_symmetric": true,
+      "history_finite": true,
+      "weights_finite": true,
+      "prior_cholesky_info": 0,
+      "seconds": 14.354614019393921
+    },
+    "6": {
+      "weight_norm": 6612.0287192674905,
+      "history_trace": 1513743.420048952,
+      "history_frobenius": 617975.9400139842,
+      "history_symmetric": true,
+      "history_finite": true,
+      "weights_finite": true,
+      "prior_cholesky_info": 0,
+      "seconds": 21.42343759536743
+    },
+    "7": {
+      "weight_norm": 3767.887171955633,
+      "history_trace": 760188.5526044369,
+      "history_frobenius": 247143.0339820094,
+      "history_symmetric": true,
+      "history_finite": true,
+      "weights_finite": true,
+      "prior_cholesky_info": 0,
+      "seconds": 14.398990154266357
+    },
+    "8": {
+      "weight_norm": 3537.8461125810272,
+      "history_trace": 907802.02196908,
+      "history_frobenius": 316673.59900006175,
+      "history_symmetric": true,
+      "history_finite": true,
+      "weights_finite": true,
+      "prior_cholesky_info": 0,
+      "seconds": 39.86725997924805
+    }
+  },
+  "checkpoint_unchanged": true
+}

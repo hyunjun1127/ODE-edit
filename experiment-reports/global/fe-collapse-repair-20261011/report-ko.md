@@ -6,14 +6,14 @@
 아래 author W0-fixed 결과와 CPU 대조는 별도 경로의 원인 후보 조사이며 현재 baseline의 회복 증거가 아니다.
 초기 조사에서 이 경로를 현재 기준으로 바꾼 것은 잘못이었다. Qwen/GPT-J의 현재 기준 재검증이 남아 있다.
 
-## 현재 진행 상태 (2026-10-11 11:56 KST)
+## 현재 진행 상태 (2026-10-11 12:33 KST)
 
 공식 `main.py` + 현재 배치 z 진단을 server1에서 진행 중이다. 기존 정상 cap2에
 허용된 진단용 한 개 lane을 추가했다. 실행·평가는 다음 순서이며 최대 동시3 GPU다.
 
 | 작업 | job | 의존성/관측 상태 |
 | --- | --- | --- |
-| Qwen CF native sequential 2K | 63385 | RUNNING, B4 완료 |
+| Qwen CF native sequential 2K | 63385 | RUNNING, B10/1K checkpoint 검증 완료 |
 | Qwen 저장 checkpoint 공통 평가 | 63387 | PENDING afterany:63385 |
 | GPT-J CF native sequential 2K | 63386 | PENDING afterany:63387 |
 | GPT-J 저장 checkpoint 공통 평가 | 63388 | PENDING afterany:63386 |
@@ -328,3 +328,23 @@ B5 모델 기준 case13617의 L4 target norm은60.68(W0 55.64)인 반면, L5 tar
 현재 모델 기준 target의 누적 변화가 재현 실패에 관여한다는 근거이며,
 W0-reference online 대조63391의2K 회복 여부는 아직 확인하지 않았다.
 [동일 요청의 저자 z 대조](../../../audits/global/fe-collapse-repair-20261011/native-qwen-target-drift-cpu.json).
+
+## 1K checkpoint와 GPT-J 20배치 시스템 검산
+
+Qwen63385의1K checkpoint를 다시 읽었다. 가중치/H/identity/case 순서/SHA가 정상이며,
+다섯 층 모두 `15000*C0+H` Cholesky를 통과했다. L5 weight norm은220,397.67이다.
+저장 손상이나 history 누락으로 인한 현상이 아니라, 큰 가중치가 실제로 누적되어 저장된 상태다.
+[1K 재로딩 검산](../../../audits/global/fe-collapse-repair-20261011/native-qwen-b10-prior-audit.json).
+
+동일한 CF2K stream SHA의 이전 W0-fixed63217과 현재63385의 마지막 z-fit 확률을 비교했다.
+B1의100건 평균/중앙값은 동일하다. 현재 B6의 평균 목표 확률은0.6052, B7은0.01097,
+B8은0.00001958로 감소했고 B8의100건 모두1% 미만이다. 이전W0-fixed에서는 각 배치 평균이
+약0.986~0.990이며2K 중0.5 미만인 요청은 없다. 이는 **z 최적화 중 목표 확률**이며
+CF Eff/Gen/Loc으로 보고하지 않는다.
+[동일 입력·fit 상태 비교](../../../audits/global/fe-collapse-repair-20261011/native-qwen-fit-quality-snapshot.json).
+
+GPT-J의 native BF16 첫 편집층 input key를 CPU에서20배치 계산하고 저자식으로 history를 누적했다.
+첫 편집층 입력은 자신 및 뒤쪽 층 편집에 의존하지 않는다. 원본 `15000*C0+H+KKᵀ`는
+20회 모두 Cholesky13797로 실패했고, 보정 C0는20회 모두 통과했다.
+원래 저자 context와 고정 CF2K를 사용한 CPU 검사이며 CUDA 수치/2K 성능 회복 증거와는 구분한다.
+[20배치 원본/보정 대조](../../../audits/global/fe-collapse-repair-20261011/native-gptj-l3-prior-stream-cpu.json).
