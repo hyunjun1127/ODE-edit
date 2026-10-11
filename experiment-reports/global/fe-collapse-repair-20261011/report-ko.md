@@ -445,3 +445,13 @@ RAID에서 약29.90 GiB를 확보했고, GPT-J W0의0 영역도 내용 변경 �
 약900배 커졌다. 기존 CPU 공분산/20배치 선형계 검사와 함께 수치 보정 대조의 근거로 삼는다.
 63389는 L3 C0만 보정한 같은 설정이며 아직 대기 중이다. 이 기록은 수정 후 회복 증거가 아니다.
 [native B1–B3 원 로그 수치](../../../audits/global/fe-collapse-repair-20261011/native-gptj-b3-instability.json).
+
+## Qwen 두 대조군의 시작 상태 일치
+
+63391은14:04 KST에 시작했다. 기존63385와 새63391의 W0 checkpoint를 직접 읽어
+다섯 편집층 가중치의 비트 일치, 모두0인 history, 같은 native hparams·context·seed·
+Torch/CUDA RNG·모델 자산·2K stream을 확인했다. 차이는 명시된 target reference다.
+현재100건만 W0에서 계산하는 대조이며 미래 target cache를 쓰는 실험이 아니다.
+W0의0 영역은 SHA를 유지하며 sparse 처리했다. 2K 회복 여부는 실행·평가로 확인한다.
+[두 시작 상태 비교](../../../audits/global/fe-collapse-repair-20261011/native-qwen-paired-w0-validation.json) ·
+[W0 저장 검산](../../../audits/global/fe-collapse-repair-20261011/native-qwen-online-w0-storage-sparse.json).

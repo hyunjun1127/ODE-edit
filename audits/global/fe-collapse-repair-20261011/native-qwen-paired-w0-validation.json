@@ -1,0 +1,38 @@
+{
+  "control": "local/fe-collapse-repair-20261011/native-r2/configs/qwen25.json",
+  "candidate": "local/fe-collapse-repair-20261011/native-causal-r1/configs/qwen_online_w0.json",
+  "control_checkpoint": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/qwen25/checkpoints/B00.pt",
+    "sha256": "3364c42a5f6768c17df050b28b1bba248598252f8a492fbc8f0fde44a1742a07",
+    "bytes": 7856475545,
+    "completed_batches": 0,
+    "completed_edits": 0,
+    "identity_sha256": "04fff304614b0673ee999f015b2ee81afaab5a69ada9b9a7767aeff8589dbd8f"
+  },
+  "candidate_checkpoint": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/qwen_online_w0/checkpoints/B00.pt",
+    "sha256": "945c2a4b1b885d9a7066ae7d01f476a46e6744a1e1241a1b6980d4e7ff2caa5a",
+    "bytes": 7856475673,
+    "completed_batches": 0,
+    "completed_edits": 0,
+    "identity_sha256": "214fe1a955e794680f745bcf055f2d8c0396fb4801e1a5ba931a98b0497c789a"
+  },
+  "native_hparams_and_settings_identical": [
+    "llms",
+    "algs",
+    "bs",
+    "num_edits",
+    "model_dtype",
+    "seed",
+    "data"
+  ],
+  "contexts_identical": true,
+  "weights_bit_identical": true,
+  "both_history_zero": true,
+  "torch_and_cuda_rng_identical": true,
+  "stream_and_model_assets_identical": true,
+  "control_z_policy": "CURRENT_BATCH_ENTRY_NO_FUTURE_TARGETS",
+  "candidate_z_policy": "CURRENT_BATCH_ONLY_INITIAL_MODEL",
+  "checkpoint_bytes_unchanged": true,
+  "CPU_only": true
+}
