@@ -1,0 +1,138 @@
+{
+  "job_source": "49ab6b20d258e4cb091ca9ae68098db3930a86e7",
+  "model": "qwen25",
+  "checkpoint": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/qwen_online_w0/checkpoints/B05.pt",
+    "sha256": "d8bef58ea3347c1ddb981f83cdd2732aabca02ab0750728b7e3044b88ba2129e",
+    "bytes": 7856477209,
+    "completed_batches": 5,
+    "completed_edits": 500,
+    "identity_sha256": "214fe1a955e794680f745bcf055f2d8c0396fb4801e1a5ba931a98b0497c789a"
+  },
+  "identity": "PASS",
+  "CPU_only": true,
+  "scope": "Saved C0 plus rounded history; actual next-batch solve also adds its current key Gram",
+  "layers": {
+    "4": {
+      "weight_norm": 274.4379986697812,
+      "history_trace": 589855.0936230635,
+      "history_frobenius": 357242.2978009661,
+      "history_symmetric": true,
+      "history_finite": true,
+      "weights_finite": true,
+      "prior_cholesky_info": 0,
+      "covariance": {
+        "allocated_bytes": 1435508736,
+        "bytes": 1435501774,
+        "ctime_ns": 1781173887376624344,
+        "device": 2304,
+        "expected_sha256": null,
+        "inode": 243081834,
+        "mtime_ns": 1778043236919689152,
+        "nlink": 1,
+        "path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+        "real_path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "935af1e9a7c5fe690471c668af225b882b3ae49039435f7143cd3c136c1f049b",
+        "verification": "FRESH_SHA256"
+      },
+      "seconds": 14.58898377418518
+    },
+    "5": {
+      "weight_norm": 139.08296451290457,
+      "history_trace": 558121.9093187749,
+      "history_frobenius": 51582.74251016904,
+      "history_symmetric": true,
+      "history_finite": true,
+      "weights_finite": true,
+      "prior_cholesky_info": 0,
+      "covariance": {
+        "allocated_bytes": 1435508736,
+        "bytes": 1435501774,
+        "ctime_ns": 1781173899628653847,
+        "device": 2304,
+        "expected_sha256": null,
+        "inode": 243081835,
+        "mtime_ns": 1778048601212485222,
+        "nlink": 1,
+        "path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_100000.npz",
+        "real_path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "7e4730511077be9b7370f29e94036d3ca08e7e0f0023395341e7496e16340519",
+        "verification": "FRESH_SHA256"
+      },
+      "seconds": 15.549258708953857
+    },
+    "6": {
+      "weight_norm": 128.738828306507,
+      "history_trace": 773175.0214592218,
+      "history_frobenius": 44920.730108984935,
+      "history_symmetric": true,
+      "history_finite": true,
+      "weights_finite": true,
+      "prior_cholesky_info": 0,
+      "covariance": {
+        "allocated_bytes": 1435508736,
+        "bytes": 1435501774,
+        "ctime_ns": 1781173911900683404,
+        "device": 2304,
+        "expected_sha256": null,
+        "inode": 243081836,
+        "mtime_ns": 1778054511452140739,
+        "nlink": 1,
+        "path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_100000.npz",
+        "real_path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "d47f4bb2454555740c6bc46ab7f894e170cf6f5fe4bc6c26a3fc93179e18dc2a",
+        "verification": "FRESH_SHA256"
+      },
+      "seconds": 13.824380874633789
+    },
+    "7": {
+      "weight_norm": 133.21423720312788,
+      "history_trace": 464209.06349372864,
+      "history_frobenius": 29496.715703019738,
+      "history_symmetric": true,
+      "history_finite": true,
+      "weights_finite": true,
+      "prior_cholesky_info": 0,
+      "covariance": {
+        "allocated_bytes": 1435508736,
+        "bytes": 1435501774,
+        "ctime_ns": 1781173924156712929,
+        "device": 2304,
+        "expected_sha256": null,
+        "inode": 243081837,
+        "mtime_ns": 1778061162779622780,
+        "nlink": 1,
+        "path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_100000.npz",
+        "real_path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "61526068f1e1283d2e8554b514f9c7ef726957a8582b62c181f393e5589c0b0d",
+        "verification": "FRESH_SHA256"
+      },
+      "seconds": 14.058029890060425
+    },
+    "8": {
+      "weight_norm": 134.4261010084825,
+      "history_trace": 515164.6521716118,
+      "history_frobenius": 43694.24608807504,
+      "history_symmetric": true,
+      "history_finite": true,
+      "weights_finite": true,
+      "prior_cholesky_info": 0,
+      "covariance": {
+        "allocated_bytes": 1435508736,
+        "bytes": 1435501774,
+        "ctime_ns": 1781173936428742498,
+        "device": 2304,
+        "expected_sha256": null,
+        "inode": 243081838,
+        "mtime_ns": 1778068547320713385,
+        "nlink": 1,
+        "path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz",
+        "real_path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/Qwen2.5-7B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "f5b00a555c9d860af1732ae3c48b1a04ebe8e3427873081fb0cb4cc8b5b30d46",
+        "verification": "FRESH_SHA256"
+      },
+      "seconds": 14.033956527709961
+    }
+  },
+  "checkpoint_unchanged": true
+}

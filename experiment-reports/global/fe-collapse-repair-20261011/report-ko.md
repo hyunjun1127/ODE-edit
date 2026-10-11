@@ -480,3 +480,17 @@ Torch/CUDA RNG·모델 자산·2K stream을 확인했다. 둘 다 현재 batch-e
 [실제 세 진단의 GPU 할당](../../../audits/global/fe-collapse-repair-20261011/native-three-active.json) ·
 [GPT-J 시작 상태 비교](../../../audits/global/fe-collapse-repair-20261011/native-gptj-paired-w0-validation.json) ·
 [보정본 W0 저장 검산](../../../audits/global/fe-collapse-repair-20261011/native-gptj-repaired-w0-storage-sparse.json).
+
+## 보정 효과의 초기 GPU 관측 (2K 결과와 구분)
+
+GPT-J의 문제 지점인 B3에서 원본/보정본 L3 잔차는37.3515/37.3312로 비슷하지만,
+업데이트 norm은60,005.8906/**58.9876**으로 달라졌다. 두 실행 모두 현재 배치 모델의 z,
+같은 초기 상태·hparams·stream·native writer이며 C0만 다르다. 이 폭증을 C0 보정으로
+제거하는 것을 실제 GPU에서 확인했다. 최종 성능 회복은2K까지 확인한다.
+[B1–B3 두 실행 비교와 원 로그 prefix SHA](../../../audits/global/fe-collapse-repair-20261011/native-gptj-b3-c0-repair-comparison.json).
+
+Qwen W0-reference 대조의 B5 checkpoint에서도 실제 가중치/H/순서/SHA와 다섯 층의
+양의 정부호 prior를 확인했다. L5 weight norm은139.08로 현재 모델 기준 대조의281.47보다 작다.
+B6 L5 잔차는14.1875(원 대조892), 업데이트 norm은16.279(원 대조1951.1764)다.
+이 수치들은 가중치와 z의 관측이며 CF 성능으로 보고하지 않는다.
+[Qwen W0-reference B5 저장 상태](../../../audits/global/fe-collapse-repair-20261011/native-qwen-online-b05-prior-audit.json).

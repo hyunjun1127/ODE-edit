@@ -1,0 +1,70 @@
+{
+  "at": "2026-10-11T05:30:38.006557+00:00",
+  "scope": "Displayed native L3 norms; current-batch entry z in both GPT-J arms; not 2K accuracy",
+  "arms": {
+    "original": {
+      "job": 63386,
+      "log": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/gptj-63386.out",
+      "log_prefix_bytes": 1660645,
+      "log_prefix_sha256": "76f25190fba63be6d18c60426b0fde76634b274bcb72941cf4ad5df00a1631d3",
+      "rows": [
+        {
+          "batch": 1,
+          "layer3": {
+            "residual": 36.0017,
+            "weight": 106.0,
+            "update": 70.2333
+          }
+        },
+        {
+          "batch": 2,
+          "layer3": {
+            "residual": 35.2775,
+            "weight": 127.5,
+            "update": 66.378
+          }
+        },
+        {
+          "batch": 3,
+          "layer3": {
+            "residual": 37.3515,
+            "weight": 147.0,
+            "update": 60005.8906
+          }
+        }
+      ]
+    },
+    "repaired": {
+      "job": 63389,
+      "log": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/gptj_repaired-63389.out",
+      "log_prefix_bytes": 344158,
+      "log_prefix_sha256": "bb728e607e2c8a2d5405465840ed2be031a3dab0b8935f11ffb327ebacf01d20",
+      "rows": [
+        {
+          "batch": 1,
+          "layer3": {
+            "residual": 36.0017,
+            "weight": 106.0,
+            "update": 17.7359
+          }
+        },
+        {
+          "batch": 2,
+          "layer3": {
+            "residual": 35.277,
+            "weight": 107.5,
+            "update": 17.5677
+          }
+        },
+        {
+          "batch": 3,
+          "layer3": {
+            "residual": 37.3312,
+            "weight": 109.0,
+            "update": 58.9876
+          }
+        }
+      ]
+    }
+  }
+}
