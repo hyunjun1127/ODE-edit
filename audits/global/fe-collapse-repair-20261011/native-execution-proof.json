@@ -1,0 +1,53 @@
+{
+  "source": "60eea6e2f7aeec94743f27cd5df1e67cc160fe84",
+  "author_commit": "478134dfb24b43f4e18b47e8500893ce3f9cc50f",
+  "main": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/author/main.py",
+    "bytes": 16026,
+    "sha256": "ea83923f8cadf39895940cad332076647c87ca8cf0e1e8ffe4ef0e515e10ae16"
+  },
+  "unchanged_functions": {
+    "batch_edit": {
+      "equal": true,
+      "sha256": "071068bed9b526cfddc06e64e1e147e48fb3ac6bd3ef3f7d3eb63eeaa77e9a32"
+    },
+    "load_cov": {
+      "equal": true,
+      "sha256": "0646d00bf9f8a0bb5fb3a017e4b796ab0e7a389e84487fbd91353443ea5111bf"
+    },
+    "get_context_templates": {
+      "equal": true,
+      "sha256": "00a620cd1745d37b128200427e0e1484a9a2a6b133826e5358a0d74d7491afb4"
+    },
+    "upd_matrix_match_shape": {
+      "equal": true,
+      "sha256": "052e38ad53549bbb3d0ea55eeb78c5395ae31f9241698607db9abe50577f4690"
+    }
+  },
+  "configs": {
+    "qwen25": {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/configs/qwen25.json",
+      "bytes": 49183,
+      "sha256": "c9578794bf583fef48fcc93700573ef0be74c662d19b54115b976e9fc5c76d49"
+    },
+    "gptj": {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/configs/gptj.json",
+      "bytes": 49889,
+      "sha256": "2b6054f2b52c47a974bc5ce7ed2243f94f9ccef4e324b34f75929e0df53480fb"
+    }
+  },
+  "runtime": {
+    "hydra": "1.3.2",
+    "numpy": "1.26.4",
+    "python": "3.12.0 (main, Jun 18 2025, 15:39:44) [GCC 11.4.0]",
+    "torch": "2.9.1+cu128",
+    "transformers": "4.51.3"
+  },
+  "tests": {
+    "native_CPU": 6,
+    "checkpoint_integration_and_common_CPU": 23,
+    "official_source_integrity": "PASS"
+  },
+  "status": "63386 s1-gptj-cf-fe-native-main-seqz-2k PENDING afterany:63385(unfulfilled)\n63385 s1-qwen25-cf-fe-native-main-seqz-2k RUNNING (null)\n63299 official-s1-gptj-zsre-cake-2k RUNNING (null)\n63298 official-s1-gptj-cf-cake-2k RUNNING (null)\n",
+  "GPU_performance": "NOT_OBSERVED"
+}

@@ -1,0 +1,28 @@
+{
+  "qwen25": {
+    "model_id": "Qwen/Qwen2.5-7B-Instruct",
+    "model_type": "qwen2",
+    "tokenizer_class": "Qwen2TokenizerFast",
+    "dtype": "torch.float32",
+    "shape": [
+      18944,
+      18944
+    ],
+    "native_C0_equals_existing_normalization": true,
+    "native_yaml_unchanged": true,
+    "CUDA_execution": false
+  },
+  "gptj": {
+    "model_id": "EleutherAI/gpt-j-6B",
+    "model_type": "gptj",
+    "tokenizer_class": "GPT2TokenizerFast",
+    "dtype": "torch.float32",
+    "shape": [
+      16384,
+      16384
+    ],
+    "native_C0_equals_existing_normalization": true,
+    "native_yaml_unchanged": true,
+    "CUDA_execution": false
+  }
+}

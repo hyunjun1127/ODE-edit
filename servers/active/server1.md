@@ -13,7 +13,10 @@ cap2:63296→63298 및63297→63299. 기존 CAKE source/config/output은 그대�
 우리 runner 기반63373/63374는PENDING에서 취소했다.63375는 W0 저장 identity 오류로 실패(편집0),
 63376은 같은 오류 예방을 위해 중단했다. 기존 source·로그·W0 산출물은 보존한다.
 CAKE cap2 lane은63296→63298 및63297→63299로 복구했고 임시hold를 모두 해제했다.
-새 공식 runner 진단은 server1에서 준비 중이며, 이번 진단만 한 개 추가 GPU lane을 허용한다.
+공식 main.py 진단63385(Qwen CF 2K RUNNING)→63386(GPT-J CF 2K PENDING)를 등록했다.
+source60eea6e2 / 저자478134df. 이번 진단만 한 개 추가 GPU lane, 기존cap2는유지한다.
+저자BF16·context·원C0·writer·history, 현재배치100건z만계산, 매500건가중치/H/RNG보존.
+[실제 등록](../../audits/global/fe-collapse-repair-20261011/native-submission.json).
 [실제 취소·복구](../../audits/global/fe-collapse-repair-20261011/native-runner-scope-correction.json).
 
 ## 현재 authority

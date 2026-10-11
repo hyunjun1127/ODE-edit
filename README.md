@@ -95,9 +95,14 @@ Qwen은 batch-entry 경로의 후반 L5 잔차 폭증을 별도로 조사한다.
 63375는 W0 평가 후 checkpoint identity 오류로 실패했고 **편집은 0건**이다.
 63376은 같은 오류로 진행하지 않도록 중단했다. 대기63373/63374도 취소했으며,
 CAKE 자원 순서를 **63296 → 63298**, **63297 → 63299**로 복구하고 임시 hold를 모두 해제했다.
-공식 `main.py` + 저자 설정/연산을 기준으로 현재 배치 진입 모델에서 해당100건의 z만 계산하는
-새 server1 진단을 준비한다. 기존 결과를 이 진단의 결과로 대체하지 않는다.
-[실제 취소·복구](audits/global/fe-collapse-repair-20261011/native-runner-scope-correction.json).
+공식 `main.py`를 그대로 실행하는 새 진단 **63385 / s1-qwen25-cf-fe-native-main-seqz-2k**는 server1 RUNNING,
+**63386 / s1-gptj-cf-fe-native-main-seqz-2k**는63385 후속 PENDING이다(source `60eea6e2`, 저자 `478134df`).
+저자 hparams·BF16·context 생성·writer·누적history·원 C0를 유지하고, z만 현재 배치 진입 모델에서100건씩 계산한다.
+500건마다 가중치/history/RNG를 저장하며 sample은 기존2K 순서와 같다. 공식 main.py 원본 SHA와 writer 본문 일치를 확인했다.
+기존 baseline 성능 행을 이 별도 진단 결과로 대체하지 않는다. **GPU2K 결과·붕괴 해소는 아직 미확인**이다.
+[실행 경로·원본 대조](audits/global/fe-collapse-repair-20261011/native-execution-proof.json) ·
+[z 공급부 변경 diff](audits/global/fe-collapse-repair-20261011/native-target-supply.patch) ·
+[실제 등록](audits/global/fe-collapse-repair-20261011/native-submission.json).
 
 **FE author-hparams 추가 실행(2026-10-11 사용자 지시):** Llama3 **zsRE 2K 한 개**를 기존 수정 EasyEdit FE + history와
 원저자 clamp **0.75**·step **35**(lr 0.1) 설정으로 새로 제출했다. z는 각 batch 진입 모델에서 계산한다.

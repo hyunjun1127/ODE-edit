@@ -1,0 +1,25 @@
+{
+  "converted": {
+    "bytes": 1666070,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/data/counterfact_stream_2000.json",
+    "sha256": "411e14a85702fb5bf352aedaf3a09ea947b74812508312a3b5dfe5e752658cfd"
+  },
+  "ordered_case_ids_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+  "ordering_changed": false,
+  "original": {
+    "allocated_bytes": 4149248,
+    "bytes": 4145654,
+    "ctime_ns": 1791471157288487255,
+    "device": 2304,
+    "expected_sha256": null,
+    "inode": 243438032,
+    "mtime_ns": 1791471157288487255,
+    "nlink": 1,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/streams/cf-stream.json",
+    "real_path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines/server1/streams/cf-stream.json",
+    "sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+    "verification": "FRESH_SHA256"
+  },
+  "records": 2000,
+  "sample_changed": false
+}

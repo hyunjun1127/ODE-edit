@@ -208,3 +208,34 @@ writer/history를 유지하고, 현재 batch-entry 모델의 해당100건만 fir
 원래 실패 결과와 함께 보고한다. 성공 표본만 본표에 대체하지 않는다.
 63373/63374는취소, CAKE63298/63299 의존성복구와hold해제 완료.
 [실제 상태 영수증](../../../audits/global/fe-collapse-repair-20261011/native-runner-scope-correction.json).
+
+## 공식 main.py 실제 진단 등록
+
+- **63385 Qwen CF 2K RUNNING**, **63386 GPT-J CF 2K PENDING afterany:63385**, server1.
+- 실행은 pinned 저자 checkout의 **python main.py**이며 이후 같은 main.py의 test_only 평가를 한다.
+  우리 runner나 writer adapter를 호출하지 않는다. ODE patch source60eea6e2, 저자478134df.
+- 원본 main.py SHA는ea83923f8cadf39895940cad332076647c87ca8cf0e1e8ffe4ef0e515e10ae16이고 실행 파일과 같다.
+  batch_edit/load_cov/get_context_templates/upd_matrix_match_shape 본문도 원본과 같다.
+- 저자 안내대로 FE-memit_main.py를memit_main.py로 설치한 뒤, 전체W0 cache 공급부만
+  현재100건 firstforward 계산으로 교체했다. 실제 최적화 함수는 저자 algs/memit/compute_z.py다.
+  그 함수와저자z_methods/compute_z.py의 차이는출력용print2줄뿐이다.
+  새로운 z helper는저자bare-prompt forward replay를현재batch-entry모델에서호출한다.
+- 별도 변경은관측용checkpoint 저장이다. W0/500/1000/1500/2000의가중치/H/RNG/context/case ID를보존한다.
+  자동native resume는아직구현하지않았다. 이I/O추가를“z코드한곳만변경”이라고숨기지않는다.
+- author YAML hparams와기본BF16을유지하고, context도저자generate_fast로생성한다.
+  기존EasyEdit공분산NPZ는원본bytes그대로저자get_cov경로에연결한다. GPT-J음의고유값보정도이진단에는없다.
+  모델파일전체SHA와C0전체SHA를재검증했다. nativeget_cov가기존FP32sum/count와bit-identical인것을
+  QwenL4/GPT-JL3에서CPU로확인했다. 원본통계파일을새로계산하거나덮어쓰지않았다.
+- native환경은torch2.9.1+cu128/transformers4.51.3/hydra1.3.2/numpy2.2.6이다.
+  저자requirements의모든dependency버전이같다는주장은하지않는다. Python/Hydra는로컬호환환경이다.
+- 기존CF2Kcase ID와순서를유지한다. 새seed/표본은아직실행하지않았다.
+- CPU6개검사통과: 실제저자apply+writer의history/배치시점, 작은입력에서저자firstforward재생과일치,
+  미래요청거부, 모델변경거부, 저장전후상태/RNG보존. 공통checkpoint관련23개검사도통과했다.
+- native stdout와저자평가파일을남긴다. 우리W&B tracker를training경로에삽입하지않았다.
+- 기존CAKE63298/63299를변경하지않고진단용한개추가lane만사용한다. 최대동시3GPU를held상태에서검산했다.
+  Qwen은실제main.py에서모델/C0/context 로딩까지확인했다. **W20성능회복은미확인**이다.
+
+[실행·원본대조](../../../audits/global/fe-collapse-repair-20261011/native-execution-proof.json) ·
+[z공급부diff](../../../audits/global/fe-collapse-repair-20261011/native-target-supply.patch) ·
+[CPU자산검증](../../../audits/global/fe-collapse-repair-20261011/native-cpu-asset-preflight.json) ·
+[등록](../../../audits/global/fe-collapse-repair-20261011/native-submission.json).

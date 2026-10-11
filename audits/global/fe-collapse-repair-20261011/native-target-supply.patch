@@ -1,0 +1,74 @@
+--- author/FE-memit_main.py
++++ execution/memit_main.py
+@@ -113,58 +113,20 @@
+     fc_dim=get_fc_dim(model,cfg)
+     cache_c = torch.zeros((len(layers), fc_dim,fc_dim), device="cpu")
+     
+-    # Load z cache once for all batches (enables flexible batch size)
+-    model_cache_name = cfg.llms.name.replace("/", "-")
+-    dataset_name = getattr(cfg, 'data', 'unknown')
+-    seed_value = getattr(cfg, 'seed', 0)
+-    z_method = "firstforward" # 和config里不同，这里强制使用firstforward方法，因为这是新方法独有的计算
+-
+-
+-    v_lr = cfg.llms.get('v_lr', None)
+-    steps = cfg.llms.get('v_num_grad_steps', None)
+-    weight_decay = cfg.llms.get('v_weight_decay', None)
+-    kl_factor = cfg.llms.get('kl_factor', None)
+-    clamp_factor = cfg.llms.get('clamp_norm_factor', None)
+-    print(f"Loading z cache for dataset {dataset_name}, model {model_cache_name}, method {z_method}, seed {seed_value}, v_lr {v_lr}, steps {steps}")
+-
+-    zs_all = {layer: None for layer in cfg.llms.layers}
+-
+-    for layer in cfg.llms.layers:
+-
+-        # Extra logic to construct cache file name, including v_lr and steps if applicable
+-        cache_zs_file = f"{cfg.zs_cache_dir}/{dataset_name}-{model_cache_name}-{z_method}-seed{seed_value}"
+-        # if v_lr is not None:
+-        #     cache_zs_file += f"-vlr{v_lr}"
+-        # if steps is not None:
+-        #     cache_zs_file += f"-steps{steps}"
+-        # if weight_decay is not None:
+-        #     cache_zs_file += f"-wd{weight_decay}"
+-        # if kl_factor is not None:
+-        #     cache_zs_file += f"-kl{kl_factor}"
+-        # if clamp_factor is not None:
+-        #     cache_zs_file += f"-clamp{clamp_factor}"
+-        cache_zs_file += f"-layer{layer}.pt"
+-    
+-        if os.path.isfile(cache_zs_file):
+-            zs_full = torch.load(cache_zs_file, map_location='cpu')  # [hidden_dim, num_all_samples]
+-            print(f"Loaded full z cache from {cache_zs_file}, shape: {zs_full.shape}")
+-            zs_all[layer] = zs_full
+-            
+-            # Validate that cache contains enough samples
+-            num_cached_samples = zs_full.shape[1]
+-            num_required_samples = len(requests)
+-            if num_cached_samples < num_required_samples:
+-                raise ValueError(
+-                    f"Insufficient cached z samples! "
+-                    f"Required: {num_required_samples}, Cached: {num_cached_samples}. "
+-                    f"Please pre-compute z for at least {num_required_samples} samples using precompute_z.py"
+-                )
+-            print(f"✓ Cache validation passed: {num_cached_samples} samples available, {num_required_samples} required")
+-        else:
+-            raise FileNotFoundError(f"Cache file not found: {cache_zs_file}. Please ensure the cache file exists before running.")
+-    
+-    for requests_chunks in chunks(requests, cfg.bs):
++    # Sequential diagnostic: only target supply changes. The author writer below is untouched.
++    from .native_sequential_z import current_batch_targets
++    from .native_checkpoint_observer import snapshot
++    context_templates = get_context_templates(model, tok)
++    snapshot(cfg, model, cache_c, context_templates, 0, requests)
++    for batch_index, requests_chunks in enumerate(chunks(requests, cfg.bs), start=1):
++        print(f"NATIVE_FE_BATCH_START {batch_index} case_ids={[r['case_id'] for r in requests_chunks]}", flush=True)
++        for local_index, request in enumerate(requests_chunks):
++            request["sample_idx"] = local_index
++        zs_all = current_batch_targets(model, tok, requests_chunks, cfg, context_templates,
++            compute_z=compute_z, find_fact_lookup_idx=find_fact_lookup_idx, TraceDict=nethook.TraceDict)
+         batch_edit(cfg,model,tok,requests_chunks,device,cache_c,zs_all)
++        snapshot(cfg, model, cache_c, context_templates, batch_index, requests)
++        print(f"NATIVE_FE_BATCH_COMPLETE {batch_index}", flush=True)
+     return model
+ 
+ def batch_edit(cfg, model, tok, requests, device, cache_c, zs_all):
