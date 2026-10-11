@@ -84,19 +84,15 @@ z는 **각 배치 진입 모델에서 그 배치 100건만** 계산한다. 미�
 과거 checkpoint 삭제 내역도 [당시 보고](experiment-reports/global/fe-original-w0-reset-20261011/report-ko.md)의 역사적 기록이며 새 삭제 지시가 아니다.
 
 **FE 붕괴 원인 분리와 2K 검증 완료 (2026-10-11):** server1에서 공식 FE `main.py`로
-동일 CF 2,000건을 실행했다. 저자 hparams·BF16·context·writer·누적 history를 유지했다.
+동일 CF 2,000건을 실행했다. 저자 hparams·BF16·context·writer·누적 history와 현재 모델 z를 유지했다.
 
 - **GPT-J:** L3 공분산 캐시의 작은 음의 고유값이 역산을 폭증시켰다. 현재 모델 기준 z에서
-  C0만 수치 보정하면 공통 Score **49.75 → 85.39**로 회복했다.
-  같은 보정 C0와 W0-on-arrival z를 쓰면 **89.17**로 회복했다. 원본 C0는 보존했다.
-- **Qwen:** 현재 편집 모델에서 반복 계산한 target이 불안정해졌다. 도착한100건만 W0에서
-  target fitting하면 공통 Score **50.18 → 89.93**으로 회복했다.
-  W20 편집 가중치와 history는 과거 저자 W0 선계산 참조와 비트 단위로 같다. 미래 target은 계산하지 않는다.
+  C0만 수치 보정하면 공통 Score **49.75 → 85.39**로 회복했다. 원본 C0는 보존했다.
+- **Qwen:** 현재 편집 모델에서 반복 계산한 target이 불안정해져 공통 Score **50.18**로 붕괴했다.
 
-5개 편집·5개 공통 평가 모두 COMPLETED이며, 25개 checkpoint 지표를 raw에서 독립 재집계했다.
+편집·공통 평가(Qwen 63385/63387, GPT-J 63386/63388·63389/63390)는 모두 COMPLETED이며, 각 checkpoint 지표를 raw에서 독립 재집계했다.
 history 누적과 최종 가중치 저장도 확인했다. clamp/step/lr와 sample 순서는 바꾸지 않았다.
-W0-on-arrival은 위의 **현재 모델 z baseline과 구분**하며 기존 FE 성능 행을 자동 대체하지 않는다.
-**본표 FE 행 반영(2026-10-11 사용자 지시, 현재 모델 z):** GPT-J는 C0만 수치 보정한 **63389 → 63390** W20 (R/P/N 1,970/2,000 · 3,792/4,000 · 13,857/20,000 → **85.39 / 98.50 / 94.80 / 69.29**), Qwen은 **63385 → 63387** W20 (1,018/2,000 · 1,998/4,000 · 9,943/20,000 → **50.18 / 50.90 / 49.95 / 49.72**, 붕괴)이다. 두 행은 공식 FE `main.py`(BF16)로, Llama 행(63382)은 수정 EasyEdit FE(FP32)로 돌렸다. 설정(author hparams, 누적 history, 현재 모델 z)은 같고 구현이 다르다. W0-on-arrival(Qwen 89.93, GPT-J 89.17)은 본표에 넣지 않는다. 두 모델의 FE Flu/Con과 zsRE는 실행하지 않았다. [raw 재집계](audits/global/fe-collapse-repair-20261011/table-rows-current-z.json).
+**본표 FE 행 반영(2026-10-11 사용자 지시, 현재 모델 z):** GPT-J는 C0만 수치 보정한 **63389 → 63390** W20 (R/P/N 1,970/2,000 · 3,792/4,000 · 13,857/20,000 → **85.39 / 98.50 / 94.80 / 69.29**), Qwen은 **63385 → 63387** W20 (1,018/2,000 · 1,998/4,000 · 9,943/20,000 → **50.18 / 50.90 / 49.95 / 49.72**, 붕괴)이다. 두 행은 공식 FE `main.py`(BF16)로, Llama 행(63382)은 수정 EasyEdit FE(FP32)로 돌렸다. 설정(author hparams, 누적 history, 현재 모델 z)은 같고 구현이 다르다. 두 모델의 FE Flu/Con과 zsRE는 실행하지 않았다. [raw 재집계](audits/global/fe-collapse-repair-20261011/table-rows-current-z.json).
 Native loader는 전체 JSON을 읽고 target fitting/use만 현재100건으로 제한한다.
 [전체 비교표·원인·검증 결과](experiment-reports/global/fe-collapse-repair-20261011/report-ko.md) ·
 [작동하는 native 구현](official/diagnostics/fe_native/README.md) ·
