@@ -1,0 +1,79 @@
+{
+  "job": 63386,
+  "checkpoint": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/gptj/checkpoints/B00.pt",
+    "sha256": "4007e9d413e4f984dcc246208dc5e9401d314e078c759bc49b1bba26691faf55",
+    "bytes": 7247777365,
+    "completed_batches": 0,
+    "completed_edits": 0,
+    "identity_sha256": "25a6afa8d1d4d19801904b4d74193ffe75bb34637bb359540711320068f1c880"
+  },
+  "source": {
+    "allocated_bytes": 24207831040,
+    "bytes": 24207819307,
+    "ctime_ns": 1772536664149856384,
+    "device": 2304,
+    "expected_sha256": null,
+    "inode": 243142753,
+    "mtime_ns": 1772536664113856254,
+    "nlink": 1,
+    "path": "/mnt/raid5/janghj/.cache/huggingface/hub/models--EleutherAI--gpt-j-6b/snapshots/47e169305d2e8376be1d31e765533382721b2cc1/pytorch_model.bin",
+    "real_path": "/mnt/raid5/janghj/.cache/huggingface/hub/models--EleutherAI--gpt-j-6b/blobs/0e183edc2025ecfdba4429ba43c960224103b3c3dc26616503cdc2158a3d6c93",
+    "sha256": "0e183edc2025ecfdba4429ba43c960224103b3c3dc26616503cdc2158a3d6c93",
+    "verification": "FRESH_SHA256"
+  },
+  "identity_match": true,
+  "weights": {
+    "transformer.h.3.mlp.fc_out.weight": {
+      "shape": [
+        4096,
+        16384
+      ],
+      "dtype": "torch.bfloat16",
+      "pretrained_bit_identical": true
+    },
+    "transformer.h.4.mlp.fc_out.weight": {
+      "shape": [
+        4096,
+        16384
+      ],
+      "dtype": "torch.bfloat16",
+      "pretrained_bit_identical": true
+    },
+    "transformer.h.5.mlp.fc_out.weight": {
+      "shape": [
+        4096,
+        16384
+      ],
+      "dtype": "torch.bfloat16",
+      "pretrained_bit_identical": true
+    },
+    "transformer.h.6.mlp.fc_out.weight": {
+      "shape": [
+        4096,
+        16384
+      ],
+      "dtype": "torch.bfloat16",
+      "pretrained_bit_identical": true
+    },
+    "transformer.h.7.mlp.fc_out.weight": {
+      "shape": [
+        4096,
+        16384
+      ],
+      "dtype": "torch.bfloat16",
+      "pretrained_bit_identical": true
+    },
+    "transformer.h.8.mlp.fc_out.weight": {
+      "shape": [
+        4096,
+        16384
+      ],
+      "dtype": "torch.bfloat16",
+      "pretrained_bit_identical": true
+    }
+  },
+  "history_zero": true,
+  "checkpoint_unchanged": true,
+  "CPU_only": true
+}

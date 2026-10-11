@@ -1,0 +1,63 @@
+{
+  "scope": "Storage relocation only; original paths resolve to identical bytes",
+  "config": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/configs/qwen25.json",
+  "native_identity": "04fff304614b0673ee999f015b2ee81afaab5a69ada9b9a7767aeff8589dbd8f",
+  "required_terminal_jobs": {
+    "63385": [
+      "COMPLETED",
+      "0:0"
+    ],
+    "63387": [
+      "COMPLETED",
+      "0:0"
+    ]
+  },
+  "checkpoints": [
+    {
+      "original_path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/qwen25/checkpoints/B00.pt",
+      "storage_path": "/var/tmp/odeedit-fe-collapse-20261011/qwen-current-checkpoints/B00.pt",
+      "sha256": "3364c42a5f6768c17df050b28b1bba248598252f8a492fbc8f0fde44a1742a07",
+      "bytes": 7856475545,
+      "original_allocated_bytes": 678981632,
+      "storage_allocated_bytes": 678981632,
+      "same_bytes_at_original_path": true
+    },
+    {
+      "original_path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/qwen25/checkpoints/B05.pt",
+      "storage_path": "/var/tmp/odeedit-fe-collapse-20261011/qwen-current-checkpoints/B05.pt",
+      "sha256": "4e5304da0d7dc6ef50e0b45d2edb91b74b68a85777e2e1e2a639308f06a630f3",
+      "bytes": 7856477081,
+      "original_allocated_bytes": 7856484352,
+      "storage_allocated_bytes": 7856484352,
+      "same_bytes_at_original_path": true
+    },
+    {
+      "original_path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/qwen25/checkpoints/B10.pt",
+      "storage_path": "/var/tmp/odeedit-fe-collapse-20261011/qwen-current-checkpoints/B10.pt",
+      "sha256": "866c413deb72bb562394c53b7e433935ff5fa3b273d5be09ada7cc9ea2046fda",
+      "bytes": 7856478553,
+      "original_allocated_bytes": 7856484352,
+      "storage_allocated_bytes": 7856484352,
+      "same_bytes_at_original_path": true
+    },
+    {
+      "original_path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/qwen25/checkpoints/B15.pt",
+      "storage_path": "/var/tmp/odeedit-fe-collapse-20261011/qwen-current-checkpoints/B15.pt",
+      "sha256": "b4d9e27820e67054357774649d0b412ac6c8aafe6e18c4fe0216203707c73d1e",
+      "bytes": 7856480089,
+      "original_allocated_bytes": 7856484352,
+      "storage_allocated_bytes": 7856484352,
+      "same_bytes_at_original_path": true
+    },
+    {
+      "original_path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/qwen25/checkpoints/B20.pt",
+      "storage_path": "/var/tmp/odeedit-fe-collapse-20261011/qwen-current-checkpoints/B20.pt",
+      "sha256": "1c9dad7424428291aa308aee32681241c3bf06dd90ea3dfaf7208483d0d08cce",
+      "bytes": 7856481561,
+      "original_allocated_bytes": 7856488448,
+      "storage_allocated_bytes": 7856488448,
+      "same_bytes_at_original_path": true
+    }
+  ],
+  "complete": true
+}

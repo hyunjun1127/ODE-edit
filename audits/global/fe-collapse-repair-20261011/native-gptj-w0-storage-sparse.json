@@ -1,0 +1,11 @@
+{
+  "checkpoint": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/gptj/checkpoints/B00.pt",
+  "sha256": "4007e9d413e4f984dcc246208dc5e9401d314e078c759bc49b1bba26691faf55",
+  "bytes": 7247777365,
+  "allocated_before": 7247781888,
+  "allocated_after": 805335040,
+  "bytes_unchanged": true,
+  "method": "fallocate --dig-holes; zero byte runs only",
+  "stdout": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/gptj/checkpoints/B00.pt: 6 GiB (6442446848 bytes) converted to sparse holes.\n",
+  "at": "2026-10-11T04:54:07.881013+00:00"
+}

@@ -414,3 +414,19 @@ H는 대칭이며 다섯 층의 `15000*C0+H` 모두 Cholesky를 통과했다. �
 
 [공통 평가·raw JSON SHA](../../../audits/global/fe-collapse-repair-20261011/native-qwen-common-evaluation.json) ·
 [저자 원 결과·평가 차이](../../../audits/global/fe-collapse-repair-20261011/native-qwen-author-evaluation.json).
+
+## GPT-J 시작점과 완료된 대조군의 저장 위치
+
+63386의 W0 여섯 편집층 가중치를 지정된 pretrained GPT-J 파일과 직접 비교했다.
+BF16으로 변환한 원 가중치와 모두 비트 단위로 일치하고 history는0이다. checkpoint
+identity/원 자산 SHA/검사 전후 checkpoint SHA도 확인했다.
+[GPT-J W0 검사](../../../audits/global/fe-collapse-repair-20261011/native-gptj-w0-checkpoint-validation.json).
+
+후속 checkpoint 공간을 확보하기 위해, 학습63385와 평가63387이 모두 정상 종료된 뒤
+Qwen 대조군의 다섯 checkpoint를 서버1 SSD의
+`/var/tmp/odeedit-fe-collapse-20261011/qwen-current-checkpoints/`에 보존했다.
+각 파일을 복사·fsync·SHA 검증한 후 기존 경로를 같은 byte의 파일로 연결했다.
+기존 receipt의 경로와 SHA로 계속 읽을 수 있으며 가중치/H/평가 산출물은 보존돼 있다.
+RAID에서 약29.90 GiB를 확보했고, GPT-J W0의0 영역도 내용 변경 없이 sparse 처리해6 GiB를 확보했다.
+[저장 이동 전체 검산](../../../audits/global/fe-collapse-repair-20261011/native-qwen-control-storage-migration.json) ·
+[GPT-J W0 저장 할당량](../../../audits/global/fe-collapse-repair-20261011/native-gptj-w0-storage-sparse.json).
