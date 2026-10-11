@@ -66,6 +66,11 @@ the restriction applies to target fitting and use, not streaming I/O. This optio
 reference model relative to the default and must be labeled separately; it does not silently
 replace the current baseline. The default is `batch_entry`.
 
+The native configuration still prints legacy fields such as `z_method: all` and
+`num_z_samples: 2000`. The replaced target-supply path does not consult these fields:
+the apply loop passes only its current 100 requests to `TargetSupplier`. Batch markers
+record their actual case IDs; fitting outside those markers is rejected by the log audit.
+
 `covariance.py` creates a separate native-format NPZ from an explicitly identified defective
 FP32 moment cache. It preserves the count and other metadata, applies the documented
 storage-resolution repair, and writes an FP64 summed moment. It verifies the reloaded matrix

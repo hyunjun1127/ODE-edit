@@ -1,0 +1,88 @@
+{
+  "control_checkpoint": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/gptj_repaired/checkpoints/B20.pt",
+    "sha256": "6e27548a125c8afd496fd4957b705929818adfd2899b0b9f2a3f472aaf24eb3f",
+    "bytes": 7247783445,
+    "completed_batches": 20,
+    "completed_edits": 2000,
+    "identity_sha256": "909c7a0762ce4a2640d74808f52a06a75cec47a8cea528ce07a09e517a2e7daf"
+  },
+  "candidate_checkpoint": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r2/runs/gptj_online_w0_repaired/checkpoints/B20.pt",
+    "sha256": "c1440e3ed3320da308c4d7e01137156e47d28be9670fe89b8a578cbd190d62b9",
+    "bytes": 7247783509,
+    "completed_batches": 20,
+    "completed_edits": 2000,
+    "identity_sha256": "3029accd3526041723d149ff3affa3f43e1578e3185a2ce1c5effbdd75ebf077"
+  },
+  "same_case_order": true,
+  "same_contexts": true,
+  "same_hparams": true,
+  "control_z_policy": "CURRENT_BATCH_ENTRY_NO_FUTURE_TARGETS",
+  "candidate_z_policy": "CURRENT_BATCH_ONLY_INITIAL_MODEL",
+  "scope": "Saved native cumulative key Gram, without recomputing any edit",
+  "layers": {
+    "3": {
+      "bit_identical": true,
+      "control_trace": 818451.4060429931,
+      "candidate_trace": 818451.4060429931,
+      "max_abs_difference": 0.0,
+      "relative_frobenius_difference": 0.0,
+      "both_finite": true,
+      "both_symmetric": true,
+      "both_nonzero": true
+    },
+    "4": {
+      "bit_identical": false,
+      "control_trace": 1859864.533322215,
+      "candidate_trace": 1586584.6401228905,
+      "max_abs_difference": 9818.205993652344,
+      "relative_frobenius_difference": 0.6498278367845391,
+      "both_finite": true,
+      "both_symmetric": true,
+      "both_nonzero": true
+    },
+    "5": {
+      "bit_identical": false,
+      "control_trace": 3002584.9025173187,
+      "candidate_trace": 1746641.4834132195,
+      "max_abs_difference": 350232.0234375,
+      "relative_frobenius_difference": 0.9568005806265274,
+      "both_finite": true,
+      "both_symmetric": true,
+      "both_nonzero": true
+    },
+    "6": {
+      "bit_identical": false,
+      "control_trace": 1035560.451596329,
+      "candidate_trace": 1596829.4517434835,
+      "max_abs_difference": 11999.681640625,
+      "relative_frobenius_difference": 0.9079002581003233,
+      "both_finite": true,
+      "both_symmetric": true,
+      "both_nonzero": true
+    },
+    "7": {
+      "bit_identical": false,
+      "control_trace": 1144112.9037641287,
+      "candidate_trace": 1556632.133244753,
+      "max_abs_difference": 39753.6904296875,
+      "relative_frobenius_difference": 0.8810957440691396,
+      "both_finite": true,
+      "both_symmetric": true,
+      "both_nonzero": true
+    },
+    "8": {
+      "bit_identical": false,
+      "control_trace": 1185720.8713490963,
+      "candidate_trace": 1409205.7800010443,
+      "max_abs_difference": 11188.179992675781,
+      "relative_frobenius_difference": 0.8684670302586559,
+      "both_finite": true,
+      "both_symmetric": true,
+      "both_nonzero": true
+    }
+  },
+  "CPU_only": true,
+  "checkpoint_bytes_unchanged": true
+}

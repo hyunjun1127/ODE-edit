@@ -1,0 +1,45 @@
+{
+  "scope": "Values in pinned author YAML used unchanged by the native contrasts; not a new tuning sweep",
+  "model_dtype": "bfloat16",
+  "batch_size": 100,
+  "edits": 2000,
+  "models": {
+    "gptj": {
+      "path": "native-causal-r2/author/configs/llms/gpt-j-6b.yaml",
+      "layers": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "clamp_norm_factor": 0.75,
+      "v_num_grad_steps": 25,
+      "v_lr": 0.5,
+      "v_weight_decay": 0.5,
+      "kl_factor": 0.0625,
+      "mom2_update_weight": 15000,
+      "sha256": "35242600bf37cd7391d4fcc093466a3c64c0f69948dd91e4b8b7c295de17adfa",
+      "parsed_yaml_verified": true
+    },
+    "qwen25": {
+      "path": "native-causal-r1/author/configs/llms/qwen2.5-7b.yaml",
+      "layers": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "clamp_norm_factor": 1.0,
+      "v_num_grad_steps": 35,
+      "v_lr": 0.5,
+      "v_weight_decay": 0.001,
+      "kl_factor": 0.0625,
+      "mom2_update_weight": 15000,
+      "sha256": "0e1481d06d530746b13aea6df5dec2a4449aef8928120a2a12c4d7da72b50183",
+      "parsed_yaml_verified": true
+    }
+  }
+}

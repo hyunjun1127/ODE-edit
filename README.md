@@ -95,10 +95,11 @@ z는 **각 배치 진입 모델에서 그 배치 100건만** 계산한다. 미�
 - **GPT-J:** 원본 L3 공분산 캐시의 음의 고유값과 역산 폭증을 확인했다.
   현재 모델 기준 z를 유지하고 **L3 캐시만 수치 보정**한63389는2K 편집·저자 평가를 완료했다.
   공통 평가의 Score가 **49.7537→85.3875**로 회복됐다(Eff98.500 / Gen94.800 / Loc69.285).
-  W20의 L3 history는 원본과 비트 단위로 같고 보정본의 여섯 층 선형계는 모두 양의 정부호다.
+  W20의 L3 history는 원본과 비트 단위로 같고 보정본의 여섯 층에서 저장된 `λ C0 + H`가 모두 양의 정부호다.
   공통 평가63388/63390도 모두 완료됐고 5개 checkpoint의 raw를 각각 독립 재집계했다.
 - 두 모델에 같은 W0-on-arrival target protocol을 적용하는 추가 GPT-J 검증
-  **63425 / s1-fe-native-gptj-online-w0-repaired-2k**도 RUNNING이며 후속 공통 평가는63426이다.
+  **63425 / s1-fe-native-gptj-online-w0-repaired-2k**는 편집·저자 평가 COMPLETED이며
+  저자 Eff99.4 / Gen94.5 / Loc77.0, 반올림 성분의 Score89.21이다. 공통 평가63426은 RUNNING이다.
   끝난 Qwen 평가63392의 슬롯을 사용하고 server1 최대 동시3 GPU를 유지한다.
 
 W0-reference 대조는 위의 **현재 모델 기준 baseline과 구분**하며 기존 FE 성능 행을 자동 대체하지 않는다.

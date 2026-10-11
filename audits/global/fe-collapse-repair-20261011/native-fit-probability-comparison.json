@@ -1,0 +1,946 @@
+{
+  "scope": "Last reported target-fit probability over fitting contexts; not CF post-edit efficacy or accuracy",
+  "audit_source_sha256": "69a072df0d143c3b1fafba2c6164a002f2bffd7cc21539041e8a1c07f34776d1",
+  "sample_order_changed": false,
+  "runs": {
+    "gptj_original": {
+      "path": "local/fe-collapse-repair-20261011/native-r2/gptj-63386.out",
+      "prefix_bytes": 3935480,
+      "prefix_sha256": "ab5a4e27c2d30549a313da552a19c077271967e641093723cb24a123da13c9fe",
+      "batches": {
+        "1": {
+          "count": 100,
+          "mean": 0.9877864408493042,
+          "median": 0.9894762635231018,
+          "minimum": 0.9622986316680908,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "760e8fd96de8624db93d66782887f4a63380e6bcaf402afa8963178711d5097d"
+        },
+        "2": {
+          "count": 100,
+          "mean": 0.9890951049327851,
+          "median": 0.9905564785003662,
+          "minimum": 0.9666503667831421,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "aa53389bc77e9861f75ef66ce4611af787617c1156b601fae77e96db744cd1b1"
+        },
+        "3": {
+          "count": 100,
+          "mean": 0.9875494581460953,
+          "median": 0.9919047653675079,
+          "minimum": 0.8326556086540222,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "438d9f366a6f42d3c083fc22151229ce473f09509fdb28ff3b3f8265e6a19bb3"
+        },
+        "4": {
+          "count": 100,
+          "mean": 0.564020240474491,
+          "median": 0.6552191078662872,
+          "minimum": 3.37616157253251e-09,
+          "below_point5": 36,
+          "below_point01": 11,
+          "per_case_details_sha256": "4d5c95c2c7ea55c951c466975deda8fdcf93ee319e6135eaea9d2828730188d7"
+        },
+        "5": {
+          "count": 100,
+          "mean": 0.4439930120220852,
+          "median": 0.3794366717338562,
+          "minimum": 1.0058755606223713e-08,
+          "below_point5": 53,
+          "below_point01": 28,
+          "per_case_details_sha256": "fcb458d74cedc7f5844070ddc866b36ace6f8fb7cc5741aaf190bf10bcc28907"
+        },
+        "6": {
+          "count": 100,
+          "mean": 1.361624740331413e-05,
+          "median": 2.6809599376065307e-06,
+          "minimum": 1.7880823488525266e-09,
+          "below_point5": 100,
+          "below_point01": 100,
+          "per_case_details_sha256": "c999dfe7622c6041d9f871fc9692a82f1b4d4989d2d4089d7f0333a839242da6"
+        },
+        "7": {
+          "count": 100,
+          "mean": 8.431572012419508e-06,
+          "median": 2.231545863651263e-06,
+          "minimum": 4.231808858889963e-08,
+          "below_point5": 100,
+          "below_point01": 100,
+          "per_case_details_sha256": "82446158c6c13fe2d04b1718161d5d1536358eade7b07d34d23a334c1fa26276"
+        },
+        "8": {
+          "count": 100,
+          "mean": 1.5841251185193528e-05,
+          "median": 3.6134287029199186e-06,
+          "minimum": 4.508022044547033e-08,
+          "below_point5": 100,
+          "below_point01": 100,
+          "per_case_details_sha256": "64a49a50f8f50f794a5b3d07b9a768724f5ae90d13f684ad1dd8b2ed9f80a50a"
+        },
+        "9": {
+          "count": 100,
+          "mean": 4.755433236947937e-05,
+          "median": 5.866620995220728e-06,
+          "minimum": 3.519910407590032e-08,
+          "below_point5": 100,
+          "below_point01": 100,
+          "per_case_details_sha256": "79871e4f33d51093a406546738a7dbe8b75daaebd1600ffae4dbff21a2338ab3"
+        },
+        "10": {
+          "count": 100,
+          "mean": 2.197322251671352e-05,
+          "median": 3.80436688374175e-06,
+          "minimum": 4.3467078825187855e-08,
+          "below_point5": 100,
+          "below_point01": 100,
+          "per_case_details_sha256": "3a7906a467f874702df7b0b45f6ffd18b52e9d45b23440b840e37726730640cf"
+        },
+        "11": {
+          "count": 100,
+          "mean": 3.960026531457217e-05,
+          "median": 4.7945841288310476e-06,
+          "minimum": 7.853982353367428e-09,
+          "below_point5": 100,
+          "below_point01": 100,
+          "per_case_details_sha256": "bbf9c6e303c20e672f2c20a7d694f3305b41ea91271bfc5f94e6c7ede6299601"
+        },
+        "12": {
+          "count": 100,
+          "mean": 3.3150633196612486e-05,
+          "median": 8.147125299728941e-06,
+          "minimum": 1.0371968528488651e-07,
+          "below_point5": 100,
+          "below_point01": 100,
+          "per_case_details_sha256": "a70b4d0818f9b00de5bca372a9323ed28326e782a677e0428e7fe8d408042769"
+        },
+        "13": {
+          "count": 100,
+          "mean": 3.662365757787001e-05,
+          "median": 4.37615972259664e-06,
+          "minimum": 5.66968019199976e-08,
+          "below_point5": 100,
+          "below_point01": 100,
+          "per_case_details_sha256": "e200c2a36a3a73d3bfc5e7da206f0b8af458d1d927d265a55ba6623cea86d04f"
+        },
+        "14": {
+          "count": 100,
+          "mean": 2.95039332551994e-05,
+          "median": 4.954069709128817e-06,
+          "minimum": 2.370021690012436e-08,
+          "below_point5": 100,
+          "below_point01": 100,
+          "per_case_details_sha256": "e87b27cfdbd3ff271caaa0f2001a20fcd40d7f1518129631627c7b11ba85762c"
+        },
+        "15": {
+          "count": 100,
+          "mean": 2.768620431488955e-05,
+          "median": 3.7881555954299984e-06,
+          "minimum": 5.7547179466155285e-08,
+          "below_point5": 100,
+          "below_point01": 100,
+          "per_case_details_sha256": "9b56d1405f0df11b873be1bba89951b2d27501c3447f13d815ddd975e063a167"
+        },
+        "16": {
+          "count": 100,
+          "mean": 2.190200399880382e-05,
+          "median": 2.7251453502685763e-06,
+          "minimum": 2.147259436924287e-08,
+          "below_point5": 100,
+          "below_point01": 100,
+          "per_case_details_sha256": "611e6fe4bea76942c6fac753739ab4d590e2a3ce3cd5deb8e87020708078fb87"
+        },
+        "17": {
+          "count": 100,
+          "mean": 1.593202044838815e-05,
+          "median": 5.127321173858945e-06,
+          "minimum": 3.5679952326006514e-09,
+          "below_point5": 100,
+          "below_point01": 100,
+          "per_case_details_sha256": "b2a365ec41173bd7954ad2aa6e70617c50a3ec9b44f7d7e2003a01393380ce1d"
+        },
+        "18": {
+          "count": 100,
+          "mean": 5.555150643884232e-05,
+          "median": 2.801051664391707e-06,
+          "minimum": 1.9989652599861074e-08,
+          "below_point5": 100,
+          "below_point01": 100,
+          "per_case_details_sha256": "0778a9d107b366a93e23f1eda74b69e5f436ae4c047e1999b24931977abc0fc7"
+        },
+        "19": {
+          "count": 100,
+          "mean": 2.65631527240906e-05,
+          "median": 4.0212253225035965e-06,
+          "minimum": 2.615388794424689e-08,
+          "below_point5": 100,
+          "below_point01": 100,
+          "per_case_details_sha256": "c572c4a9b902918772d9e54d6196620874de8e6aa3d7a840c9b3c550defd3246"
+        },
+        "20": {
+          "count": 100,
+          "mean": 9.308507304552905e-06,
+          "median": 2.5732225594765623e-06,
+          "minimum": 3.7440848643655045e-08,
+          "below_point5": 100,
+          "below_point01": 100,
+          "per_case_details_sha256": "6533b57e1c3276e67124764b272e4311eeef5c2ac65fd7e9768d17a182460474"
+        }
+      }
+    },
+    "gptj_repaired": {
+      "path": "local/fe-collapse-repair-20261011/native-causal-r1/gptj_repaired-63389.out",
+      "prefix_bytes": 2165412,
+      "prefix_sha256": "519efd75f1fd90dcf7cf0f967bc401f45a1d3052ff3f867a94fa9fabcc1a1e8e",
+      "batches": {
+        "1": {
+          "count": 100,
+          "mean": 0.9877864408493042,
+          "median": 0.9894762635231018,
+          "minimum": 0.9622986316680908,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "760e8fd96de8624db93d66782887f4a63380e6bcaf402afa8963178711d5097d"
+        },
+        "2": {
+          "count": 100,
+          "mean": 0.9893792921304703,
+          "median": 0.9901601374149323,
+          "minimum": 0.9665354490280151,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "48c2ed879b87abdb4134e57f43f3436751c9d93f69891877594f2af20a0ceaee"
+        },
+        "3": {
+          "count": 100,
+          "mean": 0.9870982480049133,
+          "median": 0.9913216531276703,
+          "minimum": 0.8328417539596558,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "ba31c33f5699dfe360e8165715f2a055cbd836eef762fb5b4fcfb786112b3787"
+        },
+        "4": {
+          "count": 100,
+          "mean": 0.9884639173746109,
+          "median": 0.9907008111476898,
+          "minimum": 0.9674872159957886,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "92dd322a6306a4f3f404215cc996117ae1aae4b0404c14482ee084ae7790f387"
+        },
+        "5": {
+          "count": 100,
+          "mean": 0.9888713765144348,
+          "median": 0.9917438626289368,
+          "minimum": 0.8332511782646179,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "b26c2ff774ce48e4cc44a5fc20f1fe717ce854c83937fa3c7153dc17dc3f7596"
+        },
+        "6": {
+          "count": 100,
+          "mean": 0.9904646480083465,
+          "median": 0.992551863193512,
+          "minimum": 0.9642853736877441,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "123d6a9238a8a98f6033282c285ec5178801c854f16cfa284becf83d1efe5390"
+        },
+        "7": {
+          "count": 100,
+          "mean": 0.9892920047044754,
+          "median": 0.9932220578193665,
+          "minimum": 0.8325169086456299,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "eeedde23d503a18035be7f0233e0c399d4596fbcdc976f07c0ea034bd3b77b90"
+        },
+        "8": {
+          "count": 100,
+          "mean": 0.9910664254426956,
+          "median": 0.9950347542762756,
+          "minimum": 0.9688438773155212,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "2afc9250f54fb910afb3f7cd1abc4331819ffe6d79db3dc1fcf9835642889ce6"
+        },
+        "9": {
+          "count": 100,
+          "mean": 0.9909474956989288,
+          "median": 0.9937345385551453,
+          "minimum": 0.97166508436203,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "455fa673953b51d16d609987b80b956ac750d7596c41451a191462085e0413f9"
+        },
+        "10": {
+          "count": 100,
+          "mean": 0.988431207537651,
+          "median": 0.9932428300380707,
+          "minimum": 0.742495059967041,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "c2601689e033fc87ff518a7c136473200284750f4616499861728b2bf0c18e8e"
+        },
+        "11": {
+          "count": 100,
+          "mean": 0.9893150752782822,
+          "median": 0.9924082159996033,
+          "minimum": 0.9288800954818726,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "2226577bcc2ff58cce3923d4befa6145e0e01537107802aef0566da0766c19d2"
+        },
+        "12": {
+          "count": 100,
+          "mean": 0.9918034863471985,
+          "median": 0.9947241544723511,
+          "minimum": 0.9669386744499207,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "4bb66f5dd67d7f1f8bad03276906201e950e8080f69ba8157bb1100dda73ed4f"
+        },
+        "13": {
+          "count": 100,
+          "mean": 0.9914309251308441,
+          "median": 0.9939645826816559,
+          "minimum": 0.9681841135025024,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "a5a09bfe24b22054c6adc2acf60e1d3e7761cbc1151de327d0776f8d80906c07"
+        },
+        "14": {
+          "count": 100,
+          "mean": 0.9903749322891235,
+          "median": 0.9922131896018982,
+          "minimum": 0.9649714231491089,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "40e609d295410c5ace7e6d7af7c96641fa70b82bed57ba815ca7ce1e3afa8664"
+        },
+        "15": {
+          "count": 100,
+          "mean": 0.9915009105205536,
+          "median": 0.9948301017284393,
+          "minimum": 0.9629898071289062,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "880d30a0f8c2d6a79a6706f8bbb272ced76e62fbfe8ed9cf28f8a8573536e18d"
+        },
+        "16": {
+          "count": 100,
+          "mean": 0.9907836234569549,
+          "median": 0.9933330714702606,
+          "minimum": 0.9581775665283203,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "d60140e55afb89e4719c5f98150c7b23c4675bb2571f950b96e5f76bfbdb4f16"
+        },
+        "17": {
+          "count": 100,
+          "mean": 0.9841580456495285,
+          "median": 0.9903795123100281,
+          "minimum": 0.7147911787033081,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "89326514a7b1d46385bdbdad0d2a14bd04d216ad6d511fbd5133b75e4c51d325"
+        },
+        "18": {
+          "count": 100,
+          "mean": 0.9898703628778458,
+          "median": 0.9922246038913727,
+          "minimum": 0.9655734896659851,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "f8eb792ab583eae43b55517bc988b8d6607df1169e8a82c8f6e266c76c5a98df"
+        },
+        "19": {
+          "count": 100,
+          "mean": 0.9811082012951374,
+          "median": 0.9942470192909241,
+          "minimum": 0.10933305323123932,
+          "below_point5": 1,
+          "below_point01": 0,
+          "per_case_details_sha256": "f60da5e3aae5f864b3855a33daef4bf0783b806c5c751af36f38218290618158"
+        },
+        "20": {
+          "count": 100,
+          "mean": 0.983610218167305,
+          "median": 0.9924882054328918,
+          "minimum": 0.513148844242096,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "34ee20a103e534ec04aa15ae0aa711cbcba6df19c9d31b1c5f8d365fed39e355"
+        }
+      }
+    },
+    "gptj_online_w0_repaired": {
+      "path": "local/fe-collapse-repair-20261011/native-causal-r2/gptj_online_w0_repaired-63425.out",
+      "prefix_bytes": 1941723,
+      "prefix_sha256": "c22db8229c807d4f83d9751974ae4c66dd0270e705d4288fcb2a821028261bd8",
+      "batches": {
+        "1": {
+          "count": 100,
+          "mean": 0.9877864408493042,
+          "median": 0.9894762635231018,
+          "minimum": 0.9622986316680908,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "760e8fd96de8624db93d66782887f4a63380e6bcaf402afa8963178711d5097d"
+        },
+        "2": {
+          "count": 100,
+          "mean": 0.9886137527227402,
+          "median": 0.9902572333812714,
+          "minimum": 0.9663373231887817,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "7b1a5eb13bc8b73ce58e0ddaf8e3eccb56d2285c4ce7e517d7e7627c38fc4772"
+        },
+        "3": {
+          "count": 100,
+          "mean": 0.9875858300924301,
+          "median": 0.991432785987854,
+          "minimum": 0.8309739828109741,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "89250e364761ac10f8e26e1121f9f972d0b676bafb64404903409327dabd1ca0"
+        },
+        "4": {
+          "count": 100,
+          "mean": 0.9892250370979309,
+          "median": 0.9914170503616333,
+          "minimum": 0.9649162292480469,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "6e394516674ff674c3554a872ff5c08b8e5c4c6334da02dff07a0a16aa620a2c"
+        },
+        "5": {
+          "count": 100,
+          "mean": 0.987136498093605,
+          "median": 0.9902980029582977,
+          "minimum": 0.832352340221405,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "2a0dbfaaab027533ea254db90c83e96d8976edaa47e9a1b537e482b158fcdd50"
+        },
+        "6": {
+          "count": 100,
+          "mean": 0.9895047843456268,
+          "median": 0.9928167760372162,
+          "minimum": 0.9661561846733093,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "6182c1ef6e3dde33d9fd6d5e678b9094f54ab096ce532d82b6b910c5b474a273"
+        },
+        "7": {
+          "count": 100,
+          "mean": 0.9869795483350754,
+          "median": 0.9906968176364899,
+          "minimum": 0.8332419395446777,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "3ed73d03f66088768061ed4ef30ae014b4136fe2e386135b7e24a010232bfb5a"
+        },
+        "8": {
+          "count": 100,
+          "mean": 0.9896865683794022,
+          "median": 0.9905779361724854,
+          "minimum": 0.9695682525634766,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "51ef493325f4c31fecfc838ab55befc8bb0ac522fde1eedf371bf439d9cd875f"
+        },
+        "9": {
+          "count": 100,
+          "mean": 0.9885715371370316,
+          "median": 0.9906426668167114,
+          "minimum": 0.9679921865463257,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "fbac3bb3214ab082c2ff49826ba08c5f4824f4b6adbfe41d86b94d0b3227f1dd"
+        },
+        "10": {
+          "count": 100,
+          "mean": 0.9886754947900772,
+          "median": 0.9904680550098419,
+          "minimum": 0.9672149419784546,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "b67f1efc6cb55df8422c366e78e16d9dcbcb2ed4991c90d642559390cba89f3d"
+        },
+        "11": {
+          "count": 100,
+          "mean": 0.9884339106082917,
+          "median": 0.99056476354599,
+          "minimum": 0.9681903719902039,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "38611996a1b1b8d8943489844b6781b0cc6e50475aa71abfc4043135827fe60d"
+        },
+        "12": {
+          "count": 100,
+          "mean": 0.9895820391178131,
+          "median": 0.9919490218162537,
+          "minimum": 0.9644083380699158,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "15ec9bc06099f94fc87d29288af60a12768a4f6ead5e9935458fc38aa19a26e0"
+        },
+        "13": {
+          "count": 100,
+          "mean": 0.9892359942197799,
+          "median": 0.9911810755729675,
+          "minimum": 0.9685923457145691,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "3cc3137d8f2cafeedf2c84a932e17b4f6ae400a3098066a9971490270502ebb7"
+        },
+        "14": {
+          "count": 100,
+          "mean": 0.9872546195983887,
+          "median": 0.9891937375068665,
+          "minimum": 0.9682683348655701,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "5201f9c92500b4b00ca1355f9dd4c26f625859f34cd5947ed09b45a9f9c99748"
+        },
+        "15": {
+          "count": 100,
+          "mean": 0.9888662409782409,
+          "median": 0.9903861582279205,
+          "minimum": 0.9656984210014343,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "700806ea4ca723da5552ef08e04ddce7af3f461d05e4b9fdc2aac840bea315eb"
+        },
+        "16": {
+          "count": 100,
+          "mean": 0.9897469842433929,
+          "median": 0.990433931350708,
+          "minimum": 0.9715603590011597,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "159d80777e07757464362725d395fa33e521df7f0a005664a7f79516aa70ae16"
+        },
+        "17": {
+          "count": 100,
+          "mean": 0.986573479771614,
+          "median": 0.987760603427887,
+          "minimum": 0.8382889628410339,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "17a26372bcd576b0f8b02e449ec8d1d031bdea49b5c4556b7dfd9d0fc5d1ba85"
+        },
+        "18": {
+          "count": 100,
+          "mean": 0.9884057801961899,
+          "median": 0.9901419281959534,
+          "minimum": 0.9680649638175964,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "aa076eebbb565ae43199af761b0695bab92de6a7ff38c5ad0099d1f62d3cd58d"
+        },
+        "19": {
+          "count": 100,
+          "mean": 0.9897594296932221,
+          "median": 0.9926214516162872,
+          "minimum": 0.965995728969574,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "d2c932b3b478c38b519f0e5ef8a2bc0ec0817d2b938c5bd52e35a6f779c0c758"
+        },
+        "20": {
+          "count": 100,
+          "mean": 0.9865183800458908,
+          "median": 0.9884660840034485,
+          "minimum": 0.8426660299301147,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "753796e61f708335f541d20a0e59da20972d1d0c38d3a8568be2932f34d86337"
+        }
+      }
+    },
+    "qwen_current": {
+      "path": "local/fe-collapse-repair-20261011/native-r2/qwen25-63385.out",
+      "prefix_bytes": 4905763,
+      "prefix_sha256": "0f06a98b31848d37183f6230b9a896fef0fadcd38eba138d388df678781044d8",
+      "batches": {
+        "1": {
+          "count": 100,
+          "mean": 0.988272055387497,
+          "median": 0.9903136789798737,
+          "minimum": 0.9616906046867371,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "c6cfd1e6db32d7154caa59673be94367fe047bbdd9036bad8d1a529067b19356"
+        },
+        "2": {
+          "count": 100,
+          "mean": 0.9866532206535339,
+          "median": 0.9893410503864288,
+          "minimum": 0.8330410718917847,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "63f57b673c8da25ce48ed482664ac322012927bfcb516aecdd79f71d546507ff"
+        },
+        "3": {
+          "count": 100,
+          "mean": 0.9682581478357315,
+          "median": 0.9893608689308167,
+          "minimum": 0.2559426724910736,
+          "below_point5": 3,
+          "below_point01": 0,
+          "per_case_details_sha256": "4d14d0e6b154130154230d991f40fcdeef9ebc8c02ac015c5fee82c1bebf728d"
+        },
+        "4": {
+          "count": 100,
+          "mean": 0.9016461015539607,
+          "median": 0.9876988232135773,
+          "minimum": 2.0429626601981e-05,
+          "below_point5": 9,
+          "below_point01": 5,
+          "per_case_details_sha256": "ec58b3a35e00d9f7fe26d335b197bef6ba248b8ad99746bf4b08ca50df8cb177"
+        },
+        "5": {
+          "count": 100,
+          "mean": 0.9052044585817839,
+          "median": 0.9896033406257629,
+          "minimum": 1.0461410511197755e-06,
+          "below_point5": 9,
+          "below_point01": 4,
+          "per_case_details_sha256": "5686915364739e0975593f0ce7c95eda59847d225c70ccec0131ba50f205d2ae"
+        },
+        "6": {
+          "count": 100,
+          "mean": 0.605198286292588,
+          "median": 0.9801217615604401,
+          "minimum": 2.510999053129126e-08,
+          "below_point5": 39,
+          "below_point01": 29,
+          "per_case_details_sha256": "983b56255933f1a844f2066a37187880bffe1778a3926a38193ead0923c79216"
+        },
+        "7": {
+          "count": 100,
+          "mean": 0.01096748532955413,
+          "median": 2.0252744434401393e-05,
+          "minimum": 2.7338897368167636e-08,
+          "below_point5": 99,
+          "below_point01": 94,
+          "per_case_details_sha256": "b89a405aa8d6ce5295d97718a7509f3d3e3d184cedbe3ec2ef88316e9aebf99b"
+        },
+        "8": {
+          "count": 100,
+          "mean": 1.9584971614373668e-05,
+          "median": 2.6022825068139355e-06,
+          "minimum": 1.6583848738704887e-09,
+          "below_point5": 100,
+          "below_point01": 100,
+          "per_case_details_sha256": "edd5e731fa7e380af6063674f25bda0eaf0f166ee4adffe6808affad59d42d1b"
+        },
+        "9": {
+          "count": 100,
+          "mean": 8.677206394196445e-06,
+          "median": 1.007634978122951e-06,
+          "minimum": 4.94445018262013e-09,
+          "below_point5": 100,
+          "below_point01": 100,
+          "per_case_details_sha256": "8b3d1e47c521fbd74dec31f9ecc4ae4a710db6b71cb5602f453ac3baefb55a62"
+        },
+        "10": {
+          "count": 100,
+          "mean": 4.817133921775074e-06,
+          "median": 5.032648004998919e-07,
+          "minimum": 4.5990555808117506e-10,
+          "below_point5": 100,
+          "below_point01": 100,
+          "per_case_details_sha256": "8f10594521fa998dc434900d380e65c5f908470c91396fb5ab30eb6b750c65ad"
+        },
+        "11": {
+          "count": 100,
+          "mean": 6.0849388580352934e-06,
+          "median": 3.4906011592283903e-07,
+          "minimum": 5.789655421750695e-10,
+          "below_point5": 100,
+          "below_point01": 100,
+          "per_case_details_sha256": "8fbfe6056db0e125d6da5068c7b45e6ec4cd84d4b4359df0426d6a9a751f87ec"
+        },
+        "12": {
+          "count": 100,
+          "mean": 7.08048256384819e-06,
+          "median": 6.719589009662741e-07,
+          "minimum": 9.736200734522527e-10,
+          "below_point5": 100,
+          "below_point01": 100,
+          "per_case_details_sha256": "5c7f09ebf23d7a0d2c81f560bfb7e72090778df6c5df53ebd6e49a06fe7a6958"
+        },
+        "13": {
+          "count": 100,
+          "mean": 2.415083530489248e-06,
+          "median": 4.4805710786022246e-07,
+          "minimum": 3.850741947530878e-09,
+          "below_point5": 100,
+          "below_point01": 100,
+          "per_case_details_sha256": "ccff5bb9e51edef18d14b8f582ba03321f4440deae3b72af55f1fd762661bdd8"
+        },
+        "14": {
+          "count": 100,
+          "mean": 3.1374127094840887e-06,
+          "median": 5.018012529944826e-07,
+          "minimum": 1.2501528701136522e-09,
+          "below_point5": 100,
+          "below_point01": 100,
+          "per_case_details_sha256": "734bae75ed98d7caaa409cd159a0ea69dd91bdb2f122f8a958b8af3976a7f32a"
+        },
+        "15": {
+          "count": 100,
+          "mean": 3.590347892685752e-06,
+          "median": 4.7379077727782715e-07,
+          "minimum": 1.8189616479702408e-09,
+          "below_point5": 100,
+          "below_point01": 100,
+          "per_case_details_sha256": "0dc85ec9871d50bc8ed797d39c6399e5eb184aec3d21ed75c415631106c5566d"
+        },
+        "16": {
+          "count": 100,
+          "mean": 3.4555731873731064e-06,
+          "median": 4.844264935854881e-07,
+          "minimum": 1.1032560420787263e-09,
+          "below_point5": 100,
+          "below_point01": 100,
+          "per_case_details_sha256": "964ff157c16dedb238a70dc973991e3b20ae4351070981b9331ba50d911ac3d7"
+        },
+        "17": {
+          "count": 100,
+          "mean": 4.657599205948326e-06,
+          "median": 4.7379077727782715e-07,
+          "minimum": 5.211412412720051e-10,
+          "below_point5": 100,
+          "below_point01": 100,
+          "per_case_details_sha256": "4d5468e0d46835ded50be9a69b2786974294ddc6e267e6caffd4537feef0ddb4"
+        },
+        "18": {
+          "count": 100,
+          "mean": 2.3056772680818407e-06,
+          "median": 3.4906011592283903e-07,
+          "minimum": 5.32706101452618e-10,
+          "below_point5": 100,
+          "below_point01": 100,
+          "per_case_details_sha256": "d1faee94b870c08d3a7a21629f69e1f185b752ac311d35a6b81a4017596841c2"
+        },
+        "19": {
+          "count": 100,
+          "mean": 3.3057411208758935e-06,
+          "median": 4.2650785303521843e-07,
+          "minimum": 4.905233996765901e-10,
+          "below_point5": 100,
+          "below_point01": 100,
+          "per_case_details_sha256": "950ff8396abc4838807f4b95155e44302e084d8a64a39bd62305fab4a87c03c7"
+        },
+        "20": {
+          "count": 100,
+          "mean": 2.5502360402518407e-06,
+          "median": 5.211581992625725e-07,
+          "minimum": 5.905304023556823e-10,
+          "below_point5": 100,
+          "below_point01": 100,
+          "per_case_details_sha256": "c18a6bba8fdd91dde78a0e41615389b80572cb2b32e2c37c00bf97cd9ebe0051"
+        }
+      }
+    },
+    "qwen_online_w0": {
+      "path": "local/fe-collapse-repair-20261011/native-causal-r1/qwen_online_w0-63391.out",
+      "prefix_bytes": 2152780,
+      "prefix_sha256": "151a201a09d85f10bcfbbdb3e1b4b568a5a3b40c86afabcd71d6609beb6e4afa",
+      "batches": {
+        "1": {
+          "count": 100,
+          "mean": 0.988272055387497,
+          "median": 0.9903136789798737,
+          "minimum": 0.9616906046867371,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "c6cfd1e6db32d7154caa59673be94367fe047bbdd9036bad8d1a529067b19356"
+        },
+        "2": {
+          "count": 100,
+          "mean": 0.9860269683599472,
+          "median": 0.9888733625411987,
+          "minimum": 0.8330869078636169,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "481e3f86428634d2cc7a5981305684cb4e26cf39678d445cdb28bdab478abba2"
+        },
+        "3": {
+          "count": 100,
+          "mean": 0.9867504471540451,
+          "median": 0.9900466501712799,
+          "minimum": 0.8323997855186462,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "fe827720d40aa8c4103e833375e09279db241f437d462bee0dea37f1334a276c"
+        },
+        "4": {
+          "count": 100,
+          "mean": 0.9883348995447159,
+          "median": 0.9906557500362396,
+          "minimum": 0.9578248262405396,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "85e2727a403249464587326fb70c5b8ecc2095255fdd650e3a537051640ca016"
+        },
+        "5": {
+          "count": 100,
+          "mean": 0.9891825944185257,
+          "median": 0.9901371896266937,
+          "minimum": 0.9713403582572937,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "66afb54d5d5ac18ad2e7de6a0114e2766c0bd22f54085c46f751010bca5faa33"
+        },
+        "6": {
+          "count": 100,
+          "mean": 0.9879290390014649,
+          "median": 0.9910492897033691,
+          "minimum": 0.9606962203979492,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "37e0e2f84258020b701f1fd673703eb2ee7f1e0ac7852e6af1d96cb72996128b"
+        },
+        "7": {
+          "count": 100,
+          "mean": 0.9854971075057983,
+          "median": 0.9895175397396088,
+          "minimum": 0.8328512907028198,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "6e1122dc26d2d4bf93f0cdea7626ceceaece0d160a94688657c553ebabc4d6b0"
+        },
+        "8": {
+          "count": 100,
+          "mean": 0.9857099896669388,
+          "median": 0.9896650910377502,
+          "minimum": 0.8299833536148071,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "daa86eb9fdc2a12d5e04871de16676fc38abd68fffa1bf57a712576c65e107d7"
+        },
+        "9": {
+          "count": 100,
+          "mean": 0.9874663782119751,
+          "median": 0.9892614781856537,
+          "minimum": 0.9643819332122803,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "bac682967a6e7a26a5442f124883b28f346165beb850cece133e5de68afd892a"
+        },
+        "10": {
+          "count": 100,
+          "mean": 0.9865966135263443,
+          "median": 0.988946408033371,
+          "minimum": 0.832008957862854,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "d6b1ed6839e58f66d4d06454d89e30bbae229c73f909fabf51a879f62853fed5"
+        },
+        "11": {
+          "count": 100,
+          "mean": 0.9872342544794083,
+          "median": 0.9893418252468109,
+          "minimum": 0.9639427661895752,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "8715cde40f7e76cb3fdb2e8c99b6cd559d68a13113d5d13c7884e88611f526a3"
+        },
+        "12": {
+          "count": 100,
+          "mean": 0.9902580428123474,
+          "median": 0.9923434555530548,
+          "minimum": 0.9678447246551514,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "964d98d9aeb4b6c577e3e8e737847699d427d7006fa729c513e87dd1421028fd"
+        },
+        "13": {
+          "count": 100,
+          "mean": 0.9873220974206924,
+          "median": 0.9880079627037048,
+          "minimum": 0.964569091796875,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "29ef4e7c1e5a473a035c41fb20a3300f41677eba01c4f94195a9c300ee436254"
+        },
+        "14": {
+          "count": 100,
+          "mean": 0.9872853678464889,
+          "median": 0.9887991547584534,
+          "minimum": 0.9641658663749695,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "4f507a94e20ad3711b7ad3d404da22bb889611b0c520549ffe6ee6adc117b5a6"
+        },
+        "15": {
+          "count": 100,
+          "mean": 0.9878026992082596,
+          "median": 0.9883757829666138,
+          "minimum": 0.9635860919952393,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "ff0c4a992c8078c9e6790310ff2d5f57ccab6c38375f7b94ff99f46e9e22f9ec"
+        },
+        "16": {
+          "count": 100,
+          "mean": 0.9886790251731873,
+          "median": 0.9887042045593262,
+          "minimum": 0.9653829336166382,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "abdb67c343cd147e60677087e9e0e352bad90604026a89100b72a7b7fdf3319c"
+        },
+        "17": {
+          "count": 100,
+          "mean": 0.9870620232820511,
+          "median": 0.9893519282341003,
+          "minimum": 0.8329076766967773,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "243cd9b3a4833159314704542e62e5fbae5c7d49bdc240f9e994d4db92b0cf4f"
+        },
+        "18": {
+          "count": 100,
+          "mean": 0.9872235786914826,
+          "median": 0.9896489679813385,
+          "minimum": 0.8359329700469971,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "f5bc002efc3000a29cd5ab73eb50cc6bd1864cf085f769292da8fd9e5fcfb939"
+        },
+        "19": {
+          "count": 100,
+          "mean": 0.988616972565651,
+          "median": 0.9899940192699432,
+          "minimum": 0.9572984576225281,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "67137fbc0cd465fa3a134a8909f1eabf89dfb139aaf96ea95c2e29877b1c10b9"
+        },
+        "20": {
+          "count": 100,
+          "mean": 0.9867903685569763,
+          "median": 0.9901083111763,
+          "minimum": 0.8326379060745239,
+          "below_point5": 0,
+          "below_point01": 0,
+          "per_case_details_sha256": "64f2544d428d95c9cf526ff848e65668f8125ed07015306060feb3fcfbfcddf8"
+        }
+      }
+    }
+  },
+  "original_stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+  "all_observed_fits_inside_current_batch_markers": true,
+  "completed_batch_case_ids_match_original_stream": true,
+  "per_case_details_included": false
+}

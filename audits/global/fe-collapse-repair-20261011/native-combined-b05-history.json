@@ -1,0 +1,88 @@
+{
+  "control_checkpoint": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/gptj_repaired/checkpoints/B05.pt",
+    "sha256": "047d1038bb9814709ec80d73e5a1ebe168f9b392441d28f0e79caf824e7beed0",
+    "bytes": 7247778965,
+    "completed_batches": 5,
+    "completed_edits": 500,
+    "identity_sha256": "909c7a0762ce4a2640d74808f52a06a75cec47a8cea528ce07a09e517a2e7daf"
+  },
+  "candidate_checkpoint": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r2/runs/gptj_online_w0_repaired/checkpoints/B05.pt",
+    "sha256": "1372d50a029e5138cc73d14ba333b9bb737808f7c3c6be851137876330bc8cbf",
+    "bytes": 7247779029,
+    "completed_batches": 5,
+    "completed_edits": 500,
+    "identity_sha256": "3029accd3526041723d149ff3affa3f43e1578e3185a2ce1c5effbdd75ebf077"
+  },
+  "same_case_order": true,
+  "same_contexts": true,
+  "same_hparams": true,
+  "control_z_policy": "CURRENT_BATCH_ENTRY_NO_FUTURE_TARGETS",
+  "candidate_z_policy": "CURRENT_BATCH_ONLY_INITIAL_MODEL",
+  "scope": "Saved native cumulative key Gram, without recomputing any edit",
+  "layers": {
+    "3": {
+      "bit_identical": true,
+      "control_trace": 201056.61914980412,
+      "candidate_trace": 201056.61914980412,
+      "max_abs_difference": 0.0,
+      "relative_frobenius_difference": 0.0,
+      "both_finite": true,
+      "both_symmetric": true,
+      "both_nonzero": true
+    },
+    "4": {
+      "bit_identical": false,
+      "control_trace": 476443.5539910495,
+      "candidate_trace": 403551.9785877168,
+      "max_abs_difference": 968.094482421875,
+      "relative_frobenius_difference": 0.5864225806753287,
+      "both_finite": true,
+      "both_symmetric": true,
+      "both_nonzero": true
+    },
+    "5": {
+      "bit_identical": false,
+      "control_trace": 392557.9778569788,
+      "candidate_trace": 434955.1479636431,
+      "max_abs_difference": 15998.537109375,
+      "relative_frobenius_difference": 0.6397212225661053,
+      "both_finite": true,
+      "both_symmetric": true,
+      "both_nonzero": true
+    },
+    "6": {
+      "bit_identical": false,
+      "control_trace": 361240.06036458164,
+      "candidate_trace": 400783.1025547311,
+      "max_abs_difference": 537.511962890625,
+      "relative_frobenius_difference": 0.4940284085151543,
+      "both_finite": true,
+      "both_symmetric": true,
+      "both_nonzero": true
+    },
+    "7": {
+      "bit_identical": false,
+      "control_trace": 389029.4463674724,
+      "candidate_trace": 395029.227175653,
+      "max_abs_difference": 1022.566650390625,
+      "relative_frobenius_difference": 0.40782842498870653,
+      "both_finite": true,
+      "both_symmetric": true,
+      "both_nonzero": true
+    },
+    "8": {
+      "bit_identical": false,
+      "control_trace": 369481.74972584844,
+      "candidate_trace": 357901.8144863844,
+      "max_abs_difference": 254.0203857421875,
+      "relative_frobenius_difference": 0.3744967847357418,
+      "both_finite": true,
+      "both_symmetric": true,
+      "both_nonzero": true
+    }
+  },
+  "CPU_only": true,
+  "checkpoint_bytes_unchanged": true
+}

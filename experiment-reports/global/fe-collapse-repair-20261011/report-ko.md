@@ -6,7 +6,7 @@
 초기 author W0-fixed 결과와 CPU 대조는 원인 조사 이력으로 보존한다. 아래 최신 결과에서
 현재 모델 기준 z와 W0-on-arrival z를 구분하며, 후자를 현재 baseline으로 자동 변경하지 않는다.
 
-## 현재 진행 상태 (2026-10-11 15:49 KST)
+## 현재 진행 상태 (2026-10-11 16:51 KST)
 
 저자 `main.py` 원본을 실행한 동일 CF 2K 실험에서 두 원인을 분리했다. 저자 hparams,
 BF16, context 생성, writer, 누적 history, 요청 순서를 유지했다. clamp/step 변경은 없다.
@@ -18,7 +18,7 @@ Qwen의 W0-on-arrival 대조는 현재 모델 기준 z와 다른 프로토콜이
 | Qwen63391 → 63392 | 현재100건만 W0에서 target 계산, 원본 C0 | 모두 COMPLETED; 공통 Score89.9254 |
 | GPT-J63386 → 63388 | 현재 모델 기준 z, 원본 C0 | 모두 COMPLETED; 공통 Score49.7537 |
 | GPT-J63389 → 63390 | 현재 모델 기준 z, L3 C0만 수치 보정 | 모두 COMPLETED; 공통 Score85.3875 |
-| GPT-J63425 → 63426 | 현재100건만 W0에서 target 계산 + 같은 보정 C0 | native RUNNING, 후속 공통 평가 PENDING |
+| GPT-J63425 → 63426 | 현재100건만 W0에서 target 계산 + 같은 보정 C0 | native COMPLETED, 공통 평가 RUNNING; 저자 Score89.21 |
 
 여기서 저자 Score는 저자 코드가 이미 반올림한 성분의 조화평균이다. 공통 평가 결과와
 정밀도를 혼용하지 않는다. Qwen63392의 최종 공통 Eff/Gen/Loc은 **99.100 / 92.775 / 80.055**이고
@@ -598,3 +598,26 @@ rewrite/paraphrase/neighborhood 모두0이다. 선호율이 약50%인 것을 정
 [원본 raw 재집계](../../../audits/global/fe-collapse-repair-20261011/native-gptj-original-independent-metrics.json) ·
 [보정본 raw 재집계](../../../audits/global/fe-collapse-repair-20261011/native-gptj-repaired-independent-metrics.json) ·
 [추가 W0-on-arrival 대조와 소스 일치](../../../audits/global/fe-collapse-repair-20261011/native-combined-source-equivalence.json).
+
+## 같은 W0-on-arrival 프로토콜의 GPT-J 2K 편집·저자 평가 완료
+
+63425가 `COMPLETED 0:0`으로 끝났고 공통 checkpoint 평가63426이 이어서 시작했다.
+저자 평가의 Eff/Gen/Loc은 **99.4 / 94.5 / 77.0**, 반올림된 성분의 조화평균은 **89.2077**이다.
+이 값은 공통 평가의 최종 수치가 아니다. W0는 앞선 두 GPT-J 진단과 같은16.8/18.9/82.2다.
+
+최종 L3 weight norm은201.5083이고 여섯 층의 가중치/history가 모두 유한하며,
+저장된 `15000 C0 + H`의 Cholesky 검사도 모두 통과했다. 현재 모델 z + 보정 C0 대조와
+L3 history가 비트 단위로 같다(trace818451.4060). 여섯 편집 가중치는 별도 native 최종 export와도
+비트 단위로 일치한다. 원본 checkpoint와 export의 검사 전후 SHA는 유지됐다.
+
+5개 native 실행에서 각각20배치·2,000건의 target fitting을 확인했다. 모든 fit 로그가 해당 배치의
+시작/종료 marker 안에 있으며 case ID는 원 CF stream의 같은100건 구간과 일치한다.
+Native YAML에 남은 `z_method: all`, `num_z_samples: 2000`은 교체된 target 공급부에서 사용하지 않는다.
+이 확인은 target fitting 범위에 관한 것이다. Native loader가 전체 JSON을 읽는 동작은 유지했다.
+
+[저자 평가](../../../audits/global/fe-collapse-repair-20261011/native-combined-author-evaluation.json) ·
+[W20 prior 검사](../../../audits/global/fe-collapse-repair-20261011/native-combined-b20-prior-audit.json) ·
+[W20 history 대조](../../../audits/global/fe-collapse-repair-20261011/native-combined-b20-history-comparison.json) ·
+[최종 export 일치](../../../audits/global/fe-collapse-repair-20261011/native-combined-b20-final-parity.json) ·
+[배치별 fit 범위·확률 검사 요약](../../../audits/global/fe-collapse-repair-20261011/native-fit-probability-comparison.json) ·
+[고정한 저자 hparams](../../../audits/global/fe-collapse-repair-20261011/native-author-hparams-verified.json).
