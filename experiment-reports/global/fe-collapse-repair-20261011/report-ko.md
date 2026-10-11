@@ -455,3 +455,15 @@ Torch/CUDA RNG·모델 자산·2K stream을 확인했다. 차이는 명시된 ta
 W0의0 영역은 SHA를 유지하며 sparse 처리했다. 2K 회복 여부는 실행·평가로 확인한다.
 [두 시작 상태 비교](../../../audits/global/fe-collapse-repair-20261011/native-qwen-paired-w0-validation.json) ·
 [W0 저장 검산](../../../audits/global/fe-collapse-repair-20261011/native-qwen-online-w0-storage-sparse.json).
+
+## GPT-J 500건 저장 history를 포함한 선형계
+
+63386의 B5 checkpoint를 다시 읽었다. 여섯 층 모두 가중치/H는 finite이고 H는 대칭이다.
+L3 history trace는201,056.62로 실제 누적되어 있지만 `15000*C0+H`의 Cholesky info는
+여전히13797이다. L4–L8은 모두0이다. L3 weight norm은350,207.89다. checkpoint의
+identity, 현재500개 case 순서, 검사 전후 SHA도 검증했다. 실제 다음 배치 solve에는
+그 배치의 key Gram이 추가되므로 이 검사의 범위는 저장된 prior와 history다.
+
+검사 도구는 실제 native cache symlink와 실행 자산 SHA를 확인한다. 원본 설정에는
+기존 NPZ를, 보정 설정에는 별도 derived NPZ를 사용해 검사하도록 했다.
+[저장 상태의 층별 검사](../../../audits/global/fe-collapse-repair-20261011/native-gptj-b05-prior-audit.json).
