@@ -357,7 +357,7 @@ SH3 최신 CPU 재검산에서도 위 네 지표 delta0, 신규 본표 적격 �
 | MEMIT | 62.23 | 68.50 | 65.83 | 54.30 | 562.02 | 6.24 | 41.49 | 39.44 | 26.39 |
 | AlphaEdit | 83.03 | 99.05 | 97.55 | 63.36 | 618.99 | 33.92 | 85.05 | 78.18 | 30.79 |
 | AlphaEdit-BLUE | 84.03 | 99.65 | 97.33 | 64.97 | ING: Qwen BLUE L2 95 W20 Flu/Con (devbox 63637) | ING: Qwen BLUE L2 95 W20 Flu/Con (devbox 63637) | ING: janghj-zsre-blue-120121 (rent 120121, L2 95) | ING: janghj-zsre-blue-120121 (rent 120121, L2 95) | ING: janghj-zsre-blue-120121 (rent 120121, L2 95) |
-| FE (author hparams + history) | 50.18 | 50.90 | 49.95 | 49.72 | PENDING: s2-flucon-qwen25-fe_author_native-63385 (63541) | PENDING: s2-flucon-qwen25-fe_author_native-63385 (63541) | 0.00 | 0.00 | 0.00 |
+| FE (author hparams + history) | 50.18 | 50.90 | 49.95 | 49.72 | ING: s2-flucon-qwen25-fe_author_native-63385 (63541) | ING: s2-flucon-qwen25-fe_author_native-63385 (63541) | 0.00 | 0.00 | 0.00 |
 | AlphaEdit+SPHERE | 83.73 | 99.40 | 97.70 | 64.37 | CANCELLED: s2-flucon-qwen25-sphere-62079 (62873) | CANCELLED: s2-flucon-qwen25-sphere-62079 (62873) | CANCELLED: s4-qwen25-zsre-sphere-resume-b10 (63303) | CANCELLED: s4-qwen25-zsre-sphere-resume-b10 (63303) | CANCELLED: s4-qwen25-zsre-sphere-resume-b10 (63303) |
 | CAKE | 67.98 | 81.30 | 70.10 | 56.94 | PENDING: s2-flucon-qwen25-cake-63324 (63543) | PENDING: s2-flucon-qwen25-cake-63324 (63543) | 88.39 | 82.57 | 33.79 |
 | PRICE (Ours) | 87.63※ | 99.00※ | 95.55※ | 73.17※ | 620.95※ | 31.46※ | 98.72※ | 93.97※ | 45.17※ |
