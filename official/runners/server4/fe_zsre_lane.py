@@ -106,11 +106,11 @@ def git(*args, cwd=REPOSITORY, text=True):
     return subprocess.check_output(['git', *args], cwd=cwd, text=text)
 
 
-def official_source(commit, control_root):
+def official_source(commit, control_root, repository=REPOSITORY):
     """The main commit's official/ tree; the running control copy must be exactly that archive."""
-    tree = git('rev-parse', commit + ':official').strip()
-    subprocess.run(['git', 'merge-base', '--is-ancestor', commit, 'origin/main'], cwd=REPOSITORY, check=True)
-    archive = git('archive', '--format=tar', commit, 'official', text=False)
+    tree = git('rev-parse', commit + ':official', cwd=repository).strip()
+    subprocess.run(['git', 'merge-base', '--is-ancestor', commit, 'origin/main'], cwd=repository, check=True)
+    archive = git('archive', '--format=tar', commit, 'official', cwd=repository, text=False)
     files = {}
     with tarfile.open(fileobj=io.BytesIO(archive)) as bundle:
         for row in bundle.getmembers():
