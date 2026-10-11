@@ -21,6 +21,7 @@ from official.baselines import registry
 from official.evaluation import reduce as factual_reduce
 from official.experiments import checkpoint
 from official.experiments.prepare import ROOT, build_matrix, digest, file_sha, load_plan, read, write_new
+from official.runners.rent.blue_selection import selected_configuration
 from official.runners.rent.freeze import tree
 from official.runners.rent.native import METHODS, NativeEngine, model_spec
 
@@ -496,10 +497,16 @@ def main():
     parser.add_argument("--run-id", required=True, help="official matrix run_id, e.g. llama3-cf-memit")
     parser.add_argument("--mode", choices=MODES, required=True)
     parser.add_argument("--resume", help="checkpoints folder of an earlier attempt of the same run")
+    parser.add_argument("--selected-config", type=Path,
+                        help="derived zsRE BLUE config written by blue_selection (CF grid winner L2) with its proof")
     args = parser.parse_args()
     import os
     job = os.environ.get("ODEEDIT_RENT_JOB_ID", "local")
     manifest, config = read(args.manifest), configuration(args.run_id)
+    if args.selected_config is not None:
+        # Only the zsRE BLUE row may be replaced, and only by the proven CF grid winner (blue_selection).
+        config = selected_configuration(args.selected_config)
+        require(config["run_id"] == args.run_id, "SELECTED_CONFIG_RUN_ID")
     require(config["model"] == manifest["model"], "RUN_ID_MODEL_MANIFEST_MISMATCH")
     out = output_folder(manifest, config, args.mode, job)
     require(not out.exists(), "ATTEMPT_ALREADY_EXECUTED_USE_NEW_JOB")
