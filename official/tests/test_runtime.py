@@ -110,3 +110,15 @@ class RuntimeTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class CheckpointIdentityTests(unittest.TestCase):
+    def test_core_fields_required_extra_bound_fields_allowed(self):
+        from official.experiments import checkpoint as cp
+        core = {k: "frozen-" + k for k in cp.IDENTITY_FIELDS}
+        cp.validate_identity(core)
+        # The sequential FE runner binds covariance, z policy and writer backend in addition to the core fields.
+        cp.validate_identity(dict(core, covariance_sha256="c", z_policy="z", writer_backend="w"))
+        for bad in (dict(core, z_policy=""), {k: v for k, v in core.items() if k != "assets_sha256"}):
+            with self.assertRaises(ValueError):
+                cp.validate_identity(bad)

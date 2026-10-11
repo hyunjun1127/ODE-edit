@@ -32,7 +32,11 @@ def rng_restore(state):
 
 
 def validate_identity(identity):
-    if set(identity) != set(IDENTITY_FIELDS) or any(not identity[k] for k in IDENTITY_FIELDS):
+    """The seven core fields bind every checkpoint; a runner may bind more (FE: covariance, z policy, writer).
+
+    Save and load both compare the whole identity, so extra fields stay part of the resume contract.
+    """
+    if not set(IDENTITY_FIELDS) <= set(identity) or any(not identity[k] for k in identity):
         raise ValueError("INCOMPLETE_CHECKPOINT_IDENTITY")
 
 
