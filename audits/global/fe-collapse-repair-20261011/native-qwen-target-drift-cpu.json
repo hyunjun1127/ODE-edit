@@ -1,0 +1,190 @@
+{
+  "scope": "CPU BF16 native compute_z and firstforward; current requests only; initial model vs B5 model; no updates or GPU-parity claim",
+  "selected_indices": [
+    500,
+    594
+  ],
+  "selection": "First B6 case and case13617 detected as the largest B5 L5 subject activation outlier",
+  "case_ids": [
+    14919,
+    13617
+  ],
+  "checkpoint": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/qwen25/checkpoints/B05.pt",
+    "sha256": "4e5304da0d7dc6ef50e0b45d2edb91b74b68a85777e2e1e2a639308f06a630f3",
+    "bytes": 7856477081,
+    "completed_batches": 5,
+    "completed_edits": 500,
+    "identity_sha256": "04fff304614b0673ee999f015b2ee81afaab5a69ada9b9a7767aeff8589dbd8f"
+  },
+  "arms": {
+    "w0": {
+      "4": {
+        "plain_output_norm": [
+          46.53547286987305,
+          39.39234161376953
+        ],
+        "firstforward_target_norm": [
+          64.73780822753906,
+          55.63966751098633
+        ],
+        "target_residual_norm": [
+          46.486419677734375,
+          39.501834869384766
+        ]
+      },
+      "5": {
+        "plain_output_norm": [
+          43.97951126098633,
+          38.006900787353516
+        ],
+        "firstforward_target_norm": [
+          76.85979461669922,
+          53.099220275878906
+        ],
+        "target_residual_norm": [
+          63.37263488769531,
+          39.47458267211914
+        ]
+      },
+      "6": {
+        "plain_output_norm": [
+          47.07069396972656,
+          43.8892707824707
+        ],
+        "firstforward_target_norm": [
+          96.15774536132812,
+          63.39193344116211
+        ],
+        "target_residual_norm": [
+          85.70858764648438,
+          57.19944763183594
+        ]
+      },
+      "7": {
+        "plain_output_norm": [
+          58.211971282958984,
+          52.72338104248047
+        ],
+        "firstforward_target_norm": [
+          104.51810455322266,
+          70.8181381225586
+        ],
+        "target_residual_norm": [
+          95.76509857177734,
+          65.63795471191406
+        ]
+      },
+      "8": {
+        "plain_output_norm": [
+          73.17321014404297,
+          58.67119216918945
+        ],
+        "firstforward_target_norm": [
+          121.64083099365234,
+          94.25817108154297
+        ],
+        "target_residual_norm": [
+          108.67122650146484,
+          83.01092529296875
+        ]
+      }
+    },
+    "B05": {
+      "4": {
+        "plain_output_norm": [
+          47.04207992553711,
+          40.761138916015625
+        ],
+        "firstforward_target_norm": [
+          67.76100158691406,
+          60.67625045776367
+        ],
+        "target_residual_norm": [
+          46.99827575683594,
+          41.013824462890625
+        ]
+      },
+      "5": {
+        "plain_output_norm": [
+          45.89793395996094,
+          4752.2470703125
+        ],
+        "firstforward_target_norm": [
+          112.07861328125,
+          2065.190185546875
+        ],
+        "target_residual_norm": [
+          95.85823822021484,
+          2688.36474609375
+        ]
+      },
+      "6": {
+        "plain_output_norm": [
+          48.78483200073242,
+          5001.41162109375
+        ],
+        "firstforward_target_norm": [
+          126.33283996582031,
+          2313.345458984375
+        ],
+        "target_residual_norm": [
+          108.97356414794922,
+          2689.543212890625
+        ]
+      },
+      "7": {
+        "plain_output_norm": [
+          56.15860366821289,
+          5228.51025390625
+        ],
+        "firstforward_target_norm": [
+          119.70828247070312,
+          2536.8291015625
+        ],
+        "target_residual_norm": [
+          104.56340026855469,
+          2693.404541015625
+        ]
+      },
+      "8": {
+        "plain_output_norm": [
+          69.04450225830078,
+          5433.123046875
+        ],
+        "firstforward_target_norm": [
+          124.14573669433594,
+          2737.994140625
+        ],
+        "target_residual_norm": [
+          112.64485168457031,
+          2697.09716796875
+        ]
+      }
+    }
+  },
+  "fit_final_observations": [
+    {
+      "final_loss_line": "loss 0.048 = 0.026 + 0.021 + 0.0 avg prob of [ actor] 0.9746121764183044",
+      "norms": "Init norm 46.5 | Delta norm 46.499996185302734 | Target norm 64.73782348632812"
+    },
+    {
+      "final_loss_line": "loss 0.043 = 0.005 + 0.038 + 0.0 avg prob of [ Asia] 0.9948320984840393",
+      "norms": "Init norm 39.5 | Delta norm 39.500003814697266 | Target norm 55.63972473144531"
+    },
+    {
+      "final_loss_line": "loss 0.063 = 0.001 + 0.062 + 0.0 avg prob of [ actor] 0.9987080097198486",
+      "norms": "Init norm 47.0 | Delta norm 46.999996185302734 | Target norm 67.76101684570312"
+    },
+    {
+      "final_loss_line": "loss 13.691 = 13.688 + 0.003 + 0.0 avg prob of [ Asia] 1.1415696690164623e-06",
+      "norms": "Init norm 41.0 | Delta norm 41.0 | Target norm 60.67625427246094"
+    }
+  ],
+  "source": {
+    "qwen_target_drift_probe.py": {
+      "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/qwen_target_drift_probe.py",
+      "sha256": "a1ffeb6f4b6201d85ec4d44e6b438ee6191a230a84d0e615551a253bf15cfdab"
+    }
+  }
+}

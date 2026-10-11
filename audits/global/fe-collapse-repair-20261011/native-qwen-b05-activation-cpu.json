@@ -1,0 +1,1325 @@
+{
+  "scope": "Read-only partial pretrained model CPU BF16 SDPA; incoming B6 100 bare prompts, no targets or edits, no GPU accuracy/parity claim",
+  "checkpoint": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/qwen25/checkpoints/B05.pt",
+    "sha256": "4e5304da0d7dc6ef50e0b45d2edb91b74b68a85777e2e1e2a639308f06a630f3",
+    "bytes": 7856477081,
+    "completed_batches": 5,
+    "completed_edits": 500,
+    "identity_sha256": "04fff304614b0673ee999f015b2ee81afaab5a69ada9b9a7767aeff8589dbd8f"
+  },
+  "case_ids": [
+    14919,
+    363,
+    6507,
+    1439,
+    6767,
+    10883,
+    18983,
+    2944,
+    17972,
+    4915,
+    2304,
+    4020,
+    13453,
+    18673,
+    13770,
+    7850,
+    12870,
+    17423,
+    12534,
+    12105,
+    20184,
+    14935,
+    1171,
+    191,
+    16028,
+    1656,
+    15766,
+    16095,
+    21803,
+    6345,
+    224,
+    4584,
+    8274,
+    7004,
+    21661,
+    6087,
+    10290,
+    919,
+    3006,
+    14020,
+    12130,
+    20736,
+    4139,
+    1287,
+    18360,
+    14056,
+    11369,
+    4143,
+    21626,
+    14873,
+    3565,
+    12015,
+    2922,
+    13007,
+    44,
+    15602,
+    446,
+    2807,
+    6253,
+    5907,
+    7957,
+    7359,
+    8737,
+    17384,
+    2270,
+    11063,
+    3548,
+    1601,
+    2882,
+    18917,
+    17516,
+    15129,
+    12183,
+    21459,
+    3468,
+    4392,
+    658,
+    8790,
+    12270,
+    16069,
+    13123,
+    13729,
+    20068,
+    12063,
+    19821,
+    16020,
+    10993,
+    767,
+    10762,
+    5727,
+    21696,
+    522,
+    4963,
+    21718,
+    13617,
+    2158,
+    20220,
+    21264,
+    12871,
+    11600
+  ],
+  "layers": {
+    "4": {
+      "w0": {
+        "subject_norm": {
+          "median": 41.53459548950195,
+          "p95": 55.58097457885742,
+          "max": 66.44760131835938
+        },
+        "other_nonfirst_norm": {
+          "median": 36.66244125366211,
+          "p95": 62.09192657470703,
+          "max": 14441.3486328125
+        },
+        "first_norm": {
+          "median": 13030.298828125,
+          "p95": 14053.08203125,
+          "max": 14919.12109375
+        }
+      },
+      "L4_only": {
+        "subject_norm": {
+          "median": 42.43013000488281,
+          "p95": 56.93935775756836,
+          "max": 73.20845031738281
+        },
+        "other_nonfirst_norm": {
+          "median": 37.16258239746094,
+          "p95": 63.95066833496094,
+          "max": 14457.6171875
+        },
+        "first_norm": {
+          "median": 13080.0556640625,
+          "p95": 14052.9697265625,
+          "max": 14919.0732421875
+        },
+        "largest_subject_growth": [
+          {
+            "case_id": 3468,
+            "request_index": 574,
+            "lookup": 2,
+            "subject": "Henry Pym",
+            "w0_subject_norm": 57.22630310058594,
+            "edited_subject_norm": 73.20845031738281,
+            "subject_ratio": 1.2792797088623047,
+            "other_max_change": 7.973651885986328
+          },
+          {
+            "case_id": 12871,
+            "request_index": 598,
+            "lookup": 2,
+            "subject": "Brownhills",
+            "w0_subject_norm": 46.78886032104492,
+            "edited_subject_norm": 56.366451263427734,
+            "subject_ratio": 1.204698085784912,
+            "other_max_change": 7.6662821769714355
+          },
+          {
+            "case_id": 20068,
+            "request_index": 582,
+            "lookup": 2,
+            "subject": "Howchin Glacier",
+            "w0_subject_norm": 41.8452262878418,
+            "edited_subject_norm": 48.10783004760742,
+            "subject_ratio": 1.1496611833572388,
+            "other_max_change": 7.43601655960083
+          },
+          {
+            "case_id": 5727,
+            "request_index": 589,
+            "lookup": 1,
+            "subject": "Greece",
+            "w0_subject_norm": 48.10749435424805,
+            "edited_subject_norm": 53.33291244506836,
+            "subject_ratio": 1.1086195707321167,
+            "other_max_change": 4.361737251281738
+          },
+          {
+            "case_id": 2922,
+            "request_index": 552,
+            "lookup": 3,
+            "subject": "Wohlthat Mountains",
+            "w0_subject_norm": 35.551029205322266,
+            "edited_subject_norm": 39.34534454345703,
+            "subject_ratio": 1.1067286729812622,
+            "other_max_change": 35.05411911010742
+          }
+        ],
+        "other_nonfirst_change_from_w0": {
+          "median": 5.300678730010986,
+          "p95": 14.316766738891602,
+          "max": 87.1228256225586
+        }
+      },
+      "B05": {
+        "subject_norm": {
+          "median": 42.43013000488281,
+          "p95": 56.93935775756836,
+          "max": 73.20845031738281
+        },
+        "other_nonfirst_norm": {
+          "median": 37.16258239746094,
+          "p95": 63.95066833496094,
+          "max": 14457.6171875
+        },
+        "first_norm": {
+          "median": 13080.0556640625,
+          "p95": 14052.9697265625,
+          "max": 14919.0732421875
+        },
+        "largest_subject_growth": [
+          {
+            "case_id": 3468,
+            "request_index": 574,
+            "lookup": 2,
+            "subject": "Henry Pym",
+            "w0_subject_norm": 57.22630310058594,
+            "edited_subject_norm": 73.20845031738281,
+            "subject_ratio": 1.2792797088623047,
+            "other_max_change": 7.973651885986328
+          },
+          {
+            "case_id": 12871,
+            "request_index": 598,
+            "lookup": 2,
+            "subject": "Brownhills",
+            "w0_subject_norm": 46.78886032104492,
+            "edited_subject_norm": 56.366451263427734,
+            "subject_ratio": 1.204698085784912,
+            "other_max_change": 7.6662821769714355
+          },
+          {
+            "case_id": 20068,
+            "request_index": 582,
+            "lookup": 2,
+            "subject": "Howchin Glacier",
+            "w0_subject_norm": 41.8452262878418,
+            "edited_subject_norm": 48.10783004760742,
+            "subject_ratio": 1.1496611833572388,
+            "other_max_change": 7.43601655960083
+          },
+          {
+            "case_id": 5727,
+            "request_index": 589,
+            "lookup": 1,
+            "subject": "Greece",
+            "w0_subject_norm": 48.10749435424805,
+            "edited_subject_norm": 53.33291244506836,
+            "subject_ratio": 1.1086195707321167,
+            "other_max_change": 4.361737251281738
+          },
+          {
+            "case_id": 2922,
+            "request_index": 552,
+            "lookup": 3,
+            "subject": "Wohlthat Mountains",
+            "w0_subject_norm": 35.551029205322266,
+            "edited_subject_norm": 39.34534454345703,
+            "subject_ratio": 1.1067286729812622,
+            "other_max_change": 35.05411911010742
+          }
+        ],
+        "other_nonfirst_change_from_w0": {
+          "median": 5.300678730010986,
+          "p95": 14.316766738891602,
+          "max": 87.1228256225586
+        }
+      },
+      "B05_L5_restored": {
+        "subject_norm": {
+          "median": 42.43013000488281,
+          "p95": 56.93935775756836,
+          "max": 73.20845031738281
+        },
+        "other_nonfirst_norm": {
+          "median": 37.16258239746094,
+          "p95": 63.95066833496094,
+          "max": 14457.6171875
+        },
+        "first_norm": {
+          "median": 13080.0556640625,
+          "p95": 14052.9697265625,
+          "max": 14919.0732421875
+        },
+        "largest_subject_growth": [
+          {
+            "case_id": 3468,
+            "request_index": 574,
+            "lookup": 2,
+            "subject": "Henry Pym",
+            "w0_subject_norm": 57.22630310058594,
+            "edited_subject_norm": 73.20845031738281,
+            "subject_ratio": 1.2792797088623047,
+            "other_max_change": 7.973651885986328
+          },
+          {
+            "case_id": 12871,
+            "request_index": 598,
+            "lookup": 2,
+            "subject": "Brownhills",
+            "w0_subject_norm": 46.78886032104492,
+            "edited_subject_norm": 56.366451263427734,
+            "subject_ratio": 1.204698085784912,
+            "other_max_change": 7.6662821769714355
+          },
+          {
+            "case_id": 20068,
+            "request_index": 582,
+            "lookup": 2,
+            "subject": "Howchin Glacier",
+            "w0_subject_norm": 41.8452262878418,
+            "edited_subject_norm": 48.10783004760742,
+            "subject_ratio": 1.1496611833572388,
+            "other_max_change": 7.43601655960083
+          },
+          {
+            "case_id": 5727,
+            "request_index": 589,
+            "lookup": 1,
+            "subject": "Greece",
+            "w0_subject_norm": 48.10749435424805,
+            "edited_subject_norm": 53.33291244506836,
+            "subject_ratio": 1.1086195707321167,
+            "other_max_change": 4.361737251281738
+          },
+          {
+            "case_id": 2922,
+            "request_index": 552,
+            "lookup": 3,
+            "subject": "Wohlthat Mountains",
+            "w0_subject_norm": 35.551029205322266,
+            "edited_subject_norm": 39.34534454345703,
+            "subject_ratio": 1.1067286729812622,
+            "other_max_change": 35.05411911010742
+          }
+        ],
+        "other_nonfirst_change_from_w0": {
+          "median": 5.300678730010986,
+          "p95": 14.316766738891602,
+          "max": 87.1228256225586
+        }
+      }
+    },
+    "5": {
+      "w0": {
+        "subject_norm": {
+          "median": 43.53725051879883,
+          "p95": 58.417213439941406,
+          "max": 64.41889190673828
+        },
+        "other_nonfirst_norm": {
+          "median": 38.14398193359375,
+          "p95": 62.08808135986328,
+          "max": 14614.0537109375
+        },
+        "first_norm": {
+          "median": 13203.5283203125,
+          "p95": 14226.375,
+          "max": 15091.7744140625
+        }
+      },
+      "L4_only": {
+        "subject_norm": {
+          "median": 44.05527877807617,
+          "p95": 61.18046188354492,
+          "max": 70.06953430175781
+        },
+        "other_nonfirst_norm": {
+          "median": 38.5572624206543,
+          "p95": 70.01559448242188,
+          "max": 14630.41015625
+        },
+        "first_norm": {
+          "median": 13253.23828125,
+          "p95": 14226.234375,
+          "max": 15091.7255859375
+        },
+        "largest_subject_growth": [
+          {
+            "case_id": 13617,
+            "request_index": 594,
+            "lookup": 3,
+            "subject": "Vinson Plateau",
+            "w0_subject_norm": 38.014137268066406,
+            "edited_subject_norm": 66.42030334472656,
+            "subject_ratio": 1.7472527027130127,
+            "other_max_change": 159.42408752441406
+          },
+          {
+            "case_id": 3468,
+            "request_index": 574,
+            "lookup": 2,
+            "subject": "Henry Pym",
+            "w0_subject_norm": 56.150306701660156,
+            "edited_subject_norm": 70.06953430175781,
+            "subject_ratio": 1.2478922605514526,
+            "other_max_change": 7.966939926147461
+          },
+          {
+            "case_id": 12871,
+            "request_index": 598,
+            "lookup": 2,
+            "subject": "Brownhills",
+            "w0_subject_norm": 47.3177375793457,
+            "edited_subject_norm": 55.04741668701172,
+            "subject_ratio": 1.163356900215149,
+            "other_max_change": 8.323408126831055
+          },
+          {
+            "case_id": 20068,
+            "request_index": 582,
+            "lookup": 2,
+            "subject": "Howchin Glacier",
+            "w0_subject_norm": 41.98488998413086,
+            "edited_subject_norm": 48.096553802490234,
+            "subject_ratio": 1.1455681324005127,
+            "other_max_change": 8.668156623840332
+          },
+          {
+            "case_id": 2922,
+            "request_index": 552,
+            "lookup": 3,
+            "subject": "Wohlthat Mountains",
+            "w0_subject_norm": 36.686702728271484,
+            "edited_subject_norm": 39.75777816772461,
+            "subject_ratio": 1.0837109088897705,
+            "other_max_change": 33.921875
+          }
+        ],
+        "other_nonfirst_change_from_w0": {
+          "median": 5.504579067230225,
+          "p95": 17.369604110717773,
+          "max": 159.42408752441406
+        }
+      },
+      "B05": {
+        "subject_norm": {
+          "median": 47.147117614746094,
+          "p95": 64.64740753173828,
+          "max": 4696.58984375
+        },
+        "other_nonfirst_norm": {
+          "median": 39.72061538696289,
+          "p95": 156.8777313232422,
+          "max": 14630.416015625
+        },
+        "first_norm": {
+          "median": 13253.23828125,
+          "p95": 14226.2353515625,
+          "max": 15091.7265625
+        },
+        "largest_subject_growth": [
+          {
+            "case_id": 13617,
+            "request_index": 594,
+            "lookup": 3,
+            "subject": "Vinson Plateau",
+            "w0_subject_norm": 38.014137268066406,
+            "edited_subject_norm": 4696.58984375,
+            "subject_ratio": 123.54850769042969,
+            "other_max_change": 13011.2001953125
+          },
+          {
+            "case_id": 15602,
+            "request_index": 555,
+            "lookup": 4,
+            "subject": "Wilhelm Marx",
+            "w0_subject_norm": 43.83359146118164,
+            "edited_subject_norm": 95.56529235839844,
+            "subject_ratio": 2.1801838874816895,
+            "other_max_change": 27.979066848754883
+          },
+          {
+            "case_id": 12871,
+            "request_index": 598,
+            "lookup": 2,
+            "subject": "Brownhills",
+            "w0_subject_norm": 47.3177375793457,
+            "edited_subject_norm": 62.51903533935547,
+            "subject_ratio": 1.3212599754333496,
+            "other_max_change": 14.406068801879883
+          },
+          {
+            "case_id": 3468,
+            "request_index": 574,
+            "lookup": 2,
+            "subject": "Henry Pym",
+            "w0_subject_norm": 56.150306701660156,
+            "edited_subject_norm": 71.92485046386719,
+            "subject_ratio": 1.28093421459198,
+            "other_max_change": 11.4172945022583
+          },
+          {
+            "case_id": 1287,
+            "request_index": 543,
+            "lookup": 4,
+            "subject": "Junsang Bahk",
+            "w0_subject_norm": 44.97061538696289,
+            "edited_subject_norm": 56.170936584472656,
+            "subject_ratio": 1.2490586042404175,
+            "other_max_change": 25.83928871154785
+          }
+        ],
+        "other_nonfirst_change_from_w0": {
+          "median": 9.839590072631836,
+          "p95": 34.68302536010742,
+          "max": 13011.2001953125
+        }
+      },
+      "B05_L5_restored": {
+        "subject_norm": {
+          "median": 44.05527877807617,
+          "p95": 61.18046188354492,
+          "max": 70.06953430175781
+        },
+        "other_nonfirst_norm": {
+          "median": 38.5572624206543,
+          "p95": 70.01559448242188,
+          "max": 14630.41015625
+        },
+        "first_norm": {
+          "median": 13253.23828125,
+          "p95": 14226.234375,
+          "max": 15091.7255859375
+        },
+        "largest_subject_growth": [
+          {
+            "case_id": 13617,
+            "request_index": 594,
+            "lookup": 3,
+            "subject": "Vinson Plateau",
+            "w0_subject_norm": 38.014137268066406,
+            "edited_subject_norm": 66.42030334472656,
+            "subject_ratio": 1.7472527027130127,
+            "other_max_change": 159.42408752441406
+          },
+          {
+            "case_id": 3468,
+            "request_index": 574,
+            "lookup": 2,
+            "subject": "Henry Pym",
+            "w0_subject_norm": 56.150306701660156,
+            "edited_subject_norm": 70.06953430175781,
+            "subject_ratio": 1.2478922605514526,
+            "other_max_change": 7.966939926147461
+          },
+          {
+            "case_id": 12871,
+            "request_index": 598,
+            "lookup": 2,
+            "subject": "Brownhills",
+            "w0_subject_norm": 47.3177375793457,
+            "edited_subject_norm": 55.04741668701172,
+            "subject_ratio": 1.163356900215149,
+            "other_max_change": 8.323408126831055
+          },
+          {
+            "case_id": 20068,
+            "request_index": 582,
+            "lookup": 2,
+            "subject": "Howchin Glacier",
+            "w0_subject_norm": 41.98488998413086,
+            "edited_subject_norm": 48.096553802490234,
+            "subject_ratio": 1.1455681324005127,
+            "other_max_change": 8.668156623840332
+          },
+          {
+            "case_id": 2922,
+            "request_index": 552,
+            "lookup": 3,
+            "subject": "Wohlthat Mountains",
+            "w0_subject_norm": 36.686702728271484,
+            "edited_subject_norm": 39.75777816772461,
+            "subject_ratio": 1.0837109088897705,
+            "other_max_change": 33.921875
+          }
+        ],
+        "other_nonfirst_change_from_w0": {
+          "median": 5.504579067230225,
+          "p95": 17.369604110717773,
+          "max": 159.42408752441406
+        }
+      }
+    },
+    "6": {
+      "w0": {
+        "subject_norm": {
+          "median": 50.722373962402344,
+          "p95": 67.03926849365234,
+          "max": 70.83364868164062
+        },
+        "other_nonfirst_norm": {
+          "median": 45.14263153076172,
+          "p95": 68.51026916503906,
+          "max": 14788.1015625
+        },
+        "first_norm": {
+          "median": 13377.69921875,
+          "p95": 14400.7568359375,
+          "max": 15265.8095703125
+        }
+      },
+      "L4_only": {
+        "subject_norm": {
+          "median": 51.133888244628906,
+          "p95": 67.02899932861328,
+          "max": 91.01277923583984
+        },
+        "other_nonfirst_norm": {
+          "median": 44.953548431396484,
+          "p95": 76.35486602783203,
+          "max": 14804.5390625
+        },
+        "first_norm": {
+          "median": 13427.3603515625,
+          "p95": 14400.5986328125,
+          "max": 15265.7705078125
+        },
+        "largest_subject_growth": [
+          {
+            "case_id": 13617,
+            "request_index": 594,
+            "lookup": 3,
+            "subject": "Vinson Plateau",
+            "w0_subject_norm": 43.92875289916992,
+            "edited_subject_norm": 91.01277923583984,
+            "subject_ratio": 2.0718271732330322,
+            "other_max_change": 197.92840576171875
+          },
+          {
+            "case_id": 3468,
+            "request_index": 574,
+            "lookup": 2,
+            "subject": "Henry Pym",
+            "w0_subject_norm": 60.788204193115234,
+            "edited_subject_norm": 76.10929107666016,
+            "subject_ratio": 1.2520405054092407,
+            "other_max_change": 9.893014907836914
+          },
+          {
+            "case_id": 20068,
+            "request_index": 582,
+            "lookup": 2,
+            "subject": "Howchin Glacier",
+            "w0_subject_norm": 47.8707389831543,
+            "edited_subject_norm": 54.27998352050781,
+            "subject_ratio": 1.133886456489563,
+            "other_max_change": 11.526365280151367
+          },
+          {
+            "case_id": 12871,
+            "request_index": 598,
+            "lookup": 2,
+            "subject": "Brownhills",
+            "w0_subject_norm": 57.41843795776367,
+            "edited_subject_norm": 60.66460418701172,
+            "subject_ratio": 1.056535243988037,
+            "other_max_change": 9.714569091796875
+          },
+          {
+            "case_id": 14056,
+            "request_index": 545,
+            "lookup": 10,
+            "subject": "Ildebrando Pizzetti",
+            "w0_subject_norm": 54.088294982910156,
+            "edited_subject_norm": 56.07362365722656,
+            "subject_ratio": 1.0367053747177124,
+            "other_max_change": 15.788397789001465
+          }
+        ],
+        "other_nonfirst_change_from_w0": {
+          "median": 6.254873752593994,
+          "p95": 18.015844345092773,
+          "max": 197.92840576171875
+        }
+      },
+      "B05": {
+        "subject_norm": {
+          "median": 56.75758743286133,
+          "p95": 81.65571594238281,
+          "max": 4945.8603515625
+        },
+        "other_nonfirst_norm": {
+          "median": 47.80636978149414,
+          "p95": 290.3188781738281,
+          "max": 14804.55859375
+        },
+        "first_norm": {
+          "median": 13427.37109375,
+          "p95": 14400.607421875,
+          "max": 15265.7783203125
+        },
+        "largest_subject_growth": [
+          {
+            "case_id": 13617,
+            "request_index": 594,
+            "lookup": 3,
+            "subject": "Vinson Plateau",
+            "w0_subject_norm": 43.92875289916992,
+            "edited_subject_norm": 4945.8603515625,
+            "subject_ratio": 112.58822631835938,
+            "other_max_change": 13255.46875
+          },
+          {
+            "case_id": 15602,
+            "request_index": 555,
+            "lookup": 4,
+            "subject": "Wilhelm Marx",
+            "w0_subject_norm": 51.317626953125,
+            "edited_subject_norm": 177.65057373046875,
+            "subject_ratio": 3.461784601211548,
+            "other_max_change": 29.051794052124023
+          },
+          {
+            "case_id": 12063,
+            "request_index": 583,
+            "lookup": 6,
+            "subject": "Lauren Woolstencroft",
+            "w0_subject_norm": 43.426475524902344,
+            "edited_subject_norm": 79.10508728027344,
+            "subject_ratio": 1.8215866088867188,
+            "other_max_change": 83.58929443359375
+          },
+          {
+            "case_id": 12130,
+            "request_index": 540,
+            "lookup": 2,
+            "subject": "Simdega",
+            "w0_subject_norm": 52.4811897277832,
+            "edited_subject_norm": 94.16658020019531,
+            "subject_ratio": 1.7942919731140137,
+            "other_max_change": 44.27009963989258
+          },
+          {
+            "case_id": 4143,
+            "request_index": 547,
+            "lookup": 5,
+            "subject": "Bendik Hofseth",
+            "w0_subject_norm": 43.48048782348633,
+            "edited_subject_norm": 74.52239990234375,
+            "subject_ratio": 1.7139273881912231,
+            "other_max_change": 38.97463607788086
+          }
+        ],
+        "other_nonfirst_change_from_w0": {
+          "median": 16.282495498657227,
+          "p95": 70.32720184326172,
+          "max": 13255.46875
+        }
+      },
+      "B05_L5_restored": {
+        "subject_norm": {
+          "median": 51.93635177612305,
+          "p95": 67.20450592041016,
+          "max": 92.62258911132812
+        },
+        "other_nonfirst_norm": {
+          "median": 45.38407516479492,
+          "p95": 77.0721664428711,
+          "max": 14804.546875
+        },
+        "first_norm": {
+          "median": 13427.3701171875,
+          "p95": 14400.607421875,
+          "max": 15265.7783203125
+        },
+        "largest_subject_growth": [
+          {
+            "case_id": 13617,
+            "request_index": 594,
+            "lookup": 3,
+            "subject": "Vinson Plateau",
+            "w0_subject_norm": 43.92875289916992,
+            "edited_subject_norm": 92.62258911132812,
+            "subject_ratio": 2.108473062515259,
+            "other_max_change": 202.7643585205078
+          },
+          {
+            "case_id": 3468,
+            "request_index": 574,
+            "lookup": 2,
+            "subject": "Henry Pym",
+            "w0_subject_norm": 60.788204193115234,
+            "edited_subject_norm": 76.31330871582031,
+            "subject_ratio": 1.2553966045379639,
+            "other_max_change": 17.551300048828125
+          },
+          {
+            "case_id": 4143,
+            "request_index": 547,
+            "lookup": 5,
+            "subject": "Bendik Hofseth",
+            "w0_subject_norm": 43.48048782348633,
+            "edited_subject_norm": 50.80778121948242,
+            "subject_ratio": 1.168519139289856,
+            "other_max_change": 20.349679946899414
+          },
+          {
+            "case_id": 20068,
+            "request_index": 582,
+            "lookup": 2,
+            "subject": "Howchin Glacier",
+            "w0_subject_norm": 47.8707389831543,
+            "edited_subject_norm": 54.93568801879883,
+            "subject_ratio": 1.1475838422775269,
+            "other_max_change": 12.871858596801758
+          },
+          {
+            "case_id": 12871,
+            "request_index": 598,
+            "lookup": 2,
+            "subject": "Brownhills",
+            "w0_subject_norm": 57.41843795776367,
+            "edited_subject_norm": 62.91127014160156,
+            "subject_ratio": 1.0956631898880005,
+            "other_max_change": 10.441500663757324
+          }
+        ],
+        "other_nonfirst_change_from_w0": {
+          "median": 7.9684624671936035,
+          "p95": 20.813127517700195,
+          "max": 202.7643585205078
+        }
+      }
+    },
+    "7": {
+      "w0": {
+        "subject_norm": {
+          "median": 58.61747360229492,
+          "p95": 76.27252197265625,
+          "max": 78.50375366210938
+        },
+        "other_nonfirst_norm": {
+          "median": 52.95866012573242,
+          "p95": 75.30286407470703,
+          "max": 14887.3291015625
+        },
+        "first_norm": {
+          "median": 13476.9072265625,
+          "p95": 14483.912109375,
+          "max": 15365.005859375
+        }
+      },
+      "L4_only": {
+        "subject_norm": {
+          "median": 58.25096893310547,
+          "p95": 75.57452392578125,
+          "max": 101.05976867675781
+        },
+        "other_nonfirst_norm": {
+          "median": 52.75031661987305,
+          "p95": 82.62970733642578,
+          "max": 14887.6083984375
+        },
+        "first_norm": {
+          "median": 13510.416015625,
+          "p95": 14483.7392578125,
+          "max": 15348.7861328125
+        },
+        "largest_subject_growth": [
+          {
+            "case_id": 13617,
+            "request_index": 594,
+            "lookup": 3,
+            "subject": "Vinson Plateau",
+            "w0_subject_norm": 52.75166702270508,
+            "edited_subject_norm": 101.05976867675781,
+            "subject_ratio": 1.9157644510269165,
+            "other_max_change": 225.62637329101562
+          },
+          {
+            "case_id": 3468,
+            "request_index": 574,
+            "lookup": 2,
+            "subject": "Henry Pym",
+            "w0_subject_norm": 62.177310943603516,
+            "edited_subject_norm": 79.27174377441406,
+            "subject_ratio": 1.2749303579330444,
+            "other_max_change": 11.737092018127441
+          },
+          {
+            "case_id": 12871,
+            "request_index": 598,
+            "lookup": 2,
+            "subject": "Brownhills",
+            "w0_subject_norm": 66.25859832763672,
+            "edited_subject_norm": 74.33277130126953,
+            "subject_ratio": 1.1218584775924683,
+            "other_max_change": 20.4473819732666
+          },
+          {
+            "case_id": 20068,
+            "request_index": 582,
+            "lookup": 2,
+            "subject": "Howchin Glacier",
+            "w0_subject_norm": 59.459983825683594,
+            "edited_subject_norm": 65.63119506835938,
+            "subject_ratio": 1.1037876605987549,
+            "other_max_change": 14.081412315368652
+          },
+          {
+            "case_id": 2922,
+            "request_index": 552,
+            "lookup": 3,
+            "subject": "Wohlthat Mountains",
+            "w0_subject_norm": 55.56645965576172,
+            "edited_subject_norm": 60.28067398071289,
+            "subject_ratio": 1.0848392248153687,
+            "other_max_change": 35.94273376464844
+          }
+        ],
+        "other_nonfirst_change_from_w0": {
+          "median": 7.0659685134887695,
+          "p95": 17.739591598510742,
+          "max": 225.62637329101562
+        }
+      },
+      "B05": {
+        "subject_norm": {
+          "median": 61.64372634887695,
+          "p95": 176.79885864257812,
+          "max": 5172.87353515625
+        },
+        "other_nonfirst_norm": {
+          "median": 56.295047760009766,
+          "p95": 337.1198425292969,
+          "max": 14903.9365234375
+        },
+        "first_norm": {
+          "median": 13526.533203125,
+          "p95": 14484.568359375,
+          "max": 15364.98046875
+        },
+        "largest_subject_growth": [
+          {
+            "case_id": 13617,
+            "request_index": 594,
+            "lookup": 3,
+            "subject": "Vinson Plateau",
+            "w0_subject_norm": 52.75166702270508,
+            "edited_subject_norm": 5172.87353515625,
+            "subject_ratio": 98.06085205078125,
+            "other_max_change": 13491.138671875
+          },
+          {
+            "case_id": 15602,
+            "request_index": 555,
+            "lookup": 4,
+            "subject": "Wilhelm Marx",
+            "w0_subject_norm": 52.768001556396484,
+            "edited_subject_norm": 323.57098388671875,
+            "subject_ratio": 6.131954669952393,
+            "other_max_change": 49.85685729980469
+          },
+          {
+            "case_id": 12063,
+            "request_index": 583,
+            "lookup": 6,
+            "subject": "Lauren Woolstencroft",
+            "w0_subject_norm": 47.89888000488281,
+            "edited_subject_norm": 190.31028747558594,
+            "subject_ratio": 3.973167896270752,
+            "other_max_change": 207.3099822998047
+          },
+          {
+            "case_id": 12130,
+            "request_index": 540,
+            "lookup": 2,
+            "subject": "Simdega",
+            "w0_subject_norm": 59.57977294921875,
+            "edited_subject_norm": 225.3342742919922,
+            "subject_ratio": 3.782059907913208,
+            "other_max_change": 108.38944244384766
+          },
+          {
+            "case_id": 15766,
+            "request_index": 526,
+            "lookup": 7,
+            "subject": "Hauk Aabel",
+            "w0_subject_norm": 50.7809944152832,
+            "edited_subject_norm": 180.9365692138672,
+            "subject_ratio": 3.5630764961242676,
+            "other_max_change": 50.26472854614258
+          }
+        ],
+        "other_nonfirst_change_from_w0": {
+          "median": 20.851160049438477,
+          "p95": 82.85432434082031,
+          "max": 13491.138671875
+        }
+      },
+      "B05_L5_restored": {
+        "subject_norm": {
+          "median": 60.10247039794922,
+          "p95": 78.15015411376953,
+          "max": 108.23967742919922
+        },
+        "other_nonfirst_norm": {
+          "median": 53.6397590637207,
+          "p95": 87.04528045654297,
+          "max": 14903.9228515625
+        },
+        "first_norm": {
+          "median": 13526.5419921875,
+          "p95": 14484.5673828125,
+          "max": 15364.978515625
+        },
+        "largest_subject_growth": [
+          {
+            "case_id": 13617,
+            "request_index": 594,
+            "lookup": 3,
+            "subject": "Vinson Plateau",
+            "w0_subject_norm": 52.75166702270508,
+            "edited_subject_norm": 108.23967742919922,
+            "subject_ratio": 2.0518722534179688,
+            "other_max_change": 233.7259521484375
+          },
+          {
+            "case_id": 4143,
+            "request_index": 547,
+            "lookup": 5,
+            "subject": "Bendik Hofseth",
+            "w0_subject_norm": 52.239654541015625,
+            "edited_subject_norm": 84.052734375,
+            "subject_ratio": 1.6089833974838257,
+            "other_max_change": 37.51090621948242
+          },
+          {
+            "case_id": 3548,
+            "request_index": 566,
+            "lookup": 4,
+            "subject": "Felipe Pigna",
+            "w0_subject_norm": 58.207340240478516,
+            "edited_subject_norm": 77.99861907958984,
+            "subject_ratio": 1.3400135040283203,
+            "other_max_change": 15.90764045715332
+          },
+          {
+            "case_id": 4584,
+            "request_index": 531,
+            "lookup": 3,
+            "subject": "Georgie Fame",
+            "w0_subject_norm": 59.21065139770508,
+            "edited_subject_norm": 75.59384155273438,
+            "subject_ratio": 1.276693344116211,
+            "other_max_change": 14.996694564819336
+          },
+          {
+            "case_id": 3468,
+            "request_index": 574,
+            "lookup": 2,
+            "subject": "Henry Pym",
+            "w0_subject_norm": 62.177310943603516,
+            "edited_subject_norm": 78.76773834228516,
+            "subject_ratio": 1.26682448387146,
+            "other_max_change": 22.88100814819336
+          }
+        ],
+        "other_nonfirst_change_from_w0": {
+          "median": 10.239590644836426,
+          "p95": 34.42292022705078,
+          "max": 293.94482421875
+        }
+      }
+    },
+    "8": {
+      "w0": {
+        "subject_norm": {
+          "median": 68.92784118652344,
+          "p95": 91.55085754394531,
+          "max": 99.21942138671875
+        },
+        "other_nonfirst_norm": {
+          "median": 59.215240478515625,
+          "p95": 84.18305206298828,
+          "max": 14969.1064453125
+        },
+        "first_norm": {
+          "median": 13558.70703125,
+          "p95": 14565.728515625,
+          "max": 15446.7119140625
+        }
+      },
+      "L4_only": {
+        "subject_norm": {
+          "median": 68.55809020996094,
+          "p95": 91.49476623535156,
+          "max": 104.33464050292969
+        },
+        "other_nonfirst_norm": {
+          "median": 58.85187911987305,
+          "p95": 89.7457275390625,
+          "max": 14969.380859375
+        },
+        "first_norm": {
+          "median": 13592.1533203125,
+          "p95": 14565.5419921875,
+          "max": 15430.4462890625
+        },
+        "largest_subject_growth": [
+          {
+            "case_id": 13617,
+            "request_index": 594,
+            "lookup": 3,
+            "subject": "Vinson Plateau",
+            "w0_subject_norm": 58.709407806396484,
+            "edited_subject_norm": 104.33464050292969,
+            "subject_ratio": 1.7771366834640503,
+            "other_max_change": 239.68333435058594
+          },
+          {
+            "case_id": 3468,
+            "request_index": 574,
+            "lookup": 2,
+            "subject": "Henry Pym",
+            "w0_subject_norm": 71.09901428222656,
+            "edited_subject_norm": 86.31401062011719,
+            "subject_ratio": 1.2139972448349,
+            "other_max_change": 17.506595611572266
+          },
+          {
+            "case_id": 12871,
+            "request_index": 598,
+            "lookup": 2,
+            "subject": "Brownhills",
+            "w0_subject_norm": 75.10263061523438,
+            "edited_subject_norm": 86.05973815917969,
+            "subject_ratio": 1.1458951234817505,
+            "other_max_change": 26.579097747802734
+          },
+          {
+            "case_id": 20220,
+            "request_index": 596,
+            "lookup": 4,
+            "subject": "Tony Bevilacqua",
+            "w0_subject_norm": 58.22491455078125,
+            "edited_subject_norm": 62.10036087036133,
+            "subject_ratio": 1.066559910774231,
+            "other_max_change": 15.688617706298828
+          },
+          {
+            "case_id": 2922,
+            "request_index": 552,
+            "lookup": 3,
+            "subject": "Wohlthat Mountains",
+            "w0_subject_norm": 63.59016799926758,
+            "edited_subject_norm": 66.9003677368164,
+            "subject_ratio": 1.0520552396774292,
+            "other_max_change": 39.991458892822266
+          }
+        ],
+        "other_nonfirst_change_from_w0": {
+          "median": 8.063434600830078,
+          "p95": 20.573564529418945,
+          "max": 239.68333435058594
+        }
+      },
+      "B05": {
+        "subject_norm": {
+          "median": 72.43583679199219,
+          "p95": 322.6077880859375,
+          "max": 5377.62158203125
+        },
+        "other_nonfirst_norm": {
+          "median": 64.60374450683594,
+          "p95": 503.99310302734375,
+          "max": 14986.03515625
+        },
+        "first_norm": {
+          "median": 13608.607421875,
+          "p95": 14566.5888671875,
+          "max": 15446.908203125
+        },
+        "largest_subject_growth": [
+          {
+            "case_id": 13617,
+            "request_index": 594,
+            "lookup": 3,
+            "subject": "Vinson Plateau",
+            "w0_subject_norm": 58.709407806396484,
+            "edited_subject_norm": 5377.62158203125,
+            "subject_ratio": 91.59727478027344,
+            "other_max_change": 13706.322265625
+          },
+          {
+            "case_id": 15602,
+            "request_index": 555,
+            "lookup": 4,
+            "subject": "Wilhelm Marx",
+            "w0_subject_norm": 57.28495788574219,
+            "edited_subject_norm": 484.9057312011719,
+            "subject_ratio": 8.464799880981445,
+            "other_max_change": 105.38884735107422
+          },
+          {
+            "case_id": 12130,
+            "request_index": 540,
+            "lookup": 2,
+            "subject": "Simdega",
+            "w0_subject_norm": 63.39636993408203,
+            "edited_subject_norm": 387.6710510253906,
+            "subject_ratio": 6.115035533905029,
+            "other_max_change": 225.29620361328125
+          },
+          {
+            "case_id": 15766,
+            "request_index": 526,
+            "lookup": 7,
+            "subject": "Hauk Aabel",
+            "w0_subject_norm": 55.80394744873047,
+            "edited_subject_norm": 332.8387145996094,
+            "subject_ratio": 5.9644293785095215,
+            "other_max_change": 106.10478210449219
+          },
+          {
+            "case_id": 12063,
+            "request_index": 583,
+            "lookup": 6,
+            "subject": "Lauren Woolstencroft",
+            "w0_subject_norm": 59.811119079589844,
+            "edited_subject_norm": 344.3388977050781,
+            "subject_ratio": 5.757104873657227,
+            "other_max_change": 365.4785461425781
+          }
+        ],
+        "other_nonfirst_change_from_w0": {
+          "median": 24.80760955810547,
+          "p95": 176.20359802246094,
+          "max": 13706.322265625
+        }
+      },
+      "B05_L5_restored": {
+        "subject_norm": {
+          "median": 71.2187728881836,
+          "p95": 101.35415649414062,
+          "max": 144.0696563720703
+        },
+        "other_nonfirst_norm": {
+          "median": 60.26936721801758,
+          "p95": 102.64896392822266,
+          "max": 14986.0224609375
+        },
+        "first_norm": {
+          "median": 13608.6181640625,
+          "p95": 14566.5888671875,
+          "max": 15446.90625
+        },
+        "largest_subject_growth": [
+          {
+            "case_id": 4143,
+            "request_index": 547,
+            "lookup": 5,
+            "subject": "Bendik Hofseth",
+            "w0_subject_norm": 61.162811279296875,
+            "edited_subject_norm": 144.0696563720703,
+            "subject_ratio": 2.355510711669922,
+            "other_max_change": 68.76123046875
+          },
+          {
+            "case_id": 13617,
+            "request_index": 594,
+            "lookup": 3,
+            "subject": "Vinson Plateau",
+            "w0_subject_norm": 58.709407806396484,
+            "edited_subject_norm": 118.4371566772461,
+            "subject_ratio": 2.017345428466797,
+            "other_max_change": 249.5100555419922
+          },
+          {
+            "case_id": 3548,
+            "request_index": 566,
+            "lookup": 4,
+            "subject": "Felipe Pigna",
+            "w0_subject_norm": 75.12567138671875,
+            "edited_subject_norm": 129.09043884277344,
+            "subject_ratio": 1.7183265686035156,
+            "other_max_change": 15.735595703125
+          },
+          {
+            "case_id": 4584,
+            "request_index": 531,
+            "lookup": 3,
+            "subject": "Georgie Fame",
+            "w0_subject_norm": 74.00668334960938,
+            "edited_subject_norm": 113.99726104736328,
+            "subject_ratio": 1.540364384651184,
+            "other_max_change": 20.926010131835938
+          },
+          {
+            "case_id": 224,
+            "request_index": 530,
+            "lookup": 4,
+            "subject": "Duygu Asena",
+            "w0_subject_norm": 64.20511627197266,
+            "edited_subject_norm": 94.96881103515625,
+            "subject_ratio": 1.4791470766067505,
+            "other_max_change": 32.417659759521484
+          }
+        ],
+        "other_nonfirst_change_from_w0": {
+          "median": 12.476550102233887,
+          "p95": 40.52961349487305,
+          "max": 527.1788940429688
+        }
+      }
+    }
+  },
+  "attention_backend": "sdpa",
+  "source": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/qwen_checkpoint_activations.py",
+    "sha256": "7ad873119f8fac921ba27a5af8217969c29b0a19604c8a6ff31ba41c823aeabe"
+  }
+}

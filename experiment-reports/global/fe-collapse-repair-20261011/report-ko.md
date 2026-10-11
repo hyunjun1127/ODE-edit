@@ -311,3 +311,20 @@ GPU 성능 회복은 아직 미확인이다. Qwen63385는B6에서 L5 잔차892/u
 
 [동일 설정·차이의 범위](../../../audits/global/fe-collapse-repair-20261011/native-causal-preparation.json) ·
 [실제 제출·cap 검산](../../../audits/global/fe-collapse-repair-20261011/native-causal-submission.json).
+
+## Qwen L5 증폭과 target drift: CPU checkpoint 분리 검사
+
+동일B5 checkpoint를 읽은 CPU BF16 검사다. GPU 정확도/전체모델 bit parity 결과가 아니다.
+다음B6의100개 bare prompt 중 case13617(`Vinson Plateau`, subject lookup3)의 L5 norm이
+W0 38.01→B5 4696.59로123.55배 증가했다. 모델 사본의 L5 가중치만 W0로 복원하면66.42,
+L4만 편집 상태로 두어도66.42다. 중간층에 누적된 가중치 변경이 이 이상치 증폭에 관여한다.
+다른 층을 실제 학습에서 되돌리거나 입력 sample을 제외하지 않았다.
+[100건 활성값·층 분리](../../../audits/global/fe-collapse-repair-20261011/native-qwen-b05-activation-cpu.json).
+
+이 이상치 요청과B6 첫 요청을 고정해 **저자 compute_z와 동일한 firstforward**를 CPU에서 재계산했다.
+B5 모델 기준 case13617의 L4 target norm은60.68(W0 55.64)인 반면, L5 target은
+**2065.19(W0 53.10)**로 커졌다. 현재 모델의 큰 활성값이 다음 target에도 반영되는 현상을 직접 관측했다.
+이 요청의 현재 모델 최적화는 저자35step/clamp1 그대로이며 최종 target 확률은 약1.14e-6이다.
+현재 모델 기준 target의 누적 변화가 재현 실패에 관여한다는 근거이며,
+W0-reference online 대조63391의2K 회복 여부는 아직 확인하지 않았다.
+[동일 요청의 저자 z 대조](../../../audits/global/fe-collapse-repair-20261011/native-qwen-target-drift-cpu.json).
