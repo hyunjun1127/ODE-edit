@@ -514,3 +514,19 @@ W0/500/1000/1500/2000의 모든 Eff/Gen/Loc/Score가 저장된 summary와 일치
 W20에서는 rewrite/paraphrase/neighborhood의 목표 토큰 정답 수가 모두0임을 raw에서
 확인했다. 약50의 선호 점수를 정상적인 편집 성능으로 해석하면 안 된다.
 [raw 독립 재집계](../../../audits/global/fe-collapse-repair-20261011/native-qwen-independent-metrics.json).
+
+## Qwen: 미래 요청 선계산을 제거한 1K 가중치 일치
+
+63391의 B10 checkpoint 다섯 편집층 가중치 byte SHA가, 기존 저자 W0 선계산 참조
+63217의 `batch-10.json`에 저장된 가중치 SHA와 **모두 일치**한다. 같은1,000개 case의
+순서, 참조 raw SHA, 새 checkpoint identity와 검사 전후 SHA도 확인했다. 과거 실행은
+매 배치 checkpoint를 덮어썼으므로 여기서는 당시 commit에 기록된 가중치 hash와
+비교했으며, 과거 B10 tensor를 직접 재로딩했다는 뜻은 아니다. B20은 과거 tensor가
+남아 있어 최종 가중치와 history까지 직접 비교할 예정이다.
+
+이 비교의 의미는 target의 **기준 모델**과 **계산 시점**이 별개라는 것이다. 저자 FE의
+W0-reference를 유지하되 도착한100건만 계산할 수 있다. 각 요청의 target fit은 독립이며,
+writer는 현재 배치 target과 누적 history만 사용한다. 현재 모델을 참조하는 변형과는
+과학적 설정이 다르므로 같은 이름으로 몰래 바꾸지 않는다. 원저자 hparams나 샘플을
+변경하지 않고 선계산을 제거하는 대조로 보고하며, 최종 CF 성능은 아직 평가 전이다.
+[1K 실제 가중치 SHA 대조](../../../audits/global/fe-collapse-repair-20261011/native-qwen-online-b10-precompute-parity.json).

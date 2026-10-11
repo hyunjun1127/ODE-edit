@@ -1,0 +1,44 @@
+{
+  "scope": "Historical all-future W0 precompute is an author-method reference, not the current baseline",
+  "native_checkpoint": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/qwen_online_w0/checkpoints/B10.pt",
+    "sha256": "36d0faf23687881a9e3b52c95d52c2b47b0c2505a75280123f11951a40e6aad4",
+    "bytes": 7856478681,
+    "completed_batches": 10,
+    "completed_edits": 1000,
+    "identity_sha256": "214fe1a955e794680f745bcf055f2d8c0396fb4801e1a5ba931a98b0497c789a"
+  },
+  "reference_commit_path": "local/fe-original-w0-2k-20261011/qwen-server1-move-r1/runs/qwen25-cf/commits/batch-10.json",
+  "reference_commit_sha256": "7c74e750c37bb73e905906922d2b603e6508f37c35a3857a36016b457fc5dd59",
+  "reference_raw_sha256": "ac7825e7451682468f96e315319283e1881ea7c5a421ce1f208f0a1882f07857",
+  "same_ordered_cases": true,
+  "weights": {
+    "model.layers.4.mlp.down_proj.weight": {
+      "native_sha256": "c0a7e97fc77e8385b1c9a34378afbbcd845b9e170be0943ab5e690a4f451fed0",
+      "reference_sha256": "c0a7e97fc77e8385b1c9a34378afbbcd845b9e170be0943ab5e690a4f451fed0",
+      "identical_bytes": true
+    },
+    "model.layers.5.mlp.down_proj.weight": {
+      "native_sha256": "edf9ed33175f106bc7e47e1f6d5504edd74252f0e06fef6996e62b3ee615fd19",
+      "reference_sha256": "edf9ed33175f106bc7e47e1f6d5504edd74252f0e06fef6996e62b3ee615fd19",
+      "identical_bytes": true
+    },
+    "model.layers.6.mlp.down_proj.weight": {
+      "native_sha256": "927e7ad1724d62841e2f3234b6174a9a9d17ece356f95fde24190b3fa16d7327",
+      "reference_sha256": "927e7ad1724d62841e2f3234b6174a9a9d17ece356f95fde24190b3fa16d7327",
+      "identical_bytes": true
+    },
+    "model.layers.7.mlp.down_proj.weight": {
+      "native_sha256": "2513a8732cf13daf38174ef62b15dc1bd9013c61f4a99c18780fd72688087497",
+      "reference_sha256": "2513a8732cf13daf38174ef62b15dc1bd9013c61f4a99c18780fd72688087497",
+      "identical_bytes": true
+    },
+    "model.layers.8.mlp.down_proj.weight": {
+      "native_sha256": "5251c78a274dd6ed680db2f348960be9872a64a72da8aad664fddaf813d7dfe4",
+      "reference_sha256": "5251c78a274dd6ed680db2f348960be9872a64a72da8aad664fddaf813d7dfe4",
+      "identical_bytes": true
+    }
+  },
+  "CPU_only": true,
+  "checkpoint_bytes_unchanged": true
+}
