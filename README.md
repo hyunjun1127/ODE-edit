@@ -403,7 +403,7 @@ Llama historical3개는 원source/lock/CP와 새평가 consumer identity를 분�
 | FT | 58.97 | 88.75 | 66.75 | 40.61 | 510.98 | 3.04 | 23.15 | 17.95 | 0.62 |
 | MEMIT | 80.63 | 97.90 | 95.38 | 60.58 | 577.93 | 36.84 | 93.52 | 88.86 | 30.81 |
 | AlphaEdit | 88.22 | 99.70 | 96.33 | 73.56 | 614.00 | 40.76 | 99.69 | 96.45 | 27.94 |
-| AlphaEdit-BLUE | 89.23 | 99.55 | 97.53 | 75.06 | PENDING: s2-flucon-gptj-alphaedit_blue-61779 (62867) | PENDING: s2-flucon-gptj-alphaedit_blue-61779 (62867) | 99.75 | 95.71 | 28.83 |
+| AlphaEdit-BLUE | 89.23 | 99.55 | 97.53 | 75.06 | 621.35 | 42.00 | 99.75 | 95.71 | 28.83 |
 | FE (author hparams + history) | 재검증 준비 (63373 취소) | 재검증 준비 (63373 취소) | 재검증 준비 (63373 취소) | 재검증 준비 (63373 취소) | DEFERRED | DEFERRED | 재검증 필요 | 재검증 필요 | 재검증 필요 |
 | AlphaEdit+SPHERE | 88.39 | 99.70 | 95.73 | 74.27 | 616.18 | 40.89 | 99.67 | 96.29 | 28.00 |
 | CAKE | PENDING: official-s1-gptj-cf-cake-2k (63298) | PENDING: official-s1-gptj-cf-cake-2k (63298) | PENDING: official-s1-gptj-cf-cake-2k (63298) | PENDING: official-s1-gptj-cf-cake-2k (63298) | DEFERRED | DEFERRED | PENDING: official-s1-gptj-zsre-cake-2k (63299) | PENDING: official-s1-gptj-zsre-cake-2k (63299) | PENDING: official-s1-gptj-zsre-cake-2k (63299) |
@@ -415,6 +415,7 @@ held 검사 후 release, `afterany:63144` PENDING이며 두 생성 셀만 job �
 **63282는 2026-10-11 09:09 KST에 COMPLETED**(편집0, cold W0)이며 두 생성 셀을 채웠다. 2,000 case/20,000 prompts의 평균 6.2171 bits · 0.3016 cosine에 ×100 후 half-up 둘째 자리만 적용했다(621.71 / 30.16).
 생성 프로파일·seed·reference·tokenizer는 SH2의 GPT-J W20 Flu/Con 평가와 같고, 모델 파일 SHA는 load 전에 검사했다. [63282 원자료 SHA](audits/servers/server4/gptj-w0-flucon-20261011/result-63282.json).
 AlphaEdit Flu/Con은 W20 checkpoint(61778) 평가 **62866**(server2)의 완료값이다(평균 6.1400 bits · 0.4076 cosine, 614.00 / 40.76). [62866 원자료 SHA](audits/servers/server2/baseline-refresh-s2-flucon-20261010/gptj-alphaedit-61778-flucon.json).
+AlphaEdit-BLUE Flu/Con은 W20 checkpoint(61779) 평가 **62867**(server2)의 완료값이다(평균 6.2135 bits · 0.4200 cosine, 621.35 / 42.00). [62867 원자료 SHA](audits/servers/server2/baseline-refresh-s2-flucon-20261010/gptj-alphaedit_blue-61779-flucon.json).
 
 ¶ 최종 PRICE method의 GPT-J 2K다. CF는 rent job **101707**, zsRE는 server4 job **63027**이며 둘 다 W20/2,000 edits다.
 - 설정: arm `gptj-P-beta075`(resolved `d8f5ff72…`). β = c = β_max = 0.75, unit-lr ρ0.05, γ1, cap 끝점 cast, HC-PRICE, 요청별 early exit, sink EOT 규칙과 anchor guard 20.
