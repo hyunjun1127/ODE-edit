@@ -6,7 +6,7 @@ paths of the server3 copies (verified by SHA-256 against the template manifest),
 output and the tracking env file. The W20 checkpoint stays local for the deferred Flu/Con evaluation.
 
     python -m official.runners.server3.fe_author_llama_cf prepare --template-config CF.json \
-        --template-assets LLAMA3_ASSETS.json --stream CF_STREAM.json --output OUT/preparation-r1
+        --template-assets LLAMA3_ASSETS.json --stream CF_STREAM.json --output OUT/preparation-r1 [--wandb-env ENV]
     python -m official.runners.server3.fe_author_llama_cf register --preparation OUT/preparation-r1/preparation.json \
         --attempt OUT/registration-r1 --cap-authority TEXT
 """
@@ -19,7 +19,7 @@ from pathlib import Path
 from official.experiments.prepare import digest,write_new,file_sha
 from official.baselines.fe_author_profile import INSTRUCTION,PROFILE,profile
 from official.runners.fe_author_history import validate_config,tracking_values
-from official.tracking.schema import config as tracking_config
+from official.tracking.schema import config as tracking_config, load_env
 from ..server1.common import read,verify,member
 from ..server1.assets import member as asset_member
 from ..server1.fe_history_prepare import runtime
@@ -55,8 +55,9 @@ def server3_assets(template):
     a['C0']=c0;a['runtime']=runtime();a['template_assets_sha256']=template['assets_sha256']
     a['assets_sha256']=digest(a);return a
 
-def prepare(template_config,template_assets,stream,output):
+def prepare(template_config,template_assets,stream,output,wandb_env=WANDB_ENV):
     output=Path(output).absolute();assert output.is_relative_to(LOCAL) and not output.exists()
+    load_env(wandb_env)  # the runner's tracker accepts only the schema ENV_KEYS
     t=read(template_config);tmpl=read(template_assets)
     assert (t['model'],t['dataset'],t['server'],t['method'])==('llama3','cf','server1','MEMIT_FE_HISTORY')
     assert 'native_context' not in t and 'context_replay' not in t,'TEMPLATE_USES_COLD_NATIVE_CONTEXTS'
@@ -67,7 +68,7 @@ def prepare(template_config,template_assets,stream,output):
     output.mkdir(parents=True);ap=output/'assets-llama3.json';write_new(ap,server3_assets(tmpl))
     c=dict(t);c.pop('config_sha256')
     c.update(server='server3',task_id=TASK,assets=member(ap),stream_member=member(Path(stream).absolute()),
-        runtime=runtime(),output=str(output.parent/'runs'/'cf'),tracking_env_file=WANDB_ENV,
+        runtime=runtime(),output=str(output/'runs'/'cf'),tracking_env_file=str(Path(wandb_env).absolute()),
         author_profile_sha256=file_sha(PROFILE),covariance_policy='strict',
         rerun_of=dict(job='62529',config_sha256=t['config_sha256'],config=member(Path(template_config).absolute()),
                       reason='W20 checkpoint of 62529 was deleted; rerun keeps W20 for the deferred Flu/Con evaluation'))
@@ -88,7 +89,7 @@ def register(preparation,attempt,cap_authority):
     assert not control.command(['git','status','--porcelain','--','official'])
     cm=prep['configs'][0];c=read(verify(cm));validate_config(c);assert c['server']=='server3'
     verify(c['assets']);verify(c['stream_member']);assert c['author_profile_sha256']==file_sha(PROFILE)
-    tracking_config(tracking_values(c,{'source_commit':source}))
+    tracking_config(tracking_values(c,{'source_commit':source}));load_env(c['tracking_env_file'])
     assert runtime()==c['runtime'],'REGISTER_WITH_THE_RUN_PYTHON'
     resources=dict(control.DEFAULT_RESOURCES,node=NODE,qos=QOS,partition=PARTITION,wall_seconds=48*3600,memory_MiB=98304)
     plan=dict(cap=2,source=dict(main_commit=source,official_tree=tree),resources=resources)
@@ -131,9 +132,9 @@ def register(preparation,attempt,cap_authority):
 if __name__=='__main__':
     p=argparse.ArgumentParser();sub=p.add_subparsers(dest='cmd',required=True)
     a=sub.add_parser('prepare');a.add_argument('--template-config',required=True);a.add_argument('--template-assets',required=True)
-    a.add_argument('--stream',required=True);a.add_argument('--output',required=True)
+    a.add_argument('--stream',required=True);a.add_argument('--output',required=True);a.add_argument('--wandb-env',default=WANDB_ENV)
     b=sub.add_parser('register');b.add_argument('--preparation',required=True);b.add_argument('--attempt',required=True)
     b.add_argument('--cap-authority',required=True)
     x=p.parse_args()
-    if x.cmd=='prepare':prepare(x.template_config,x.template_assets,x.stream,x.output)
+    if x.cmd=='prepare':prepare(x.template_config,x.template_assets,x.stream,x.output,x.wandb_env)
     else:register(x.preparation,x.attempt,x.cap_authority)
