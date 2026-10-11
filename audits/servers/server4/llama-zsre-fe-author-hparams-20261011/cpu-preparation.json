@@ -1,0 +1,344 @@
+{
+  "C0_checks": [
+    {
+      "layer": "4",
+      "member": {
+        "bytes": 822084814,
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "7f5fc9b194d86ce289d607a23d02de5e7d7eb5a0833aaf6ef1698d814353585e"
+      },
+      "validation": {
+        "PSD_eigenvalidation": false,
+        "centered_covariance": false,
+        "constructor": "easyeditor.util.runningstats.SecondMoment()",
+        "diagonal_nonnegative": true,
+        "dtype": "float32",
+        "finite": true,
+        "masked_token_vector_count": 66019200,
+        "max_stored_sum": 4094803.25,
+        "min_stored_diagonal": 4805.96337890625,
+        "min_stored_sum": -581379.3125,
+        "normalization": "sum / masked_token_vector_count",
+        "recomputed": false,
+        "sample_documents": 100000,
+        "shape": [
+          14336,
+          14336
+        ],
+        "stored_field": "mom2.mom2",
+        "stored_value": "UNCENTERED_SECOND_MOMENT_SUM",
+        "validation": "STREAMED_FULL_SUM_FINITE_SHAPE_COUNT"
+      }
+    },
+    {
+      "layer": "5",
+      "member": {
+        "bytes": 822084814,
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "a99a36207d3b27f129bb5323c11139853a7851c9788c58931621aa08c81fb435"
+      },
+      "validation": {
+        "PSD_eigenvalidation": false,
+        "centered_covariance": false,
+        "constructor": "easyeditor.util.runningstats.SecondMoment()",
+        "diagonal_nonnegative": true,
+        "dtype": "float32",
+        "finite": true,
+        "masked_token_vector_count": 66019200,
+        "max_stored_sum": 17903618.0,
+        "min_stored_diagonal": 10232.9736328125,
+        "min_stored_sum": -1356879.875,
+        "normalization": "sum / masked_token_vector_count",
+        "recomputed": false,
+        "sample_documents": 100000,
+        "shape": [
+          14336,
+          14336
+        ],
+        "stored_field": "mom2.mom2",
+        "stored_value": "UNCENTERED_SECOND_MOMENT_SUM",
+        "validation": "STREAMED_FULL_SUM_FINITE_SHAPE_COUNT"
+      }
+    },
+    {
+      "layer": "6",
+      "member": {
+        "bytes": 822084814,
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "3a6a0c682f09a8b725e624fec1265adb46a2f7328586acc0b77c08e587e1c495"
+      },
+      "validation": {
+        "PSD_eigenvalidation": false,
+        "centered_covariance": false,
+        "constructor": "easyeditor.util.runningstats.SecondMoment()",
+        "diagonal_nonnegative": true,
+        "dtype": "float32",
+        "finite": true,
+        "masked_token_vector_count": 66019200,
+        "max_stored_sum": 24991060.0,
+        "min_stored_diagonal": 12292.822265625,
+        "min_stored_sum": -4222084.5,
+        "normalization": "sum / masked_token_vector_count",
+        "recomputed": false,
+        "sample_documents": 100000,
+        "shape": [
+          14336,
+          14336
+        ],
+        "stored_field": "mom2.mom2",
+        "stored_value": "UNCENTERED_SECOND_MOMENT_SUM",
+        "validation": "STREAMED_FULL_SUM_FINITE_SHAPE_COUNT"
+      }
+    },
+    {
+      "layer": "7",
+      "member": {
+        "bytes": 822084814,
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "a29e2d2ffb408eeba4a507d5ab9523129b2520bafc2874847f8d396796ebc830"
+      },
+      "validation": {
+        "PSD_eigenvalidation": false,
+        "centered_covariance": false,
+        "constructor": "easyeditor.util.runningstats.SecondMoment()",
+        "diagonal_nonnegative": true,
+        "dtype": "float32",
+        "finite": true,
+        "masked_token_vector_count": 66019200,
+        "max_stored_sum": 18323004.0,
+        "min_stored_diagonal": 11031.5087890625,
+        "min_stored_sum": -2144849.5,
+        "normalization": "sum / masked_token_vector_count",
+        "recomputed": false,
+        "sample_documents": 100000,
+        "shape": [
+          14336,
+          14336
+        ],
+        "stored_field": "mom2.mom2",
+        "stored_value": "UNCENTERED_SECOND_MOMENT_SUM",
+        "validation": "STREAMED_FULL_SUM_FINITE_SHAPE_COUNT"
+      }
+    },
+    {
+      "layer": "8",
+      "member": {
+        "bytes": 822084814,
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "f6bbc2f240343d5244730c6422743344193dc16ee6afe64dc6cd3a97497d9050"
+      },
+      "validation": {
+        "PSD_eigenvalidation": false,
+        "centered_covariance": false,
+        "constructor": "easyeditor.util.runningstats.SecondMoment()",
+        "diagonal_nonnegative": true,
+        "dtype": "float32",
+        "finite": true,
+        "masked_token_vector_count": 66019200,
+        "max_stored_sum": 1471217.75,
+        "min_stored_diagonal": 13514.98046875,
+        "min_stored_sum": -421868.0625,
+        "normalization": "sum / masked_token_vector_count",
+        "recomputed": false,
+        "sample_documents": 100000,
+        "shape": [
+          14336,
+          14336
+        ],
+        "stored_field": "mom2.mom2",
+        "stored_value": "UNCENTERED_SECOND_MOMENT_SUM",
+        "validation": "STREAMED_FULL_SUM_FINITE_SHAPE_COUNT"
+      }
+    }
+  ],
+  "GPU_qualification": "NOT_RUN_USER_DISABLED",
+  "author_profile_sha256": "1ffbf9adeec9525b88db3d86a6dc4ace8b98bdaff1d5eb4e4ee064c24b35b125",
+  "changed_operational_fields": [
+    "assets",
+    "checkpoint_archive",
+    "checkpoint_policy",
+    "config_sha256",
+    "dispatch_instruction",
+    "output",
+    "runtime",
+    "server",
+    "storage_min_free_bytes",
+    "stream_member",
+    "tracking_env_file",
+    "zsre_query_parity"
+  ],
+  "checkpoint_archive": {
+    "host": "codex-server1",
+    "python": "/usr/bin/python3",
+    "reserve_bytes": 68719476736,
+    "root": "/mnt/raid5/janghj/ODE-edit/local/llama-zsre-fe-author-hparams-s4-20261011/checkpoint-archive"
+  },
+  "checkpoint_interval_edits": 100,
+  "context_policy": "SAME_COLD_NATIVE_GENERATION_AS_PARENT_NO_PREGENERATED_CONTEXT",
+  "hparams_sha256": "d0366fb262aeb014f5e7f7cbdde649e428ced5fc4cc7b3b5c1e6e0fd1c7270de",
+  "model_checks": [
+    {
+      "name": "config.json",
+      "sha256": "61f3de03a16ca8046b05dc777bce72717022bc8522152eee61a69072272ef54b",
+      "status": "FRESH_FULL_SHA_PASS"
+    },
+    {
+      "name": "generation_config.json",
+      "sha256": "d1af74d8ba49428ab2faa65f7948165cc6bf52b740e57e840f8af772587c894c",
+      "status": "FRESH_FULL_SHA_PASS"
+    },
+    {
+      "name": "model-00001-of-00004.safetensors",
+      "sha256": "d8cf9c4d0dd972e1a2131bfe656235ee98221679711a3beef6d46dadf0f20b5c",
+      "status": "FRESH_FULL_SHA_PASS"
+    },
+    {
+      "name": "model-00002-of-00004.safetensors",
+      "sha256": "8d4782b4a69ef03845159ce1a15e272aadaaf134dc138d68f616098e8531729c",
+      "status": "FRESH_FULL_SHA_PASS"
+    },
+    {
+      "name": "model-00003-of-00004.safetensors",
+      "sha256": "3acdd690e65c24f42a24581b8467af98bd3ca357444580f8012aacd2bd607921",
+      "status": "FRESH_FULL_SHA_PASS"
+    },
+    {
+      "name": "model-00004-of-00004.safetensors",
+      "sha256": "67e9ad31c8c32abf3a55ee7fc7217b3ecb35fd3c74d98a5bd233e0e4d6964f46",
+      "status": "FRESH_FULL_SHA_PASS"
+    },
+    {
+      "name": "model.safetensors.index.json",
+      "sha256": "146776fce3f6db1103aa6f249e65ee5544c5923ce6f971b092eee79aa6e5d37b",
+      "status": "FRESH_FULL_SHA_PASS"
+    },
+    {
+      "name": "special_tokens_map.json",
+      "sha256": "462d91939dbc37178aa5a3eae7068d1990ccc92e09f288cc71f42cdf139d69cc",
+      "status": "FRESH_FULL_SHA_PASS"
+    },
+    {
+      "name": "tokenizer.json",
+      "sha256": "e134af98b985517b4f068e3755ae90d4e9cd2d45d328325dc503f1c6b2d06cc7",
+      "status": "FRESH_FULL_SHA_PASS"
+    },
+    {
+      "name": "tokenizer_config.json",
+      "sha256": "da0e3a7cce6e4d787e85eb1c24d548420e0d7fe2c7a214e192795c46e40d75bb",
+      "status": "FRESH_FULL_SHA_PASS"
+    }
+  ],
+  "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+  "packages": {
+    "numpy": "2.2.6",
+    "safetensors": "0.7.0",
+    "torch": "2.9.1",
+    "transformers": "4.57.1"
+  },
+  "parent_config": {
+    "bytes": 3836,
+    "path": "/data/janghj/ODE-edit/local/llama-zsre-fe-author-hparams-s4-20261011/inputs/parent-config.json",
+    "sha256": "36a126cd7dde3fc2b3bcddf6d50f7db0a845cfa561ccddd34ec02c191220e7e6"
+  },
+  "parent_config_sha256": "70b5d963836a778ccc0f64e1919897a60a08a9280642bc83e582825ab0a9ee55",
+  "permanent_milestone_edits": [
+    0,
+    500,
+    1000,
+    1500,
+    2000
+  ],
+  "pretrained_forward_count": 0,
+  "science_source_comparison": {
+    "members": [
+      {
+        "path": "official/baselines/memit_fe_history.py",
+        "same": true,
+        "sha256": "4427c23148af9dd34b9f687a0efd37635df77c7406c540c0bea07dc2d041aae6"
+      },
+      {
+        "path": "official/baselines/fe_author_profile.py",
+        "same": true,
+        "sha256": "9f2f851ec6ad90ceaa37c8bfa8fbd27d363c17396f6e0705925aa52347110793"
+      },
+      {
+        "path": "official/baselines/easyedit/models/memit_FE/memit_FE_main.py",
+        "same": true,
+        "sha256": "5bdf9fb17dbd5a66469b63f1c8acaa4f3f2ac9cff1e2a480b63427087c4e2e29"
+      },
+      {
+        "path": "official/baselines/easyedit/models/memit_FE/compute_z.py",
+        "same": true,
+        "sha256": "40c418d27f0825f287c4c37031d637ab4f5740a9346a47f63995ef298e1fff64"
+      },
+      {
+        "path": "official/baselines/easyedit/models/memit_FE/compute_ks.py",
+        "same": true,
+        "sha256": "928861217697402b230b90d0357fe1e08b87b000d12fddc53f73b3dde9bf6354"
+      },
+      {
+        "path": "official/baselines/easyedit/util/generate.py",
+        "same": true,
+        "sha256": "35506690c41ecb7d59f11660da41dde50338f5a2ba9613735e045a8c7ab98db4"
+      },
+      {
+        "path": "official/hparams/MEMIT_FE_HISTORY_AUTHOR/profiles.json",
+        "same": true,
+        "sha256": "1ffbf9adeec9525b88db3d86a6dc4ace8b98bdaff1d5eb4e4ee064c24b35b125"
+      }
+    ],
+    "parent_source": "9c3fe23282bcaf2e353b1494913a323e2f037d39"
+  },
+  "scientific_configuration_identical": true,
+  "storage": {
+    "server1": {
+      "checkpoint_estimated_bytes": 5318377472,
+      "free_bytes": 332828426240,
+      "maximum_payloads_including_atomic_write": 6,
+      "required_free_bytes": 100629741568,
+      "reserve_bytes": 68719476736
+    },
+    "server4": {
+      "free_bytes": 23088320512,
+      "new_checkpoint_payload_bytes": 0,
+      "other_jobs_growth_bytes": 8589934592,
+      "raw_allowance_bytes": 2147483648,
+      "required_free_bytes": 19327352832,
+      "reserve_bytes": 8589934592
+    }
+  },
+  "stream_sha256": "93925ec2f74e00a1b3fbdf261e557d10652ae0eca7265b4948958d39de4848b7",
+  "tokenizer_sha256": "5def14f0398b34af845724d57933cb300ae606e3e4b039366e1fdbd81fbcc521",
+  "transport_smoke": "PASS_REAL_SSH_EVERY_BATCH_SAVE_SHA_RESUME_WEIGHTS_HISTORY_NO_LOCAL_PAYLOAD",
+  "zsre_query_parity": {
+    "actual_model_output_parity": "NOT_MEASURED",
+    "input_mismatches": 0,
+    "model_family": "llama3",
+    "model_forward_calls": 0,
+    "oracle_lock_sha256": "d37227eb52aa1ba1cc0699155c674858b52ff418eaf7814231642f9de8aa2ff3",
+    "queries": 24535,
+    "query_sha256": "7909c567881531b62db728ecc06308a3387324cc4e1c907b76bb50d8dd862efc",
+    "requests": 2000,
+    "schema": "zsre-public-query-parity-v1",
+    "status": "PASS_CPU_QUERY_ONLY",
+    "stream_sha256": "93925ec2f74e00a1b3fbdf261e557d10652ae0eca7265b4948958d39de4848b7",
+    "target_mismatches": 0,
+    "token_denominators": {
+      "neighborhood": 12465,
+      "paraphrase": 6035,
+      "rewrite": 6035
+    }
+  },
+  "tests": {
+    "passed": 46,
+    "failed": 0,
+    "modules": [
+      "official.runners.server1.test_fe_author",
+      "official.runners.server1.test_fe_history",
+      "official.runners.server2.test_fe_author",
+      "official.tests.test_remote_milestones",
+      "official.tests.test_runtime",
+      "official.tests.test_cake"
+    ]
+  }
+}

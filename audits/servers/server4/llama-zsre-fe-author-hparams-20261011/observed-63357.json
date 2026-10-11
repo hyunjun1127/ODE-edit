@@ -1,0 +1,32 @@
+{
+  "observed_at": "2026-10-11T09:28:04.185968+09:00",
+  "job_id": "63357",
+  "name": "official-s4-llama3-zsre-fe-author-hparams-2k",
+  "state": "PENDING",
+  "reason": "ReqNodeNotAvail,_May_be_reserved_for_other_job",
+  "dependency": "(null)",
+  "temporary_hold": false,
+  "priority": "277",
+  "start_time_kst": "Unknown",
+  "requested": "cpu=8,mem=58G,node=1,billing=1,gres/gpu=1",
+  "allocated": "(null)",
+  "node_total_GPUs": 8,
+  "node_allocated_GPUs": 8,
+  "server4_our_running_jobs": [
+    {
+      "JobId": "63284",
+      "JobName": "odeedit_replay_blue39283_1",
+      "JobState": "RUNNING",
+      "AllocTRES": "cpu=8,mem=58G,node=1,billing=1,gres/gpu=1"
+    },
+    {
+      "JobId": "63283",
+      "JobName": "odeedit_replay_memit42658",
+      "JobState": "RUNNING",
+      "AllocTRES": "cpu=8,mem=58G,node=1,billing=1,gres/gpu=1"
+    }
+  ],
+  "tracking_observation": null,
+  "FAILURE_exists": false,
+  "source_commit": "c16c9612f49dec543fcc602efd64a4edb74b7f8a"
+}

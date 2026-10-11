@@ -1,5 +1,16 @@
 # server4 active record
 
+## 최신 사용자 정정: cap 2 / Llama zsRE FE — 2026-10-11
+
+현재 project GPU cap은 **2**다. 이전 날짜의 cap 3/4 표기는 이 정정으로 대체한다.
+기존 MEMIT **63283 → AlphaEdit 63262**, BLUE **63284 → FE 63357**의 두 lane이다.
+FE는 수정 EasyEdit + author clamp 0.75/35 steps + history, Llama zsRE first-2K이며
+현재 `afterany:63284` PENDING, 임시 hold 해제 완료다. CPU 8, RAM 58 GiB, GPU 1, 48시간.
+기존 source/config/job ID를 유지했으며 모든 실행 순서에서 동시 GPU 최대 2개를 검산했다.
+실제 local cap 및 tracked ceiling은 2이며 local admission pattern은 `official-*`도 포함한다.
+[설정·CPU 검증·제출](../../experiment-reports/global/llama-zsre-fe-author-hparams-server4-20261011.md) ·
+[cap-2 실제 변경](../../audits/servers/server4/llama-zsre-fe-author-hparams-20261011/cap2.json).
+
 ## 최신 AlphaEdit key causal E0–E4 — 2026-09-23
 
 SH4 01a04939-b5c7-7a03-ba2d-ef3343d62cfd에 사용자 승인

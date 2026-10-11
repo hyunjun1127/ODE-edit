@@ -76,7 +76,7 @@ raw SHA를 확인했다. 원 W0agreement/token-micro 값으로 대체하지 않�
 
 **FE 전면 전환 — USER-FE-ORIGINAL-W0-RESET-20261011-R1:**
 기존 native MEMIT-FE, FE_HISTORY, FE author-hparams(+history), FE sink 실험은 모두
-**WITHDRAWN / SUPERSEDED**다. 아래 FE 행은 새 **FE (author repo, W0-fixed z)** 전용이며
+**WITHDRAWN / SUPERSEDED**다. 아래 **FE (author repo, W0-fixed z)** 행은 저자 repo 실행 전용이며
 기존 점수를 복사하지 않는다. 이전 표의 history/author/native FE 수치와 출처는
 [철회된 FE 결과 이력](experiment-reports/global/fe-original-w0-reset-20261011/withdrawn-results.md)에 보존했다.
 본문의 이전 FE 완료·KEEP 서술은 당시 이력이며 이 지시가 우선한다.
@@ -104,6 +104,17 @@ Qwen CF **63217**, zsRE **63218**은 held 검사 후 release했고 위와 같이
 [실제 등록·삭제·저장공간 영수증 통합](experiment-reports/global/fe-original-w0-reset-20261011/report-ko.md).
 [정본 범위·담당 수락](messages/head/2026-10-11-fe-original-w0-reset.json).
 
+**FE author-hparams 추가 실행(2026-10-11 사용자 지시):** Llama3 **zsRE 2K 한 개**를 기존 수정 EasyEdit FE + history와
+원저자 clamp **0.75**·step **35**(lr 0.1) 설정으로 새로 제출했다. z는 각 batch 진입 모델에서 계산한다.
+server4 **63357 / official-s4-llama3-zsre-fe-author-hparams-2k**는 최신 사용자 정정으로 **cap 2**에 맞췄다.
+**PENDING, `afterany:63284`**이며 BLUE 63284 종료 후 같은 lane에서 실행한다.
+다른 lane은 MEMIT 63283 → AlphaEdit 63262다. 가능한 16개 상태를 검산하여 **동시 GPU 최대 2개**를 확인했고
+임시 hold를 해제했다. 기존 job 번호·실험 설정을 유지하며 실행/완료 성능은 아직 없다.
+[cap 2 실제 변경·검산](audits/servers/server4/llama-zsre-fe-author-hparams-20261011/cap2.json).
+새 별도 `FE (author hparams + history)` 행의 zsRE 3개 셀에 상태를 기록한다.
+매 100 edit 재개 checkpoint와 500/1000/1500/2000 보존 checkpoint는 server1에 SHA 검증 후 저장한다.
+[설정·제출·CPU 검증](experiment-reports/global/llama-zsre-fe-author-hparams-server4-20261011.md).
+
 **W0 행은 편집 전 base model을 동일한 2,000개 요청에 평가한 기준값**이며 W20 결과와 구분합니다.
 2026-10-09 각 서버의 저장 원자료를 직접 확인하고 재집계했습니다.
 W0의 CF Score/Eff/Gen/Loc 및 zsRE 지표는 %다. 모든 표의 CF Flu/Con은 논문 표시 배율인 **반올림 전 원 평균값 ×100**을 적용한다.
@@ -128,7 +139,7 @@ PRICE/W0 행은 변경하지 않았다. 이전 검산의 원자료는
 server1은 기존 작업 종료 후 CF·zsRE **두 lane(동시 GPU 최대 2개)**으로 실행한다.
 이 중 **Qwen CF·zsRE는 server1 63300·63301을 취소하고 server4 63324·63325로 이관**했다.
 사용자의 cap 예외 지시로 두 job 모두 선행 의존성 없이 **CF 07:28:48, zsRE 07:45:19 KST RUNNING**으로 시작했다.
-기존 PRICE 2개와 함께 **GPU 4개를 동시 사용**한다. 나머지 CAKE 4개는 server1 큐를 유지한다.
+당시 기존 PRICE 2개와 함께 **GPU 4개를 동시 사용**했다. 이후 최신 사용자 정정으로 **server4 cap은 2개**이며, 현재 lane은 위 FE 등록 설명을 따른다. 나머지 CAKE 4개는 server1 큐에 등록했다.
 [CF cap 예외·실행 영수증](audits/servers/server4/cake-qwen25-cf-move-20261011/cap-exception-63324.json) ·
 [zsRE cap 예외·실행 영수증](audits/servers/server4/cake-qwen25-zsre-move-20261011/running-63325.json).
 [Qwen CF 이관·동일 설정 검증](experiment-reports/global/cake-qwen25-cf-server4-20261011.md) ·
@@ -173,6 +184,7 @@ zsRE Loc은 **loc_ans 정답 token 정확도의 요청별 평균**이다. 이전
 | AlphaEdit | 84.80‡ | 99.30‡ | 93.23‡ | 68.59‡ | PENDING: s2-flucon-llama3-alphaedit-42657 (62875) | PENDING: s2-flucon-llama3-alphaedit-42657 (62875) | 95.18 | 91.40 | 31.10 |
 | AlphaEdit-BLUE | 89.84† | 99.60† | 97.15† | 76.59† | PENDING: s2-flucon-llama3-alphaedit_blue-39283_1 (62876) | PENDING: s2-flucon-llama3-alphaedit_blue-39283_1 (62876) | 95.87 | 92.28 | 32.83 |
 | FE (author repo, W0-fixed z) | 92.11 | 99.20 | 92.00 | 86.05 | DEFERRED | DEFERRED | 93.97 | 89.12 | 32.32 |
+| FE (author hparams + history) | — | — | — | — | — | — | PENDING: official-s4-llama3-zsre-fe-author-hparams-2k (63357) | PENDING: official-s4-llama3-zsre-fe-author-hparams-2k (63357) | PENDING: official-s4-llama3-zsre-fe-author-hparams-2k (63357) |
 | AlphaEdit+SPHERE | 86.87 | 99.50 | 94.95 | 71.68 | 619.20 | 33.64 | 95.13 | 91.36 | 31.38 |
 | CAKE | PENDING: official-s1-llama3-cf-cake-2k (63296) | PENDING: official-s1-llama3-cf-cake-2k (63296) | PENDING: official-s1-llama3-cf-cake-2k (63296) | PENDING: official-s1-llama3-cf-cake-2k (63296) | DEFERRED | DEFERRED | PENDING: official-s1-llama3-zsre-cake-2k (63297) | PENDING: official-s1-llama3-zsre-cake-2k (63297) | PENDING: official-s1-llama3-zsre-cake-2k (63297) |
 | PRICE (Ours) | 90.98§ | 99.90§ | 93.50§ | 81.50§ | 628.47§ | 33.53§ | 99.62§ | 94.83§ | 45.31§ |

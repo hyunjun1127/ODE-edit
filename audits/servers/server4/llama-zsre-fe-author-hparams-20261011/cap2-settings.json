@@ -1,0 +1,81 @@
+{
+  "server4": [
+    {
+      "path": "/data/janghj/ODE-edit/servers/local/gpu-caps.tsv",
+      "before_sha256": "11e0d14d49e220a2af0add5083ce2fb8ce1fd4a5755714bd7598053955c92041",
+      "after_sha256": "122ee0f9575a6a0b2e389dd8ea9fbb8276f58820f0433f84efae99b788fd5a27",
+      "changed": [
+        {
+          "before": [
+            "server4",
+            "server4",
+            "3",
+            "60416",
+            "odeedit_*,bfode_*,motivation_*,session01_*"
+          ],
+          "after": [
+            "server4",
+            "server4",
+            "2",
+            "60416",
+            "odeedit_*,bfode_*,motivation_*,session01_*,official-*"
+          ]
+        }
+      ],
+      "backup": "/data/janghj/ODE-edit/local/llama-zsre-fe-author-hparams-s4-20261011/cap2-before-gpu-caps.tsv"
+    },
+    {
+      "path": "/data/janghj/ODE-edit/control/gpu-concurrency-policy.tsv",
+      "before_sha256": "d3ec557b4c519751df7b62b8a719b4ff0e3bda6ea846a6ac3fd8d6dda65df4d5",
+      "after_sha256": "7f7fc5cef2261525f638a8f9302e9fcb0002574bc06c8eeb9a9c3b9308114d5f",
+      "changed": [
+        {
+          "before": [
+            "server4",
+            "3"
+          ],
+          "after": [
+            "server4",
+            "2"
+          ]
+        }
+      ],
+      "backup": "/data/janghj/ODE-edit/local/llama-zsre-fe-author-hparams-s4-20261011/cap2-before-gpu-concurrency-policy.tsv"
+    }
+  ],
+  "server1_control": [
+    {
+      "path": "/mnt/raid5/janghj/ODE-edit/servers/local/gpu-caps.tsv",
+      "before_sha256": "d3a4c3ed930eb20712f4ba5eda05f4da25b87dab6e813c0b2f19e4e354d63839",
+      "after_sha256": "ca415167ec142231ee22578cef1ac9d7945bfa7ea1d1c7feea6ee6a2c8c78b77",
+      "changed": [
+        {
+          "before": [
+            "server4",
+            "server4",
+            "2",
+            "60416",
+            "odeedit_*,odeedit_*,motivation_*,session01_*"
+          ],
+          "after": [
+            "server4",
+            "server4",
+            "2",
+            "60416",
+            "odeedit_*,odeedit_*,motivation_*,session01_*,official-*"
+          ]
+        }
+      ],
+      "backup": "/mnt/raid5/janghj/ODE-edit/local/llama-zsre-fe-author-hparams-s4-20261011/cap2-before-gpu-caps.tsv"
+    }
+  ],
+  "admission_check": {
+    "server": "server4",
+    "requested_GPUs": 1,
+    "requested_RAM_MiB": 59392,
+    "active_project_GPUs": 2,
+    "cap": 2,
+    "result": "DENY pending_resource_cap",
+    "expected": true
+  }
+}

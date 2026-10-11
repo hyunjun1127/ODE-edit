@@ -42,3 +42,8 @@ server4	2
 # If legacy allocation exceeds2, drain without cancellation and block new starts
 # until projected simultaneous allocation is within2. Other servers unchanged.
 # messages/head/2026-10-10-s1-s2-cap2-lane-adjust.json
+# Latest USER 2026-10-11 correction: server4 combined project GPU cap2.
+# Existing FE job63357 now follows BLUE63284; MEMIT63283 -> Alpha63262 is the
+# other lane. Prior per-job cap exceptions do not authorize new starts above2.
+# Other servers unchanged; no cancellation, source/config or global QoS mutation.
+# audits/servers/server4/llama-zsre-fe-author-hparams-20261011/cap2.json
