@@ -1,0 +1,534 @@
+{
+ "schema": "fe-zsre-result-audit-v1",
+ "observed_at": "2026-10-12T04:40:00+09:00",
+ "result": "GPT-J FE zsRE (W20, 2,000 요청, 공개 query 평가기, BF16)",
+ "row": {
+  "table": "GPT-J-6B",
+  "method": "FE (author hparams + history)",
+  "cells": [
+   "zsRE Eff",
+   "zsRE Gen",
+   "zsRE Loc"
+  ],
+  "replaced_status": "ING: official-s4-gptj-zsre-fe-native-repaired (63546)"
+ },
+ "jobs": [
+  {
+   "id": "63546",
+   "name": "official-s4-gptj-zsre-fe-native-repaired",
+   "role": "편집(공식 FE main.py)",
+   "server": "server4",
+   "state": "COMPLETED",
+   "exit_code": "0:0",
+   "start": "2026-10-12T02:50:59+09:00",
+   "end": "2026-10-12T03:38:45+09:00",
+   "elapsed": "00:47:46",
+   "node": "server4"
+  },
+  {
+   "id": "63547",
+   "name": "official-s4-gptj-zsre-fe-native-repaired-eval",
+   "role": "평가(W0/W5/W10/W15/W20)",
+   "server": "server4",
+   "state": "COMPLETED",
+   "exit_code": "0:0",
+   "start": "2026-10-12T03:48:00+09:00",
+   "end": "2026-10-12T03:51:46+09:00",
+   "elapsed": "00:03:46",
+   "node": "server4"
+  }
+ ],
+ "run": {
+  "source_commit": "9a12b857975328f74ba047b3c922516764013802",
+  "author_main_py": "478134dfb24b43f4e18b47e8500893ce3f9cc50f",
+  "native_config_identity_sha256": "02f0e5be2ab4b113b86b8f96fb0190e5a9667bdcf95a7f4c95e2d47cdcf995b4",
+  "template": {
+   "job": "63389",
+   "evaluation_job": "63390",
+   "config_sha256": "f40227522a23a34839fc785fef034c770ab0788b8395a2a5121fefab7c5d3d6f"
+  },
+  "scientific_difference": "Dataset only: official zsRE first 2,000 (= author zsre_mend_eval_19086[:2000] in every field read) instead of CF; author hparams, BF16, native writer, history, current batch-entry z and the L3 project_roundoff C0 are those of 63389",
+  "storage_difference": "diagnostic_history_batches=[20]: W0/W5/W10/W15 snapshots keep weights, contexts, RNG and case IDs without the history tensor; editing is unaffected",
+  "covariance": "L3 project_roundoff C0 수치 보정(63389와 같음)",
+  "z_reference": "batch_entry",
+  "model_dtype": "bfloat16",
+  "evaluator": "official.diagnostics.fe_native.evaluate -> official.evaluation.zsre_paper (official-zsre-public-query-eval-only-v1)",
+  "precision": "bfloat16 (eager attention)",
+  "query_sha256": "2d27e4fc4445e709586e2d80f92dee76dfc1b6ce6cd7d333b6ca318ccb328a4b",
+  "stream_sha256": "93925ec2f74e00a1b3fbdf261e557d10652ae0eca7265b4948958d39de4848b7",
+  "original_stream": {
+   "host": "server4",
+   "path": "/data/janghj/ODE-edit/local/fe-zsre-lane-b-s4-20261011/gptj-zsre-native-r1/inputs/zsre-stream.json",
+   "bytes": 1490821,
+   "sha256": "f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c"
+  }
+ },
+ "completion": {
+  "evaluation_COMPLETE": {
+   "host": "server4",
+   "path": "/data/janghj/ODE-edit/local/fe-zsre-lane-b-s4-20261011/gptj-zsre-native-r1/evaluations/gptj_zsre_repaired/COMPLETE.json",
+   "bytes": 8204,
+   "sha256": "4b7c33c31b92434fbb6a0960f21572cf8cf9d0637381361900ab9ed13415e0a9"
+  },
+  "evaluation_fields": {
+   "W20_available": true,
+   "missing_milestones": [],
+   "dataset": "zsre"
+  },
+  "FAILURE_json": "없음(편집·평가 모두)",
+  "edit_log": "NATIVE_FE_BATCH_COMPLETE 20회, NATIVE_FE_CHECKPOINT B00/B05/B10/B15/B20 기록",
+  "edit_log_file": {
+   "host": "server4",
+   "path": "/data/janghj/ODE-edit/local/fe-zsre-lane-b-s4-20261011/registration-r1/logs/gptj-zsre-63546.out",
+   "bytes": 2178980,
+   "sha256": "2aefb0757865064cc6cbaa464233f85c3117408d0acea9dfbc6cb43f661254c4"
+  },
+  "eval_log_file": {
+   "host": "server4",
+   "path": "/data/janghj/ODE-edit/local/fe-zsre-lane-b-s4-20261011/registration-r1/logs/gptj-zsre-eval-63547.out",
+   "bytes": 989,
+   "sha256": "e833a5e4f38b74f841b891f4605ce7a11164d5eb0eec3350f4783b9a607e6712"
+  },
+  "author_end_of_run_summary": {
+   "file": {
+    "host": "server4",
+    "path": "/data/janghj/ODE-edit/local/fe-zsre-lane-b-s4-20261011/gptj-zsre-native-r1/runs/gptj_zsre_repaired/results/summary_results.csv",
+    "bytes": 306,
+    "sha256": "8a87716ca31323c58de37a56f588d5913416b4d9dcd53eea394a3ca0212fda75"
+   },
+   "values": "rewrite/paraphrase/neighborhood_prompts_correct 0.968 / 0.928 / 0.289"
+  },
+  "receipts": {
+   "B00": {
+    "host": "server4",
+    "path": "/data/janghj/ODE-edit/local/fe-zsre-lane-b-s4-20261011/gptj-zsre-native-r1/evaluations/gptj_zsre_repaired/B00-receipt.json",
+    "bytes": 1430,
+    "sha256": "58b1502cb0a51838285084cb402f9604e76b72b23cd0d9413babf4f0eef4478a"
+   },
+   "B05": {
+    "host": "server4",
+    "path": "/data/janghj/ODE-edit/local/fe-zsre-lane-b-s4-20261011/gptj-zsre-native-r1/evaluations/gptj_zsre_repaired/B05-receipt.json",
+    "bytes": 1430,
+    "sha256": "23d80996315305f44eb53b111d8404f2f8d2f332bdd9afb1167b9db2249ee318"
+   },
+   "B10": {
+    "host": "server4",
+    "path": "/data/janghj/ODE-edit/local/fe-zsre-lane-b-s4-20261011/gptj-zsre-native-r1/evaluations/gptj_zsre_repaired/B10-receipt.json",
+    "bytes": 1433,
+    "sha256": "23dd269934899f1877a67262398e493e842f8a578edeac59e8d54209fc7c7fde"
+   },
+   "B15": {
+    "host": "server4",
+    "path": "/data/janghj/ODE-edit/local/fe-zsre-lane-b-s4-20261011/gptj-zsre-native-r1/evaluations/gptj_zsre_repaired/B15-receipt.json",
+    "bytes": 1436,
+    "sha256": "9beb2210f1db6b8dc9354a8f335e9782b8cd95b9c2daef730dd54fb95768a69c"
+   },
+   "B20": {
+    "host": "server4",
+    "path": "/data/janghj/ODE-edit/local/fe-zsre-lane-b-s4-20261011/gptj-zsre-native-r1/evaluations/gptj_zsre_repaired/B20-receipt.json",
+    "bytes": 1437,
+    "sha256": "55fef7e88eda78008bbc4a2f3f969fd9394555fd999373981dfc694fb525a84a"
+   }
+  },
+  "snapshots": "B00/B05/B10/B15.pt는 약 805 MB(history tensor 없음), B20.pt는 7,247,783,253 bytes(history 포함)"
+ },
+ "W20_identity": {
+  "checkpoint": {
+   "host": "server4",
+   "path": "/data/janghj/ODE-edit/local/fe-zsre-lane-b-s4-20261011/gptj-zsre-native-r1/runs/gptj_zsre_repaired/checkpoints/B20.pt",
+   "bytes": 7247783253,
+   "sha256": "8869559cc53294a4401125825c2e673acae3fcc6812c60ab7b49897c94d38c45",
+   "rehash_2026_10_12": "8869559cc53294a4401125825c2e673acae3fcc6812c60ab7b49897c94d38c45",
+   "checkpoint_meta": {
+    "completed_batches": 20,
+    "completed_edits": 2000,
+    "identity_sha256": "02f0e5be2ab4b113b86b8f96fb0190e5a9667bdcf95a7f4c95e2d47cdcf995b4",
+    "schema": "native-fe-sequential-diagnostic-v1",
+    "z_policy": "CURRENT_BATCH_ENTRY_NO_FUTURE_TARGETS"
+   }
+  },
+  "edit_run_B20_receipt": {
+   "host": "server4",
+   "path": "/data/janghj/ODE-edit/local/fe-zsre-lane-b-s4-20261011/gptj-zsre-native-r1/runs/gptj_zsre_repaired/checkpoints/B20.json",
+   "bytes": 380,
+   "sha256": "e60b858940fbed97f526141cfd8ab3ede30f3150bf0d43a2bbe6a949a5a6a6ed"
+  },
+  "tensor_check_2026_10_12": {
+   "transformer.h.3.mlp.fc_out.weight": {
+    "dtype": "bfloat16",
+    "finite": true,
+    "max_abs": 1.3125
+   },
+   "transformer.h.4.mlp.fc_out.weight": {
+    "dtype": "bfloat16",
+    "finite": true,
+    "max_abs": 2.578125
+   },
+   "transformer.h.5.mlp.fc_out.weight": {
+    "dtype": "bfloat16",
+    "finite": true,
+    "max_abs": 0.56640625
+   },
+   "transformer.h.6.mlp.fc_out.weight": {
+    "dtype": "bfloat16",
+    "finite": true,
+    "max_abs": 1.1640625
+   },
+   "transformer.h.7.mlp.fc_out.weight": {
+    "dtype": "bfloat16",
+    "finite": true,
+    "max_abs": 0.73046875
+   },
+   "transformer.h.8.mlp.fc_out.weight": {
+    "dtype": "bfloat16",
+    "finite": true,
+    "max_abs": 0.75390625
+   }
+  },
+  "match": "평가 63547의 B20 checkpoint sha256(8869559c…)가 편집 63546의 B20 receipt·로그 NATIVE_FE_CHECKPOINT 및 2026-10-12 server4 재해시와 같다. payload identity_sha256 = native config 02f0e5be…, completed_batches 20 / edits 2000."
+ },
+ "raw": {
+  "W20": {
+   "bytes": 4644491,
+   "sha256": "dd42b447b818f0e10c90f890dcb0d8cf2fd1716186163b44da3a072c1f4c69c5",
+   "requests": 2000,
+   "tokens": {
+    "neighborhood": {
+     "correct": 3675,
+     "total": 9694
+    },
+    "paraphrase": {
+     "correct": 5152,
+     "total": 5557
+    },
+    "rewrite": {
+     "correct": 5348,
+     "total": 5557
+    }
+   },
+   "unrounded": {
+    "Eff": 96.89773351648353,
+    "Gen": 92.82948565323565,
+    "Loc": 28.898894410142752
+   },
+   "display": {
+    "Eff": "96.90",
+    "Gen": "92.83",
+    "Loc": "28.90"
+   },
+   "file_summary": {
+    "Eff": 96.89773351648353,
+    "Gen": 92.82948565323565,
+    "Loc": 28.898894410142752
+   },
+   "equals_file_summary": true,
+   "flag_mismatches_vs_token_ids": 0,
+   "host": "server4",
+   "path": "/data/janghj/ODE-edit/local/fe-zsre-lane-b-s4-20261011/gptj-zsre-native-r1/evaluations/gptj_zsre_repaired/B20.json"
+  },
+  "W0_bf16": {
+   "bytes": 4649238,
+   "sha256": "623a4073d78138ee66fb66a335f7f90e8f06254e8b450318fc8297b09a8a33c5",
+   "requests": 2000,
+   "tokens": {
+    "neighborhood": {
+     "correct": 3674,
+     "total": 9694
+    },
+    "paraphrase": {
+     "correct": 2203,
+     "total": 5557
+    },
+    "rewrite": {
+     "correct": 2257,
+     "total": 5557
+    }
+   },
+   "unrounded": {
+    "Eff": 27.704919108669113,
+    "Gen": 27.05553724053724,
+    "Loc": 27.320232574851293
+   },
+   "display": {
+    "Eff": "27.70",
+    "Gen": "27.06",
+    "Loc": "27.32"
+   },
+   "file_summary": {
+    "Eff": 27.704919108669113,
+    "Gen": 27.05553724053724,
+    "Loc": 27.320232574851293
+   },
+   "equals_file_summary": true,
+   "flag_mismatches_vs_token_ids": 0,
+   "host": "server4",
+   "path": "/data/janghj/ODE-edit/local/fe-zsre-lane-b-s4-20261011/gptj-zsre-native-r1/evaluations/gptj_zsre_repaired/B00.json"
+  },
+  "milestones": {
+   "W5": {
+    "bytes": 1149482,
+    "sha256": "d8dc5ad00169e21b329e4a2994f42d88bec5abcb760bc8c5e1abee3e2b4f1a3b",
+    "requests": 500,
+    "tokens": {
+     "neighborhood": {
+      "correct": 953,
+      "total": 2502
+     },
+     "paraphrase": {
+      "correct": 1266,
+      "total": 1318
+     },
+     "rewrite": {
+      "correct": 1304,
+      "total": 1318
+     }
+    },
+    "unrounded": {
+     "Eff": 99.17245421245423,
+     "Gen": 95.7434065934066,
+     "Loc": 28.009747099146608
+    },
+    "display": {
+     "Eff": "99.17",
+     "Gen": "95.74",
+     "Loc": "28.01"
+    },
+    "file_summary": {
+     "Eff": 99.17245421245423,
+     "Gen": 95.7434065934066,
+     "Loc": 28.009747099146608
+    },
+    "equals_file_summary": true,
+    "flag_mismatches_vs_token_ids": 0,
+    "host": "server4",
+    "path": "/data/janghj/ODE-edit/local/fe-zsre-lane-b-s4-20261011/gptj-zsre-native-r1/evaluations/gptj_zsre_repaired/B05.json"
+   },
+   "W10": {
+    "bytes": 2348072,
+    "sha256": "a07ca39707772cf7d2b1b825063864b4bc55548689cd0597d9e175234efb0308",
+    "requests": 1000,
+    "tokens": {
+     "neighborhood": {
+      "correct": 1928,
+      "total": 4990
+     },
+     "paraphrase": {
+      "correct": 2660,
+      "total": 2777
+     },
+     "rewrite": {
+      "correct": 2739,
+      "total": 2777
+     }
+    },
+    "unrounded": {
+     "Eff": 99.0282783882784,
+     "Gen": 96.04158424908424,
+     "Loc": 28.44142590869182
+    },
+    "display": {
+     "Eff": "99.03",
+     "Gen": "96.04",
+     "Loc": "28.44"
+    },
+    "file_summary": {
+     "Eff": 99.0282783882784,
+     "Gen": 96.04158424908424,
+     "Loc": 28.44142590869182
+    },
+    "equals_file_summary": true,
+    "flag_mismatches_vs_token_ids": 0,
+    "host": "server4",
+    "path": "/data/janghj/ODE-edit/local/fe-zsre-lane-b-s4-20261011/gptj-zsre-native-r1/evaluations/gptj_zsre_repaired/B10.json"
+   },
+   "W15": {
+    "bytes": 3513920,
+    "sha256": "e4a8ac6dc51f65c8cf9b16fa97eec816383ab8cef4f68035ba5206d7e211b678",
+    "requests": 1500,
+    "tokens": {
+     "neighborhood": {
+      "correct": 2941,
+      "total": 7453
+     },
+     "paraphrase": {
+      "correct": 3924,
+      "total": 4159
+     },
+     "rewrite": {
+      "correct": 4049,
+      "total": 4159
+     }
+    },
+    "unrounded": {
+     "Eff": 98.07578754578755,
+     "Gen": 94.54774521774522,
+     "Loc": 29.835765763889217
+    },
+    "display": {
+     "Eff": "98.08",
+     "Gen": "94.55",
+     "Loc": "29.84"
+    },
+    "file_summary": {
+     "Eff": 98.07578754578755,
+     "Gen": 94.54774521774522,
+     "Loc": 29.835765763889217
+    },
+    "equals_file_summary": true,
+    "flag_mismatches_vs_token_ids": 0,
+    "host": "server4",
+    "path": "/data/janghj/ODE-edit/local/fe-zsre-lane-b-s4-20261011/gptj-zsre-native-r1/evaluations/gptj_zsre_repaired/B15.json"
+   }
+  },
+  "copy_for_recount": "server4 원자료를 rsync로 읽기 전용 복사해 server1에서 재집계했다. 복사본 sha256이 server4 원본과 같다."
+ },
+ "recount": {
+  "method": "독립 CPU 재집계(2026-10-12): 요청별 저장 observation의 predicted_token_id == target_token_id로 token 정답 여부를 다시 만들고 (저장 flag 미사용) official/evaluation/reduce.py::zsre(요청 내 token 평균 → 요청 평균, Loc = loc_ans 정답 정확도)를 적용했다. 표시는 소수 둘째 자리 decimal half-up.",
+  "reducer": {
+   "path": "official/evaluation/reduce.py",
+   "sha256": "6e7f61feaa99ddeaac964c6c1f8c5b4e8a4caf31a2e8eed53df5fed9812ab10d"
+  },
+  "W20": {
+   "unrounded": {
+    "Eff": 96.89773351648353,
+    "Gen": 92.82948565323565,
+    "Loc": 28.898894410142752
+   },
+   "display": {
+    "Eff": "96.90",
+    "Gen": "92.83",
+    "Loc": "28.90"
+   },
+   "tokens": {
+    "neighborhood": {
+     "correct": 3675,
+     "total": 9694
+    },
+    "paraphrase": {
+     "correct": 5152,
+     "total": 5557
+    },
+    "rewrite": {
+     "correct": 5348,
+     "total": 5557
+    }
+   },
+   "matches_run_summary": true
+  },
+  "W0_bf16_vs_table_W0_fp32": {
+   "bf16": {
+    "unrounded": {
+     "Eff": 27.704919108669113,
+     "Gen": 27.05553724053724,
+     "Loc": 27.320232574851293
+    },
+    "display": {
+     "Eff": "27.70",
+     "Gen": "27.06",
+     "Loc": "27.32"
+    },
+    "tokens": {
+     "neighborhood": {
+      "correct": 3674,
+      "total": 9694
+     },
+     "paraphrase": {
+      "correct": 2203,
+      "total": 5557
+     },
+     "rewrite": {
+      "correct": 2257,
+      "total": 5557
+     }
+    }
+   },
+   "table_fp32": {
+    "source": "CAKE 63299 factual/W0-first2000.json (README GPT-J zsRE W0 행)",
+    "unrounded": {
+     "Eff": 27.78628815628816,
+     "Gen": 27.103096764346763,
+     "Loc": 27.535672155134527
+    },
+    "display": {
+     "Eff": "27.79",
+     "Gen": "27.10",
+     "Loc": "27.54"
+    },
+    "tokens": {
+     "neighborhood": {
+      "correct": 3692,
+      "total": 9694
+     },
+     "paraphrase": {
+      "correct": 2209,
+      "total": 5557
+     },
+     "rewrite": {
+      "correct": 2262,
+      "total": 5557
+     }
+    },
+    "file": {
+     "host": "server1",
+     "path": "/mnt/raid5/janghj/ODE-edit/local/cake-six-2k-server1-20261011/runs/gptj-zsre/factual/W0-first2000.json",
+     "bytes": 4649395,
+     "sha256": "79c63960533c0b64165577a2de0fe705ee97c51081e524589793a551c00b4579"
+    }
+   },
+   "difference_points": {
+    "Eff": -0.08136904761904518,
+    "Gen": -0.047559523809521664,
+    "Loc": -0.21543958028323473
+   },
+   "correct_token_difference": {
+    "rewrite": -5,
+    "paraphrase": -6,
+    "neighborhood": -18
+   },
+   "requests_with_any_flag_difference": 91,
+   "same_query_sha256": true,
+   "note": "같은 공개 query(2d27e4fc…)에서 BF16 평가 W0가 FP32 W0보다 Eff −0.08, Gen −0.05, Loc −0.22 point 낮다(2,000 요청 중 91개에서 token 판정이 다름)."
+  },
+  "trajectory_seen_requests": {
+   "W5": {
+    "requests": 500,
+    "display": {
+     "Eff": "99.17",
+     "Gen": "95.74",
+     "Loc": "28.01"
+    }
+   },
+   "W10": {
+    "requests": 1000,
+    "display": {
+     "Eff": "99.03",
+     "Gen": "96.04",
+     "Loc": "28.44"
+    }
+   },
+   "W15": {
+    "requests": 1500,
+    "display": {
+     "Eff": "98.08",
+     "Gen": "94.55",
+     "Loc": "29.84"
+    }
+   },
+   "W20": {
+    "requests": 2000,
+    "display": {
+     "Eff": "96.90",
+     "Gen": "92.83",
+     "Loc": "28.90"
+    }
+   }
+  }
+ },
+ "README_cells": {
+  "zsRE Eff": "96.90",
+  "zsRE Gen": "92.83",
+  "zsRE Loc": "28.90"
+ },
+ "precision_note": "GPT-J FE zsRE 평가는 CF FE 행(63389/63390)처럼 BF16이며, baseline zsRE 행은 FP32 평가다.",
+ "storage_note": "W0–W15 snapshot은 history tensor 없이 저장했다(diagnostic_history_batches=[20]). 편집에는 영향이 없다."
+}

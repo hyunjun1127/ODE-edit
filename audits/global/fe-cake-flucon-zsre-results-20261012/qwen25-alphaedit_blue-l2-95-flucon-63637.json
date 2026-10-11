@@ -1,0 +1,319 @@
+{
+ "schema": "fe-cake-flucon-result-audit-v1",
+ "observed_at": "2026-10-12T04:40:00+09:00",
+ "result": "Qwen2.5 AlphaEdit-BLUE (L2 95, rent 112048) CF Flu/Con (W20, 2,000 case)",
+ "row": {
+  "table": "Qwen2.5-7B-Instruct",
+  "method": "AlphaEdit-BLUE",
+  "cells": [
+   "CF Flu ×100",
+   "CF Con ×100"
+  ],
+  "replaced_status": "ING: Qwen BLUE L2 95 W20 Flu/Con (devbox 63637)",
+  "untouched": "zsRE 3칸(rent 120121 실행 중)은 그대로 둔다"
+ },
+ "job": {
+  "id": "63637",
+  "name": "flucon-qwen-blue-l2-95",
+  "server": "server1",
+  "state": "COMPLETED",
+  "exit_code": "0:0",
+  "submit": "2026-10-12T01:33:00+09:00",
+  "start": "2026-10-12T01:33:23+09:00",
+  "end": "2026-10-12T04:31:40+09:00",
+  "elapsed": "02:58:17",
+  "node": "devbox",
+  "note": "README 기존 문구의 \"01:55 시작\"과 달리 sacct·restore.json(01:33:58) 기준 01:33:23에 시작했다."
+ },
+ "claimed": {
+  "by": "설계 세션 janghj-7d",
+  "Flu": "623.77",
+  "Con": "33.67",
+  "COMPLETE_sha256_prefix": "69cbc228",
+  "restore_sha256_prefix": "1b145dcf",
+  "endpoint_sha256_prefix": "57ae0076",
+  "checkpoint_sha256_prefix": "733c45da",
+  "all_match": true
+ },
+ "evaluator": {
+  "shared": "official.runners.server1.flucon_eval.run (변경 없음), frozen source 3a1b6138 = registration-s1-r1/source (63537/63538과 같은 디렉터리·lock 멤버 529개)",
+  "precision": "FP32 eager, TF32 off",
+  "generation": "NativeGenerationObserver PROFILE, eval seed 20261007, W20_ONLY_FIRST2000",
+  "reference_identity": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+  "cf_order": "CF first 2,000 (ordered_case_ids_sha256 0b912d11…, stream sha256 66edc483…)",
+  "driver": {
+   "note": "task-local driver: process-local restore(ALPHAEDIT_BLUE official checkpoint → fe_cake_flucon.bind_weights, exact FP32 copy)과 로컬 JSONL tracking(W&B 미사용)만 바꾼다. fe_cake_flucon.host_bindings와 같은 방식이다.",
+   "run_py": {
+    "host": "server1",
+    "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-blue-flucon-20261012/scripts/run.py",
+    "bytes": 2890,
+    "sha256": "8294de4d7bc5a650438e8a086a7fa417527f77bc97dd9712b8ba90d368716901"
+   },
+   "run_sbatch": {
+    "host": "server1",
+    "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-blue-flucon-20261012/scripts/run.sbatch",
+    "bytes": 1032,
+    "sha256": "be334ea28a973b6aed02b2770ba9ac681f93e25533aa4fc9da6c5ff21eee7850"
+   },
+   "lock": {
+    "host": "server1",
+    "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-blue-flucon-20261012/configs/lock.json",
+    "bytes": 138602,
+    "sha256": "1ce6f6c8331382529bbadb93e47b0db1ca97eceb1c8054b86b9f096ac935eb6c"
+   },
+   "config": {
+    "host": "server1",
+    "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-blue-flucon-20261012/configs/qwen25-alphaedit_blue-l2-95-112048.json",
+    "bytes": 5756,
+    "sha256": "7b8ba755324f008124332c1d9fcbdd6d6e1098d2f34b991d47f77ce1122f342f",
+    "config_sha256_field": "99f96ea49ed3884560ed3d1c7080e41e77c8e10e09ce2811b88ffd5c973f639a"
+   }
+  }
+ },
+ "completion": {
+  "COMPLETE_json": {
+   "host": "server1",
+   "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-blue-flucon-20261012/runs/qwen25-alphaedit_blue-l2-95-112048/COMPLETE.json",
+   "bytes": 2252,
+   "sha256": "69cbc228ac7d6a3e4dc5ddaa0cd251e53ece8de7146957f233dfb575c706ba28"
+  },
+  "FAILURE_json": "없음",
+  "restore_json": {
+   "host": "server1",
+   "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-blue-flucon-20261012/runs/qwen25-alphaedit_blue-l2-95-112048/restore.json",
+   "bytes": 1264,
+   "sha256": "1b145dcf3ce9ae75c8a8958ed16a4dc7a55e11ff8081fa6de1ac66206458c587"
+  },
+  "observer_identity": {
+   "host": "server1",
+   "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-blue-flucon-20261012/runs/qwen25-alphaedit_blue-l2-95-112048/generation/observer-identity.json",
+   "bytes": 1848,
+   "sha256": "b59eed5c963ffb32fbc13dc3a27cdfb7f37c95412fdfa0a4a5b1b050969cb22f"
+  },
+  "native_execution": {
+   "host": "server1",
+   "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-blue-flucon-20261012/runs/qwen25-alphaedit_blue-l2-95-112048/generation/native-executions/a012fdeb678d171226b619be3a53406a01934a7f1a970a2da3a7c063241236bb.json",
+   "bytes": 147720,
+   "sha256": "a31bb0e9a7644afe410768eaddf2b3c5320dc5ec97b1118d9fa0f8910540cb74"
+  },
+  "invariants": {
+   "weights_unchanged": true,
+   "RNG_unchanged": true,
+   "checkpoint_unchanged": true,
+   "edits": 0,
+   "requests": 2000
+  },
+  "stderr": "HF checkpoint shard 로딩 진행 표시만 있음"
+ },
+ "W20_identity": {
+  "edit_job": "rent 112048 (official runner c78d1809, ALPHAEDIT_BLUE, L2 95, layers 4·8, FP32)",
+  "checkpoint": {
+   "host": "server1",
+   "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-blue-grid-rent-20261011/qwen25-cf-alphaedit_blue-l2-95/flucon-input-W20/batch-20-733c45da6c2cb8ab.pt",
+   "bytes": 3414186188,
+   "sha256": "733c45da6c2cb8ab2242983d1cce60c49e43c5f104d61f9c4b7e64757c8675f2",
+   "rehash_2026_10_12": "733c45da6c2cb8ab2242983d1cce60c49e43c5f104d61f9c4b7e64757c8675f2",
+   "schema": "official-baseline-checkpoint-v1",
+   "method": "ALPHAEDIT_BLUE",
+   "stored_dtype": "float32",
+   "cast": "none: FP32 copied exactly",
+   "checkpoint_meta": {
+    "batch": 20,
+    "identity_code_commit": "c78d180968a5595a0038cff9e617d93ddcc488a7",
+    "identity_config_sha256": "7a1ca83bd848d662fc2185a23ada0384e4fe78db36e472b14ea9ddeea99fa195",
+    "method": "ALPHAEDIT_BLUE",
+    "schema": "official-baseline-checkpoint-v1"
+   }
+  },
+  "rent_delivery_SHA256SUMS": {
+   "host": "server1",
+   "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-blue-grid-rent-20261011/qwen25-cf-alphaedit_blue-l2-95/flucon-input-W20/SHA256SUMS",
+   "bytes": 628,
+   "sha256": "fd2888eafa34849d046f16c9082383a94ed3015eceeccb850ca06fc66b4c21a5"
+  },
+  "pointer": {
+   "host": "server1",
+   "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-blue-grid-rent-20261011/qwen25-cf-alphaedit_blue-l2-95/flucon-input-W20/latest.json",
+   "bytes": 237,
+   "sha256": "f3ce844b11d797b20622c905d5339673b4ac51467e244899ac6325bda8f4caf2",
+   "fields": {
+    "batch": 20,
+    "file": "batch-20-733c45da6c2cb8ab.pt",
+    "final_W20": true,
+    "identity_sha256": "50143e1f7d72af84bded1ef083d99b821d1b426ca2c03fd966b5db36c793bc84",
+    "sha256": "733c45da6c2cb8ab2242983d1cce60c49e43c5f104d61f9c4b7e64757c8675f2"
+   },
+   "identity_digest_recomputed": "50143e1f7d72af84bded1ef083d99b821d1b426ca2c03fd966b5db36c793bc84"
+  },
+  "commit_batch20": {
+   "host": "server1",
+   "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-blue-grid-rent-20261011/qwen25-cf-alphaedit_blue-l2-95/flucon-input-W20/batch-20.json",
+   "bytes": 3324,
+   "sha256": "c02f5dbfe48388c28b32e0b513c035c7419184eae3a7bbe9184cbb338297d431",
+   "factual_endpoint_sha256": "1144a67d1378a3e759cfda37108f87d973235ea2a0b0f05838d9a19e3dab12aa",
+   "weights_record": "shape·dtype·version만 있고 텐서 SHA는 없음"
+  },
+  "chain_SHA256SUMS": {
+   "host": "server1",
+   "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-blue-grid-rent-20261011/qwen25-cf-alphaedit_blue-l2-95/chain-job112048/SHA256SUMS",
+   "bytes": 3713,
+   "sha256": "a517a51bc4a0e5fdcb8cb7f6b037048eee37429273c496e3f41ce7843241b37d",
+   "note": "checkpoints/latest.json f3ce844b…, commits/batch-20.json c02f5dbf…, factual/W20.json 1144a67d…를 나열한다"
+  },
+  "rent_result": {
+   "host": "server1",
+   "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-blue-grid-rent-20261011/qwen25-cf-alphaedit_blue-l2-95/flucon-input-W20/result.json",
+   "bytes": 8263,
+   "sha256": "451cbc5c8ee777c7db3b38e2ee7eb94e4fb634ee09153a9bf92ac39c61997973"
+  },
+  "rent_terminal": {
+   "host": "server1",
+   "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-blue-grid-rent-20261011/qwen25-cf-alphaedit_blue-l2-95/chain-job112048/terminal.json",
+   "bytes": 665,
+   "sha256": "d22b472d32d48f185646338f05707ea8b61c44b0e1e75f72bdb46ec6c2dfd356"
+  },
+  "CF_row_raw": "factual/W20.json sha256 1144a67d… = README BLUE CF 칸 원자료(승자 L2 = 95 문단)",
+  "restored_selected_weights_fp32_sha256": {
+   "model.layers.4.mlp.down_proj.weight": "fea7068b8611e0b95e73bf35fe0eddb05dbf01e44386c905ec19f69d32ae1a82",
+   "model.layers.8.mlp.down_proj.weight": "b632fb775025f0dab720f1e662b34753d868974a75a4d6bffb5adc8223a7dcc1"
+  },
+  "recorded_W20_hash_match_in_run": "NO_TENSOR_RECORD_IN_RUN",
+  "tensor_rehash_2026_10_12": {
+   "tensors": {
+    "model.layers.4.mlp.down_proj.weight": {
+     "dtype": "float32",
+     "shape": [
+      3584,
+      18944
+     ],
+     "sha256": "fea7068b8611e0b95e73bf35fe0eddb05dbf01e44386c905ec19f69d32ae1a82",
+     "finite": true,
+     "max_abs": 0.6891354322433472
+    },
+    "model.layers.8.mlp.down_proj.weight": {
+     "dtype": "float32",
+     "shape": [
+      3584,
+      18944
+     ],
+     "sha256": "b632fb775025f0dab720f1e662b34753d868974a75a4d6bffb5adc8223a7dcc1",
+     "finite": true,
+     "max_abs": 0.7028661370277405
+    }
+   },
+   "equals_payload_and_restored_sha256": true
+  },
+  "match": "복원한 checkpoint(sha256 733c45da…)가 rent 112048의 W20 pointer(final_W20)·commit batch-20·전달 SHA256SUMS(fd2888ea…)와 같고, 그 commit의 factual endpoint가 README CF 칸 원자료 W20.json(1144a67d…)이다. rent runner는 텐서별 SHA를 기록하지 않아 (NO_TENSOR_RECORD_IN_RUN) checkpoint에서 L4·L8 FP32 텐서 SHA를 다시 계산해 restore.json과 같음을 확인했다."
+ },
+ "raw": {
+  "endpoint": {
+   "bytes": 2793199,
+   "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-blue-flucon-20261012/runs/qwen25-alphaedit_blue-l2-95-112048/generation/endpoints/a012fdeb678d171226b619be3a53406a01934a7f1a970a2da3a7c063241236bb.json",
+   "sha256": "57ae00760c7e59e70b5c217ccd91c28604586510c9f54327cbd7d71b8c1e3e33",
+   "host": "server1"
+  },
+  "observations": {
+   "dir": "/mnt/raid5/janghj/ODE-edit/local/qwen-blue-flucon-20261012/runs/qwen25-alphaedit_blue-l2-95-112048/generation/observations",
+   "each_file_sha256_equals_endpoint_raw_member": true,
+   "files": 2000,
+   "sorted_sha256sum_manifest_sha256": "6dd2c8c597749dd45a2188553b1f7a523469d86a20c7f63d11baf7996d7f41e8",
+   "total_bytes": 65338659,
+   "host": "server1"
+  },
+  "cases": 2000,
+  "prompts": 20000,
+  "generated_tokens": 1815707,
+  "case_order_equals_cf_stream_first2000": true
+ },
+ "recount": {
+  "method": "독립 CPU 재집계(2026-10-12): 2,000개 raw 관측 파일의 생성 원문 10개/case를 직접 다시 채점했다(entropy·TF-IDF cosine, 고정 MEMIT reference). run 요약은 쓰지 않았고 raw 파일의 case별 지표 평균도 따로 대조했다. 표시는 반올림 전 평균 ×100 후 소수 둘째 자리 decimal half-up.",
+  "reference": {
+   "manifest": {
+    "bytes": 6769,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-generation-eval-assets/20261007/reference-ready-r1/manifest.json",
+    "sha256": "6d9a713ab7eaa10871f277e10a3974e0bd5b140c265be80052c279f258876ca8"
+   },
+   "assets": {
+    "attribute_snippets.json": {
+     "bytes": 926285719,
+     "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-generation-eval-assets/20261007/download-r1/attribute_snippets.json",
+     "sha256": "10b5c1cd105e54d5983c72de1b45bfc88bc7af786f7b99def2557886ff23385b"
+    },
+    "idf.npy": {
+     "bytes": 11042168,
+     "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-generation-eval-assets/20261007/download-r1/idf.npy",
+     "sha256": "c073d642589d4ac6432f467230329b36364a01e72de63a77a3624b745b923dda"
+    },
+    "tfidf_vocab.json": {
+     "bytes": 31639072,
+     "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-generation-eval-assets/20261007/download-r1/tfidf_vocab.json",
+     "sha256": "8a78c4f20d8d85dadfd14e283d71af255482ff18aa0eb8a81716024c05ff888b"
+    }
+   },
+   "punkt": {
+    "path": "/mnt/raid5/janghj/nltk_data/tokenizers/punkt/PY3/english.pickle",
+    "sha256": "5cad3758596392364e3be9803dbd7ebeda384b68937b488a01365f5551bb942c"
+   },
+   "nltk": "3.6.5",
+   "sklearn": "1.7.2",
+   "numpy": "2.2.6"
+  },
+  "rescored_from_texts": {
+   "Con_cosine": 0.3367234444922124,
+   "Flu_bits": 6.237702232326311
+  },
+  "stored_per_case_mean": {
+   "Con_cosine": 0.33672344449221253,
+   "Flu_bits": 6.23770223232631
+  },
+  "max_abs_per_case_diff_stored_vs_rescored": {
+   "Con_cosine": 1.8263168755083825e-14,
+   "Flu_bits": 1.7763568394002505e-15
+  },
+  "run_summary": {
+   "Con_cosine": 0.33672344449221253,
+   "Flu_bits": 6.23770223232631,
+   "consistency_count": 2000,
+   "fluency_count": 2000,
+   "generated_token_count": 1815707,
+   "generation_prompt_count": 20000
+  },
+  "abs_diff_vs_run_summary": {
+   "Con": 1.1102230246251565e-16,
+   "Flu": 8.881784197001252e-16
+  },
+  "display_x100": {
+   "Con": "33.67",
+   "Flu": "623.77"
+  },
+  "run_display_x100": {
+   "Con": "33.67",
+   "Flu": "623.77"
+  },
+  "matches_run_summary": true
+ },
+ "generation_sanity": {
+  "nonfinite_metric_values": 0,
+  "empty_continuations": 0,
+  "stop_reasons": {
+   "length_cap": 20000
+  },
+  "distinct_token_ratio": {
+   "p10": 0.5108695652173914,
+   "median": 0.6195652173913043,
+   "p90": 0.7127659574468085
+  },
+  "per_case_cosine": {
+   "min": 0.020704792194214353,
+   "median": 0.32248797029390275,
+   "max": 0.8042351082090257,
+   "cases_zero": 0,
+   "cases_below_0_01": 0
+  }
+ },
+ "README_cells": {
+  "CF Flu ×100": "623.77",
+  "CF Con ×100": "33.67"
+ },
+ "note": "FP32로 저장된 편집 가중치(L4·L8)를 그대로 복사했다. 생성은 정상 범위다."
+}
