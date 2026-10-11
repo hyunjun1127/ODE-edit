@@ -125,7 +125,7 @@ server4 **63357 / official-s4-llama3-zsre-fe-author-hparams-2k**는 최신 사�
 임시 hold를 해제했다. 기존 job 번호·실험 설정을 유지하며 실행/완료 성능은 아직 없다.
 [cap 2 실제 변경·검산](audits/servers/server4/llama-zsre-fe-author-hparams-20261011/cap2.json).
 새 별도 `FE (author hparams + history)` 행의 zsRE 3개 셀에 상태를 기록한다.
-**63357은 2026-10-11 12:18에 실패했다(29분, W0 평가 뒤 첫 checkpoint를 server1로 스트림 저장하는 중 `torch.save`가 파이프에서 `unexpected pos` 오류). 편집 결과는 없으며 재실행 여부는 사용자 결정 대기다.**
+**63357은 2026-10-11 12:18에 실패했다(29분). W0 평가와 B1 commit 뒤, B2 checkpoint를 server1로 스트림 저장하는 중 `torch.save`가 파이프에서 `unexpected pos` 오류를 냈다. W20 결과는 없으며 재실행 여부는 사용자 결정 대기다.**
 매 100 edit 재개 checkpoint와 500/1000/1500/2000 보존 checkpoint는 server1에 SHA 검증 후 저장한다.
 [설정·제출·CPU 검증](experiment-reports/global/llama-zsre-fe-author-hparams-server4-20261011.md).
 
