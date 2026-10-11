@@ -1,0 +1,118 @@
+{
+  "source": "49ab6b20d258e4cb091ca9ae68098db3930a86e7",
+  "arms": {
+    "gptj_repaired": {
+      "config": {
+        "bytes": 57551,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/configs/gptj_repaired.json",
+        "sha256": "f40227522a23a34839fc785fef034c770ab0788b8395a2a5121fefab7c5d3d6f"
+      },
+      "control_config": {
+        "bytes": 49889,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/configs/gptj.json",
+        "sha256": "2b6054f2b52c47a974bc5ce7ed2243f94f9ccef4e324b34f75929e0df53480fb"
+      },
+      "evaluation_script": {
+        "bytes": 802,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/gptj_repaired-eval.sh",
+        "sha256": "3fa68fb533970ce27aec1c42a1544bfd941680fc69f7e88f2eefcbf142187861"
+      },
+      "hparams_match_author": true,
+      "native_script": {
+        "bytes": 2673,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/gptj_repaired.sh",
+        "sha256": "bdedd9860089d25db8ad301245b6be0f48baef420d33b4350c2c22c475fdc569"
+      },
+      "scientific_difference": "Only GPT-J L3 derived covariance; current batch-entry z",
+      "identity_sha256": "909c7a0762ce4a2640d74808f52a06a75cec47a8cea528ce07a09e517a2e7daf",
+      "runtime": {
+        "hydra": "1.3.2",
+        "numpy": "1.26.4",
+        "python": "3.12.0 (main, Jun 18 2025, 15:39:44) [GCC 11.4.0]",
+        "torch": "2.9.1+cu128",
+        "transformers": "4.51.3"
+      },
+      "overrides": [
+        "llms=gpt-j-6b",
+        "algs=memit",
+        "bs=100",
+        "num_edits=2000",
+        "seed=0",
+        "data=counterfact_stream_2000",
+        "data_dir=/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/data",
+        "cache_dir=/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/gptj_repaired/cache",
+        "results_dir=/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/gptj_repaired/results",
+        "zs_cache_dir=/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/gptj_repaired/unused-z-cache",
+        "save_name=gptj_repaired",
+        "load_name=gptj_repaired",
+        "+diagnostic_checkpoint_dir=/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/gptj_repaired/checkpoints",
+        "+diagnostic_reserve_bytes=68719476736",
+        "+diagnostic_z_reference=batch_entry",
+        "hydra.run.dir=/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/gptj_repaired/hydra-edit",
+        "hydra.job.chdir=False"
+      ],
+      "z_reference": "batch_entry",
+      "covariance_repair": true
+    },
+    "qwen_online_w0": {
+      "config": {
+        "bytes": 54654,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/configs/qwen_online_w0.json",
+        "sha256": "59bda2addb1fc9d6e3b6fa20281f578d727f5ecd104d048e1b123be47251bd5d"
+      },
+      "control_config": {
+        "bytes": 49183,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/configs/qwen25.json",
+        "sha256": "c9578794bf583fef48fcc93700573ef0be74c662d19b54115b976e9fc5c76d49"
+      },
+      "evaluation_script": {
+        "bytes": 804,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/qwen_online_w0-eval.sh",
+        "sha256": "4d9c8cd044da81647567738fa5baa815c90208f8fd94053b45a2f7344eeeecfd"
+      },
+      "hparams_match_author": true,
+      "native_script": {
+        "bytes": 2717,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/qwen_online_w0.sh",
+        "sha256": "e16bddfdd991b8f728426ec5d935f65abd8691e211b3790562f21cb6be33da65"
+      },
+      "scientific_difference": "Only z reference is initial model, evaluated on arrival of current100; no future targets",
+      "identity_sha256": "214fe1a955e794680f745bcf055f2d8c0396fb4801e1a5ba931a98b0497c789a",
+      "runtime": {
+        "hydra": "1.3.2",
+        "numpy": "1.26.4",
+        "python": "3.12.0 (main, Jun 18 2025, 15:39:44) [GCC 11.4.0]",
+        "torch": "2.9.1+cu128",
+        "transformers": "4.51.3"
+      },
+      "overrides": [
+        "llms=qwen2.5-7b",
+        "algs=memit",
+        "bs=100",
+        "num_edits=2000",
+        "seed=0",
+        "data=counterfact_stream_2000",
+        "data_dir=/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/data",
+        "cache_dir=/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/qwen_online_w0/cache",
+        "results_dir=/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/qwen_online_w0/results",
+        "zs_cache_dir=/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/qwen_online_w0/unused-z-cache",
+        "save_name=qwen_online_w0",
+        "load_name=qwen_online_w0",
+        "+diagnostic_checkpoint_dir=/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/qwen_online_w0/checkpoints",
+        "+diagnostic_reserve_bytes=68719476736",
+        "+diagnostic_z_reference=initial_model_on_arrival",
+        "hydra.run.dir=/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/qwen_online_w0/hydra-edit",
+        "hydra.job.chdir=False"
+      ],
+      "z_reference": "initial_model_on_arrival",
+      "covariance_repair": false
+    }
+  },
+  "patch_receipt": {
+    "bytes": 4767,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/patch-receipt.json",
+    "sha256": "3fd0304ab63b02ccd2c88f457252424ba1c57453fde2d0f8a95d377e307b77db"
+  },
+  "no_future_targets": true,
+  "samples_changed": false
+}

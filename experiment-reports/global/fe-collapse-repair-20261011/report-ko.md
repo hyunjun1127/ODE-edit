@@ -294,3 +294,20 @@ CPU12개 검사에서 현재 요청 범위, 성공/예외 시 editing state 복�
 
 실제 저자 `get_cov`로도 보정 NPZ를 읽어 FP64 normalization 일치와 Cholesky 통과를 확인했다.
 [저자 loader 검산](../../../audits/global/fe-collapse-repair-20261011/native-gptj-derived-prior-loader.json).
+
+## 두 원인 분리 대조 등록 (12:06 KST)
+
+| native main.py 대조 | 편집 job | 공통 checkpoint 평가 |
+| --- | --- | --- |
+| GPT-J, 현재 배치 모델 z, 결함 L3 C0만 수치 보정 | 63389 PENDING | 63390 PENDING |
+| Qwen, 현재100건만 W0에서 z 계산, 원 C0 | 63391 PENDING | 63392 PENDING |
+
+source49ab6b20, 동일 저자478134df, 동일2K 순서/author hparams/BF16/history다.
+Qwen 대조는 미래 target을 계산하지 않지만 **현재 모델 기준 z와는 다른 reference**다.
+이 두 효과를 구분하기 위한 진단이며 baseline 결과를 덮어쓰지 않았다.
+실제 추가 lane 전체는63385→63387→63386→63388→63389→63390→63391→63392다.
+기존 job 변경0, held 실제 검사 후 전부 release했으며 최대 동시3 GPU다.
+GPU 성능 회복은 아직 미확인이다. Qwen63385는B6에서 L5 잔차892/update1951까지 증가했다.
+
+[동일 설정·차이의 범위](../../../audits/global/fe-collapse-repair-20261011/native-causal-preparation.json) ·
+[실제 제출·cap 검산](../../../audits/global/fe-collapse-repair-20261011/native-causal-submission.json).

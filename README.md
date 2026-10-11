@@ -104,6 +104,10 @@ CAKE 자원 순서를 **63296 → 63298**, **63297 → 63299**로 복구하고 �
 [실행 경로·원본 대조](audits/global/fe-collapse-repair-20261011/native-execution-proof.json) ·
 [z 공급부 변경 diff](audits/global/fe-collapse-repair-20261011/native-target-supply.patch) ·
 [실제 등록](audits/global/fe-collapse-repair-20261011/native-submission.json).
+후속 원인 분리 대조는 **63389 GPT-J C0 수치 보정 / 63391 Qwen 현재100건의 W0-reference z**가 PENDING이며,
+각 checkpoint 평가는63390/63392다. 저자 hparams/history를 유지하고 미래 target은 계산하지 않는다.
+Qwen 대조는 현재 모델 기준 z와 다른 프로토콜로 구분한다.
+[설정 차이·등록](experiment-reports/global/fe-collapse-repair-20261011/report-ko.md#두-원인-분리-대조-등록-1206-kst).
 
 **FE author-hparams 추가 실행(2026-10-11 사용자 지시):** Llama3 **zsRE 2K 한 개**를 기존 수정 EasyEdit FE + history와
 원저자 clamp **0.75**·step **35**(lr 0.1) 설정으로 새로 제출했다. z는 각 batch 진입 모델에서 계산한다.
