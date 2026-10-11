@@ -1,0 +1,33 @@
+{
+  "observed_at": "2026-10-11T20:13:00+09:00",
+  "instruction": "user 2026-10-11: FE Flu/Con, CAKE Flu/Con 모두 각각 server1,2에 나눠서 제출하고 FE zsRE는 server4에 제출 / gpt-j의 zsRE도 server4에서 제출해",
+  "registration": "each job submitted held, inspected with scontrol show job and scontrol write batch_script, then released; no automatic retry",
+  "cf_flucon": {
+    "source_commit": "3a1b61385d912ef9c8958c1d15c331a32e72662f",
+    "evaluation": "shared Flu/Con evaluator, FP32 eager, TF32 off; BF16-stored selected weights (GPT-J/Qwen FE native runs) cast exactly to FP32",
+    "server1": {"lanes": [["gptj-fe_author_native-63389", "gptj-cake-63298"]],
+                "jobs": {"gptj-fe_author_native-63389": "63537", "gptj-cake-63298": "63538", "collector": "63539"},
+                "records": "server1 /mnt/raid5/janghj/ODE-edit/local/fe-cake-flucon-20261011/registration-s1-r1/submission.json"},
+    "server2": {"lanes": [["llama3-memit_fe_history-63382", "qwen25-fe_author_native-63385"], ["llama3-cake-63296", "qwen25-cake-63324"]],
+                "jobs": {"llama3-memit_fe_history-63382": "63540", "qwen25-fe_author_native-63385": "63541", "llama3-cake-63296": "63542", "qwen25-cake-63324": "63543", "collector": "63544"},
+                "records": "server2 /mnt/raid5/janghj/ODE-edit/local/fe-cake-flucon-20261011/registration-s2-r1/submission.json"}
+  },
+  "fe_zsre_server4": {
+    "source_commit": "9a12b857975328f74ba047b3c922516764013802",
+    "chain": [["63545", "official-s4-llama3-zsre-fe-author-history-local"],
+              ["63546", "official-s4-gptj-zsre-fe-native-repaired", "afterany:63545"],
+              ["63547", "official-s4-gptj-zsre-fe-native-repaired-eval", "afterany:63546"]],
+    "server4_gpu_lanes": "lane A downstream 63529 + lane B (this chain); janghj server4 GPU width 2",
+    "llama3": {"config_sha256": "6b1bda84f2e87fa5c80db49b1e416468f10306a1eb1390eb26297141be1b7281",
+               "rerun_of": {"job": "63357", "config_sha256": "b35dde639824300ece65b38b518e7a112655f0c1600b83f5c077e2c043a53dc2"},
+               "difference_from_63357": "operational only: checkpoints kept on server4 (W0, latest each batch, W20) instead of streaming to server1; server4 asset re-hash, paths, task id, tracking env copy, 16 GiB free floor, covariance_policy strict (Llama C0 passes Cholesky unrepaired); hparams, stream and order equal",
+               "implementation": "official.runners.fe_author_history (modified EasyEdit FE + history, FP32), as CF 63382"},
+    "gptj": {"config_identity_sha256": "02f0e5be2ab4b113b86b8f96fb0190e5a9667bdcf95a7f4c95e2d47cdcf995b4",
+             "implementation": "pinned author main.py 478134df, BF16, native writer, add_old_keys history, batch-entry z, L3 project_roundoff C0, as CF 63389/63390",
+             "scientific_difference": "dataset only: official zsRE first 2,000 (= author zsre_mend_eval_19086[:2000] in every field read)",
+             "evaluation": "fe_native.evaluate -> zsre_paper public-query evaluator, BF16 (baseline zsRE rows are FP32)",
+             "storage_difference": "diagnostic_history_batches=[20]: W0/W5/W10/W15 snapshots keep weights, contexts, RNG and case ids without the history tensor; editing unaffected"},
+    "records": "server4 /data/janghj/ODE-edit/local/fe-zsre-lane-b-s4-20261011/registration-r1/submission.json"
+  },
+  "not_submitted": ["Qwen FE zsRE"]
+}

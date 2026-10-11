@@ -92,7 +92,7 @@ z는 **각 배치 진입 모델에서 그 배치 100건만** 계산한다. 미�
 
 편집·공통 평가(Qwen 63385/63387, GPT-J 63386/63388·63389/63390)는 모두 COMPLETED이며, 각 checkpoint 지표를 raw에서 독립 재집계했다.
 history 누적과 최종 가중치 저장도 확인했다. clamp/step/lr와 sample 순서는 바꾸지 않았다.
-**본표 FE 행 반영(2026-10-11 사용자 지시, 현재 모델 z):** GPT-J는 C0만 수치 보정한 **63389 → 63390** W20 (R/P/N 1,970/2,000 · 3,792/4,000 · 13,857/20,000 → **85.39 / 98.50 / 94.80 / 69.29**), Qwen은 **63385 → 63387** W20 (1,018/2,000 · 1,998/4,000 · 9,943/20,000 → **50.18 / 50.90 / 49.95 / 49.72**, 붕괴)이다. 두 행은 공식 FE `main.py`(BF16)로, Llama 행(63382)은 수정 EasyEdit FE(FP32)로 돌렸다. 설정(author hparams, 누적 history, 현재 모델 z)은 같고 구현이 다르다. 두 모델의 FE Flu/Con과 zsRE는 실행하지 않았다. [raw 재집계](audits/global/fe-collapse-repair-20261011/table-rows-current-z.json).
+**본표 FE 행 반영(2026-10-11 사용자 지시, 현재 모델 z):** GPT-J는 C0만 수치 보정한 **63389 → 63390** W20 (R/P/N 1,970/2,000 · 3,792/4,000 · 13,857/20,000 → **85.39 / 98.50 / 94.80 / 69.29**), Qwen은 **63385 → 63387** W20 (1,018/2,000 · 1,998/4,000 · 9,943/20,000 → **50.18 / 50.90 / 49.95 / 49.72**, 붕괴)이다. 두 행은 공식 FE `main.py`(BF16)로, Llama 행(63382)은 수정 EasyEdit FE(FP32)로 돌렸다. 설정(author hparams, 누적 history, 현재 모델 z)은 같고 구현이 다르다. 이 시점에는 두 모델의 FE Flu/Con과 zsRE를 실행하지 않았다(이후 제출은 아래 기록). [raw 재집계](audits/global/fe-collapse-repair-20261011/table-rows-current-z.json).
 Native loader는 전체 JSON을 읽고 target fitting/use만 현재100건으로 제한한다.
 [전체 비교표·원인·검증 결과](experiment-reports/global/fe-collapse-repair-20261011/report-ko.md) ·
 [작동하는 native 구현](official/diagnostics/fe_native/README.md) ·
@@ -106,7 +106,7 @@ server4 **63357 / official-s4-llama3-zsre-fe-author-hparams-2k**는 최신 사�
 임시 hold를 해제했다. 기존 job 번호·실험 설정을 유지하며 실행/완료 성능은 아직 없다.
 [cap 2 실제 변경·검산](audits/servers/server4/llama-zsre-fe-author-hparams-20261011/cap2.json).
 새 별도 `FE (author hparams + history)` 행의 zsRE 3개 셀에 상태를 기록한다.
-**63357은 2026-10-11 12:18에 실패했다(29분). W0 평가와 B1 commit 뒤, B2 checkpoint를 server1로 스트림 저장하는 중 `torch.save`가 파이프에서 `unexpected pos` 오류를 냈다. W20 결과는 없으며 재실행 여부는 사용자 결정 대기다.**
+**63357은 2026-10-11 12:18에 실패했다(29분). W0 평가와 B1 commit 뒤, B2 checkpoint를 server1로 스트림 저장하는 중 `torch.save`가 파이프에서 `unexpected pos` 오류를 냈다. W20 결과는 없다. 사용자 지시로 같은 과학 설정을 server4 **63545**로 다시 제출했다(아래 제출 기록).**
 매 100 edit 재개 checkpoint와 500/1000/1500/2000 보존 checkpoint는 server1에 SHA 검증 후 저장한다.
 [설정·제출·CPU 검증](experiment-reports/global/llama-zsre-fe-author-hparams-server4-20261011.md).
 
@@ -124,6 +124,11 @@ covariance·z policy·writer 필드를 더했는데 checkpoint 검사는 핵심 
 `4841f720`에서 핵심 7개 필드는 필수로 두고 추가 필드도 비어 있지 않으면 허용하도록 고쳤다(저장·재개 모두 identity 전체를 비교).
 **`4841f720` 이전 source로 고정된 이 runner의 실행은 같은 이유로 첫 저장에서 멈춘다.**
 [preparation·등록 기록](audits/servers/server3/fe-author-llama-cf-s3-20261011/).
+
+**FE·CAKE CF Flu/Con과 FE zsRE 제출(2026-10-11 사용자 지시, 20:13 KST 관측):** "FE Flu/Con, CAKE Flu/Con 모두 각각 server1,2에 나눠서 제출하고 FE zsRE는 server4에"와 "gpt-j의 zsRE도 server4에서 제출해"에 따라 held 검사 후 release했다.
+- **CF Flu/Con 6개**(source `3a1b6138`): 저장된 W20 편집 가중치를 다른 Flu/Con 칸과 같은 공용 평가기(FP32 eager, TF32 off)에 복원해 잰다. BF16으로 편집한 GPT-J·Qwen FE는 저장된 BF16 가중치를 FP32로 정확히 변환한다. server1: GPT-J FE **63537** → GPT-J CAKE **63538**(collector 63539). server2: Llama FE **63540** → Qwen FE **63541**, Llama CAKE **63542** → Qwen CAKE **63543**(collector 63544).
+- **FE zsRE 2개**(server4, source `9a12b857`): Llama **63545**는 실패한 63357과 과학 설정이 같다(hparams·stream·순서 동일, config `6b1bda84` ← `b35dde63`). checkpoint를 server1로 스트림 저장하지 않고 server4에 두는 것만 다르다. GPT-J **63546**(편집) → **63547**(평가)는 CF 63389/63390과 같은 공식 FE `main.py`(BF16), L3 C0 수치 보정, 현재 모델 z이고 데이터만 zsRE 첫 2,000건이다. GPT-J zsRE 평가는 CF 행처럼 BF16이며 baseline zsRE 행은 FP32 평가다. server4 GPU 2개 중 1개는 downstream 63529가 쓰므로 세 job은 남은 한 자리에서 차례로 돈다. Qwen FE zsRE는 제출하지 않았다.
+[job·config·source 기록](audits/global/fe-flucon-zsre-submit-20261011/submission.json).
 
 **W0 행은 편집 전 base model을 동일한 2,000개 요청에 평가한 기준값**이며 W20 결과와 구분합니다.
 2026-10-09 각 서버의 저장 원자료를 직접 확인하고 재집계했습니다.
@@ -202,9 +207,9 @@ zsRE Loc은 **loc_ans 정답 token 정확도의 요청별 평균**이다. 이전
 | MEMIT | 58.88‡ | 64.75‡ | 61.70‡ | 51.83‡ | 507.87‡ | 5.38‡ | 44.30 | 39.95 | 22.30 |
 | AlphaEdit | 84.80‡ | 99.30‡ | 93.23‡ | 68.59‡ | 619.92‡ | 32.33‡ | 95.18 | 91.40 | 31.10 |
 | AlphaEdit-BLUE | 89.84† | 99.60† | 97.15† | 76.59† | 630.45† | 33.98† | 95.87 | 92.28 | 32.83 |
-| FE (author hparams + history) | 90.57 | 99.60 | 95.38 | 79.37 | DEFERRED | DEFERRED | FAILED: official-s4-llama3-zsre-fe-author-hparams-2k (63357) | FAILED: official-s4-llama3-zsre-fe-author-hparams-2k (63357) | FAILED: official-s4-llama3-zsre-fe-author-hparams-2k (63357) |
+| FE (author hparams + history) | 90.57 | 99.60 | 95.38 | 79.37 | ING: s2-flucon-llama3-memit_fe_history-63382 (63540) | ING: s2-flucon-llama3-memit_fe_history-63382 (63540) | ING: official-s4-llama3-zsre-fe-author-history-local (63545) | ING: official-s4-llama3-zsre-fe-author-history-local (63545) | ING: official-s4-llama3-zsre-fe-author-history-local (63545) |
 | AlphaEdit+SPHERE | 86.87 | 99.50 | 94.95 | 71.68 | 619.20 | 33.64 | 95.13 | 91.36 | 31.38 |
-| CAKE | 86.65 | 99.20 | 87.15 | 76.52 | DEFERRED | DEFERRED | 94.73 | 89.34 | 32.72 |
+| CAKE | 86.65 | 99.20 | 87.15 | 76.52 | PENDING: s2-flucon-llama3-cake-63296 (63542) | PENDING: s2-flucon-llama3-cake-63296 (63542) | 94.73 | 89.34 | 32.72 |
 | PRICE (Ours) | 90.98§ | 99.90§ | 93.50§ | 81.50§ | 628.47§ | 33.53§ | 95.99§ | 91.37§ | 32.98§ |
 
 § 사용자 2026-10-10 결정에 따른 **최종 PRICE method** CF 2K이며, server4 job **62604**로 실행했다.
@@ -341,9 +346,9 @@ SH3 최신 CPU 재검산에서도 위 네 지표 delta0, 신규 본표 적격 �
 | MEMIT | 62.23 | 68.50 | 65.83 | 54.30 | 562.02 | 6.24 | 41.49 | 39.44 | 26.39 |
 | AlphaEdit | 83.03 | 99.05 | 97.55 | 63.36 | 618.99 | 33.92 | 85.05 | 78.18 | 30.79 |
 | AlphaEdit-BLUE | 77.98 | 97.70 | 96.75 | 55.86 | 602.99 | 37.43 | 58.62 | 53.66 | 5.73 |
-| FE (author hparams + history) | 50.18 | 50.90 | 49.95 | 49.72 | DEFERRED | DEFERRED | 재검증 필요 | 재검증 필요 | 재검증 필요 |
+| FE (author hparams + history) | 50.18 | 50.90 | 49.95 | 49.72 | PENDING: s2-flucon-qwen25-fe_author_native-63385 (63541) | PENDING: s2-flucon-qwen25-fe_author_native-63385 (63541) |  |  |  |
 | AlphaEdit+SPHERE | 83.73 | 99.40 | 97.70 | 64.37 | CANCELLED: s2-flucon-qwen25-sphere-62079 (62873) | CANCELLED: s2-flucon-qwen25-sphere-62079 (62873) | CANCELLED: s4-qwen25-zsre-sphere-resume-b10 (63303) | CANCELLED: s4-qwen25-zsre-sphere-resume-b10 (63303) | CANCELLED: s4-qwen25-zsre-sphere-resume-b10 (63303) |
-| CAKE | 67.98 | 81.30 | 70.10 | 56.94 | DEFERRED | DEFERRED | 88.39 | 82.57 | 33.79 |
+| CAKE | 67.98 | 81.30 | 70.10 | 56.94 | PENDING: s2-flucon-qwen25-cake-63324 (63543) | PENDING: s2-flucon-qwen25-cake-63324 (63543) | 88.39 | 82.57 | 33.79 |
 | PRICE (Ours) | 87.63※ | 99.00※ | 95.55※ | 73.17※ | 620.95※ | 31.46※ | 98.72※ | 93.97※ | 45.17※ |
 
 ※ Qwen PRICE (Ours)는 HC 가격을 정규화한 최종 method 재실행(arm `qwen25-PN-beta150`, β = c = β_max = 1.5)으로 채운다. CF는 server4 **63144**(B1–B15)를 W15에서 멈추고 **63281**(B16–B20, state join 확인)로 이어 돌려 완료했다(server4 GPU cap 2 정리, 2026-10-11 사용자 결정). W20 all-seen 성공률은 R/P/N 1,980/2,000 · 3,822/4,000 · 14,633/20,000이고, Score는 반올림 전 성공률의 조화평균(87.6310)이다. [원자료 SHA](audits/servers/server4/price-final-2k-20261010/qwen25-cf-results.json). CF Flu/Con은 W20 가중치(63281 W20과 SHA 동일)를 baseline과 같은 생성 평가기로 devbox(server1)에서 평가했다(job **63305**). 2,000 case/20,000 prompts의 평균 6.2095 bits · 0.3146 cosine에 ×100 후 half-up 둘째 자리만 적용했다. 평가 전후 가중치·RNG·checkpoint 불변을 확인했다. [Flu/Con 원자료 SHA](audits/servers/server1/price-final-flucon-20261011/qwen25-PN-beta150-W20.json). zsRE는 같은 arm의 server4 **63278**(r3, official zsRE stream·evaluator, W20/2,000 edits)이다. W0가 본표 zsRE W0 행(36.42 / 35.26 / 38.40)과 같고, 2,000건 query도 그 W0 원자료와 같다. Eff/Gen/Loc은 요청별 token 정확도의 평균이며 token 분모는 6,691/6,691/11,476이다. Loc(45.17)이 W0(38.40)보다 높은데, W0 예측 일치율은 52.31%다(Llama와 같은 양상, 원인 미확인). r1 **63145**의 W15는 r3 W15와 가중치·history·all-seen 값까지 같다. [zsRE 원자료 SHA](audits/servers/server4/price-final-2k-20261010/qwen25-zsre-results.json). HC 가격을 정규화하지 않은 rent run(**101706**, W20 98.65 / 94.25 / 72.48)은 본표에 넣지 않고 ablation으로 남긴다. 정규화하지 않으면 가장 싼 층 가격이 B10에서 1.159(최대 1.386)까지 올라, 편집 강도가 14% 이상 줄기 때문이다.
@@ -402,9 +407,9 @@ Llama historical3개는 원source/lock/CP와 새평가 consumer identity를 분�
 | MEMIT | 80.63 | 97.90 | 95.38 | 60.58 | 577.93 | 36.84 | 93.52 | 88.86 | 30.81 |
 | AlphaEdit | 88.22 | 99.70 | 96.33 | 73.56 | 614.00 | 40.76 | 99.69 | 96.45 | 27.94 |
 | AlphaEdit-BLUE | 89.23 | 99.55 | 97.53 | 75.06 | 621.35 | 42.00 | 99.75 | 95.71 | 28.83 |
-| FE (author hparams + history) | 85.39 | 98.50 | 94.80 | 69.29 | DEFERRED | DEFERRED | 재검증 필요 | 재검증 필요 | 재검증 필요 |
+| FE (author hparams + history) | 85.39 | 98.50 | 94.80 | 69.29 | ING: s1-flucon-gptj-fe_author_native-63389 (63537) | ING: s1-flucon-gptj-fe_author_native-63389 (63537) | PENDING: official-s4-gptj-zsre-fe-native-repaired (63546) | PENDING: official-s4-gptj-zsre-fe-native-repaired (63546) | PENDING: official-s4-gptj-zsre-fe-native-repaired (63546) |
 | AlphaEdit+SPHERE | 88.39 | 99.70 | 95.73 | 74.27 | 616.18 | 40.89 | 99.67 | 96.29 | 28.00 |
-| CAKE | 88.07 | 99.70 | 96.40 | 73.21 | DEFERRED | DEFERRED | 99.73 | 97.01 | 28.25 |
+| CAKE | 88.07 | 99.70 | 96.40 | 73.21 | PENDING: s1-flucon-gptj-cake-63298 (63538) | PENDING: s1-flucon-gptj-cake-63298 (63538) | 99.73 | 97.01 | 28.25 |
 | PRICE (Ours) | 88.22¶ | 99.80¶ | 96.23¶ | 73.57¶ | 620.09¶ | 41.61¶ | 99.71¶ | 96.87¶ | 29.53¶ |
 
 GPT-J W0 Flu/Con은 동일 native full2K 완료/등록을 찾지 못해 server4의 **63219**로 generation-only 평가를 등록했다.
