@@ -3,51 +3,44 @@
 최신 사용자 요청: FE의 Qwen/GPT-J 붕괴 원인을 찾고 해결한다. CAKE는 이 변경의 대상이 아니다.
 **사용자 정정(2026-10-11 10:25 KST): 현재 FE는 수정 EasyEdit 구현 + author hparams + 누적 history이며,
 현재 배치 진입 모델에서 그 배치의 z만 계산한다. 미래 edit의 W0 target 전체 선계산은 사용하지 않는다.**
-아래 author W0-fixed 결과와 CPU 대조는 별도 경로의 원인 후보 조사이며 현재 baseline의 회복 증거가 아니다.
-초기 조사에서 이 경로를 현재 기준으로 바꾼 것은 잘못이었다. Qwen/GPT-J의 현재 기준 재검증이 남아 있다.
+초기 author W0-fixed 결과와 CPU 대조는 원인 조사 이력으로 보존한다. 아래 최신 결과에서
+현재 모델 기준 z와 W0-on-arrival z를 구분하며, 후자를 현재 baseline으로 자동 변경하지 않는다.
 
-## 현재 진행 상태 (2026-10-11 15:08 KST)
+## 현재 진행 상태 (2026-10-11 15:42 KST)
 
-공식 `main.py` + 현재 배치 z 진단을 server1에서 진행 중이다. 기존 정상 cap2에
-허용된 진단용 한 개 lane을 추가했다. 후속 원인 분리 실험은 기존 CAKE 작업이
-종료하면서 비는 슬롯을 사용한다. 전체 최대 동시3 GPU는 유지한다.
+저자 `main.py` 원본을 실행한 동일 CF 2K 실험에서 두 원인을 분리했다. 저자 hparams,
+BF16, context 생성, writer, 누적 history, 요청 순서를 유지했다. clamp/step 변경은 없다.
+Qwen의 W0-on-arrival 대조는 현재 모델 기준 z와 다른 프로토콜이며 기존 baseline을 자동 대체하지 않는다.
 
-| 작업 | job | 의존성/관측 상태 |
+| native 실행 → 공통 평가 | 변경점 | 실제 상태 / 2K 결과 |
 | --- | --- | --- |
-| Qwen CF native sequential 2K | 63385 | COMPLETED 0:0, 저자 2K 평가에서 붕괴 확인 |
-| Qwen 저장 checkpoint 공통 평가 | 63387 | COMPLETED 0:0, W0 및 500/1000/1500/2000 모두 평가 |
-| GPT-J CF native sequential 2K | 63386 | RUNNING, 원본 C0 대조 |
-| GPT-J 저장 checkpoint 공통 평가 | 63388 | PENDING afterany:63386 |
-| GPT-J L3 C0만 보정한 native 2K → 평가 | 63389 → 63390 | 63389 RUNNING, 63390 후속 PENDING |
-| Qwen 현재100건의 W0-reference z → 평가 | 63391 → 63392 | 63391 RUNNING, 63392 후속 PENDING |
-| GPT-J W0-reference + 보정 C0, 동일 protocol 검증 | 63425 → 63426 | PENDING, 63390·63392 평가 종료 후 시작 |
+| Qwen63385 → 63387 | 현재 모델 기준 z, 원본 C0 | 모두 COMPLETED; 공통 Score50.1831 |
+| Qwen63391 → 63392 | 현재100건만 W0에서 target 계산, 원본 C0 | 모두 COMPLETED; 공통 Score89.9254 |
+| GPT-J63386 → 63388 | 현재 모델 기준 z, 원본 C0 | native COMPLETED, 공통 평가 RUNNING; 저자 Score49.63 |
+| GPT-J63389 → 63390 | 현재 모델 기준 z, L3 C0만 수치 보정 | native COMPLETED, 공통 평가 RUNNING; 저자 Score85.32 |
+| GPT-J63425 → 63426 | 현재100건만 W0에서 target 계산 + 같은 보정 C0 | native RUNNING, 후속 공통 평가 PENDING |
 
-63389/63391의 자원 의존성만 조정했다. 두 작업을 hold한 상태에서 실제 Slurm 설정과
-전체 사용자/server1 GPU DAG의 최대 폭3을 확인하고 hold를 모두 해제했다. 새 제출이나
-source/config/output 변경은 없으며 CAKE 작업 자체도 변경하지 않았다.
-[대기 의존성 전후 검산](../../../audits/global/fe-collapse-repair-20261011/native-causal-parallel-after-cake.json).
+여기서 저자 Score는 저자 코드가 이미 반올림한 성분의 조화평균이다. 공통 평가 결과와
+정밀도를 혼용하지 않는다. Qwen63392의 최종 공통 Eff/Gen/Loc은 **99.100 / 92.775 / 80.055**이고
+W0 및500/1000/1500/2000 raw를 모두 독립 재집계했다. W20 가중치와 history는 과거 W0 선계산
+참조63217의 실제 tensor와 비트 단위로 같다. 현재100건만 target fitting했고 과거 tensor는 비교에만 읽었다.
+Native data loader는 여전히 전체 JSON을 읽는다. 미래 target 계산/사용을 제거한 것이며 streaming I/O 주장은 아니다.
 
-14:04 KST에는 CAKE zsRE63299의 실제 `COMPLETED 0:0`을 확인해 그 슬롯에서
-Qwen63391을 먼저 시작했다. 63391을 hold한 상태에서 남아 있던63298 대기를 제거하고,
-전체 최대 폭3을 검산한 뒤 release했다. source/config/output 변경은 없다.
-GPT-J 보정63389도 CAKE CF63298 정상 종료 뒤14:20 KST에 시작했다.
-[실제 빈 슬롯 사용 검산](../../../audits/global/fe-collapse-repair-20261011/native-qwen-released-zsre-slot.json).
+GPT-J63389의 native2K Eff/Gen/Loc은 **98.4 / 94.8 / 69.2**다. L3 history는 원본63386과
+비트 단위로 같고(trace818451.4060), 보정본 여섯 층의 최종 `λ C0 + H`는 모두 Cholesky 성공이다.
+원본 L3 최종 weight norm881229.84에 비해 보정본은200.41이다. Native 최종 export와 W20 checkpoint도
+각각 비트 단위로 같다. 이 결과는 현재 모델 기준 z를 유지한 GPT-J의 실제2K 회복 증거다.
 
-후속 평가는 저장된 W0/500/1000/1500/2000 가중치를 별도 프로세스에서 읽는다.
-편집은 계속 저자 `main.py`가 수행하며 실행 중인 source/config/output 변경은0이다.
-학습이 실패하면 존재하는 checkpoint만 평가하고 W20 부재를 명시한다. CF Eff/Gen/Loc
-공통 평가이며 FLU/CON은 포함하지 않는다. 저자 자체 W0/W20 평가도 유지한다.
+최대 동시3 GPU를 유지한다.63425는 실제 완료한63392의 슬롯에서15:36 KST에 시작했다.
+기존 작업의 source/config/output 변경은 없다. 후속 평가는 저장된 가중치만 읽고 FLU/CON은 미포함이다.
 
-Qwen W0 파일을 재로딩하여 SHA/identity, 다섯 층의 pretrained BF16 가중치 일치,
-0으로 초기화된 history를 확인했다. B1의 층별 residual/weight/update 로그 수치는
-이전 author W0-fixed63217과 출력 정밀도에서 모두 같다. 전체 모델의 bit parity나
-2K 성능 회복을 의미하지 않는다. B2 이후는 현재 배치 모델의 z를 사용하므로 별도 검증한다.
+[Qwen 공통 raw 재집계](../../../audits/global/fe-collapse-repair-20261011/native-qwen-online-independent-metrics.json) ·
+[GPT-J 저자 평가](../../../audits/global/fe-collapse-repair-20261011/native-gptj-repaired-author-evaluation.json) ·
+[GPT-J W20 history 대조](../../../audits/global/fe-collapse-repair-20261011/native-gptj-b20-history-comparison.json) ·
+[GPT-J 최종 prior 검산](../../../audits/global/fe-collapse-repair-20261011/native-gptj-repaired-b20-prior-audit.json) ·
+[추가 검증의 빈 슬롯 사용](../../../audits/global/fe-collapse-repair-20261011/native-combined-released-qwen-slot.json).
 
-[평가 등록 영수증](../../../audits/global/fe-collapse-repair-20261011/native-evaluation-submission.json) ·
-[W0 재로딩](../../../audits/global/fe-collapse-repair-20261011/native-qwen-w0-checkpoint-validation.json) ·
-[B1 출력 수치 대조](../../../audits/global/fe-collapse-repair-20261011/native-qwen-b1-displayed-parity.json).
-
-아래는 조사·제출 이력이며 이전에 취소된 job의 상태도 원 기록으로 남겨 둔다.
+아래는 시간순 조사·제출 이력이다. 당시의 대기/진행 상태와 취소된 초기 진단도 원 기록으로 남긴다.
 
 ## 현재 sequential 기준에서 확인한 것
 

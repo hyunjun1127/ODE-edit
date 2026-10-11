@@ -1,0 +1,179 @@
+{
+  "W20_available": true,
+  "evaluation_source": "49ab6b20d258e4cb091ca9ae68098db3930a86e7",
+  "missing_milestones": [],
+  "native_config": "214fe1a955e794680f745bcf055f2d8c0396fb4801e1a5ba931a98b0497c789a",
+  "results": {
+    "0": {
+      "checkpoint": {
+        "bytes": 7856475673,
+        "completed_batches": 0,
+        "completed_edits": 0,
+        "identity_sha256": "214fe1a955e794680f745bcf055f2d8c0396fb4801e1a5ba931a98b0497c789a",
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/qwen_online_w0/checkpoints/B00.pt",
+        "sha256": "945c2a4b1b885d9a7066ae7d01f476a46e6744a1e1241a1b6980d4e7ff2caa5a"
+      },
+      "evaluation_identity": {
+        "attention_backend": "sdpa",
+        "author_source": "478134dfb24b43f4e18b47e8500893ce3f9cc50f",
+        "checkpoint_sha256": "945c2a4b1b885d9a7066ae7d01f476a46e6744a1e1241a1b6980d4e7ff2caa5a",
+        "completed_edits": 0,
+        "dataset": "cf",
+        "evaluation_cases": 2000,
+        "evaluation_source": "49ab6b20d258e4cb091ca9ae68098db3930a86e7",
+        "model": "qwen25",
+        "native_config": "214fe1a955e794680f745bcf055f2d8c0396fb4801e1a5ba931a98b0497c789a",
+        "native_source": "49ab6b20d258e4cb091ca9ae68098db3930a86e7",
+        "precision": "bfloat16",
+        "z_reference": "initial_model_on_arrival"
+      },
+      "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/evaluations/qwen_online_w0/B00.json",
+      "sha256": "7c2cac4a795dd53e706cb8ac08b0cef7fbd3ee72d32dc1d37eaa715eab3141fa",
+      "summary": {
+        "Efficacy": 13.900000000000002,
+        "Generalization": 16.3,
+        "Score": 20.682631972098193,
+        "Score_AlphaEdit_display": 20.682730517689535,
+        "Specificity": 85.05499999999999,
+        "requests": 2000
+      }
+    },
+    "10": {
+      "checkpoint": {
+        "bytes": 7856478681,
+        "completed_batches": 10,
+        "completed_edits": 1000,
+        "identity_sha256": "214fe1a955e794680f745bcf055f2d8c0396fb4801e1a5ba931a98b0497c789a",
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/qwen_online_w0/checkpoints/B10.pt",
+        "sha256": "36d0faf23687881a9e3b52c95d52c2b47b0c2505a75280123f11951a40e6aad4"
+      },
+      "evaluation_identity": {
+        "attention_backend": "sdpa",
+        "author_source": "478134dfb24b43f4e18b47e8500893ce3f9cc50f",
+        "checkpoint_sha256": "36d0faf23687881a9e3b52c95d52c2b47b0c2505a75280123f11951a40e6aad4",
+        "completed_edits": 1000,
+        "dataset": "cf",
+        "evaluation_cases": 1000,
+        "evaluation_source": "49ab6b20d258e4cb091ca9ae68098db3930a86e7",
+        "model": "qwen25",
+        "native_config": "214fe1a955e794680f745bcf055f2d8c0396fb4801e1a5ba931a98b0497c789a",
+        "native_source": "49ab6b20d258e4cb091ca9ae68098db3930a86e7",
+        "precision": "bfloat16",
+        "z_reference": "initial_model_on_arrival"
+      },
+      "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/evaluations/qwen_online_w0/B10.json",
+      "sha256": "096cfe0abff98262fc16564b265d3f0d31dda53b8fa3e667db2f5b5ffb1abf79",
+      "summary": {
+        "Efficacy": 99.3,
+        "Generalization": 92.60000000000001,
+        "Score": 90.42734001011902,
+        "Score_AlphaEdit_display": 90.42734001011901,
+        "Specificity": 81.26,
+        "requests": 1000
+      }
+    },
+    "15": {
+      "checkpoint": {
+        "bytes": 7856480153,
+        "completed_batches": 15,
+        "completed_edits": 1500,
+        "identity_sha256": "214fe1a955e794680f745bcf055f2d8c0396fb4801e1a5ba931a98b0497c789a",
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/qwen_online_w0/checkpoints/B15.pt",
+        "sha256": "4c76121c03e2325941e719a7f0d612e57b2846d0686912bc1dbb51ed0d1a0d7a"
+      },
+      "evaluation_identity": {
+        "attention_backend": "sdpa",
+        "author_source": "478134dfb24b43f4e18b47e8500893ce3f9cc50f",
+        "checkpoint_sha256": "4c76121c03e2325941e719a7f0d612e57b2846d0686912bc1dbb51ed0d1a0d7a",
+        "completed_edits": 1500,
+        "dataset": "cf",
+        "evaluation_cases": 1500,
+        "evaluation_source": "49ab6b20d258e4cb091ca9ae68098db3930a86e7",
+        "model": "qwen25",
+        "native_config": "214fe1a955e794680f745bcf055f2d8c0396fb4801e1a5ba931a98b0497c789a",
+        "native_source": "49ab6b20d258e4cb091ca9ae68098db3930a86e7",
+        "precision": "bfloat16",
+        "z_reference": "initial_model_on_arrival"
+      },
+      "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/evaluations/qwen_online_w0/B15.json",
+      "sha256": "1fa4f0b088fce1541f223317839ffe0ccd5304e0e48a66d2b638e7816ad37fec",
+      "summary": {
+        "Efficacy": 99.26666666666667,
+        "Generalization": 92.30000000000001,
+        "Score": 90.2014932666593,
+        "Score_AlphaEdit_display": 90.20378970428919,
+        "Specificity": 80.96666666666667,
+        "requests": 1500
+      }
+    },
+    "20": {
+      "checkpoint": {
+        "bytes": 7856481689,
+        "completed_batches": 20,
+        "completed_edits": 2000,
+        "identity_sha256": "214fe1a955e794680f745bcf055f2d8c0396fb4801e1a5ba931a98b0497c789a",
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/qwen_online_w0/checkpoints/B20.pt",
+        "sha256": "accc8b131294d7eb9c10bc39ed03a29a47acf468c28197b8b4d29a5eba4d8c31"
+      },
+      "evaluation_identity": {
+        "attention_backend": "sdpa",
+        "author_source": "478134dfb24b43f4e18b47e8500893ce3f9cc50f",
+        "checkpoint_sha256": "accc8b131294d7eb9c10bc39ed03a29a47acf468c28197b8b4d29a5eba4d8c31",
+        "completed_edits": 2000,
+        "dataset": "cf",
+        "evaluation_cases": 2000,
+        "evaluation_source": "49ab6b20d258e4cb091ca9ae68098db3930a86e7",
+        "model": "qwen25",
+        "native_config": "214fe1a955e794680f745bcf055f2d8c0396fb4801e1a5ba931a98b0497c789a",
+        "native_source": "49ab6b20d258e4cb091ca9ae68098db3930a86e7",
+        "precision": "bfloat16",
+        "z_reference": "initial_model_on_arrival"
+      },
+      "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/evaluations/qwen_online_w0/B20.json",
+      "sha256": "01ad9b6292c53629b26236b54239b31e94ee946726c5dd3bc97696c81aec53ab",
+      "summary": {
+        "Efficacy": 99.1,
+        "Generalization": 92.77499999999999,
+        "Score": 89.92537450624296,
+        "Score_AlphaEdit_display": 89.9248371621779,
+        "Specificity": 80.05499999999999,
+        "requests": 2000
+      }
+    },
+    "5": {
+      "checkpoint": {
+        "bytes": 7856477209,
+        "completed_batches": 5,
+        "completed_edits": 500,
+        "identity_sha256": "214fe1a955e794680f745bcf055f2d8c0396fb4801e1a5ba931a98b0497c789a",
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/qwen_online_w0/checkpoints/B05.pt",
+        "sha256": "d8bef58ea3347c1ddb981f83cdd2732aabca02ab0750728b7e3044b88ba2129e"
+      },
+      "evaluation_identity": {
+        "attention_backend": "sdpa",
+        "author_source": "478134dfb24b43f4e18b47e8500893ce3f9cc50f",
+        "checkpoint_sha256": "d8bef58ea3347c1ddb981f83cdd2732aabca02ab0750728b7e3044b88ba2129e",
+        "completed_edits": 500,
+        "dataset": "cf",
+        "evaluation_cases": 500,
+        "evaluation_source": "49ab6b20d258e4cb091ca9ae68098db3930a86e7",
+        "model": "qwen25",
+        "native_config": "214fe1a955e794680f745bcf055f2d8c0396fb4801e1a5ba931a98b0497c789a",
+        "native_source": "49ab6b20d258e4cb091ca9ae68098db3930a86e7",
+        "precision": "bfloat16",
+        "z_reference": "initial_model_on_arrival"
+      },
+      "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/evaluations/qwen_online_w0/B05.json",
+      "sha256": "2863a292b0658b801c3f7f76f4745591d5e816c607f5c7d9565bdca1d6704ef0",
+      "summary": {
+        "Efficacy": 99.6,
+        "Generalization": 92.9,
+        "Score": 91.21991520059848,
+        "Score_AlphaEdit_display": 91.21991520059848,
+        "Specificity": 82.76,
+        "requests": 500
+      }
+    }
+  },
+  "scope": "Native FE checkpoint observation only; current baseline table is not overwritten"
+}

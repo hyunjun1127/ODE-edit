@@ -1,0 +1,70 @@
+{
+  "config": "local/fe-collapse-repair-20261011/native-causal-r1/configs/gptj_repaired.json",
+  "identity": "909c7a0762ce4a2640d74808f52a06a75cec47a8cea528ce07a09e517a2e7daf",
+  "checkpoint": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/gptj_repaired/checkpoints/B20.pt",
+    "sha256": "6e27548a125c8afd496fd4957b705929818adfd2899b0b9f2a3f472aaf24eb3f",
+    "bytes": 7247783445,
+    "completed_batches": 20,
+    "completed_edits": 2000,
+    "identity_sha256": "909c7a0762ce4a2640d74808f52a06a75cec47a8cea528ce07a09e517a2e7daf"
+  },
+  "native_final": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/gptj_repaired/cache/saved_weights/memit/counterfact_stream_2000-gptj_repaired-EleutherAI-gpt-j-6B.pt",
+    "sha256": "c29f1f036618ad10384ef085dd81527f9691fe26888aae509eb56180a2cae707",
+    "bytes": 805310189
+  },
+  "weights": {
+    "transformer.h.3.mlp.fc_out.weight": {
+      "dtype": "torch.bfloat16",
+      "shape": [
+        4096,
+        16384
+      ],
+      "bit_identical": true
+    },
+    "transformer.h.4.mlp.fc_out.weight": {
+      "dtype": "torch.bfloat16",
+      "shape": [
+        4096,
+        16384
+      ],
+      "bit_identical": true
+    },
+    "transformer.h.5.mlp.fc_out.weight": {
+      "dtype": "torch.bfloat16",
+      "shape": [
+        4096,
+        16384
+      ],
+      "bit_identical": true
+    },
+    "transformer.h.6.mlp.fc_out.weight": {
+      "dtype": "torch.bfloat16",
+      "shape": [
+        4096,
+        16384
+      ],
+      "bit_identical": true
+    },
+    "transformer.h.7.mlp.fc_out.weight": {
+      "dtype": "torch.bfloat16",
+      "shape": [
+        4096,
+        16384
+      ],
+      "bit_identical": true
+    },
+    "transformer.h.8.mlp.fc_out.weight": {
+      "dtype": "torch.bfloat16",
+      "shape": [
+        4096,
+        16384
+      ],
+      "bit_identical": true
+    }
+  },
+  "files_unchanged": true,
+  "complete_original_stream": true,
+  "scope": "CPU artifact identity and final selected weights, not accuracy"
+}

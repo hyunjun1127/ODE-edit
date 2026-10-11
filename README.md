@@ -83,39 +83,29 @@ z는 **각 배치 진입 모델에서 그 배치 100건만** 계산한다. 미�
 과거 batch-entry 결과는 [기존 결과 이력](experiment-reports/global/fe-original-w0-reset-20261011/withdrawn-results.md)에 보존한다.
 과거 checkpoint 삭제 내역도 [당시 보고](experiment-reports/global/fe-original-w0-reset-20261011/report-ko.md)의 역사적 기록이며 새 삭제 지시가 아니다.
 
-**FE 붕괴 조사:** GPT-J L3 C0의 음의 고유값과 ridge 역산 폭증을 확인했으며, 현재 기준에서도 이를 검증한다.
-Qwen은 batch-entry 경로의 후반 L5 잔차 폭증을 별도로 조사한다. W0-fixed 경로의 정상 결과를 해결 증거로 사용하지 않는다.
-잘못된 기준으로 등록한 **63368은 GPU 실행 전 취소**했다. server1 cap2 자원 순서는
-**63296 → 63298**, **63297 → 63299**로 복구했으며 기존 CAKE 설정·산출물은 유지한다.
-[진단 범위·증거·검증 상태](experiment-reports/global/fe-collapse-repair-20261011/report-ko.md) ·
-[취소·원상복구 영수증](audits/global/fe-collapse-repair-20261011/sequential-scope-correction.json).
+**FE 붕괴 원인 분리와 2K 검증 (2026-10-11):** server1에서 저자 `main.py`를 그대로 실행하고,
+저자 hparams·BF16·context·writer·누적 history와 같은 CF 2,000건을 유지했다. z 공급부를 배치별 계산으로 바꾸고
+500건마다 관측용 checkpoint를 저장했다. clamp/step 조정이나 sample 교체는 하지 않았다.
 
-**FE 진단 runner 정정 (2026-10-11):** 우리 runner에서 저자 writer를 호출한 진단은
-사용자가 요청한 “공식 FE runner에서 z 계산 시점만 변경”과 다르므로 철회했다.
-63375는 W0 평가 후 checkpoint identity 오류로 실패했고 **편집은 0건**이다.
-63376은 같은 오류로 진행하지 않도록 중단했다. 대기63373/63374도 취소했으며,
-CAKE 자원 순서를 **63296 → 63298**, **63297 → 63299**로 복구하고 임시 hold를 모두 해제했다.
-공식 `main.py`를 그대로 실행한 진단 **63385 / s1-qwen25-cf-fe-native-main-seqz-2k**와 공통 평가63387은 COMPLETED,
-**63386 / s1-gptj-cf-fe-native-main-seqz-2k**는 server1 RUNNING이다(source `60eea6e2`, 저자 `478134df`).
-실제 진단 lane은63385→63387(Qwen 평가)→63386→63388(GPT-J 평가)이며, 후속 평가는 저장 가중치만 읽는다.
-저자 hparams·BF16·context 생성·writer·누적history·원 C0를 유지하고, z만 현재 배치 진입 모델에서100건씩 계산한다.
-500건마다 가중치/history/RNG를 저장하며 sample은 기존2K 순서와 같다. 공식 main.py 원본 SHA와 writer 본문 일치를 확인했다.
-Qwen의 공통 CF Score는 500건87.14 → 1K49.91 → 2K50.18로 붕괴했다(2K Eff/Gen/Loc 50.90/49.95/49.715).
-최종 export와 B20 가중치는 비트 단위로 일치하고 history 누적도 확인했다.
-기존 baseline 성능 행을 이 별도 진단 결과로 대체하지 않는다. **수정 대조군의 2K 회복 확인은 진행 중**이다.
-[실행 경로·원본 대조](audits/global/fe-collapse-repair-20261011/native-execution-proof.json) ·
-[z 공급부 변경 diff](audits/global/fe-collapse-repair-20261011/native-target-supply.patch) ·
-[실제 등록](audits/global/fe-collapse-repair-20261011/native-submission.json).
-후속 원인 분리 대조는 **63389 GPT-J C0 수치 보정 / 63391 Qwen 현재100건의 W0-reference z** 모두 RUNNING이며,
-각 checkpoint 평가는63390/63392다. 저자 hparams/history를 유지하고 미래 target은 계산하지 않는다.
-Qwen63391은2K 편집·저자 평가를 완료했고 **Eff99.1 / Gen92.8 / Loc80.1, 반올림 성분의 Score89.95**다.
-W20 가중치·history는 과거 W0 선계산 참조와 비트 단위로 같으며, 현재100건만 계산한 결과다.
-공통 평가63392는 진행 중이다. 동일 W0-on-arrival protocol의 GPT-J 검증 **63425→63426**도 후속 등록했다.
-이들은 명시적으로 구분한 native 진단이며 기존 batch-entry baseline 행을 자동 대체하지 않는다.
-Qwen63391은 실제 종료된 CAKE zsRE63299의 슬롯에서 시작했다. GPT-J 보정63389도 CAKE CF63298 종료 후 시작했으며,
-server1 최대 동시3 GPU를 유지한다. [빈 슬롯·의존성 검산](audits/global/fe-collapse-repair-20261011/native-qwen-released-zsre-slot.json).
-Qwen 대조는 현재 모델 기준 z와 다른 프로토콜로 구분한다.
-[설정 차이·등록](experiment-reports/global/fe-collapse-repair-20261011/report-ko.md#두-원인-분리-대조-등록-1206-kst).
+- **Qwen:** 현재 모델 기준 z 대조63385→63387은 공통 CF Score **50.18**로 붕괴했다.
+  현재 도착한100건의 z만 **W0에서** 계산한63391→63392는 모두 완료됐으며,
+  2K **Score89.9254 / Eff99.100 / Gen92.775 / Loc80.055**다. 5개 checkpoint의 raw를 독립 재집계했다.
+  W20 가중치와 누적 history는 과거 저자 W0 선계산 참조와 비트 단위로 일치한다.
+  target의 계산 시점을 도착 후로 옮긴 결과이며, 전체 JSON을 읽는 native data loader까지 streaming으로 바꾼 것은 아니다.
+- **GPT-J:** 원본 L3 공분산 캐시의 음의 고유값과 역산 폭증을 확인했다.
+  현재 모델 기준 z를 유지하고 **L3 캐시만 수치 보정**한63389는2K 편집·저자 평가를 완료했다.
+  원본63386의 저자 Score49.63에서 **85.32**로 회복했다(저자 반올림 성분의 조화평균).
+  W20의 L3 history는 원본과 비트 단위로 같고 보정본의 여섯 층 선형계는 모두 양의 정부호다.
+  저장 checkpoint의 공통 평가63388/63390은 진행 중이다.
+- 두 모델에 같은 W0-on-arrival target protocol을 적용하는 추가 GPT-J 검증
+  **63425 / s1-fe-native-gptj-online-w0-repaired-2k**도 RUNNING이며 후속 공통 평가는63426이다.
+  끝난 Qwen 평가63392의 슬롯을 사용하고 server1 최대 동시3 GPU를 유지한다.
+
+W0-reference 대조는 위의 **현재 모델 기준 baseline과 구분**하며 기존 FE 성능 행을 자동 대체하지 않는다.
+미래 요청의 target을 미리 계산하지 않는 것과 z의 기준 모델을 바꾸는 것은 별개의 설정이다.
+[원인·실행 경로·결과·상태](experiment-reports/global/fe-collapse-repair-20261011/report-ko.md) ·
+[Qwen 공통 raw 재집계](audits/global/fe-collapse-repair-20261011/native-qwen-online-independent-metrics.json) ·
+[GPT-J W20 history 대조](audits/global/fe-collapse-repair-20261011/native-gptj-b20-history-comparison.json).
 
 **FE author-hparams 추가 실행(2026-10-11 사용자 지시):** Llama3 **zsRE 2K 한 개**를 기존 수정 EasyEdit FE + history와
 원저자 clamp **0.75**·step **35**(lr 0.1) 설정으로 새로 제출했다. z는 각 batch 진입 모델에서 계산한다.

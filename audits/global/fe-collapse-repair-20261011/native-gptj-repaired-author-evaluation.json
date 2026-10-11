@@ -1,0 +1,51 @@
+{
+  "job": "63389",
+  "native_config": "909c7a0762ce4a2640d74808f52a06a75cec47a8cea528ce07a09e517a2e7daf",
+  "sacct": "63389|COMPLETED|0:0|2026-10-11T14:20:00|2026-10-11T15:31:33|01:11:33\n",
+  "metric_definition": "Mean per-request preference of token-mean NLL; components rounded to 3 decimals by native author code",
+  "score_definition": "Harmonic mean computed here from the already rounded native components",
+  "native_results": {
+    "before": {
+      "raw": {
+        "rewrite_prompts_probs": 0.168,
+        "paraphrase_prompts_probs": 0.189,
+        "neighborhood_prompts_probs": 0.822,
+        "rewrite_prompts_correct": 0.006,
+        "paraphrase_prompts_correct": 0.004,
+        "neighborhood_prompts_correct": 0.138,
+        "rewrite_prompts_diff": -0.066,
+        "paraphrase_prompts_diff": -0.065,
+        "neighborhood_prompts_diff": -0.073
+      },
+      "percentages": {
+        "Efficacy": 16.8,
+        "Generalization": 18.9,
+        "Specificity": 82.19999999999999,
+        "Score_from_rounded_native_components": 24.07717938783417
+      },
+      "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/gptj_repaired/results/counterfact_stream_2000/EleutherAI-gpt-j-6B/gptj_repaired",
+      "sha256": "c4a0a156d0e44805dc7601e768f5998f733a32b5702aa7a9c420b7c47fbf8306"
+    },
+    "after": {
+      "raw": {
+        "rewrite_prompts_probs": 0.984,
+        "paraphrase_prompts_probs": 0.948,
+        "neighborhood_prompts_probs": 0.692,
+        "rewrite_prompts_correct": 0.945,
+        "paraphrase_prompts_correct": 0.698,
+        "neighborhood_prompts_correct": 0.099,
+        "rewrite_prompts_diff": 0.897,
+        "paraphrase_prompts_diff": 0.582,
+        "neighborhood_prompts_diff": -0.037
+      },
+      "percentages": {
+        "Efficacy": 98.4,
+        "Generalization": 94.8,
+        "Specificity": 69.19999999999999,
+        "Score_from_rounded_native_components": 85.31939856620212
+      },
+      "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/gptj_repaired/results/counterfact_stream_2000/EleutherAI-gpt-j-6B/memit-gptj_repaired",
+      "sha256": "7063bf8a94cf557b02ee380e7235389f4a9f5b9ade0c9e7c0f673ec913d6c602"
+    }
+  }
+}

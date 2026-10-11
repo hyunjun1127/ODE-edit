@@ -1,0 +1,153 @@
+{
+  "job_source": "49ab6b20d258e4cb091ca9ae68098db3930a86e7",
+  "model": "gptj",
+  "checkpoint": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/gptj_repaired/checkpoints/B20.pt",
+    "sha256": "6e27548a125c8afd496fd4957b705929818adfd2899b0b9f2a3f472aaf24eb3f",
+    "bytes": 7247783445,
+    "completed_batches": 20,
+    "completed_edits": 2000,
+    "identity_sha256": "909c7a0762ce4a2640d74808f52a06a75cec47a8cea528ce07a09e517a2e7daf"
+  },
+  "identity": "PASS",
+  "CPU_only": true,
+  "scope": "Saved C0 plus rounded history; actual next-batch solve also adds its current key Gram",
+  "layers": {
+    "3": {
+      "weight_norm": 200.41061795288928,
+      "history_trace": 818451.4060429931,
+      "history_frobenius": 115887.30853489197,
+      "history_symmetric": true,
+      "history_finite": true,
+      "weights_finite": true,
+      "prior_cholesky_info": 0,
+      "covariance": {
+        "bytes": 2147484986,
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-derived-prior/gptj-layer-3.npz",
+        "sha256": "35011b8ae839fea53ef0d409fb38351fd8cb15b0eeb711ca2ced7c8ece421d9e"
+      },
+      "seconds": 24.07813310623169
+    },
+    "4": {
+      "weight_norm": 134.49852102785013,
+      "history_trace": 1859864.533322215,
+      "history_frobenius": 136461.6383046039,
+      "history_symmetric": true,
+      "history_finite": true,
+      "weights_finite": true,
+      "prior_cholesky_info": 0,
+      "covariance": {
+        "allocated_bytes": 1073750016,
+        "bytes": 1073743054,
+        "ctime_ns": 1781173954772786709,
+        "device": 2304,
+        "expected_sha256": null,
+        "inode": 243081840,
+        "mtime_ns": 1779151973501951095,
+        "nlink": 1,
+        "path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/gpt-j-6b/wikipedia_stats/transformer.h.4.mlp.fc_out_float32_mom2_100000.npz",
+        "real_path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/gpt-j-6b/wikipedia_stats/transformer.h.4.mlp.fc_out_float32_mom2_100000.npz",
+        "sha256": "ed2e91755e823f0907e8bc586d13e583e8e6719dd7a1df63b6060d9845455c69",
+        "verification": "FRESH_SHA256"
+      },
+      "seconds": 10.718791246414185
+    },
+    "5": {
+      "weight_norm": 114.70094014077249,
+      "history_trace": 3002584.9025173187,
+      "history_frobenius": 1421036.373231669,
+      "history_symmetric": true,
+      "history_finite": true,
+      "weights_finite": true,
+      "prior_cholesky_info": 0,
+      "covariance": {
+        "allocated_bytes": 1073750016,
+        "bytes": 1073743054,
+        "ctime_ns": 1781173963940808810,
+        "device": 2304,
+        "expected_sha256": null,
+        "inode": 243081841,
+        "mtime_ns": 1779158970817271284,
+        "nlink": 1,
+        "path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/gpt-j-6b/wikipedia_stats/transformer.h.5.mlp.fc_out_float32_mom2_100000.npz",
+        "real_path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/gpt-j-6b/wikipedia_stats/transformer.h.5.mlp.fc_out_float32_mom2_100000.npz",
+        "sha256": "483f6d905a587be38a56689f0fe9ac183c393b1ab4b7a6b011fc357f79aacf82",
+        "verification": "FRESH_SHA256"
+      },
+      "seconds": 10.646508693695068
+    },
+    "6": {
+      "weight_norm": 116.23466941854059,
+      "history_trace": 1035560.451596329,
+      "history_frobenius": 277066.2309517836,
+      "history_symmetric": true,
+      "history_finite": true,
+      "weights_finite": true,
+      "prior_cholesky_info": 0,
+      "covariance": {
+        "allocated_bytes": 1073750016,
+        "bytes": 1073743054,
+        "ctime_ns": 1781173973108830913,
+        "device": 2304,
+        "expected_sha256": null,
+        "inode": 243081842,
+        "mtime_ns": 1779175028817756354,
+        "nlink": 1,
+        "path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/gpt-j-6b/wikipedia_stats/transformer.h.6.mlp.fc_out_float32_mom2_100000.npz",
+        "real_path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/gpt-j-6b/wikipedia_stats/transformer.h.6.mlp.fc_out_float32_mom2_100000.npz",
+        "sha256": "30658026710be43b3dda71333c00b4a79a6122849aab9a27116af5206178d430",
+        "verification": "FRESH_SHA256"
+      },
+      "seconds": 10.735005378723145
+    },
+    "7": {
+      "weight_norm": 119.62956722397685,
+      "history_trace": 1144112.9037641287,
+      "history_frobenius": 297253.9763574587,
+      "history_symmetric": true,
+      "history_finite": true,
+      "weights_finite": true,
+      "prior_cholesky_info": 0,
+      "covariance": {
+        "allocated_bytes": 1073750016,
+        "bytes": 1073743054,
+        "ctime_ns": 1781173982316853116,
+        "device": 2304,
+        "expected_sha256": null,
+        "inode": 243081843,
+        "mtime_ns": 1779189095355059272,
+        "nlink": 1,
+        "path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/gpt-j-6b/wikipedia_stats/transformer.h.7.mlp.fc_out_float32_mom2_100000.npz",
+        "real_path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/gpt-j-6b/wikipedia_stats/transformer.h.7.mlp.fc_out_float32_mom2_100000.npz",
+        "sha256": "02ad12a13213b2f2aee27aa1d2bdacb569609ce0ccc18d14a08f9904688f7cef",
+        "verification": "FRESH_SHA256"
+      },
+      "seconds": 11.037540435791016
+    },
+    "8": {
+      "weight_norm": 121.12707463461027,
+      "history_trace": 1185720.8713490963,
+      "history_frobenius": 290702.0560080079,
+      "history_symmetric": true,
+      "history_finite": true,
+      "weights_finite": true,
+      "prior_cholesky_info": 0,
+      "covariance": {
+        "allocated_bytes": 1073750016,
+        "bytes": 1073743054,
+        "ctime_ns": 1781173991492875245,
+        "device": 2304,
+        "expected_sha256": null,
+        "inode": 243081844,
+        "mtime_ns": 1779204722508914534,
+        "nlink": 1,
+        "path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/gpt-j-6b/wikipedia_stats/transformer.h.8.mlp.fc_out_float32_mom2_100000.npz",
+        "real_path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/gpt-j-6b/wikipedia_stats/transformer.h.8.mlp.fc_out_float32_mom2_100000.npz",
+        "sha256": "f362fc8b0d618ea4bc3b5ea836b1d3bfedf8e6398b8cf8ef9e2e3842479439e6",
+        "verification": "FRESH_SHA256"
+      },
+      "seconds": 10.722385168075562
+    }
+  },
+  "checkpoint_unchanged": true
+}

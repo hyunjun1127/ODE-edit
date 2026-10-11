@@ -56,11 +56,13 @@ ordered requests. A control is recorded in its own immutable configuration and o
 | Current sequential diagnostic | Current batch-entry model | Current 100 only | Original NPZ |
 | GPT-J numerical repair | Current batch-entry model | Current 100 only | Derived L3 NPZ; other layers original |
 | Qwen initial-model control | Initial model W0 | Current 100 on arrival only | Original NPZ |
+| GPT-J matching initial-model control | Initial model W0 | Current 100 on arrival only | Same derived L3 NPZ; other layers original |
 
-`+diagnostic_z_reference=initial_model_on_arrival` enables the third row. `TargetSupplier`
+`+diagnostic_z_reference=initial_model_on_arrival` selects the initial-model reference for either model. `TargetSupplier`
 saves the initial selected weights on CPU, temporarily restores them for the arriving batch's
 target computation, and restores all editing weights before the native writer runs. The same
-restoration happens if fitting raises. There is no future target cache. This option changes the
+restoration happens if fitting raises. There is no future target cache. The unchanged native data loader still reads the full dataset JSON;
+the restriction applies to target fitting and use, not streaming I/O. This option changes the
 reference model relative to the default and must be labeled separately; it does not silently
 replace the current baseline. The default is `batch_entry`.
 

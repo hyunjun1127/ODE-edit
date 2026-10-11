@@ -1,0 +1,70 @@
+{
+  "config": "local/fe-collapse-repair-20261011/native-r2/configs/gptj.json",
+  "identity": "25a6afa8d1d4d19801904b4d74193ffe75bb34637bb359540711320068f1c880",
+  "checkpoint": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/gptj/checkpoints/B20.pt",
+    "sha256": "a461f6ce5c3ecde4a1613e5f04c8718b46839a9335746598cd2ab752e16e4777",
+    "bytes": 7247783381,
+    "completed_batches": 20,
+    "completed_edits": 2000,
+    "identity_sha256": "25a6afa8d1d4d19801904b4d74193ffe75bb34637bb359540711320068f1c880"
+  },
+  "native_final": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/gptj/cache/saved_weights/memit/counterfact_stream_2000-native-sequential-gptj-EleutherAI-gpt-j-6B.pt",
+    "sha256": "fd9d46ed5b34280f829baff5265234e1e68a182486d90a04b9aeb15ebc5c50df",
+    "bytes": 805310489
+  },
+  "weights": {
+    "transformer.h.3.mlp.fc_out.weight": {
+      "dtype": "torch.bfloat16",
+      "shape": [
+        4096,
+        16384
+      ],
+      "bit_identical": true
+    },
+    "transformer.h.4.mlp.fc_out.weight": {
+      "dtype": "torch.bfloat16",
+      "shape": [
+        4096,
+        16384
+      ],
+      "bit_identical": true
+    },
+    "transformer.h.5.mlp.fc_out.weight": {
+      "dtype": "torch.bfloat16",
+      "shape": [
+        4096,
+        16384
+      ],
+      "bit_identical": true
+    },
+    "transformer.h.6.mlp.fc_out.weight": {
+      "dtype": "torch.bfloat16",
+      "shape": [
+        4096,
+        16384
+      ],
+      "bit_identical": true
+    },
+    "transformer.h.7.mlp.fc_out.weight": {
+      "dtype": "torch.bfloat16",
+      "shape": [
+        4096,
+        16384
+      ],
+      "bit_identical": true
+    },
+    "transformer.h.8.mlp.fc_out.weight": {
+      "dtype": "torch.bfloat16",
+      "shape": [
+        4096,
+        16384
+      ],
+      "bit_identical": true
+    }
+  },
+  "files_unchanged": true,
+  "complete_original_stream": true,
+  "scope": "CPU artifact identity and final selected weights, not accuracy"
+}

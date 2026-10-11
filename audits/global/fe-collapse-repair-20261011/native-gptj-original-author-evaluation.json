@@ -1,0 +1,51 @@
+{
+  "job": "63386",
+  "native_config": "25a6afa8d1d4d19801904b4d74193ffe75bb34637bb359540711320068f1c880",
+  "sacct": "63386|COMPLETED|0:0|2026-10-11T13:51:25|2026-10-11T15:28:33|01:37:08\n",
+  "metric_definition": "Mean per-request preference of token-mean NLL; components rounded to 3 decimals by native author code",
+  "score_definition": "Harmonic mean computed here from the already rounded native components",
+  "native_results": {
+    "before": {
+      "raw": {
+        "rewrite_prompts_probs": 0.168,
+        "paraphrase_prompts_probs": 0.189,
+        "neighborhood_prompts_probs": 0.822,
+        "rewrite_prompts_correct": 0.006,
+        "paraphrase_prompts_correct": 0.004,
+        "neighborhood_prompts_correct": 0.138,
+        "rewrite_prompts_diff": -0.066,
+        "paraphrase_prompts_diff": -0.065,
+        "neighborhood_prompts_diff": -0.073
+      },
+      "percentages": {
+        "Efficacy": 16.8,
+        "Generalization": 18.9,
+        "Specificity": 82.19999999999999,
+        "Score_from_rounded_native_components": 24.07717938783417
+      },
+      "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/gptj/results/counterfact_stream_2000/EleutherAI-gpt-j-6B/native-sequential-gptj",
+      "sha256": "c4a0a156d0e44805dc7601e768f5998f733a32b5702aa7a9c420b7c47fbf8306"
+    },
+    "after": {
+      "raw": {
+        "rewrite_prompts_probs": 0.49,
+        "paraphrase_prompts_probs": 0.494,
+        "neighborhood_prompts_probs": 0.505,
+        "rewrite_prompts_correct": 0.0,
+        "paraphrase_prompts_correct": 0.0,
+        "neighborhood_prompts_correct": 0.0,
+        "rewrite_prompts_diff": -0.0,
+        "paraphrase_prompts_diff": -0.0,
+        "neighborhood_prompts_diff": -0.0
+      },
+      "percentages": {
+        "Efficacy": 49.0,
+        "Generalization": 49.4,
+        "Specificity": 50.5,
+        "Score_from_rounded_native_components": 49.62528079244364
+      },
+      "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/gptj/results/counterfact_stream_2000/EleutherAI-gpt-j-6B/memit-native-sequential-gptj",
+      "sha256": "0900060a387faeb27329afed54357c4f7a5e7a44c0d1bbe7604b28c53176b68d"
+    }
+  }
+}
