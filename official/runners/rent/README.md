@@ -63,3 +63,16 @@ python3 -m official.runners.rent.submit official/runners/rent/run.job.yaml \
 - `chain`·`smoke`는 `on_main` 커밋에서만 실행된다. `smoke`는 zsRE 1 batch이다.
 - 결과: `checkpoints/odeedit-official/<commit12>/runs/<model>/<run_id>/<mode>-job<DDHHMM>/`.
   checkpoint는 최신 1개를 유지하고 이전 것은 runner가 지운다.
+
+### Qwen BLUE L2 선택 (zsRE)
+
+`contract.json`의 `qwen_blue_selection`에 따라 CF 격자 `qwen25-cf-alphaedit_blue-l2-{1,10,95}`를 먼저 chain으로 돌린다.
+세 chain이 끝나면 `blue_selection`이 승자를 고른다. 기준은 반올림 전 CF W20 Score이고, 동률이면 Spe, Eff, Gen, 작은 L2 순이다(server3 `choose_blue_winner`와 같다).
+승자 L2로 채운 zsRE 행 config와 선택 증명을 쓴다. zsRE chain은 그 config를 `--selected-config`로 받는다.
+증명이 없거나 L2 외의 값이 바뀌면 거절한다.
+
+```bash
+python -m official.runners.rent.blue_selection --grid-root <CF 격자 run root(on_main)> --output <run root>/selected-configs
+python -m official.runners.rent.run --manifest <run root>/manifest-qwen25.json --run-id qwen25-zsre-alphaedit_blue \
+    --mode chain --selected-config <run root>/selected-configs/qwen25-zsre-alphaedit_blue.json
+```
