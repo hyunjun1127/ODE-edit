@@ -112,13 +112,17 @@ server4 **63357 / official-s4-llama3-zsre-fe-author-hparams-2k**는 최신 사�
 
 **FE Llama CF server3 재실행(2026-10-11 사용자 지시):** "Llama CF FE는 server3에서 빠르게 돌리자"에 따라
 같은 기준(수정 EasyEdit FE + 원저자 clamp 0.75·step 35 + 누적 history, z는 각 batch 진입 모델)의 Llama CF 2K를
-server3(H200) **63378 / official-s3-cf-llama3-memit-fe-author-history**로 실행 중이다(source `fbbe1716`).
+server3(H200) **63382 / official-s3-cf-llama3-memit-fe-author-history**로 실행 중이다(source `4841f720`).
 과학 설정은 완료 run **62529**의 config와 같고 서버 경로·runtime·출력·tracking 파일만 다르다.
 모델 10개·C0 5개 파일은 server3에서 다시 해시해 server1 manifest와 같음을 확인했고,
 C0는 strict 정책에서 5층 모두 Cholesky를 통과해 보정 없이 쓴다.
 62529의 W20 checkpoint는 이전 FE 정리 때 삭제되어 Flu/Con을 잴 수 없으므로, 이번 실행은 W20을 server3에 보존해
 Flu/Con을 이어서 평가한다. 첫 시도 **63377**은 server3 공용 W&B 설정의 허용되지 않은 키로 tracker 초기화에서
-멈췄고(GPU 편집 0), 허용 키만 담은 run 전용 설정으로 다시 등록했다.
+멈췄고(GPU 편집 0), 허용 키만 담은 run 전용 설정으로 다시 등록한 **63378**은 W0 평가 직후 첫 checkpoint 저장에서
+`INCOMPLETE_CHECKPOINT_IDENTITY`로 멈췄다(편집 0). sequential FE runner(`6209019e`/`6d063860`)가 identity에
+covariance·z policy·writer 필드를 더했는데 checkpoint 검사는 핵심 7개 필드만 정확히 허용했기 때문이다.
+`4841f720`에서 핵심 7개 필드는 필수로 두고 추가 필드도 비어 있지 않으면 허용하도록 고쳤다(저장·재개 모두 identity 전체를 비교).
+**`4841f720` 이전 source로 고정된 이 runner의 실행은 같은 이유로 첫 저장에서 멈춘다.**
 [preparation·등록 기록](audits/servers/server3/fe-author-llama-cf-s3-20261011/).
 
 **W0 행은 편집 전 base model을 동일한 2,000개 요청에 평가한 기준값**이며 W20 결과와 구분합니다.
@@ -194,7 +198,7 @@ zsRE Loc은 **loc_ans 정답 token 정확도의 요청별 평균**이다. 이전
 | MEMIT | 58.88‡ | 64.75‡ | 61.70‡ | 51.83‡ | 507.87‡ | 5.38‡ | 44.30 | 39.95 | 22.30 |
 | AlphaEdit | 84.80‡ | 99.30‡ | 93.23‡ | 68.59‡ | PENDING: s2-flucon-llama3-alphaedit-42657 (62875) | PENDING: s2-flucon-llama3-alphaedit-42657 (62875) | 95.18 | 91.40 | 31.10 |
 | AlphaEdit-BLUE | 89.84† | 99.60† | 97.15† | 76.59† | PENDING: s2-flucon-llama3-alphaedit_blue-39283_1 (62876) | PENDING: s2-flucon-llama3-alphaedit_blue-39283_1 (62876) | 95.87 | 92.28 | 32.83 |
-| FE (author hparams + history) | ING: official-s3-cf-llama3-memit-fe-author-history (63378) | ING: official-s3-cf-llama3-memit-fe-author-history (63378) | ING: official-s3-cf-llama3-memit-fe-author-history (63378) | ING: official-s3-cf-llama3-memit-fe-author-history (63378) | DEFERRED | DEFERRED | PENDING: official-s4-llama3-zsre-fe-author-hparams-2k (63357) | PENDING: official-s4-llama3-zsre-fe-author-hparams-2k (63357) | PENDING: official-s4-llama3-zsre-fe-author-hparams-2k (63357) |
+| FE (author hparams + history) | ING: official-s3-cf-llama3-memit-fe-author-history (63382) | ING: official-s3-cf-llama3-memit-fe-author-history (63382) | ING: official-s3-cf-llama3-memit-fe-author-history (63382) | ING: official-s3-cf-llama3-memit-fe-author-history (63382) | DEFERRED | DEFERRED | PENDING: official-s4-llama3-zsre-fe-author-hparams-2k (63357) | PENDING: official-s4-llama3-zsre-fe-author-hparams-2k (63357) | PENDING: official-s4-llama3-zsre-fe-author-hparams-2k (63357) |
 | AlphaEdit+SPHERE | 86.87 | 99.50 | 94.95 | 71.68 | 619.20 | 33.64 | 95.13 | 91.36 | 31.38 |
 | CAKE | PENDING: official-s1-llama3-cf-cake-2k (63296) | PENDING: official-s1-llama3-cf-cake-2k (63296) | PENDING: official-s1-llama3-cf-cake-2k (63296) | PENDING: official-s1-llama3-cf-cake-2k (63296) | DEFERRED | DEFERRED | PENDING: official-s1-llama3-zsre-cake-2k (63297) | PENDING: official-s1-llama3-zsre-cake-2k (63297) | PENDING: official-s1-llama3-zsre-cake-2k (63297) |
 | PRICE (Ours) | 90.98§ | 99.90§ | 93.50§ | 81.50§ | 628.47§ | 33.53§ | 99.62§ | 94.83§ | 45.31§ |

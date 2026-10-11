@@ -1,0 +1,31 @@
+{
+  "GPU_qualification": "NOT_RUN_USER_DISABLED",
+  "assets": {
+    "bytes": 17966,
+    "path": "/data/janghj/ODE-edit/local/fe-author-llama-cf-s3-20261011/preparation-r3/assets-llama3.json",
+    "sha256": "0a882dacf14151600e599e0fbb5174db6d399275bba23c6cb090710a55d5c4ed"
+  },
+  "author_profile": {
+    "bytes": 4937,
+    "path": "/data/janghj/ODE-edit/local/fe-author-llama-cf-s3-20261011/worktree/official/hparams/MEMIT_FE_HISTORY_AUTHOR/profiles.json",
+    "sha256": "2e0b1e5b56d99faf5378d0335cf34926ee1b0aa0c0d6736c099e3663a75bf158"
+  },
+  "configs": [
+    {
+      "bytes": 3766,
+      "path": "/data/janghj/ODE-edit/local/fe-author-llama-cf-s3-20261011/preparation-r3/configs/cf.json",
+      "sha256": "5bc0839e47d1c9e5330384c3dc6621d1be568808c1c40116fc9cb3d91ba9b985"
+    }
+  ],
+  "datasets": [
+    "cf"
+  ],
+  "instruction": "USER-SH-FE-AUTHOR-HPARAMS-2K-CF-ZSRE-20261010-R1",
+  "model": "llama3",
+  "server": "server3",
+  "template_config": {
+    "bytes": 3612,
+    "path": "/data/janghj/ODE-edit/local/fe-author-llama-cf-s3-20261011/inputs/cf-62529.json",
+    "sha256": "be5e2c1a25353880a45554aa1135e023679a01c54993349eb2c2e2d38761332b"
+  }
+}
