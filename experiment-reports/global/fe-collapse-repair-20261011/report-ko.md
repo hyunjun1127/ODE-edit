@@ -6,11 +6,11 @@
 아래 author W0-fixed 결과와 CPU 대조는 별도 경로의 원인 후보 조사이며 현재 baseline의 회복 증거가 아니다.
 초기 조사에서 이 경로를 현재 기준으로 바꾼 것은 잘못이었다. Qwen/GPT-J의 현재 기준 재검증이 남아 있다.
 
-## 현재 진행 상태 (2026-10-11 13:53 KST)
+## 현재 진행 상태 (2026-10-11 14:04 KST)
 
 공식 `main.py` + 현재 배치 z 진단을 server1에서 진행 중이다. 기존 정상 cap2에
-허용된 진단용 한 개 lane을 추가했다. 후속 원인 분리 실험은 기존 CAKE 두 작업이
-모두 종료된 뒤 비는 슬롯에서 병렬로 실행한다. 전체 최대 동시3 GPU는 유지한다.
+허용된 진단용 한 개 lane을 추가했다. 후속 원인 분리 실험은 기존 CAKE 작업이
+종료하면서 비는 슬롯을 사용한다. 전체 최대 동시3 GPU는 유지한다.
 
 | 작업 | job | 의존성/관측 상태 |
 | --- | --- | --- |
@@ -19,12 +19,18 @@
 | GPT-J CF native sequential 2K | 63386 | RUNNING, 원본 C0 대조 |
 | GPT-J 저장 checkpoint 공통 평가 | 63388 | PENDING afterany:63386 |
 | GPT-J L3 C0만 보정한 native 2K → 평가 | 63389 → 63390 | PENDING, CAKE63298·63299 모두 종료 후 |
-| Qwen 현재100건의 W0-reference z → 평가 | 63391 → 63392 | PENDING, CAKE63298·63299 모두 종료 후 |
+| Qwen 현재100건의 W0-reference z → 평가 | 63391 → 63392 | 63391 RUNNING, 63392 후속 PENDING |
 
 63389/63391의 자원 의존성만 조정했다. 두 작업을 hold한 상태에서 실제 Slurm 설정과
 전체 사용자/server1 GPU DAG의 최대 폭3을 확인하고 hold를 모두 해제했다. 새 제출이나
 source/config/output 변경은 없으며 CAKE 작업 자체도 변경하지 않았다.
 [대기 의존성 전후 검산](../../../audits/global/fe-collapse-repair-20261011/native-causal-parallel-after-cake.json).
+
+14:04 KST에는 CAKE zsRE63299의 실제 `COMPLETED 0:0`을 확인해 그 슬롯에서
+Qwen63391을 먼저 시작했다. 63391을 hold한 상태에서 남아 있던63298 대기를 제거하고,
+전체 최대 폭3을 검산한 뒤 release했다. source/config/output 변경은 없다.
+GPT-J 보정63389는 남은 CAKE CF63298 종료를 기다린다.
+[실제 빈 슬롯 사용 검산](../../../audits/global/fe-collapse-repair-20261011/native-qwen-released-zsre-slot.json).
 
 후속 평가는 저장된 W0/500/1000/1500/2000 가중치를 별도 프로세스에서 읽는다.
 편집은 계속 저자 `main.py`가 수행하며 실행 중인 source/config/output 변경은0이다.
