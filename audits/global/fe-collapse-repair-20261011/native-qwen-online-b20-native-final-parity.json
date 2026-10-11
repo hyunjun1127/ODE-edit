@@ -1,0 +1,62 @@
+{
+  "config": "local/fe-collapse-repair-20261011/native-causal-r1/configs/qwen_online_w0.json",
+  "identity": "214fe1a955e794680f745bcf055f2d8c0396fb4801e1a5ba931a98b0497c789a",
+  "checkpoint": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/qwen_online_w0/checkpoints/B20.pt",
+    "sha256": "accc8b131294d7eb9c10bc39ed03a29a47acf468c28197b8b4d29a5eba4d8c31",
+    "bytes": 7856481689,
+    "completed_batches": 20,
+    "completed_edits": 2000,
+    "identity_sha256": "214fe1a955e794680f745bcf055f2d8c0396fb4801e1a5ba931a98b0497c789a"
+  },
+  "native_final": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/qwen_online_w0/cache/saved_weights/memit/counterfact_stream_2000-qwen_online_w0-Qwen-Qwen2.5-7B-Instruct.pt",
+    "sha256": "201b3dcf15020fdd070a0245284aea796bdb149a0ef6bc89355e1ead6b74cd95",
+    "bytes": 678956609
+  },
+  "weights": {
+    "model.layers.4.mlp.down_proj.weight": {
+      "dtype": "torch.bfloat16",
+      "shape": [
+        3584,
+        18944
+      ],
+      "bit_identical": true
+    },
+    "model.layers.5.mlp.down_proj.weight": {
+      "dtype": "torch.bfloat16",
+      "shape": [
+        3584,
+        18944
+      ],
+      "bit_identical": true
+    },
+    "model.layers.6.mlp.down_proj.weight": {
+      "dtype": "torch.bfloat16",
+      "shape": [
+        3584,
+        18944
+      ],
+      "bit_identical": true
+    },
+    "model.layers.7.mlp.down_proj.weight": {
+      "dtype": "torch.bfloat16",
+      "shape": [
+        3584,
+        18944
+      ],
+      "bit_identical": true
+    },
+    "model.layers.8.mlp.down_proj.weight": {
+      "dtype": "torch.bfloat16",
+      "shape": [
+        3584,
+        18944
+      ],
+      "bit_identical": true
+    }
+  },
+  "files_unchanged": true,
+  "complete_original_stream": true,
+  "scope": "CPU artifact identity and final selected weights, not accuracy"
+}

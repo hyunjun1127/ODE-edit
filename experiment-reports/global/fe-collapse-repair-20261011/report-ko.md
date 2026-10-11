@@ -555,3 +555,19 @@ writer 변경을 섞지 않았다. 이 후속 검증도 기본 baseline 정의�
 [준비 근거](../../../audits/global/fe-collapse-repair-20261011/native-combined-preparation.json) ·
 [실제 제출·held 검산](../../../audits/global/fe-collapse-repair-20261011/native-combined-submission.json) ·
 [평가·native 함수 동일성](../../../audits/global/fe-collapse-repair-20261011/native-causal-source-equivalence.json).
+
+## Qwen 도착 시 계산의 2K 가중치·history 일치
+
+63391은 같은2,000건의 편집을 완료했다. B20의 다섯 편집층 가중치와 전체
+`5 × 18944 × 18944` FP32 history를 과거63217의 실제 최종 checkpoint와 직접 비교했고
+**모두 비트 단위로 일치**했다. context도 동일하다. 과거 참조는 W0에서 미래 target을
+선계산한 실행이며, 새 native 실행은 도착한100건만 계산한다. 두 파일은 CPU에서만
+읽었고 검사 전후 SHA를 검증했다. 과거 target이나 가중치를 새 GPU 실행에 공급하지 않았다.
+
+새 B20 snapshot은 저자 `save_model`의 최종 다섯 가중치와도 비트 단위로 같다.
+따라서 원저자 target 참조를 보존하면서 선계산 시점을 바꾸는 구현이 실제2K에서도
+동일한 편집 결과를 만들었다. 저자 `main.py`의 전체 데이터 로딩은 유지했다.
+"미래 target을 계산·사용하지 않는다"는 뜻이며, 미래 JSON record를 전혀 읽지 않는
+스트리밍 I/O 구현으로 설명하지 않는다. 새 실행의 저자 평가와 공통 CF 평가는 진행 중이다.
+[과거 참조와2K tensor 직접 비교](../../../audits/global/fe-collapse-repair-20261011/native-qwen-online-b20-precompute-parity.json) ·
+[새 native 최종 export와 일치](../../../audits/global/fe-collapse-repair-20261011/native-qwen-online-b20-native-final-parity.json).

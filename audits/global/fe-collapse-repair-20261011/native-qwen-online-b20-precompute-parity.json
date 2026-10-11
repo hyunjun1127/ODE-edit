@@ -1,0 +1,52 @@
+{
+  "scope": "Historical all-future W0 precompute is an author-method reference, not the current baseline",
+  "native_checkpoint": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/qwen_online_w0/checkpoints/B20.pt",
+    "sha256": "accc8b131294d7eb9c10bc39ed03a29a47acf468c28197b8b4d29a5eba4d8c31",
+    "bytes": 7856481689,
+    "completed_batches": 20,
+    "completed_edits": 2000,
+    "identity_sha256": "214fe1a955e794680f745bcf055f2d8c0396fb4801e1a5ba931a98b0497c789a"
+  },
+  "reference_commit_path": "local/fe-original-w0-2k-20261011/qwen-server1-move-r1/runs/qwen25-cf/commits/batch-20.json",
+  "reference_commit_sha256": "102d81f4c5fc7735f035195b75246cf8fc19b3c0f43664239e296ea4ee660946",
+  "reference_raw_sha256": "8e6a127c40db8b5830136b7d0b6e5e129de3e240c27b30f73755683f3c44a585",
+  "same_ordered_cases": true,
+  "weights": {
+    "model.layers.4.mlp.down_proj.weight": {
+      "native_sha256": "6e7d8026da8e1659341ebc61ae55676e95d35425ddef56c73d0f3bdd8f62c5c0",
+      "reference_sha256": "6e7d8026da8e1659341ebc61ae55676e95d35425ddef56c73d0f3bdd8f62c5c0",
+      "identical_bytes": true
+    },
+    "model.layers.5.mlp.down_proj.weight": {
+      "native_sha256": "48bcc79e4f6cf1c2f6efd212668e08a3f8afd8f925dc96e6e31607370962db76",
+      "reference_sha256": "48bcc79e4f6cf1c2f6efd212668e08a3f8afd8f925dc96e6e31607370962db76",
+      "identical_bytes": true
+    },
+    "model.layers.6.mlp.down_proj.weight": {
+      "native_sha256": "a2091d9e41965fe0a70df1a8d01cda1766ad860baffa27d92eb6ee620a931599",
+      "reference_sha256": "a2091d9e41965fe0a70df1a8d01cda1766ad860baffa27d92eb6ee620a931599",
+      "identical_bytes": true
+    },
+    "model.layers.7.mlp.down_proj.weight": {
+      "native_sha256": "926d54232e4876cae68d5a98fa99d8563fdfff79299a6309b0e754d4b1016b33",
+      "reference_sha256": "926d54232e4876cae68d5a98fa99d8563fdfff79299a6309b0e754d4b1016b33",
+      "identical_bytes": true
+    },
+    "model.layers.8.mlp.down_proj.weight": {
+      "native_sha256": "94e20262b504da141a0d56ac05cddd6a7148a48416d05496bea226f9d6577fba",
+      "reference_sha256": "94e20262b504da141a0d56ac05cddd6a7148a48416d05496bea226f9d6577fba",
+      "identical_bytes": true
+    }
+  },
+  "CPU_only": true,
+  "actual_final_weights_bit_identical": true,
+  "actual_final_history_bit_identical": true,
+  "same_contexts": true,
+  "reference_checkpoint": {
+    "bytes": 7856473049,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/qwen-server1-move-r1/runs/qwen25-cf/checkpoint/latest.pt",
+    "sha256": "62c8507796f2c36cf5b80b77347a8eb257b0fcbd7d9c95dd8bf468a16b8d844b"
+  },
+  "checkpoint_bytes_unchanged": true
+}
