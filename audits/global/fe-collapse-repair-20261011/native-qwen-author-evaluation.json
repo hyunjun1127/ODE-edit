@@ -1,0 +1,63 @@
+{
+  "native_job": 63385,
+  "common_evaluation_job": 63387,
+  "native_results": {
+    "before": {
+      "raw": {
+        "rewrite_prompts_probs": 0.138,
+        "paraphrase_prompts_probs": 0.162,
+        "neighborhood_prompts_probs": 0.85,
+        "rewrite_prompts_correct": 0.006,
+        "paraphrase_prompts_correct": 0.004,
+        "neighborhood_prompts_correct": 0.143,
+        "rewrite_prompts_diff": -0.089,
+        "paraphrase_prompts_diff": -0.106,
+        "neighborhood_prompts_diff": -0.089
+      },
+      "percentages": {
+        "Efficacy": 13.8,
+        "Generalization": 16.2,
+        "Specificity": 85.0,
+        "Score_from_rounded_native_components": 20.554017219746463
+      },
+      "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/qwen25/results/counterfact_stream_2000/Qwen-Qwen2.5-7B-Instruct/native-sequential-qwen25",
+      "sha256": "686fc4ffc4188b8b66b32c59ecb21242f3c9b1e1fd9a7bf321926318f90b0a0c"
+    },
+    "after": {
+      "raw": {
+        "rewrite_prompts_probs": 0.498,
+        "paraphrase_prompts_probs": 0.488,
+        "neighborhood_prompts_probs": 0.484,
+        "rewrite_prompts_correct": 0.0,
+        "paraphrase_prompts_correct": 0.0,
+        "neighborhood_prompts_correct": 0.0,
+        "rewrite_prompts_diff": 0.0,
+        "paraphrase_prompts_diff": 0.0,
+        "neighborhood_prompts_diff": 0.0
+      },
+      "percentages": {
+        "Efficacy": 49.8,
+        "Generalization": 48.8,
+        "Specificity": 48.4,
+        "Score_from_rounded_native_components": 48.99296464551099
+      },
+      "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/qwen25/results/counterfact_stream_2000/Qwen-Qwen2.5-7B-Instruct/memit-native-sequential-qwen25",
+      "sha256": "ccb5c3e1f068025e87e9e9bdb6ff5931b97839a2f6b06b22a888e8cc66c17ad4"
+    }
+  },
+  "sacct": "63385|COMPLETED|0:0|01:55:10\n63387|COMPLETED|0:0|00:15:04\n",
+  "metric_definition": "Mean per-request preference of token-mean NLL for new target (Eff/Gen) or original target (Loc)",
+  "numerical_difference": {
+    "author": "BF16 logits passed directly to log_softmax; one request and its prompts per forward; final means rounded to 3 decimals",
+    "common": "Selected logits promoted to FP32 before log_softmax; query batch size 16; unrounded means retained",
+    "scope": "Verified implementation differences; no claim isolating their individual contributions to the observed difference"
+  },
+  "common_2k": {
+    "Efficacy": 50.9,
+    "Generalization": 49.95,
+    "Score": 50.183135854003055,
+    "Score_AlphaEdit_display": 50.184833943099896,
+    "Specificity": 49.714999999999996,
+    "requests": 2000
+  }
+}

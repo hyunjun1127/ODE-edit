@@ -6,7 +6,7 @@
 아래 author W0-fixed 결과와 CPU 대조는 별도 경로의 원인 후보 조사이며 현재 baseline의 회복 증거가 아니다.
 초기 조사에서 이 경로를 현재 기준으로 바꾼 것은 잘못이었다. Qwen/GPT-J의 현재 기준 재검증이 남아 있다.
 
-## 현재 진행 상태 (2026-10-11 13:31 KST)
+## 현재 진행 상태 (2026-10-11 13:53 KST)
 
 공식 `main.py` + 현재 배치 z 진단을 server1에서 진행 중이다. 기존 정상 cap2에
 허용된 진단용 한 개 lane을 추가했다. 후속 원인 분리 실험은 기존 CAKE 두 작업이
@@ -14,9 +14,9 @@
 
 | 작업 | job | 의존성/관측 상태 |
 | --- | --- | --- |
-| Qwen CF native sequential 2K | 63385 | 2K 편집·checkpoint 검증 완료, 저자 평가 RUNNING |
-| Qwen 저장 checkpoint 공통 평가 | 63387 | PENDING afterany:63385 |
-| GPT-J CF native sequential 2K | 63386 | PENDING afterany:63387 |
+| Qwen CF native sequential 2K | 63385 | COMPLETED 0:0, 저자 2K 평가에서 붕괴 확인 |
+| Qwen 저장 checkpoint 공통 평가 | 63387 | COMPLETED 0:0, W0 및 500/1000/1500/2000 모두 평가 |
+| GPT-J CF native sequential 2K | 63386 | RUNNING, 원본 C0 대조 |
 | GPT-J 저장 checkpoint 공통 평가 | 63388 | PENDING afterany:63386 |
 | GPT-J L3 C0만 보정한 native 2K → 평가 | 63389 → 63390 | PENDING, CAKE63298·63299 모두 종료 후 |
 | Qwen 현재100건의 W0-reference z → 평가 | 63391 → 63392 | PENDING, CAKE63298·63299 모두 종료 후 |
@@ -386,3 +386,31 @@ H는 대칭이며 다섯 층의 `15000*C0+H` 모두 Cholesky를 통과했다. �
 이는 z 최적화 상태를 보여 주는 수치로, CF 성능 지표가 아니다. 저자 W0/W20 평가와
 후속 공통 checkpoint 평가를 진행한다. 수정 대조군의 2K 회복은 아직 확인되지 않았다.
 [20배치 fit 상태](../../../audits/global/fe-collapse-repair-20261011/native-qwen-fit-quality-2k.json).
+
+## Qwen native 대조군의 공통 평가 완료
+
+63385와63387은 모두 `COMPLETED 0:0`이다. 공통 평가의 모든 checkpoint가 있고,
+각 raw JSON의 SHA를 검증했다. 아래 편집 이후 수치는 해당 시점까지의 모든 요청을
+평가한 결과이며 W0만 전체 2,000건이다. 이 결과는 현재 모델에서 현재 배치 z를 계산하는
+대조군이며 수정 대조군의 결과가 아니다.
+
+| 편집 수 | CF Score | Eff (%) | Gen (%) | Loc (%) |
+| --- | ---: | ---: | ---: | ---: |
+| W0 (평가 2K) | 20.68 | 13.90 | 16.30 | 85.055 |
+| 500 | 87.14 | 96.00 | 87.80 | 79.220 |
+| 1,000 | 49.91 | 52.60 | 49.85 | 47.530 |
+| 1,500 | 50.82 | 49.80 | 51.73 | 50.973 |
+| 2,000 | 50.18 | 50.90 | 49.95 | 49.715 |
+
+저자 자체 2K 평가의 Eff/Gen/Loc은49.8/48.8/48.4이며, 그 반올림 성분의 조화평균은48.993이다.
+저자 평가는 BF16 logits를 그대로 log-softmax에 넣고 한 요청의 prompt들을 묶는다.
+공통 평가는 선택한 logits를 FP32로 승격하고 query batch16을 사용한다. 이 구현 차이를
+확인했지만 각 차이의 기여량을 독립적으로 측정한 것은 아니다. 두 평가 모두 붕괴를 보이며,
+원 수치를 각각 보존하고 모든 대조군의 비교에는 동일한 공통 평가 구성을 사용한다.
+
+따라서 공식 runner와 저자 hparams를 그대로 사용해도, 현재 모델 기준으로 z를 매 배치
+재계산하는 이 변형에서는 문제가 남는다. 초기500건은 작동하고 이후 z/L5 증폭과 함께
+성능이 떨어진다. 현재100건의 W0-reference 대조63391의 결과를 계속 확인한다.
+
+[공통 평가·raw JSON SHA](../../../audits/global/fe-collapse-repair-20261011/native-qwen-common-evaluation.json) ·
+[저자 원 결과·평가 차이](../../../audits/global/fe-collapse-repair-20261011/native-qwen-author-evaluation.json).
