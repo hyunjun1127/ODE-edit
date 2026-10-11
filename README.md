@@ -74,46 +74,21 @@ MEMIT-FE **62085**와 AlphaEdit **62083**도 완료 raw 검산 수치를 반영�
 raw SHA를 확인했다. 원 W0agreement/token-micro 값으로 대체하지 않는다.
 [새 완료2행·cap3 실제 적용](experiment-reports/global/completed-table-flucon-cap3-20261010/server2-integration.md).
 
-**FE 전면 전환 — USER-FE-ORIGINAL-W0-RESET-20261011-R1:**
-기존 native MEMIT-FE, FE_HISTORY, FE author-hparams(+history), FE sink 실험은 모두
-**WITHDRAWN / SUPERSEDED**다. 아래 **FE (author repo, W0-fixed z)** 행은 저자 repo 실행 전용이며
-기존 점수를 복사하지 않는다. 이전 표의 history/author/native FE 수치와 출처는
-[철회된 FE 결과 이력](experiment-reports/global/fe-original-w0-reset-20261011/withdrawn-results.md)에 보존했다.
-본문의 이전 FE 완료·KEEP 서술은 당시 이력이며 이 지시가 우선한다.
-이전 FE checkpoint는 owner 영수증 기준 SH1 11개·54,211,593,935 bytes,
-SH2 6개·23,008,049,946 bytes, 합계 **17개·77,219,643,881 bytes 삭제 완료**다.
-백업/복구사본은 없으며 raw/log/config/source는 보존했다. SH3/4의 제한된 조사에서는 복제본을 찾지 못했으며
-전체 filesystem에 잔여가 없다는 뜻은 아니다.
-HF 원본·C0·데이터·비FE checkpoint 및 raw/log/source는 삭제 대상이 아니다.
+**FE 현재 기준 — 2026-10-11 사용자 정정:** 기존 수정 EasyEdit FE 구현에 **원저자 hparams + 누적 history**를 적용한다.
+z는 **각 배치 진입 모델에서 그 배치 100건만** 계산한다. 미래 편집 요청의 z를 W0에서 전체2K 선계산하는 저자 repo 경로는
+이 sequential baseline의 공정한 비교 기준에 포함하지 않는다. 아래 FE 행은 이 기준의 결과만 사용한다.
 
-새 실행은 저자 commit `478134df`의 native FE-MEMIT, YAML/default BF16,
-편집 전 W0 전체2K z 선계산/고정과 native history/solve를 사용한다.
-매 batch current100의 R/P/N, 500/1000/1500/2000 누적 all-seen을 평가하고
-각 milestone마다 실행별 latest checkpoint 하나를 atomic overwrite한다. 평가 raw는 누적 보존한다.
-CF factual / zsRE public-query requestmacro loc_ans 비교 evaluator는 편집정책과 분리한다.
-SH1: Llama CF→zsRE, GPT-J CF→zsRE 및 후속 Qwen CF/zsRE를 소유한다.
-기존 Llama/GPT-J 네 job은 held 검사 후 release했으며 frozen source/config와 비FE 작업은 보존한다.
-**완료(2026-10-11):** Llama CF **63151**·zsRE **63152**, GPT-J CF **63153**·zsRE **63154**, Qwen CF **63217**·zsRE **63218** 모두 COMPLETED.
-표의 FE 완료값은 각 run의 W20(2,000건) 누적 all-seen raw(`factual/all-seen-20.json`)에서 다시 집계했다. CF는 공식 `reduce.counterfact`(strict NLL, R/P/N 분모 2,000/4,000/20,000, Score는 반올림 전 성공률의 조화평균), zsRE는 baseline 행과 같은 공개-query 평가기(`official-zsre-public-query-eval-only-v1`, request macro, Loc = loc_ans 정확도)다. case 순서는 공식 eval-2K/zsRE 2K 순서와 같고, 표시는 decimal half-up 둘째 자리다. **GPT-J CF 63153은 붕괴했다**(R/P/N 979/2,000 · 2,061/4,000 · 9,802/20,000). 원 수치와 SHA는 [기존 집계](audits/servers/server1/fe-original-w0-2k-20261011/table-rows.json)에 보존한다.
+이전 W0-fixed 전환과 완료 job(Llama63151/63152, GPT-J63153/63154, Qwen63217/63218)은 비교용 이력으로 남긴다.
+그 점수를 현재 FE 행에 복사하지 않는다. 원 수치·raw SHA는 [W0-fixed 집계](audits/servers/server1/fe-original-w0-2k-20261011/table-rows.json),
+과거 batch-entry 결과는 [기존 결과 이력](experiment-reports/global/fe-original-w0-reset-20261011/withdrawn-results.md)에 보존한다.
+과거 checkpoint 삭제 내역도 [당시 보고](experiment-reports/global/fe-original-w0-reset-20261011/report-ko.md)의 역사적 기록이며 새 삭제 지시가 아니다.
 
-**FE 붕괴 수리(2026-10-11):** 실제 GPT-J L3 C0에서 음의 고유값3개와 B3 ridge 업데이트 폭증을 확인했다.
-source **`b3c7fb20`**은 명시적 `project_roundoff` 정책과 매 층 선형계 검사를 추가한다.
-건강한 C0·원저자 hparam·W0 target·history 가중치는 유지하며, 보정본/SHA는 원 NPZ와 별도로 저장한다.
-새 GPT-J **CF 2K 63368 / official-s1-gptj-cf-fe-roundoff-2k**를 **PENDING**으로 등록했다.
-server1 cap2의 한 lane은 **63296 → 63368 → 63298**, 다른 lane은 **63297 → 63299**다.
-63298은 resource dependency만 바꿨고 실행 중 CAKE 두 작업은 그대로다.
-CF 4개 factual 셀은 새 job 상태로 바꾸며, 정상 완료된 GPT-J zsRE와 Qwen CF/zsRE 값은 유지한다.
-이는 수치 보정한 FE이며 저자의 미공개 exact 공분산 복원을 뜻하지 않는다. 새2K 성능 회복은 아직 미확인이다.
-[원인·CPU 재현·수정](experiment-reports/global/fe-collapse-repair-20261011/report-ko.md) ·
-[실제 제출·cap2 검산](audits/global/fe-collapse-repair-20261011/submission.json).
-SH2 저장공간 부족으로 미제출이던 Qwen 두 조건은 최신 사용자 지시로 **server1에 재배정**했다.
-Qwen CF **63217**, zsRE **63218**은 held 검사 후 release했고 위와 같이 완료했다.
-두 job 모두 `afterany:63152:63154:63207`로 기존 말단을 기다린다. 관측된 기존 GPU3개는 유지하며
-현재 전체 할당이2라고 주장하지 않는다. 새 두 실행의 폭은2로 제한한다. SH2 신규 제출/자동 재시도는 없다.
-기존6조건의 host 변경이며 추가 조건이 아니다. CF Flu/Con은 DEFERRED로 유지한다.
-[Qwen 재배정·실제 등록 근거](experiment-reports/global/fe-qwen-server1-move-20261011/report-ko.md).
-[실제 등록·삭제·저장공간 영수증 통합](experiment-reports/global/fe-original-w0-reset-20261011/report-ko.md).
-[정본 범위·담당 수락](messages/head/2026-10-11-fe-original-w0-reset.json).
+**FE 붕괴 조사:** GPT-J L3 C0의 음의 고유값과 ridge 역산 폭증을 확인했으며, 현재 기준에서도 이를 검증한다.
+Qwen은 batch-entry 경로의 후반 L5 잔차 폭증을 별도로 조사한다. W0-fixed 경로의 정상 결과를 해결 증거로 사용하지 않는다.
+잘못된 기준으로 등록한 **63368은 GPU 실행 전 취소**했다. server1 cap2 자원 순서는
+**63296 → 63298**, **63297 → 63299**로 복구했으며 기존 CAKE 설정·산출물은 유지한다.
+[진단 범위·증거·검증 상태](experiment-reports/global/fe-collapse-repair-20261011/report-ko.md) ·
+[취소·원상복구 영수증](audits/global/fe-collapse-repair-20261011/sequential-scope-correction.json).
 
 **FE author-hparams 추가 실행(2026-10-11 사용자 지시):** Llama3 **zsRE 2K 한 개**를 기존 수정 EasyEdit FE + history와
 원저자 clamp **0.75**·step **35**(lr 0.1) 설정으로 새로 제출했다. z는 각 batch 진입 모델에서 계산한다.
@@ -194,7 +169,6 @@ zsRE Loc은 **loc_ans 정답 token 정확도의 요청별 평균**이다. 이전
 | MEMIT | 58.88‡ | 64.75‡ | 61.70‡ | 51.83‡ | PENDING: s2-flucon-llama3-memit-42658 (62874) | PENDING: s2-flucon-llama3-memit-42658 (62874) | 44.30 | 39.95 | 22.30 |
 | AlphaEdit | 84.80‡ | 99.30‡ | 93.23‡ | 68.59‡ | PENDING: s2-flucon-llama3-alphaedit-42657 (62875) | PENDING: s2-flucon-llama3-alphaedit-42657 (62875) | 95.18 | 91.40 | 31.10 |
 | AlphaEdit-BLUE | 89.84† | 99.60† | 97.15† | 76.59† | PENDING: s2-flucon-llama3-alphaedit_blue-39283_1 (62876) | PENDING: s2-flucon-llama3-alphaedit_blue-39283_1 (62876) | 95.87 | 92.28 | 32.83 |
-| FE (author repo, W0-fixed z) | 92.11 | 99.20 | 92.00 | 86.05 | DEFERRED | DEFERRED | 93.97 | 89.12 | 32.32 |
 | FE (author hparams + history) | — | — | — | — | — | — | PENDING: official-s4-llama3-zsre-fe-author-hparams-2k (63357) | PENDING: official-s4-llama3-zsre-fe-author-hparams-2k (63357) | PENDING: official-s4-llama3-zsre-fe-author-hparams-2k (63357) |
 | AlphaEdit+SPHERE | 86.87 | 99.50 | 94.95 | 71.68 | 619.20 | 33.64 | 95.13 | 91.36 | 31.38 |
 | CAKE | PENDING: official-s1-llama3-cf-cake-2k (63296) | PENDING: official-s1-llama3-cf-cake-2k (63296) | PENDING: official-s1-llama3-cf-cake-2k (63296) | PENDING: official-s1-llama3-cf-cake-2k (63296) | DEFERRED | DEFERRED | PENDING: official-s1-llama3-zsre-cake-2k (63297) | PENDING: official-s1-llama3-zsre-cake-2k (63297) | PENDING: official-s1-llama3-zsre-cake-2k (63297) |
@@ -324,7 +298,7 @@ SH3 최신 CPU 재검산에서도 위 네 지표 delta0, 신규 본표 적격 �
 | MEMIT | 62.23 | 68.50 | 65.83 | 54.30 | PENDING: s2-flucon-qwen25-memit-62073 (62870) | PENDING: s2-flucon-qwen25-memit-62073 (62870) | 41.49 | 39.44 | 26.39 |
 | AlphaEdit | 83.03 | 99.05 | 97.55 | 63.36 | 618.99 | 33.92 | 85.05 | 78.18 | 30.79 |
 | AlphaEdit-BLUE | 77.98 | 97.70 | 96.75 | 55.86 | 602.99 | 37.43 | 58.62 | 53.66 | 5.73 |
-| FE (author repo, W0-fixed z) | 89.93 | 99.10 | 92.78 | 80.06 | DEFERRED | DEFERRED | 96.43 | 86.74 | 40.32 |
+| FE (author hparams + history) | 재검증 필요 | 재검증 필요 | 재검증 필요 | 재검증 필요 | DEFERRED | DEFERRED | 재검증 필요 | 재검증 필요 | 재검증 필요 |
 | AlphaEdit+SPHERE | 83.73 | 99.40 | 97.70 | 64.37 | CANCELLED: s2-flucon-qwen25-sphere-62079 (62873) | CANCELLED: s2-flucon-qwen25-sphere-62079 (62873) | CANCELLED: s4-qwen25-zsre-sphere-resume-b10 (63303) | CANCELLED: s4-qwen25-zsre-sphere-resume-b10 (63303) | CANCELLED: s4-qwen25-zsre-sphere-resume-b10 (63303) |
 | CAKE | ING: official-s4-qwen25-cf-cake-2k (63324) | ING: official-s4-qwen25-cf-cake-2k (63324) | ING: official-s4-qwen25-cf-cake-2k (63324) | ING: official-s4-qwen25-cf-cake-2k (63324) | DEFERRED | DEFERRED | ING: official-s4-qwen25-zsre-cake-2k (63325) | ING: official-s4-qwen25-zsre-cake-2k (63325) | ING: official-s4-qwen25-zsre-cake-2k (63325) |
 | PRICE (Ours) | 87.63※ | 99.00※ | 95.55※ | 73.17※ | ING: pf2k-flucon-qwen25-PN-beta150 (63305) | ING: pf2k-flucon-qwen25-PN-beta150 (63305) | ING: pf2k-qwen25-zsre-PN-beta150-ee-r3 (63278) | ING: pf2k-qwen25-zsre-PN-beta150-ee-r3 (63278) | ING: pf2k-qwen25-zsre-PN-beta150-ee-r3 (63278) |
@@ -385,7 +359,7 @@ Llama historical3개는 원source/lock/CP와 새평가 consumer identity를 분�
 | MEMIT | 80.63 | 97.90 | 95.38 | 60.58 | 577.93 | 36.84 | 93.52 | 88.86 | 30.81 |
 | AlphaEdit | 88.22 | 99.70 | 96.33 | 73.56 | PENDING: s2-flucon-gptj-alphaedit-61778 (62866) | PENDING: s2-flucon-gptj-alphaedit-61778 (62866) | 99.69 | 96.45 | 27.94 |
 | AlphaEdit-BLUE | 89.23 | 99.55 | 97.53 | 75.06 | PENDING: s2-flucon-gptj-alphaedit_blue-61779 (62867) | PENDING: s2-flucon-gptj-alphaedit_blue-61779 (62867) | 99.75 | 95.71 | 28.83 |
-| FE (author repo, W0-fixed z) | PENDING: official-s1-gptj-cf-fe-roundoff-2k (63368) | PENDING: official-s1-gptj-cf-fe-roundoff-2k (63368) | PENDING: official-s1-gptj-cf-fe-roundoff-2k (63368) | PENDING: official-s1-gptj-cf-fe-roundoff-2k (63368) | DEFERRED | DEFERRED | 98.32 | 91.70 | 28.51 |
+| FE (author hparams + history) | 재검증 필요 | 재검증 필요 | 재검증 필요 | 재검증 필요 | DEFERRED | DEFERRED | 재검증 필요 | 재검증 필요 | 재검증 필요 |
 | AlphaEdit+SPHERE | 88.39 | 99.70 | 95.73 | 74.27 | 616.18 | 40.89 | 99.67 | 96.29 | 28.00 |
 | CAKE | PENDING: official-s1-gptj-cf-cake-2k (63298) | PENDING: official-s1-gptj-cf-cake-2k (63298) | PENDING: official-s1-gptj-cf-cake-2k (63298) | PENDING: official-s1-gptj-cf-cake-2k (63298) | DEFERRED | DEFERRED | PENDING: official-s1-gptj-zsre-cake-2k (63299) | PENDING: official-s1-gptj-zsre-cake-2k (63299) | PENDING: official-s1-gptj-zsre-cake-2k (63299) |
 | PRICE (Ours) | 88.22¶ | 99.80¶ | 96.23¶ | 73.57¶ | 620.09¶ | 41.61¶ | 99.81¶ | 96.96¶ | 29.59¶ |

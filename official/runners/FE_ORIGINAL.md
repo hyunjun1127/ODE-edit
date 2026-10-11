@@ -1,5 +1,9 @@
 # FE original W0-fixed z
 
+> 2026-10-11 사용자 정정: 이 W0 전체 target 선계산 경로는 참고·이력 실험이다. 현재 FE baseline은
+> `fe_author_history.py`의 수정 EasyEdit 구현 + author hparams + 누적 history + 현재 배치 진입 z다.
+> 이 문서의 실행 계약으로 현재 FE main table을 대체하지 않는다.
+
 ## Covariance repair (2026-10-11)
 
 New preparations set `covariance_policy="project_roundoff"`. A missing field

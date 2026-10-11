@@ -1,8 +1,10 @@
 # FE Qwen/GPT-J 붕괴 조사와 수치 수리
 
 최신 사용자 요청: FE의 Qwen/GPT-J 붕괴 원인을 찾고 해결한다. CAKE는 이 변경의 대상이 아니다.
-아래 완료 결과는 기존 실행의 원시 산출물을 확인한 값이다. 새 수리본의 2K 검증은 진행 중이며,
-기존 결과를 새 성능으로 바꾸어 표시하지 않는다.
+**사용자 정정(2026-10-11 10:25 KST): 현재 FE는 수정 EasyEdit 구현 + author hparams + 누적 history이며,
+현재 배치 진입 모델에서 그 배치의 z만 계산한다. 미래 edit의 W0 target 전체 선계산은 사용하지 않는다.**
+아래 author W0-fixed 결과와 CPU 대조는 별도 경로의 원인 후보 조사이며 현재 baseline의 회복 증거가 아니다.
+초기 조사에서 이 경로를 현재 기준으로 바꾼 것은 잘못이었다. Qwen/GPT-J의 현재 기준 재검증이 남아 있다.
 
 ## 완료 산출물과 논문 비교
 
@@ -13,8 +15,8 @@
 | DOW-KE의 GPT-J FE 재현 | 80.70 / 97.40 / 88.45 / 64.10 | 98.62 / 90.81 / 27.92 |
 
 원본 근거: `audits/servers/server1/fe-original-w0-2k-20261011/table-rows.json`의
-각 run/COMPLETE/all-seen-20 SHA와 원시 평가 JSON. 최신 Qwen 두 조건과 GPT-J zsRE는
-과거의 붕괴 상태가 아니다. 현재 확실한 잔여 붕괴는 GPT-J CF다.
+각 run/COMPLETE/all-seen-20 SHA와 원시 평가 JSON. 이 표는 W0-fixed 참고 결과다.
+Qwen W0-fixed의 정상 수치는 현재 batch-entry baseline의 붕괴를 해결하지 않는다.
 
 [DOW-KE Table 1과 실험 절](https://arxiv.org/html/2608.16932v1)은 100건씩 20회
 sequential 편집, AlphaEdit 평가를 명시하고 FE 행을 자체 재현으로 표시한다. Qwen은
@@ -25,7 +27,7 @@ sequential 편집, AlphaEdit 평가를 명시하고 FE 행을 자체 재현으�
 코드 자체는 W0에서 만든 고정 target을 슬라이스하고 persistent `cache_c`를 사용하는
 sequential batch도 지원한다. history가 누락된 실행은 아니다.
 
-## GPT-J: target 크기가 아니라 ridge 역산에서 폭증
+## GPT-J 공분산 결함: W0-fixed 경로에서 확인한 원인 후보
 
 63153의 원 로그를 배치·층별로 추출했다.
 
@@ -75,7 +77,7 @@ L3의 음의 고유값은 약 `-2.07531579e-6`, `-8.93828623e-7`, `-1.59093511e-
 기록한다. 재개 시 그 보정본을 그대로 검증·복원한다. 각 배치의 ridge 시스템도
 양의 정부호 검사를 통과해야 기존 저자 LU를 호출하도록 했다. 실패하면 해당 층에
 업데이트를 기록하지 않는다. 건강한 시스템의 solve 산식, FE clamp/step/lr/decay,
-W0 target 정책과 history 가중치는 바꾸지 않았다.
+이 CPU 대조의 W0 target과 history 가중치는 바꾸지 않았다. 현재 sequential 기준의 성능 검증은 별도로 필요하다.
 
 이는 기록된 수치 정규화이며 저자의 미공개 exact C0를 복원했다는 뜻이 아니다.
 기존 저자 원본 코드만 사용했다는 설명에는 이 보정의 존재를 반드시 덧붙여야 한다.
@@ -89,25 +91,21 @@ FP32 경로였다. CF B12→B15에서 L5 residual은47.39→265.94→1,750.72→
 
 최신 정상 실행은 원저자 W0 고정 target/BF16 경로다. 과거 변형과의 차이는 target
 참조 모델·정밀도·context가 함께 포함되어 있으므로 별도의 동일조건 A/B 없이
-그중 하나만을 Qwen의 단독 원인으로 단정하지 않는다. 현재의 baseline 경로는
-정상 완료된 W0-fixed runner로 유지하며, batch-entry-target 변형을 같은 FE baseline으로
-혼합하지 않는다. 진행 중인 Llama의 별도 author-hparam 변형은 수정하지 않았다.
+그중 하나만을 Qwen의 단독 원인으로 단정하지 않는다. **현재 baseline은 batch-entry 경로**다.
+이 경로에서 Qwen/GPT-J 붕괴를 조사·수리하며 W0-fixed 성공으로 대체하지 않는다.
+Llama author-hparam + history63357은 같은 baseline 계약이며 수정하지 않았다.
 
 ## 검증 상태
 
 - 코드/기존 FE history/author 설정/재개 관련 CPU 테스트52개 통과.
 - 실제 C0 검사: GPT-J 6층, Qwen 5층. 원 자산 쓰기0.
 - 실제 pretrained L3 B1–B3 비교 완료: 원본, zero-clip, storage-resolution 보정.
-- 전 층을 함께 편집하는 GPT-J CF 2K CPU 검증 진행 중. W5/10/15/20 평가 및 checkpoint 저장.
-- GPU 검증용 초안 job63361은 실행 전 PENDING 상태에서 취소했다. zero-clip이 실패하는
-  것을 CPU에서 확인했기 때문이며 GPU 사용0이다.
-- 수리본 GPU **63368 / official-s1-gptj-cf-fe-roundoff-2k**, source `b3c7fb20`, canonical
-  config SHA `74416625fa221aa908e40ba9c583f6ba894bfaa16aa6904da2949b5e98c8439b`.
-  author W0 target도 새로 생성하는 cold 2K다. server1 1GPU/8CPU/96GiB/3h,
-  `afterany:63296` PENDING. source/config/full argv/실제 held job을 검사 후 release했다.
-  cap2 lane은63296→63368→63298 및63297→63299이며 DAG폭2를 확인했다.
-  63298의 resource dependency만 변경했고 모든 임시 hold를 해제했다.
-  [제출 영수증](../../../audits/global/fe-collapse-repair-20261011/submission.json).
+- W0-fixed 전 층 CPU 진단은 사용자 정정 뒤 B3 편집 도중 중단했다. B1/B2 current100만 평가했으며 현재 baseline 결과가 아니다.
+- GPU 초안63361은 zero-clip 실패로 실행 전 취소했다. GPU 사용0이다.
+- W0-fixed 수리 검증63368도 사용자 정정 뒤 **PENDING에서 취소, GPU 사용0**이다.
+  63298의 자원 의존성은63296으로 복구했다. 기존 CAKE 설정·산출물은 바꾸지 않았고 cap2를 재검산했다.
+  [최신 취소·복구 영수증](../../../audits/global/fe-collapse-repair-20261011/sequential-scope-correction.json).
+- 현재 sequential FE의 Qwen/GPT-J 수리 및2K 검증은 진행 중이다.
 - 기존 GPU 실험의 source/config/가중치·기존 FE 결과는 보존했다. 2K 성능 회복은 아직 미확인이다.
 
 로컬 상세 증거: `/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/`.
