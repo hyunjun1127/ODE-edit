@@ -1,0 +1,3626 @@
+{
+  "created_at_utc": "2026-10-11T08:01:50.798211+00:00",
+  "generator_sha256": "1a95412358d63c6b1d98494cf3bc621128f1a101c2d4476ab9b169c7d3b0342c",
+  "matplotlib_version": "3.10.7",
+  "scope": "One identical ordered CF 2K stream; author main.py and hparams; persistent history",
+  "score_scope": "Common CF evaluator; all seen requests at each checkpoint; W0 excluded",
+  "norm_precision": "Displayed native log precision, not recomputed tensor norms",
+  "runs": {
+    "GPT-J: Current-model z / original C0": {
+      "log": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/gptj-63386.out",
+        "prefix_bytes": 3935480,
+        "prefix_sha256": "ab5a4e27c2d30549a313da552a19c077271967e641093723cb24a123da13c9fe",
+        "completed_batches": {
+          "1": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 36.0017,
+                "weight": 106.0,
+                "update": 70.2333
+              },
+              "4": {
+                "residual": 15.0,
+                "weight": 108.5,
+                "update": 7.3354
+              },
+              "5": {
+                "residual": 3.9844,
+                "weight": 111.0,
+                "update": 2.7563
+              },
+              "6": {
+                "residual": 1.2266,
+                "weight": 113.0,
+                "update": 0.9703
+              },
+              "7": {
+                "residual": 0.6953,
+                "weight": 117.5,
+                "update": 0.4132
+              },
+              "8": {
+                "residual": 0.6016,
+                "weight": 119.0,
+                "update": 0.3164
+              }
+            }
+          },
+          "2": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 35.2775,
+                "weight": 127.5,
+                "update": 66.378
+              },
+              "4": {
+                "residual": 16.125,
+                "weight": 109.0,
+                "update": 7.599
+              },
+              "5": {
+                "residual": 3.25,
+                "weight": 111.0,
+                "update": 2.4208
+              },
+              "6": {
+                "residual": 1.1016,
+                "weight": 113.0,
+                "update": 0.9696
+              },
+              "7": {
+                "residual": 0.6328,
+                "weight": 117.5,
+                "update": 0.3398
+              },
+              "8": {
+                "residual": 0.6406,
+                "weight": 119.0,
+                "update": 0.3246
+              }
+            }
+          },
+          "3": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 37.3515,
+                "weight": 147.0,
+                "update": 60005.8906
+              },
+              "4": {
+                "residual": 51.0,
+                "weight": 109.5,
+                "update": 96.1511
+              },
+              "5": {
+                "residual": 36.0,
+                "weight": 111.0,
+                "update": 48.8438
+              },
+              "6": {
+                "residual": 56.5,
+                "weight": 113.0,
+                "update": 70.2311
+              },
+              "7": {
+                "residual": 158.0,
+                "weight": 117.5,
+                "update": 149.5953
+              },
+              "8": {
+                "residual": 183.0,
+                "weight": 119.0,
+                "update": 161.2286
+              }
+            }
+          },
+          "4": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 36.8362,
+                "weight": 59904.0,
+                "update": 559.6694
+              },
+              "4": {
+                "residual": 56.5,
+                "weight": 146.0,
+                "update": 31.8957
+              },
+              "5": {
+                "residual": 31.25,
+                "weight": 121.0,
+                "update": 23.298
+              },
+              "6": {
+                "residual": 34.75,
+                "weight": 133.0,
+                "update": 26.3718
+              },
+              "7": {
+                "residual": 32.0,
+                "weight": 190.0,
+                "update": 14.9784
+              },
+              "8": {
+                "residual": 38.5,
+                "weight": 200.0,
+                "update": 17.0734
+              }
+            }
+          },
+          "5": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 54.1496,
+                "weight": 60160.0,
+                "update": 306784.5372
+              },
+              "4": {
+                "residual": 416.0,
+                "weight": 151.0,
+                "update": 918.4268
+              },
+              "5": {
+                "residual": 444.0,
+                "weight": 122.5,
+                "update": 805.0393
+              },
+              "6": {
+                "residual": 2016.0,
+                "weight": 136.0,
+                "update": 1775.718
+              },
+              "7": {
+                "residual": 3136.0,
+                "weight": 191.0,
+                "update": 1886.54
+              },
+              "8": {
+                "residual": 2928.0,
+                "weight": 201.0,
+                "update": 1746.2964
+              }
+            }
+          },
+          "6": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 51.8065,
+                "weight": 350208.0,
+                "update": 777.6142
+              },
+              "4": {
+                "residual": 920.0,
+                "weight": 932.0,
+                "update": 546.5571
+              },
+              "5": {
+                "residual": 314.0,
+                "weight": 812.0,
+                "update": 235.6907
+              },
+              "6": {
+                "residual": 264.0,
+                "weight": 1776.0,
+                "update": 36.7226
+              },
+              "7": {
+                "residual": 276.0,
+                "weight": 1896.0,
+                "update": 27.3076
+              },
+              "8": {
+                "residual": 290.0,
+                "weight": 1760.0,
+                "update": 30.7674
+              }
+            }
+          },
+          "7": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 360.8144,
+                "weight": 350208.0,
+                "update": 1231127.338
+              },
+              "4": {
+                "residual": 3648.0,
+                "weight": 1176.0,
+                "update": 4846.8938
+              },
+              "5": {
+                "residual": 5920.0,
+                "weight": 832.0,
+                "update": 5450.2903
+              },
+              "6": {
+                "residual": 8256.0,
+                "weight": 1776.0,
+                "update": 6331.5441
+              },
+              "7": {
+                "residual": 8640.0,
+                "weight": 1896.0,
+                "update": 5283.8904
+              },
+              "8": {
+                "residual": 9600.0,
+                "weight": 1760.0,
+                "update": 3972.9266
+              }
+            }
+          },
+          "8": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 146.3636,
+                "weight": 1572864.0,
+                "update": 383.7665
+              },
+              "4": {
+                "residual": 7136.0,
+                "weight": 5024.0,
+                "update": 2883.0181
+              },
+              "5": {
+                "residual": 2096.0,
+                "weight": 5504.0,
+                "update": 453.6813
+              },
+              "6": {
+                "residual": 2224.0,
+                "weight": 6688.0,
+                "update": 237.8539
+              },
+              "7": {
+                "residual": 2384.0,
+                "weight": 5472.0,
+                "update": 339.1963
+              },
+              "8": {
+                "residual": 2784.0,
+                "weight": 4192.0,
+                "update": 904.9317
+              }
+            }
+          },
+          "9": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 135.962,
+                "weight": 1572864.0,
+                "update": 415.5062
+              },
+              "4": {
+                "residual": 9856.0,
+                "weight": 6272.0,
+                "update": 7104.2483
+              },
+              "5": {
+                "residual": 4128.0,
+                "weight": 5568.0,
+                "update": 962.7811
+              },
+              "6": {
+                "residual": 4192.0,
+                "weight": 6656.0,
+                "update": 528.6947
+              },
+              "7": {
+                "residual": 4320.0,
+                "weight": 5536.0,
+                "update": 505.1701
+              },
+              "8": {
+                "residual": 4512.0,
+                "weight": 4096.0,
+                "update": 776.2272
+              }
+            }
+          },
+          "10": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 792.7955,
+                "weight": 1572864.0,
+                "update": 1136467.4884
+              },
+              "4": {
+                "residual": 20736.0,
+                "weight": 9920.0,
+                "update": 10809.8962
+              },
+              "5": {
+                "residual": 10048.0,
+                "weight": 5664.0,
+                "update": 6587.7242
+              },
+              "6": {
+                "residual": 9856.0,
+                "weight": 6848.0,
+                "update": 4797.0462
+              },
+              "7": {
+                "residual": 10688.0,
+                "weight": 5632.0,
+                "update": 4039.2865
+              },
+              "8": {
+                "residual": 10816.0,
+                "weight": 4224.0,
+                "update": 3282.0143
+              }
+            }
+          },
+          "11": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 163.965,
+                "weight": 880640.0,
+                "update": 234.5717
+              },
+              "4": {
+                "residual": 25088.0,
+                "weight": 15296.0,
+                "update": 12050.3765
+              },
+              "5": {
+                "residual": 5152.0,
+                "weight": 8704.0,
+                "update": 924.2344
+              },
+              "6": {
+                "residual": 4960.0,
+                "weight": 7296.0,
+                "update": 733.2195
+              },
+              "7": {
+                "residual": 4928.0,
+                "weight": 5984.0,
+                "update": 490.7258
+              },
+              "8": {
+                "residual": 5056.0,
+                "weight": 5184.0,
+                "update": 599.4603
+              }
+            }
+          },
+          "12": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 149.5774,
+                "weight": 880640.0,
+                "update": 260.3893
+              },
+              "4": {
+                "residual": 41472.0,
+                "weight": 20608.0,
+                "update": 15790.4458
+              },
+              "5": {
+                "residual": 8064.0,
+                "weight": 8704.0,
+                "update": 996.9938
+              },
+              "6": {
+                "residual": 8000.0,
+                "weight": 7328.0,
+                "update": 927.3333
+              },
+              "7": {
+                "residual": 8000.0,
+                "weight": 6112.0,
+                "update": 786.981
+              },
+              "8": {
+                "residual": 8096.0,
+                "weight": 5312.0,
+                "update": 852.3111
+              }
+            }
+          },
+          "13": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 163.6557,
+                "weight": 880640.0,
+                "update": 230.7925
+              },
+              "4": {
+                "residual": 59136.0,
+                "weight": 27008.0,
+                "update": 20801.6179
+              },
+              "5": {
+                "residual": 11200.0,
+                "weight": 8704.0,
+                "update": 1144.4638
+              },
+              "6": {
+                "residual": 11200.0,
+                "weight": 7456.0,
+                "update": 1065.3546
+              },
+              "7": {
+                "residual": 11200.0,
+                "weight": 6176.0,
+                "update": 990.5372
+              },
+              "8": {
+                "residual": 11328.0,
+                "weight": 5376.0,
+                "update": 942.6384
+              }
+            }
+          },
+          "14": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 169.4029,
+                "weight": 880640.0,
+                "update": 336.0073
+              },
+              "4": {
+                "residual": 94208.0,
+                "weight": 35840.0,
+                "update": 49596.8455
+              },
+              "5": {
+                "residual": 22016.0,
+                "weight": 8960.0,
+                "update": 2197.3562
+              },
+              "6": {
+                "residual": 22144.0,
+                "weight": 7776.0,
+                "update": 1986.1197
+              },
+              "7": {
+                "residual": 22272.0,
+                "weight": 6272.0,
+                "update": 1797.0902
+              },
+              "8": {
+                "residual": 22528.0,
+                "weight": 5632.0,
+                "update": 1894.4601
+              }
+            }
+          },
+          "15": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 142.4499,
+                "weight": 880640.0,
+                "update": 183.9943
+              },
+              "4": {
+                "residual": 128512.0,
+                "weight": 63744.0,
+                "update": 54799.2092
+              },
+              "5": {
+                "residual": 24704.0,
+                "weight": 9216.0,
+                "update": 2448.4123
+              },
+              "6": {
+                "residual": 24448.0,
+                "weight": 8064.0,
+                "update": 2355.23
+              },
+              "7": {
+                "residual": 24320.0,
+                "weight": 6432.0,
+                "update": 2103.089
+              },
+              "8": {
+                "residual": 24320.0,
+                "weight": 5792.0,
+                "update": 2118.3613
+              }
+            }
+          },
+          "16": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 158.9047,
+                "weight": 880640.0,
+                "update": 283.5742
+              },
+              "4": {
+                "residual": 204800.0,
+                "weight": 90624.0,
+                "update": 92819.8658
+              },
+              "5": {
+                "residual": 38400.0,
+                "weight": 9152.0,
+                "update": 5641.5984
+              },
+              "6": {
+                "residual": 38144.0,
+                "weight": 7744.0,
+                "update": 4426.526
+              },
+              "7": {
+                "residual": 38144.0,
+                "weight": 6336.0,
+                "update": 3922.6097
+              },
+              "8": {
+                "residual": 37888.0,
+                "weight": 5568.0,
+                "update": 3454.0523
+              }
+            }
+          },
+          "17": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 155.7327,
+                "weight": 880640.0,
+                "update": 6529.9188
+              },
+              "4": {
+                "residual": 352256.0,
+                "weight": 137216.0,
+                "update": 165228.4556
+              },
+              "5": {
+                "residual": 66560.0,
+                "weight": 10624.0,
+                "update": 5143.1225
+              },
+              "6": {
+                "residual": 66048.0,
+                "weight": 8896.0,
+                "update": 4510.2288
+              },
+              "7": {
+                "residual": 65536.0,
+                "weight": 7264.0,
+                "update": 4421.7549
+              },
+              "8": {
+                "residual": 65536.0,
+                "weight": 6208.0,
+                "update": 4413.1753
+              }
+            }
+          },
+          "18": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 145.9216,
+                "weight": 880640.0,
+                "update": 273.3624
+              },
+              "4": {
+                "residual": 499712.0,
+                "weight": 227328.0,
+                "update": 238365.8867
+              },
+              "5": {
+                "residual": 115200.0,
+                "weight": 12608.0,
+                "update": 8549.3504
+              },
+              "6": {
+                "residual": 115200.0,
+                "weight": 9984.0,
+                "update": 8537.3676
+              },
+              "7": {
+                "residual": 114688.0,
+                "weight": 8640.0,
+                "update": 8619.6072
+              },
+              "8": {
+                "residual": 114688.0,
+                "weight": 7648.0,
+                "update": 8718.0849
+              }
+            }
+          },
+          "19": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 135.8392,
+                "weight": 880640.0,
+                "update": 223.8878
+              },
+              "4": {
+                "residual": 757760.0,
+                "weight": 352256.0,
+                "update": 274752.7835
+              },
+              "5": {
+                "residual": 150528.0,
+                "weight": 15488.0,
+                "update": 11363.5383
+              },
+              "6": {
+                "residual": 148480.0,
+                "weight": 13120.0,
+                "update": 10672.9431
+              },
+              "7": {
+                "residual": 147456.0,
+                "weight": 12480.0,
+                "update": 10327.8304
+              },
+              "8": {
+                "residual": 147456.0,
+                "weight": 11328.0,
+                "update": 10586.7958
+              }
+            }
+          },
+          "20": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 141.8323,
+                "weight": 880640.0,
+                "update": 8363.0772
+              },
+              "4": {
+                "residual": 1146880.0,
+                "weight": 483328.0,
+                "update": 510562.4178
+              },
+              "5": {
+                "residual": 185344.0,
+                "weight": 19712.0,
+                "update": 14833.7824
+              },
+              "6": {
+                "residual": 185344.0,
+                "weight": 17920.0,
+                "update": 14064.0056
+              },
+              "7": {
+                "residual": 185344.0,
+                "weight": 17408.0,
+                "update": 13482.7367
+              },
+              "8": {
+                "residual": 185344.0,
+                "weight": 16192.0,
+                "update": 13662.2236
+              }
+            }
+          }
+        }
+      },
+      "common_metrics": [
+        {
+          "edits": 500,
+          "summary": {
+            "Efficacy": 49.6,
+            "Generalization": 50.3,
+            "Score": 49.26697721299947,
+            "Score_AlphaEdit_display": 49.26697721299947,
+            "Specificity": 47.96,
+            "requests": 500
+          },
+          "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-eval-r1/results/gptj/B05-receipt.json",
+          "sha256": "5e954123d1cc7e3babc0732cf24d46a3292b4fba0b2c76b25f4a7c13317e2d30"
+        },
+        {
+          "edits": 1000,
+          "summary": {
+            "Efficacy": 48.699999999999996,
+            "Generalization": 51.65,
+            "Score": 49.854733923454106,
+            "Score_AlphaEdit_display": 49.854733923454106,
+            "Specificity": 49.31,
+            "requests": 1000
+          },
+          "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-eval-r1/results/gptj/B10-receipt.json",
+          "sha256": "dd02fed3a945eb2c1829af9644a2b4c4cc7843864dc93c9c7f07e5ea5671ead9"
+        },
+        {
+          "edits": 1500,
+          "summary": {
+            "Efficacy": 51.53333333333333,
+            "Generalization": 51.46666666666667,
+            "Score": 50.38722458399338,
+            "Score_AlphaEdit_display": 50.38722720000321,
+            "Specificity": 48.3,
+            "requests": 1500
+          },
+          "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-eval-r1/results/gptj/B15-receipt.json",
+          "sha256": "dfc4e14b11e806d7dce9cb5a0f52270b7b67140f4cb67f01179252ae76efcd81"
+        },
+        {
+          "edits": 2000,
+          "summary": {
+            "Efficacy": 49.2,
+            "Generalization": 49.55,
+            "Score": 49.75366826664656,
+            "Score_AlphaEdit_display": 49.753668266646564,
+            "Specificity": 50.529999999999994,
+            "requests": 2000
+          },
+          "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-eval-r1/results/gptj/B20-receipt.json",
+          "sha256": "cb27b347b24319b4b9c37e19e04dba8e9d21471abfc1ce89d921b4ec7f4e1f8c"
+        }
+      ]
+    },
+    "GPT-J: Current-model z / repaired C0": {
+      "log": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/gptj_repaired-63389.out",
+        "prefix_bytes": 2165412,
+        "prefix_sha256": "519efd75f1fd90dcf7cf0f967bc401f45a1d3052ff3f867a94fa9fabcc1a1e8e",
+        "completed_batches": {
+          "1": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 36.0017,
+                "weight": 106.0,
+                "update": 17.7359
+              },
+              "4": {
+                "residual": 15.0,
+                "weight": 108.5,
+                "update": 7.3349
+              },
+              "5": {
+                "residual": 3.9844,
+                "weight": 111.0,
+                "update": 2.7556
+              },
+              "6": {
+                "residual": 1.2266,
+                "weight": 113.0,
+                "update": 0.9697
+              },
+              "7": {
+                "residual": 0.6797,
+                "weight": 117.5,
+                "update": 0.4089
+              },
+              "8": {
+                "residual": 0.6016,
+                "weight": 119.0,
+                "update": 0.3148
+              }
+            }
+          },
+          "2": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 35.277,
+                "weight": 107.5,
+                "update": 17.5677
+              },
+              "4": {
+                "residual": 16.125,
+                "weight": 109.0,
+                "update": 7.6229
+              },
+              "5": {
+                "residual": 3.3281,
+                "weight": 111.0,
+                "update": 2.5061
+              },
+              "6": {
+                "residual": 1.1094,
+                "weight": 113.0,
+                "update": 0.9834
+              },
+              "7": {
+                "residual": 0.6484,
+                "weight": 117.5,
+                "update": 0.3446
+              },
+              "8": {
+                "residual": 0.6367,
+                "weight": 119.0,
+                "update": 0.3243
+              }
+            }
+          },
+          "3": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 37.3312,
+                "weight": 109.0,
+                "update": 58.9876
+              },
+              "4": {
+                "residual": 20.125,
+                "weight": 109.5,
+                "update": 12.9089
+              },
+              "5": {
+                "residual": 5.8125,
+                "weight": 111.0,
+                "update": 10.2886
+              },
+              "6": {
+                "residual": 3.4531,
+                "weight": 113.0,
+                "update": 8.3207
+              },
+              "7": {
+                "residual": 3.1094,
+                "weight": 117.5,
+                "update": 7.3963
+              },
+              "8": {
+                "residual": 3.2031,
+                "weight": 119.0,
+                "update": 7.3454
+              }
+            }
+          },
+          "4": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 35.9171,
+                "weight": 124.0,
+                "update": 18.0057
+              },
+              "4": {
+                "residual": 18.0,
+                "weight": 110.0,
+                "update": 8.4363
+              },
+              "5": {
+                "residual": 3.0312,
+                "weight": 111.5,
+                "update": 2.0517
+              },
+              "6": {
+                "residual": 1.3516,
+                "weight": 113.5,
+                "update": 1.0661
+              },
+              "7": {
+                "residual": 0.8125,
+                "weight": 117.5,
+                "update": 0.5441
+              },
+              "8": {
+                "residual": 0.7383,
+                "weight": 119.5,
+                "update": 0.4072
+              }
+            }
+          },
+          "5": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 37.5335,
+                "weight": 125.5,
+                "update": 64.5345
+              },
+              "4": {
+                "residual": 22.375,
+                "weight": 110.5,
+                "update": 12.3614
+              },
+              "5": {
+                "residual": 5.375,
+                "weight": 111.5,
+                "update": 14.1397
+              },
+              "6": {
+                "residual": 3.7031,
+                "weight": 113.5,
+                "update": 10.4764
+              },
+              "7": {
+                "residual": 3.1719,
+                "weight": 117.5,
+                "update": 9.7551
+              },
+              "8": {
+                "residual": 3.0469,
+                "weight": 119.5,
+                "update": 9.4249
+              }
+            }
+          },
+          "6": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 35.5685,
+                "weight": 141.0,
+                "update": 17.7336
+              },
+              "4": {
+                "residual": 21.125,
+                "weight": 111.5,
+                "update": 9.8973
+              },
+              "5": {
+                "residual": 3.4688,
+                "weight": 112.5,
+                "update": 2.0623
+              },
+              "6": {
+                "residual": 1.7891,
+                "weight": 114.0,
+                "update": 1.3137
+              },
+              "7": {
+                "residual": 1.1328,
+                "weight": 118.0,
+                "update": 0.6692
+              },
+              "8": {
+                "residual": 0.957,
+                "weight": 119.5,
+                "update": 0.5376
+              }
+            }
+          },
+          "7": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 38.0359,
+                "weight": 142.0,
+                "update": 64.3445
+              },
+              "4": {
+                "residual": 25.875,
+                "weight": 112.5,
+                "update": 15.5696
+              },
+              "5": {
+                "residual": 6.0,
+                "weight": 112.5,
+                "update": 10.6199
+              },
+              "6": {
+                "residual": 4.625,
+                "weight": 114.0,
+                "update": 10.5135
+              },
+              "7": {
+                "residual": 3.9844,
+                "weight": 118.0,
+                "update": 9.2879
+              },
+              "8": {
+                "residual": 3.9219,
+                "weight": 119.5,
+                "update": 9.3762
+              }
+            }
+          },
+          "8": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 35.8851,
+                "weight": 157.0,
+                "update": 17.7678
+              },
+              "4": {
+                "residual": 25.625,
+                "weight": 113.5,
+                "update": 11.7123
+              },
+              "5": {
+                "residual": 3.625,
+                "weight": 113.0,
+                "update": 2.1456
+              },
+              "6": {
+                "residual": 2.1562,
+                "weight": 114.5,
+                "update": 1.5551
+              },
+              "7": {
+                "residual": 1.3906,
+                "weight": 118.5,
+                "update": 0.9215
+              },
+              "8": {
+                "residual": 1.1641,
+                "weight": 120.0,
+                "update": 0.7358
+              }
+            }
+          },
+          "9": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 36.9826,
+                "weight": 158.0,
+                "update": 18.5225
+              },
+              "4": {
+                "residual": 29.125,
+                "weight": 114.5,
+                "update": 13.3163
+              },
+              "5": {
+                "residual": 4.2812,
+                "weight": 113.0,
+                "update": 2.4882
+              },
+              "6": {
+                "residual": 2.7812,
+                "weight": 114.5,
+                "update": 1.8393
+              },
+              "7": {
+                "residual": 2.0156,
+                "weight": 118.5,
+                "update": 1.2095
+              },
+              "8": {
+                "residual": 1.9375,
+                "weight": 120.0,
+                "update": 1.4737
+              }
+            }
+          },
+          "10": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 38.6737,
+                "weight": 159.0,
+                "update": 62.1347
+              },
+              "4": {
+                "residual": 29.875,
+                "weight": 115.5,
+                "update": 15.637
+              },
+              "5": {
+                "residual": 6.625,
+                "weight": 113.0,
+                "update": 11.3333
+              },
+              "6": {
+                "residual": 5.0312,
+                "weight": 114.5,
+                "update": 9.2637
+              },
+              "7": {
+                "residual": 4.1562,
+                "weight": 118.5,
+                "update": 9.1632
+              },
+              "8": {
+                "residual": 4.0,
+                "weight": 120.0,
+                "update": 8.9702
+              }
+            }
+          },
+          "11": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 36.1377,
+                "weight": 171.0,
+                "update": 18.2068
+              },
+              "4": {
+                "residual": 29.5,
+                "weight": 117.0,
+                "update": 14.7043
+              },
+              "5": {
+                "residual": 5.6562,
+                "weight": 113.5,
+                "update": 3.2276
+              },
+              "6": {
+                "residual": 3.5938,
+                "weight": 115.0,
+                "update": 2.5062
+              },
+              "7": {
+                "residual": 2.5469,
+                "weight": 119.0,
+                "update": 1.5747
+              },
+              "8": {
+                "residual": 2.0625,
+                "weight": 120.5,
+                "update": 1.2862
+              }
+            }
+          },
+          "12": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 37.4713,
+                "weight": 172.0,
+                "update": 18.5534
+              },
+              "4": {
+                "residual": 31.875,
+                "weight": 118.5,
+                "update": 15.427
+              },
+              "5": {
+                "residual": 6.75,
+                "weight": 113.5,
+                "update": 3.691
+              },
+              "6": {
+                "residual": 4.1875,
+                "weight": 115.0,
+                "update": 2.5552
+              },
+              "7": {
+                "residual": 2.8281,
+                "weight": 119.0,
+                "update": 1.5961
+              },
+              "8": {
+                "residual": 2.2656,
+                "weight": 120.5,
+                "update": 1.3242
+              }
+            }
+          },
+          "13": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 36.4178,
+                "weight": 173.0,
+                "update": 18.0112
+              },
+              "4": {
+                "residual": 29.25,
+                "weight": 120.0,
+                "update": 15.5019
+              },
+              "5": {
+                "residual": 6.0625,
+                "weight": 113.5,
+                "update": 3.1971
+              },
+              "6": {
+                "residual": 4.25,
+                "weight": 115.0,
+                "update": 2.6737
+              },
+              "7": {
+                "residual": 3.125,
+                "weight": 119.0,
+                "update": 1.91
+              },
+              "8": {
+                "residual": 2.4844,
+                "weight": 120.5,
+                "update": 1.6021
+              }
+            }
+          },
+          "14": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 36.1417,
+                "weight": 174.0,
+                "update": 17.9369
+              },
+              "4": {
+                "residual": 28.875,
+                "weight": 121.5,
+                "update": 13.6242
+              },
+              "5": {
+                "residual": 7.6562,
+                "weight": 113.5,
+                "update": 3.6355
+              },
+              "6": {
+                "residual": 5.2812,
+                "weight": 115.0,
+                "update": 3.0311
+              },
+              "7": {
+                "residual": 3.9688,
+                "weight": 119.0,
+                "update": 2.0684
+              },
+              "8": {
+                "residual": 3.1406,
+                "weight": 120.5,
+                "update": 1.6957
+              }
+            }
+          },
+          "15": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 36.6722,
+                "weight": 175.0,
+                "update": 17.9476
+              },
+              "4": {
+                "residual": 29.25,
+                "weight": 122.5,
+                "update": 15.2154
+              },
+              "5": {
+                "residual": 7.125,
+                "weight": 113.5,
+                "update": 3.4014
+              },
+              "6": {
+                "residual": 5.0938,
+                "weight": 115.0,
+                "update": 2.9373
+              },
+              "7": {
+                "residual": 3.9062,
+                "weight": 119.0,
+                "update": 2.1249
+              },
+              "8": {
+                "residual": 3.1406,
+                "weight": 120.5,
+                "update": 1.8283
+              }
+            }
+          },
+          "16": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 38.0103,
+                "weight": 176.0,
+                "update": 18.3559
+              },
+              "4": {
+                "residual": 31.625,
+                "weight": 124.0,
+                "update": 19.5972
+              },
+              "5": {
+                "residual": 7.7188,
+                "weight": 114.0,
+                "update": 3.3805
+              },
+              "6": {
+                "residual": 5.0625,
+                "weight": 115.0,
+                "update": 2.9886
+              },
+              "7": {
+                "residual": 3.875,
+                "weight": 119.0,
+                "update": 2.1172
+              },
+              "8": {
+                "residual": 3.125,
+                "weight": 120.5,
+                "update": 1.8875
+              }
+            }
+          },
+          "17": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 38.4535,
+                "weight": 177.0,
+                "update": 65.2773
+              },
+              "4": {
+                "residual": 30.5,
+                "weight": 126.5,
+                "update": 17.9064
+              },
+              "5": {
+                "residual": 8.8125,
+                "weight": 114.0,
+                "update": 6.5192
+              },
+              "6": {
+                "residual": 6.9062,
+                "weight": 115.0,
+                "update": 9.2319
+              },
+              "7": {
+                "residual": 5.75,
+                "weight": 119.0,
+                "update": 7.9145
+              },
+              "8": {
+                "residual": 5.0312,
+                "weight": 120.5,
+                "update": 7.899
+              }
+            }
+          },
+          "18": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 37.4863,
+                "weight": 189.0,
+                "update": 18.5619
+              },
+              "4": {
+                "residual": 34.25,
+                "weight": 128.0,
+                "update": 22.3384
+              },
+              "5": {
+                "residual": 9.8125,
+                "weight": 114.0,
+                "update": 4.7192
+              },
+              "6": {
+                "residual": 7.1875,
+                "weight": 115.5,
+                "update": 4.4415
+              },
+              "7": {
+                "residual": 5.875,
+                "weight": 119.0,
+                "update": 3.5835
+              },
+              "8": {
+                "residual": 5.0,
+                "weight": 121.0,
+                "update": 3.2681
+              }
+            }
+          },
+          "19": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 37.048,
+                "weight": 190.0,
+                "update": 18.3531
+              },
+              "4": {
+                "residual": 32.5,
+                "weight": 131.0,
+                "update": 17.0927
+              },
+              "5": {
+                "residual": 10.6875,
+                "weight": 114.5,
+                "update": 4.2992
+              },
+              "6": {
+                "residual": 7.8438,
+                "weight": 115.5,
+                "update": 3.8482
+              },
+              "7": {
+                "residual": 6.4062,
+                "weight": 119.0,
+                "update": 2.8316
+              },
+              "8": {
+                "residual": 5.4688,
+                "weight": 121.0,
+                "update": 2.6585
+              }
+            }
+          },
+          "20": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 38.6061,
+                "weight": 191.0,
+                "update": 66.7131
+              },
+              "4": {
+                "residual": 31.875,
+                "weight": 133.0,
+                "update": 17.5074
+              },
+              "5": {
+                "residual": 12.75,
+                "weight": 114.5,
+                "update": 7.6949
+              },
+              "6": {
+                "residual": 8.75,
+                "weight": 116.0,
+                "update": 10.3435
+              },
+              "7": {
+                "residual": 7.4688,
+                "weight": 119.5,
+                "update": 8.8927
+              },
+              "8": {
+                "residual": 6.625,
+                "weight": 121.0,
+                "update": 7.9501
+              }
+            }
+          }
+        }
+      },
+      "common_metrics": [
+        {
+          "edits": 500,
+          "summary": {
+            "Efficacy": 99.4,
+            "Generalization": 95.8,
+            "Score": 90.20621431635495,
+            "Score_AlphaEdit_display": 90.20621431635495,
+            "Specificity": 78.38,
+            "requests": 500
+          },
+          "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/evaluations/gptj_repaired/B05-receipt.json",
+          "sha256": "c593a2664abb7e361ac90d84b1d6572ec5c28fb2f6dedac22c3bd1126f24d16a"
+        },
+        {
+          "edits": 1000,
+          "summary": {
+            "Efficacy": 99.1,
+            "Generalization": 95.25,
+            "Score": 88.05341826206885,
+            "Score_AlphaEdit_display": 88.05341826206886,
+            "Specificity": 74.17999999999999,
+            "requests": 1000
+          },
+          "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/evaluations/gptj_repaired/B10-receipt.json",
+          "sha256": "e2d73e16a5a78865f10ee5d25425e100330ed0bed997c306b187c513dfb6cf27"
+        },
+        {
+          "edits": 1500,
+          "summary": {
+            "Efficacy": 99.06666666666666,
+            "Generalization": 95.33333333333334,
+            "Score": 87.07750561970413,
+            "Score_AlphaEdit_display": 87.0790573460009,
+            "Specificity": 72.10666666666667,
+            "requests": 1500
+          },
+          "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/evaluations/gptj_repaired/B15-receipt.json",
+          "sha256": "ccb64dedec894358e91d4c09949f86ffb76bb41bc124f62dc6cc3244e1ae4b09"
+        },
+        {
+          "edits": 2000,
+          "summary": {
+            "Efficacy": 98.5,
+            "Generalization": 94.8,
+            "Score": 85.38750539718713,
+            "Score_AlphaEdit_display": 85.39003667896573,
+            "Specificity": 69.28500000000001,
+            "requests": 2000
+          },
+          "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/evaluations/gptj_repaired/B20-receipt.json",
+          "sha256": "3b70187df698cdd021394eb3f4b0ae006a980c84d591b0feff4a87e867b181ca"
+        }
+      ]
+    },
+    "GPT-J: W0 z on arrival / repaired C0": {
+      "log": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r2/gptj_online_w0_repaired-63425.out",
+        "prefix_bytes": 1941723,
+        "prefix_sha256": "c22db8229c807d4f83d9751974ae4c66dd0270e705d4288fcb2a821028261bd8",
+        "completed_batches": {
+          "1": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 36.0017,
+                "weight": 106.0,
+                "update": 17.7359
+              },
+              "4": {
+                "residual": 15.0,
+                "weight": 108.5,
+                "update": 7.3349
+              },
+              "5": {
+                "residual": 3.9844,
+                "weight": 111.0,
+                "update": 2.7556
+              },
+              "6": {
+                "residual": 1.2266,
+                "weight": 113.0,
+                "update": 0.9697
+              },
+              "7": {
+                "residual": 0.6797,
+                "weight": 117.5,
+                "update": 0.4089
+              },
+              "8": {
+                "residual": 0.6016,
+                "weight": 119.0,
+                "update": 0.3148
+              }
+            }
+          },
+          "2": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 35.1568,
+                "weight": 107.5,
+                "update": 17.5109
+              },
+              "4": {
+                "residual": 15.3125,
+                "weight": 109.0,
+                "update": 7.3633
+              },
+              "5": {
+                "residual": 3.6875,
+                "weight": 111.0,
+                "update": 2.6359
+              },
+              "6": {
+                "residual": 1.3047,
+                "weight": 113.0,
+                "update": 1.0943
+              },
+              "7": {
+                "residual": 0.8086,
+                "weight": 117.5,
+                "update": 0.4308
+              },
+              "8": {
+                "residual": 0.7812,
+                "weight": 119.0,
+                "update": 0.396
+              }
+            }
+          },
+          "3": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 37.3032,
+                "weight": 109.0,
+                "update": 63.4739
+              },
+              "4": {
+                "residual": 17.75,
+                "weight": 109.0,
+                "update": 12.4126
+              },
+              "5": {
+                "residual": 6.8438,
+                "weight": 111.0,
+                "update": 9.74
+              },
+              "6": {
+                "residual": 3.9375,
+                "weight": 113.0,
+                "update": 8.6309
+              },
+              "7": {
+                "residual": 3.4844,
+                "weight": 117.5,
+                "update": 8.0935
+              },
+              "8": {
+                "residual": 3.6406,
+                "weight": 119.0,
+                "update": 8.2532
+              }
+            }
+          },
+          "4": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 35.7195,
+                "weight": 126.0,
+                "update": 17.8988
+              },
+              "4": {
+                "residual": 15.0,
+                "weight": 110.0,
+                "update": 7.2242
+              },
+              "5": {
+                "residual": 5.0625,
+                "weight": 111.5,
+                "update": 2.8376
+              },
+              "6": {
+                "residual": 2.7344,
+                "weight": 113.5,
+                "update": 1.4702
+              },
+              "7": {
+                "residual": 2.1562,
+                "weight": 117.5,
+                "update": 1.0726
+              },
+              "8": {
+                "residual": 2.0625,
+                "weight": 119.5,
+                "update": 1.0502
+              }
+            }
+          },
+          "5": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 37.0158,
+                "weight": 127.5,
+                "update": 58.7981
+              },
+              "4": {
+                "residual": 17.0,
+                "weight": 110.5,
+                "update": 12.3735
+              },
+              "5": {
+                "residual": 7.0938,
+                "weight": 111.5,
+                "update": 7.2036
+              },
+              "6": {
+                "residual": 4.7188,
+                "weight": 113.5,
+                "update": 8.1202
+              },
+              "7": {
+                "residual": 4.2188,
+                "weight": 117.5,
+                "update": 7.0947
+              },
+              "8": {
+                "residual": 4.0,
+                "weight": 119.5,
+                "update": 7.5745
+              }
+            }
+          },
+          "6": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 35.4012,
+                "weight": 140.0,
+                "update": 17.6397
+              },
+              "4": {
+                "residual": 15.4375,
+                "weight": 111.0,
+                "update": 7.522
+              },
+              "5": {
+                "residual": 5.4062,
+                "weight": 111.5,
+                "update": 2.8371
+              },
+              "6": {
+                "residual": 3.0938,
+                "weight": 114.0,
+                "update": 1.5365
+              },
+              "7": {
+                "residual": 2.5781,
+                "weight": 118.0,
+                "update": 1.1887
+              },
+              "8": {
+                "residual": 2.5,
+                "weight": 119.5,
+                "update": 1.2036
+              }
+            }
+          },
+          "7": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 37.6944,
+                "weight": 141.0,
+                "update": 65.2632
+              },
+              "4": {
+                "residual": 18.0,
+                "weight": 111.5,
+                "update": 13.5855
+              },
+              "5": {
+                "residual": 7.8125,
+                "weight": 111.5,
+                "update": 8.5516
+              },
+              "6": {
+                "residual": 5.2188,
+                "weight": 114.0,
+                "update": 8.5068
+              },
+              "7": {
+                "residual": 4.5938,
+                "weight": 118.0,
+                "update": 7.5404
+              },
+              "8": {
+                "residual": 4.7188,
+                "weight": 119.5,
+                "update": 7.995
+              }
+            }
+          },
+          "8": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 35.5744,
+                "weight": 155.0,
+                "update": 17.5903
+              },
+              "4": {
+                "residual": 15.25,
+                "weight": 112.5,
+                "update": 6.9116
+              },
+              "5": {
+                "residual": 5.5625,
+                "weight": 112.0,
+                "update": 2.9022
+              },
+              "6": {
+                "residual": 3.8438,
+                "weight": 114.0,
+                "update": 1.8487
+              },
+              "7": {
+                "residual": 3.2188,
+                "weight": 118.0,
+                "update": 1.492
+              },
+              "8": {
+                "residual": 3.2969,
+                "weight": 120.0,
+                "update": 1.6739
+              }
+            }
+          },
+          "9": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 36.455,
+                "weight": 156.0,
+                "update": 18.2244
+              },
+              "4": {
+                "residual": 16.25,
+                "weight": 113.0,
+                "update": 7.6739
+              },
+              "5": {
+                "residual": 6.4062,
+                "weight": 112.0,
+                "update": 3.2801
+              },
+              "6": {
+                "residual": 3.875,
+                "weight": 114.0,
+                "update": 1.8984
+              },
+              "7": {
+                "residual": 3.1719,
+                "weight": 118.0,
+                "update": 1.4814
+              },
+              "8": {
+                "residual": 2.9688,
+                "weight": 120.0,
+                "update": 1.4503
+              }
+            }
+          },
+          "10": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 38.3284,
+                "weight": 158.0,
+                "update": 59.4096
+              },
+              "4": {
+                "residual": 17.875,
+                "weight": 113.0,
+                "update": 12.718
+              },
+              "5": {
+                "residual": 8.5,
+                "weight": 112.0,
+                "update": 9.5475
+              },
+              "6": {
+                "residual": 5.8125,
+                "weight": 114.0,
+                "update": 9.0838
+              },
+              "7": {
+                "residual": 5.0312,
+                "weight": 118.0,
+                "update": 8.9231
+              },
+              "8": {
+                "residual": 4.9375,
+                "weight": 120.0,
+                "update": 9.2399
+              }
+            }
+          },
+          "11": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 36.3464,
+                "weight": 169.0,
+                "update": 18.1171
+              },
+              "4": {
+                "residual": 16.5,
+                "weight": 114.0,
+                "update": 7.8058
+              },
+              "5": {
+                "residual": 6.875,
+                "weight": 112.5,
+                "update": 3.5863
+              },
+              "6": {
+                "residual": 4.5312,
+                "weight": 114.5,
+                "update": 2.2456
+              },
+              "7": {
+                "residual": 3.7344,
+                "weight": 118.5,
+                "update": 1.7528
+              },
+              "8": {
+                "residual": 3.5625,
+                "weight": 120.5,
+                "update": 1.7495
+              }
+            }
+          },
+          "12": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 36.9806,
+                "weight": 170.0,
+                "update": 18.279
+              },
+              "4": {
+                "residual": 17.875,
+                "weight": 114.5,
+                "update": 8.3782
+              },
+              "5": {
+                "residual": 7.0312,
+                "weight": 112.5,
+                "update": 3.6437
+              },
+              "6": {
+                "residual": 4.25,
+                "weight": 114.5,
+                "update": 1.9859
+              },
+              "7": {
+                "residual": 3.4375,
+                "weight": 118.5,
+                "update": 1.5728
+              },
+              "8": {
+                "residual": 3.4219,
+                "weight": 120.5,
+                "update": 1.615
+              }
+            }
+          },
+          "13": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 35.9297,
+                "weight": 171.0,
+                "update": 17.7325
+              },
+              "4": {
+                "residual": 16.25,
+                "weight": 114.5,
+                "update": 7.3694
+              },
+              "5": {
+                "residual": 6.6562,
+                "weight": 113.0,
+                "update": 3.2564
+              },
+              "6": {
+                "residual": 4.3125,
+                "weight": 114.5,
+                "update": 2.1014
+              },
+              "7": {
+                "residual": 3.3906,
+                "weight": 118.5,
+                "update": 1.5865
+              },
+              "8": {
+                "residual": 3.3594,
+                "weight": 120.5,
+                "update": 1.6258
+              }
+            }
+          },
+          "14": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 36.3253,
+                "weight": 172.0,
+                "update": 17.8524
+              },
+              "4": {
+                "residual": 16.875,
+                "weight": 115.0,
+                "update": 7.6178
+              },
+              "5": {
+                "residual": 7.3438,
+                "weight": 113.0,
+                "update": 3.5949
+              },
+              "6": {
+                "residual": 5.1562,
+                "weight": 114.5,
+                "update": 2.8811
+              },
+              "7": {
+                "residual": 4.0938,
+                "weight": 118.5,
+                "update": 2.6707
+              },
+              "8": {
+                "residual": 3.9688,
+                "weight": 120.5,
+                "update": 2.3024
+              }
+            }
+          },
+          "15": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 36.2883,
+                "weight": 173.0,
+                "update": 17.7268
+              },
+              "4": {
+                "residual": 17.75,
+                "weight": 115.0,
+                "update": 8.2944
+              },
+              "5": {
+                "residual": 7.2812,
+                "weight": 113.0,
+                "update": 3.5524
+              },
+              "6": {
+                "residual": 4.4375,
+                "weight": 114.5,
+                "update": 2.1115
+              },
+              "7": {
+                "residual": 3.5312,
+                "weight": 118.5,
+                "update": 1.6743
+              },
+              "8": {
+                "residual": 3.5469,
+                "weight": 120.5,
+                "update": 1.7016
+              }
+            }
+          },
+          "16": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 37.2164,
+                "weight": 174.0,
+                "update": 17.9534
+              },
+              "4": {
+                "residual": 16.625,
+                "weight": 115.5,
+                "update": 7.4982
+              },
+              "5": {
+                "residual": 7.0625,
+                "weight": 113.0,
+                "update": 3.3856
+              },
+              "6": {
+                "residual": 4.25,
+                "weight": 114.5,
+                "update": 1.9946
+              },
+              "7": {
+                "residual": 3.6875,
+                "weight": 118.5,
+                "update": 1.7102
+              },
+              "8": {
+                "residual": 3.7031,
+                "weight": 120.5,
+                "update": 1.8037
+              }
+            }
+          },
+          "17": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 38.1349,
+                "weight": 175.0,
+                "update": 68.9155
+              },
+              "4": {
+                "residual": 18.5,
+                "weight": 116.0,
+                "update": 12.4915
+              },
+              "5": {
+                "residual": 8.8125,
+                "weight": 113.0,
+                "update": 9.2204
+              },
+              "6": {
+                "residual": 6.2188,
+                "weight": 114.5,
+                "update": 9.1908
+              },
+              "7": {
+                "residual": 5.4062,
+                "weight": 118.5,
+                "update": 8.2844
+              },
+              "8": {
+                "residual": 5.3438,
+                "weight": 120.5,
+                "update": 8.6139
+              }
+            }
+          },
+          "18": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 36.8437,
+                "weight": 188.0,
+                "update": 18.2245
+              },
+              "4": {
+                "residual": 17.75,
+                "weight": 116.5,
+                "update": 8.4016
+              },
+              "5": {
+                "residual": 7.6562,
+                "weight": 113.5,
+                "update": 3.8664
+              },
+              "6": {
+                "residual": 4.8125,
+                "weight": 115.0,
+                "update": 2.2788
+              },
+              "7": {
+                "residual": 3.8281,
+                "weight": 119.0,
+                "update": 1.7595
+              },
+              "8": {
+                "residual": 3.9062,
+                "weight": 120.5,
+                "update": 1.8388
+              }
+            }
+          },
+          "19": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 36.4526,
+                "weight": 189.0,
+                "update": 18.0267
+              },
+              "4": {
+                "residual": 17.875,
+                "weight": 117.0,
+                "update": 8.4389
+              },
+              "5": {
+                "residual": 8.0,
+                "weight": 113.5,
+                "update": 4.0308
+              },
+              "6": {
+                "residual": 5.0625,
+                "weight": 115.0,
+                "update": 2.4942
+              },
+              "7": {
+                "residual": 4.2188,
+                "weight": 119.0,
+                "update": 1.9481
+              },
+              "8": {
+                "residual": 4.4062,
+                "weight": 120.5,
+                "update": 2.1632
+              }
+            }
+          },
+          "20": {
+            "complete": true,
+            "layers": {
+              "3": {
+                "residual": 38.4341,
+                "weight": 189.0,
+                "update": 71.0009
+              },
+              "4": {
+                "residual": 20.125,
+                "weight": 117.5,
+                "update": 12.9837
+              },
+              "5": {
+                "residual": 10.1875,
+                "weight": 113.5,
+                "update": 8.9897
+              },
+              "6": {
+                "residual": 7.2812,
+                "weight": 115.0,
+                "update": 8.9888
+              },
+              "7": {
+                "residual": 6.0625,
+                "weight": 119.0,
+                "update": 8.4053
+              },
+              "8": {
+                "residual": 6.1875,
+                "weight": 120.5,
+                "update": 8.5255
+              }
+            }
+          }
+        }
+      },
+      "common_metrics": [
+        {
+          "edits": 500,
+          "summary": {
+            "Efficacy": 99.6,
+            "Generalization": 95.5,
+            "Score": 90.72250742567815,
+            "Score_AlphaEdit_display": 90.72250742567815,
+            "Specificity": 79.64,
+            "requests": 500
+          },
+          "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r2/evaluations/gptj_online_w0_repaired/B05-receipt.json",
+          "sha256": "0d129e69eda8f2db2d1d22ac4f1869dab39853d447945dc1bf5ab370d692c94f"
+        },
+        {
+          "edits": 1000,
+          "summary": {
+            "Efficacy": 99.4,
+            "Generalization": 95.19999999999999,
+            "Score": 90.0413131810225,
+            "Score_AlphaEdit_display": 90.0413131810225,
+            "Specificity": 78.41,
+            "requests": 1000
+          },
+          "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r2/evaluations/gptj_online_w0_repaired/B10-receipt.json",
+          "sha256": "42c7f626433772fe89b7b2b300946341fbbaf7aeb372521c32ff1f17440c8df8"
+        },
+        {
+          "edits": 1500,
+          "summary": {
+            "Efficacy": 99.53333333333333,
+            "Generalization": 95.06666666666666,
+            "Score": 89.83352627273385,
+            "Score_AlphaEdit_display": 89.83508906142764,
+            "Specificity": 77.94666666666667,
+            "requests": 1500
+          },
+          "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r2/evaluations/gptj_online_w0_repaired/B15-receipt.json",
+          "sha256": "9bb79e9231b5fc71921f3c05e18c49243c205e2b86a3ddae13afa5a8e68ae871"
+        },
+        {
+          "edits": 2000,
+          "summary": {
+            "Efficacy": 99.4,
+            "Generalization": 94.45,
+            "Score": 89.17270406068643,
+            "Score_AlphaEdit_display": 89.17494186248864,
+            "Specificity": 76.955,
+            "requests": 2000
+          },
+          "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r2/evaluations/gptj_online_w0_repaired/B20-receipt.json",
+          "sha256": "19de95403f9dc0d632440e40ae13f1f67be9c37701510b6fa186cf2614f5571f"
+        }
+      ]
+    },
+    "Qwen2.5-7B: Current-model z": {
+      "log": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/qwen25-63385.out",
+        "prefix_bytes": 4905763,
+        "prefix_sha256": "0f06a98b31848d37183f6230b9a896fef0fadcd38eba138d388df678781044d8",
+        "completed_batches": {
+          "1": {
+            "complete": true,
+            "layers": {
+              "4": {
+                "residual": 43.0968,
+                "weight": 129.0,
+                "update": 79.8158
+              },
+              "5": {
+                "residual": 12.75,
+                "weight": 132.0,
+                "update": 14.558
+              },
+              "6": {
+                "residual": 5.5312,
+                "weight": 127.5,
+                "update": 2.692
+              },
+              "7": {
+                "residual": 1.6172,
+                "weight": 133.0,
+                "update": 0.7726
+              },
+              "8": {
+                "residual": 1.0312,
+                "weight": 134.0,
+                "update": 0.4277
+              }
+            }
+          },
+          "2": {
+            "complete": true,
+            "layers": {
+              "4": {
+                "residual": 45.3974,
+                "weight": 151.0,
+                "update": 122.9412
+              },
+              "5": {
+                "residual": 14.4375,
+                "weight": 133.0,
+                "update": 21.5523
+              },
+              "6": {
+                "residual": 7.5312,
+                "weight": 127.5,
+                "update": 13.0529
+              },
+              "7": {
+                "residual": 4.3125,
+                "weight": 133.0,
+                "update": 10.926
+              },
+              "8": {
+                "residual": 3.3906,
+                "weight": 134.0,
+                "update": 8.702
+              }
+            }
+          },
+          "3": {
+            "complete": true,
+            "layers": {
+              "4": {
+                "residual": 45.717,
+                "weight": 195.0,
+                "update": 163.0297
+              },
+              "5": {
+                "residual": 47.75,
+                "weight": 135.0,
+                "update": 57.742
+              },
+              "6": {
+                "residual": 12.75,
+                "weight": 128.0,
+                "update": 15.6041
+              },
+              "7": {
+                "residual": 8.3125,
+                "weight": 133.0,
+                "update": 11.159
+              },
+              "8": {
+                "residual": 7.9688,
+                "weight": 134.0,
+                "update": 9.7083
+              }
+            }
+          },
+          "4": {
+            "complete": true,
+            "layers": {
+              "4": {
+                "residual": 43.3264,
+                "weight": 254.0,
+                "update": 91.6916
+              },
+              "5": {
+                "residual": 56.75,
+                "weight": 147.0,
+                "update": 88.8779
+              },
+              "6": {
+                "residual": 10.125,
+                "weight": 129.0,
+                "update": 7.4424
+              },
+              "7": {
+                "residual": 3.5469,
+                "weight": 133.0,
+                "update": 2.4086
+              },
+              "8": {
+                "residual": 2.5625,
+                "weight": 135.0,
+                "update": 1.5072
+              }
+            }
+          },
+          "5": {
+            "complete": true,
+            "layers": {
+              "4": {
+                "residual": 43.1851,
+                "weight": 270.0,
+                "update": 91.4016
+              },
+              "5": {
+                "residual": 250.0,
+                "weight": 169.0,
+                "update": 224.466
+              },
+              "6": {
+                "residual": 24.375,
+                "weight": 129.0,
+                "update": 55.8517
+              },
+              "7": {
+                "residual": 12.875,
+                "weight": 133.0,
+                "update": 17.2145
+              },
+              "8": {
+                "residual": 9.625,
+                "weight": 135.0,
+                "update": 9.4815
+              }
+            }
+          },
+          "6": {
+            "complete": true,
+            "layers": {
+              "4": {
+                "residual": 44.2222,
+                "weight": 286.0,
+                "update": 92.9921
+              },
+              "5": {
+                "residual": 892.0,
+                "weight": 282.0,
+                "update": 1951.1764
+              },
+              "6": {
+                "residual": 270.0,
+                "weight": 140.0,
+                "update": 110.6257
+              },
+              "7": {
+                "residual": 258.0,
+                "weight": 135.0,
+                "update": 55.8391
+              },
+              "8": {
+                "residual": 256.0,
+                "weight": 135.0,
+                "update": 53.8904
+              }
+            }
+          },
+          "7": {
+            "complete": true,
+            "layers": {
+              "4": {
+                "residual": 44.7929,
+                "weight": 302.0,
+                "update": 198.0701
+              },
+              "5": {
+                "residual": 5056.0,
+                "weight": 1960.0,
+                "update": 6659.5942
+              },
+              "6": {
+                "residual": 828.0,
+                "weight": 169.0,
+                "update": 154.302
+              },
+              "7": {
+                "residual": 804.0,
+                "weight": 145.0,
+                "update": 85.008
+              },
+              "8": {
+                "residual": 800.0,
+                "weight": 145.0,
+                "update": 72.0453
+              }
+            }
+          },
+          "8": {
+            "complete": true,
+            "layers": {
+              "4": {
+                "residual": 45.9779,
+                "weight": 352.0,
+                "update": 233.899
+              },
+              "5": {
+                "residual": 13568.0,
+                "weight": 7008.0,
+                "update": 8238.5951
+              },
+              "6": {
+                "residual": 1336.0,
+                "weight": 230.0,
+                "update": 371.8887
+              },
+              "7": {
+                "residual": 1344.0,
+                "weight": 167.0,
+                "update": 149.2944
+              },
+              "8": {
+                "residual": 1384.0,
+                "weight": 163.0,
+                "update": 127.1017
+              }
+            }
+          },
+          "9": {
+            "complete": true,
+            "layers": {
+              "4": {
+                "residual": 45.3799,
+                "weight": 422.0,
+                "update": 92.5541
+              },
+              "5": {
+                "residual": 24960.0,
+                "weight": 11456.0,
+                "update": 52373.0093
+              },
+              "6": {
+                "residual": 9088.0,
+                "weight": 446.0,
+                "update": 3020.681
+              },
+              "7": {
+                "residual": 9280.0,
+                "weight": 238.0,
+                "update": 1740.605
+              },
+              "8": {
+                "residual": 9664.0,
+                "weight": 215.0,
+                "update": 1772.8038
+              }
+            }
+          },
+          "10": {
+            "complete": true,
+            "layers": {
+              "4": {
+                "residual": 47.909,
+                "weight": 434.0,
+                "update": 149.354
+              },
+              "5": {
+                "residual": 96256.0,
+                "weight": 53504.0,
+                "update": 214753.1461
+              },
+              "6": {
+                "residual": 25984.0,
+                "weight": 3072.0,
+                "update": 4961.5557
+              },
+              "7": {
+                "residual": 25984.0,
+                "weight": 1752.0,
+                "update": 2741.9509
+              },
+              "8": {
+                "residual": 26496.0,
+                "weight": 1776.0,
+                "update": 2544.253
+              }
+            }
+          },
+          "11": {
+            "complete": true,
+            "layers": {
+              "4": {
+                "residual": 45.8031,
+                "weight": 458.0,
+                "update": 93.3452
+              },
+              "5": {
+                "residual": 356352.0,
+                "weight": 220160.0,
+                "update": 369288.8804
+              },
+              "6": {
+                "residual": 64768.0,
+                "weight": 6624.0,
+                "update": 10979.0124
+              },
+              "7": {
+                "residual": 65024.0,
+                "weight": 3760.0,
+                "update": 7391.9245
+              },
+              "8": {
+                "residual": 65536.0,
+                "weight": 3536.0,
+                "update": 4513.4566
+              }
+            }
+          },
+          "12": {
+            "complete": true,
+            "layers": {
+              "4": {
+                "residual": 47.6137,
+                "weight": 468.0,
+                "update": 91.6609
+              },
+              "5": {
+                "residual": 407552.0,
+                "weight": 440320.0,
+                "update": 705823.0578
+              },
+              "6": {
+                "residual": 112128.0,
+                "weight": 15424.0,
+                "update": 16991.1721
+              },
+              "7": {
+                "residual": 109568.0,
+                "weight": 10112.0,
+                "update": 8740.5935
+              },
+              "8": {
+                "residual": 110080.0,
+                "weight": 7360.0,
+                "update": 7587.8504
+              }
+            }
+          },
+          "13": {
+            "complete": true,
+            "layers": {
+              "4": {
+                "residual": 46.2877,
+                "weight": 476.0,
+                "update": 100.2756
+              },
+              "5": {
+                "residual": 548864.0,
+                "weight": 851968.0,
+                "update": 564006.1287
+              },
+              "6": {
+                "residual": 90624.0,
+                "weight": 27776.0,
+                "update": 15951.5676
+              },
+              "7": {
+                "residual": 89600.0,
+                "weight": 16192.0,
+                "update": 7863.0341
+              },
+              "8": {
+                "residual": 89088.0,
+                "weight": 12352.0,
+                "update": 7072.2243
+              }
+            }
+          },
+          "14": {
+            "complete": true,
+            "layers": {
+              "4": {
+                "residual": 45.2909,
+                "weight": 488.0,
+                "update": 104.181
+              },
+              "5": {
+                "residual": 512000.0,
+                "weight": 1040384.0,
+                "update": 847328.9267
+              },
+              "6": {
+                "residual": 126976.0,
+                "weight": 37888.0,
+                "update": 16654.9448
+              },
+              "7": {
+                "residual": 127488.0,
+                "weight": 20992.0,
+                "update": 8882.3035
+              },
+              "8": {
+                "residual": 129536.0,
+                "weight": 16768.0,
+                "update": 8281.7121
+              }
+            }
+          },
+          "15": {
+            "complete": true,
+            "layers": {
+              "4": {
+                "residual": 46.8416,
+                "weight": 500.0,
+                "update": 90.1603
+              },
+              "5": {
+                "residual": 823296.0,
+                "weight": 1384448.0,
+                "update": 1447865.4138
+              },
+              "6": {
+                "residual": 138240.0,
+                "weight": 46848.0,
+                "update": 19533.1874
+              },
+              "7": {
+                "residual": 137216.0,
+                "weight": 25472.0,
+                "update": 10950.0597
+              },
+              "8": {
+                "residual": 136192.0,
+                "weight": 20864.0,
+                "update": 9644.1861
+              }
+            }
+          },
+          "16": {
+            "complete": true,
+            "layers": {
+              "4": {
+                "residual": 47.637,
+                "weight": 508.0,
+                "update": 116.4282
+              },
+              "5": {
+                "residual": 2375680.0,
+                "weight": 2064384.0,
+                "update": 2955532.0589
+              },
+              "6": {
+                "residual": 358400.0,
+                "weight": 59904.0,
+                "update": 37060.5985
+              },
+              "7": {
+                "residual": 358400.0,
+                "weight": 32512.0,
+                "update": 20570.2867
+              },
+              "8": {
+                "residual": 360448.0,
+                "weight": 27136.0,
+                "update": 19517.4553
+              }
+            }
+          },
+          "17": {
+            "complete": true,
+            "layers": {
+              "4": {
+                "residual": 46.4449,
+                "weight": 516.0,
+                "update": 184.5698
+              },
+              "5": {
+                "residual": 4456448.0,
+                "weight": 3915776.0,
+                "update": 14306959.1007
+              },
+              "6": {
+                "residual": 1515520.0,
+                "weight": 64256.0,
+                "update": 202279.3701
+              },
+              "7": {
+                "residual": 1507328.0,
+                "weight": 35840.0,
+                "update": 100448.6334
+              },
+              "8": {
+                "residual": 1507328.0,
+                "weight": 31232.0,
+                "update": 102606.2202
+              }
+            }
+          },
+          "18": {
+            "complete": true,
+            "layers": {
+              "4": {
+                "residual": 47.9574,
+                "weight": 552.0,
+                "update": 94.1866
+              },
+              "5": {
+                "residual": 15138816.0,
+                "weight": 14811136.0,
+                "update": 14423023.3946
+              },
+              "6": {
+                "residual": 2424832.0,
+                "weight": 208896.0,
+                "update": 382616.3559
+              },
+              "7": {
+                "residual": 2424832.0,
+                "weight": 107520.0,
+                "update": 217820.9803
+              },
+              "8": {
+                "residual": 2441216.0,
+                "weight": 108032.0,
+                "update": 203442.6523
+              }
+            }
+          },
+          "19": {
+            "complete": true,
+            "layers": {
+              "4": {
+                "residual": 45.8858,
+                "weight": 556.0,
+                "update": 92.0548
+              },
+              "5": {
+                "residual": 33292288.0,
+                "weight": 22806528.0,
+                "update": 59797761.068
+              },
+              "6": {
+                "residual": 5406720.0,
+                "weight": 397312.0,
+                "update": 1486815.188
+              },
+              "7": {
+                "residual": 5275648.0,
+                "weight": 233472.0,
+                "update": 524415.2329
+              },
+              "8": {
+                "residual": 5275648.0,
+                "weight": 223232.0,
+                "update": 477818.9331
+              }
+            }
+          },
+          "20": {
+            "complete": true,
+            "layers": {
+              "4": {
+                "residual": 48.253,
+                "weight": 564.0,
+                "update": 210.2695
+              },
+              "5": {
+                "residual": 127400000.0,
+                "weight": 64749568.0,
+                "update": 238530000.0
+              },
+              "6": {
+                "residual": 33816576.0,
+                "weight": 1556480.0,
+                "update": 4053564.9069
+              },
+              "7": {
+                "residual": 33816576.0,
+                "weight": 622592.0,
+                "update": 2532479.0735
+              },
+              "8": {
+                "residual": 33816576.0,
+                "weight": 569344.0,
+                "update": 2404115.1524
+              }
+            }
+          }
+        }
+      },
+      "common_metrics": [
+        {
+          "edits": 500,
+          "summary": {
+            "Efficacy": 96.0,
+            "Generalization": 87.8,
+            "Score": 87.13517843586942,
+            "Score_AlphaEdit_display": 87.13517843586942,
+            "Specificity": 79.22,
+            "requests": 500
+          },
+          "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-eval-r1/results/qwen25/B05-receipt.json",
+          "sha256": "b7a03675a522730eb1e31609a3f3d3b3a6de4224330a42339b8fed1b2e4bfeeb"
+        },
+        {
+          "edits": 1000,
+          "summary": {
+            "Efficacy": 52.6,
+            "Generalization": 49.85,
+            "Score": 49.90772813160306,
+            "Score_AlphaEdit_display": 49.90772813160306,
+            "Specificity": 47.53,
+            "requests": 1000
+          },
+          "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-eval-r1/results/qwen25/B10-receipt.json",
+          "sha256": "d3abaf99eb1174a1d3031125cf8da991203eaaa51100ed8f1171224d720d9dfe"
+        },
+        {
+          "edits": 1500,
+          "summary": {
+            "Efficacy": 49.8,
+            "Generalization": 51.733333333333334,
+            "Score": 50.8230632801688,
+            "Score_AlphaEdit_display": 50.82088630829581,
+            "Specificity": 50.973333333333336,
+            "requests": 1500
+          },
+          "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-eval-r1/results/qwen25/B15-receipt.json",
+          "sha256": "a103fc4da08ab987a3d272e9a40cd03e8e52b18241cbde1596c28b75341d0ca8"
+        },
+        {
+          "edits": 2000,
+          "summary": {
+            "Efficacy": 50.9,
+            "Generalization": 49.95,
+            "Score": 50.183135854003055,
+            "Score_AlphaEdit_display": 50.184833943099896,
+            "Specificity": 49.714999999999996,
+            "requests": 2000
+          },
+          "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-eval-r1/results/qwen25/B20-receipt.json",
+          "sha256": "2e6cb6a1ca1804cff011ff64e14eea1b56661411130a6cbc985092513a14f312"
+        }
+      ]
+    },
+    "Qwen2.5-7B: W0 z, current requests only": {
+      "log": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/qwen_online_w0-63391.out",
+        "prefix_bytes": 2152780,
+        "prefix_sha256": "151a201a09d85f10bcfbbdb3e1b4b568a5a3b40c86afabcd71d6609beb6e4afa",
+        "completed_batches": {
+          "1": {
+            "complete": true,
+            "layers": {
+              "4": {
+                "residual": 43.0968,
+                "weight": 129.0,
+                "update": 79.8158
+              },
+              "5": {
+                "residual": 12.75,
+                "weight": 132.0,
+                "update": 14.558
+              },
+              "6": {
+                "residual": 5.5312,
+                "weight": 127.5,
+                "update": 2.692
+              },
+              "7": {
+                "residual": 1.6172,
+                "weight": 133.0,
+                "update": 0.7726
+              },
+              "8": {
+                "residual": 1.0312,
+                "weight": 134.0,
+                "update": 0.4277
+              }
+            }
+          },
+          "2": {
+            "complete": true,
+            "layers": {
+              "4": {
+                "residual": 45.3376,
+                "weight": 151.0,
+                "update": 124.2966
+              },
+              "5": {
+                "residual": 15.9375,
+                "weight": 133.0,
+                "update": 28.4682
+              },
+              "6": {
+                "residual": 7.9062,
+                "weight": 127.5,
+                "update": 13.53
+              },
+              "7": {
+                "residual": 4.6562,
+                "weight": 133.0,
+                "update": 11.0625
+              },
+              "8": {
+                "residual": 3.8438,
+                "weight": 134.0,
+                "update": 8.6221
+              }
+            }
+          },
+          "3": {
+            "complete": true,
+            "layers": {
+              "4": {
+                "residual": 44.8666,
+                "weight": 196.0,
+                "update": 137.3894
+              },
+              "5": {
+                "residual": 16.875,
+                "weight": 136.0,
+                "update": 21.5538
+              },
+              "6": {
+                "residual": 8.6875,
+                "weight": 128.0,
+                "update": 9.6284
+              },
+              "7": {
+                "residual": 5.2188,
+                "weight": 133.0,
+                "update": 7.4437
+              },
+              "8": {
+                "residual": 4.9062,
+                "weight": 134.0,
+                "update": 6.6846
+              }
+            }
+          },
+          "4": {
+            "complete": true,
+            "layers": {
+              "4": {
+                "residual": 43.102,
+                "weight": 241.0,
+                "update": 90.0136
+              },
+              "5": {
+                "residual": 14.1875,
+                "weight": 138.0,
+                "update": 15.4187
+              },
+              "6": {
+                "residual": 7.4062,
+                "weight": 129.0,
+                "update": 3.2218
+              },
+              "7": {
+                "residual": 3.625,
+                "weight": 133.0,
+                "update": 1.561
+              },
+              "8": {
+                "residual": 2.8281,
+                "weight": 134.0,
+                "update": 1.1524
+              }
+            }
+          },
+          "5": {
+            "complete": true,
+            "layers": {
+              "4": {
+                "residual": 42.8141,
+                "weight": 256.0,
+                "update": 92.5359
+              },
+              "5": {
+                "residual": 15.1875,
+                "weight": 138.0,
+                "update": 13.4847
+              },
+              "6": {
+                "residual": 6.9688,
+                "weight": 129.0,
+                "update": 2.8878
+              },
+              "7": {
+                "residual": 3.8281,
+                "weight": 133.0,
+                "update": 1.7576
+              },
+              "8": {
+                "residual": 2.9219,
+                "weight": 134.0,
+                "update": 1.1278
+              }
+            }
+          },
+          "6": {
+            "complete": true,
+            "layers": {
+              "4": {
+                "residual": 43.8058,
+                "weight": 274.0,
+                "update": 93.8378
+              },
+              "5": {
+                "residual": 14.1875,
+                "weight": 139.0,
+                "update": 16.279
+              },
+              "6": {
+                "residual": 8.25,
+                "weight": 129.0,
+                "update": 3.8179
+              },
+              "7": {
+                "residual": 4.125,
+                "weight": 133.0,
+                "update": 1.8586
+              },
+              "8": {
+                "residual": 3.25,
+                "weight": 134.0,
+                "update": 1.2683
+              }
+            }
+          },
+          "7": {
+            "complete": true,
+            "layers": {
+              "4": {
+                "residual": 44.3192,
+                "weight": 290.0,
+                "update": 200.0501
+              },
+              "5": {
+                "residual": 18.0,
+                "weight": 140.0,
+                "update": 35.1682
+              },
+              "6": {
+                "residual": 10.8125,
+                "weight": 129.0,
+                "update": 14.5641
+              },
+              "7": {
+                "residual": 7.0625,
+                "weight": 133.0,
+                "update": 9.9762
+              },
+              "8": {
+                "residual": 6.1562,
+                "weight": 134.0,
+                "update": 8.422
+              }
+            }
+          },
+          "8": {
+            "complete": true,
+            "layers": {
+              "4": {
+                "residual": 45.3638,
+                "weight": 342.0,
+                "update": 217.0335
+              },
+              "5": {
+                "residual": 18.25,
+                "weight": 144.0,
+                "update": 22.0465
+              },
+              "6": {
+                "residual": 10.75,
+                "weight": 130.0,
+                "update": 8.7194
+              },
+              "7": {
+                "residual": 6.5312,
+                "weight": 134.0,
+                "update": 9.1497
+              },
+              "8": {
+                "residual": 5.5938,
+                "weight": 135.0,
+                "update": 8.4386
+              }
+            }
+          },
+          "9": {
+            "complete": true,
+            "layers": {
+              "4": {
+                "residual": 44.7154,
+                "weight": 402.0,
+                "update": 88.6292
+              },
+              "5": {
+                "residual": 15.75,
+                "weight": 146.0,
+                "update": 15.4815
+              },
+              "6": {
+                "residual": 9.5625,
+                "weight": 130.0,
+                "update": 3.7389
+              },
+              "7": {
+                "residual": 5.2812,
+                "weight": 134.0,
+                "update": 2.2107
+              },
+              "8": {
+                "residual": 4.2188,
+                "weight": 135.0,
+                "update": 1.6106
+              }
+            }
+          },
+          "10": {
+            "complete": true,
+            "layers": {
+              "4": {
+                "residual": 47.2384,
+                "weight": 410.0,
+                "update": 156.2523
+              },
+              "5": {
+                "residual": 18.5,
+                "weight": 147.0,
+                "update": 28.0409
+              },
+              "6": {
+                "residual": 11.375,
+                "weight": 130.0,
+                "update": 9.7066
+              },
+              "7": {
+                "residual": 6.4375,
+                "weight": 134.0,
+                "update": 8.4886
+              },
+              "8": {
+                "residual": 5.7188,
+                "weight": 135.0,
+                "update": 6.9887
+              }
+            }
+          },
+          "11": {
+            "complete": true,
+            "layers": {
+              "4": {
+                "residual": 44.9335,
+                "weight": 436.0,
+                "update": 88.0731
+              },
+              "5": {
+                "residual": 17.125,
+                "weight": 149.0,
+                "update": 16.9293
+              },
+              "6": {
+                "residual": 9.5625,
+                "weight": 130.0,
+                "update": 3.9836
+              },
+              "7": {
+                "residual": 5.375,
+                "weight": 134.0,
+                "update": 2.3317
+              },
+              "8": {
+                "residual": 4.6875,
+                "weight": 135.0,
+                "update": 1.8518
+              }
+            }
+          },
+          "12": {
+            "complete": true,
+            "layers": {
+              "4": {
+                "residual": 46.5543,
+                "weight": 444.0,
+                "update": 88.9213
+              },
+              "5": {
+                "residual": 18.5,
+                "weight": 150.0,
+                "update": 17.7228
+              },
+              "6": {
+                "residual": 9.9375,
+                "weight": 130.0,
+                "update": 4.5393
+              },
+              "7": {
+                "residual": 5.5312,
+                "weight": 134.0,
+                "update": 2.4703
+              },
+              "8": {
+                "residual": 4.7188,
+                "weight": 135.0,
+                "update": 1.8183
+              }
+            }
+          },
+          "13": {
+            "complete": true,
+            "layers": {
+              "4": {
+                "residual": 45.0702,
+                "weight": 454.0,
+                "update": 101.4267
+              },
+              "5": {
+                "residual": 16.625,
+                "weight": 151.0,
+                "update": 15.8969
+              },
+              "6": {
+                "residual": 9.9375,
+                "weight": 130.0,
+                "update": 4.0594
+              },
+              "7": {
+                "residual": 5.3125,
+                "weight": 134.0,
+                "update": 2.2713
+              },
+              "8": {
+                "residual": 4.5938,
+                "weight": 135.0,
+                "update": 1.7293
+              }
+            }
+          },
+          "14": {
+            "complete": true,
+            "layers": {
+              "4": {
+                "residual": 44.2837,
+                "weight": 466.0,
+                "update": 101.867
+              },
+              "5": {
+                "residual": 20.5,
+                "weight": 151.0,
+                "update": 18.3317
+              },
+              "6": {
+                "residual": 12.3125,
+                "weight": 130.0,
+                "update": 5.399
+              },
+              "7": {
+                "residual": 6.3438,
+                "weight": 134.0,
+                "update": 3.4897
+              },
+              "8": {
+                "residual": 5.0,
+                "weight": 135.0,
+                "update": 2.2259
+              }
+            }
+          },
+          "15": {
+            "complete": true,
+            "layers": {
+              "4": {
+                "residual": 45.905,
+                "weight": 474.0,
+                "update": 86.9544
+              },
+              "5": {
+                "residual": 18.5,
+                "weight": 152.0,
+                "update": 19.0594
+              },
+              "6": {
+                "residual": 12.25,
+                "weight": 131.0,
+                "update": 5.8925
+              },
+              "7": {
+                "residual": 6.2812,
+                "weight": 134.0,
+                "update": 2.8309
+              },
+              "8": {
+                "residual": 5.0,
+                "weight": 135.0,
+                "update": 1.9169
+              }
+            }
+          },
+          "16": {
+            "complete": true,
+            "layers": {
+              "4": {
+                "residual": 46.2072,
+                "weight": 482.0,
+                "update": 110.459
+              },
+              "5": {
+                "residual": 18.25,
+                "weight": 154.0,
+                "update": 17.1554
+              },
+              "6": {
+                "residual": 11.6875,
+                "weight": 131.0,
+                "update": 4.9946
+              },
+              "7": {
+                "residual": 6.0938,
+                "weight": 134.0,
+                "update": 2.6163
+              },
+              "8": {
+                "residual": 4.375,
+                "weight": 135.0,
+                "update": 1.6491
+              }
+            }
+          },
+          "17": {
+            "complete": true,
+            "layers": {
+              "4": {
+                "residual": 45.7672,
+                "weight": 494.0,
+                "update": 217.1658
+              },
+              "5": {
+                "residual": 22.5,
+                "weight": 154.0,
+                "update": 22.0171
+              },
+              "6": {
+                "residual": 13.5,
+                "weight": 131.0,
+                "update": 9.8706
+              },
+              "7": {
+                "residual": 8.1875,
+                "weight": 134.0,
+                "update": 8.8458
+              },
+              "8": {
+                "residual": 7.0,
+                "weight": 135.0,
+                "update": 7.861
+              }
+            }
+          },
+          "18": {
+            "complete": true,
+            "layers": {
+              "4": {
+                "residual": 46.5356,
+                "weight": 536.0,
+                "update": 91.8031
+              },
+              "5": {
+                "residual": 20.375,
+                "weight": 156.0,
+                "update": 23.0116
+              },
+              "6": {
+                "residual": 13.5625,
+                "weight": 131.0,
+                "update": 11.7054
+              },
+              "7": {
+                "residual": 7.9062,
+                "weight": 134.0,
+                "update": 11.205
+              },
+              "8": {
+                "residual": 7.125,
+                "weight": 135.0,
+                "update": 9.1217
+              }
+            }
+          },
+          "19": {
+            "complete": true,
+            "layers": {
+              "4": {
+                "residual": 44.7104,
+                "weight": 540.0,
+                "update": 90.0206
+              },
+              "5": {
+                "residual": 20.25,
+                "weight": 157.0,
+                "update": 17.5503
+              },
+              "6": {
+                "residual": 12.1875,
+                "weight": 132.0,
+                "update": 4.9851
+              },
+              "7": {
+                "residual": 6.625,
+                "weight": 135.0,
+                "update": 2.738
+              },
+              "8": {
+                "residual": 5.5625,
+                "weight": 136.0,
+                "update": 2.0661
+              }
+            }
+          },
+          "20": {
+            "complete": true,
+            "layers": {
+              "4": {
+                "residual": 46.7682,
+                "weight": 548.0,
+                "update": 193.0543
+              },
+              "5": {
+                "residual": 21.75,
+                "weight": 158.0,
+                "update": 29.691
+              },
+              "6": {
+                "residual": 14.5,
+                "weight": 132.0,
+                "update": 10.2448
+              },
+              "7": {
+                "residual": 8.5625,
+                "weight": 135.0,
+                "update": 8.5551
+              },
+              "8": {
+                "residual": 7.2188,
+                "weight": 136.0,
+                "update": 7.2165
+              }
+            }
+          }
+        }
+      },
+      "common_metrics": [
+        {
+          "edits": 500,
+          "summary": {
+            "Efficacy": 99.6,
+            "Generalization": 92.9,
+            "Score": 91.21991520059848,
+            "Score_AlphaEdit_display": 91.21991520059848,
+            "Specificity": 82.76,
+            "requests": 500
+          },
+          "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/evaluations/qwen_online_w0/B05-receipt.json",
+          "sha256": "48f8c850006183d99402d8422186d4163ec5119c934afd84ae323ca67f855f96"
+        },
+        {
+          "edits": 1000,
+          "summary": {
+            "Efficacy": 99.3,
+            "Generalization": 92.60000000000001,
+            "Score": 90.42734001011902,
+            "Score_AlphaEdit_display": 90.42734001011901,
+            "Specificity": 81.26,
+            "requests": 1000
+          },
+          "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/evaluations/qwen_online_w0/B10-receipt.json",
+          "sha256": "6c6fea8784ce92ad994b5411c200aa2bfc66446963c0e07214d2c26c9898651c"
+        },
+        {
+          "edits": 1500,
+          "summary": {
+            "Efficacy": 99.26666666666667,
+            "Generalization": 92.30000000000001,
+            "Score": 90.2014932666593,
+            "Score_AlphaEdit_display": 90.20378970428919,
+            "Specificity": 80.96666666666667,
+            "requests": 1500
+          },
+          "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/evaluations/qwen_online_w0/B15-receipt.json",
+          "sha256": "975b8a954536c0452ae87a13620a8faa6591d01bee29d6c83f5ab6241573cf55"
+        },
+        {
+          "edits": 2000,
+          "summary": {
+            "Efficacy": 99.1,
+            "Generalization": 92.77499999999999,
+            "Score": 89.92537450624296,
+            "Score_AlphaEdit_display": 89.9248371621779,
+            "Specificity": 80.05499999999999,
+            "requests": 2000
+          },
+          "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/evaluations/qwen_online_w0/B20-receipt.json",
+          "sha256": "ef3e1cd68512adf8096219226db9b8dd616b9ef39fbbebcfcaf8738e9e974ce6"
+        }
+      ]
+    }
+  },
+  "all_runs_and_evaluations_complete": true
+}

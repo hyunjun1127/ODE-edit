@@ -83,30 +83,23 @@ z는 **각 배치 진입 모델에서 그 배치 100건만** 계산한다. 미�
 과거 batch-entry 결과는 [기존 결과 이력](experiment-reports/global/fe-original-w0-reset-20261011/withdrawn-results.md)에 보존한다.
 과거 checkpoint 삭제 내역도 [당시 보고](experiment-reports/global/fe-original-w0-reset-20261011/report-ko.md)의 역사적 기록이며 새 삭제 지시가 아니다.
 
-**FE 붕괴 원인 분리와 2K 검증 (2026-10-11):** server1에서 저자 `main.py`를 그대로 실행하고,
-저자 hparams·BF16·context·writer·누적 history와 같은 CF 2,000건을 유지했다. z 공급부를 배치별 계산으로 바꾸고
-500건마다 관측용 checkpoint를 저장했다. clamp/step 조정이나 sample 교체는 하지 않았다.
+**FE 붕괴 원인 분리와 2K 검증 완료 (2026-10-11):** server1에서 공식 FE `main.py`로
+동일 CF 2,000건을 실행했다. 저자 hparams·BF16·context·writer·누적 history를 유지했다.
 
-- **Qwen:** 현재 모델 기준 z 대조63385→63387은 공통 CF Score **50.18**로 붕괴했다.
-  현재 도착한100건의 z만 **W0에서** 계산한63391→63392는 모두 완료됐으며,
-  2K **Score89.9254 / Eff99.100 / Gen92.775 / Loc80.055**다. 5개 checkpoint의 raw를 독립 재집계했다.
-  W20 가중치와 누적 history는 과거 저자 W0 선계산 참조와 비트 단위로 일치한다.
-  target의 계산 시점을 도착 후로 옮긴 결과이며, 전체 JSON을 읽는 native data loader까지 streaming으로 바꾼 것은 아니다.
-- **GPT-J:** 원본 L3 공분산 캐시의 음의 고유값과 역산 폭증을 확인했다.
-  현재 모델 기준 z를 유지하고 **L3 캐시만 수치 보정**한63389는2K 편집·저자 평가를 완료했다.
-  공통 평가의 Score가 **49.7537→85.3875**로 회복됐다(Eff98.500 / Gen94.800 / Loc69.285).
-  W20의 L3 history는 원본과 비트 단위로 같고 보정본의 여섯 층에서 저장된 `λ C0 + H`가 모두 양의 정부호다.
-  공통 평가63388/63390도 모두 완료됐고 5개 checkpoint의 raw를 각각 독립 재집계했다.
-- 두 모델에 같은 W0-on-arrival target protocol을 적용하는 추가 GPT-J 검증
-  **63425 / s1-fe-native-gptj-online-w0-repaired-2k**는 편집·저자 평가 COMPLETED이며
-  저자 Eff99.4 / Gen94.5 / Loc77.0, 반올림 성분의 Score89.21이다. 공통 평가63426은 RUNNING이다.
-  끝난 Qwen 평가63392의 슬롯을 사용하고 server1 최대 동시3 GPU를 유지한다.
+- **GPT-J:** L3 공분산 캐시의 작은 음의 고유값이 역산을 폭증시켰다. 현재 모델 기준 z에서
+  C0만 수치 보정하면 공통 Score **49.75 → 85.39**로 회복했다.
+  같은 보정 C0와 W0-on-arrival z를 쓰면 **89.17**로 회복했다. 원본 C0는 보존했다.
+- **Qwen:** 현재 편집 모델에서 반복 계산한 target이 불안정해졌다. 도착한100건만 W0에서
+  target fitting하면 공통 Score **50.18 → 89.93**으로 회복했다.
+  W20 편집 가중치와 history는 과거 저자 W0 선계산 참조와 비트 단위로 같다. 미래 target은 계산하지 않는다.
 
-W0-reference 대조는 위의 **현재 모델 기준 baseline과 구분**하며 기존 FE 성능 행을 자동 대체하지 않는다.
-미래 요청의 target을 미리 계산하지 않는 것과 z의 기준 모델을 바꾸는 것은 별개의 설정이다.
-[원인·실행 경로·결과·상태](experiment-reports/global/fe-collapse-repair-20261011/report-ko.md) ·
-[Qwen 공통 raw 재집계](audits/global/fe-collapse-repair-20261011/native-qwen-online-independent-metrics.json) ·
-[GPT-J W20 history 대조](audits/global/fe-collapse-repair-20261011/native-gptj-b20-history-comparison.json).
+5개 편집·5개 공통 평가 모두 COMPLETED이며, 25개 checkpoint 지표를 raw에서 독립 재집계했다.
+history 누적과 최종 가중치 저장도 확인했다. clamp/step/lr와 sample 순서는 바꾸지 않았다.
+W0-on-arrival은 위의 **현재 모델 z baseline과 구분**하며 기존 FE 성능 행을 자동 대체하지 않는다.
+Native loader는 전체 JSON을 읽고 target fitting/use만 현재100건으로 제한한다.
+[전체 비교표·원인·검증 결과](experiment-reports/global/fe-collapse-repair-20261011/report-ko.md) ·
+[작동하는 native 구현](official/diagnostics/fe_native/README.md) ·
+[결과·checkpoint SHA](audits/global/fe-collapse-repair-20261011/native-comparison.json).
 
 **FE author-hparams 추가 실행(2026-10-11 사용자 지시):** Llama3 **zsRE 2K 한 개**를 기존 수정 EasyEdit FE + history와
 원저자 clamp **0.75**·step **35**(lr 0.1) 설정으로 새로 제출했다. z는 각 batch 진입 모델에서 계산한다.

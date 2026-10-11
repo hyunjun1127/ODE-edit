@@ -1,0 +1,172 @@
+{
+  "native_config": "local/fe-collapse-repair-20261011/native-causal-r2/configs/gptj_online_w0_repaired.json",
+  "native_config_sha256": "457975ea9d1bc21456e771248f1d7cdb2c3fe46fcb1044f64a051f4c98cb15ec",
+  "identity_sha256": "3029accd3526041723d149ff3affa3f43e1578e3185a2ce1c5effbdd75ebf077",
+  "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+  "complete_path": "local/fe-collapse-repair-20261011/native-causal-r2/evaluations/gptj_online_w0_repaired/COMPLETE.json",
+  "complete_sha256": "453e6f2d396ebf94dd7cb3521dc61ab8fc6b45dabc1ac6fc0816cec1b88af01a",
+  "definition": "Per-request mean preference of token-mean NLL; then mean across requests; harmonic Score",
+  "unit": "percent, including Score",
+  "checkpoints": {
+    "0": {
+      "requests": 2000,
+      "summary": {
+        "Efficacy": 16.75,
+        "Generalization": 19.05,
+        "Specificity": 82.235,
+        "Score": 24.124442899475515
+      },
+      "raw_path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r2/evaluations/gptj_online_w0_repaired/B00.json",
+      "raw_sha256": "922c05caa01f0f9545fa0a2367b2dab3adaabb5208860e320c43b24a55577df0",
+      "accuracy_counts": {
+        "Efficacy": {
+          "prompts": 2000,
+          "correct_prompts": 11,
+          "correct_tokens": 11,
+          "target_tokens": 2000
+        },
+        "Generalization": {
+          "prompts": 4000,
+          "correct_prompts": 17,
+          "correct_tokens": 17,
+          "target_tokens": 4000
+        },
+        "Specificity": {
+          "prompts": 20000,
+          "correct_prompts": 2768,
+          "correct_tokens": 2768,
+          "target_tokens": 20000
+        }
+      },
+      "independent_reaggregation": "PASS"
+    },
+    "5": {
+      "requests": 500,
+      "summary": {
+        "Efficacy": 99.6,
+        "Generalization": 95.5,
+        "Specificity": 79.64,
+        "Score": 90.72250742567815
+      },
+      "raw_path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r2/evaluations/gptj_online_w0_repaired/B05.json",
+      "raw_sha256": "3ee511919cbedb1c35aa8022b9044cb0961577d7eeaf80a95190eeb85779c1c9",
+      "accuracy_counts": {
+        "Efficacy": {
+          "prompts": 500,
+          "correct_prompts": 496,
+          "correct_tokens": 496,
+          "target_tokens": 500
+        },
+        "Generalization": {
+          "prompts": 1000,
+          "correct_prompts": 693,
+          "correct_tokens": 693,
+          "target_tokens": 1000
+        },
+        "Specificity": {
+          "prompts": 5000,
+          "correct_prompts": 608,
+          "correct_tokens": 608,
+          "target_tokens": 5000
+        }
+      },
+      "independent_reaggregation": "PASS"
+    },
+    "10": {
+      "requests": 1000,
+      "summary": {
+        "Efficacy": 99.4,
+        "Generalization": 95.2,
+        "Specificity": 78.41,
+        "Score": 90.0413131810225
+      },
+      "raw_path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r2/evaluations/gptj_online_w0_repaired/B10.json",
+      "raw_sha256": "4e3bda0215e6bb18f79e99b57ed0c963c10c1eae0cbc3632d90eed2691528cb8",
+      "accuracy_counts": {
+        "Efficacy": {
+          "prompts": 1000,
+          "correct_prompts": 988,
+          "correct_tokens": 988,
+          "target_tokens": 1000
+        },
+        "Generalization": {
+          "prompts": 2000,
+          "correct_prompts": 1283,
+          "correct_tokens": 1283,
+          "target_tokens": 2000
+        },
+        "Specificity": {
+          "prompts": 10000,
+          "correct_prompts": 1222,
+          "correct_tokens": 1222,
+          "target_tokens": 10000
+        }
+      },
+      "independent_reaggregation": "PASS"
+    },
+    "15": {
+      "requests": 1500,
+      "summary": {
+        "Efficacy": 99.53333333333333,
+        "Generalization": 95.06666666666666,
+        "Specificity": 77.94666666666667,
+        "Score": 89.83352627273385
+      },
+      "raw_path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r2/evaluations/gptj_online_w0_repaired/B15.json",
+      "raw_sha256": "e1fa0acba9c692798e4cee3dc7120e4e6e72097a657d1b00f786d1d5254f58de",
+      "accuracy_counts": {
+        "Efficacy": {
+          "prompts": 1500,
+          "correct_prompts": 1481,
+          "correct_tokens": 1481,
+          "target_tokens": 1500
+        },
+        "Generalization": {
+          "prompts": 3000,
+          "correct_prompts": 1899,
+          "correct_tokens": 1899,
+          "target_tokens": 3000
+        },
+        "Specificity": {
+          "prompts": 15000,
+          "correct_prompts": 1795,
+          "correct_tokens": 1795,
+          "target_tokens": 15000
+        }
+      },
+      "independent_reaggregation": "PASS"
+    },
+    "20": {
+      "requests": 2000,
+      "summary": {
+        "Efficacy": 99.4,
+        "Generalization": 94.45,
+        "Specificity": 76.955,
+        "Score": 89.17270406068643
+      },
+      "raw_path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r2/evaluations/gptj_online_w0_repaired/B20.json",
+      "raw_sha256": "ef063ef55cb2cd72c5efb7af6b146b1fdd5ff0c5ee4f040f7dcf16cbf00615c9",
+      "accuracy_counts": {
+        "Efficacy": {
+          "prompts": 2000,
+          "correct_prompts": 1964,
+          "correct_tokens": 1964,
+          "target_tokens": 2000
+        },
+        "Generalization": {
+          "prompts": 4000,
+          "correct_prompts": 2527,
+          "correct_tokens": 2527,
+          "target_tokens": 4000
+        },
+        "Specificity": {
+          "prompts": 20000,
+          "correct_prompts": 2395,
+          "correct_tokens": 2395,
+          "target_tokens": 20000
+        }
+      },
+      "independent_reaggregation": "PASS"
+    }
+  }
+}

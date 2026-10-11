@@ -1,46 +1,114 @@
-# FE Qwen/GPT-J 붕괴 조사와 수치 수리
+# FE Qwen/GPT-J 붕괴: 원인과 native CF 2K 검증 결과
 
-최신 사용자 요청: FE의 Qwen/GPT-J 붕괴 원인을 찾고 해결한다. CAKE는 이 변경의 대상이 아니다.
-**사용자 정정(2026-10-11 10:25 KST): 현재 FE는 수정 EasyEdit 구현 + author hparams + 누적 history이며,
-현재 배치 진입 모델에서 그 배치의 z만 계산한다. 미래 edit의 W0 target 전체 선계산은 사용하지 않는다.**
-초기 author W0-fixed 결과와 CPU 대조는 원인 조사 이력으로 보존한다. 아래 최신 결과에서
-현재 모델 기준 z와 W0-on-arrival z를 구분하며, 후자를 현재 baseline으로 자동 변경하지 않는다.
+최종 검증: **2026-10-11 17:03 KST**. 동일한 CF 2,000건에서 붕괴를 재현하고 회복되는 변경을 확인했다.
+GPT-J의 원인은 L3 공분산 캐시의 수치 결함이었고, Qwen은 현재 편집 모델을 기준으로 다시 만드는
+firstforward target의 불안정성이 문제였다. **history는 실제로 누적되고 있었다.**
 
-## 현재 진행 상태 (2026-10-11 16:51 KST)
+저자 `main.py`를 그대로 실행했다. 원저자 hparams, BF16, context 생성, writer, 누적 history와
+요청 순서를 유지했고, target 공급부와 관측용 checkpoint 저장을 추가했다. clamp/step/lr 튜닝이나 sample 교체는 없다.
 
-저자 `main.py` 원본을 실행한 동일 CF 2K 실험에서 두 원인을 분리했다. 저자 hparams,
-BF16, context 생성, writer, 누적 history, 요청 순서를 유지했다. clamp/step 변경은 없다.
-Qwen의 W0-on-arrival 대조는 현재 모델 기준 z와 다른 프로토콜이며 기존 baseline을 자동 대체하지 않는다.
+## 같은 공통 평가기로 측정한 결과
 
-| native 실행 → 공통 평가 | 변경점 | 실제 상태 / 2K 결과 |
-| --- | --- | --- |
-| Qwen63385 → 63387 | 현재 모델 기준 z, 원본 C0 | 모두 COMPLETED; 공통 Score50.1831 |
-| Qwen63391 → 63392 | 현재100건만 W0에서 target 계산, 원본 C0 | 모두 COMPLETED; 공통 Score89.9254 |
-| GPT-J63386 → 63388 | 현재 모델 기준 z, 원본 C0 | 모두 COMPLETED; 공통 Score49.7537 |
-| GPT-J63389 → 63390 | 현재 모델 기준 z, L3 C0만 수치 보정 | 모두 COMPLETED; 공통 Score85.3875 |
-| GPT-J63425 → 63426 | 현재100건만 W0에서 target 계산 + 같은 보정 C0 | native COMPLETED, 공통 평가 RUNNING; 저자 Score89.21 |
+모든 행은 **CF W20 all-seen 2,000건**이며 단위는 %. Score는 반올림 전 Eff/Gen/Loc의 조화평균이다.
+편집5개와 후속 공통 평가5개가 모두 `COMPLETED 0:0`이다.
 
-여기서 저자 Score는 저자 코드가 이미 반올림한 성분의 조화평균이다. 공통 평가 결과와
-정밀도를 혼용하지 않는다. Qwen63392의 최종 공통 Eff/Gen/Loc은 **99.100 / 92.775 / 80.055**이고
-W0 및500/1000/1500/2000 raw를 모두 독립 재집계했다. W20 가중치와 history는 과거 W0 선계산
-참조63217의 실제 tensor와 비트 단위로 같다. 현재100건만 target fitting했고 과거 tensor는 비교에만 읽었다.
-Native data loader는 여전히 전체 JSON을 읽는다. 미래 target 계산/사용을 제거한 것이며 streaming I/O 주장은 아니다.
+| 모델 | z 기준 | C0 | Score | Eff | Gen | Loc | 편집 → 공통 평가 job |
+| --- | --- | --- | ---: | ---: | ---: | ---: | --- |
+| Qwen2.5-7B | 현재 배치 진입 모델 | 원본 | 50.1831 | 50.900 | 49.950 | 49.715 | 63385 → 63387 |
+| Qwen2.5-7B | W0, 도착한100건만 | 원본 | 89.9254 | 99.100 | 92.775 | 80.055 | 63391 → 63392 |
+| GPT-J | 현재 배치 진입 모델 | 원본 | 49.7537 | 49.200 | 49.550 | 50.530 | 63386 → 63388 |
+| GPT-J | 현재 배치 진입 모델 | L3 수치 보정 | 85.3875 | 98.500 | 94.800 | 69.285 | 63389 → 63390 |
+| GPT-J | W0, 도착한100건만 | 같은 L3 보정 | 89.1727 | 99.400 | 94.450 | 76.955 | 63425 → 63426 |
 
-GPT-J63389의 native2K Eff/Gen/Loc은 **98.4 / 94.8 / 69.2**다. L3 history는 원본63386과
-비트 단위로 같고(trace818451.4060), 보정본 여섯 층의 최종 `λ C0 + H`는 모두 Cholesky 성공이다.
-원본 L3 최종 weight norm881229.84에 비해 보정본은200.41이다. Native 최종 export와 W20 checkpoint도
-각각 비트 단위로 같다. 이 결과는 현재 모델 기준 z를 유지한 GPT-J의 실제2K 회복 증거다.
+[전체 결과·25개 checkpoint 경로와 SHA](../../../audits/global/fe-collapse-repair-20261011/native-comparison.json) ·
+[마지막 GPT-J raw 독립 재집계](../../../audits/global/fe-collapse-repair-20261011/native-combined-independent-metrics.json).
 
-최대 동시3 GPU를 유지한다.63425는 실제 완료한63392의 슬롯에서15:36 KST에 시작했다.
-기존 작업의 source/config/output 변경은 없다. 후속 평가는 저장된 가중치만 읽고 FLU/CON은 미포함이다.
+![Native FE의 층별 update 크기와 CF 성능](native-comparison.png)
 
-[Qwen 공통 raw 재집계](../../../audits/global/fe-collapse-repair-20261011/native-qwen-online-independent-metrics.json) ·
-[GPT-J 저자 평가](../../../audits/global/fe-collapse-repair-20261011/native-gptj-repaired-author-evaluation.json) ·
-[GPT-J W20 history 대조](../../../audits/global/fe-collapse-repair-20261011/native-gptj-b20-history-comparison.json) ·
-[GPT-J 최종 prior 검산](../../../audits/global/fe-collapse-repair-20261011/native-gptj-repaired-b20-prior-audit.json) ·
-[추가 검증의 빈 슬롯 사용](../../../audits/global/fe-collapse-repair-20261011/native-combined-released-qwen-slot.json).
+[그림 PDF](native-comparison.pdf) · [그림의 원자료·출처 SHA](native-comparison.json).
+성능 곡선은 각 시점까지의 all-seen 요청을 평가한다. 같은2K를 매 시점 평가한 곡선은 아니다.
+위쪽 norm은 native 로그의 표시 정밀도이며, 실제 저장 tensor 검사와 구분한다.
 
-아래는 시간순 조사·제출 이력이다. 당시의 대기/진행 상태와 취소된 초기 진단도 원 기록으로 남긴다.
+## 원인과 수정
+
+**GPT-J — 잘못된 L3 prior.** 원본 C0의 최소 고유값은 약−2.0753e−6이다.
+원본 native B3에서 L3 update norm은60,005.89였고, C0만 보정하면58.99였다.
+잔차 norm은37.35/37.33으로 비슷하다. 현재 모델 기준 z를 유지한 채 C0만 바꾼 실험도
+2K Score **49.75 → 85.39**로 회복했다.
+
+보정은 저장 정밀도에 근거한 floor `max(eps_storage, dimension * eps64) * ||C0||F`를 썼다.
+이 자산에서는8.0174e−6이며6개 방향만 바뀌었다. 상대 Frobenius 변화는2.7408e−7이다.
+새 native-format NPZ에 FP64 summed moment를 저장하고 원 count·metadata를 보존했다.
+원본 파일과 정상인 다른 층은 그대로 두었다. 이것은 저장된 통계의 명시적 수치 정규화이며,
+새 Wikipedia 통계를 계산하거나 저자의 알 수 없는 원 통계를 정확히 복원했다는 뜻은 아니다.
+
+[원본·파생 자산 SHA와 보정량](../../../audits/global/fe-collapse-repair-20261011/native-gptj-derived-prior.json) ·
+[동일 B3 원인 분리](../../../audits/global/fe-collapse-repair-20261011/native-gptj-b3-c0-repair-comparison.json) ·
+[현재 모델 z 두 대조의 W20 history 일치](../../../audits/global/fe-collapse-repair-20261011/native-gptj-b20-history-comparison.json).
+
+**Qwen — target 기준 모델의 차이.** 현재 모델에서 매 배치 target을 다시 만들면 공식 runner에서도
+2K Score50.18로 붕괴한다. 저장된 `15000 C0 + H`는 양의 정부호 검사에 통과했지만,
+L5 가중치와 다음 target이 함께 커졌다.
+W20 L5 weight norm은약2.4664e8이었다. 현재 도착한100건만 **W0에서** target fitting하고,
+편집 가중치를 복원한 뒤 같은 native writer를 실행하면 Score **89.93**로 회복하며 L5 norm은160.57이다.
+
+이 경로는 미래 target을 미리 계산하거나 읽지 않는다. 편집은 계속 현재 모델과 누적 history를 사용한다.
+Qwen의 W20 편집 가중치5개와 history 전체는 과거 W0 선계산 참조63217의 실제 tensor와 비트 단위로 같다.
+과거 산출물은 사후 비교에만 읽었다. 같은 W0-on-arrival 기준을 쓴 GPT-J도 보정 C0에서
+2K Score **89.17**로 회복했다.
+
+[Qwen target drift 분리 검사](../../../audits/global/fe-collapse-repair-20261011/native-qwen-target-drift-cpu.json) ·
+[Qwen 2K 가중치·history 참조 일치](../../../audits/global/fe-collapse-repair-20261011/native-qwen-online-b20-precompute-parity.json) ·
+[GPT-J W0-on-arrival 최종 prior 검사](../../../audits/global/fe-collapse-repair-20261011/native-combined-b20-prior-audit.json).
+
+## 공정성 기준과 적용 범위
+
+**계산 시점과 기준 모델을 분리했다.** `batch_entry`는 현재 배치 진입 모델을 쓰고,
+`initial_model_on_arrival`은 도착한 요청의 target만 W0에서 계산한다. 후자는 기존 사용자 지정
+현재 모델 z baseline과 다른 설정이다. 기본값은 `batch_entry`로 유지했고 기존 main FE 성능 행을 자동 교체하지 않았다.
+
+5개 실행의 각20배치에서100건씩, 총10,000회의 실제 fit 로그를 확인했다. 모든 fit은 해당 배치의
+시작/종료 marker 안에 있고 case ID는 원 stream의 같은100건 구간과 일치한다.
+Native data loader는 전체 JSON을 읽는다. target fitting/use의 범위를 제한한 것이며 streaming I/O 변경은 아니다.
+YAML에 출력되는 legacy `z_method: all`, `num_z_samples: 2000`은 새 target 공급부에서 사용하지 않는다.
+
+[현재 요청 범위 검사·로그 SHA](../../../audits/global/fe-collapse-repair-20261011/native-fit-probability-comparison.json).
+이 파일의 fitting 확률은 로그에 마지막으로 표시된 값이며 CF 편집 성능 지표가 아니다.
+
+고정한 FE hparams는 다음과 같다. 두 모델 모두 `mom2_update_weight=15000`, batch100, seed0이며
+5개 진단은 같은 ordered CF stream을 사용했다.
+
+| 모델 | 편집층 | clamp | 최대 steps | lr |
+| --- | --- | ---: | ---: | ---: |
+| GPT-J | L3–L8 | 0.75 | 25 | 0.5 |
+| Qwen2.5-7B | L4–L8 | 1.0 | 35 | 0.5 |
+
+[실제 저자 YAML 대조와 SHA](../../../audits/global/fe-collapse-repair-20261011/native-author-hparams-verified.json).
+
+## 검증과 보존
+
+- Native 관련 CPU 검사12개: 실제 저자 writer/history, 요청 범위, target replay, W0 임시 복원과 예외 복원,
+  covariance 변환, checkpoint 무변경 및 identity 검사를 통과했다.
+- 5개2K 편집과5개 공통 평가가 정상 종료했다. W0/500/1000/1500/2000의25개 raw를 독립 재집계했다.
+  평가 전후 checkpoint SHA, case 순서, config identity, model 무변경과 RNG 복원을 확인했다.
+- 각 native 최종 export는 해당 W20의 편집 가중치와 비트 단위로 같다. 보정 GPT-J의 두 경로 모두
+  저장된 여섯 `15000 C0 + H`가 양의 정부호이고, L3 누적 history는 같은2K에서 비트 단위로 같다.
+- Server1의 허용된 진단 범위에서 최대 동시3 GPU를 지켰다. 실행 중인 source/config/output을 고치지 않았다.
+  W0와500건마다 가중치/history/RNG/context/case ID를 보존했다. Native 자동 resume 구현을 주장하지 않는다.
+
+원저자 FE commit은 `478134dfb24b43f4e18b47e8500893ce3f9cc50f`다.
+[실제 native 실행 증거](../../../audits/global/fe-collapse-repair-20261011/native-execution-proof.json),
+[대조군 간 동일 평가·writer 코드](../../../audits/global/fe-collapse-repair-20261011/native-causal-source-equivalence.json),
+[추가 GPT-J 실행의 source 일치](../../../audits/global/fe-collapse-repair-20261011/native-combined-source-equivalence.json)를 함께 보존했다.
+
+구현과 사용 방법은 [official native FE 패키지](../../../official/diagnostics/fe_native/README.md)에 있다.
+이번 GPU 검증 범위는 이 CF 2K stream이다. zsRE·FLU/CON과 DOW-KE의 다중 seed 평균 재현은 포함하지 않는다.
+아래 당시 조사 기록과 실패 산출물도 보존하며, 정상 결과로 덮어쓰지 않았다.
+
+## 조사 이력
+
+<details>
+<summary>당시 시점의 원인 조사·진단 수정·진행 기록 보기</summary>
 
 ## 현재 sequential 기준에서 확인한 것
 
@@ -621,3 +689,5 @@ Native YAML에 남은 `z_method: all`, `num_z_samples: 2000`은 교체된 target
 [최종 export 일치](../../../audits/global/fe-collapse-repair-20261011/native-combined-b20-final-parity.json) ·
 [배치별 fit 범위·확률 검사 요약](../../../audits/global/fe-collapse-repair-20261011/native-fit-probability-comparison.json) ·
 [고정한 저자 hparams](../../../audits/global/fe-collapse-repair-20261011/native-author-hparams-verified.json).
+
+</details>

@@ -1,0 +1,662 @@
+{
+  "schema": "native-fe-cf-2k-contrasts-v1",
+  "created_at_utc": "2026-10-11T08:02:03.091817+00:00",
+  "collector_sha256": "2e186738f80e3a230a7210c9873ae390b3c4920397e58dcb0d03db6fa2f89f47",
+  "sacct_times_timezone": "Asia/Seoul",
+  "scope": "One identical ordered CF 2K stream, 20 batches of 100; not a multi-seed paper replication",
+  "training": "Pinned author main.py, author hparams, BF16, native writer and persistent history",
+  "target_request_scope": "Current 100 only; native loader still reads the complete dataset JSON",
+  "metrics": "Common CF target-mean-NLL preference, request macro mean, harmonic Score; percentages",
+  "baseline_adoption": "Explicit contrasts; initial-model target reference does not replace batch-entry by default",
+  "sacct": "63385|COMPLETED|0:0|2026-10-11T11:40:19|2026-10-11T13:35:29|01:55:10\n63386|COMPLETED|0:0|2026-10-11T13:51:25|2026-10-11T15:28:33|01:37:08\n63387|COMPLETED|0:0|2026-10-11T13:35:55|2026-10-11T13:50:59|00:15:04\n63388|COMPLETED|0:0|2026-10-11T15:29:03|2026-10-11T15:44:23|00:15:20\n63389|COMPLETED|0:0|2026-10-11T14:20:00|2026-10-11T15:31:33|01:11:33\n63390|COMPLETED|0:0|2026-10-11T15:32:03|2026-10-11T15:47:24|00:15:21\n63391|COMPLETED|0:0|2026-10-11T14:04:17|2026-10-11T15:18:41|01:14:24\n63392|COMPLETED|0:0|2026-10-11T15:19:12|2026-10-11T15:34:28|00:15:16\n63425|COMPLETED|0:0|2026-10-11T15:36:43|2026-10-11T16:45:07|01:08:24\n63426|COMPLETED|0:0|2026-10-11T16:45:28|2026-10-11T17:01:08|00:15:40\n",
+  "arms": {
+    "qwen_current": {
+      "training_job": 63385,
+      "evaluation_job": 63387,
+      "model": "qwen25",
+      "config": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/configs/qwen25.json",
+        "sha256": "c9578794bf583fef48fcc93700573ef0be74c662d19b54115b976e9fc5c76d49",
+        "bytes": 49183
+      },
+      "identity_sha256": "04fff304614b0673ee999f015b2ee81afaab5a69ada9b9a7767aeff8589dbd8f",
+      "source_commit": "60eea6e2f7aeec94743f27cd5df1e67cc160fe84",
+      "author_commit": "478134dfb24b43f4e18b47e8500893ce3f9cc50f",
+      "z_reference": "batch_entry",
+      "covariance_repair": false,
+      "independent_metrics": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-eval-r1/qwen-independent-metrics.json",
+        "sha256": "758703c3259fa326b413d9d5dbaec68ea9aa440fd52c90e892989abfd43b548c",
+        "bytes": 5543
+      },
+      "milestones": {
+        "0": {
+          "Efficacy": 13.9,
+          "Generalization": 16.3,
+          "Specificity": 85.055,
+          "Score": 20.68263197209819
+        },
+        "5": {
+          "Efficacy": 96.0,
+          "Generalization": 87.8,
+          "Specificity": 79.22,
+          "Score": 87.13517843586942
+        },
+        "10": {
+          "Efficacy": 52.6,
+          "Generalization": 49.85,
+          "Specificity": 47.53,
+          "Score": 49.90772813160306
+        },
+        "15": {
+          "Efficacy": 49.8,
+          "Generalization": 51.733333333333334,
+          "Specificity": 50.973333333333336,
+          "Score": 50.8230632801688
+        },
+        "20": {
+          "Efficacy": 50.9,
+          "Generalization": 49.95,
+          "Specificity": 49.715,
+          "Score": 50.183135854003055
+        }
+      },
+      "checkpoints": {
+        "0": {
+          "receipt": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/qwen25/checkpoints/B00.pt",
+            "sha256": "3364c42a5f6768c17df050b28b1bba248598252f8a492fbc8f0fde44a1742a07",
+            "bytes": 7856475545,
+            "completed_batches": 0,
+            "completed_edits": 0,
+            "identity_sha256": "04fff304614b0673ee999f015b2ee81afaab5a69ada9b9a7767aeff8589dbd8f"
+          },
+          "metadata": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/qwen25/checkpoints/B00.json",
+            "sha256": "26f09778af3309357c25dfa9e14c1598bf24303bdfd5f1dd06ce19a8e7a23854",
+            "bytes": 360
+          }
+        },
+        "5": {
+          "receipt": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/qwen25/checkpoints/B05.pt",
+            "sha256": "4e5304da0d7dc6ef50e0b45d2edb91b74b68a85777e2e1e2a639308f06a630f3",
+            "bytes": 7856477081,
+            "completed_batches": 5,
+            "completed_edits": 500,
+            "identity_sha256": "04fff304614b0673ee999f015b2ee81afaab5a69ada9b9a7767aeff8589dbd8f"
+          },
+          "metadata": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/qwen25/checkpoints/B05.json",
+            "sha256": "8f9b5f8e65781fbf639cb4bfefa0750d8994558034719e1d376006ca540bb743",
+            "bytes": 362
+          }
+        },
+        "10": {
+          "receipt": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/qwen25/checkpoints/B10.pt",
+            "sha256": "866c413deb72bb562394c53b7e433935ff5fa3b273d5be09ada7cc9ea2046fda",
+            "bytes": 7856478553,
+            "completed_batches": 10,
+            "completed_edits": 1000,
+            "identity_sha256": "04fff304614b0673ee999f015b2ee81afaab5a69ada9b9a7767aeff8589dbd8f"
+          },
+          "metadata": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/qwen25/checkpoints/B10.json",
+            "sha256": "7a0e75d22d3f9e2638113be24f6fab862a1f5afe89b79ea0157a4370446ee470",
+            "bytes": 364
+          }
+        },
+        "15": {
+          "receipt": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/qwen25/checkpoints/B15.pt",
+            "sha256": "b4d9e27820e67054357774649d0b412ac6c8aafe6e18c4fe0216203707c73d1e",
+            "bytes": 7856480089,
+            "completed_batches": 15,
+            "completed_edits": 1500,
+            "identity_sha256": "04fff304614b0673ee999f015b2ee81afaab5a69ada9b9a7767aeff8589dbd8f"
+          },
+          "metadata": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/qwen25/checkpoints/B15.json",
+            "sha256": "d2b321547ca60429cd71112c5d9a5bcfc8161e46deaa6e3cae0e539e9007606c",
+            "bytes": 364
+          }
+        },
+        "20": {
+          "receipt": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/qwen25/checkpoints/B20.pt",
+            "sha256": "1c9dad7424428291aa308aee32681241c3bf06dd90ea3dfaf7208483d0d08cce",
+            "bytes": 7856481561,
+            "completed_batches": 20,
+            "completed_edits": 2000,
+            "identity_sha256": "04fff304614b0673ee999f015b2ee81afaab5a69ada9b9a7767aeff8589dbd8f"
+          },
+          "metadata": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/qwen25/checkpoints/B20.json",
+            "sha256": "301ce84b560e331ac63b5ac2b8a97e02744c1c1282319066eb811be527e30b86",
+            "bytes": 364
+          }
+        }
+      }
+    },
+    "qwen_online_w0": {
+      "training_job": 63391,
+      "evaluation_job": 63392,
+      "model": "qwen25",
+      "config": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/configs/qwen_online_w0.json",
+        "sha256": "59bda2addb1fc9d6e3b6fa20281f578d727f5ecd104d048e1b123be47251bd5d",
+        "bytes": 54654
+      },
+      "identity_sha256": "214fe1a955e794680f745bcf055f2d8c0396fb4801e1a5ba931a98b0497c789a",
+      "source_commit": "49ab6b20d258e4cb091ca9ae68098db3930a86e7",
+      "author_commit": "478134dfb24b43f4e18b47e8500893ce3f9cc50f",
+      "z_reference": "initial_model_on_arrival",
+      "covariance_repair": false,
+      "independent_metrics": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/qwen-online-independent-metrics.json",
+        "sha256": "78771d69d984f2298ebfd32504eb3bb079cdd81a9923a26d6560152568e0410b",
+        "bytes": 5692
+      },
+      "milestones": {
+        "0": {
+          "Efficacy": 13.9,
+          "Generalization": 16.3,
+          "Specificity": 85.055,
+          "Score": 20.68263197209819
+        },
+        "5": {
+          "Efficacy": 99.6,
+          "Generalization": 92.9,
+          "Specificity": 82.76,
+          "Score": 91.21991520059848
+        },
+        "10": {
+          "Efficacy": 99.3,
+          "Generalization": 92.6,
+          "Specificity": 81.26,
+          "Score": 90.42734001011901
+        },
+        "15": {
+          "Efficacy": 99.26666666666667,
+          "Generalization": 92.3,
+          "Specificity": 80.96666666666667,
+          "Score": 90.2014932666593
+        },
+        "20": {
+          "Efficacy": 99.1,
+          "Generalization": 92.775,
+          "Specificity": 80.055,
+          "Score": 89.92537450624299
+        }
+      },
+      "checkpoints": {
+        "0": {
+          "receipt": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/qwen_online_w0/checkpoints/B00.pt",
+            "sha256": "945c2a4b1b885d9a7066ae7d01f476a46e6744a1e1241a1b6980d4e7ff2caa5a",
+            "bytes": 7856475673,
+            "completed_batches": 0,
+            "completed_edits": 0,
+            "identity_sha256": "214fe1a955e794680f745bcf055f2d8c0396fb4801e1a5ba931a98b0497c789a"
+          },
+          "metadata": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/qwen_online_w0/checkpoints/B00.json",
+            "sha256": "fc31a4f6175d42f802dce344bb716ec2f7bc9731ef62853c1fefbeb9931f84f3",
+            "bytes": 375
+          }
+        },
+        "5": {
+          "receipt": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/qwen_online_w0/checkpoints/B05.pt",
+            "sha256": "d8bef58ea3347c1ddb981f83cdd2732aabca02ab0750728b7e3044b88ba2129e",
+            "bytes": 7856477209,
+            "completed_batches": 5,
+            "completed_edits": 500,
+            "identity_sha256": "214fe1a955e794680f745bcf055f2d8c0396fb4801e1a5ba931a98b0497c789a"
+          },
+          "metadata": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/qwen_online_w0/checkpoints/B05.json",
+            "sha256": "018394484747266317d9c00fe8ba16ead97b35f1f8955271a5d96a825230b00e",
+            "bytes": 377
+          }
+        },
+        "10": {
+          "receipt": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/qwen_online_w0/checkpoints/B10.pt",
+            "sha256": "36d0faf23687881a9e3b52c95d52c2b47b0c2505a75280123f11951a40e6aad4",
+            "bytes": 7856478681,
+            "completed_batches": 10,
+            "completed_edits": 1000,
+            "identity_sha256": "214fe1a955e794680f745bcf055f2d8c0396fb4801e1a5ba931a98b0497c789a"
+          },
+          "metadata": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/qwen_online_w0/checkpoints/B10.json",
+            "sha256": "d164014537218fc4695a8b79369f7510adf57f878a05c325e11d5e72ebc8aa46",
+            "bytes": 379
+          }
+        },
+        "15": {
+          "receipt": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/qwen_online_w0/checkpoints/B15.pt",
+            "sha256": "4c76121c03e2325941e719a7f0d612e57b2846d0686912bc1dbb51ed0d1a0d7a",
+            "bytes": 7856480153,
+            "completed_batches": 15,
+            "completed_edits": 1500,
+            "identity_sha256": "214fe1a955e794680f745bcf055f2d8c0396fb4801e1a5ba931a98b0497c789a"
+          },
+          "metadata": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/qwen_online_w0/checkpoints/B15.json",
+            "sha256": "3d0435921046d07f14069ffd6a0ecc4e92d41626f635d25dad39d5322bf7ece8",
+            "bytes": 379
+          }
+        },
+        "20": {
+          "receipt": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/qwen_online_w0/checkpoints/B20.pt",
+            "sha256": "accc8b131294d7eb9c10bc39ed03a29a47acf468c28197b8b4d29a5eba4d8c31",
+            "bytes": 7856481689,
+            "completed_batches": 20,
+            "completed_edits": 2000,
+            "identity_sha256": "214fe1a955e794680f745bcf055f2d8c0396fb4801e1a5ba931a98b0497c789a"
+          },
+          "metadata": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/qwen_online_w0/checkpoints/B20.json",
+            "sha256": "cc9c7df0fd28c76c2dfcdd353746b49286733da0b7add1c755b28e6d18dcfc2d",
+            "bytes": 379
+          }
+        }
+      }
+    },
+    "gptj_current": {
+      "training_job": 63386,
+      "evaluation_job": 63388,
+      "model": "gptj",
+      "config": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/configs/gptj.json",
+        "sha256": "2b6054f2b52c47a974bc5ce7ed2243f94f9ccef4e324b34f75929e0df53480fb",
+        "bytes": 49889
+      },
+      "identity_sha256": "25a6afa8d1d4d19801904b4d74193ffe75bb34637bb359540711320068f1c880",
+      "source_commit": "60eea6e2f7aeec94743f27cd5df1e67cc160fe84",
+      "author_commit": "478134dfb24b43f4e18b47e8500893ce3f9cc50f",
+      "z_reference": "batch_entry",
+      "covariance_repair": false,
+      "independent_metrics": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-eval-r1/gptj-independent-metrics.json",
+        "sha256": "7533fd4c04aa4ace73501343e80a09b5fdb6919761334fa96b5dab0a3bbf3a26",
+        "bytes": 5519
+      },
+      "milestones": {
+        "0": {
+          "Efficacy": 16.75,
+          "Generalization": 19.05,
+          "Specificity": 82.235,
+          "Score": 24.124442899475515
+        },
+        "5": {
+          "Efficacy": 49.6,
+          "Generalization": 50.3,
+          "Specificity": 47.96,
+          "Score": 49.26697721299947
+        },
+        "10": {
+          "Efficacy": 48.7,
+          "Generalization": 51.65,
+          "Specificity": 49.31,
+          "Score": 49.854733923454106
+        },
+        "15": {
+          "Efficacy": 51.53333333333333,
+          "Generalization": 51.46666666666667,
+          "Specificity": 48.3,
+          "Score": 50.38722458399338
+        },
+        "20": {
+          "Efficacy": 49.2,
+          "Generalization": 49.55,
+          "Specificity": 50.53,
+          "Score": 49.753668266646564
+        }
+      },
+      "checkpoints": {
+        "0": {
+          "receipt": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/gptj/checkpoints/B00.pt",
+            "sha256": "4007e9d413e4f984dcc246208dc5e9401d314e078c759bc49b1bba26691faf55",
+            "bytes": 7247777365,
+            "completed_batches": 0,
+            "completed_edits": 0,
+            "identity_sha256": "25a6afa8d1d4d19801904b4d74193ffe75bb34637bb359540711320068f1c880"
+          },
+          "metadata": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/gptj/checkpoints/B00.json",
+            "sha256": "d1a5a57f451c3994613403b04607b54d2fe8d4c12a14920bbbb5ea4dc2a7b9a8",
+            "bytes": 358
+          }
+        },
+        "5": {
+          "receipt": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/gptj/checkpoints/B05.pt",
+            "sha256": "3d92a1e479452b582181112cd48dc769a2d51da5f70a73e945cce36220d5908c",
+            "bytes": 7247778901,
+            "completed_batches": 5,
+            "completed_edits": 500,
+            "identity_sha256": "25a6afa8d1d4d19801904b4d74193ffe75bb34637bb359540711320068f1c880"
+          },
+          "metadata": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/gptj/checkpoints/B05.json",
+            "sha256": "5139fb7cd9248eb092f4c5551ab1f79f2393b2a5bdf6391cc3fe0dccb6e44b6f",
+            "bytes": 360
+          }
+        },
+        "10": {
+          "receipt": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/gptj/checkpoints/B10.pt",
+            "sha256": "0da2d8f65a2592bdc2cc4f4f3a06ed3501fe15cfb8d12206dced32b0c7eff8ef",
+            "bytes": 7247780373,
+            "completed_batches": 10,
+            "completed_edits": 1000,
+            "identity_sha256": "25a6afa8d1d4d19801904b4d74193ffe75bb34637bb359540711320068f1c880"
+          },
+          "metadata": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/gptj/checkpoints/B10.json",
+            "sha256": "0a543b958e8006f87902e93ab14f9603ff7d2acb85fd367f3886fee681659ae9",
+            "bytes": 362
+          }
+        },
+        "15": {
+          "receipt": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/gptj/checkpoints/B15.pt",
+            "sha256": "b0527e1273621c0fb351ffa4476e8f6eeb0c32e7631f103b805df9fc68c233bc",
+            "bytes": 7247781845,
+            "completed_batches": 15,
+            "completed_edits": 1500,
+            "identity_sha256": "25a6afa8d1d4d19801904b4d74193ffe75bb34637bb359540711320068f1c880"
+          },
+          "metadata": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/gptj/checkpoints/B15.json",
+            "sha256": "425db2d2af34f3dc39b3cebf0c65e5e91b50110d54df4909f06a97e97a9690b8",
+            "bytes": 362
+          }
+        },
+        "20": {
+          "receipt": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/gptj/checkpoints/B20.pt",
+            "sha256": "a461f6ce5c3ecde4a1613e5f04c8718b46839a9335746598cd2ab752e16e4777",
+            "bytes": 7247783381,
+            "completed_batches": 20,
+            "completed_edits": 2000,
+            "identity_sha256": "25a6afa8d1d4d19801904b4d74193ffe75bb34637bb359540711320068f1c880"
+          },
+          "metadata": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/gptj/checkpoints/B20.json",
+            "sha256": "42178f9ea70586af3dbce88350a944c3e15e0806036648f96c9f59d643f36f2f",
+            "bytes": 362
+          }
+        }
+      }
+    },
+    "gptj_repaired": {
+      "training_job": 63389,
+      "evaluation_job": 63390,
+      "model": "gptj",
+      "config": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/configs/gptj_repaired.json",
+        "sha256": "f40227522a23a34839fc785fef034c770ab0788b8395a2a5121fefab7c5d3d6f",
+        "bytes": 57551
+      },
+      "identity_sha256": "909c7a0762ce4a2640d74808f52a06a75cec47a8cea528ce07a09e517a2e7daf",
+      "source_commit": "49ab6b20d258e4cb091ca9ae68098db3930a86e7",
+      "author_commit": "478134dfb24b43f4e18b47e8500893ce3f9cc50f",
+      "z_reference": "batch_entry",
+      "covariance_repair": true,
+      "independent_metrics": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/gptj-repaired-independent-metrics.json",
+        "sha256": "3d80a14a68673481803ac5ef6eecb3621146c67a2790b717903ea0e5910f3299",
+        "bytes": 5700
+      },
+      "milestones": {
+        "0": {
+          "Efficacy": 16.75,
+          "Generalization": 19.05,
+          "Specificity": 82.235,
+          "Score": 24.124442899475515
+        },
+        "5": {
+          "Efficacy": 99.4,
+          "Generalization": 95.8,
+          "Specificity": 78.38,
+          "Score": 90.20621431635495
+        },
+        "10": {
+          "Efficacy": 99.1,
+          "Generalization": 95.25,
+          "Specificity": 74.18,
+          "Score": 88.05341826206886
+        },
+        "15": {
+          "Efficacy": 99.06666666666666,
+          "Generalization": 95.33333333333333,
+          "Specificity": 72.10666666666665,
+          "Score": 87.07750561970413
+        },
+        "20": {
+          "Efficacy": 98.5,
+          "Generalization": 94.8,
+          "Specificity": 69.285,
+          "Score": 85.38750539718711
+        }
+      },
+      "checkpoints": {
+        "0": {
+          "receipt": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/gptj_repaired/checkpoints/B00.pt",
+            "sha256": "ec8ef02a61b14332160ed1b622439b85f8caf7c74a53865836ca9d03dd6e3d73",
+            "bytes": 7247777493,
+            "completed_batches": 0,
+            "completed_edits": 0,
+            "identity_sha256": "909c7a0762ce4a2640d74808f52a06a75cec47a8cea528ce07a09e517a2e7daf"
+          },
+          "metadata": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/gptj_repaired/checkpoints/B00.json",
+            "sha256": "f1a08084705d460df6fd54c2eb16b7c1d6e38f0a2c105e884fffaf334e7e354b",
+            "bytes": 374
+          }
+        },
+        "5": {
+          "receipt": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/gptj_repaired/checkpoints/B05.pt",
+            "sha256": "047d1038bb9814709ec80d73e5a1ebe168f9b392441d28f0e79caf824e7beed0",
+            "bytes": 7247778965,
+            "completed_batches": 5,
+            "completed_edits": 500,
+            "identity_sha256": "909c7a0762ce4a2640d74808f52a06a75cec47a8cea528ce07a09e517a2e7daf"
+          },
+          "metadata": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/gptj_repaired/checkpoints/B05.json",
+            "sha256": "0f2d275774c15597acce31244ac14face9931103fe7bae1f89ef6857869efafa",
+            "bytes": 376
+          }
+        },
+        "10": {
+          "receipt": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/gptj_repaired/checkpoints/B10.pt",
+            "sha256": "553c308b38c6fd9914159fd22685a0740350f12f41ac799d6d8106100cbe302b",
+            "bytes": 7247780437,
+            "completed_batches": 10,
+            "completed_edits": 1000,
+            "identity_sha256": "909c7a0762ce4a2640d74808f52a06a75cec47a8cea528ce07a09e517a2e7daf"
+          },
+          "metadata": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/gptj_repaired/checkpoints/B10.json",
+            "sha256": "ad01ac6a4f43ba51fda032437c3a9e210c651c537cbdfe16448e3b690a882b0d",
+            "bytes": 378
+          }
+        },
+        "15": {
+          "receipt": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/gptj_repaired/checkpoints/B15.pt",
+            "sha256": "b53539f6d1926438beb1c9387006ff0de979af8069a4b3a4f392ac156ed9900a",
+            "bytes": 7247781973,
+            "completed_batches": 15,
+            "completed_edits": 1500,
+            "identity_sha256": "909c7a0762ce4a2640d74808f52a06a75cec47a8cea528ce07a09e517a2e7daf"
+          },
+          "metadata": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/gptj_repaired/checkpoints/B15.json",
+            "sha256": "08636b7c74a2f8281e2681382fcf2316657d279584b9136e2af6634fc454d022",
+            "bytes": 378
+          }
+        },
+        "20": {
+          "receipt": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/gptj_repaired/checkpoints/B20.pt",
+            "sha256": "6e27548a125c8afd496fd4957b705929818adfd2899b0b9f2a3f472aaf24eb3f",
+            "bytes": 7247783445,
+            "completed_batches": 20,
+            "completed_edits": 2000,
+            "identity_sha256": "909c7a0762ce4a2640d74808f52a06a75cec47a8cea528ce07a09e517a2e7daf"
+          },
+          "metadata": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r1/runs/gptj_repaired/checkpoints/B20.json",
+            "sha256": "1d9982fee8004f42e16c6e153dd439cbee87c8225e782fb061dde53369752768",
+            "bytes": 378
+          }
+        }
+      }
+    },
+    "gptj_online_w0_repaired": {
+      "training_job": 63425,
+      "evaluation_job": 63426,
+      "model": "gptj",
+      "config": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r2/configs/gptj_online_w0_repaired.json",
+        "sha256": "457975ea9d1bc21456e771248f1d7cdb2c3fe46fcb1044f64a051f4c98cb15ec",
+        "bytes": 58400
+      },
+      "identity_sha256": "3029accd3526041723d149ff3affa3f43e1578e3185a2ce1c5effbdd75ebf077",
+      "source_commit": "b81443155a029398af1fa4a44d4fd29cbf288ca1",
+      "author_commit": "478134dfb24b43f4e18b47e8500893ce3f9cc50f",
+      "z_reference": "initial_model_on_arrival",
+      "covariance_repair": true,
+      "independent_metrics": {
+        "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r2/gptj-online-w0-independent-metrics.json",
+        "sha256": "ccfd80efee360e4db8c561f0a101ce7ffb1e2abf0af86b7b224a0817bc046b26",
+        "bytes": 5769
+      },
+      "milestones": {
+        "0": {
+          "Efficacy": 16.75,
+          "Generalization": 19.05,
+          "Specificity": 82.235,
+          "Score": 24.124442899475515
+        },
+        "5": {
+          "Efficacy": 99.6,
+          "Generalization": 95.5,
+          "Specificity": 79.64,
+          "Score": 90.72250742567815
+        },
+        "10": {
+          "Efficacy": 99.4,
+          "Generalization": 95.2,
+          "Specificity": 78.41,
+          "Score": 90.0413131810225
+        },
+        "15": {
+          "Efficacy": 99.53333333333333,
+          "Generalization": 95.06666666666666,
+          "Specificity": 77.94666666666667,
+          "Score": 89.83352627273385
+        },
+        "20": {
+          "Efficacy": 99.4,
+          "Generalization": 94.45,
+          "Specificity": 76.955,
+          "Score": 89.17270406068643
+        }
+      },
+      "checkpoints": {
+        "0": {
+          "receipt": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r2/runs/gptj_online_w0_repaired/checkpoints/B00.pt",
+            "sha256": "a844ffe01f9bca5fe5407bd335c4acdf77983a4e3f0aff82eb5390b445c874ee",
+            "bytes": 7247777557,
+            "completed_batches": 0,
+            "completed_edits": 0,
+            "identity_sha256": "3029accd3526041723d149ff3affa3f43e1578e3185a2ce1c5effbdd75ebf077"
+          },
+          "metadata": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r2/runs/gptj_online_w0_repaired/checkpoints/B00.json",
+            "sha256": "2195e72f7985094d7218833ceb7d82d905014c43b5b7cf63cefcd03d24cf7d6b",
+            "bytes": 384
+          }
+        },
+        "5": {
+          "receipt": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r2/runs/gptj_online_w0_repaired/checkpoints/B05.pt",
+            "sha256": "1372d50a029e5138cc73d14ba333b9bb737808f7c3c6be851137876330bc8cbf",
+            "bytes": 7247779029,
+            "completed_batches": 5,
+            "completed_edits": 500,
+            "identity_sha256": "3029accd3526041723d149ff3affa3f43e1578e3185a2ce1c5effbdd75ebf077"
+          },
+          "metadata": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r2/runs/gptj_online_w0_repaired/checkpoints/B05.json",
+            "sha256": "ca96a082437f1e13a246944c8f0df8663617643aff693e70a176a67b72791d8a",
+            "bytes": 386
+          }
+        },
+        "10": {
+          "receipt": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r2/runs/gptj_online_w0_repaired/checkpoints/B10.pt",
+            "sha256": "6f4a0e3127fd91b9e15df7767ce719af0f73620a64680649ebfa38c2253b15fe",
+            "bytes": 7247780501,
+            "completed_batches": 10,
+            "completed_edits": 1000,
+            "identity_sha256": "3029accd3526041723d149ff3affa3f43e1578e3185a2ce1c5effbdd75ebf077"
+          },
+          "metadata": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r2/runs/gptj_online_w0_repaired/checkpoints/B10.json",
+            "sha256": "0a34e599ed7cd233be4cea85bd8e3680b40a411b3c0d87f136607f1993b2ac6b",
+            "bytes": 388
+          }
+        },
+        "15": {
+          "receipt": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r2/runs/gptj_online_w0_repaired/checkpoints/B15.pt",
+            "sha256": "f9607137077d603d02880699a824ea8e613600a09dd32433cc6234b9b4f964ac",
+            "bytes": 7247782037,
+            "completed_batches": 15,
+            "completed_edits": 1500,
+            "identity_sha256": "3029accd3526041723d149ff3affa3f43e1578e3185a2ce1c5effbdd75ebf077"
+          },
+          "metadata": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r2/runs/gptj_online_w0_repaired/checkpoints/B15.json",
+            "sha256": "18bc04ef7b8b78b9a5e95f7bcfa5a57f78dd9577a35d533ce1172c84fea7fb12",
+            "bytes": 388
+          }
+        },
+        "20": {
+          "receipt": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r2/runs/gptj_online_w0_repaired/checkpoints/B20.pt",
+            "sha256": "c1440e3ed3320da308c4d7e01137156e47d28be9670fe89b8a578cbd190d62b9",
+            "bytes": 7247783509,
+            "completed_batches": 20,
+            "completed_edits": 2000,
+            "identity_sha256": "3029accd3526041723d149ff3affa3f43e1578e3185a2ce1c5effbdd75ebf077"
+          },
+          "metadata": {
+            "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-causal-r2/runs/gptj_online_w0_repaired/checkpoints/B20.json",
+            "sha256": "5f12d5c837aac9400de52e9034b08cf3b46850e83227d02d73e22b147249ec7d",
+            "bytes": 388
+          }
+        }
+      }
+    }
+  },
+  "stream_sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37",
+  "all_ten_jobs_completed_successfully": true,
+  "all_25_milestones_independently_reaggregated": true
+}
