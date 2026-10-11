@@ -1,0 +1,37 @@
+{
+  "current_job": "63385",
+  "reference_job": "63217",
+  "comparison": "B1 stdout displayed norms only; no bitwise full-model claim",
+  "equal": true,
+  "layers": {
+    "4": {
+      "residual": 43.0968,
+      "weight": 129.0,
+      "update": 79.8158
+    },
+    "5": {
+      "residual": 12.75,
+      "weight": 132.0,
+      "update": 14.558
+    },
+    "6": {
+      "residual": 5.5312,
+      "weight": 127.5,
+      "update": 2.692
+    },
+    "7": {
+      "residual": 1.6172,
+      "weight": 133.0,
+      "update": 0.7726
+    },
+    "8": {
+      "residual": 1.0312,
+      "weight": 134.0,
+      "update": 0.4277
+    }
+  },
+  "reference_log": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/qwen-server1-move-r1/registration-r1/logs/qwen25-cf-fe-original-63217.out",
+    "sha256": "6f28c60129a48f3eae31fdbfbea319dc8239b68f2d3669f96317a48e6e6fae75"
+  }
+}

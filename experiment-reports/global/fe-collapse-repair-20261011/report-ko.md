@@ -6,6 +6,34 @@
 아래 author W0-fixed 결과와 CPU 대조는 별도 경로의 원인 후보 조사이며 현재 baseline의 회복 증거가 아니다.
 초기 조사에서 이 경로를 현재 기준으로 바꾼 것은 잘못이었다. Qwen/GPT-J의 현재 기준 재검증이 남아 있다.
 
+## 현재 진행 상태 (2026-10-11 11:56 KST)
+
+공식 `main.py` + 현재 배치 z 진단을 server1에서 진행 중이다. 기존 정상 cap2에
+허용된 진단용 한 개 lane을 추가했다. 실행·평가는 다음 순서이며 최대 동시3 GPU다.
+
+| 작업 | job | 의존성/관측 상태 |
+| --- | --- | --- |
+| Qwen CF native sequential 2K | 63385 | RUNNING, B4 완료 |
+| Qwen 저장 checkpoint 공통 평가 | 63387 | PENDING afterany:63385 |
+| GPT-J CF native sequential 2K | 63386 | PENDING afterany:63387 |
+| GPT-J 저장 checkpoint 공통 평가 | 63388 | PENDING afterany:63386 |
+
+후속 평가는 저장된 W0/500/1000/1500/2000 가중치를 별도 프로세스에서 읽는다.
+편집은 계속 저자 `main.py`가 수행하며 실행 중인 source/config/output 변경은0이다.
+학습이 실패하면 존재하는 checkpoint만 평가하고 W20 부재를 명시한다. CF Eff/Gen/Loc
+공통 평가이며 FLU/CON은 포함하지 않는다. 저자 자체 W0/W20 평가도 유지한다.
+
+Qwen W0 파일을 재로딩하여 SHA/identity, 다섯 층의 pretrained BF16 가중치 일치,
+0으로 초기화된 history를 확인했다. B1의 층별 residual/weight/update 로그 수치는
+이전 author W0-fixed63217과 출력 정밀도에서 모두 같다. 전체 모델의 bit parity나
+2K 성능 회복을 의미하지 않는다. B2 이후는 현재 배치 모델의 z를 사용하므로 별도 검증한다.
+
+[평가 등록 영수증](../../../audits/global/fe-collapse-repair-20261011/native-evaluation-submission.json) ·
+[W0 재로딩](../../../audits/global/fe-collapse-repair-20261011/native-qwen-w0-checkpoint-validation.json) ·
+[B1 출력 수치 대조](../../../audits/global/fe-collapse-repair-20261011/native-qwen-b1-displayed-parity.json).
+
+아래는 조사·제출 이력이며 이전에 취소된 job의 상태도 원 기록으로 남겨 둔다.
+
 ## 현재 sequential 기준에서 확인한 것
 
 GPT-J61927은 현재 기준과 같은 수정 EasyEdit FE, author hparams(clamp.75,25steps,lr.5), FP32, 배치 진입 z, 누적 history다.

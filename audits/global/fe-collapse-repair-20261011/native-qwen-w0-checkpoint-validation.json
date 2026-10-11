@@ -1,0 +1,57 @@
+{
+  "job": "63385",
+  "checkpoint": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-r2/runs/qwen25/checkpoints/B00.pt",
+    "sha256": "3364c42a5f6768c17df050b28b1bba248598252f8a492fbc8f0fde44a1742a07",
+    "bytes": 7856475545,
+    "completed_batches": 0,
+    "completed_edits": 0,
+    "identity_sha256": "04fff304614b0673ee999f015b2ee81afaab5a69ada9b9a7767aeff8589dbd8f"
+  },
+  "load": "PASS",
+  "weights": {
+    "model.layers.4.mlp.down_proj.weight": {
+      "shape": [
+        3584,
+        18944
+      ],
+      "dtype": "torch.bfloat16",
+      "equal_pretrained_BF16": true
+    },
+    "model.layers.5.mlp.down_proj.weight": {
+      "shape": [
+        3584,
+        18944
+      ],
+      "dtype": "torch.bfloat16",
+      "equal_pretrained_BF16": true
+    },
+    "model.layers.6.mlp.down_proj.weight": {
+      "shape": [
+        3584,
+        18944
+      ],
+      "dtype": "torch.bfloat16",
+      "equal_pretrained_BF16": true
+    },
+    "model.layers.7.mlp.down_proj.weight": {
+      "shape": [
+        3584,
+        18944
+      ],
+      "dtype": "torch.bfloat16",
+      "equal_pretrained_BF16": true
+    },
+    "model.layers.8.mlp.down_proj.weight": {
+      "shape": [
+        3584,
+        18944
+      ],
+      "dtype": "torch.bfloat16",
+      "equal_pretrained_BF16": true
+    }
+  },
+  "history_zero": true,
+  "identity_match": true,
+  "CPU_only": true
+}
