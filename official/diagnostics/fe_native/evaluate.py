@@ -1,7 +1,9 @@
-"""Read-only common CF evaluation of checkpoints produced by native FE main.py.
+"""Read-only common evaluation of checkpoints produced by native FE main.py.
 
-This program is never called by training and never computes targets or edits.
-Native training remains independent of the ODE runner and evaluator.
+CF uses the common CounterFact evaluator; zsRE (config ``dataset='zsre'``) uses the
+public-query evaluator (``official.evaluation.zsre_paper``: request macro, Loc = loc_ans)
+on the official stream rows. This program is never called by training and never
+computes targets or edits. Native training remains independent of the ODE runner and evaluator.
 """
 import argparse
 import json
@@ -11,9 +13,28 @@ import traceback
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
+from official.evaluation import zsre_paper
 from official.evaluation.factual import evaluate_counterfact
 from official.experiments.prepare import digest, file_sha, write_new
 from official.runners.server1.common import read, verify
+
+
+DATASETS = ('cf', 'zsre')
+
+
+def dataset_of(config):
+    """A missing field is the original CF evaluation; zsRE must be explicit."""
+    dataset = config.get('dataset', 'cf')
+    if dataset not in DATASETS:
+        raise ValueError('NATIVE_EVAL_DATASET')
+    return dataset
+
+
+def evaluate_rows(model, tok, rows, config, identity):
+    if dataset_of(config) == 'zsre':
+        return zsre_paper.evaluate(model, tok, rows, model_family=config['model'], identity=identity,
+                                   batch_size=16, device='cuda:0')
+    return evaluate_counterfact(model, tok, rows, identity=identity, batch_size=16, device='cuda:0')
 
 
 def validate_payload(payload, config, records, batch):
@@ -65,9 +86,10 @@ def run(native_config, output, lock_path):
     config = read(native_config)
     if digest({k: v for k, v in config.items() if k != 'identity_sha256'}) != config['identity_sha256']:
         raise ValueError('NATIVE_EVAL_CONFIG_IDENTITY')
+    dataset = dataset_of(config)
     records = read(verify(config['original_stream']))
     if len(records) != 2000 or config['requests'] != 2000 or not config['current_batch_targets_only']:
-        raise ValueError('NATIVE_EVAL_CF2K_STREAM')
+        raise ValueError('NATIVE_EVAL_CF2K_STREAM' if dataset == 'cf' else 'NATIVE_EVAL_ZSRE2K_STREAM')
     assets = read(verify(config['model_assets']))
     snapshot = assets['model']['snapshot']
     for member in assets['model']['members']:
@@ -106,11 +128,11 @@ def run(native_config, output, lock_path):
             rows = records if batch == 0 else records[:batch*100]
             identity = dict(native_config=config['identity_sha256'], checkpoint_sha256=receipt['sha256'],
                 native_source=config['ode_patch_source'], author_source=config['author_commit'],
-                evaluation_source=lock['source_commit'], model=config['model'], dataset='cf',
+                evaluation_source=lock['source_commit'], model=config['model'], dataset=dataset,
                 completed_edits=batch*100, evaluation_cases=len(rows), precision='bfloat16',
                 z_reference=config.get('z_reference', 'batch_entry'),
                 attention_backend=model.config._attn_implementation)
-            observed = evaluate_counterfact(model, tok, rows, identity=identity, batch_size=16, device='cuda:0')
+            observed = evaluate_rows(model, tok, rows, config, identity)
             after_stat = checkpoint.stat()
             if (before_stat.st_ino, before_stat.st_size, before_stat.st_mtime_ns) != (after_stat.st_ino, after_stat.st_size, after_stat.st_mtime_ns):
                 raise ValueError('NATIVE_EVAL_CHECKPOINT_CHANGED')
@@ -121,8 +143,8 @@ def run(native_config, output, lock_path):
             results[str(batch)] = dict(summary=observed['summary'], path=str(target), sha256=file_sha(target),
                                       checkpoint=receipt, evaluation_identity=identity)
             write_new(output/f'B{batch:02d}-receipt.json', results[str(batch)])
-            print('NATIVE_CHECKPOINT_CF_METRICS', batch, json.dumps(observed['summary']), flush=True)
-        write_new(output/'COMPLETE.json', dict(results=results, W20_available='20' in results,
+            print(f'NATIVE_CHECKPOINT_{dataset.upper()}_METRICS', batch, json.dumps(observed['summary']), flush=True)
+        write_new(output/'COMPLETE.json', dict(results=results, W20_available='20' in results, dataset=dataset,
             scope='Native FE checkpoint observation only; current baseline table is not overwritten',
             missing_milestones=[b for b in (0,5,10,15,20) if str(b) not in results],
             evaluation_source=lock['source_commit'], native_config=config['identity_sha256']))

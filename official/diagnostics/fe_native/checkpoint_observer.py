@@ -2,6 +2,10 @@
 
 This module performs no optimization, evaluation, covariance repair, or resume.
 Saved weights and history retain their native dtype. It uses no ODE runner.
+By default every snapshot (W0 and each 500 edits) stores the native history. The optional
+``diagnostic_history_batches`` list (storage only) names the completed-batch snapshots that keep it;
+the others store ``history=None`` with ``history_saved=False``. Weights, contexts, RNG and case IDs
+are always stored, so every snapshot remains evaluable.
 """
 import hashlib
 import json
@@ -22,10 +26,22 @@ def sha256(path):
     return digest.hexdigest()
 
 
+def history_kept(cfg, completed_batches):
+    selected = cfg.get('diagnostic_history_batches')
+    if selected is None:
+        return True
+    batches = list(selected)
+    if (not batches or len(set(batches)) != len(batches)
+            or any(type(batch) is not int or batch < 0 or batch % 5 for batch in batches)):
+        raise ValueError('NATIVE_HISTORY_BATCHES')
+    return completed_batches in batches
+
+
 def snapshot(cfg, model, cache_c, contexts, completed_batches, requests):
     folder = cfg.get('diagnostic_checkpoint_dir')
     if not folder or completed_batches % 5:
         return
+    keep_history = history_kept(cfg, completed_batches)
     folder = Path(folder)
     folder.mkdir(parents=True, exist_ok=True)
     destination = folder / f'B{completed_batches:02d}.pt'
@@ -39,7 +55,8 @@ def snapshot(cfg, model, cache_c, contexts, completed_batches, requests):
     versions = {name: p._version for name, p in model.named_parameters()}
     rng = dict(python=random.getstate(), numpy=np.random.get_state(), torch=torch.get_rng_state(),
                cuda=torch.cuda.get_rng_state_all() if torch.cuda.is_available() else [])
-    estimated = cache_c.numel() * cache_c.element_size() + sum(p.numel()*p.element_size() for p in selected.values()) + 16*1024**2
+    history_bytes = cache_c.numel() * cache_c.element_size() if keep_history else 0
+    estimated = history_bytes + sum(p.numel()*p.element_size() for p in selected.values()) + 16*1024**2
     reserve = int(cfg.get('diagnostic_reserve_bytes', 64*1024**3))
     if os.statvfs(folder).f_bavail * os.statvfs(folder).f_frsize < reserve + estimated:
         raise OSError('NATIVE_CHECKPOINT_STORAGE_ADMISSION')
@@ -47,13 +64,15 @@ def snapshot(cfg, model, cache_c, contexts, completed_batches, requests):
         payload = dict(schema='native-fe-sequential-diagnostic-v1', completed_batches=completed_batches,
                        completed_edits=completed_batches*cfg.bs,
                        weights={name: p.detach().cpu().clone() for name, p in selected.items()},
-                       history=cache_c.detach().cpu().clone(), contexts=contexts, rng=rng,
+                       history=cache_c.detach().cpu().clone() if keep_history else None, contexts=contexts, rng=rng,
                        config=OmegaConf.to_container(cfg, resolve=True),
                        seen_case_ids=[r['case_id'] for r in requests[:completed_batches*cfg.bs]],
                        identity_sha256=cfg.diagnostic_identity_sha256,
                        z_policy=('CURRENT_BATCH_ENTRY_NO_FUTURE_TARGETS'
                                  if cfg.get('diagnostic_z_reference', 'batch_entry') == 'batch_entry'
                                  else 'CURRENT_BATCH_ONLY_INITIAL_MODEL'))
+        if not keep_history:
+            payload['history_saved'] = False
         with partial.open('xb') as handle:
             torch.save(payload, handle)
             handle.flush()

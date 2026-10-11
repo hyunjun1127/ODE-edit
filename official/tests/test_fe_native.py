@@ -20,6 +20,7 @@ from omegaconf import OmegaConf
 import torch
 
 from official.diagnostics.fe_native import checkpoint_observer, sequential_z, patch as native_patch
+from official.diagnostics.fe_native import evaluate as native_evaluate
 from official.diagnostics.fe_native.evaluate import validate_payload, restore_weights
 from official.diagnostics.fe_native.covariance import derive
 
@@ -242,6 +243,61 @@ class NativeTests(unittest.TestCase):
             self.assertTrue(torch.equal(rng[2], torch.get_rng_state()))
             receipt = json.loads((Path(folder)/'B00.json').read_text())
             self.assertEqual(receipt['sha256'], checkpoint_observer.sha256(Path(folder)/'B00.pt'))
+
+    def test_history_selection_is_storage_only_and_keeps_evaluable_weights(self):
+        model = Model()
+        H = torch.arange(18, dtype=torch.float32).reshape(2, 3, 3)
+        before = {k: p.detach().clone() for k, p in model.named_parameters()}
+        rng = (random.getstate(), torch.get_rng_state())
+        cfg = config()
+        with tempfile.TemporaryDirectory() as folder, patch.object(torch.cuda, 'is_available', return_value=False):
+            cfg.diagnostic_checkpoint_dir = folder
+            cfg.diagnostic_identity_sha256 = 'a'*64
+            cfg.diagnostic_reserve_bytes = 0
+            cfg.bs = 1
+            cfg.diagnostic_history_batches = [20]
+            with contextlib.redirect_stdout(io.StringIO()):
+                checkpoint_observer.snapshot(cfg, model, H, [['{}']], 0, requests())
+                checkpoint_observer.snapshot(cfg, model, H, [['{}']], 20, requests())
+            omitted = torch.load(Path(folder)/'B00.pt', weights_only=False)
+            kept = torch.load(Path(folder)/'B20.pt', weights_only=False)
+            self.assertIsNone(omitted['history'])
+            self.assertFalse(omitted['history_saved'])
+            self.assertTrue(torch.equal(kept['history'], H))
+            self.assertNotIn('history_saved', kept)
+            for saved in (omitted, kept):
+                self.assertTrue(all(torch.equal(saved['weights'][k], v) for k, v in before.items()))
+            self.assertEqual(omitted['config']['diagnostic_history_batches'], [20])
+            self.assertTrue(all(torch.equal(p, before[k]) for k, p in model.named_parameters()))
+            self.assertEqual(rng[0], random.getstate())
+            self.assertTrue(torch.equal(rng[1], torch.get_rng_state()))
+        self.assertTrue(checkpoint_observer.history_kept(config(), 5))
+        for invalid in ([], [20, 20], [3], [-5], ['20'], [20.0]):
+            cfg = config()
+            cfg.diagnostic_history_batches = invalid
+            with self.assertRaisesRegex(ValueError, 'NATIVE_HISTORY_BATCHES'):
+                checkpoint_observer.history_kept(cfg, 0)
+
+    def test_evaluation_dataset_dispatch_uses_public_zsre_query_evaluator(self):
+        self.assertEqual(native_evaluate.dataset_of({}), 'cf')
+        self.assertEqual(native_evaluate.dataset_of({'dataset': 'zsre'}), 'zsre')
+        with self.assertRaisesRegex(ValueError, 'NATIVE_EVAL_DATASET'):
+            native_evaluate.dataset_of({'dataset': 'mquake'})
+        rows, identity = [dict(case_id=0)], dict(dataset='zsre')
+        with patch.object(native_evaluate.zsre_paper, 'evaluate', return_value={'zsre': True}) as paper, \
+                patch.object(native_evaluate, 'evaluate_counterfact') as counterfact:
+            result = native_evaluate.evaluate_rows('model', 'tok', rows, {'dataset': 'zsre', 'model': 'gptj'}, identity)
+        self.assertEqual(result, {'zsre': True})
+        counterfact.assert_not_called()
+        self.assertEqual(paper.call_args.args, ('model', 'tok', rows))
+        self.assertEqual(paper.call_args.kwargs, dict(model_family='gptj', identity=identity,
+                                                      batch_size=16, device='cuda:0'))
+        with patch.object(native_evaluate.zsre_paper, 'evaluate') as paper, \
+                patch.object(native_evaluate, 'evaluate_counterfact', return_value={'cf': True}) as counterfact:
+            self.assertEqual(native_evaluate.evaluate_rows('model', 'tok', rows, {'model': 'gptj'}, identity),
+                             {'cf': True})
+        paper.assert_not_called()
+        self.assertEqual(counterfact.call_args.kwargs, dict(identity=identity, batch_size=16, device='cuda:0'))
 
     def test_patch_rejects_unpinned_writer(self):
         with self.assertRaisesRegex(ValueError, 'UNPINNED_AUTHOR_FE_SOURCE'):

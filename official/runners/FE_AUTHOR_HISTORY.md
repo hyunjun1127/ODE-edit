@@ -19,6 +19,10 @@ batch with SHA-checked atomic commit. Only the latest non-milestone state is kep
 W0 and W500/W1000/W1500/W2000 are retained independently. Compute-server paths
 contain remote pointers. `--resume` fetches and verifies the remote latest state.
 Existing server1/server2 local checkpoint behavior remains unchanged.
+63357 (the archive variant) failed at the B2 save while streaming to server1. The lane-B rerun
+(`official.runners.server4.fe_zsre_lane`) keeps the same science config without `checkpoint_archive`:
+server4 Llama3 zsRE is then admitted with the ordinary local checkpoint on server4 `/data`
+(latest state each batch, W20 kept).
 Owner supplies distinct absolute output, arm, tracking_env_file, runtime, assets member, ordered stream member/digest,
 author_profile_sha256, hparams, storage_min_free_bytes and canonical config_sha256 (digest excluding itself).
 See SH1 prepare module for exact normalized asset structure: existing full-hashed model members/snapshot/identity,

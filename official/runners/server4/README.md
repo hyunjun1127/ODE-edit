@@ -8,3 +8,6 @@
 - 데이터, C0, P, weights, raw 출력은 원래 자산 경로/ignored local에 두고 복사하거나 Git에 넣지 않는다.
 - 실행 source는 `main`의 commit과 `official/` tree SHA로 고정한다. 기존 실행을 취소하거나 코드를 바꾸지 않는다.
 - 공유 코드 수정이 필요하면 원인을 보고하고 공통 수정으로 통합한다. 서버별 수치 구현 fork를 만들지 않는다.
+- `fe_zsre_lane.py`: FE zsRE 2K lane B (2026-10-11). Llama3 = `fe_author_history`(63357 science config, local
+  checkpoint), GPT-J = 공식 FE `main.py` native harness(63389 설정, L3 C0 보정 재계산) + 공개 zsRE 평가.
+  Llama → GPT-J 편집 → GPT-J 평가를 `afterany`로 직렬 등록한다(held 검사 후 release).

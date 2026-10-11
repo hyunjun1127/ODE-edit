@@ -44,6 +44,17 @@ into a fresh BF16 model, and records common CF per-case raw observations at W0 a
 available 500-edit checkpoint. W0 uses all 2,000 requests; W5/W10/W15/W20 use all seen
 requests at that point. The checkpoint file SHA is verified before and after evaluation.
 It never invokes target fitting or modifies the native training program.
+A native configuration with `dataset: zsre` is evaluated with the public-query zsRE evaluator
+(`official.evaluation.zsre_paper`, request macro, Loc = `loc_ans`, `model_family` = the configured
+model) on the immutable official zsRE stream rows (`original_stream`); a missing field means CF.
+The native editing input for zsRE is the same first 2,000 official rows converted to the author's
+zsRE record fields (`prompt`/`subject`/`target_new`, plus the author's paraphrase/neighborhood fields
+for its own `test_only` metrics); see `official/runners/server4/fe_zsre_lane.py`.
+
+`+diagnostic_history_batches=[...]` is an optional storage-only observer setting. Without it every
+snapshot stores the native history (the original behavior). With it, only the listed completed-batch
+snapshots keep the history tensor; the others store weights, contexts, RNG and case IDs with
+`history=None` and `history_saved=False`, so each one is still evaluable. Editing is unaffected.
 
 ## Explicit causal controls
 

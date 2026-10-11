@@ -45,7 +45,8 @@ def validate_config(c):
         assert c['observe_batches'], 'AUTHOR_COMPARISON_REQUIRES_OBSERVATIONS'
     assert c['server'] in ('server1','server2','server3','server4') and c['dataset'] in ('cf','zsre')
     if c['server']=='server4':
-        assert (c['model'],c['dataset'])==('llama3','zsre') and c.get('checkpoint_archive')
+        # Remote (63357, failed in the server1 pipe) or local checkpoints on server4 /data (lane-B rerun).
+        assert (c['model'],c['dataset'])==('llama3','zsre')
     if c['server']=='server3':
         # Llama CF rerun with the W20 checkpoint kept locally for the deferred Flu/Con evaluation.
         assert (c['model'],c['dataset'])==('llama3','cf') and not c.get('checkpoint_archive')
