@@ -1,0 +1,21 @@
+{
+  "nonce": "USER-FE-QWEN-WORKING-CURRENT-Z-20261012-R1",
+  "original_server": "server1",
+  "description": "Previously executed alternative CF input, original fixed10k Python [2000:4000]; copy exact bytes and preserve original provenance separately from rent-local path",
+  "stream": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-qwen-cf-altdata-20261011/native-r1/data/cf-stream.json",
+    "bytes": 4155152,
+    "sha256": "7c8324f8de7dd2b128a65af82c4d562a687d80a24a26576e452d96239eb9b296"
+  },
+  "original_config": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-qwen-cf-altdata-20261011/native-r1/configs/qwen25.json",
+    "bytes": 49251,
+    "sha256": "70a4b6bec63520f8dafd018608205d1cf126295e07c37df205c929999353e06b"
+  },
+  "original_config_identity_sha256": "742f8c3a028056ee3f0062d569d939943b5a7d776e0ab95a036ea0cd7ec63e63",
+  "original_patch_source": "60eea6e2f7aeec94743f27cd5df1e67cc160fe84",
+  "author_commit": "478134dfb24b43f4e18b47e8500893ce3f9cc50f",
+  "requests": 2000,
+  "transfer_performed_by_SH1": false,
+  "raw_in_Git": false
+}

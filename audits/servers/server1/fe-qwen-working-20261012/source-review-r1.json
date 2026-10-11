@@ -1,0 +1,29 @@
+{
+  "nonce": "USER-FE-QWEN-WORKING-CURRENT-Z-20261012-R1",
+  "accepted_turn": "01a12d3b-5ac2-7a83-b5c1-5b13c658e30a",
+  "source_owner": "server1",
+  "execution_owner": "requester_root_rent",
+  "status": "SHARED_SOURCE_CPU_REVIEWED_HOST_BINDING_REQUIRED",
+  "server1_new_jobs": [],
+  "GPU_model_forward": "NOT_RUN",
+  "WandB_online": "NOT_RUN",
+  "tests": {
+    "command": "CUDA_VISIBLE_DEVICES='' OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 FE_NATIVE_AUTHOR_ROOT=<pinned author clone> <existing FE venv python> -m unittest official.diagnostics.fe_qwen_current.test_contract official.tests.test_fe_native official.tracking.test_transport -q",
+    "passed": 67,
+    "failed": 0,
+    "coverage": ["original author writer AST and actual tiny L2 solve", "batch-entry target supplier regression", "read-only native writer trace weight/history/RNG equality", "BF16 chunked byte digest parity", "small latest overwrite and reader compatibility", "native CF current100 and all-seen500 payloads", "independent raw tamper rejection", "control-only L2=0 and tuned-only promotion", "explicit numerical failure minus-infinity veto", "resource/schema/incomplete selection blocking", "server2 reserve32GiB and thread binding", "common fake-SDK transport regression"]
+  },
+  "paper_commit": "74e36c38ce498c07f9b438096be53660316d412d",
+  "author_commit": "478134dfb24b43f4e18b47e8500893ce3f9cc50f",
+  "working_tree": "/mnt/raid5/janghj/.codex/worktrees/odeeditsh1-qwen-fe-current-z-20261012",
+  "source_path": "official/diagnostics/fe_qwen_current/",
+  "historical_alt_stream": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-qwen-cf-altdata-20261011/native-r1/data/cf-stream.json",
+    "bytes": 4155152,
+    "sha256": "7c8324f8de7dd2b128a65af82c4d562a687d80a24a26576e452d96239eb9b296",
+    "meaning": "Actual preserved prior diagnostic input; verify exact copy on server2, not fabricated historical provenance"
+  },
+  "preservation": "old jobs/source/CP/raw unchanged; no Slurm mutation, deletion or model transfer",
+  "broadcast": "NO_BROADCAST_NOT_REQUIRED for weights/raw; shared source via Git, exact small input handoff only",
+  "remaining": ["rent owner fresh full asset/runtime/split/heldout-lock/storage/resource binding", "rent owner actual execution registration", "actual four-arm trajectories and W20 raw selection", "conditional selected CF/zsRE cold benchmark source/binding and execution"]
+}
