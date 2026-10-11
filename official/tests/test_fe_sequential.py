@@ -13,12 +13,34 @@ import torch
 from official.baselines.fe_author_profile import profile, resolve
 from official.baselines.fe_observation import observe_batch, summarize
 from official.experiments.prepare import digest
+from official.experiments import checkpoint
 from official.runners import fe_author_history as runner, fe_covariance_assets
 from official.runners.server1.common import member
 from official.runners.server1.test_fe_author import config
 
 
 class SequentialTests(unittest.TestCase):
+    def test_effective_covariance_and_writer_identity_checkpoint_roundtrip(self):
+        # The exact extension emitted by fe_author_history.run previously failed
+        # at W0 because the common store accepted only the seven legacy fields.
+        for backend in ('EASYEDIT_HISTORY', 'AUTHOR_WRITER_CURRENT_BATCH_Z'):
+            identity = {k: 'a'*64 for k in checkpoint.IDENTITY_FIELDS}
+            identity.update(covariance_sha256='b'*64, z_policy=runner.Z_POLICY, writer_backend=backend)
+            with tempfile.TemporaryDirectory() as folder:
+                for batch in (0, 1):
+                    checkpoint.save(folder, batch=batch, weights={'w': torch.full((2, 3), float(batch))},
+                        cache_c={'0': torch.eye(3)*batch}, contexts={'z_policy': runner.Z_POLICY},
+                        evaluation_cursor={'completed_batch': batch}, identity=identity,
+                        method='MEMIT_FE_HISTORY', evaluation_complete=True)
+                saved = checkpoint.load(folder, identity)
+                self.assertEqual(saved['batch'], 1)
+                self.assertEqual(saved['identity'], identity)
+                self.assertTrue(torch.equal(saved['cache_c']['0'], torch.eye(3)))
+                for change in ({'covariance_sha256': 'c'*64},
+                               {'writer_backend': 'EASYEDIT_HISTORY' if backend != 'EASYEDIT_HISTORY' else 'AUTHOR_WRITER_CURRENT_BATCH_Z'}):
+                    with self.assertRaisesRegex(ValueError, 'IDENTITY_MISMATCH'):
+                        checkpoint.load(folder, dict(identity, **change))
+
     def test_gptj_author_settings_are_existing_settings(self):
         hp = resolve('gptj')
         self.assertEqual((hp.clamp_norm_factor, hp.v_num_grad_steps, hp.v_lr,

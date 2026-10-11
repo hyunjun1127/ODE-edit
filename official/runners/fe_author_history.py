@@ -186,6 +186,8 @@ def run(config_path,lock_path,resume=False):
         official_tree_sha256=lock['official_tree'],model_revision=desc['revision'],tokenizer_sha256=assets['tokenizer_sha256'],assets_sha256=assets['assets_sha256'],
         covariance_sha256=digest(covariance_receipts),z_policy=Z_POLICY,
         writer_backend=c.get('writer_backend','EASYEDIT_HISTORY'))
+    # Fail before an expensive W0 evaluation if the runner/storage contracts drift.
+    checkpoint.validate_identity(identity)
     values=tracking_values(c,lock)
     tracker=init(env_file=c['tracking_env_file'],spool=output/('tracking-resume' if resume else 'tracking'),config=values)
     def log(v):
