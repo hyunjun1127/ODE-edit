@@ -96,7 +96,8 @@ Qwen은 batch-entry 경로의 후반 L5 잔차 폭증을 별도로 조사한다.
 63376은 같은 오류로 진행하지 않도록 중단했다. 대기63373/63374도 취소했으며,
 CAKE 자원 순서를 **63296 → 63298**, **63297 → 63299**로 복구하고 임시 hold를 모두 해제했다.
 공식 `main.py`를 그대로 실행하는 새 진단 **63385 / s1-qwen25-cf-fe-native-main-seqz-2k**는 server1 RUNNING,
-**63386 / s1-gptj-cf-fe-native-main-seqz-2k**는63385 후속 PENDING이다(source `60eea6e2`, 저자 `478134df`).
+**63386 / s1-gptj-cf-fe-native-main-seqz-2k**는 Qwen checkpoint 평가63387 후속 PENDING이다(source `60eea6e2`, 저자 `478134df`).
+실제 진단 lane은63385→63387(Qwen 평가)→63386→63388(GPT-J 평가)이며, 후속 평가는 저장 가중치만 읽는다.
 저자 hparams·BF16·context 생성·writer·누적history·원 C0를 유지하고, z만 현재 배치 진입 모델에서100건씩 계산한다.
 500건마다 가중치/history/RNG를 저장하며 sample은 기존2K 순서와 같다. 공식 main.py 원본 SHA와 writer 본문 일치를 확인했다.
 기존 baseline 성능 행을 이 별도 진단 결과로 대체하지 않는다. **GPU2K 결과·붕괴 해소는 아직 미확인**이다.

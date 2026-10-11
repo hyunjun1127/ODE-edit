@@ -17,9 +17,14 @@ from official.runners.server1.common import read, verify
 
 
 def validate_payload(payload, config, records, batch):
+    reference = config.get('z_reference', 'batch_entry')
+    policies = {'batch_entry': 'CURRENT_BATCH_ENTRY_NO_FUTURE_TARGETS',
+                'initial_model_on_arrival': 'CURRENT_BATCH_ONLY_INITIAL_MODEL'}
+    if reference not in policies:
+        raise ValueError('NATIVE_EVAL_Z_REFERENCE')
     if (payload['schema'] != 'native-fe-sequential-diagnostic-v1'
             or payload['identity_sha256'] != config['identity_sha256']
-            or payload['z_policy'] != 'CURRENT_BATCH_ENTRY_NO_FUTURE_TARGETS'
+            or payload['z_policy'] != policies[reference]
             or payload['completed_batches'] != batch or batch not in (0, 5, 10, 15, 20)
             or payload['completed_edits'] != batch * 100):
         raise ValueError('NATIVE_EVAL_CHECKPOINT_IDENTITY')
@@ -29,6 +34,7 @@ def validate_payload(payload, config, records, batch):
     native = payload['config']
     if (native['model_dtype'] != 'bfloat16' or native['bs'] != 100
             or native['num_edits'] != 2000 or not native['algs']['add_old_keys']
+            or native.get('diagnostic_z_reference', 'batch_entry') != reference
             or native['diagnostic_identity_sha256'] != config['identity_sha256']):
         raise ValueError('NATIVE_EVAL_CONFIG')
     expected = {native['llms']['rewrite_module_tmp'].format(layer)+'.weight'
@@ -102,6 +108,7 @@ def run(native_config, output, lock_path):
                 native_source=config['ode_patch_source'], author_source=config['author_commit'],
                 evaluation_source=lock['source_commit'], model=config['model'], dataset='cf',
                 completed_edits=batch*100, evaluation_cases=len(rows), precision='bfloat16',
+                z_reference=config.get('z_reference', 'batch_entry'),
                 attention_backend=model.config._attn_implementation)
             observed = evaluate_counterfact(model, tok, rows, identity=identity, batch_size=16, device='cuda:0')
             after_stat = checkpoint.stat()

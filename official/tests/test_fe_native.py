@@ -21,6 +21,7 @@ import torch
 
 from official.diagnostics.fe_native import checkpoint_observer, sequential_z, patch as native_patch
 from official.diagnostics.fe_native.evaluate import validate_payload, restore_weights
+from official.diagnostics.fe_native.covariance import derive
 
 
 class Tokens(dict):
@@ -85,6 +86,78 @@ def requests():
 
 
 class NativeTests(unittest.TestCase):
+    def test_initial_reference_control_only_sees_current_requests_and_restores_editing_state(self):
+        model, cfg = Model(), config()
+        cfg.diagnostic_z_reference = 'initial_model_on_arrival'
+        supply = sequential_z.TargetSupplier(model, cfg)
+        with torch.no_grad():
+            model.layers[0].weight.mul_(4)
+            model.layers[1].weight.mul_(3)
+        editing = {name:p.detach().clone() for name,p in model.named_parameters()}
+        observed = []
+        def fit(*args):
+            observed.append(args[2]['case_id'])
+            self.assertTrue(torch.equal(model.layers[0].weight, torch.eye(3)))
+            return fitted(*args)
+        targets = supply(model, tokenize, requests()[2:], cfg, [['{}']],
+                         compute_z=fit, find_fact_lookup_idx=lookup, TraceDict=Trace)
+        self.assertEqual(observed, [3, 4])
+        expected = torch.stack([torch.tensor([1., 0., 0.]) + i/10. for i in (3, 4)], dim=1)
+        self.assertTrue(torch.equal(targets[0], expected))
+        self.assertTrue(torch.equal(targets[1], expected))
+        for name,p in model.named_parameters():
+            self.assertTrue(torch.equal(p, editing[name]))
+
+    def test_initial_reference_restores_weights_when_target_fit_fails(self):
+        model, cfg = Model(), config()
+        cfg.diagnostic_z_reference = 'initial_model_on_arrival'
+        supply = sequential_z.TargetSupplier(model, cfg)
+        with torch.no_grad():
+            model.layers[0].weight.mul_(4)
+        editing = {name:p.detach().clone() for name,p in model.named_parameters()}
+        def failed(*args):
+            raise RuntimeError('target-fit-failure')
+        with self.assertRaisesRegex(RuntimeError, 'target-fit-failure'):
+            supply(model, tokenize, requests()[:2], cfg, [['{}']],
+                   compute_z=failed, find_fact_lookup_idx=lookup, TraceDict=Trace)
+        for name,p in model.named_parameters():
+            self.assertTrue(torch.equal(p, editing[name]))
+
+    def test_derived_covariance_native_roundtrip_preserves_source_and_metadata(self):
+        with tempfile.TemporaryDirectory() as folder:
+            source = Path(folder)/'source.npz'
+            destination = Path(folder)/'derived.npz'
+            matrix = np.array([[1., 1. + np.finfo(np.float32).eps],
+                               [1. + np.finfo(np.float32).eps, 1.]], dtype=np.float32)
+            np.savez(source, **{'mom2.count':np.array(1), 'mom2.mom2':matrix,
+                              'sample_size':np.array(100000), 'batch_size':np.array(100)})
+            before = source.read_bytes()
+            sha = hashlib.sha256(before).hexdigest()
+            receipt = derive(source, destination, expected_sha256=sha)
+            self.assertEqual(source.read_bytes(), before)
+            self.assertEqual(receipt['repair']['corrected_eigenvalues'], 1)
+            self.assertEqual(receipt['roundtrip_cholesky_info'], 0)
+            with np.load(destination) as archive:
+                # The actual author's SecondMoment loader has these same operations.
+                moment = torch.from_numpy(archive['mom2.mom2']) / int(archive['mom2.count'])
+                self.assertEqual(moment.dtype, torch.float64)
+                self.assertTrue(torch.all(torch.linalg.eigvalsh(moment) > 0))
+                self.assertEqual(int(archive['sample_size']), 100000)
+            with self.assertRaisesRegex(ValueError, 'NEW_ASSET_REQUIRED'):
+                derive(source, destination, expected_sha256=sha)
+
+    def test_covariance_asset_refuses_wrong_source_and_healthy_replacement(self):
+        with tempfile.TemporaryDirectory() as folder:
+            source = Path(folder)/'source.npz'
+            destination = Path(folder)/'derived.npz'
+            np.savez(source, **{'mom2.count':np.array(1),
+                              'mom2.mom2':np.eye(2, dtype=np.float32)})
+            with self.assertRaisesRegex(ValueError, 'SOURCE_SHA'):
+                derive(source, destination, expected_sha256='0'*64)
+            with self.assertRaisesRegex(ValueError, 'HEALTHY_KEEP_ORIGINAL'):
+                derive(source, destination, expected_sha256=hashlib.sha256(source.read_bytes()).hexdigest())
+            self.assertFalse(destination.exists())
+
     def test_readonly_evaluation_rejects_reordered_checkpoint(self):
         model = Model()
         cfg = config()
@@ -98,6 +171,9 @@ class NativeTests(unittest.TestCase):
             seen_case_ids=list(range(500)), config=OmegaConf.to_container(cfg),
             weights={k:p.detach().clone() for k,p in model.named_parameters()})
         validate_payload(payload, {'identity_sha256':'a'*64}, rows, 5)
+        with self.assertRaisesRegex(ValueError, 'CHECKPOINT_IDENTITY'):
+            validate_payload(payload, {'identity_sha256':'a'*64,
+                                       'z_reference':'initial_model_on_arrival'}, rows, 5)
         payload['seen_case_ids'][0], payload['seen_case_ids'][1] = 1, 0
         with self.assertRaisesRegex(ValueError, 'NATIVE_EVAL_STREAM_ORDER'):
             validate_payload(payload, {'identity_sha256':'a'*64}, rows, 5)

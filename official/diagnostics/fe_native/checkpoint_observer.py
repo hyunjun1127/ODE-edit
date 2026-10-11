@@ -51,7 +51,9 @@ def snapshot(cfg, model, cache_c, contexts, completed_batches, requests):
                        config=OmegaConf.to_container(cfg, resolve=True),
                        seen_case_ids=[r['case_id'] for r in requests[:completed_batches*cfg.bs]],
                        identity_sha256=cfg.diagnostic_identity_sha256,
-                       z_policy='CURRENT_BATCH_ENTRY_NO_FUTURE_TARGETS')
+                       z_policy=('CURRENT_BATCH_ENTRY_NO_FUTURE_TARGETS'
+                                 if cfg.get('diagnostic_z_reference', 'batch_entry') == 'batch_entry'
+                                 else 'CURRENT_BATCH_ONLY_INITIAL_MODEL'))
         with partial.open('xb') as handle:
             torch.save(payload, handle)
             handle.flush()

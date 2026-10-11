@@ -1,0 +1,53 @@
+{
+  "count": 54924275,
+  "derived": {
+    "bytes": 2147484986,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/native-derived-prior/gptj-layer-3.npz",
+    "sha256": "35011b8ae839fea53ef0d409fb38351fd8cb15b0eeb711ca2ced7c8ece421d9e"
+  },
+  "max_roundtrip_difference": 5.551115123125783e-17,
+  "native_normalization_dtype": "float64",
+  "repair": {
+    "cholesky_info": 13797,
+    "corrected_eigenvalues": 6,
+    "correction_frobenius": 1.8432886761507535e-05,
+    "eigen_residual_norms": [
+      3.209039207645442e-15,
+      2.346292298448382e-15,
+      3.4199407012873524e-15,
+      4.828694853079593e-15,
+      5.468416381165649e-15,
+      1.3378977460771418e-15
+    ],
+    "eigenvalue_floor": 8.017373559847956e-06,
+    "input_dtype": "torch.float32",
+    "matrix_frobenius": 67.25460398312904,
+    "original_eigenvalues": [
+      -2.0753157906013732e-06,
+      -8.938286186382485e-07,
+      -1.5909344533903747e-08,
+      1.1462938291625874e-06,
+      2.181103699685735e-06,
+      4.454790928648792e-06
+    ],
+    "output_dtype": "torch.float64",
+    "policy": "project_roundoff",
+    "relative_correction": 2.7407620697806003e-07,
+    "repaired": true,
+    "repaired_cholesky_info": 0,
+    "shape": [
+      16384,
+      16384
+    ],
+    "storage_roundoff_bound": 8.017373559847956e-06
+  },
+  "roundtrip_cholesky_info": 0,
+  "schema": "native-fe-derived-moment-v1",
+  "scope": "Numerical regularization of defective stored moments; not fresh covariance sampling",
+  "source": {
+    "bytes": 1073743054,
+    "path": "/mnt/raid5/janghj/EasyEdit/examples/data/stats/gpt-j-6b/wikipedia_stats/transformer.h.3.mlp.fc_out_float32_mom2_100000.npz",
+    "sha256": "baee403704e2ddcc4c2a669064d29107273f49219a221ae447f361a76208a67f"
+  },
+  "unchanged_metadata": true
+}

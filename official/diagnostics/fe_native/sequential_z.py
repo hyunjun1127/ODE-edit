@@ -7,6 +7,47 @@ placement moves from all-future W0 precomputation to the current batch.
 import torch
 
 
+class TargetSupplier:
+    """Explicit causal control: reference model and request arrival are separate.
+
+    Default: batch-entry model. The optional initial-model control fits only the
+    supplied current requests, restores editing weights before returning, and
+    does not read a target cache or receive future requests. It is a different
+    z-reference protocol and must not be reported as the default baseline.
+    """
+    def __init__(self, model, cfg):
+        self.reference = cfg.get('diagnostic_z_reference', 'batch_entry')
+        if self.reference not in ('batch_entry', 'initial_model_on_arrival'):
+            raise ValueError('NATIVE_Z_REFERENCE')
+        names = {cfg.llms.rewrite_module_tmp.format(layer)+'.weight' for layer in cfg.llms.layers}
+        self.parameters = {name: parameter for name, parameter in model.named_parameters() if name in names}
+        if set(self.parameters) != names:
+            raise ValueError('NATIVE_Z_REFERENCE_WEIGHT_SET')
+        self.initial = ({name: p.detach().cpu().clone() for name, p in self.parameters.items()}
+                        if self.reference == 'initial_model_on_arrival' else None)
+
+    def __call__(self, model, tok, requests, cfg, contexts, **operations):
+        if self.initial is None:
+            return current_batch_targets(model, tok, requests, cfg, contexts, **operations)
+        if not requests or len(requests) > cfg.bs:
+            raise ValueError('CURRENT_BATCH_ONLY')
+        parameters = dict(model.named_parameters())
+        if any(parameters.get(name) is not p for name, p in self.parameters.items()):
+            raise ValueError('NATIVE_Z_REFERENCE_MODEL_CHANGED')
+        current = {name: p.detach().cpu().clone() for name, p in self.parameters.items()}
+        try:
+            with torch.no_grad():
+                for name, p in self.parameters.items():
+                    p.copy_(self.initial[name])
+            return current_batch_targets(model, tok, requests, cfg, contexts, **operations)
+        finally:
+            with torch.no_grad():
+                for name, p in self.parameters.items():
+                    p.copy_(current[name])
+            if any(not torch.equal(p.detach().cpu(), current[name]) for name, p in self.parameters.items()):
+                raise RuntimeError('NATIVE_Z_REFERENCE_RESTORE_FAILED')
+
+
 def current_batch_targets(model, tok, requests, cfg, contexts, *, compute_z,
                           find_fact_lookup_idx, TraceDict):
     if not requests or len(requests) > cfg.bs:

@@ -26,15 +26,16 @@ def patched_source(source):
     start = source.index('    # Load z cache once for all batches')
     end = source.index('    return model\n', start)
     replacement = '''    # Sequential diagnostic: only target supply changes. The author writer below is untouched.
-    from .native_sequential_z import current_batch_targets
+    from .native_sequential_z import TargetSupplier
     from .native_checkpoint_observer import snapshot
     context_templates = get_context_templates(model, tok)
+    target_supplier = TargetSupplier(model, cfg)
     snapshot(cfg, model, cache_c, context_templates, 0, requests)
     for batch_index, requests_chunks in enumerate(chunks(requests, cfg.bs), start=1):
         print(f"NATIVE_FE_BATCH_START {batch_index} case_ids={[r['case_id'] for r in requests_chunks]}", flush=True)
         for local_index, request in enumerate(requests_chunks):
             request["sample_idx"] = local_index
-        zs_all = current_batch_targets(model, tok, requests_chunks, cfg, context_templates,
+        zs_all = target_supplier(model, tok, requests_chunks, cfg, context_templates,
             compute_z=compute_z, find_fact_lookup_idx=find_fact_lookup_idx, TraceDict=nethook.TraceDict)
         batch_edit(cfg,model,tok,requests_chunks,device,cache_c,zs_all)
         snapshot(cfg, model, cache_c, context_templates, batch_index, requests)
@@ -64,7 +65,7 @@ def install(root):
         raise ValueError('MAIN_ENTRYPOINT_CHANGED')
     return dict(author_commit=AUTHOR_COMMIT, main_sha256=main_before,
                 upstream_fe_sha256=FE_SHA256, patched_fe_sha256=hashlib.sha256(result.encode()).hexdigest(),
-                scientific_change='current-batch-entry firstforward target supply only',
+                scientific_change='current-batch-only firstforward target supply; batch-entry default, explicit initial-model causal control available',
                 observation_change='W0 and 500-edit weights/history/RNG snapshots', patch=patch)
 
 

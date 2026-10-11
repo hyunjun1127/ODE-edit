@@ -1,0 +1,12 @@
+{
+  "native_get_cov": "PASS",
+  "exact_derived_normalization": true,
+  "shape": [
+    16384,
+    16384
+  ],
+  "dtype": "torch.float64",
+  "cholesky_info": 0,
+  "GPU_execution": false,
+  "native_source_changes": 0
+}

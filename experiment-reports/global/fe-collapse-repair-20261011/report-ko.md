@@ -267,3 +267,30 @@ writer/history를 유지하고, 현재 batch-entry 모델의 해당100건만 fir
 [z공급부diff](../../../audits/global/fe-collapse-repair-20261011/native-target-supply.patch) ·
 [CPU자산검증](../../../audits/global/fe-collapse-repair-20261011/native-cpu-asset-preflight.json) ·
 [등록](../../../audits/global/fe-collapse-repair-20261011/native-submission.json).
+
+## 500건 관측과 다음 원인 분리 준비 (12:02 KST)
+
+Qwen63385 B5 checkpoint의 SHA/identity와 현재500개 case 순서를 재검증했다.
+다섯 층의 가중치/H는 모두 finite이고 H는 대칭이다. 저장된 각 층의
+`15000*C0 + H`는 Cholesky를 통과했다. 다음 배치의 실제 solve에는 그 배치의
+key Gram이 추가되므로 이 검사는 모든 미래 solve를 보증하지 않는다.
+B5 L5 residual은250으로 증가했다. 아직 공통 CF 성능은 미측정이다.
+[실제 checkpoint CPU 검사](../../../audits/global/fe-collapse-repair-20261011/native-qwen-b05-prior-audit.json).
+
+GPT-J 결함 C0의 별도 native NPZ 보정본을 준비했다. count/나머지 metadata는
+보존하고,6개 분해능 이하 방향만 보정한 FP64 moment sum을 저장했다.
+파일 재로딩/정규화 후에도 Cholesky를 통과하며 보정 전후 상대 변화는2.74e-7이다.
+원본 NPZ나 현재63386 설정은 변경하지 않았다. 이 자산은 새 통계 수집이 아닌
+명시적 수치 정규화이며 별도 GPU 대조가 필요하다.
+[원본/보정본 SHA·검산](../../../audits/global/fe-collapse-repair-20261011/native-gptj-derived-prior.json).
+
+Qwen의 원인 분리용 `initial_model_on_arrival` target 공급 옵션을 추가했다.
+현재 도착한100건만 W0 가중치에서 최적화하고, 편집 중인 가중치를 복원한 뒤
+원래 저자 writer/history로 전달한다. 미래 target cache는 읽거나 만들지 않는다.
+이는 **현재 batch-entry 모델 기준과 다른 대조 프로토콜**이며 baseline의 자동 대체가 아니다.
+실행 중인63385/63386 frozen source에는 이 변경을 넣지 않았다.
+CPU12개 검사에서 현재 요청 범위, 성공/예외 시 editing state 복원,
+서로 다른 reference의 checkpoint 오표기 거부를 확인했다. GPU 실행은 아직 하지 않았다.
+
+실제 저자 `get_cov`로도 보정 NPZ를 읽어 FP64 normalization 일치와 Cholesky 통과를 확인했다.
+[저자 loader 검산](../../../audits/global/fe-collapse-repair-20261011/native-gptj-derived-prior-loader.json).
