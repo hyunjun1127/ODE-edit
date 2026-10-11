@@ -1,0 +1,130 @@
+{
+  "config_sha256": "867505326017f7596f13316faaea4066ac1f1f2fb551d78bf667a8a39ad51722",
+  "layers": {
+    "4": {
+      "cholesky_info": 0,
+      "corrected_eigenvalues": 0,
+      "input_dtype": "torch.float32",
+      "policy": "strict",
+      "repaired": false,
+      "shape": [
+        14336,
+        14336
+      ],
+      "source": {
+        "allocated_bytes": 822091776,
+        "bytes": 822084814,
+        "ctime_ns": 1781174385891100130,
+        "device": 66308,
+        "expected_sha256": "7f5fc9b194d86ce289d607a23d02de5e7d7eb5a0833aaf6ef1698d814353585e",
+        "inode": 18170237,
+        "mtime_ns": 1778400376501531975,
+        "nlink": 1,
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+        "real_path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.4.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "7f5fc9b194d86ce289d607a23d02de5e7d7eb5a0833aaf6ef1698d814353585e",
+        "verification": "FRESH_SHA256"
+      }
+    },
+    "5": {
+      "cholesky_info": 0,
+      "corrected_eigenvalues": 0,
+      "input_dtype": "torch.float32",
+      "policy": "strict",
+      "repaired": false,
+      "shape": [
+        14336,
+        14336
+      ],
+      "source": {
+        "allocated_bytes": 822091776,
+        "bytes": 822084814,
+        "ctime_ns": 1781174393110966967,
+        "device": 66308,
+        "expected_sha256": "a99a36207d3b27f129bb5323c11139853a7851c9788c58931621aa08c81fb435",
+        "inode": 18170238,
+        "mtime_ns": 1778405783263173797,
+        "nlink": 1,
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_100000.npz",
+        "real_path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.5.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "a99a36207d3b27f129bb5323c11139853a7851c9788c58931621aa08c81fb435",
+        "verification": "FRESH_SHA256"
+      }
+    },
+    "6": {
+      "cholesky_info": 0,
+      "corrected_eigenvalues": 0,
+      "input_dtype": "torch.float32",
+      "policy": "strict",
+      "repaired": false,
+      "shape": [
+        14336,
+        14336
+      ],
+      "source": {
+        "allocated_bytes": 822091776,
+        "bytes": 822084814,
+        "ctime_ns": 1781174400294834490,
+        "device": 66308,
+        "expected_sha256": "3a6a0c682f09a8b725e624fec1265adb46a2f7328586acc0b77c08e587e1c495",
+        "inode": 18170239,
+        "mtime_ns": 1778412013640495980,
+        "nlink": 1,
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_100000.npz",
+        "real_path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.6.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "3a6a0c682f09a8b725e624fec1265adb46a2f7328586acc0b77c08e587e1c495",
+        "verification": "FRESH_SHA256"
+      }
+    },
+    "7": {
+      "cholesky_info": 0,
+      "corrected_eigenvalues": 0,
+      "input_dtype": "torch.float32",
+      "policy": "strict",
+      "repaired": false,
+      "shape": [
+        14336,
+        14336
+      ],
+      "source": {
+        "allocated_bytes": 822091776,
+        "bytes": 822084814,
+        "ctime_ns": 1781174407538700929,
+        "device": 66308,
+        "expected_sha256": "a29e2d2ffb408eeba4a507d5ab9523129b2520bafc2874847f8d396796ebc830",
+        "inode": 18170240,
+        "mtime_ns": 1778419071493293499,
+        "nlink": 1,
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_100000.npz",
+        "real_path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.7.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "a29e2d2ffb408eeba4a507d5ab9523129b2520bafc2874847f8d396796ebc830",
+        "verification": "FRESH_SHA256"
+      }
+    },
+    "8": {
+      "cholesky_info": 0,
+      "corrected_eigenvalues": 0,
+      "input_dtype": "torch.float32",
+      "policy": "strict",
+      "repaired": false,
+      "shape": [
+        14336,
+        14336
+      ],
+      "source": {
+        "allocated_bytes": 822091776,
+        "bytes": 822084814,
+        "ctime_ns": 1781174414706568787,
+        "device": 66308,
+        "expected_sha256": "f6bbc2f240343d5244730c6422743344193dc16ee6afe64dc6cd3a97497d9050",
+        "inode": 18170241,
+        "mtime_ns": 1778426959389839324,
+        "nlink": 1,
+        "path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz",
+        "real_path": "/data/janghj/EasyEdit/examples/data/stats/Meta-Llama-3-8B-Instruct/wikipedia_stats/model.layers.8.mlp.down_proj_float32_mom2_100000.npz",
+        "sha256": "f6bbc2f240343d5244730c6422743344193dc16ee6afe64dc6cd3a97497d9050",
+        "verification": "FRESH_SHA256"
+      }
+    }
+  }
+}

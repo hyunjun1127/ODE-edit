@@ -1,0 +1,107 @@
+{
+  "arm": "cf-MEMIT_FE_HISTORY_FE_AUTHOR_HPARAMS",
+  "assets": {
+    "bytes": 17966,
+    "path": "/data/janghj/ODE-edit/local/fe-author-llama-cf-s3-20261011/preparation-r2/assets-llama3.json",
+    "sha256": "0a882dacf14151600e599e0fbb5174db6d399275bba23c6cb090710a55d5c4ed"
+  },
+  "author_only_changes": [
+    "clamp_norm_factor",
+    "v_num_grad_steps"
+  ],
+  "author_profile_sha256": "2e0b1e5b56d99faf5378d0335cf34926ee1b0aa0c0d6736c099e3663a75bf158",
+  "automatic_retry": false,
+  "batch_size": 100,
+  "batches": 20,
+  "checkpoint_policy": "W0_THEN_LATEST_EACH_BATCH_KEEP_W20",
+  "config_sha256": "867505326017f7596f13316faaea4066ac1f1f2fb551d78bf667a8a39ad51722",
+  "covariance_policy": "strict",
+  "dataset": "cf",
+  "edit_seed": 0,
+  "future_consumer_pending": true,
+  "generation_schedule": "DEFERRED_CHECKPOINT_EVALUATION",
+  "history": {
+    "append": "final_model_native_mean_key_once_per_layer_per_committed_batch",
+    "dtype": "float32",
+    "solve": "lambda_C*C0+H_entry+K@K.T",
+    "solver_dtype": "float64"
+  },
+  "hparams": {
+    "alg_name": "MEMIT-FE",
+    "attn_module_tmp": "model.layers.{}.self_attn",
+    "clamp_norm_factor": 0.75,
+    "device": 0,
+    "fact_token": "subject_last",
+    "kl_factor": 0.0625,
+    "layer_module_tmp": "model.layers.{}",
+    "layer_selection": "all",
+    "layers": [
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "lm_head_module": "lm_head",
+    "ln_f_module": "model.norm",
+    "mlp_module_tmp": "model.layers.{}.mlp",
+    "model_name": "meta-llama/Meta-Llama-3-8B-Instruct",
+    "model_parallel": false,
+    "mom2_adjustment": true,
+    "mom2_dataset": "wikipedia",
+    "mom2_dtype": "float32",
+    "mom2_n_samples": 100000,
+    "mom2_update_weight": 15000,
+    "rewrite_module_tmp": "model.layers.{}.mlp.down_proj",
+    "stats_dir": "./tmp/stats",
+    "v_loss_layer": 31,
+    "v_lr": 0.1,
+    "v_num_grad_steps": 35,
+    "v_weight_decay": 0.5
+  },
+  "instruction_id": "USER-SH-FE-AUTHOR-HPARAMS-2K-CF-ZSRE-20261010-R1",
+  "method": "MEMIT_FE_HISTORY",
+  "milestones": [
+    5,
+    10,
+    15,
+    20
+  ],
+  "model": "llama3",
+  "ordered_case_ids_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+  "output": "/data/janghj/ODE-edit/local/fe-author-llama-cf-s3-20261011/preparation-r2/runs/cf",
+  "qualification": "NOT_RUN_USER_DISABLED",
+  "requests": 2000,
+  "rerun_of": {
+    "config": {
+      "bytes": 3612,
+      "path": "/data/janghj/ODE-edit/local/fe-author-llama-cf-s3-20261011/inputs/cf-62529.json",
+      "sha256": "be5e2c1a25353880a45554aa1135e023679a01c54993349eb2c2e2d38761332b"
+    },
+    "config_sha256": "eac2aa8ec8cd88a68919eefef1f38013fc4b19c062d5dd2a04db1e33c164a1cc",
+    "job": "62529",
+    "reason": "W20 checkpoint of 62529 was deleted; rerun keeps W20 for the deferred Flu/Con evaluation"
+  },
+  "runtime": {
+    "executable": "/data/janghj/ODE-edit/local/runtime/price-s4-mirror-v1/venv/bin/python",
+    "packages": {
+      "numpy": "2.2.6",
+      "safetensors": "0.7.0",
+      "torch": "2.9.1+cu128",
+      "transformers": "4.57.1"
+    },
+    "platform": "Linux-5.15.0-179-generic-x86_64-with-glibc2.35",
+    "python": "3.12.3 (main, Apr 15 2024, 18:25:56) [Clang 17.0.6 ]"
+  },
+  "schema": "official-fe-author-history-v1",
+  "server": "server3",
+  "storage_min_free_bytes": 68719476736,
+  "stream_member": {
+    "bytes": 4145654,
+    "path": "/data/janghj/ODE-edit/local/fe-author-llama-cf-s3-20261011/inputs/cf-stream.json",
+    "sha256": "66edc483a8d4bcadedd479e4c36759a686ad61a38741d8870a9052b795710e37"
+  },
+  "stream_sha256": "39bbd2215177d2aabeb3bd5c2e7f088b454479bf567b3b16f9da70bd0b28c95e",
+  "task_id": "fe-author-llama-cf-s3-20261011",
+  "tracking_env_file": "/data/janghj/ODE-edit/local/fe-author-llama-cf-s3-20261011/inputs/wandb.env"
+}
