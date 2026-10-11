@@ -1,0 +1,69 @@
+{
+ "job": "63382",
+ "server": "server3",
+ "run": "/data/janghj/ODE-edit/local/fe-author-llama-cf-s3-20261011/preparation-r3/runs/cf",
+ "method": "MEMIT_FE_HISTORY (author hparams + history, per-batch z)",
+ "model": "llama3",
+ "dataset": "cf",
+ "complete": {
+  "path": "/data/janghj/ODE-edit/local/fe-author-llama-cf-s3-20261011/preparation-r3/runs/cf/COMPLETE.json",
+  "bytes": 4487,
+  "sha256": "e9bdb8a05756222c36acc8a6260ccd1603812a79ff99ede30d818abafd8b64e6"
+ },
+ "all_seen_w20": {
+  "path": "/data/janghj/ODE-edit/local/fe-author-llama-cf-s3-20261011/preparation-r3/runs/cf/factual/batch-20.json",
+  "bytes": 64098175,
+  "sha256": "44d9ed8caed63433516219ad89aa7350fb77f94b3672514851d653f4e92b27c5"
+ },
+ "requests": 2000,
+ "counts": {
+  "R": {
+   "numerator": 1992,
+   "denominator": 2000
+  },
+  "P": {
+   "numerator": 3815,
+   "denominator": 4000
+  },
+  "N": {
+   "numerator": 15874,
+   "denominator": 20000
+  }
+ },
+ "display": {
+  "Score": "90.57",
+  "Eff": "99.60",
+  "Gen": "95.38",
+  "Loc": "79.37"
+ },
+ "score_unrounded": 90.56793137220288,
+ "evaluator": "official reduce.counterfact strict NLL (target_new vs target_true *_prompts_probs), Score = harmonic mean of unrounded R/P/N",
+ "checkpoint_latest": {
+  "batch": 20,
+  "file": "batch-20-bbf87bff0e0b36e5.pt",
+  "final_W20": true,
+  "identity_sha256": "c64d6753606098f144a02a049179fa1b1af454c79e784e2b1e7cd7e341813e21",
+  "sha256": "bbf87bff0e0b36e50bff84ef61c59aaa1c05dbe16dda9b6165c75129d9350cb6"
+ },
+ "identity": {
+  "assets_sha256": "b4b0df9481e98c1d6572faa1874e6ef212db14989b80a72dcb22f09c36f1a87a",
+  "code_commit": "4841f720a0217aec6ff05d33edd06f451bc60785",
+  "config_sha256": "e512f125e22bfa1adc29e999dd5832ed8444554a6a3dec45d7d9fadf819c7895",
+  "covariance_sha256": "8e78901d0cbd0ecb4e8f9203052863082331746ff274dd34625588fd3eaf0436",
+  "model_revision": "8afb486c1db24fe5011ec46dfbe5b5dccdb575c2",
+  "official_tree_sha256": "4543f859acc8fea47177b4e06b24a95fafb7cd4d",
+  "stream_sha256": "39bbd2215177d2aabeb3bd5c2e7f088b454479bf567b3b16f9da70bd0b28c95e",
+  "tokenizer_sha256": "5def14f0398b34af845724d57933cb300ae606e3e4b039366e1fdbd81fbcc521",
+  "writer_backend": "EASYEDIT_HISTORY",
+  "z_policy": "CURRENT_BATCH_ENTRY_MODEL_NO_FUTURE_TARGETS"
+ },
+ "rerun_of": {
+  "job": "62529",
+  "display": {
+   "Score": "90.58",
+   "Eff": "99.70",
+   "Gen": "95.55",
+   "Loc": "79.22"
+  }
+ }
+}
