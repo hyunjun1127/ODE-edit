@@ -1,0 +1,42 @@
+{
+  "GPU_result": "NOT_OBSERVED",
+  "after": {
+    "owner": "janghj",
+    "node": "devbox",
+    "allocated_gpus": 2,
+    "admitted_DAG_width": 2,
+    "frontier": [
+      "63298",
+      "63299"
+    ]
+  },
+  "cap": 2,
+  "config": {
+    "bytes": 46672,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/gpu-gptj-cf/config.json",
+    "sha256": "714a215681e69f21830c98b573a4c69b9dc7a3d68de4fed90c5f9a232399f1fc"
+  },
+  "execution_lock": {
+    "bytes": 132325,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/gpu-gptj-cf/execution-lock.json",
+    "sha256": "85f7347da6288f525b4e86d04a35bd452252ed84449d7d0a760be779991e3fd3"
+  },
+  "existing_running_unchanged": true,
+  "job_id": "63368",
+  "old_pending_change": "63298 resource dependency only",
+  "other_chain": [
+    "63297",
+    "63299"
+  ],
+  "resource_chain": [
+    "63296",
+    "63368",
+    "63298"
+  ],
+  "source": "b3c7fb2064f208fe1155e08e25df26a4106f4f33",
+  "full_receipt": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/gpu-gptj-cf/submission.json",
+    "sha256": "bfdfe3617d592928efdea37eb4c63f8ba80693ea80b092ff839b06123b92cded"
+  },
+  "source_config_existing_jobs_unchanged": true
+}

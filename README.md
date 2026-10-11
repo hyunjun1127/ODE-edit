@@ -94,7 +94,18 @@ CF factual / zsRE public-query requestmacro loc_ans 비교 evaluator는 편집�
 SH1: Llama CF→zsRE, GPT-J CF→zsRE 및 후속 Qwen CF/zsRE를 소유한다.
 기존 Llama/GPT-J 네 job은 held 검사 후 release했으며 frozen source/config와 비FE 작업은 보존한다.
 **완료(2026-10-11):** Llama CF **63151**·zsRE **63152**, GPT-J CF **63153**·zsRE **63154**, Qwen CF **63217**·zsRE **63218** 모두 COMPLETED.
-표의 FE 행은 각 run의 W20(2,000건) 누적 all-seen raw(`factual/all-seen-20.json`)에서 다시 집계했다. CF는 공식 `reduce.counterfact`(strict NLL, R/P/N 분모 2,000/4,000/20,000, Score는 반올림 전 성공률의 조화평균), zsRE는 baseline 행과 같은 공개-query 평가기(`official-zsre-public-query-eval-only-v1`, request macro, Loc = loc_ans 정확도)다. case 순서는 공식 eval-2K/zsRE 2K 순서와 같고, 표시는 decimal half-up 둘째 자리다. **GPT-J CF는 붕괴했다**(R/P/N 979/2,000 · 2,061/4,000 · 9,802/20,000, Loc이 W0 82.48보다 낮음; 원인 미확인, 같은 설정의 GPT-J zsRE는 정상). [재집계 원자료 SHA·분자·분모](audits/servers/server1/fe-original-w0-2k-20261011/table-rows.json)
+표의 FE 완료값은 각 run의 W20(2,000건) 누적 all-seen raw(`factual/all-seen-20.json`)에서 다시 집계했다. CF는 공식 `reduce.counterfact`(strict NLL, R/P/N 분모 2,000/4,000/20,000, Score는 반올림 전 성공률의 조화평균), zsRE는 baseline 행과 같은 공개-query 평가기(`official-zsre-public-query-eval-only-v1`, request macro, Loc = loc_ans 정확도)다. case 순서는 공식 eval-2K/zsRE 2K 순서와 같고, 표시는 decimal half-up 둘째 자리다. **GPT-J CF 63153은 붕괴했다**(R/P/N 979/2,000 · 2,061/4,000 · 9,802/20,000). 원 수치와 SHA는 [기존 집계](audits/servers/server1/fe-original-w0-2k-20261011/table-rows.json)에 보존한다.
+
+**FE 붕괴 수리(2026-10-11):** 실제 GPT-J L3 C0에서 음의 고유값3개와 B3 ridge 업데이트 폭증을 확인했다.
+source **`b3c7fb20`**은 명시적 `project_roundoff` 정책과 매 층 선형계 검사를 추가한다.
+건강한 C0·원저자 hparam·W0 target·history 가중치는 유지하며, 보정본/SHA는 원 NPZ와 별도로 저장한다.
+새 GPT-J **CF 2K 63368 / official-s1-gptj-cf-fe-roundoff-2k**를 **PENDING**으로 등록했다.
+server1 cap2의 한 lane은 **63296 → 63368 → 63298**, 다른 lane은 **63297 → 63299**다.
+63298은 resource dependency만 바꿨고 실행 중 CAKE 두 작업은 그대로다.
+CF 4개 factual 셀은 새 job 상태로 바꾸며, 정상 완료된 GPT-J zsRE와 Qwen CF/zsRE 값은 유지한다.
+이는 수치 보정한 FE이며 저자의 미공개 exact 공분산 복원을 뜻하지 않는다. 새2K 성능 회복은 아직 미확인이다.
+[원인·CPU 재현·수정](experiment-reports/global/fe-collapse-repair-20261011/report-ko.md) ·
+[실제 제출·cap2 검산](audits/global/fe-collapse-repair-20261011/submission.json).
 SH2 저장공간 부족으로 미제출이던 Qwen 두 조건은 최신 사용자 지시로 **server1에 재배정**했다.
 Qwen CF **63217**, zsRE **63218**은 held 검사 후 release했고 위와 같이 완료했다.
 두 job 모두 `afterany:63152:63154:63207`로 기존 말단을 기다린다. 관측된 기존 GPU3개는 유지하며
@@ -374,7 +385,7 @@ Llama historical3개는 원source/lock/CP와 새평가 consumer identity를 분�
 | MEMIT | 80.63 | 97.90 | 95.38 | 60.58 | 577.93 | 36.84 | 93.52 | 88.86 | 30.81 |
 | AlphaEdit | 88.22 | 99.70 | 96.33 | 73.56 | PENDING: s2-flucon-gptj-alphaedit-61778 (62866) | PENDING: s2-flucon-gptj-alphaedit-61778 (62866) | 99.69 | 96.45 | 27.94 |
 | AlphaEdit-BLUE | 89.23 | 99.55 | 97.53 | 75.06 | PENDING: s2-flucon-gptj-alphaedit_blue-61779 (62867) | PENDING: s2-flucon-gptj-alphaedit_blue-61779 (62867) | 99.75 | 95.71 | 28.83 |
-| FE (author repo, W0-fixed z) | 49.80 | 48.95 | 51.53 | 49.01 | DEFERRED | DEFERRED | 98.32 | 91.70 | 28.51 |
+| FE (author repo, W0-fixed z) | PENDING: official-s1-gptj-cf-fe-roundoff-2k (63368) | PENDING: official-s1-gptj-cf-fe-roundoff-2k (63368) | PENDING: official-s1-gptj-cf-fe-roundoff-2k (63368) | PENDING: official-s1-gptj-cf-fe-roundoff-2k (63368) | DEFERRED | DEFERRED | 98.32 | 91.70 | 28.51 |
 | AlphaEdit+SPHERE | 88.39 | 99.70 | 95.73 | 74.27 | 616.18 | 40.89 | 99.67 | 96.29 | 28.00 |
 | CAKE | PENDING: official-s1-gptj-cf-cake-2k (63298) | PENDING: official-s1-gptj-cf-cake-2k (63298) | PENDING: official-s1-gptj-cf-cake-2k (63298) | PENDING: official-s1-gptj-cf-cake-2k (63298) | DEFERRED | DEFERRED | PENDING: official-s1-gptj-zsre-cake-2k (63299) | PENDING: official-s1-gptj-zsre-cake-2k (63299) | PENDING: official-s1-gptj-zsre-cake-2k (63299) |
 | PRICE (Ours) | 88.22¶ | 99.80¶ | 96.23¶ | 73.57¶ | 620.09¶ | 41.61¶ | 99.81¶ | 96.96¶ | 29.59¶ |

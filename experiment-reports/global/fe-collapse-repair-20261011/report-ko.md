@@ -100,7 +100,14 @@ FP32 경로였다. CF B12→B15에서 L5 residual은47.39→265.94→1,750.72→
 - 실제 pretrained L3 B1–B3 비교 완료: 원본, zero-clip, storage-resolution 보정.
 - 전 층을 함께 편집하는 GPT-J CF 2K CPU 검증 진행 중. W5/10/15/20 평가 및 checkpoint 저장.
 - GPU 검증용 초안 job63361은 실행 전 PENDING 상태에서 취소했다. zero-clip이 실패하는
-  것을 CPU에서 확인했기 때문이며 GPU 사용0이다. 수리본의 GPU 확인은 별도 새 실행으로 등록한다.
+  것을 CPU에서 확인했기 때문이며 GPU 사용0이다.
+- 수리본 GPU **63368 / official-s1-gptj-cf-fe-roundoff-2k**, source `b3c7fb20`, canonical
+  config SHA `74416625fa221aa908e40ba9c583f6ba894bfaa16aa6904da2949b5e98c8439b`.
+  author W0 target도 새로 생성하는 cold 2K다. server1 1GPU/8CPU/96GiB/3h,
+  `afterany:63296` PENDING. source/config/full argv/실제 held job을 검사 후 release했다.
+  cap2 lane은63296→63368→63298 및63297→63299이며 DAG폭2를 확인했다.
+  63298의 resource dependency만 변경했고 모든 임시 hold를 해제했다.
+  [제출 영수증](../../../audits/global/fe-collapse-repair-20261011/submission.json).
 - 기존 GPU 실험의 source/config/가중치·기존 FE 결과는 보존했다. 2K 성능 회복은 아직 미확인이다.
 
 로컬 상세 증거: `/mnt/raid5/janghj/ODE-edit/local/fe-collapse-repair-20261011/`.

@@ -1,5 +1,16 @@
 # server1 active record
 
+## FE 붕괴 수리 / 2026-10-11
+
+사용자의 FE 원인 규명·해결 요청에 따라 GPT-J CF 수리 검증63368을 등록했다.
+cap2:63296(CAKE Llama CF)→63368(FE GPT-J CF)→63298(CAKE GPT-J CF),
+63297(CAKE Llama zsRE)→63299(CAKE GPT-J zsRE).
+63298의 resource dependency만 조정했고 source/config/output은 그대로다.
+신규63368 held검사·source `b3c7fb20`·config SHA 결속, DAG폭2·할당2 확인 후 모두release.
+등록 당시63368 PENDING이며 성능 회복 미확인이다.
+[영수증](../../audits/global/fe-collapse-repair-20261011/submission.json) ·
+[원인·수정](../../experiment-reports/global/fe-collapse-repair-20261011/report-ko.md).
+
 ## 현재 authority
 
 - server: `server1`

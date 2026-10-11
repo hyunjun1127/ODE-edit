@@ -537,7 +537,7 @@
     "output_dtype": "torch.float64",
     "repaired_cholesky_info": 0
   },
-  "gpu_repair_result": "NOT_RUN",
+  "gpu_repair_result": "PENDING_63368",
   "cpu_full_result": "RUNNING",
   "tests": {
     "count": 52,
