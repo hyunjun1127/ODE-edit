@@ -98,6 +98,13 @@ Native loader는 전체 JSON을 읽고 target fitting/use만 현재100건으로 
 [작동하는 native 구현](official/diagnostics/fe_native/README.md) ·
 [결과·checkpoint SHA](audits/global/fe-collapse-repair-20261011/native-comparison.json).
 
+**Qwen FE 데이터 변경 진단(2026-10-11 사용자 지시):** 기존 CF fixed-10K 파일의 **2,001–4,000번째 2,000건**으로
+공식 FE 현재 모델 z 실행을 추가했다. 기존 63385와 case 중복 0건이며, 코드·BF16·author hparams·seed 0·history는 동일하다.
+server1 **63561 / s1-qwen25-cf-fe-next2k-train → 63562 / s1-qwen25-cf-fe-next2k-evaluate**,
+등록 직후 **PENDING(편집 GPU 배정 대기 / 평가 afterany:63561)**이다. W0 및 500건마다 checkpoint를 저장한다.
+데이터가 다른 진단이므로 본표의 기존 CF 결과를 교체하지 않는다.
+[선택 규칙·설정·진행 결과](experiment-reports/global/fe-qwen-cf-altdata-20261011/report-ko.md).
+
 **FE author-hparams 추가 실행(2026-10-11 사용자 지시):** Llama3 **zsRE 2K 한 개**를 기존 수정 EasyEdit FE + history와
 원저자 clamp **0.75**·step **35**(lr 0.1) 설정으로 새로 제출했다. z는 각 batch 진입 모델에서 계산한다.
 server4 **63357 / official-s4-llama3-zsre-fe-author-hparams-2k**는 최신 사용자 정정으로 **cap 2**에 맞췄다.

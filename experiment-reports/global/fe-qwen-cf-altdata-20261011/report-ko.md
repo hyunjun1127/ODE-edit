@@ -21,7 +21,14 @@
 | 데이터 구간 | 편집 → 평가 job | CF 2K Score | Eff | Gen | Loc | 상태 |
 | --- | --- | ---: | ---: | ---: | ---: | --- |
 | fixed10K 1–2,000 | 63385 → 63387 | 50.1831 | 50.900 | 49.950 | 49.715 | 완료, 붕괴 |
-| fixed10K 2,001–4,000 | 제출 전 | — | — | — | — | CPU 준비 완료, GPU 결과 미관측 |
+| fixed10K 2,001–4,000 | 63561 → 63562 | — | — | — | — | PENDING, GPU 결과 미관측 |
+
+2026-10-11 21:21 KST 제출 및 held 검산·release를 완료했다.
+`63561 / s1-qwen25-cf-fe-next2k-train`은 server1 GPU 배정 대기,
+`63562 / s1-qwen25-cf-fe-next2k-evaluate`는 `afterany:63561`이다.
+등록 당시 server1의 전체 사용자 GPU DAG 최대 폭은3이며 두 새 job은 같은 한 lane이다.
+서버 GPU8개가 Slurm에서 모두 할당되어 있고 실행 전이다. 30초마다 상태·checkpoint·지표를 읽어 기록한다.
+[실제 등록 영수증](../../../audits/global/fe-qwen-cf-altdata-20261011/submission.json).
 
 데이터가 다른 진단이므로 본표의 기존 CF 성능을 이 결과로 교체하지 않는다.
 새 데이터에서 정상이어도 단일 구간 결과이며, 기존 구간의 실패를 지우지 않는다.
