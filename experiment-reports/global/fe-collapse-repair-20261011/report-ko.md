@@ -6,7 +6,7 @@
 아래 author W0-fixed 결과와 CPU 대조는 별도 경로의 원인 후보 조사이며 현재 baseline의 회복 증거가 아니다.
 초기 조사에서 이 경로를 현재 기준으로 바꾼 것은 잘못이었다. Qwen/GPT-J의 현재 기준 재검증이 남아 있다.
 
-## 현재 진행 상태 (2026-10-11 14:04 KST)
+## 현재 진행 상태 (2026-10-11 14:26 KST)
 
 공식 `main.py` + 현재 배치 z 진단을 server1에서 진행 중이다. 기존 정상 cap2에
 허용된 진단용 한 개 lane을 추가했다. 후속 원인 분리 실험은 기존 CAKE 작업이
@@ -18,7 +18,7 @@
 | Qwen 저장 checkpoint 공통 평가 | 63387 | COMPLETED 0:0, W0 및 500/1000/1500/2000 모두 평가 |
 | GPT-J CF native sequential 2K | 63386 | RUNNING, 원본 C0 대조 |
 | GPT-J 저장 checkpoint 공통 평가 | 63388 | PENDING afterany:63386 |
-| GPT-J L3 C0만 보정한 native 2K → 평가 | 63389 → 63390 | PENDING, CAKE63298·63299 모두 종료 후 |
+| GPT-J L3 C0만 보정한 native 2K → 평가 | 63389 → 63390 | 63389 RUNNING, 63390 후속 PENDING |
 | Qwen 현재100건의 W0-reference z → 평가 | 63391 → 63392 | 63391 RUNNING, 63392 후속 PENDING |
 
 63389/63391의 자원 의존성만 조정했다. 두 작업을 hold한 상태에서 실제 Slurm 설정과
@@ -29,7 +29,7 @@ source/config/output 변경은 없으며 CAKE 작업 자체도 변경하지 않�
 14:04 KST에는 CAKE zsRE63299의 실제 `COMPLETED 0:0`을 확인해 그 슬롯에서
 Qwen63391을 먼저 시작했다. 63391을 hold한 상태에서 남아 있던63298 대기를 제거하고,
 전체 최대 폭3을 검산한 뒤 release했다. source/config/output 변경은 없다.
-GPT-J 보정63389는 남은 CAKE CF63298 종료를 기다린다.
+GPT-J 보정63389도 CAKE CF63298 정상 종료 뒤14:20 KST에 시작했다.
 [실제 빈 슬롯 사용 검산](../../../audits/global/fe-collapse-repair-20261011/native-qwen-released-zsre-slot.json).
 
 후속 평가는 저장된 W0/500/1000/1500/2000 가중치를 별도 프로세스에서 읽는다.
@@ -467,3 +467,16 @@ identity, 현재500개 case 순서, 검사 전후 SHA도 검증했다. 실제 �
 검사 도구는 실제 native cache symlink와 실행 자산 SHA를 확인한다. 원본 설정에는
 기존 NPZ를, 보정 설정에는 별도 derived NPZ를 사용해 검사하도록 했다.
 [저장 상태의 층별 검사](../../../audits/global/fe-collapse-repair-20261011/native-gptj-b05-prior-audit.json).
+
+## GPT-J 보정본 시작 및 같은 초기 상태 검증
+
+63389는 기존 CAKE 두 작업이 모두 정상 종료된 뒤 시작했다. 실제 server1의 사용자
+GPU 할당3/의존성 DAG 최대 폭3을 재확인했다. GPT-J63386/63389의 W0도 직접 비교해
+여섯 편집층 가중치의 비트 일치, 모두0인 history, 동일 native hparams·context·seed·
+Torch/CUDA RNG·모델 자산·2K stream을 확인했다. 둘 다 현재 batch-entry 모델의 z다.
+보정본 첫 배치 L3 잔차는 원본과 같은36.0017이며, 업데이트 norm은70.2333에서17.7359로 줄었다.
+2K 성능 회복은 계속 실행·평가로 확인한다.
+
+[실제 세 진단의 GPU 할당](../../../audits/global/fe-collapse-repair-20261011/native-three-active.json) ·
+[GPT-J 시작 상태 비교](../../../audits/global/fe-collapse-repair-20261011/native-gptj-paired-w0-validation.json) ·
+[보정본 W0 저장 검산](../../../audits/global/fe-collapse-repair-20261011/native-gptj-repaired-w0-storage-sparse.json).
