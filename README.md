@@ -206,7 +206,7 @@ zsRE Loc은 **loc_ans 정답 token 정확도의 요청별 평균**이다. 이전
 | [W0 (편집 전)](experiment-reports/global/w0-main-table-20261009.md) | 13.36 | 8.20 | 10.95 | 88.56 | 635.22 | 24.64 | 38.10 | 37.61 | 38.59 |
 | FT | 56.59 | 89.25 | 73.30 | 35.50 | 449.50 | 2.90 | 14.63 | 11.82 | 25.25 |
 | MEMIT | 58.88‡ | 64.75‡ | 61.70‡ | 51.83‡ | 507.87‡ | 5.38‡ | 44.30 | 39.95 | 22.30 |
-| AlphaEdit | 84.80‡ | 99.30‡ | 93.23‡ | 68.59‡ | PENDING: s2-flucon-llama3-alphaedit-42657 (62875) | PENDING: s2-flucon-llama3-alphaedit-42657 (62875) | 95.18 | 91.40 | 31.10 |
+| AlphaEdit | 84.80‡ | 99.30‡ | 93.23‡ | 68.59‡ | 619.92‡ | 32.33‡ | 95.18 | 91.40 | 31.10 |
 | AlphaEdit-BLUE | 89.84† | 99.60† | 97.15† | 76.59† | PENDING: s2-flucon-llama3-alphaedit_blue-39283_1 (62876) | PENDING: s2-flucon-llama3-alphaedit_blue-39283_1 (62876) | 95.87 | 92.28 | 32.83 |
 | FE (author hparams + history) | ING: official-s3-cf-llama3-memit-fe-author-history (63382) | ING: official-s3-cf-llama3-memit-fe-author-history (63382) | ING: official-s3-cf-llama3-memit-fe-author-history (63382) | ING: official-s3-cf-llama3-memit-fe-author-history (63382) | DEFERRED | DEFERRED | PENDING: official-s4-llama3-zsre-fe-author-hparams-2k (63357) | PENDING: official-s4-llama3-zsre-fe-author-hparams-2k (63357) | PENDING: official-s4-llama3-zsre-fe-author-hparams-2k (63357) |
 | AlphaEdit+SPHERE | 86.87 | 99.50 | 94.95 | 71.68 | 619.20 | 33.64 | 95.13 | 91.36 | 31.38 |
@@ -243,8 +243,11 @@ native source/runtime·평가기 차이와 분모 및 대조 근거는
 Score는 반올림 전 성공률의 조화평균이며 표시는 소수 둘째 자리 decimal half-up이다.
 Flu/Con은 이 historical B020 checkpoint의 별도 평가62874/62875를 제출했다.
 MEMIT **62874**(server2)는 완료됐다. 2,000 case/20,000 prompts의 평균 5.0787 bits · 0.0538 cosine에 ×100 후 half-up 둘째 자리만 적용했다(507.87 / 5.38).
-평가 전후 가중치·RNG·checkpoint 불변이며 checkpoint SHA는 아래 근거의 MEMIT B020과 같다. AlphaEdit **62875**는 아직 완료되지 않았다.
-[62874 원자료 SHA](audits/servers/server2/baseline-refresh-s2-flucon-20261010/llama3-memit-42658-flucon.json).
+평가 전후 가중치·RNG·checkpoint 불변이며 checkpoint SHA는 아래 근거의 MEMIT B020과 같다.
+AlphaEdit **62875**(server2)도 2026-10-11 11:59 KST에 완료됐다. 2,000 case/20,000 prompts의 평균 6.1992 bits · 0.3233 cosine에 ×100 후 half-up 둘째 자리만 적용했다(619.92 / 32.33).
+평가 전후 가중치·RNG·checkpoint 불변이며 checkpoint SHA는 아래 근거의 AlphaEdit B020과 같다.
+[62874 원자료 SHA](audits/servers/server2/baseline-refresh-s2-flucon-20261010/llama3-memit-42658-flucon.json) ·
+[62875 원자료 SHA](audits/servers/server2/baseline-refresh-s2-flucon-20261010/llama3-alphaedit-42657-flucon.json).
 zsRE는 별도 새 W20 결과다. 현재 evaluator로 평가한다고 과거 편집 source/runtime을 재명명하지 않는다.
 동일 표본·순서는 runtime·hparams·평가기 완전동등을 뜻하지 않는다.
 [원 raw SHA·분자/분모·사용자 예외 및 취소 처리 근거](experiment-reports/global/llama-native-cf-historical-b020-20261009.md).

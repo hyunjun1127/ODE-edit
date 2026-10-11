@@ -1,0 +1,88 @@
+{
+ "job": 62875,
+ "server": "server2",
+ "slurm": {
+  "job": 62875,
+  "job_name": "s2-flucon-llama3-alphaedit-42657",
+  "state": "COMPLETED",
+  "exit_code": "0:0",
+  "start": "2026-10-11T08:49:21+09:00",
+  "end": "2026-10-11T11:59:38+09:00",
+  "elapsed": "03:10:17",
+  "node": "server2"
+ },
+ "row": "Llama3-8B-Instruct AlphaEdit CF Flu/Con (historical native 42657 B020, README marker ‡)",
+ "checkpoint_job": "42657 (historical native AlphaEdit, B020 / 2,000 edits)",
+ "complete": {
+  "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/historical-r1/runs/llama3-alphaedit-42657/COMPLETE.json",
+  "bytes": 2326,
+  "sha256": "507162b2d9669a8010c476c5874c4f09af213d933bc24c8b2d910a39429b4696"
+ },
+ "restore": {
+  "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/historical-r1/runs/llama3-alphaedit-42657/restore.json",
+  "bytes": 680,
+  "sha256": "0d6676bd44d1c8686882c81d93dc26d7df8751d6bc0e6e6fbd35775a28b7ebcf"
+ },
+ "config": {
+  "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/historical-r1/configs/llama3-alphaedit-42657.json",
+  "bytes": 4883,
+  "sha256": "377ae8d3c246620082d940c93dcfa26bac24fd93978445aed91461afc6d7c302"
+ },
+ "endpoint": {
+  "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/historical-r1/runs/llama3-alphaedit-42657/generation/endpoints/9a15f96d5b297f22be58d461705077ba2883ccdd148785d8840e3d9bf612b0b8.json",
+  "bytes": 2841187,
+  "sha256": "00038a8c63847d56fc4e8b7615fff785d6bc6e5643fd30cfce979a4855c5c6be"
+ },
+ "Flu": {
+  "display_unit": "bits x100",
+  "paper_display_x100": "619.92",
+  "raw_unit": "bits",
+  "raw_value": 6.1992169974199705
+ },
+ "Con": {
+  "display_unit": "cosine_0_to_1 x100",
+  "paper_display_x100": "32.33",
+  "raw_unit": "cosine_0_to_1",
+  "raw_value": 0.3233001038870264
+ },
+ "summary": {
+  "planned_count": 2000,
+  "fluency_count": 2000,
+  "consistency_count": 2000,
+  "generation_prompt_count": 20000,
+  "generated_token_count": 1796707,
+  "ngram_entropy": 6.1992169974199705,
+  "reference_score": 0.3233001038870264,
+  "missing_reason_counts": {
+   "asset_not_available": 0,
+   "length_cap_no_continuation": 0,
+   "missing_generation_prompts": 0,
+   "missing_reference": 0,
+   "nonfinite_score": 0,
+   "tokenizer_not_available": 0,
+   "zero_generated_vector": 0,
+   "zero_reference_vector": 0
+  }
+ },
+ "requests": 2000,
+ "source": "417a12e7db55af93346be60f79138a6923324de1",
+ "original_checkpoint": {
+  "bytes": 5284852213,
+  "path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives/server4-migration-20260911-v1/new177-v1/payload/local/fixed10k-native-baselines/attempt-v1/output/main-cell-1/B020/W-method-state.pt",
+  "sha256": "a7f338ced5df28a428129703e07386eec5d038e33d63fa1b885950ef81a6803b"
+ },
+ "invariants": {
+  "weights_unchanged": true,
+  "RNG_unchanged": true,
+  "checkpoint_unchanged": true,
+  "edits": 0
+ },
+ "checks": {
+  "recomputed_from_endpoint_rows": "2,000 rows; mean n-gram entropy and mean TF-IDF cosine (math.fsum) equal COMPLETE.json raw values bit for bit; x100 then decimal half-up",
+  "case_order": "eval-2K order, sha256 0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+  "checkpoint_identity": "original_checkpoint sha256 a7f338ce… equals the AlphaEdit B020 checkpoint recorded in experiment-reports/global/llama-native-cf-historical-b020-20261009.md; binding historical-r1/bindings/42657.json ordered_case_ids_sha256 0b912d11…",
+  "runtime_parity": "old_runtime_parity NOT_CLAIMED (as the ‡ CF cells)",
+  "observation_files": "all 2,000 generation/observations files match the endpoint raw_member bytes/sha256; their per-case metrics equal the endpoint rows and each binds checkpoint sha256 a7f338ce… (20,000 prompts, 1,796,707 continuation tokens)",
+  "checkpoint_rehash": "sha256sum of original_checkpoint on server2 completed 2026-10-11 12:21 KST (after the job) = a7f338ce…, 5,284,852,213 bytes"
+ }
+}
