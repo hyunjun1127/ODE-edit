@@ -1,0 +1,87 @@
+{
+ "job": 62870,
+ "server": "server2",
+ "slurm": {
+  "job": 62870,
+  "job_name": "s2-flucon-qwen25-memit-62073",
+  "state": "COMPLETED",
+  "exit_code": "0:0",
+  "start": "2026-10-11T12:25:55+09:00",
+  "end": "2026-10-11T15:19:28+09:00",
+  "elapsed": "02:53:33",
+  "node": "server2"
+ },
+ "row": "Qwen2.5-7B-Instruct MEMIT CF Flu/Con (W20 checkpoint of 62073)",
+ "checkpoint_job": "62073 (W20 / 2,000 edits)",
+ "complete": {
+  "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/runs/qwen25-memit-62073/COMPLETE.json",
+  "bytes": 2283,
+  "sha256": "74932d2647d2cf8ff00bbe1b74b5d1d2f0e6f04491b505847fe50f316d55b9cc"
+ },
+ "restore": {
+  "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/runs/qwen25-memit-62073/restore.json",
+  "bytes": 372,
+  "sha256": "38bc1ea41980a58bd9bd1db41468f57277c2011c1d44ee2b31552e4e50180fcc"
+ },
+ "config": {
+  "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/configs/qwen25-memit-62073.json",
+  "bytes": 4820,
+  "sha256": "b7b0227e7516c6d8e9693dd19cb3003b837ea44877c44fbf806b3678aa474508"
+ },
+ "endpoint": {
+  "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/runs/qwen25-memit-62073/generation/endpoints/936c25468bc61aaf093fea125f791665dc98bd0f6495b2047acb891326e38dac.json",
+  "bytes": 2831155,
+  "sha256": "fd4a2362e9d4014c782fcad839dd4a32eef14d19320ecfa44c27d461a388a00d"
+ },
+ "Flu": {
+  "display_unit": "bits x100",
+  "paper_display_x100": "562.02",
+  "raw_unit": "bits",
+  "raw_value": 5.620172308140397
+ },
+ "Con": {
+  "display_unit": "cosine_0_to_1 x100",
+  "paper_display_x100": "6.24",
+  "raw_unit": "cosine_0_to_1",
+  "raw_value": 0.06235499059222349
+ },
+ "summary": {
+  "planned_count": 2000,
+  "fluency_count": 2000,
+  "consistency_count": 2000,
+  "generation_prompt_count": 20000,
+  "generated_token_count": 1815707,
+  "ngram_entropy": 5.620172308140397,
+  "reference_score": 0.06235499059222349,
+  "missing_reason_counts": {
+   "asset_not_available": 0,
+   "length_cap_no_continuation": 0,
+   "missing_generation_prompts": 0,
+   "missing_reference": 0,
+   "nonfinite_score": 0,
+   "tokenizer_not_available": 0,
+   "zero_generated_vector": 0,
+   "zero_reference_vector": 0
+  }
+ },
+ "requests": 2000,
+ "source": "417a12e7db55af93346be60f79138a6923324de1",
+ "original_checkpoint": {
+  "bytes": 1357958481,
+  "path": "/mnt/raid5/janghj/ODE-edit/local/qwen-baseline-mask-cold-rerun-20261010/registration-r1/runs/qwen25-cf-memit/checkpoint/batch-20-4561ee2477393eba.pt",
+  "sha256": "4561ee2477393eba5e18d93b64ac19c9789caa28df64472e72d778a30e17af21"
+ },
+ "invariants": {
+  "weights_unchanged": true,
+  "RNG_unchanged": true,
+  "checkpoint_unchanged": true,
+  "edits": 0
+ },
+ "checks": {
+  "recomputed_from_endpoint_rows": "2,000 rows; mean n-gram entropy and mean TF-IDF cosine (math.fsum) equal COMPLETE.json raw values bit for bit; x100 then decimal half-up",
+  "case_order": "eval-2K order, sha256 0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+  "checkpoint_identity": "original_checkpoint sha256 4561ee24… equals the Qwen2.5 MEMIT W20 checkpoint in audits/servers/server2/baseline-refresh-s2-flucon-20261010/inventory.json (VALID_W20_2000_FULL_SHA); config sha256 b7b0227e… equals the registered config",
+  "observation_files": "all 2,000 generation/observations files match the endpoint raw_member bytes/sha256; their per-case metrics equal the endpoint rows and each binds checkpoint sha256 4561ee24… (20,000 prompts, 1,815,707 continuation tokens)",
+  "checkpoint_rehash": "sha256sum of original_checkpoint on server2 completed 2026-10-11 15:22 KST (after the job) = 4561ee24…, 1,357,958,481 bytes"
+ }
+}

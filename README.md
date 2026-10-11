@@ -275,6 +275,7 @@ CF AlphaEdit62075 및 zsRE62081/62083/62085는 W20/2K 검산 완료다.
 zsRE MEMIT-FE62085의 Eff/Gen 0.00, Loc0.03은 실제 저장 token correctness의 요청별 평균이며
 결측을 채운 0이 아니다(2,000 requests, E/G/Loc token 분모6,691/6,691/11,476).
 FLU/CON 후속평가는 실제62870–62873으로 등록·release했으며 아래 생성 셀만 상태를 표시한다.
+MEMIT Flu/Con은 W20 checkpoint(62073) 평가 **62870**(server2)의 완료값이다(평균 5.6202 bits · 0.0624 cosine, 562.02 / 6.24). [62870 원자료 SHA](audits/servers/server2/baseline-refresh-s2-flucon-20261010/qwen25-memit-62073-flucon.json).
 [새 완료 수치·raw/source/config 및 평가 준비](experiment-reports/servers/server2/baseline-refresh-s2-flucon-20261010/report-ko.md).
 62087은 B10 `eigh` CUDA OOM으로 FAILED/W20 없음이며 B9 checkpoint를 보존한다.
 cold **62534**는 실행 전 취소했고, **62538** `s2-qwen25-zsre-sphere-resume-b9`는
@@ -351,7 +352,7 @@ SH3 최신 CPU 재검산에서도 위 네 지표 delta0, 신규 본표 적격 �
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | [W0 (편집 전)](experiment-reports/global/w0-main-table-20261009.md) | 20.88 | 13.95 | 16.60 | 85.14 | 625.21 | 25.91 | 36.42 | 35.26 | 38.40 |
 | FT | 57.45 | 85.50 | 67.50 | 38.90 | 471.02 | 3.01 | 23.25 | 18.54 | 2.34 |
-| MEMIT | 62.23 | 68.50 | 65.83 | 54.30 | PENDING: s2-flucon-qwen25-memit-62073 (62870) | PENDING: s2-flucon-qwen25-memit-62073 (62870) | 41.49 | 39.44 | 26.39 |
+| MEMIT | 62.23 | 68.50 | 65.83 | 54.30 | 562.02 | 6.24 | 41.49 | 39.44 | 26.39 |
 | AlphaEdit | 83.03 | 99.05 | 97.55 | 63.36 | 618.99 | 33.92 | 85.05 | 78.18 | 30.79 |
 | AlphaEdit-BLUE | 77.98 | 97.70 | 96.75 | 55.86 | 602.99 | 37.43 | 58.62 | 53.66 | 5.73 |
 | FE (author hparams + history) | 재검증 준비 (63374 취소) | 재검증 준비 (63374 취소) | 재검증 준비 (63374 취소) | 재검증 준비 (63374 취소) | DEFERRED | DEFERRED | 재검증 필요 | 재검증 필요 | 재검증 필요 |
