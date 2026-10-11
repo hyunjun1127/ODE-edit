@@ -1,4 +1,4 @@
-import tempfile,unittest,ast,threading,time
+import tempfile,unittest,ast,threading,time,types
 from unittest.mock import patch
 from pathlib import Path
 import torch
@@ -107,4 +107,26 @@ class Tests(unittest.TestCase):
     with self.assertRaises(OSError):f.save_latest(root,{'w':torch.ones(2)},torch.zeros(1),[],{},5,{}, {})
    self.assertFalse((root/'latest.pt.partial').exists())
    f.save_latest(root,{'w':torch.ones(2)},torch.zeros(1),[],{},5,{}, {})
+ def test_repaired_covariance_is_frozen_and_reused_on_resume(self):
+  import numpy as np
+  with tempfile.TemporaryDirectory() as d:
+   root=Path(d);stats=root/'stats.npz'
+   np.savez(stats,**{'mom2.count':np.array(1),'mom2.mom2':np.diag(np.array([-1e-8,1.],dtype=np.float32))})
+   c=dict(config_sha256='repair-fixture',C0={'3':f.member(stats)},covariance_policy='project_roundoff')
+   native=types.SimpleNamespace(covs=[])
+   first=f.prepare_priors(c,native,root,[3]);expected=native.covs[0].clone()
+   self.assertTrue(first['3']['repaired'])
+   with patch.object(f,'prepare_covariance',side_effect=AssertionError('must not recompute')):
+    second=f.prepare_priors(c,native,root,[3],resume=True)
+   self.assertEqual(first,second);self.assertTrue(torch.equal(expected,native.covs[0]))
+   derived=Path(first['3']['derived']['path']);derived.write_bytes(b'corrupted')
+   with self.assertRaisesRegex(ValueError,'IMMUTABLE_INPUT_MEMBER_CHANGED'):f.prepare_priors(c,native,root,[3],resume=True)
+ def test_resume_rejects_changed_covariance_config(self):
+  import numpy as np
+  with tempfile.TemporaryDirectory() as d:
+   root=Path(d);stats=root/'stats.npz'
+   np.savez(stats,**{'mom2.count':np.array(1),'mom2.mom2':np.eye(2,dtype=np.float32)})
+   c=dict(config_sha256='one',C0={'3':f.member(stats)},covariance_policy='project_roundoff')
+   native=types.SimpleNamespace(covs=[]);f.prepare_priors(c,native,root,[3])
+   with self.assertRaises(AssertionError):f.prepare_priors(dict(c,config_sha256='two'),native,root,[3],resume=True)
 if __name__=='__main__':unittest.main()

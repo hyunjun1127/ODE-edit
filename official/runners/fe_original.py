@@ -9,6 +9,7 @@ from official.experiments.prepare import digest,write_new,file_sha
 from official.experiments.checkpoint import rng_snapshot,rng_restore
 from official.runners.server1.common import read,verify,member,factual_payload
 from official.baselines import registry
+from official.baselines.fe_covariance import POLICIES, prepare_covariance, guarded_author_solve
 from official.evaluation.factual import evaluate_counterfact
 from official.evaluation import zsre_paper
 from official.tracking import init,official_zsre_metrics
@@ -65,6 +66,7 @@ def validate(c):
     assert c['server'] in ('server1','server2') and (c['requests'],c['batch_size'],c['seed'])==(2000,100,0)
     assert c['milestones']==[5,10,15,20] and c['dtype']=='bfloat16'
     assert isinstance(c['storage_min_free_bytes'],int) and c['storage_min_free_bytes']>=0
+    assert c.get('covariance_policy','strict') in POLICIES
     assert c['config_sha256']==digest({k:v for k,v in c.items() if k!='config_sha256'})
 
 def save_latest(folder,weights,H,contexts,z_member,batch,identity,cursor,*,lock_path=None,reserve_bytes=0):
@@ -121,6 +123,51 @@ def load_latest(folder,identity):
 
 def versions(model,excluded=()):return {k:(v._version,str(v.dtype),tuple(v.shape)) for k,v in model.named_parameters() if k not in excluded}
 
+def prepare_priors(c,native,out,layers,*,resume=False):
+    """Freeze repaired priors once; resume never repeats an eigendecomposition."""
+    manifest=out/'covariance-assets.json'
+    prior=read(manifest) if resume else None
+    if prior is not None:
+        assert prior['config_sha256']==c['config_sha256']
+        assert set(prior['layers'])=={str(layer) for layer in layers}
+    native.covs.clear();receipts={}
+    for layer in layers:
+        m=c['C0'][str(layer)];verify(m)
+        if prior is not None and prior['layers'][str(layer)]['repaired']:
+            receipt=prior['layers'][str(layer)]
+            assert receipt['source']==m and receipt['policy']==c.get('covariance_policy','strict')
+            cov=torch.load(verify(receipt['derived']),map_location='cpu',weights_only=True)
+            assert cov.dtype==torch.float64 and list(cov.shape)==receipt['shape'] and torch.isfinite(cov).all()
+        else:
+            with np.load(m['path'],allow_pickle=False) as data:
+                count=int(data['mom2.count']);summed=np.asarray(data['mom2.mom2'])
+                assert count>0 and summed.dtype==np.float32 and np.isfinite(summed).all()
+                cov,receipt=prepare_covariance(torch.from_numpy(summed.copy())/count,
+                                              policy=c.get('covariance_policy','strict'))
+            receipt=dict(receipt,source=m)
+            if receipt['repaired']:
+                folder=out/'covariance';folder.mkdir(parents=True,exist_ok=True)
+                dest=folder/f'layer-{layer}.pt';tmp=folder/f'layer-{layer}.pt.partial'
+                assert not dest.exists() and not tmp.exists()
+                try:
+                    with tmp.open('xb') as f:torch.save(cov,f);f.flush();os.fsync(f.fileno())
+                    os.replace(tmp,dest)
+                    fd=os.open(folder,os.O_RDONLY|os.O_DIRECTORY)
+                    try:os.fsync(fd)
+                    finally:os.close(fd)
+                finally:
+                    if tmp.exists():tmp.unlink()
+                receipt['derived']=member(dest)
+            if prior is not None:assert receipt==prior['layers'][str(layer)]
+        native.covs.append(cov);receipts[str(layer)]=receipt
+    if not resume:
+        write_new(manifest,dict(config_sha256=c['config_sha256'],layers=receipts))
+        with manifest.open('rb') as f:os.fsync(f.fileno())
+        fd=os.open(out,os.O_RDONLY|os.O_DIRECTORY)
+        try:os.fsync(fd)
+        finally:os.close(fd)
+    return receipts
+
 def run(config,lock_path,resume=False):
     c=read(config);validate(c);lock=read(lock_path)
     disk=os.statvfs(Path(c['output']).parent)
@@ -144,21 +191,16 @@ def run(config,lock_path,resume=False):
     tok.padding_side='right'
     assert all(p.dtype==torch.bfloat16 for p in model.parameters())
     layers=list(cfg.llms.layers)
-    native.covs.clear()
-    for layer in layers:
-        m=c['C0'][str(layer)];verify(m)
-        with np.load(m['path'],allow_pickle=False) as data:
-            count=int(data['mom2.count']);summed=np.asarray(data['mom2.mom2'])
-            assert count>0 and summed.dtype==np.float32 and np.isfinite(summed).all()
-            native.covs.append(torch.from_numpy(summed.copy())/count)
+    out=Path(c['output']);out.mkdir(parents=True,exist_ok=True)
+    covariance_receipts=prepare_priors(c,native,out,layers,resume=resume)
     weights={cfg.llms.rewrite_module_tmp.format(l)+'.weight':native.nethook.get_parameter(model,cfg.llms.rewrite_module_tmp.format(l)+'.weight') for l in layers}
     dimension=native.get_fc_dim(model,cfg);H=torch.zeros((len(layers),dimension,dimension),device='cpu')
-    out=Path(c['output']);out.mkdir(parents=True,exist_ok=True)
     observations=observation_root(out,resume)
+    write_new(observations/'covariance.json',covariance_receipts)
     write_new(observations/'runtime.json',dict(attention_backend=getattr(model.config,'_attn_implementation',None),dtype=str(next(model.parameters()).dtype),
         transformers=__import__('transformers').__version__,torch=torch.__version__,numpy=np.__version__,resume=resume))
-    identity=dict(config_sha256=c['config_sha256'],source=lock['source_commit'],author=AUTHOR,stream=c['stream_sha256'],dtype='bfloat16')
-    values=dict(server=c['server'],task_id='fe-original-w0-2k-20261011',model=c['model'],model_family={'llama3':'llama','gptj':'gptj','qwen25':'qwen2'}[c['model']],
+    identity=dict(config_sha256=c['config_sha256'],source=lock['source_commit'],author=AUTHOR,stream=c['stream_sha256'],dtype='bfloat16',covariance_sha256=digest(covariance_receipts))
+    values=dict(server=c['server'],task_id=c.get('task_id','fe-original-w0-2k-20261011'),model=c['model'],model_family={'llama3':'llama','gptj':'gptj','qwen25':'qwen2'}[c['model']],
         writer='fe_author_w0_fixed',baseline='FE-author-repo-W0-fixed-z-sequential',role='scientific',arm=c['arm'],attempt=c['attempt'],
         source_sha=lock['source_commit'],config_sha=c['config_sha256'],dataset=c['dataset'],metric_schema='official-baselines-scalar-v1',instruction_id='USER-OFFICIAL-BASELINES-20261008-R1')
     if c['dataset']=='cf':values['generation_schedule']='DEFERRED_CHECKPOINT_EVALUATION'
@@ -207,12 +249,15 @@ def run(config,lock_path,resume=False):
             chunk=copy.deepcopy(requests[(batch-1)*100:batch*100])
             for r in chunk:r['target_new']=' '+r['target_new']
             before={k:tensor_sha(v) for k,v in weights.items()};started=time.monotonic()
-            native.batch_edit(cfg,model,tok,chunk,torch.device('cuda:0'),H,zs)
+            with guarded_author_solve(native) as solve_receipts:
+                native.batch_edit(cfg,model,tok,chunk,torch.device('cuda:0'),H,zs)
+            assert len(solve_receipts)==len(layers)
             assert nonedited==versions(model,weights) and all(torch.isfinite(v).all() for v in weights.values()) and torch.isfinite(H).all()
             assert native.CONTEXT_TEMPLATES_CACHE==contexts
             current=evaluate(records[(batch-1)*100:batch*100],'current/post',batch,f'current-{batch:02d}')
             cursor=dict(batch=batch,edits=batch*100,request_sha256=digest(requests[(batch-1)*100:batch*100]),current=current,elapsed=time.monotonic()-started,
                 selected_before=before,selected_after={k:tensor_sha(v) for k,v in weights.items()})
+            cursor['ridge_systems']={str(layer):receipt for layer,receipt in zip(layers,solve_receipts)}
             if batch in c['milestones']:
                 cursor['all_seen']=evaluate(records[:batch*100],'all_seen/post',batch,f'all-seen-{batch:02d}')
                 disk=os.statvfs(out)

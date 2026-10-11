@@ -47,7 +47,7 @@ def main():
             attempt='r1', requests=2000, batch_size=100, seed=0, milestones=[5,10,15,20], dtype='bfloat16',
             llms=OmegaConf.to_container(native.llms, resolve=True), assets=member(asset_path), stream=stream,
             stream_sha256=digest(records), C0={str(l): assets['C0'][str(l)]['member'] for l in native.llms.layers},
-            output=str(output), storage_min_free_bytes=32*1024**3,
+            output=str(output), storage_min_free_bytes=32*1024**3, covariance_policy='project_roundoff',
             checkpoint_lock=str(ROOT / 'checkpoint-serialization.lock'), tracking_env_file=old['tracking_env_file'],
             runtime_manifest=member(prep / 'author-lock.json'), query_proof=proof)
         c['config_sha256'] = digest(c); validate(c)

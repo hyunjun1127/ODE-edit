@@ -37,6 +37,7 @@ def main():
             c=dict(instruction=INSTRUCTION,author_commit=AUTHOR,author_path=str(author),author_members=author_members,server='server1',
                 model=model,dataset=dataset,arm='FE-author-repo-W0-fixed-z-sequential-'+name,attempt='r1',requests=2000,batch_size=100,seed=0,
                 milestones=[5,10,15,20],dtype='bfloat16',llms=OmegaConf.to_container(cfg.llms,resolve=True),assets=old['assets'],stream=stream,
+                covariance_policy='project_roundoff',
                 stream_sha256=digest(records),C0=C0,output=str(out),storage_min_free_bytes=64*1024**3,checkpoint_lock=str(ROOT/'checkpoint-serialization.lock'),tracking_env_file=old['tracking_env_file'],
                 query_proof=member(ROOT/'preparation'/f'{model}-zsre-query-proof.json') if proof else None)
             c['config_sha256']=digest(c);validate(c);path=ROOT/'preparation/configs'/f'{name}.json';write_new(path,c);configs.append(member(path))

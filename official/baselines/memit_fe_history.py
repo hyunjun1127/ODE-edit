@@ -8,6 +8,7 @@ from copy import deepcopy
 import torch
 from .easyedit.models.memit_FE import memit_FE_main as native
 from .easyedit.util import nethook
+from .fe_covariance import checked_ridge_solve
 
 MEMITFEHyperParams = native.MEMITFEHyperParams
 
@@ -29,7 +30,7 @@ def history_solve(cov, keys, coefficient, history):
     gram = keys @ keys.T
     system.add_(gram)
     del gram
-    return torch.linalg.solve(system, keys)
+    return checked_ridge_solve(system, keys)
 
 def apply_memit_fe_history_to_model(model, tok, requests, hparams, *, history,
                                     copy=False, return_orig_weights=False, cache_template=None):

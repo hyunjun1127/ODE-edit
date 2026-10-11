@@ -1,5 +1,38 @@
 # FE original W0-fixed z
 
+## Covariance repair (2026-10-11)
+
+New preparations set `covariance_policy="project_roundoff"`. A missing field
+means `strict`: an indefinite covariance is rejected. The GPT-J L3 FP32 cache
+used by job63153 has three negative eigenvalues; promoting it to FP64 and
+successfully solving with LU does not make it a valid ridge prior. The CF run
+first jumped to a 64,549.98 update at B3/L3. See the
+[investigation](../../experiment-reports/global/fe-collapse-repair-20261011/report-ko.md).
+
+`official.baselines.fe_covariance.prepare_covariance` returns healthy matrices
+unchanged. For a failed Cholesky check, the explicit repair policy raises only
+eigenvalues below `max(eps_storage, n*eps64) * ||C||_F` to that resolution.
+Negativity exceeding `eps_storage * ||C||_F` is rejected. This is a recorded
+numerical regularization of the prior, not a claim to recover the author's
+unavailable exact covariance. Clipping negative eigenvalues to zero alone is
+insufficient: the remaining nearly singular inverse can produce larger edits.
+No edit targets, author hparams, history weighting, or healthy covariance bytes
+are changed. The corrected matrix remains FP64.
+
+The original NPZ is read-only. A repaired prior is saved separately under the
+run's `covariance/layer-<n>.pt`, with input/derived SHA and the eigenspectrum
+correction recorded in `covariance-assets.json`. Checkpoint identity includes
+the receipt digest. Resume reads the sealed derived matrix instead of repeating
+eigendecomposition. Each author ridge system must also pass a positive-definite
+check before its original LU solve; a finite but indefinite result is rejected
+before that layer's history/weight update. The EasyEdit FE history solve uses
+the same check. Existing frozen experiments are unchanged.
+
+For Qwen, the completed author W0-fixed runs63217/63218 do not exhibit the old
+collapse. The `FE_HISTORY_AUTHOR` profile is a distinct batch-entry-target,
+FP32 variant; matching clamp/steps does not make its target reference policy
+identical to this runner. Keep its results and identity separate.
+
 Execution/storage repair: tensor hashes use contiguous dtype-preserving uint8 bytes (BF16 supported). Model loading does not force an attention backend; the author/default resolved backend is recorded in each observation runtime.json. Atomic latest.pt carries its own complete identity/cursor/content-integrity digest and is authoritative; latest.json is advisory, so a metadata-write crash cannot invalidate a committed payload. Metadata tmp names are unique and cleaned on exceptions. Resume keeps original observations intact and writes new metrics/commits/runtime/tracking under resumes/<unique-attempt>; resume-parent.json binds the exact saved milestone. CPU tests cover stale/missing metadata, corrupted payload rejection, BF16 hashing and B6 observation collisions. These are storage/CPU checks, not GPU resume parity evidence.
 
 Authority USER-FE-ORIGINAL-W0-RESET-20261011-R1. Native source jugechengzi/FE commit478134dfb24b43f4e18b47e8500893ce3f9cc50f; apply `fe_original_author.patch` to a dedicated clone with `git apply`, then `python -m official.runners.fe_original_compat CLONE` verifies the exact delta. Only missing-unused import, lazy unrelated WISE/data import, and replay output Tensor/tuple/list handling change. Native fitting/key/solve/history remains the author source. FE-memit_main.batch_edit is called, not EasyEdit/FE_HISTORY.
