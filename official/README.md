@@ -5,7 +5,15 @@
 실험은 `main`에 게시된 이 폴더의 코드·설정과 정확한 commit/tree SHA를 사용한다.
 각 서버의 EasyEdit 설치는 데이터·모델·C0·projector 자산 경로로 활용한다.
 
-현재 실험 범위는 **baseline 6개 × 모델 3개 × 데이터셋 2개 = 36개 행**이다.
+**FE의 현재 실행 기준(2026-10-11):** [`runners/fe_original.py`](runners/fe_original.py)와
+[`FE_ORIGINAL.md`](runners/FE_ORIGINAL.md)를 사용한다. 저자 YAML/BF16, 편집 전 W0의
+전체2K target 고정, 100×20 sequential, persistent native history가 기준이다.
+EasyEdit `MEMIT_FE`와 `FE_HISTORY_AUTHOR`의 배치별 target 재계산 경로는 별도 과거/변형
+실험이며 같은 baseline으로 섞지 않는다. 새 준비에는 명시적 C0 수치 정책과 ridge 검사를
+적용하고 보정본 SHA를 기록한다. 아래 초기 배포의 FP32·가중치-only 서술에서 FE는 제외된다.
+[붕괴 원인과 수리 검증](../experiment-reports/global/fe-collapse-repair-20261011/report-ko.md).
+
+초기(2026-10-08) 실험 범위는 **baseline 6개 × 모델 3개 × 데이터셋 2개 = 36개 행**이다.
 PRICE(ours) 구현과 hparams도 배포하지만 이번 실행 목록에서 제외한다.
 이 문서의 준비 완료 표시는 CPU/source 확인이며 실제 모델 실험의 완료를 뜻하지 않는다.
 
@@ -52,7 +60,7 @@ official/
 | 데이터 | CounterFact(CF), zsRE, 각각 기존 파일 순서의 첫 2,000건 |
 | 방법 | FT, MEMIT, AlphaEdit, AlphaEdit-BLUE, FE(MEMIT-FE), AlphaEdit+SPHERE |
 | 순차 편집 | 20 batch × 100건, 동일 순서·batch 경계, edit seed 0 |
-| 정밀도 | 모델·저장 가중치 FP32, TF32/autocast off, native solver 정밀도 유지 |
+| 정밀도 | 초기 baseline FP32; FE author runner는 BF16 모델·가중치/FP64 solve, TF32 off |
 | CF 지표 | Efficacy, Generalization, Specificity, Score, Fluency, Consistency |
 | zsRE 지표 | Efficacy, Generalization, Specificity=loc_ans 정답 정확도; W0 예측 보존율 별도 |
 | 누적 평가 | W0, 0.5K, 1K, 1.5K, 2K; 해당 시점까지 전체 편집 요청 |
@@ -78,11 +86,12 @@ AlphaEdit-BLUE는 BLUE 저장소를 사용한다. 원본 **17개 파일**과 SHA
 | MEMIT | L4–8, clamp .75, lr .1 | L3–8, clamp .75, lr .5 | L4–8, clamp 4, lr .5, decay .001 |
 | AlphaEdit | L4–8, clamp .75, lr .1, L2 1 | L3–8, clamp .75, lr .5, L2 10 | L4–8, clamp 4, lr .5, L2 1 |
 | AlphaEdit-BLUE | [4,8], clamp .75, L2 1 | [3,8], clamp .75, L2 95 | [4,8], clamp 4, L2 격자 |
-| MEMIT-FE | L4–8, clamp 4, lr .1, decay .5 | L3–8, clamp .75, lr .5, decay .5 | L4–8, clamp 4, lr .5, decay .001 |
+| FE (author W0-fixed) | L4–8, clamp .75, 35 steps, lr .1, decay .5 | L3–8, clamp .75, 25 steps, lr .5, decay .5 | L4–8, clamp 1, 35 steps, lr .5, decay .001 |
 | AlphaEdit+SPHERE | AlphaEdit 설정, L2 1 | AlphaEdit 설정, L2 10 | AlphaEdit 설정, L2 1 |
 
-- FE는 Liu et al.의 [From Backward Spreading to Forward Replay](https://arxiv.org/abs/2605.00358)이며
-  EasyEdit `models/memit_FE`를 사용한다. Llama3 clamp 4를 공개 설정대로 유지한다.
+- FE는 Liu et al.의 [From Backward Spreading to Forward Replay](https://arxiv.org/abs/2605.00358)이며,
+  현재 baseline은 저자 repo commit `478134df`의 native FE-MEMIT를 사용한다.
+  기존 `hparams/MEMIT_FE/`는 과거 EasyEdit 변형의 보존 설정이다. 현재 설정은 저자 YAML에 결속한다.
 - SPHERE는 AlphaEdit 기반이며 `cumulative_ratio=0.5`(η), `suppression_strength=0.5`(α)다.
 - FT는 `prompt_last`, 단일 층, norm 제약 없음이다. 공개 **내부 batch_size=1**을 유지한다.
   외부 편집 batch 100과 구분하며, native optimizer는 외부 batch마다 새로 만든다.
@@ -160,7 +169,9 @@ zsRE E/G는 teacher-forced token 정확도의 요청별 평균이다. Specificit
 각 batch의 편집과 예정된 평가가 끝난 뒤 FP32 편집 가중치, 완료 batch, context templates,
 Python/NumPy/Torch CPU·CUDA RNG, 평가 cursor와 요청 기록을 commit한다.
 AlphaEdit·BLUE·SPHERE는 native `cache_c`도 저장하고 P는 고정 자산에서 다시 읽는다.
-FT·MEMIT·FE는 batch 사이에 가중치만 이어가며 FT optimizer는 이어가지 않는다.
+FT·MEMIT는 이 초기 runner 계약에서 batch 사이에 가중치만 이어가며 FT optimizer는 이어가지 않는다.
+FE author runner는 BF16 가중치와 FP32 `cache_c`, RNG, W0 context/target 참조를 함께 저장한다.
+FE checkpoint는500/1000/1500/2000에서 저장하며 보정 C0도 별도 SHA에 결속한다.
 
 `experiments/checkpoint.py`는 임시 저장 → hash/fsync → atomic pointer 갱신 → 이전
 checkpoint 삭제 순서를 제공한다. W0부터 시작하고 최신 1개만 유지하며 W20은 보존한다.

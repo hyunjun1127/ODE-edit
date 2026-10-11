@@ -4,6 +4,12 @@
 실험의 코드 기준으로 사용한다. 각 서버는 이 폴더 안 자신의 하위 경로에서 EasyEdit 자산을
 연결하는 runner를 작성한다. GPU가 없는 mock 실행으로 실제 실험을 대체하지 않는다.
 
+**FE 최신 기준(2026-10-11):** [`fe_original.py`](fe_original.py)의 별도
+[author W0-fixed 실행 계약](FE_ORIGINAL.md)이 아래 초기 공통 계약보다 우선한다.
+BF16 모델·W0 전체 target 고정·FP64 solve·persistent FP32 history를 사용한다.
+`MEMIT_FE`/`FE_HISTORY_AUTHOR`의 EasyEdit 경로는 보존된 다른 변형이다.
+새 FE 준비는 C0 수치 정책을 명시하고, 원 자산·보정본 SHA와 ridge 검사 결과를 기록한다.
+
 | 소유자 | 쓰기 경로 | 실행 배정 |
 | --- | --- | --- |
 | server1 | `server1/` | Llama3 FT/MEMIT/FE, CF·zsRE |
@@ -27,7 +33,8 @@
    고정한다. upstream layer_stats의 하드코딩 경로나 자동 재계산으로 우회하지 않는다.
 4. 외부 batch는 100, 20회다. FP32, 동일 stream, seed와 평가 시점을 유지한다.
    AlphaEdit/SPHERE의 module-global cache와 BLUE의 명시적 cache_c는 batch 사이에 이어지고
-   새 run에서는 독립 초기화된다. MEMIT/FE에 history를 새로 추가하지 않는다.
+   새 run에서는 독립 초기화된다. 초기 MEMIT 계약에는 history를 새로 추가하지 않는다.
+   FE author runner는 native history를 반드시 이어가고 checkpoint에서 복원한다.
 5. context template은 native 방법으로 시작 때 한 번 생성해 저장한다. resume 때 재생성하지 않는다.
    FT optimizer는 외부 batch마다 native 코드에서 새로 만들며 optimizer state를 재개하지 않는다.
 6. FLU/CON은 `official.evaluation.generation.native_observer.NativeGenerationObserver`를
