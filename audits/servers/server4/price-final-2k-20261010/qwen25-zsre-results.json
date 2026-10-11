@@ -1,0 +1,362 @@
+{
+ "task": "price-final-2k-20261010",
+ "row": "Qwen2.5-7B-Instruct PRICE (Ours) zsRE Eff/Gen/Loc (README marker ※)",
+ "instruction": "coordinator 2026-10-11: fill the three Qwen PRICE zsRE cells from 63278 and update the ※ footnote",
+ "run": {
+  "server": "server4",
+  "slurm": {
+   "job": 63278,
+   "job_name": "pf2k-qwen25-zsre-PN-beta150-ee-r3",
+   "state": "COMPLETED",
+   "exit_code": "0:0",
+   "start": "2026-10-11T05:03:47+09:00",
+   "end": "2026-10-11T09:04:32+09:00",
+   "elapsed": "04:00:45",
+   "node": "server4"
+  },
+  "attempt": "server4:/data/janghj/ODE-edit/local/price-final-2k-20261010/execution-qwen25-zsre-pn-r3",
+  "source_commit": "e0469ca25a362ea0f5ecbd360138404f97292ddd",
+  "arm": "PN-beta150",
+  "official_arm": "qwen25-PN-beta150",
+  "resolved_config_sha256": "b7ae4f809daffe7df9ae4776785830829edefb4c8ea7c1bd492bf1fbcb294a36",
+  "profile_sha256": "7be69ed2dfe658a40f813dbc5a54f513a25c4ce8f16fec756a0a676660551a83",
+  "slice_identity": "dca62a6f7107de6e9b580e24f551fd13ca793c71deb0789ecb387e2bb5a3ed0a",
+  "context_semantic_sha256": "5c01bc1a91c0890af2897f18b7a5f95de011badc1eca5e27f44199acc0cb6515",
+  "method": {
+   "endpoint_cast_mode": "cap_endpoint_toward_zero_v1",
+   "gamma": 1.0,
+   "hc": true,
+   "hc_normalize": true,
+   "lr_rule": "anchor_unit",
+   "rho": 0.05
+  },
+  "price": {
+   "K_grace": 12,
+   "beta_base": 1.5,
+   "beta_max_scale": 1.5,
+   "betas": [
+    0.9,
+    0.999
+   ],
+   "c": 1.5,
+   "cap_mode": "native",
+   "eps": 1e-08,
+   "lambda_KL": 0.0625,
+   "lambda_N": 0.001,
+   "lr": 0.1,
+   "max_updates": 24,
+   "n_exp": 4,
+   "tau_F": 0.05
+  },
+  "sink_rule": {
+   "rule": "SUBJECT_LAST_NEVER_POSITION_0_OR_W0_SINK",
+   "prefix_id": 151643,
+   "sink_pairs": 0
+  },
+  "data": "official zsRE first-2K stream (stream sha256 f42ee4bc6e98b1133e48dc81102201ccd85ccc917a97160ee3c6a0f3a38f378c), B1-B20 of 100; W20 cursor sha256 494b15107deb77d9741606b7bddfecb8b350a486bb5a751655b294d4ebc6f1a4 = ordered zsRE 2K case ids of the README W0 source",
+  "evaluator": "in-run official zsRE evaluator: exact-token-prefix teacher-forced token accuracy. Eff = rewrite, Gen = paraphrase, Loc = neighborhood loc_ans token accuracy; per-request mean of token flags, then request macro over cases (math.fsum, same as official.evaluation.reduce.zsre). The runner key \"Specificity\" is the auxiliary W0 prediction agreement, not Loc.",
+  "GPU_peak_bytes": 53516451840,
+  "seconds": 14435.636569539085
+ },
+ "earlier_attempts": {
+  "63136": "pf2k-qwen25-zsre-P-beta150-ee (HC not normalized), CANCELLED after 4 min 33 s; not used",
+  "63145": "r1 pf2k-qwen25-zsre-PN-beta150-ee, FAILED in B17 (RESOURCE_BLOCKED_STORAGE). Its B15 all-seen (98.83166426166426 / 94.65904521404521 / 44.298534097218635) and W15 weights/history sha256 are bit-identical to r3 W15 (devbox archive server4-archive-20261010/price-final-2k-20261010/execution-qwen25-zsre-pn-r1)",
+  "63276": "r2, CANCELLED in B2 (server4 GPU cap 2)"
+ },
+ "files": {
+  "tier-PN-beta150/result.json": {
+   "path": "server4:/data/janghj/ODE-edit/local/price-final-2k-20261010/execution-qwen25-zsre-pn-r3/tier-PN-beta150/result.json",
+   "bytes": 1976,
+   "sha256": "1f66d05dff99b5b4317a892275aa7991c9768eddd902e186013fad312cee846a"
+  },
+  "tier-PN-beta150/terminal.json": {
+   "path": "server4:/data/janghj/ODE-edit/local/price-final-2k-20261010/execution-qwen25-zsre-pn-r3/tier-PN-beta150/terminal.json",
+   "bytes": 209,
+   "sha256": "fc96b440727b874ffb3e8e0ff9bd91578b57e35953da6addb40be53ae199dffb"
+  },
+  "tier-PN-beta150/W0-result.json": {
+   "path": "server4:/data/janghj/ODE-edit/local/price-final-2k-20261010/execution-qwen25-zsre-pn-r3/tier-PN-beta150/W0-result.json",
+   "bytes": 1246,
+   "sha256": "4125b4798f697a9c0eedef0db85c67a9d7089f38b8b38131d267e95a28e5faeb"
+  },
+  "tier-PN-beta150/W0-reference.json": {
+   "path": "server4:/data/janghj/ODE-edit/local/price-final-2k-20261010/execution-qwen25-zsre-pn-r3/tier-PN-beta150/W0-reference.json",
+   "bytes": 5293821,
+   "sha256": "48c1aa55bcd068f7aed2270b9b413f8615741b5deef97db11cb7555ab4556164"
+  },
+  "tier-PN-beta150/initial.json": {
+   "path": "server4:/data/janghj/ODE-edit/local/price-final-2k-20261010/execution-qwen25-zsre-pn-r3/tier-PN-beta150/initial.json",
+   "bytes": 2050,
+   "sha256": "9ad2343820c28c70edcb07dcde79554259ae639d183e21ff157f6376b0038ab8"
+  },
+  "tier-PN-beta150/resolved-profile.json": {
+   "path": "server4:/data/janghj/ODE-edit/local/price-final-2k-20261010/execution-qwen25-zsre-pn-r3/tier-PN-beta150/resolved-profile.json",
+   "bytes": 2692,
+   "sha256": "09791104eef4603395c510f65dc682e1472d1bbc4e4a82110b251448a7b73d0c"
+  },
+  "tier-PN-beta150/batch-05/all-seen-cases.json": {
+   "path": "server4:/data/janghj/ODE-edit/local/price-final-2k-20261010/execution-qwen25-zsre-pn-r3/tier-PN-beta150/batch-05/all-seen-cases.json",
+   "bytes": 1099502,
+   "sha256": "04258dbae73c9fac2d67d991ab7c5e9d67a93de7e694abf34fd1dc827709bb62"
+  },
+  "tier-PN-beta150/batch-10/all-seen-cases.json": {
+   "path": "server4:/data/janghj/ODE-edit/local/price-final-2k-20261010/execution-qwen25-zsre-pn-r3/tier-PN-beta150/batch-10/all-seen-cases.json",
+   "bytes": 2214845,
+   "sha256": "776bff46d650097924a36bca5e4a92f95bacf17ec3fcd38998420197b27fefb8"
+  },
+  "tier-PN-beta150/batch-15/all-seen-cases.json": {
+   "path": "server4:/data/janghj/ODE-edit/local/price-final-2k-20261010/execution-qwen25-zsre-pn-r3/tier-PN-beta150/batch-15/all-seen-cases.json",
+   "bytes": 3310712,
+   "sha256": "f48f4448ded28b9ef8a546b4ebf89331acb1595a0fadd41cf0827f4273ba1b2a"
+  },
+  "tier-PN-beta150/batch-20/all-seen-cases.json": {
+   "path": "server4:/data/janghj/ODE-edit/local/price-final-2k-20261010/execution-qwen25-zsre-pn-r3/tier-PN-beta150/batch-20/all-seen-cases.json",
+   "bytes": 4410450,
+   "sha256": "bcb53047d7479d8c7af517b8ba166c859d5e354dea200c73ab96f940c89c7110"
+  },
+  "tier-PN-beta150/batch-20/commit.json": {
+   "path": "server4:/data/janghj/ODE-edit/local/price-final-2k-20261010/execution-qwen25-zsre-pn-r3/tier-PN-beta150/batch-20/commit.json",
+   "bytes": 3345,
+   "sha256": "ef894c66c90dc2c7e732581da03a6c81d472721ec9a5dcadf99ae316c7527518"
+  },
+  "tier-PN-beta150/W5-checkpoint.json": {
+   "path": "server4:/data/janghj/ODE-edit/local/price-final-2k-20261010/execution-qwen25-zsre-pn-r3/tier-PN-beta150/W5-checkpoint.json",
+   "bytes": 3777,
+   "sha256": "3f675f5d6e955ddb173dbe2a4474e984787e77b283500737b994339701d9ab3c"
+  },
+  "tier-PN-beta150/W10-checkpoint.json": {
+   "path": "server4:/data/janghj/ODE-edit/local/price-final-2k-20261010/execution-qwen25-zsre-pn-r3/tier-PN-beta150/W10-checkpoint.json",
+   "bytes": 5785,
+   "sha256": "82bcd8b4086b5f66e31cbc0f99f1043054180ec602ae0d36c64675b33f848126"
+  },
+  "tier-PN-beta150/W15-checkpoint.json": {
+   "path": "server4:/data/janghj/ODE-edit/local/price-final-2k-20261010/execution-qwen25-zsre-pn-r3/tier-PN-beta150/W15-checkpoint.json",
+   "bytes": 8285,
+   "sha256": "9c6453300671537f6721b62ea8e3e184f9af9488b647152b09a83e63c79898b6"
+  },
+  "tier-PN-beta150/W20-checkpoint.json": {
+   "path": "server4:/data/janghj/ODE-edit/local/price-final-2k-20261010/execution-qwen25-zsre-pn-r3/tier-PN-beta150/W20-checkpoint.json",
+   "bytes": 10784,
+   "sha256": "7616406966e1027e89447fb853debd498584a836b656f2cc07d4efd016a05a4d"
+  },
+  "early-exit-PN-beta150.json": {
+   "path": "server4:/data/janghj/ODE-edit/local/price-final-2k-20261010/execution-qwen25-zsre-pn-r3/early-exit-PN-beta150.json",
+   "bytes": 548,
+   "sha256": "c3d8863ef79b5a893665655754e3dc1fb19ff49f35293193ba42de8850f6fb3e"
+  }
+ },
+ "W0": {
+  "Efficacy": 36.423560606060605,
+  "Generalization": 35.255802669552665,
+  "Specificity_loc_ans": 38.399388943609594,
+  "requests": 2000,
+  "display": "36.42 / 35.26 / 38.40",
+  "README_W0_row": "36.42 / 35.26 / 38.40",
+  "matches_README_W0_row": true,
+  "README_W0_source": {
+   "job": "server2 61900 s2-qwen25-zsre-ft-gpu",
+   "cases": "/mnt/raid5/janghj/ODE-edit/local/qwen-baselines-server2-20261009/registration-r1/shared-w0/qwen25-zsre/w0-cases.json (server2)",
+   "cases_bytes": 8387409,
+   "cases_sha256": "a8b691103f04704017e9b27ced2d4507a46828e7369fd5926639a9750408b26a",
+   "audit": "audits/global/w0-main-table-20261009/results.json"
+  },
+  "full_precision": {
+   "Eff": "identical (36.423560606060605)",
+   "Gen": "identical to official reduce.zsre over the W0 source cases (35.255802669552665); the W0 audit lists 35.25580266955267, a 5e-15 summation-order difference",
+   "Loc": "identical (38.399388943609594); also recomputed from this run's W0-reference.json predictions"
+  },
+  "queries_identical_to_W0_source": "2,000 ordered cases x rewrite/paraphrase/neighborhood: prompt, input_token_ids, target_token_ids, target_start, target, target_kind all equal (0 mismatches)",
+  "W0_neighborhood_predictions_identical_to_W0_source": "2000/2000 cases"
+ },
+ "all_seen": {
+  "W5": {
+   "requests": 500,
+   "Efficacy": 98.37435786435786,
+   "Generalization": 95.35713564213563,
+   "Specificity_loc_ans": 44.193192165049474,
+   "W0_prediction_agreement": 56.86684330683065,
+   "target_tokens": {
+    "rewrite": {
+     "correct": 1551,
+     "total": 1571
+    },
+    "paraphrase": {
+     "correct": 1514,
+     "total": 1571
+    },
+    "neighborhood": {
+     "correct": 1524,
+     "total": 2993
+    }
+   },
+   "cohort_sha256": "5e5e02c1bbcda9c5ef408b7a93542f516f90377646085090b3881a1f1948cde1",
+   "display": {
+    "Eff": "98.37",
+    "Gen": "95.36",
+    "Loc": "44.19"
+   }
+  },
+  "W10": {
+   "requests": 1000,
+   "Efficacy": 98.928170995671,
+   "Generalization": 95.32789321789322,
+   "Specificity_loc_ans": 44.05770320629663,
+   "W0_prediction_agreement": 56.528151033404505,
+   "target_tokens": {
+    "rewrite": {
+     "correct": 3355,
+     "total": 3396
+    },
+    "paraphrase": {
+     "correct": 3266,
+     "total": 3396
+    },
+    "neighborhood": {
+     "correct": 3023,
+     "total": 5927
+    }
+   },
+   "cohort_sha256": "92eec6cefea5bba2dfa46b5a994048f55e4f3c8db259168182575139412e51ea",
+   "display": {
+    "Eff": "98.93",
+    "Gen": "95.33",
+    "Loc": "44.06"
+   }
+  },
+  "W15": {
+   "requests": 1500,
+   "Efficacy": 98.83166426166426,
+   "Generalization": 94.65904521404521,
+   "Specificity_loc_ans": 44.298534097218635,
+   "W0_prediction_agreement": 54.41574829316984,
+   "target_tokens": {
+    "rewrite": {
+     "correct": 4861,
+     "total": 4933
+    },
+    "paraphrase": {
+     "correct": 4701,
+     "total": 4933
+    },
+    "neighborhood": {
+     "correct": 4563,
+     "total": 8842
+    }
+   },
+   "cohort_sha256": "6c8da5eb3b8a244e3c3737af50ebd7791dac1d63dad5a6d0c3503d120afd62c4",
+   "display": {
+    "Eff": "98.83",
+    "Gen": "94.66",
+    "Loc": "44.30"
+   }
+  },
+  "W20": {
+   "requests": 2000,
+   "Efficacy": 98.72491702741702,
+   "Generalization": 93.97176046176045,
+   "Specificity_loc_ans": 45.168201583818835,
+   "W0_prediction_agreement": 52.30599138384766,
+   "target_tokens": {
+    "rewrite": {
+     "correct": 6589,
+     "total": 6691
+    },
+    "paraphrase": {
+     "correct": 6352,
+     "total": 6691
+    },
+    "neighborhood": {
+     "correct": 6017,
+     "total": 11476
+    }
+   },
+   "cohort_sha256": "85af30b33ec3e0a6216249d4d21322ef5c05cded1832100a80c3ef382d42cfa8",
+   "display": {
+    "Eff": "98.72",
+    "Gen": "93.97",
+    "Loc": "45.17"
+   }
+  }
+ },
+ "display": {
+  "rule": "decimal half-up, 2 places, of the unrounded request-macro value",
+  "Eff": "98.72",
+  "Gen": "93.97",
+  "Loc": "45.17"
+ },
+ "recomputation": "independent: token flags re-derived from predicted_token_ids vs target_token_ids for every observation (0 inconsistencies), neighborhood target_kind = loc_ans, request macro with math.fsum; W20 equals result.json final.summary bit for bit",
+ "token_denominators_match_baselines": "E/G/Loc 6,691/6,691/11,476 target tokens, as the README Qwen zsRE baselines and the CAKE 63325 public-query run (target tokens identical, 0 mismatches)",
+ "checkpoints": {
+  "W5": {
+   "requests": 500,
+   "cursor_sha256": "5a97a9b5d813c39d121c81830f566f3ef04776fa9ac13eb78a19dc18977041ea",
+   "weights": {
+    "bytes": 1357908701,
+    "sha256": "3a80fc6aefe1f0d7b11b92540542d58e644efb5b476947ace1d12eb4d0a1337e"
+   },
+   "history": {
+    "bytes": 7177505458,
+    "sha256": "a4e875387487f0978e7d4919e1405b58fed9dc5bc8d6553e38b9a41febab5d95"
+   }
+  },
+  "W10": {
+   "requests": 1000,
+   "cursor_sha256": "b1c32e2197c96b83093960b247b9a8eac730c9527f14fa7691c116b77d679a63",
+   "weights": {
+    "bytes": 1357908712,
+    "sha256": "48971d5d819b7b64f857da5677e20f84ecc32d12847d54d4b729c07586965a89"
+   },
+   "history": {
+    "bytes": 7177505469,
+    "sha256": "47466063e2afc0370c0b055efb39c92976eabf28af55089f0dccbac75197acdd"
+   }
+  },
+  "W15": {
+   "requests": 1500,
+   "cursor_sha256": "4ae1a24321c77e5ec34560cfa25b5cecd3381f50fe4d69e5fc0ac69d0646b07c",
+   "weights": {
+    "bytes": 1357908712,
+    "sha256": "3d32a4f7b108148cf8b0740f6022ec3e9be4173b6da6c8fa82eaf4f7e3b88ff3"
+   },
+   "history": {
+    "bytes": 7177505469,
+    "sha256": "32acc8288d6cf3e9560d43ae09944a61c6bc09dc5a42264c8a38ce43fc3098d7"
+   }
+  },
+  "W20": {
+   "requests": 2000,
+   "cursor_sha256": "494b15107deb77d9741606b7bddfecb8b350a486bb5a751655b294d4ebc6f1a4",
+   "weights": {
+    "bytes": 1357908712,
+    "sha256": "77c5a8e4391c1152d318c270d7b21dd4993676f49c2350d05c11a24d9c16c468"
+   },
+   "history": {
+    "bytes": 7177505469,
+    "sha256": "c6285481d5428ef8eba62ca76ccf4fbd8eb2a1304724be21edf11f82d2997e38"
+   },
+   "weights_rehashed_on_server4": "77c5a8e4391c1152d318c270d7b21dd4993676f49c2350d05c11a24d9c16c468 (equal)"
+  }
+ },
+ "final_state": {
+  "H": {
+   "4": "93c19288be2defe252f5ca718aeef538a94d0fbd6d1fe77423d5fac693537cd1",
+   "5": "3143b959a9a2cca12d5186c385568599b5e762fe6f2530b2a36abc4c2782723a",
+   "6": "734eb83eed2572ff123d448700b54d1b3aa9f9051528ef566503f367e8d2d4ef",
+   "7": "e868a01586b7e1b2518464df57ecd53c546db9ca5a14e1759ff301ea03244ca9",
+   "8": "bb192d084168b309e0f890637a193aeb40cdec286330a583301716eadba8eae3"
+  },
+  "W": {
+   "4": "9047a1343cdad4aa8537d0bbf525bc5a40819a194e0a361565df286acc11ae36",
+   "5": "610a3249499037279e619ff09b33859106bfbd8bab575121d334e7f48e3f4cff",
+   "6": "d5474136e201f297c469990b964d4405b3d996394002d6e9f9c28ed4db8cfefc",
+   "7": "7fe2db12b0063f7c64c170aa994a71c0e1973c6783371b52d6b5aedcc4e4287f",
+   "8": "9d51965b342c80a05c4c1c49cbdc48121f73ce314adfcf3f201a4dcc1fb3649c"
+  }
+ },
+ "batch20_commit": {
+  "post_scope": "ALL_SEEN",
+  "checkpoint_saved": true,
+  "after_equals_result_state": true
+ },
+ "note_loc_above_W0": "Loc 45.17 is above W0 38.40 while W0 prediction agreement falls to 52.31%, the same pattern as Llama PRICE zsRE (62889). Cause not examined."
+}

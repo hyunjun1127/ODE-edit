@@ -1,0 +1,143 @@
+{
+ "job": 63305,
+ "node": "devbox",
+ "model": "qwen25",
+ "arm": "qwen25-PN-beta150",
+ "chain_job": "63144 -> 63281",
+ "slurm": {
+  "job": 63305,
+  "job_name": "pf2k-flucon-qwen25-PN-beta150",
+  "state": "COMPLETED",
+  "exit_code": "0:0",
+  "start": "2026-10-11T06:29:37+09:00",
+  "end": "2026-10-11T09:28:54+09:00",
+  "elapsed": "02:59:17",
+  "node": "devbox"
+ },
+ "state": "W20",
+ "edits_in_state": 2000,
+ "evaluator": "project/run_scripts/price_final_flucon/run.py --model qwen25 (baseline saved-W20 generation evaluator: NativeGenerationObserver PROFILE, eval seed 20261007; edited weight model.layers[l].mlp.down_proj)",
+ "files": {
+  "COMPLETE.json": {
+   "path": "/mnt/raid5/janghj/ODE-edit/local/price-final-flucon-20261011/runs/qwen25-PN-beta150-W20/COMPLETE.json",
+   "bytes": 2021,
+   "sha256": "7c6c9219aed77dc6731acbd12777ebe36464c63bc907862d0dce747c4d740b21"
+  },
+  "restore.json": {
+   "path": "/mnt/raid5/janghj/ODE-edit/local/price-final-flucon-20261011/runs/qwen25-PN-beta150-W20/restore.json",
+   "bytes": 1992,
+   "sha256": "98bf4b7259ff2b7a2ad88905bfff69697dd02775a0b16890f91fba85c18f097d"
+  },
+  "observer-identity.json": {
+   "path": "/mnt/raid5/janghj/ODE-edit/local/price-final-flucon-20261011/runs/qwen25-PN-beta150-W20/generation/observer-identity.json",
+   "bytes": 1848,
+   "sha256": "2379b31d9075b0b2408b6fa81926a433b7cc52c8f61bc53ff1596795d349e829"
+  },
+  "job script": {
+   "path": "/mnt/raid5/janghj/ODE-edit/local/price-final-flucon-20261011/jobs/flucon-qwen25-PN-beta150-W20.sh",
+   "bytes": 1609,
+   "sha256": "2c806507754a92ec9c58bb86764705595c926e6613c990d5d5a1070190b324f4"
+  }
+ },
+ "Flu": {
+  "display_unit": "bits x100",
+  "paper_display_x100": "620.95",
+  "raw_unit": "bits",
+  "raw_value": 6.209544123641497
+ },
+ "Con": {
+  "display_unit": "cosine_0_to_1 x100",
+  "paper_display_x100": "31.46",
+  "raw_unit": "cosine_0_to_1",
+  "raw_value": 0.3146088259143784
+ },
+ "summary": {
+  "consistency_count": 2000,
+  "consistency_sum": 629.2176518287567,
+  "consistency_unit": "cosine_0_to_1",
+  "fluency_count": 2000,
+  "fluency_sum": 12419.088247282994,
+  "fluency_unit": "bits",
+  "generated_token_count": 1815707,
+  "generation_prompt_count": 20000,
+  "length_cap_no_continuation_prompt_count": 0,
+  "missing_reason_counts": {
+   "asset_not_available": 0,
+   "length_cap_no_continuation": 0,
+   "missing_generation_prompts": 0,
+   "missing_reference": 0,
+   "nonfinite_score": 0,
+   "tokenizer_not_available": 0,
+   "zero_generated_vector": 0,
+   "zero_reference_vector": 0
+  },
+  "ngram_entropy": 6.209544123641497,
+  "planned_count": 2000,
+  "reason_count_unit": "request_occurrences_nonexclusive",
+  "reference_score": 0.3146088259143784
+ },
+ "requests": 2000,
+ "restore": {
+  "cf_order_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+  "checkpoint": {
+   "bytes": 12874,
+   "path": "/mnt/raid5/janghj/ODE-edit/local/price-final-2k-20261010-qwen-pn/cf-tier-PN-beta150/W20-checkpoint.json",
+   "sha256": "ef13c2fbd5a2d7dec90804fed8dd869a15ba84a3858018f18252482e224d66a7"
+  },
+  "cold_W": {
+   "4": "02840e29ec550994801da6ba615897263c3d9277cc18607a61e0d8006d6ecdac",
+   "5": "6653bcfe27ce3b1cd9909facc513607d8e5e22f8fd9adfc39a47984f15e4d03c",
+   "6": "63692e2f4d40f25d13785908af8cb35c294b2a731aa22ab345ba8cea2792fbb1",
+   "7": "2dced8459e4fc6e5ee93f32df07259af0d0e107f6aff70e516f176c8b9010351",
+   "8": "5627dbf35411b2f47a474fc307eba12226823fe252d6a3fb34e37e41f88be813"
+  },
+  "initial": {
+   "bytes": 1884,
+   "path": "/mnt/raid5/janghj/ODE-edit/local/price-final-2k-20261010-qwen-pn/cf-tier-PN-beta150/initial.json",
+   "sha256": "b9bb210eecea9c1a3e2c221653b2aa68adabdd13a8a710a3c2df89f845cb9b1b"
+  },
+  "label": "qwen25-PN-beta150-cf2k-63144-63281-W20",
+  "layers": [
+   4,
+   5,
+   6,
+   7,
+   8
+  ],
+  "model": "qwen25",
+  "model_snapshot": "/mnt/raid5/janghj/.cache/huggingface/hub/models--Qwen--Qwen2.5-7B-Instruct/snapshots/a09a35458c702b33eeacc393d103063234e8bc28",
+  "restored_W": {
+   "4": "8ecd8e6e777118cc63b3f37f6306389d8836700ff5df46f3d8da771f9f174aad",
+   "5": "8d0cbfe953e89884a54cec809424975a4e941789453e8f33d198677c4f8f689f",
+   "6": "9feefa9e16e30ae4f9f3bb5400cb750b9c6ca406b2713699f6b8d933fb345fbd",
+   "7": "9d672a4e4b4c7f8a16e863d929ccfca1773a8b94cb3c29dffb2ab962a7f1dc68",
+   "8": "0492bf0512f277dc5b6c0f9b3805b8ae53d481a7068a24d619b1403783908d1f"
+  },
+  "tokenizer_sha256": "77c1b476d460584ec70f2781826fda122c953ccd019399343a8efc440c3f75ae",
+  "weights": {
+   "bytes": 1357908712,
+   "path": "/mnt/raid5/janghj/ODE-edit/local/price-final-2k-20261010-qwen-pn/cf-tier-PN-beta150/W20-editable-weights.pt",
+   "sha256": "9a551bac1a3ab6afbb402e250c57dbab0c2de1791a07203ffab5e59e3a36286b"
+  }
+ },
+ "invariants": {
+  "weights_unchanged": true,
+  "RNG_unchanged": true,
+  "checkpoint_unchanged": true,
+  "edits": 0
+ },
+ "endpoint": {
+  "bytes": 2749299,
+  "path": "/mnt/raid5/janghj/ODE-edit/local/price-final-flucon-20261011/runs/qwen25-PN-beta150-W20/generation/endpoints/8ec692a6957f55b3010e367632236ac3677cbf0a524494cccb99f671834a3710.json",
+  "sha256": "995816e88adc07c88ba87028578fe78b40f3906e5a3310e159a37ec2207bcc8e"
+ },
+ "source": "a6249254b074a6f9e70742076c13fc80c71e1b81",
+ "official_tree": "eee5082a6edc68e873dac3dfe9b2f8aeeb64ba93",
+ "seconds": 10750.157552935183,
+ "checks": {
+  "recomputed_from_endpoint_rows": "2,000 rows, 20,000 generation prompts; mean n-gram entropy and mean TF-IDF cosine (math.fsum) equal COMPLETE.json raw values bit for bit",
+  "case_order": "endpoint rows in eval-2K order, sha256 0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+  "evaluated_state": "restored_W per-layer sha256 equal qwen25-cf-results.json final_state.W (63281 W20); W20-editable-weights.pt sha256 9a551bac… and W20-checkpoint.json sha256 ef13c2fb… equal the server4 63281 originals (execution-qwen25-pn-r2-resume-w15/tier-PN-beta150)",
+  "generation_profile": "observer identity equals the server2 baseline Qwen AlphaEdit Flu/Con 62871 (profile cf-cake-native-casebatch-kv-total100-globalrng-v1, seed 20261007, max_total_tokens 100, EOS_stop false, top_k 5, reference assets 75e595c7…) except generation source commit (a6249254 vs 417a12e7, same official tree eee5082a) and the tokenizer identity hash convention (77c1b476… = digest of all non-weight snapshot members, 9e3c11a4… on server2); the six non-weight files of revision a09a3545 are byte-identical on devbox and server2"
+ }
+}

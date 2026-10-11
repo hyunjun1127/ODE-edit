@@ -1,0 +1,163 @@
+{
+ "job": 63325,
+ "server": "server4",
+ "slurm": {
+  "job": 63325,
+  "job_name": "official-s4-qwen25-zsre-cake-2k",
+  "state": "COMPLETED",
+  "exit_code": "0:0",
+  "start": "2026-10-11T07:45:19+09:00",
+  "end": "2026-10-11T09:12:32+09:00",
+  "elapsed": "01:27:13",
+  "node": "server4"
+ },
+ "dataset": "zsre",
+ "requests": 2000,
+ "row": "Qwen2.5-7B-Instruct CAKE zsRE Eff/Gen/Loc",
+ "owner_note": "CAKE run of another session; origin/main still showed ING when this row was filled. Values re-reduced only from the run's own completion/result files.",
+ "identity": {
+  "assets_sha256": "b49d904ad6339fcf5d7f23e860ca7899c3a4b4da15ce4907a39c6ccc6d5eea94",
+  "code_commit": "d7a83bedca9a9df6a62978e8c19f90f2dce610c8",
+  "config_sha256": "f040863e277f32bddea1a8e2a1391573c51d9566f5ceb2eb5ba58422435069a7",
+  "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+  "official_tree_sha256": "a7a8c11c38408b5889a28c2332838fdb363a3866",
+  "stream_sha256": "93925ec2f74e00a1b3fbdf261e557d10652ae0eca7265b4948958d39de4848b7",
+  "tokenizer_sha256": "77c1b476d460584ec70f2781826fda122c953ccd019399343a8efc440c3f75ae"
+ },
+ "edits": 2000,
+ "batches": 20,
+ "W20_checkpoint": {
+  "latest": {
+   "batch": 20,
+   "file": "batch-20-06af57148490252e.pt",
+   "final_W20": true,
+   "identity_sha256": "3d137cef9c78cac35894e0a240f933bf88d868231bffd0e1702b4ced1c5057b5",
+   "sha256": "06af57148490252eef0df32306514c8c1b2eccf159409a4abb1893b21af27102"
+  },
+  "milestone": {
+   "bytes": 8535426713,
+   "directory": "/mnt/raid5/janghj/ODE-edit/local/cake-qwen25-zsre-server4-20261011/checkpoint-archive/milestones/edit-2000",
+   "host": "codex-server1",
+   "ref": {
+    "batch": 20,
+    "file": "batch-20-06af57148490252e.pt",
+    "final_W20": true,
+    "identity_sha256": "3d137cef9c78cac35894e0a240f933bf88d868231bffd0e1702b4ced1c5057b5",
+    "sha256": "06af57148490252eef0df32306514c8c1b2eccf159409a4abb1893b21af27102"
+   },
+   "sha256": "06af57148490252eef0df32306514c8c1b2eccf159409a4abb1893b21af27102"
+  }
+ },
+ "milestones": [
+  {
+   "bytes": 237,
+   "path": "/data/janghj/ODE-edit/local/cake-qwen25-zsre-server4-20261011/output/milestones/edit-0500/latest.json",
+   "sha256": "2e44560c7480e235bc37cfa9b61f15231be31aef7cfad367ce559badc10dfb54"
+  },
+  {
+   "bytes": 238,
+   "path": "/data/janghj/ODE-edit/local/cake-qwen25-zsre-server4-20261011/output/milestones/edit-1000/latest.json",
+   "sha256": "15505ffbfc8b8bc313cc025f2fb0c47643f24f999d895988761100be42614c63"
+  },
+  {
+   "bytes": 238,
+   "path": "/data/janghj/ODE-edit/local/cake-qwen25-zsre-server4-20261011/output/milestones/edit-1500/latest.json",
+   "sha256": "a7285a2dcbede17db33d206cbfbc3045c6cc547d51640f19656e8235efd9d6b1"
+  },
+  {
+   "bytes": 237,
+   "path": "/data/janghj/ODE-edit/local/cake-qwen25-zsre-server4-20261011/output/milestones/edit-2000/latest.json",
+   "sha256": "b6f11e24ac62eab93220cb1c46d9a6cc1fedf5b882dc0d02a6c71f8fad1fe6a6"
+  }
+ ],
+ "generation": "NOT_APPLICABLE",
+ "files": {
+  "output/COMPLETE.json": {
+   "path": "server4:/data/janghj/ODE-edit/local/cake-qwen25-zsre-server4-20261011/output/COMPLETE.json",
+   "bytes": 3472,
+   "sha256": "7c7593b30676658c242aced819249091495f70a3e1c0448e25fca4297b761359"
+  },
+  "output/factual/all-seen-20.json": {
+   "path": "server4:/data/janghj/ODE-edit/local/cake-qwen25-zsre-server4-20261011/output/factual/all-seen-20.json",
+   "bytes": 5406832,
+   "sha256": "537a2a349281c0232da24372dcd5fe592e7a99461016fa160adfb570e678ebd7"
+  },
+  "output/commits/batch-20.json": {
+   "path": "server4:/data/janghj/ODE-edit/local/cake-qwen25-zsre-server4-20261011/output/commits/batch-20.json",
+   "bytes": 2204,
+   "sha256": "7133c9dd7af07809dfdd36fcc838b6109496ce7c2c9b2b152fa1144357bfb559"
+  },
+  "output/checkpoint/latest.json": {
+   "path": "server4:/data/janghj/ODE-edit/local/cake-qwen25-zsre-server4-20261011/output/checkpoint/latest.json",
+   "bytes": 237,
+   "sha256": "b6f11e24ac62eab93220cb1c46d9a6cc1fedf5b882dc0d02a6c71f8fad1fe6a6"
+  },
+  "output/runtime.json": {
+   "path": "server4:/data/janghj/ODE-edit/local/cake-qwen25-zsre-server4-20261011/output/runtime.json",
+   "bytes": 5051,
+   "sha256": "bc78059ecd4c02e4a60ef6cb4baaaffd6639abdd4c9302df0752cb8f5e2300e9"
+  },
+  "config.json": {
+   "path": "server4:/data/janghj/ODE-edit/local/cake-qwen25-zsre-server4-20261011/config.json",
+   "bytes": 3375,
+   "sha256": "4168e0821099c7b08e389125ff462d1f03cfe0bb72c5bb38101a3bbe4ddf59e9"
+  },
+  "output/checkpoint/remote.json": {
+   "path": "server4:/data/janghj/ODE-edit/local/cake-qwen25-zsre-server4-20261011/output/checkpoint/remote.json",
+   "bytes": 394,
+   "sha256": "bc9b70dc0745dc67c43ab84db78cab893c8d79101862d9e2b61aa31c8f0b49f0"
+  },
+  "zsre-query-parity.json": {
+   "path": "server4:/data/janghj/ODE-edit/local/cake-qwen25-zsre-server4-20261011/zsre-query-parity.json",
+   "bytes": 643,
+   "sha256": "6a3e09fdc8b13dd9f44fc1d32c8c6c5617af230a96c4940b8e1aba73d08f11aa"
+  }
+ },
+ "ordered_case_ids_sha256": "494b15107deb77d9741606b7bddfecb8b350a486bb5a751655b294d4ebc6f1a4",
+ "recorded_summary": {
+  "Efficacy": 88.39093795093795,
+  "Generalization": 82.5712950937951,
+  "Specificity": 33.7852811500319,
+  "Specificity_loc_ans": 33.7852811500319,
+  "requests": 2000
+ },
+ "reducer": "official reduce.zsre (public-query evaluator official-zsre-public-query-eval-only-v1): per-request mean of token flags, request macro; Loc = loc_ans token accuracy",
+ "schema": "official-zsre-public-query-eval-only-v1",
+ "query_sha256": "6c8111384789cec7059ea1b3c2b1083d761ade2b360c99db3e5c4f1ef4941d78",
+ "token_denominators": {
+  "neighborhood": 11476,
+  "paraphrase": 6691,
+  "rewrite": 6691
+ },
+ "tokens": {
+  "rewrite": {
+   "correct": 5857,
+   "total": 6691
+  },
+  "paraphrase": {
+   "correct": 5533,
+   "total": 6691
+  },
+  "neighborhood": {
+   "correct": 4744,
+   "total": 11476
+  }
+ },
+ "unrounded": {
+  "Eff": 88.39093795093795,
+  "Gen": 82.5712950937951,
+  "Loc": 33.7852811500319
+ },
+ "display": {
+  "Eff": "88.39",
+  "Gen": "82.57",
+  "Loc": "33.79"
+ },
+ "query_identity": "same public-query set (query_sha256 6c811138…) as the README Qwen FE zsRE audit; per-case target token ids identical to PRICE 63278 (0 mismatches)",
+ "trajectory_all_seen": {
+  "W5": "93.96 / 89.92 / 43.08",
+  "W10": "93.34 / 88.23 / 40.97",
+  "W15": "91.33 / 85.67 / 38.83",
+  "W20": "88.39 / 82.57 / 33.79"
+ }
+}

@@ -1,0 +1,85 @@
+{
+ "job": 62866,
+ "server": "server2",
+ "slurm": {
+  "job": 62866,
+  "job_name": "s2-flucon-gptj-alphaedit-61778",
+  "state": "COMPLETED",
+  "exit_code": "0:0",
+  "start": "2026-10-11T07:22:51+09:00",
+  "end": "2026-10-11T09:53:44+09:00",
+  "elapsed": "02:30:53",
+  "node": "server2"
+ },
+ "row": "GPT-J-6B AlphaEdit CF Flu/Con (W20 checkpoint of 61778)",
+ "checkpoint_job": "61778 (W20 / 2,000 edits)",
+ "complete": {
+  "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/runs/gptj-alphaedit-61778/COMPLETE.json",
+  "bytes": 2291,
+  "sha256": "e5e5d996f374364b3d1cc60985cd3a5052947b276e81df14a5c9618ea8cda630"
+ },
+ "restore": {
+  "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/runs/gptj-alphaedit-61778/restore.json",
+  "bytes": 403,
+  "sha256": "951a70f8acc2aba5be4992b7b75351f79e0595eb4c9d0e743979464b3254fb20"
+ },
+ "config": {
+  "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/configs/gptj-alphaedit-61778.json",
+  "bytes": 4891,
+  "sha256": "87becc750cf031030ee596cc103569fd95a1658e5442d5f25fe4ccf4a5703101"
+ },
+ "endpoint": {
+  "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/preparation-r2/runs/gptj-alphaedit-61778/generation/endpoints/95a5c1c6eac9f76a17ffb4b74e07add05ba7a90996012afcff05c777ecb5643a.json",
+  "bytes": 2837049,
+  "sha256": "88e3eb3090c7b455900d9e31abfb2dc5cce0a1f1e508ec099639cefc2f693351"
+ },
+ "Flu": {
+  "display_unit": "bits x100",
+  "paper_display_x100": "614.00",
+  "raw_unit": "bits",
+  "raw_value": 6.140002457622991
+ },
+ "Con": {
+  "display_unit": "cosine_0_to_1 x100",
+  "paper_display_x100": "40.76",
+  "raw_unit": "cosine_0_to_1",
+  "raw_value": 0.40756263352050603
+ },
+ "summary": {
+  "planned_count": 2000,
+  "fluency_count": 2000,
+  "consistency_count": 2000,
+  "generation_prompt_count": 20000,
+  "generated_token_count": 1815122,
+  "ngram_entropy": 6.140002457622991,
+  "reference_score": 0.40756263352050603,
+  "missing_reason_counts": {
+   "asset_not_available": 0,
+   "length_cap_no_continuation": 0,
+   "missing_generation_prompts": 0,
+   "missing_reference": 0,
+   "nonfinite_score": 0,
+   "tokenizer_not_available": 0,
+   "zero_generated_vector": 0,
+   "zero_reference_vector": 0
+  }
+ },
+ "requests": 2000,
+ "source": "417a12e7db55af93346be60f79138a6923324de1",
+ "original_checkpoint": {
+  "bytes": 8053090133,
+  "path": "/mnt/raid5/janghj/ODE-edit/local/official-baselines-server2/20261008-r1/registration-cf-display-r1/CF_ALPHAEDIT/checkpoints/batch-20-22490808f5612b50.pt",
+  "sha256": "22490808f5612b503d7abd413d027f46b6e9079128e2aee816eacd7f197b77b2"
+ },
+ "invariants": {
+  "weights_unchanged": true,
+  "RNG_unchanged": true,
+  "checkpoint_unchanged": true,
+  "edits": 0
+ },
+ "checks": {
+  "recomputed_from_endpoint_rows": "2,000 rows; mean n-gram entropy and mean TF-IDF cosine (math.fsum) equal COMPLETE.json raw values bit for bit; x100 then decimal half-up",
+  "case_order": "eval-2K order, sha256 0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+  "checkpoint_identity": "original_checkpoint sha256 22490808… equals the GPT-J AlphaEdit W20 checkpoint in audits/servers/server2/baseline-refresh-s2-flucon-20261010/inventory.json (VALID_W20_2000_FULL_SHA); config sha256 87becc75… equals the registered config"
+ }
+}

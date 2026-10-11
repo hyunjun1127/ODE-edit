@@ -1,0 +1,86 @@
+{
+ "job": 62874,
+ "server": "server2",
+ "slurm": {
+  "job": 62874,
+  "job_name": "s2-flucon-llama3-memit-42658",
+  "state": "COMPLETED",
+  "exit_code": "0:0",
+  "start": "2026-10-11T05:36:28+09:00",
+  "end": "2026-10-11T08:49:16+09:00",
+  "elapsed": "03:12:48",
+  "node": "server2"
+ },
+ "row": "Llama3-8B-Instruct MEMIT CF Flu/Con (historical native 42658 B020, README marker ‡)",
+ "checkpoint_job": "42658 (historical native MEMIT, B020 / 2,000 edits)",
+ "complete": {
+  "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/historical-r1/runs/llama3-memit-42658/COMPLETE.json",
+  "bytes": 2319,
+  "sha256": "d2c7ceb3f109c2ef0353bb7063bd2afd427bfb7cc27e48f7d9d92b5bdc60a142"
+ },
+ "restore": {
+  "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/historical-r1/runs/llama3-memit-42658/restore.json",
+  "bytes": 676,
+  "sha256": "48203e32c421a26d8014ef96d2e39da34223840a725d2f79eec93987a43c3de0"
+ },
+ "config": {
+  "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/historical-r1/configs/llama3-memit-42658.json",
+  "bytes": 4854,
+  "sha256": "85c3ec31f4aa55f39313c98de36ed856a9be4d145a2fe7cf23293966b14b9123"
+ },
+ "endpoint": {
+  "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-refresh-s2-flucon-20261010/historical-r1/runs/llama3-memit-42658/generation/endpoints/9befd46deed8f9d3159b6dff6856c7a5aaf67fd2dd011f4cc1ba0b7414b0558e.json",
+  "bytes": 2827424,
+  "sha256": "07876d086e87d1d90b3f06ed1e7bf90ce663bd48fec79488ab494a37630175bd"
+ },
+ "Flu": {
+  "display_unit": "bits x100",
+  "paper_display_x100": "507.87",
+  "raw_unit": "bits",
+  "raw_value": 5.078691348195485
+ },
+ "Con": {
+  "display_unit": "cosine_0_to_1 x100",
+  "paper_display_x100": "5.38",
+  "raw_unit": "cosine_0_to_1",
+  "raw_value": 0.053834838486748235
+ },
+ "summary": {
+  "planned_count": 2000,
+  "fluency_count": 2000,
+  "consistency_count": 2000,
+  "generation_prompt_count": 20000,
+  "generated_token_count": 1796707,
+  "ngram_entropy": 5.078691348195485,
+  "reference_score": 0.053834838486748235,
+  "missing_reason_counts": {
+   "asset_not_available": 0,
+   "length_cap_no_continuation": 0,
+   "missing_generation_prompts": 0,
+   "missing_reference": 0,
+   "nonfinite_score": 0,
+   "tokenizer_not_available": 0,
+   "zero_generated_vector": 0,
+   "zero_reference_vector": 0
+  }
+ },
+ "requests": 2000,
+ "source": "417a12e7db55af93346be60f79138a6923324de1",
+ "original_checkpoint": {
+  "bytes": 1174435733,
+  "path": "/mnt/raid5/janghj/ODE-edit/local/checkpoint-archives/server4-migration-20260911-v1/new177-v1/payload/local/fixed10k-native-baselines/attempt-v1/output/main-cell-2/B020/W-method-state.pt",
+  "sha256": "0119370f71753ee4101f5bafd179328370d1f348453edb5a4bb9122289e0365e"
+ },
+ "invariants": {
+  "weights_unchanged": true,
+  "RNG_unchanged": true,
+  "checkpoint_unchanged": true,
+  "edits": 0
+ },
+ "checks": {
+  "recomputed_from_endpoint_rows": "2,000 rows; mean n-gram entropy and mean TF-IDF cosine (math.fsum) equal COMPLETE.json raw values bit for bit; x100 then decimal half-up",
+  "case_order": "eval-2K order, sha256 0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+  "checkpoint_identity": "original_checkpoint sha256 0119370f… equals the MEMIT B020 checkpoint recorded in experiment-reports/global/llama-native-cf-historical-b020-20261009.md; binding historical-r1/bindings/42658.json ordered_case_ids_sha256 0b912d11…",
+  "runtime_parity": "old_runtime_parity NOT_CLAIMED (as the ‡ CF cells)"
+ }
+}

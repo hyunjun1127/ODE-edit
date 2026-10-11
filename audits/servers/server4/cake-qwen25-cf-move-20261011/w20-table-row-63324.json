@@ -1,0 +1,138 @@
+{
+ "job": 63324,
+ "server": "server4",
+ "slurm": {
+  "job": 63324,
+  "job_name": "official-s4-qwen25-cf-cake-2k",
+  "state": "COMPLETED",
+  "exit_code": "0:0",
+  "start": "2026-10-11T07:28:48+09:00",
+  "end": "2026-10-11T09:13:22+09:00",
+  "elapsed": "01:44:34",
+  "node": "server4"
+ },
+ "dataset": "cf",
+ "requests": 2000,
+ "row": "Qwen2.5-7B-Instruct CAKE CF Score/Eff/Gen/Loc",
+ "owner_note": "CAKE run of another session; origin/main still showed ING when this row was filled. Values re-reduced only from the run's own completion/result files.",
+ "identity": {
+  "assets_sha256": "b49d904ad6339fcf5d7f23e860ca7899c3a4b4da15ce4907a39c6ccc6d5eea94",
+  "code_commit": "40292095c0ab1020ee22ea777b3d593b5add3c05",
+  "config_sha256": "4c36de11b2f6aba9bee5f2890093d9612e67cbeb86b349d5adb10a1f67885a6e",
+  "model_revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+  "official_tree_sha256": "6a1127c3f96d8c12553e640dbbf0e0fdd1270eaa",
+  "stream_sha256": "39bbd2215177d2aabeb3bd5c2e7f088b454479bf567b3b16f9da70bd0b28c95e",
+  "tokenizer_sha256": "77c1b476d460584ec70f2781826fda122c953ccd019399343a8efc440c3f75ae"
+ },
+ "edits": 2000,
+ "batches": 20,
+ "W20_checkpoint": {
+  "latest": {
+   "batch": 20,
+   "file": "batch-20-be1956ab6d4bcec6.pt",
+   "final_W20": true,
+   "identity_sha256": "809dca0aefb26c494503d79ca253c67a7352e4587864b2e6bd6e271578c030d1",
+   "sha256": "be1956ab6d4bcec6bf23ff37872ff7733d8e50c2c0a462b0837ae7e09563cdf9"
+  },
+  "milestone": "/data/janghj/ODE-edit/local/cake-qwen25-cf-server4-20261011/output/milestones/edit-2000"
+ },
+ "milestones": [
+  {
+   "bytes": 237,
+   "path": "/data/janghj/ODE-edit/local/cake-qwen25-cf-server4-20261011/output/milestones/edit-0500/latest.json",
+   "sha256": "112db30547e52db11dcb24ad078ed2813c7fe5612f390a614e36fb94ad471375"
+  },
+  {
+   "bytes": 238,
+   "path": "/data/janghj/ODE-edit/local/cake-qwen25-cf-server4-20261011/output/milestones/edit-1000/latest.json",
+   "sha256": "707d49d96c6471144be7ad2fe7619f854201c054a0eef6624bf6f518a99b9c98"
+  },
+  {
+   "bytes": 238,
+   "path": "/data/janghj/ODE-edit/local/cake-qwen25-cf-server4-20261011/output/milestones/edit-1500/latest.json",
+   "sha256": "39fe4fef403f88d12df627966cc767a067ec17668dc08420de644422f1a7dc7a"
+  },
+  {
+   "bytes": 237,
+   "path": "/data/janghj/ODE-edit/local/cake-qwen25-cf-server4-20261011/output/milestones/edit-2000/latest.json",
+   "sha256": "1c3434ed9e87b8dd55bf7ecffc52931d346615d271f7a48e3f8fde9f75bdfc41"
+  }
+ ],
+ "generation": "DEFERRED_TO_W20_CHECKPOINT",
+ "files": {
+  "output/COMPLETE.json": {
+   "path": "server4:/data/janghj/ODE-edit/local/cake-qwen25-cf-server4-20261011/output/COMPLETE.json",
+   "bytes": 2959,
+   "sha256": "f527f6549bc004044146c3fc2da95b57b888af3ceec13aaaacd7f778f51d2a9d"
+  },
+  "output/factual/all-seen-20.json": {
+   "path": "server4:/data/janghj/ODE-edit/local/cake-qwen25-cf-server4-20261011/output/factual/all-seen-20.json",
+   "bytes": 63074052,
+   "sha256": "755b3777c05f75795135742f7eec3683b110eabdf0f616381970a3fdc9e10d6b"
+  },
+  "output/commits/batch-20.json": {
+   "path": "server4:/data/janghj/ODE-edit/local/cake-qwen25-cf-server4-20261011/output/commits/batch-20.json",
+   "bytes": 1689,
+   "sha256": "956f0abac7accfc70c9aeb275ad8e50cace9e35a88f5b3fba7ff2e0d27bee14f"
+  },
+  "output/checkpoint/latest.json": {
+   "path": "server4:/data/janghj/ODE-edit/local/cake-qwen25-cf-server4-20261011/output/checkpoint/latest.json",
+   "bytes": 237,
+   "sha256": "1c3434ed9e87b8dd55bf7ecffc52931d346615d271f7a48e3f8fde9f75bdfc41"
+  },
+  "output/runtime.json": {
+   "path": "server4:/data/janghj/ODE-edit/local/cake-qwen25-cf-server4-20261011/output/runtime.json",
+   "bytes": 4804,
+   "sha256": "af884f6f2eb06f504fda2f6526d43834864a9817246b4364b95ff3b5fbcb0116"
+  },
+  "config.json": {
+   "path": "server4:/data/janghj/ODE-edit/local/cake-qwen25-cf-server4-20261011/config.json",
+   "bytes": 3140,
+   "sha256": "597b9f470e01afdbed83fcbcbf21b7f9d97eb9c5535395b647537f84bb8f43c6"
+  }
+ },
+ "ordered_case_ids_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+ "recorded_summary": {
+  "Efficacy": 81.3,
+  "Generalization": 70.1,
+  "Score": 67.98434749926781,
+  "Score_AlphaEdit_display": 67.9843474992678,
+  "Specificity": 56.940000000000005,
+  "requests": 2000
+ },
+ "reducer": "official reduce.counterfact: strict NLL preference per prompt (R/P: new<true, N: true<new), per-request rate, request macro; Score = harmonic mean of unrounded rates",
+ "counts": {
+  "R": {
+   "numerator": 1626,
+   "denominator": 2000
+  },
+  "P": {
+   "numerator": 2804,
+   "denominator": 4000
+  },
+  "N": {
+   "numerator": 11388,
+   "denominator": 20000
+  }
+ },
+ "unrounded": {
+  "R": 81.3,
+  "P": 70.1,
+  "N": 56.940000000000005
+ },
+ "score_unrounded": 67.98434749926781,
+ "display": {
+  "Score": "67.98",
+  "Eff": "81.30",
+  "Gen": "70.10",
+  "Loc": "56.94"
+ },
+ "note_prompts_correct": "the file's *_prompts_correct flags are argmax exact match of the desired target (strict_acc_pct 44.75 / 20.2 / 2.745), a separate metric not used in the table",
+ "trajectory_all_seen": {
+  "W5": "100.0 / 97.7 / 77.88, Score 90.70",
+  "W10": "93.2 / 90.2 / 65.68, Score 80.99",
+  "W15": "89.73 / 85.1 / 61.42, Score 76.58",
+  "W20": "81.3 / 70.1 / 56.94, Score 67.98"
+ },
+ "Flu_Con": "DEFERRED (generation DEFERRED_TO_W20_CHECKPOINT)"
+}

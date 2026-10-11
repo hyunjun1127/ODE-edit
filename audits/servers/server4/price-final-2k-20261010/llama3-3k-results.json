@@ -1,0 +1,197 @@
+{
+ "task": "price-final-2k-20261010",
+ "plan": "main3k",
+ "row": "README section \"PRICE 최종 method와 main 2K\": Llama 3K extension (B21-B30); not a main-table cell",
+ "arm": "llama3-P-beta100",
+ "resolved_config_sha256": "1208f9ce35b89fd530e522d8ee49b35fa212cd8057e94983a9f6d3702a8ff737",
+ "profile_sha256": "78522466553c16d1e9a25e0a7fee50fea768ed4a20ae59d99ea6175a995b38f7",
+ "source_commit": "90879e451833afd22e1809516cff776516e6daf1",
+ "slice_identity": "7d737dedada036b26207dace9c54fa4b0abfbd55126f170ff8e2140f67d95197",
+ "method": {
+  "endpoint_cast_mode": "cap_endpoint_toward_zero_v1",
+  "gamma": 1.0,
+  "hc": true,
+  "lr_rule": "anchor_unit",
+  "rho": 0.05
+ },
+ "chain": {
+  "62604": "B1-B20 (main 2K CF, W20 = README Llama PRICE CF row)",
+  "63224": "pf3k-llama3-P-beta100-ee, FAILED after 15 s (not used)",
+  "63238": {
+   "job_name": "pf3k-llama3-P-beta100-ee",
+   "state": "FAILED",
+   "from_W20_of": 62604,
+   "note": "committed B21-B27, saved W25, stopped in B28 by the runner storage guard",
+   "W25_all_seen": {
+    "requests": 2500,
+    "R": [
+     2498,
+     2500
+    ],
+    "P": [
+     4559,
+     5000
+    ],
+    "N": [
+     20167,
+     25000
+    ],
+    "display": "99.92 / 91.18 / 80.67"
+   },
+   "W25_checkpoint": {
+    "path": "/data/janghj/ODE-edit/local/price-final-2k-20261010/execution-llama3-3k-r2/tier-P-beta100/W25-checkpoint.json",
+    "bytes": 15620,
+    "sha256": "c93e9d676b1bb7508305ec17303dc802316ff11bde736a7b2f297b9d956bf1e4"
+   },
+   "W25_post_summary_sha256": "02f2d71680d493618d539915d28f1d118f89336b9bcba7f27123ba154edc6943"
+  },
+  "63277": {
+   "slurm": {
+    "job": 63277,
+    "job_name": "pf3k-llama3-P-beta100-ee-r3",
+    "state": "COMPLETED",
+    "exit_code": "0:0",
+    "start": "2026-10-11T06:28:21+09:00",
+    "end": "2026-10-11T07:45:56+09:00",
+    "elapsed": "01:17:35",
+    "node": "server4"
+   },
+   "resumed_from_batch": 25,
+   "attempt": "server4:/var/tmp/janghj-price-runs/price-final-2k-20261010/execution-llama3-3k-r3",
+   "state_join": "resume.json binds the 63238 W25 checkpoint (sha256 c93e9d67…, weights 7f64c625…, history 7bfdc09e…); B26 and B27 before/after state hashes equal those of 63238 (replicates_source_after true)"
+  }
+ },
+ "files": {
+  "tier-P-beta100/result.json": {
+   "path": "server4:/var/tmp/janghj-price-runs/price-final-2k-20261010/execution-llama3-3k-r3/tier-P-beta100/result.json",
+   "bytes": 4341,
+   "sha256": "7c90516949a978fcfca043a404c6fa4a9b89bddcf71583345111e627ec1b9013"
+  },
+  "tier-P-beta100/terminal.json": {
+   "path": "server4:/var/tmp/janghj-price-runs/price-final-2k-20261010/execution-llama3-3k-r3/tier-P-beta100/terminal.json",
+   "bytes": 208,
+   "sha256": "c1d8874d6a13b97c02aaea417f95798ee6c07874b48be85f309e5f0a9aa9627f"
+  },
+  "tier-P-beta100/resume.json": {
+   "path": "server4:/var/tmp/janghj-price-runs/price-final-2k-20261010/execution-llama3-3k-r3/tier-P-beta100/resume.json",
+   "bytes": 2334,
+   "sha256": "a312950e3fd1661066ed406ddb016d3816060b030dde04984b74cab63df6251b"
+  },
+  "tier-P-beta100/initial.json": {
+   "path": "server4:/var/tmp/janghj-price-runs/price-final-2k-20261010/execution-llama3-3k-r3/tier-P-beta100/initial.json",
+   "bytes": 1526,
+   "sha256": "68e7553ebf25674676a499c9e8db747f397e3e4861998dd9df5b02b9d873fcb2"
+  },
+  "tier-P-beta100/resolved-profile.json": {
+   "path": "server4:/var/tmp/janghj-price-runs/price-final-2k-20261010/execution-llama3-3k-r3/tier-P-beta100/resolved-profile.json",
+   "bytes": 2562,
+   "sha256": "00de008bb96478ee8791233e0b362ee51229a4ab975b202c52ba84015ce595fc"
+  },
+  "tier-P-beta100/W30-checkpoint.json": {
+   "path": "server4:/var/tmp/janghj-price-runs/price-final-2k-20261010/execution-llama3-3k-r3/tier-P-beta100/W30-checkpoint.json",
+   "bytes": 18341,
+   "sha256": "0fd48e43dbcbb63136a292f0f1738a5f9d95833e46e10f6412b513e5090baafe"
+  },
+  "tier-P-beta100/batch-30/commit.json": {
+   "path": "server4:/var/tmp/janghj-price-runs/price-final-2k-20261010/execution-llama3-3k-r3/tier-P-beta100/batch-30/commit.json",
+   "bytes": 6772,
+   "sha256": "570d52a134e91bc8c0f21a99033d78ab3fbffe49b2587265c03662050e33f5de"
+  },
+  "tier-P-beta100/batch-30/post/summary.json": {
+   "path": "server4:/var/tmp/janghj-price-runs/price-final-2k-20261010/execution-llama3-3k-r3/tier-P-beta100/batch-30/post/summary.json",
+   "bytes": 2900,
+   "sha256": "150ca16456838841b8ebb13a67766a9aadcffcb9f0afc864c3216b3632eaf768"
+  },
+  "early-exit-P-beta100.json": {
+   "path": "server4:/var/tmp/janghj-price-runs/price-final-2k-20261010/execution-llama3-3k-r3/early-exit-P-beta100.json",
+   "bytes": 606,
+   "sha256": "030b80d62d805dd92894764b476983083a11150372844f3ff2d14a6231836c09"
+  }
+ },
+ "W30_post_chunks": {
+  "count": 60,
+  "rows": 39000,
+  "list_digest_sha256": "18782deb65cacc1f4b0757d0c6490022ab3a2e586ab9ee03d812bce6eae1d9c4",
+  "digest_rule": "sha256 over \"<name>\\0<file sha256>\\n\" for chunk-0000..chunk-2950 in name order"
+ },
+ "W30": {
+  "requests": 3000,
+  "counts": {
+   "R": [
+    2993,
+    3000
+   ],
+   "P": [
+    5329,
+    6000
+   ],
+   "N": [
+    23749,
+    30000
+   ]
+  },
+  "percent_unrounded": {
+   "R": 99.76666666666667,
+   "P": 88.81666666666666,
+   "N": 79.16333333333333
+  },
+  "score_unrounded": 88.45735645420164,
+  "display": {
+   "Eff": "99.77",
+   "Gen": "88.82",
+   "Loc": "79.16",
+   "Score": "88.46"
+  },
+  "rule": "strict NLL preference (R/P: new<true, N: true<new) as official reduce.counterfact; Score = harmonic mean of unrounded rates; display decimal half-up"
+ },
+ "order": {
+  "first_2000_equal_main_2K_W20_order": true,
+  "main_2K_order_sha256": "0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+  "records_2000_2999_disjoint_from_first_2000": true,
+  "W30_cursor_sha256": "e9cc7fe2b737ee3ecbd74899a012b22cd927dd680f2b8f3023cb18de802fa6f2"
+ },
+ "W30_checkpoint": {
+  "weights": {
+   "bytes": 1174407912,
+   "sha256": "03d8f5e5cdb9dd5b0a03f2de56c3098c2301c86dbcdb15195bad325d54d2c734",
+   "rehashed_on_server4": "equal"
+  },
+  "history": {
+   "bytes": 4110420613,
+   "sha256": "071c597a43dbde5a0c26f36c8a1ac02d9ba781ef9e8bdcd09cb2d74a69f376ce"
+  },
+  "RNG": "660ee344bfa528f2f9aed8993bb74bfab4ffca4a40893ee02400d2130923cc5c",
+  "hc_records": 30
+ },
+ "final_state": {
+  "H": {
+   "4": "926cb0ed2985c5e763caf27fbe5424b905aec6612137af66bc411fd0bb8ed0fe",
+   "5": "f06586b1e65cbb659e7c98ea54811d675630be68a71f9270c68f74b499cdd43c",
+   "6": "780a199458652f6dc170e5f4a34559f75056335b9c233ff77dec3f62f7a8aeb0",
+   "7": "7b3b9ec3048cf755f606a50cfd6682789653000c9b6ece99bfea3412ab3f4b7b",
+   "8": "001f60739b44e2939d16365c378ecea104ac551a99d35cfcc16295fea6fff10f"
+  },
+  "W": {
+   "4": "679f6cede3b6ebb67ef90ddc52ce41836c30c5120f75d7563586a008da78373e",
+   "5": "3166dc7fdb8f793534a80a4089d4cf7a1af23e35f3077a434ecfe064653125ef",
+   "6": "6eb1b90691b9e2557604987239cee41a151fd2f549fc4ae4ca31276103dc3b42",
+   "7": "4e21c80590bcc1208f33093cbace8ef4908d37ea080f69edd1dfdf512d65b3be",
+   "8": "b75e229f41e6c2c2d1410f3d2f8acdbb3f9fc2ce06a2f9b6fc344952194a1a76"
+  }
+ },
+ "devbox_archive": {
+  "path": "/mnt/raid5/janghj/ODE-edit/local/server4-archive-20261010/price-final-2k-20261010/execution-llama3-3k-r3/tier-P-beta100",
+  "identical": "result.json, resume.json, W30-checkpoint.json, W30-editable-weights.pt sha256 equal the server4 originals"
+ },
+ "storage_note": "the server4 attempt lives under /var/tmp/janghj-price-runs (symlink from /data); W30 history.pt is not in the devbox archive listing",
+ "terminal": {
+  "GPU_peak_bytes": 46864238592,
+  "arm": "P-beta100",
+  "automatic_retry": false,
+  "model": "llama3",
+  "resumed_from": 25,
+  "seconds": 4644.236361274496,
+  "source": "90879e451833afd22e1809516cff776516e6daf1",
+  "status": "COMPLETE"
+ }
+}

@@ -1,0 +1,122 @@
+{
+ "job": 63282,
+ "server": "server4",
+ "slurm": {
+  "job": 63282,
+  "job_name": "s4-gptj-W0-flucon-2k-r1",
+  "state": "COMPLETED",
+  "exit_code": "0:0",
+  "start": "2026-10-11T07:46:21+09:00",
+  "end": "2026-10-11T09:09:01+09:00",
+  "elapsed": "01:22:40",
+  "node": "server4"
+ },
+ "row": "GPT-J-6B W0 (편집 전) CF Flu/Con",
+ "replaces": "63219 (CANCELLED after model load, partial output moved to output.cancelled-63219 before 63282 started); same run.sh/config/source, only --dependency changed",
+ "files": {
+  "output/COMPLETE.json": {
+   "path": "server4:/data/janghj/ODE-edit/local/gptj-w0-flucon-20261011/execution-r1/output/COMPLETE.json",
+   "bytes": 172986,
+   "sha256": "6b08a45ff76a0353f1705e2008a2f90891fca95237bb1d787a36473c4c329ea0"
+  },
+  "output/generation/endpoints/4037ee84c20058d7fa28d884254868107c86f2551ae7a566d7345b3613078d0c.json": {
+   "path": "server4:/data/janghj/ODE-edit/local/gptj-w0-flucon-20261011/execution-r1/output/generation/endpoints/4037ee84c20058d7fa28d884254868107c86f2551ae7a566d7345b3613078d0c.json",
+   "bytes": 2529258,
+   "sha256": "52ace300e3741bf2090bdf6b69ba82b24444a9061286c5d76f8b9ba4c05feffd"
+  },
+  "output/generation/observer-identity.json": {
+   "path": "server4:/data/janghj/ODE-edit/local/gptj-w0-flucon-20261011/execution-r1/output/generation/observer-identity.json",
+   "bytes": 1922,
+   "sha256": "6c75cc1f7ac592dfb10814a507ff7f117999b721e920afb942755c184cec5606"
+  },
+  "output/tracking/receipt.json": {
+   "path": "server4:/data/janghj/ODE-edit/local/gptj-w0-flucon-20261011/execution-r1/output/tracking/receipt.json",
+   "bytes": 4322,
+   "sha256": "a0fc7c0111e9785244576d4b8a56411f7da35a84b31a93925bd236ee9f34df86"
+  },
+  "output/tracking/identity.json": {
+   "path": "server4:/data/janghj/ODE-edit/local/gptj-w0-flucon-20261011/execution-r1/output/tracking/identity.json",
+   "bytes": 1928,
+   "sha256": "3f3617fbdd28ca828cd411e03ab5a2b3c40a3361c991dbde243572dca2ae5bf8"
+  },
+  "output/transport-final.json": {
+   "path": "server4:/data/janghj/ODE-edit/local/gptj-w0-flucon-20261011/execution-r1/output/transport-final.json",
+   "bytes": 2909,
+   "sha256": "6720a8a9d8f7ed00a4d40ba0308722d9c2dbd1400b44e9535881183bd3adf8e8"
+  },
+  "config.json": {
+   "path": "server4:/data/janghj/ODE-edit/local/gptj-w0-flucon-20261011/execution-r1/config.json",
+   "bytes": 61552,
+   "sha256": "ba9fd83911be8d18f6d7eeffa0f18f6459b50d01a9f15f542e3e5a5092a22256"
+  },
+  "run.sh": {
+   "path": "server4:/data/janghj/ODE-edit/local/gptj-w0-flucon-20261011/execution-r1/run.sh",
+   "bytes": 708,
+   "sha256": "aa87942f22f7ebb1754e289dd32c795cf2d4e7b8e66f4ea859d042b4983676c3"
+  },
+  "resubmission.json": {
+   "path": "server4:/data/janghj/ODE-edit/local/gptj-w0-flucon-20261011/execution-r1/resubmission.json",
+   "bytes": 541,
+   "sha256": "6cccabfbcb243161c3a3e31f0d37275be209680010ef18834685e5853e2ed0f9"
+  },
+  "freeze.json": {
+   "path": "server4:/data/janghj/ODE-edit/local/gptj-w0-flucon-20261011/execution-r1/freeze.json",
+   "bytes": 1037,
+   "sha256": "b956985b928df1dc9058b67b1408af4582a4e7321d93806fb667b1db45fbe9d3"
+  }
+ },
+ "endpoint": "W0",
+ "model_state": "COLD_W0",
+ "edits": 0,
+ "Flu": {
+  "raw_unit": "bits",
+  "raw_value": 6.217118362810517,
+  "x100": 621.7118362810517,
+  "paper_display_x100": "621.71"
+ },
+ "Con": {
+  "raw_unit": "cosine_0_to_1",
+  "raw_value": 0.3015783129536219,
+  "x100": 30.157831295362193,
+  "paper_display_x100": "30.16"
+ },
+ "summary": {
+  "planned_count": 2000,
+  "fluency_count": 2000,
+  "consistency_count": 2000,
+  "generation_prompt_count": 20000,
+  "generated_token_count": 1815122,
+  "ngram_entropy": 6.217118362810517,
+  "reference_score": 0.3015783129536219,
+  "missing_reason_counts": {
+   "asset_not_available": 0,
+   "length_cap_no_continuation": 0,
+   "missing_generation_prompts": 0,
+   "missing_reference": 0,
+   "nonfinite_score": 0,
+   "tokenizer_not_available": 0,
+   "zero_generated_vector": 0,
+   "zero_reference_vector": 0
+  }
+ },
+ "requests": 2000,
+ "source": "9d2420afc9dfa3574973109a9de3b3518ee8b1ee",
+ "config_sha256": "4bc1905379d3a972734b47f677bf7228e75354ceeccbf32fdcab6ae4ee71020e",
+ "invariants": {
+  "weights_unchanged": true,
+  "RNG_restored": true,
+  "checkpoint_saved": false,
+  "edits": 0
+ },
+ "checks": {
+  "recomputed_from_endpoint_rows": "2,000 rows, 20,000 generation prompts; means (math.fsum) equal COMPLETE.json bit for bit; x100 then decimal half-up",
+  "case_order": "eval-2K order, sha256 0b912d11659eb087ee71a391b7bea1e02ecc9d999a48254eb8559434965640f4",
+  "model_files": "runner verifies every model member size+sha256 before load (official/runners/server4/gptj_w0_flucon.py); base_model_sha256 40fbd3f5… recorded in tracking identity/receipt; revision 47e16930…",
+  "generation_profile": "same as the server2 GPT-J W20 Flu/Con evaluations (profile cf-cake-native-casebatch-kv-total100-globalrng-v1, seed 20261007, max_total_tokens 100, EOS_stop false, top_k 5, reference assets 75e595c7…, tokenizer a435eae8…)"
+ },
+ "wandb": {
+  "run_id": "6c6a29beae8147ae",
+  "status": "FINISHED_SDK_FLUSHED",
+  "dropped_points": 0
+ }
+}
