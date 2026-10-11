@@ -15,10 +15,12 @@ from . import checkpoint
 MILESTONES = (5, 10, 15, 20)
 
 
-def retain(latest, archive):
+def retain(latest, archive, *, batches=MILESTONES):
+    if any(type(batch) is not int or not 1 <= batch <= 20 for batch in batches):
+        raise ValueError('INVALID_RETAINED_BATCH')
     latest, archive = Path(latest), Path(archive)
     ref = json.loads((latest / "latest.json").read_text())
-    if ref["batch"] not in MILESTONES:
+    if ref["batch"] not in batches:
         return None
     if Path(ref["file"]).name != ref["file"]:
         raise ValueError("INVALID_CHECKPOINT_MEMBER")

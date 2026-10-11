@@ -1,5 +1,6 @@
 """Shared author-hparams history-FE CF/zsRE cold chains; no qualification/generation."""
 import argparse
+import ast
 import copy
 import json
 import hashlib
@@ -22,10 +23,21 @@ from .server1.common import member,verify,read,seed_edit,factual_payload
 from .server1.native import tensor_sha
 from .server1.assets import member as asset_member
 from .server1.fe_history_prepare import runtime
+from official.baselines.fe_covariance import POLICIES
+from . import fe_covariance_assets
+from official.baselines.fe_observation import observe_batch, summarize
+
+Z_POLICY = 'CURRENT_BATCH_ENTRY_MODEL_NO_FUTURE_TARGETS'
 
 def validate_config(c):
     assert c['schema']=='official-fe-author-history-v1' and c['instruction_id']==INSTRUCTION
-    assert c['task_id']==TASK and c['method']==METHOD and c['model'] in ('llama3','qwen25')
+    assert isinstance(c['task_id'],str) and c['task_id'] and c['method']==METHOD and c['model'] in ('llama3','qwen25','gptj')
+    assert c.get('z_policy',Z_POLICY)==Z_POLICY
+    assert c.get('covariance_policy','strict') in POLICIES
+    assert type(c.get('observe_batches',False)) is bool
+    assert type(c.get('retain_milestones',False)) is bool
+    assert all(type(b) is int and 1<=b<=20 for b in c.get('diagnostic_checkpoint_batches',[]))
+    assert not any(k in c for k in ('z_cache','z_cache_template','precomputed_targets','w0_targets'))
     assert c['server'] in ('server1','server2','server4') and c['dataset'] in ('cf','zsre')
     if c['server']=='server4':
         assert (c['model'],c['dataset'])==('llama3','zsre') and c.get('checkpoint_archive')
@@ -48,7 +60,7 @@ def state(weights,history,calls):
                 context_sha256=digest(native.CONTEXT_TEMPLATES_CACHE))
 
 def tracking_values(c,lock):
-    values=dict(server=c['server'],task_id=TASK,model=c['model'],model_family={'llama3':'llama','qwen25':'qwen2'}[c['model']],
+    values=dict(server=c['server'],task_id=c['task_id'],model=c['model'],model_family={'llama3':'llama','qwen25':'qwen2','gptj':'gptj'}[c['model']],
         writer='memit_fe_history',baseline=METHOD,role='scientific',arm=c['arm'],attempt=Path(c['output']).parent.parent.name+'-'+c['model']+'-'+c['dataset'],
         source_sha=lock['source_commit'],config_sha=c['config_sha256'],dataset=c['dataset'],metric_schema='official-baselines-scalar-v1',
         instruction_id='USER-OFFICIAL-BASELINES-20261008-R1')
@@ -61,6 +73,26 @@ def evaluate_endpoint(model,tok,rows,c,external):
 
 def load_native_context(c,assets,tokenizer):
     """Optional exact cold native input; retain producer provenance, never old W/H."""
+    if 'context_replay' in c:
+        assert 'native_context' not in c
+        binding=c['context_replay']
+        contexts=read(verify(binding['contexts']))
+        producer=read(verify(binding['producer_config']))
+        assert producer['model']==c['model'] and producer['edit_seed']==c['edit_seed']
+        assert digest({k:v for k,v in producer.items() if k!='config_sha256'})==producer['config_sha256']
+        producer_assets=read(verify(producer['assets']))
+        assert producer_assets['model']['identity']==assets['model']['identity']
+        signature=lambda a:{Path(m['path']).name:(m['sha256'],m['bytes']) for m in a['model']['members']}
+        assert signature(producer_assets)==signature(assets)
+        science=lambda hp:{k:v for k,v in hp.items() if k not in ('device','stats_dir')}
+        assert science(producer['hparams'])==science(c['hparams'])
+        lines=Path(verify(binding['producer_log'])).read_text().splitlines()
+        observed=[ast.literal_eval(line.removeprefix('Cached context templates '))
+                  for line in lines if line.startswith('Cached context templates ')]
+        assert observed==[contexts] and digest(contexts)==binding['canonical_sha256']
+        assert len(contexts)==2 and contexts[0]==['{}'] and len(contexts[1])==5
+        assert all(type(x) is str and x.count('{}')==1 for group in contexts for x in group)
+        return copy.deepcopy(contexts)
     if 'native_context' not in c:return None
     binding=c['native_context'];contexts=read(verify(binding['contexts']))
     ready=read(verify(binding['ready']));producer=read(verify(binding['producer_config']))
@@ -126,20 +158,16 @@ def run(config_path,lock_path,resume=False):
     weights={f'{hp.rewrite_module_tmp.format(layer)}.weight':native.nethook.get_parameter(model,f'{hp.rewrite_module_tmp.format(layer)}.weight') for layer in hp.layers}
     for p in weights.values(): assert p.dtype==torch.float32 and list(p.shape)==[desc['hidden'],desc['intermediate']]
     H={str(layer):torch.zeros(desc['intermediate'],desc['intermediate'],dtype=torch.float32) for layer in hp.layers}
-    native.COV_CACHE={};native.CONTEXT_TEMPLATES_CACHE=load_native_context(c,assets,tok)
-    for layer in hp.layers:
-        row=assets['C0'][str(layer)];m=row['member'];verify(m)
-        with np.load(m['path'],allow_pickle=False) as a:
-            assert int(a['sample_size'])==hp.mom2_n_samples
-            assert int(a['mom2.count'])==row['validation']['masked_token_vector_count']
-            cov=torch.from_numpy(a['mom2.mom2'])/int(a['mom2.count'])
-        assert cov.dtype==torch.float32 and cov.shape==H[str(layer)].shape and torch.isfinite(cov).all()
-        native.COV_CACHE[(model.config._name_or_path.replace('/','_'),row['module'])]=cov
+    output=Path(c['output']);output.mkdir(parents=True,exist_ok=True)
+    covariances,covariance_receipts=fe_covariance_assets.prepare(c,assets,output,resume=resume)
+    assert set(assets['C0'])==set(H)
+    native.COV_CACHE={(model.config._name_or_path.replace('/','_'),module):cov for module,cov in covariances.items()}
+    native.CONTEXT_TEMPLATES_CACHE=load_native_context(c,assets,tok)
     def no_recompute(*a,**kw): raise ValueError('FE_HISTORY_C0_CACHE_MISS_FORBIDDEN')
     native.layer_stats=no_recompute
-    output=Path(c['output']);output.mkdir(parents=True,exist_ok=True)
     identity=dict(config_sha256=c['config_sha256'],stream_sha256=c['stream_sha256'],code_commit=lock['source_commit'],
-        official_tree_sha256=lock['official_tree'],model_revision=desc['revision'],tokenizer_sha256=assets['tokenizer_sha256'],assets_sha256=assets['assets_sha256'])
+        official_tree_sha256=lock['official_tree'],model_revision=desc['revision'],tokenizer_sha256=assets['tokenizer_sha256'],assets_sha256=assets['assets_sha256'],
+        covariance_sha256=digest(covariance_receipts),z_policy=Z_POLICY)
     values=tracking_values(c,lock)
     tracker=init(env_file=c['tracking_env_file'],spool=output/('tracking-resume' if resume else 'tracking'),config=values)
     def log(v):
@@ -162,7 +190,14 @@ def run(config_path,lock_path,resume=False):
             from official.experiments import remote_milestones
             return remote_milestones.save(output,archive=c['checkpoint_archive'],lock_path=output/'checkpoint.lock',
                 reserve_bytes=c['storage_min_free_bytes'],interval=1,**args)['latest']
-        return checkpoint.save(output/'checkpoint',**args)
+        ref=checkpoint.save(output/'checkpoint',**args)
+        if c.get('retain_milestones'):
+            from official.experiments.milestones import retain
+            retain(output/'checkpoint',output/'milestones')
+        if c.get('diagnostic_checkpoint_batches'):
+            from official.experiments.milestones import retain
+            retain(output/'checkpoint',output/'diagnostic-checkpoints',batches=c['diagnostic_checkpoint_batches'])
+        return ref
     exit_code=1
     try:
         seed_edit(); start=0
@@ -192,7 +227,21 @@ def run(config_path,lock_path,resume=False):
             requests=registry.requests(records[(batch-1)*100:batch*100],METHOD,c['model'])
             request_hash=digest(requests)
             _,_,apply=registry.implementation(METHOD,c['model'])
-            apply(model,tok,requests,hp,history=H,copy=False,return_orig_weights=False,cache_template=None)
+            if c.get('observe_batches'):
+                observation=None
+                try:
+                    with observe_batch(native,requests,hp,weights) as observation:
+                        apply(model,tok,requests,hp,history=H,copy=False,return_orig_weights=False,cache_template=None)
+                finally:
+                    if observation is not None:
+                        folder=output/'observations';folder.mkdir(exist_ok=True)
+                        tensor_path=folder/f'batch-{batch:02d}.pt'
+                        with tensor_path.open('xb') as stream:
+                            torch.save(observation,stream);stream.flush();os.fsync(stream.fileno())
+                        # Incomplete observations still preserve a failed solve's inputs.
+                        write_new(folder/f'batch-{batch:02d}.json',dict(summary=summarize(observation),tensors=member(tensor_path)))
+            else:
+                apply(model,tok,requests,hp,history=H,copy=False,return_orig_weights=False,cache_template=None)
             assert digest(requests)==request_hash
             model.zero_grad(set_to_none=True)
             for p in model.parameters():p.requires_grad_(False)
@@ -202,9 +251,11 @@ def run(config_path,lock_path,resume=False):
                 write_new(output/'native-context-identity.json',dict(context_sha256=after['context_sha256'],
                     source=lock['source_commit'],config_sha256=c['config_sha256'],
                     author_profile_sha256=c['author_profile_sha256'],verified_cold_context_reused='native_context' in c,
-                    native_context_binding=c.get('native_context'),request_sha256=request_hash))
+                    native_context_binding=c.get('native_context'),context_replay=c.get('context_replay'),request_sha256=request_hash))
             cursor=dict(completed_batch=batch,edit=dict(method=METHOD,request_sha256=request_hash,requests=100,
-                before=before,after=after,history_appends_per_layer=1,H0_native_matrix_exact_runtime=batch==1,
+                before=before,after=after,history_appends_per_layer=1,
+                H0_native_matrix_exact_runtime=batch==1 and not any(r['repaired'] for r in covariance_receipts.values()),
+                z_policy=Z_POLICY,z_request_count=100,z_entry_successful_calls=batch-1,
                 elapsed_sec=time.monotonic()-started),generation_status='DEFERRED_TO_SAVED_W20_CHECKPOINT' if c['dataset']=='cf' else 'NOT_APPLICABLE')
             try:
                 if batch in c['milestones']: cursor['factual']=factual(records[:batch*100],batch,f'batch-{batch:02d}')

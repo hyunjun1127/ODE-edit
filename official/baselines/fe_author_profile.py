@@ -10,11 +10,12 @@ METHOD='MEMIT_FE_HISTORY'
 PROFILE=Path(__file__).resolve().parents[1]/'hparams/MEMIT_FE_HISTORY_AUTHOR/profiles.json'
 
 def profile(model):
-    if model not in ('llama3','qwen25'):raise ValueError('AUTHOR_MODEL_SCOPE')
+    if model not in ('llama3','qwen25','gptj'):raise ValueError('AUTHOR_MODEL_SCOPE')
     value=json.loads(PROFILE.read_text())[model]
     base=json.loads((PROFILE.parents[1]/'MEMIT_FE'/f'{model}.json').read_text())
     changed={k for k in base if base[k]!=value['hparams'][k]}
-    if set(base)!=set(value['hparams']) or changed!={'clamp_norm_factor','v_num_grad_steps'}:
+    expected = set() if model == 'gptj' else {'clamp_norm_factor','v_num_grad_steps'}
+    if set(base)!=set(value['hparams']) or changed!=expected:
         raise ValueError('AUTHOR_ONLY_CLAMP_STEPS_OVERRIDE')
     return value
 
