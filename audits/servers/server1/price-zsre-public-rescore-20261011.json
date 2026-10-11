@@ -1,0 +1,144 @@
+{
+ "schema": "price-zsre-public-rescore-v1",
+ "evaluator": "public-query zsre_paper (MEMIT/AlphaEdit eval_utils_zsre queries; request macro; Loc = loc_ans), FP32 eager, TF32 off, right padding, microbatch 16, official zsRE first-2K stream f42ee4bc\u2026",
+ "code": "PRICE repo commit 013197e (price.eval.zsre_rescore), devbox Slurm jobs 63526-63528",
+ "rows": {
+  "llama3": {
+   "job": "63526",
+   "tier": "server4-archive-20261010/price-final-2k-20261010/execution-llama3-zsre-r1/tier-P-beta100 (run 62889)",
+   "complete": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/price-zsre-public-rescore-20261011/runs/llama3-zsre-W20/COMPLETE.json",
+    "bytes": 904,
+    "sha256": "ad8fa81057b7b732cda8589a3e9a123419e5f9d07f33450d9a1cbc0d7dfb9f10"
+   },
+   "endpoint": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/price-zsre-public-rescore-20261011/runs/llama3-zsre-W20/W20-zsre-public.json",
+    "bytes": 5364948,
+    "sha256": "1b4223cd2e39507d0981ef19f7de83d6e9ab5c85382f2e5d30f8f0c5297df2e3"
+   },
+   "restore": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/price-zsre-public-rescore-20261011/runs/llama3-zsre-W20/restore.json",
+    "bytes": 2386,
+    "sha256": "fce268c9e5c88b7c2008c383fce23e095f7bad3eea0c351f92c608c922e2e621"
+   },
+   "query_parity": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/price-zsre-public-rescore-20261011/runs/llama3-zsre-W20/query-parity.json",
+    "bytes": 643,
+    "sha256": "7790ca6eea72a2e6f1bdebdb64f79ae1dd2f3151310b1350c5541611b2d5ce53"
+   },
+   "unrounded": {
+    "Eff": 95.99,
+    "Gen": 91.36749999999999,
+    "Loc": 32.98408977055639
+   },
+   "display": {
+    "Eff": "95.99",
+    "Gen": "91.37",
+    "Loc": "32.98"
+   },
+   "source": {
+    "code_commit": "013197efa0227416498968f35bf0b71d39700ac5",
+    "dirty": false,
+    "generation_tree": "7e5acdcc1f41139d3ff8a52448509061da670206"
+   },
+   "weights_unchanged": true,
+   "RNG_unchanged": true
+  },
+  "gptj": {
+   "job": "63527",
+   "tier": "server4-archive-20261010/price-final-2k-20261010/execution-gptj-zsre-r1/tier-P-beta075 (run 63027)",
+   "complete": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/price-zsre-public-rescore-20261011/runs/gptj-zsre-W20/COMPLETE.json",
+    "bytes": 925,
+    "sha256": "9bff9dfbb280ab0ba0df69c1fba955e94306cd675e5550352719aab6c64d8d2b"
+   },
+   "endpoint": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/price-zsre-public-rescore-20261011/runs/gptj-zsre-W20/W20-zsre-public.json",
+    "bytes": 4643495,
+    "sha256": "38bb26875202767add2fe22f0429f6c7d5c662375cbd21f9f87bd08939fa90ae"
+   },
+   "restore": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/price-zsre-public-rescore-20261011/runs/gptj-zsre-W20/restore.json",
+    "bytes": 2523,
+    "sha256": "20ef5bdd7f8028aea0022dd7b49b87d25fb9b6ee7fccbe1a549c36dee4ccd175"
+   },
+   "query_parity": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/price-zsre-public-rescore-20261011/runs/gptj-zsre-W20/query-parity.json",
+    "bytes": 640,
+    "sha256": "ec0ef0630eedae9b0e2b09cee9d787dff48fd13608bfa19fb6a4244d104b9588"
+   },
+   "unrounded": {
+    "Eff": 99.71330586080586,
+    "Gen": 96.86590506715507,
+    "Loc": 29.53209042298678
+   },
+   "display": {
+    "Eff": "99.71",
+    "Gen": "96.87",
+    "Loc": "29.53"
+   },
+   "source": {
+    "code_commit": "013197efa0227416498968f35bf0b71d39700ac5",
+    "dirty": false,
+    "generation_tree": "7e5acdcc1f41139d3ff8a52448509061da670206"
+   },
+   "weights_unchanged": true,
+   "RNG_unchanged": true
+  },
+  "qwen25": {
+   "job": "63528",
+   "tier": "price-zsre-public-rescore-20261011/inputs/qwen25-zsre-pn-r3/tier-PN-beta150 (run 63278)",
+   "complete": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/price-zsre-public-rescore-20261011/runs/qwen25-zsre-W20/COMPLETE.json",
+    "bytes": 931,
+    "sha256": "20aef3ee6f1c8c6e343faf994fc484d2fb4b4b273ff23105732f65884b5f69b0"
+   },
+   "endpoint": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/price-zsre-public-rescore-20261011/runs/qwen25-zsre-W20/W20-zsre-public.json",
+    "bytes": 5404261,
+    "sha256": "6f2275ae4ddb4c2c211d3afc0a602d48155cca0c0f5d09bf61336cd5ce89e471"
+   },
+   "restore": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/price-zsre-public-rescore-20261011/runs/qwen25-zsre-W20/restore.json",
+    "bytes": 2336,
+    "sha256": "8196dd4f8f927d7208856169acbe0dd4fa80d38c6b73f32679a49998f1287b59"
+   },
+   "query_parity": {
+    "path": "/mnt/raid5/janghj/ODE-edit/local/price-zsre-public-rescore-20261011/runs/qwen25-zsre-W20/query-parity.json",
+    "bytes": 643,
+    "sha256": "6a3e09fdc8b13dd9f44fc1d32c8c6c5617af230a96c4940b8e1aba73d08f11aa"
+   },
+   "unrounded": {
+    "Eff": 98.72491702741702,
+    "Gen": 93.97176046176045,
+    "Loc": 45.168201583818835
+   },
+   "display": {
+    "Eff": "98.72",
+    "Gen": "93.97",
+    "Loc": "45.17"
+   },
+   "source": {
+    "code_commit": "013197efa0227416498968f35bf0b71d39700ac5",
+    "dirty": false,
+    "generation_tree": "7e5acdcc1f41139d3ff8a52448509061da670206"
+   },
+   "weights_unchanged": true,
+   "RNG_unchanged": true
+  }
+ },
+ "W0_public_query": {
+  "llama3": {
+   "source": "audits/servers/server1/cake-six-2k-20261011/w20-table-row-63297.json (CAKE run W0-first2000, same evaluator)",
+   "display": "36.99 / 36.34 / 31.89"
+  },
+  "gptj": {
+   "source": "audits/servers/server1/cake-six-2k-20261011/w20-table-row-63299.json",
+   "display": "27.79 / 27.10 / 27.54"
+  },
+  "qwen25": {
+   "source": "unchanged README W0 row (61900 w0-cases; equals the 63278 public-query W0)",
+   "display": "36.42 / 35.26 / 38.40"
+  }
+ }
+}

@@ -197,7 +197,7 @@ zsRE Loc은 **loc_ans 정답 token 정확도의 요청별 평균**이다. 이전
 
 | Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu ×100 | CF Con ×100 | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| [W0 (편집 전)](experiment-reports/global/w0-main-table-20261009.md) | 13.36 | 8.20 | 10.95 | 88.56 | 635.22 | 24.64 | 38.10 | 37.61 | 38.59 |
+| [W0 (편집 전)](experiment-reports/global/w0-main-table-20261009.md) | 13.36 | 8.20 | 10.95 | 88.56 | 635.22 | 24.64 | 36.99 | 36.34 | 31.89 |
 | FT | 56.59 | 89.25 | 73.30 | 35.50 | 449.50 | 2.90 | 14.63 | 11.82 | 25.25 |
 | MEMIT | 58.88‡ | 64.75‡ | 61.70‡ | 51.83‡ | 507.87‡ | 5.38‡ | 44.30 | 39.95 | 22.30 |
 | AlphaEdit | 84.80‡ | 99.30‡ | 93.23‡ | 68.59‡ | 619.92‡ | 32.33‡ | 95.18 | 91.40 | 31.10 |
@@ -205,7 +205,7 @@ zsRE Loc은 **loc_ans 정답 token 정확도의 요청별 평균**이다. 이전
 | FE (author hparams + history) | 90.57 | 99.60 | 95.38 | 79.37 | DEFERRED | DEFERRED | FAILED: official-s4-llama3-zsre-fe-author-hparams-2k (63357) | FAILED: official-s4-llama3-zsre-fe-author-hparams-2k (63357) | FAILED: official-s4-llama3-zsre-fe-author-hparams-2k (63357) |
 | AlphaEdit+SPHERE | 86.87 | 99.50 | 94.95 | 71.68 | 619.20 | 33.64 | 95.13 | 91.36 | 31.38 |
 | CAKE | 86.65 | 99.20 | 87.15 | 76.52 | DEFERRED | DEFERRED | 94.73 | 89.34 | 32.72 |
-| PRICE (Ours) | 90.98§ | 99.90§ | 93.50§ | 81.50§ | 628.47§ | 33.53§ | 99.62§ | 94.83§ | 45.31§ |
+| PRICE (Ours) | 90.98§ | 99.90§ | 93.50§ | 81.50§ | 628.47§ | 33.53§ | 95.99§ | 91.37§ | 32.98§ |
 
 § 사용자 2026-10-10 결정에 따른 **최종 PRICE method** CF 2K이며, server4 job **62604**로 실행했다.
 - 설정: arm `llama3-P-beta100`. β = c = β_max = 1.0, unit-lr ρ0.05, γ1, cap 끝점 cast, HC-PRICE, 요청별 early exit.
@@ -216,7 +216,7 @@ zsRE Loc은 **loc_ans 정답 token 정확도의 요청별 평균**이다. 이전
 - Score는 반올림 전 성공률의 조화평균(90.9776)이다. 표시는 decimal half-up 둘째 자리다.
 - 이전 FREE100 job 60103 값(99.70 / 92.78 / 82.21, Score 90.98)을 대체했다.
 - CF Flu/Con은 W20 checkpoint를 baseline과 같은 생성 평가기(server1 = devbox, job **63125**)로 평가했다. 2,000 case/20,000 prompts의 평균 6.2847 bits · 0.3353 cosine에 ×100 후 half-up 둘째 자리만 적용했다. 평가 전후 가중치·RNG·checkpoint 불변을 확인했다. [Flu/Con 원자료 SHA](audits/servers/server1/price-final-flucon-20261011/llama3-P-beta100-W20.json)
-- zsRE는 같은 설정의 job **62889**(official zsRE stream·evaluator, W20/2,000 edits)이다. W0가 본표 zsRE W0 행(38.10 / 37.61 / 38.59)과 같다. Loc(45.31)이 W0(38.59)보다 높은데, W0 예측 일치율은 62.68%다(원인 미확인). [zsRE 보고](experiment-reports/servers/server4/price-final-2k-20261010/llama3-zsre-report-ko.md)
+- zsRE는 같은 설정의 job **62889**(W20/2,000 edits)를 baseline 행과 같은 **공개 query 평가기**로 다시 채점한 값이다(devbox **63526**, PRICE `price.eval.zsre_rescore` @013197e, 2026-10-11 사용자 지시). run 안 exact-token-prefix 평가기 값은 99.62 / 94.83 / 45.31이었다. zsRE W0 행도 같은 공개 query 평가기 값(36.99 / 36.34 / 31.89, CAKE 63297의 W0)으로 바꿨다(이전 exact-token-prefix W0 38.10 / 37.61 / 38.59). [재채점 SHA](audits/servers/server1/price-zsre-public-rescore-20261011.json). Loc(45.31)이 W0(38.59)보다 높은데, W0 예측 일치율은 62.68%다(원인 미확인). [zsRE 보고](experiment-reports/servers/server4/price-final-2k-20261010/llama3-zsre-report-ko.md)
 - 500 edit마다 resumable checkpoint를 저장했다(가중치, history H, HC 통계).
 [실행·수치·checkpoint 보고](experiment-reports/servers/server4/price-final-2k-20261010/llama3-cf-report-ko.md) ·
 [정확한 수치·SHA](audits/servers/server4/price-final-2k-20261010/llama3-cf-results.json) ·
@@ -397,7 +397,7 @@ Llama historical3개는 원source/lock/CP와 새평가 consumer identity를 분�
 
 | Method | CF Score | CF Eff | CF Gen | CF Loc | CF Flu ×100 | CF Con ×100 | zsRE Eff | zsRE Gen | zsRE Loc |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| [W0 (편집 전)](experiment-reports/global/w0-main-table-20261009.md) | 24.44 | 17.00 | 19.30 | 82.48 | 621.71 | 30.16 | 27.83 | 27.15 | 27.59 |
+| [W0 (편집 전)](experiment-reports/global/w0-main-table-20261009.md) | 24.44 | 17.00 | 19.30 | 82.48 | 621.71 | 30.16 | 27.79 | 27.10 | 27.54 |
 | FT | 58.97 | 88.75 | 66.75 | 40.61 | 510.98 | 3.04 | 23.15 | 17.95 | 0.62 |
 | MEMIT | 80.63 | 97.90 | 95.38 | 60.58 | 577.93 | 36.84 | 93.52 | 88.86 | 30.81 |
 | AlphaEdit | 88.22 | 99.70 | 96.33 | 73.56 | 614.00 | 40.76 | 99.69 | 96.45 | 27.94 |
@@ -405,7 +405,7 @@ Llama historical3개는 원source/lock/CP와 새평가 consumer identity를 분�
 | FE (author hparams + history) | 85.39 | 98.50 | 94.80 | 69.29 | DEFERRED | DEFERRED | 재검증 필요 | 재검증 필요 | 재검증 필요 |
 | AlphaEdit+SPHERE | 88.39 | 99.70 | 95.73 | 74.27 | 616.18 | 40.89 | 99.67 | 96.29 | 28.00 |
 | CAKE | 88.07 | 99.70 | 96.40 | 73.21 | DEFERRED | DEFERRED | 99.73 | 97.01 | 28.25 |
-| PRICE (Ours) | 88.22¶ | 99.80¶ | 96.23¶ | 73.57¶ | 620.09¶ | 41.61¶ | 99.81¶ | 96.96¶ | 29.59¶ |
+| PRICE (Ours) | 88.22¶ | 99.80¶ | 96.23¶ | 73.57¶ | 620.09¶ | 41.61¶ | 99.71¶ | 96.87¶ | 29.53¶ |
 
 GPT-J W0 Flu/Con은 동일 native full2K 완료/등록을 찾지 못해 server4의 **63219**로 generation-only 평가를 등록했다.
 held 검사 후 release, `afterany:63144` PENDING이며 두 생성 셀만 job 번호로 표시한다. 2026-10-11 05:00 server4 GPU cap 2·ours 우선 정리로 63219(모델 로드 2분42초 뒤)를 멈추고 같은 run.sh·config로 **63282**(`afterany:63277`, ours 뒤)로 다시 제출했다.
@@ -419,7 +419,7 @@ AlphaEdit-BLUE Flu/Con은 W20 checkpoint(61779) 평가 **62867**(server2)의 완
 - 설정: arm `gptj-P-beta075`(resolved `d8f5ff72…`). β = c = β_max = 0.75, unit-lr ρ0.05, γ1, cap 끝점 cast, HC-PRICE, 요청별 early exit, sink EOT 규칙과 anchor guard 20.
 - 공식 method는 HC 가격 정규화를 포함한다. 이 run은 정규화를 도입하기 전에 돌린 것(`gptj-P-beta075`)이다. 정규화 유무의 차이(가장 싼 층 가격 CF 1.012(B10)·zsRE 1.014(B16) 이내)가 잡음 수준으로 예상되어, 재실행하지 않고 ours로 쓴다(사용자 결정 2026-10-11).
 - CF R/P/N 성공률은 1,996/2,000 · 3,849/4,000 · 14,713/20,000이고, Score는 조화평균 88.2203이다. W0가 본표 W0 행과 같다.
-- zsRE는 official zsRE evaluator 값이며, W0가 본표 zsRE W0 행(27.83 / 27.15 / 27.59)과 같다.
+- zsRE는 job **63027**의 W20을 baseline 행과 같은 **공개 query 평가기**로 다시 채점한 값이다(devbox **63527**, 2026-10-11 사용자 지시). run 안 exact-token-prefix 평가기 값은 99.81 / 96.96 / 29.59였다. zsRE W0 행도 공개 query 값(27.79 / 27.10 / 27.54, CAKE 63299의 W0)으로 바꿨다(이전 27.83 / 27.15 / 27.59). [재채점 SHA](audits/servers/server1/price-zsre-public-rescore-20261011.json).
 - CF Flu/Con은 W20 가중치를 baseline과 같은 생성 평가기로 devbox(server1)에서 평가했다(job **63207**). 2,000 case/20,000 prompts의 평균 6.2009 bits · 0.4161 cosine에 ×100 후 half-up 둘째 자리만 적용했다. 평가 전후 가중치·RNG·checkpoint 불변을 확인했다. [Flu/Con 원자료 SHA](audits/servers/server1/price-final-flucon-20261011/gptj-P-beta075-W20.json)
 [GPT-J 보고](experiment-reports/servers/server4/price-final-2k-20261010/gptj-report-ko.md) · [정확한 수치·SHA](audits/servers/server4/price-final-2k-20261010/gptj-results.json).
 
