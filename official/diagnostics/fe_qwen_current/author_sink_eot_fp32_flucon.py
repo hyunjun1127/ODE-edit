@@ -82,9 +82,12 @@ def audit_final(final_member):
         require(not (Path(result).parent / name).exists(), 'FAILED_FINAL_FORBIDDEN')
     assets = member(Path(proof['bindings']['path']).parent / 'model-assets.json');a = read(verify(assets))
     model = {Path(m['path']).resolve(): m['sha256'] for m in b['model']['members']}
+    listed = {Path(m['path']).resolve(): m['sha256'] for m in a['model']['members']}
+    config = Path(b['model']['snapshot'], 'config.json').resolve()
     require(a['model']['snapshot'] == b['model']['snapshot'] and a['model']['identity']['revision'] in b['model']['snapshot']
-            and a['model']['config']['sha256'] == b['model']['config']['sha256']
-            and model.get(Path(b['model']['snapshot'], 'tokenizer.json').resolve()) is not None, 'RUN_MODEL_ASSETS')
+            and listed.get(config) == model.get(config) == b['model']['config']['sha256']
+            and all(model.get(path) == sha for path, sha in listed.items() if path in model)
+            and Path(b['model']['snapshot'], 'tokenizer.json').resolve() in listed.keys() & model.keys(), 'RUN_MODEL_ASSETS')
     return dict(row=dict(checkpoint=proof['checkpoint'], config=proof['bindings']),
                 config=dict(stream=b['main_stream'], model_assets=assets), identity=proof['identity'],
                 terminal=member(result), pointer=proof['pointer'], commit=proof['commits'][-1])
