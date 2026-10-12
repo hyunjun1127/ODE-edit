@@ -11,12 +11,17 @@ layers in CF B8, in both the BF16 (121242) and the FP32 (63809) author runs.
 eot_policy (bindings, fixed per run; both are tokenizer-only and need no sink list):
   sink_region    prefix when the template opens with the subject and its last token falls on position 0 or 1
   subject_start  prefix whenever the template opens with the subject
-Both contain the basic rule.  Only the prefix rule of the existing edit-side adapter changes (compute_z prompts,
+  ours_w0_sink   (2026-10-13) exactly the rule of the paper's Ours runs (SUBJECT_LAST_NEVER_POSITION_0_OR_W0_SINK):
+                 prefix when the subject-last lookup is 0 or the (text before '{}', subject) pair is in the W0 sink-scan
+                 list bound by sha256 (CF f39f342e..., 15 pairs incl. The Experiment/Possible/Assault; zsRE 4f53cda1...,
+                 empty), so FE edits exactly the rows Ours edits.
+All contain the basic rule.  Only the prefix rule of the existing edit-side adapter changes (compute_z prompts,
 replay supplier, writer key/output extraction): the adapter source, evaluator, author hparams (L2=0, clamp 1, ...),
 main streams, z reference and writer are unchanged.  Reuses author_basic_eot_fp32 by patching its prefix rule,
 schema, tracking and identity for the duration of one call.
 """
 import argparse
+import hashlib
 import json
 from contextlib import ExitStack
 from unittest.mock import patch
@@ -27,19 +32,35 @@ from official.runners.server1.common import read, verify, member, require
 
 SCHEMA = 'author-sink-eot-fp32-v1'
 PROFILE = 'FE_AUTHOR_HPARAMS_CURRENT_Z_SINK_EOT_FP32'
-POLICIES = {'sink_region': 'OURS_EOT_SUBJECT_IN_SINK_REGION_POS0_POS1', 'subject_start': 'OURS_EOT_SUBJECT_STARTS_PROMPT'}
+POLICIES = {'sink_region': 'OURS_EOT_SUBJECT_IN_SINK_REGION_POS0_POS1', 'subject_start': 'OURS_EOT_SUBJECT_STARTS_PROMPT',
+            'ours_w0_sink': 'OURS_SUBJECT_LAST_NEVER_POSITION_0_OR_W0_SINK'}
+OURS_SINK_SHA = {'cf': 'f39f342ea750e410f50c1a118d5b520e82e3e4e3abb9a00202fcaf3179e8ed50',
+                 'zsre': '4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945'}
 
 
-def prefix_rule(policy):
+def pairs_sha(pairs):
+    """As project.run_scripts.gptj_price_tier1k_sink.sink.pairs_sha (the Ours preparation's sink_pairs_sha256)."""
+    return hashlib.sha256(json.dumps(sorted([list(p) for p in pairs]), separators=(',', ':')).encode()).hexdigest()
+
+
+def prefix_rule(policy, pairs=None):
     """Drop-in for official.ours.pos0.repair_prompt with the same identity checks and a wider trigger."""
-    require(policy in POLICIES, 'EOT_POLICY')
+    require(policy in POLICIES and (pairs is not None) == (policy == 'ours_w0_sink'), 'EOT_POLICY')
+    sinks = frozenset((str(a), str(b)) for a, b in (pairs or ()))
 
     def repair_prompt(tokenizer, prompt, subject, model, lookup):
-        if model is None or not prompt.startswith('{}'):
+        if model is None:
             return prompt
-        old = lookup(tokenizer, prompt, subject)
-        if policy == 'sink_region' and old > 1:
-            return prompt
+        if policy == 'ours_w0_sink':
+            old = lookup(tokenizer, prompt, subject)
+            if not (old == 0 or (prompt.split('{}', 1)[0], subject) in sinks):
+                return prompt
+        else:
+            if not prompt.startswith('{}'):
+                return prompt
+            old = lookup(tokenizer, prompt, subject)
+            if policy == 'sink_region' and old > 1:
+                return prompt
         token = PREFIX_IDS[model]
         require(tokenizer.encode(PREFIX, add_special_tokens=False) == [token], 'POS0_PREFIX_TOKEN_IDENTITY')
         new = PREFIX + prompt
@@ -57,8 +78,17 @@ def _policy(b):
     return policy
 
 
+def _pairs(b, policy):
+    if policy != 'ours_w0_sink':
+        require('sink_pairs' not in b, 'SINK_PAIRS_ONLY_FOR_OURS_RULE');return None
+    pairs = b['sink_pairs']
+    require(isinstance(pairs, list) and all(isinstance(p, list) and len(p) == 2 for p in pairs)
+            and pairs_sha(pairs) == b['sink_pairs_sha256'] == OURS_SINK_SHA[b['dataset']], 'OURS_SINK_PAIRS_IDENTITY')
+    return pairs
+
+
 def _patches(b):
-    policy = _policy(b)
+    policy = _policy(b);pairs = _pairs(b, policy)
     original_tracking, original_identity = base.tracking, base.identity
 
     def tracking(bb, env=None):
@@ -71,9 +101,10 @@ def _patches(b):
     def identity(bb, resolved):
         value = original_identity(bb, resolved)
         value.update(stage=PROFILE, input_policy=POLICIES[policy], eot_policy=policy, variant=member(__file__))
+        if pairs is not None:value.update(sink_pairs_sha256=pairs_sha(pairs), sink_pairs=len(pairs))
         return value
 
-    return [patch.object(eot, 'repair_prompt', prefix_rule(policy)), patch.object(base, 'SCHEMA', SCHEMA),
+    return [patch.object(eot, 'repair_prompt', prefix_rule(policy, pairs)), patch.object(base, 'SCHEMA', SCHEMA),
             patch.object(base, 'tracking', tracking), patch.object(base, 'identity', identity),
             patch.object(base, 'PROFILE', PROFILE)]
 

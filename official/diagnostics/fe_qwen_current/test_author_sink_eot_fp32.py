@@ -99,5 +99,55 @@ class QwenPolicyTest(unittest.TestCase):
         self.assertEqual(counts['zsre']['sink_region'], 158)
 
 
+OURS_CF_PAIRS = [['', 'Argentina'], ['', 'Chicago'], ['', 'Colorado'], ['', 'Dashboard'], ['', 'Germany'], ['', 'Heart'],
+                 ['', 'Indiana'], ['', 'Manchester'], ['', 'Registro'], ['', 'Samsung'], ['', 'Spain'], ['', 'The Assault'],
+                 ['', 'The Experiment'], ['', 'The Possible'], ['', 'iPhone']]
+
+
+class OursRuleTest(unittest.TestCase):
+    def test_pairs_identity(self):
+        self.assertEqual(v.pairs_sha(OURS_CF_PAIRS), v.OURS_SINK_SHA['cf'])
+        self.assertEqual(v.pairs_sha([]), v.OURS_SINK_SHA['zsre'])
+        b = dict(eot_policy='ours_w0_sink', dataset='cf', sink_pairs=OURS_CF_PAIRS, sink_pairs_sha256=v.OURS_SINK_SHA['cf'])
+        self.assertEqual(v._pairs(b, 'ours_w0_sink'), OURS_CF_PAIRS)
+        with self.assertRaises(Exception):
+            v._pairs(dict(b, sink_pairs=OURS_CF_PAIRS[:-1]), 'ours_w0_sink')
+        with self.assertRaises(Exception):
+            v._pairs(dict(b, dataset='zsre'), 'ours_w0_sink')
+        with self.assertRaises(Exception):
+            v._pairs(dict(eot_policy='sink_region', sink_pairs=[]), 'sink_region')
+        with self.assertRaises(Exception):
+            v.prefix_rule('ours_w0_sink')
+
+
+@unittest.skipUnless(SNAPSHOT.is_dir() and AUTHOR.is_dir() and CF.is_file() and ZSRE.is_file(), 'local Qwen tokenizer/author/streams')
+class OursRuleQwenTest(QwenPolicyTest):
+    def test_policies_contain_basic_shift_only_and_cover_w0_sinks(self):
+        pass
+
+    def test_ours_rule_rows(self):
+        counts = {}
+        for name, path, pairs in (('cf', CF, OURS_CF_PAIRS), ('zsre', ZSRE, [])):
+            changed = []
+            for case, subject, prompts in self.rows(path):
+                for prompt in prompts:
+                    plain = self.z.find_fact_lookup_idx(prompt, subject, self.tok, 'subject_last', verbose=False)
+                    adapter = eot.InputAdapter(self.tok, self.z.find_fact_lookup_idx)
+                    with patch.object(eot, 'repair_prompt', v.prefix_rule('ours_w0_sink', pairs)):
+                        new = adapter.prompt(prompt, subject)
+                        lookup = adapter.lookup(prompt, subject, self.tok, 'subject_last', verbose=False)
+                    basic = eot.InputAdapter(self.tok, self.z.find_fact_lookup_idx).prompt(prompt, subject)
+                    if new == prompt:
+                        self.assertEqual(lookup, plain);self.assertEqual(basic, prompt)
+                        continue
+                    self.assertEqual(new, pos0.PREFIX + prompt);self.assertEqual(lookup, plain + 1)
+                    changed.append((case, prompt, plain, basic != prompt))
+            counts[name] = changed
+        self.assertEqual(len(counts['zsre']), 0)
+        extra = [(c, p) for c, p, plain, was_basic in counts['cf'] if not was_basic]
+        self.assertEqual(len(counts['cf']), 25)
+        self.assertEqual(sorted(c for c, p in extra), [303, 303, 13152, 20814])
+
+
 if __name__ == '__main__':
     unittest.main()
