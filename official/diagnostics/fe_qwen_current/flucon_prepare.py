@@ -72,7 +72,7 @@ def prepare(output,bindings):
         assets=assets_member,stream=b['stream'],reference=reference,reference_identity=f.REFERENCE,
         evaluator=member(frozen/'official/evaluation/generation/native_observer.py'),
         runtime=runtime(),tracking_env_file=b['tracking_env_file'],output=str(out/'run'),
-        storage=space,evaluation_precision='FP32_EAGER_TF32_OFF',editing_precision='BF16_UNCHANGED',
+        storage=space,evaluation_precision='FP32_EAGER_TF32_OFF',editing_precision=getattr(f,'EDITING_PRECISION','BF16_UNCHANGED'),
         generation_schedule='W20_ONLY_FIRST2000',source=source)
     c['config_sha256']=digest(c);f.tracking_values(c,source)
     path=out/'config.json';write_new(path,c);lock['configs']=[member(path)]
