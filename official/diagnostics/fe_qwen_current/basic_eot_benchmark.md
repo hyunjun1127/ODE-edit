@@ -17,7 +17,12 @@ commit/writer), unchanged absolute member paths. Add:
 - `dataset`: `cf` or `zsre`.
 - `main_stream`: immutable original main first2000 common-record member.
 - `original_main_config`: existing original main provenance config member with
-  exactly matching `dataset` and `stream`. Not a newly relabeled heldout stream.
+  exactly matching `dataset` and stream **bytes/full SHA256**. The whole original
+  config is independently fullSHA-verified without rewriting its server1 path,
+  inode/ctime/stat metadata. The relocated `main_stream` is freshly verified at
+  its own regular local path; paths/stat need not match across hosts. Ordered
+  content, unique2000, CF heldout disjointness and native conversion remain
+  required. Not a newly relabeled heldout stream.
 - `execution`: `source_commit`, actual scheduler `job_id`, `server`, `attempt`,
   `source_run_id` (heldout continuation W&B run). Root writes once at startup;
   `ODEEDIT_RENT_JOB_ID` must match.
@@ -71,3 +76,9 @@ tiny deterministic representation fixture, not pretrained resume certification.
 GPU/model-pretrained/online/Slurm/rent access: NOT_RUN by this source owner.
 Actual heldout W20 and final CF/zsRE results were unavailable at publication;
 no conditional proof was fabricated or weakened.
+
+Relocation correction: the same five CPU modules now pass 28 tests, no skips.
+New CF and zsRE fixtures accept byte-identical relocated streams with unavailable
+original paths/extra stat metadata, reject freshly hashed different payloads,
+stale local hashes and dataset mismatch, and retain CF disjointness rejection.
+Original configs remain byte-identical. No frozen editing/runtime file changed.

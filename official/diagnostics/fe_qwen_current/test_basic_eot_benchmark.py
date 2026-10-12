@@ -35,6 +35,28 @@ class Tests(unittest.TestCase):
             bad=dict(good);bad[key]=value
             with self.assertRaises(ValueError):b.settings(bad)
 
+    def test_relocated_original_stream_content_binding(self):
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)
+            for dataset,factory in (('cf',cf),('zsre',zr)):
+                rows=[factory(i+1) for i in range(2000)]
+                relocated=root/f'{dataset}-stream.json';write_new(relocated,rows);stream=member(relocated)
+                original=dict(stream,path=f'/unavailable/server1/{dataset}.json',inode=123,ctime_ns=456,stat={'device':99})
+                config=root/f'{dataset}-original-config.json';write_new(config,dict(dataset=dataset,stream=original))
+                frozen=member(config);bindings=dict(dataset=dataset,main_stream=stream,original_main_config=frozen)
+                self.assertEqual(b.main_stream(bindings,[]),rows)
+                self.assertEqual(member(config),frozen)
+                # A freshly hashed different payload must still fail origin
+                # identity (not merely fail its own local member verification).
+                changed=copy.deepcopy(rows);changed[0]['requested_rewrite']['target_new']['str']='DIFFERENT'
+                wrong=root/f'{dataset}-wrong.json';write_new(wrong,changed)
+                with self.assertRaises(ValueError):b.main_stream(dict(bindings,main_stream=member(wrong)),[])
+                with self.assertRaises(ValueError):b.main_stream(dict(bindings,dataset='zsre' if dataset=='cf' else 'cf'),[])
+                # Stale advertised SHA fails fresh verification of local bytes.
+                with self.assertRaises(ValueError):b.main_stream(dict(bindings,main_stream=dict(stream,sha256='0'*64)),[])
+                if dataset=='cf':
+                    with self.assertRaises(ValueError):b.main_stream(bindings,[rows[0]])
+
     def test_endpoint_slices_full_w0_and_current_not_cumulative(self):
         rows=list(range(2000))
         for i in range(1,21):self.assertEqual(b.endpoint_rows(rows,dict(batch=i,endpoint='current/post',requests=100)),rows[(i-1)*100:i*100])

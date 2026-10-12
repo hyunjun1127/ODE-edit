@@ -131,7 +131,11 @@ def audit_heldout(b,tok):
 
 def main_stream(b,heldout):
     provenance=read(verify(b['original_main_config']));m=b['main_stream'];rows=read(verify(m))
-    require(b['dataset'] in ('cf','zsre') and provenance['dataset']==b['dataset'] and provenance['stream']==m,'ORIGINAL_MAIN_PROVENANCE')
+    # The original config remains hash-bound, including its original path/stat
+    # provenance. Only content identity crosses hosts; verify(m) above freshly
+    # verifies the relocated regular file, not the unavailable original path.
+    require(b['dataset'] in ('cf','zsre') and provenance['dataset']==b['dataset']
+        and all(provenance['stream'][k]==m[k] for k in ('bytes','sha256')),'ORIGINAL_MAIN_PROVENANCE')
     require(len(rows)==2000 and len({r['case_id'] for r in rows})==2000,'MAIN2000_UNIQUE')
     if b['dataset']=='cf':require(not {r['case_id'] for r in rows}&{r['case_id'] for r in heldout},'MAIN_HELDOUT_DISJOINT')
     native_records(rows) # Unexpanded native conversion, including zsRE.
