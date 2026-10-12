@@ -31,6 +31,28 @@ class Tokenizer:
 
 
 class ProbeTests(unittest.TestCase):
+    def test_native_seed_flags_then_checkpoint_rng(self):
+        import random
+        root=Path(os.environ.get('FE_NATIVE_AUTHOR_ROOT','/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/author'))
+        if not root.exists():self.skipTest('pinned native fixture absent')
+        tree=ast.parse((root/'algs/memit/FE-memit_main.py').read_text())
+        fn=next(n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name=='set_random_seed')
+        ns=dict(random=random,np=np,torch=torch,os=os)
+        exec(compile(ast.Module(body=[fn],type_ignores=[]),'NATIVE_SEED','exec'),ns)
+        state=rng_snapshot();before=p.state_digest(state)
+        flags=(torch.backends.cudnn.benchmark,torch.backends.cudnn.deterministic)
+        old_hash_seed=os.environ.get('PYTHONHASHSEED')
+        try:
+            torch.backends.cudnn.benchmark=True;torch.backends.cudnn.deterministic=False
+            p.restore_native_execution_state(ns['set_random_seed'],0,state)
+            self.assertFalse(torch.backends.cudnn.benchmark);self.assertTrue(torch.backends.cudnn.deterministic)
+            self.assertEqual(p.state_digest(rng_snapshot()),before)
+        finally:
+            torch.backends.cudnn.benchmark,torch.backends.cudnn.deterministic=flags
+            if old_hash_seed is None:os.environ.pop('PYTHONHASHSEED',None)
+            else:os.environ['PYTHONHASHSEED']=old_hash_seed
+            rng_restore(state)
+
     def test_actual_native_fit_supplier_probe_parity(self):
         root=Path(os.environ.get('FE_NATIVE_AUTHOR_ROOT','/mnt/raid5/janghj/ODE-edit/local/fe-original-w0-2k-20261011/author'))
         if not root.exists():self.skipTest('pinned native fixture absent')

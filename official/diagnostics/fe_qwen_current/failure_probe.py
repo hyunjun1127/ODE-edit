@@ -38,6 +38,11 @@ def diff(a,b):
     return float((a.detach().float()-b.detach().float()).abs().max())
 
 
+def restore_native_execution_state(seed_function,seed,rng):
+    seed_function(seed)  # Native helper also sets deterministic cuDNN flags.
+    rng_restore(rng)     # Saved B5 RNG, not the initial seed stream, is final.
+
+
 def probe_targets(model,tok,requests,cfg,contexts,*,supplier,compute_z,lookup,TraceDict,extra=True):
     """Observe the actual supplier/fit functions; no substitutes for their math."""
     require(sys.getprofile() is None,'EXISTING_PROFILE')
@@ -166,6 +171,7 @@ def run(bindings,output):
     require(int(cfg.gpu)==0,'ORIGINAL_GPU_INDEX')
     assets=read(verify(c['model_assets']));snap=assets['model']['snapshot']
     model=transformers.AutoModelForCausalLM.from_pretrained(snap,torch_dtype=torch.bfloat16,trust_remote_code=True,local_files_only=True).to('cuda:0')
+    require(model.config._attn_implementation==v['runtime']['attention_backend'],'ORIGINAL_ATTENTION_BACKEND')
     tok=transformers.AutoTokenizer.from_pretrained(snap,trust_remote_code=True,local_files_only=True)
     if tok.pad_token is None:tok.pad_token=tok.eos_token
     params=dict(model.named_parameters());names={cfg.llms.rewrite_module_tmp.format(l)+'.weight' for l in cfg.llms.layers}
@@ -180,12 +186,14 @@ def run(bindings,output):
     del payload  # no history tensor is traversed, cloned or restored
     sys.path.insert(0,lock['author_path'])
     zmod=importlib.import_module('algs.memit.compute_z');supplier=importlib.import_module('algs.memit.native_sequential_z')
+    native_main=importlib.import_module('algs.memit.memit_main')
     require(Path(zmod.__file__).resolve().is_relative_to(Path(lock['author_path']).resolve())
-        and Path(supplier.__file__).resolve().is_relative_to(Path(lock['author_path']).resolve()),'ACTUAL_OLD_NATIVE_IMPORT')
+        and Path(supplier.__file__).resolve().is_relative_to(Path(lock['author_path']).resolve())
+        and Path(native_main.__file__).resolve().is_relative_to(Path(lock['author_path']).resolve()),'ACTUAL_OLD_NATIVE_IMPORT')
     requests=copy.deepcopy(native_rows[500:600])
     require([r['case_id'] for r in requests]==[r['case_id'] for r in rows[500:600]],'B6_NATIVE_ORDER')
     for i,r in enumerate(requests):r['sample_idx']=i;r['target_new']=' '+r['target_new']
-    rng_restore(rng)
+    restore_native_execution_state(native_main.set_random_seed,cfg.seed,rng)
     targets,result=probe_targets(model,tok,requests,cfg,contexts,supplier=supplier.current_batch_targets,
         compute_z=zmod.compute_z,lookup=zmod.find_fact_lookup_idx,TraceDict=zmod.nethook.TraceDict)
     require(untouched=={n:(id(p),p._version) for n,p in params.items() if n not in names},'NONSELECTED_MUTATED')
@@ -209,6 +217,8 @@ def run(bindings,output):
         archived_writer_values=v['writer'],runtime=dict(torch=torch.__version__,transformers=transformers.__version__,
         attention_backend=model.config._attn_implementation,training=model.training,
         matmul_tf32=torch.backends.cuda.matmul.allow_tf32,cudnn_tf32=torch.backends.cudnn.allow_tf32,
+        cudnn_benchmark=torch.backends.cudnn.benchmark,cudnn_deterministic=torch.backends.cudnn.deterministic,
+        cuda_device_name=torch.cuda.get_device_name(0),cuda_capability=list(torch.cuda.get_device_capability(0)),
         tokenizer_padding_side=tok.padding_side,tokenizer_pad_id=tok.pad_token_id),historical_parity_claim=False)
     write_new(out/'probe.json',result)
     return member(out/'probe.json')
