@@ -7,6 +7,7 @@ import argparse
 import datetime
 import fcntl
 import json
+import os
 import subprocess
 import time
 from pathlib import Path
@@ -46,15 +47,18 @@ def main():
             (root/(key+'-transport-timeout.json')).write_text(json.dumps({'status':'COMMUNICATION_HOLD'}))
     while time.monotonic()-start<48*3600:
         receipt=read(out/'tracking/receipt.json')
-        if receipt and receipt.get('startup_readback'):
-            emit('online-startup',dict(tracking=receipt['startup_readback'],run_id=receipt.get('run_id'),
-                                      note='SDK/startup state, not scientific completion'))
         for label in ('W0-first2000','B01-current','B05-all-seen','B10-all-seen','B15-all-seen','B20-all-seen'):
             raw=read(out/'factual'/f'{label}.json')
             audit=read(out/'raw-audits'/f'{label}.json')
             if raw and audit:
+                extra={}
+                if label=='B01-current':
+                    extra['writer_dtype_evidence']=read(out/'writers/B01.json')
+                    try:
+                        extra['memory_snapshot']=subprocess.check_output(['sstat','-j',a.job_id+'.batch','--noheader','--parsable2','--format=JobID,MaxRSS,AveRSS'],text=True,timeout=20).strip()
+                    except (subprocess.SubprocessError,OSError):extra['memory_snapshot']='UNAVAILABLE'
                 emit(label,dict(summary=raw['summary'],independent_reducer=audit,raw_path=str(out/'factual'/f'{label}.json'),
-                                tracking_status=receipt.get('status') if receipt else 'NOT_OBSERVED'))
+                                tracking_status=receipt.get('status') if receipt else 'NOT_OBSERVED',**extra))
         quality=read(out/'QUALITY_EARLY_STOP.json')
         if quality:emit('quality-stop',dict(status=quality['status'],batch=quality['batch'],violations=quality['violations']))
         final=read(a.attempt/'final-cpu-audit.json')
@@ -62,9 +66,13 @@ def main():
         try:
             state=subprocess.check_output(['sacct','-X','-j',a.job_id,'--noheader','--parsable2','--format=JobIDRaw,State,ExitCode'],text=True,timeout=20).strip()
         except (subprocess.SubprocessError,OSError):state='ACCOUNTING_UNAVAILABLE'
+        status=dict(pid=os.getpid(),observed_at=datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                    job_id=a.job_id,accounting=state,emitted=sorted(seen),science_mutations=0)
+        tmp=root/'monitor-status.tmp';tmp.write_text(json.dumps(status));tmp.replace(root/'monitor-status.json')
         terminal=next((r.split('|') for r in state.splitlines() if r.split('|')[0]==a.job_id),None)
         if terminal and terminal[1].split()[0] in ('COMPLETED','FAILED','CANCELLED','TIMEOUT','OUT_OF_MEMORY','NODE_FAIL','PREEMPTED','BOOT_FAIL'):
             emit('terminal',dict(accounting=terminal,scientific_complete=bool(final),
+                 collector_status='CPU_AUDITED' if final else 'NOT_COMPLETED_OR_FAILED',
                  tracking_finish=read(out/'tracking-finish.json'),failure_log=str(a.attempt/'logs')))
             return
         time.sleep(60)
