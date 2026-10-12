@@ -7,7 +7,7 @@ four hooks are substituted for one fresh evaluation process:
 * audit_final: the final_result is a small binding {collect_report, collector_python} for one run.  The run's own
   sink-variant collector is run again in a separate CPU process from the run's frozen source package (derived from
   the run bindings) under the run's bound library versions (read-only on the run, temporary report only) and must
-  equal the stored report; the model assets are the model-assets.json next to the run bindings and must match the
+  equal the stored report; the model assets are the model-assets-resolved.json next to the run bindings and must match the
   bound snapshot/config/tokenizer.
 * validate_payload: the W20 checkpoint is the cold FP32 author run (stage FE_AUTHOR_HPARAMS_CURRENT_Z_SINK_EOT_FP32,
   L2=0, clamp 1, batch_entry z, author numeric settings audited by the FP32 audit) with FP32 selected weights.
@@ -80,7 +80,7 @@ def audit_final(final_member):
             and b['eot_policy'] in sink.POLICIES and b['main_stream']['sha256'] == base.STREAM, 'SINK_FP32_CF_SCOPE')
     for name in ('QUALITY_EARLY_STOP.json', 'FAILURE.json'):
         require(not (Path(result).parent / name).exists(), 'FAILED_FINAL_FORBIDDEN')
-    assets = member(Path(proof['bindings']['path']).parent / 'model-assets.json');a = read(verify(assets))
+    assets = member(Path(proof['bindings']['path']).parent / 'model-assets-resolved.json');a = read(verify(assets))
     model = {Path(m['path']).resolve(): m['sha256'] for m in b['model']['members']}
     listed = {Path(m['path']).resolve(): m['sha256'] for m in a['model']['members']}
     config = Path(b['model']['snapshot'], 'config.json').resolve()
