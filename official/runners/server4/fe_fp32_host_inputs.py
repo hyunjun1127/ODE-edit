@@ -52,7 +52,8 @@ def main():
     cfg = OmegaConf.to_container(OmegaConf.load(dst/'configs/config.yaml'),resolve=True)
     cfg.pop('defaults',None)
     cfg.update(profiles)
-    cfg.update(model_dtype='float32',bs=100,num_edits=2000,seed=0)
+    cfg.update(model_dtype='float32',bs=100,num_edits=2000,seed=0,gpu=0,
+               diagnostic_z_reference='batch_entry')
     for key in ('cache_dir','h_cache_dir','zs_cache_dir','data_dir','results_dir','cov_dir'):
         cfg[key] = str(a.out/key)
     cfgpath = a.out/'native-config.json'
