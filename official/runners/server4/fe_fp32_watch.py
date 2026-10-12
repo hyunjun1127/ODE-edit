@@ -5,6 +5,7 @@ root thread; failed transport is retained locally, not called delivered.
 """
 import argparse
 import datetime
+import fcntl
 import json
 import subprocess
 import time
@@ -24,8 +25,11 @@ def main():
     p.add_argument('--target-session',required=True)
     a=p.parse_args()
     if not a.job_id.isdigit():raise ValueError('job ID')
-    root=a.attempt/'watch';root.mkdir(exist_ok=False)
-    out=a.attempt/'output';start=time.monotonic();seen=set()
+    root=a.attempt/'watch';root.mkdir(exist_ok=True)
+    lock=(root/'watch.lock').open('a+')
+    fcntl.flock(lock.fileno(),fcntl.LOCK_EX|fcntl.LOCK_NB)
+    out=a.attempt/'output';start=time.monotonic()
+    seen={p.stem for p in root.glob('*.json') if not p.stem.endswith(('-delivery','-transport-timeout'))}
     def emit(key,data):
         if key in seen:return
         seen.add(key)
