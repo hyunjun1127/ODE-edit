@@ -1,0 +1,430 @@
+{
+ "schema": "fe-cake-flucon-result-audit-v1",
+ "observed_at": "2026-10-12T15:11:00+09:00",
+ "result": "Qwen2.5 CAKE CF Flu/Con (W20, 2,000 case)",
+ "row": {
+  "table": "Qwen2.5-7B-Instruct",
+  "method": "CAKE",
+  "cells": [
+   "CF Flu ×100",
+   "CF Con ×100"
+  ],
+  "replaced_status": "ING: s3-flucon-qwen25-cake-sink (63738)"
+ },
+ "job": {
+  "id": "63738",
+  "name": "s3-flucon-qwen25-cake-sink",
+  "server": "server3",
+  "state": "COMPLETED",
+  "exit_code": "0:0",
+  "submit": "2026-10-12T11:03:57+09:00",
+  "start": "2026-10-12T13:34:19+09:00",
+  "end": "2026-10-12T15:03:46+09:00",
+  "elapsed": "01:29:27",
+  "node": "ubuntu (server3)",
+  "dependency": "afterok:63736, afterany:63737"
+ },
+ "claimed": {
+  "by": "CAKE 세션",
+  "Flu": "622.44",
+  "Flu_raw_bits": 6.2244182453412815,
+  "fluency_sum": 12448.836490682563,
+  "Con": "34.43",
+  "Con_raw_cosine": 0.3442954288230792,
+  "consistency_sum": 688.5908576461584,
+  "prompts": 20000,
+  "generated_tokens": 1815707,
+  "elapsed": "1h29m",
+  "COMPLETE_sha256": "2eee4517c91148f60b49c757e0bb2676e35fcad7ec85976777352d9ab8f6bf6a",
+  "endpoint_sha256": "57f7b96f988f953a9c4049b99423c9bcb3829c88d5c58ead593265c6c2cab4f5",
+  "checkpoint_sha256": "6040edc618c1fbbff5793f54aa64303a927070eb8becef367d3dec6ce5d017d8",
+  "all_match": true
+ },
+ "evaluator": {
+  "shared": "official.runners.server1.flucon_eval.run (3a1b6138 frozen source와 바이트 동일)",
+  "adapter": "official.runners.fe_cake_flucon",
+  "precision": "FP32 eager, TF32 off",
+  "generation": "NativeGenerationObserver PROFILE, eval seed 20261007, W20_ONLY_FIRST2000",
+  "reference_identity": "75e595c7f26ec334830e9bb9ca6028098c19ea84a9509a5713985847683f8ea6",
+  "cf_order": "CF first 2,000 (ordered_case_ids_sha256 0b912d11…, stream sha256 66edc483…)",
+  "python": "/data/janghj/ODE-edit/local/runtime/price-s4-mirror-v1/venv/bin/python (server3)",
+  "sbatch": {
+   "host": "server3",
+   "path": "/data/janghj/ODE-edit/local/cake-qwen25-author-trace-20261012/sink-r1/scripts/sbatch-flucon.sh",
+   "bytes": 2369,
+   "sha256": "94a45192ee343411901e9509b3c8f06aad3482c2d044e157dead782d22fd6830",
+   "note": "머리 주석은 \"CAKE CF 63715\"라고 쓰여 있으나 실제 인자는 --job-id 63736, --run-config sink-r1/configs/qwen25-cf.json이고 restore.json source_job_id도 63736이다."
+  }
+ },
+ "source": {
+  "commit": "b8c559ce9908433f38e0f141dd4d9c7b40989782",
+  "official_tree": "bc85590c0f1200c2bdae02670595abf652f1f5c7",
+  "parent": "3a1b61385d912ef9c8958c1d15c331a32e72662f",
+  "pushed": false,
+  "status": "origin에 push되지 않은 로컬 commit이다. 원격 ref가 없고 origin/main에 포함되지 않으며, devbox의 로컬 branch claude/cake-qwen-flucon-server3-20261012에만 있다. server3에는 frozen source 복사본(529 파일, cake-qwen25-author-trace-20261012/flucon/source)으로만 있고 server3 /data/janghj/ODE-edit git에는 이 객체가 없다.",
+  "change_vs_parent": "official/runners/fe_cake_flucon.py(NODES에 server3='ubuntu' 추가, docstring 1줄)와 official/tests/test_fe_cake_flucon.py만 바뀌었다.",
+  "frozen_source_vs_3a1b6138_frozen_source": "529개 파일 중 위 2개만 다르고 공용 평가기(flucon_eval.py, generation/*)는 바이트 동일하다.",
+  "source_tar": {
+   "host": "server3",
+   "path": "/data/janghj/ODE-edit/local/cake-qwen25-author-trace-20261012/flucon/source-flucon.tar",
+   "sha256": "09992b987e0904422eff715473859b75b04595594f08c7efe8aecb5500916f35"
+  },
+  "lock": {
+   "host": "server3",
+   "path": "/data/janghj/ODE-edit/local/cake-qwen25-author-trace-20261012/sink-r1/flucon/execution-lock-qwen25-cake-authortrace-sink-63736.json",
+   "bytes": 134823,
+   "sha256": "84303e611baeef0c04a39fecb409e9cb8a75b1eba5a218afc112ce26cbcb8aca"
+  }
+ },
+ "completion": {
+  "COMPLETE_json": {
+   "host": "server3",
+   "path": "/data/janghj/ODE-edit/local/cake-qwen25-author-trace-20261012/sink-r1/flucon/runs/qwen25-cake-authortrace-sink-63736/COMPLETE.json",
+   "bytes": 2277,
+   "sha256": "2eee4517c91148f60b49c757e0bb2676e35fcad7ec85976777352d9ab8f6bf6a"
+  },
+  "FAILURE_json": "없음",
+  "restore_json": {
+   "host": "server3",
+   "path": "/data/janghj/ODE-edit/local/cake-qwen25-author-trace-20261012/sink-r1/flucon/runs/qwen25-cake-authortrace-sink-63736/restore.json",
+   "bytes": 1905,
+   "sha256": "a323d9b73e3f57fc8dfd30500453f6002da5af0d8bcbc8855f2e585a3e506502"
+  },
+  "config": {
+   "host": "server3",
+   "path": "/data/janghj/ODE-edit/local/cake-qwen25-author-trace-20261012/sink-r1/flucon/configs/qwen25-cake-authortrace-sink-63736.json",
+   "bytes": 6341,
+   "sha256": "3646ef7fe3bc21b9298e33b0f88f9e1a5232d39534e4b4aadc4b037eb7625ff6",
+   "config_sha256_field": "7438d8a357783fd7be7279a1b2c6b85807123291b78e20e7c7b707efc06943cc"
+  },
+  "preparation": {
+   "host": "server3",
+   "path": "/data/janghj/ODE-edit/local/cake-qwen25-author-trace-20261012/sink-r1/flucon/preparation-qwen25-cake-authortrace-sink-63736.json",
+   "bytes": 762,
+   "sha256": "a4b9cffe9c425c9948d84130d1da8b3002fa90e5823398673b479f0b3184c9cd"
+  },
+  "observer_identity": {
+   "host": "server3",
+   "path": "/data/janghj/ODE-edit/local/cake-qwen25-author-trace-20261012/sink-r1/flucon/runs/qwen25-cake-authortrace-sink-63736/generation/observer-identity.json",
+   "bytes": 1848,
+   "sha256": "fd62e96f96cbd8f34ea79b64afaac08438e6000435c33f2c0db328f3ee55f1bc"
+  },
+  "native_execution": {
+   "host": "server3",
+   "path": "/data/janghj/ODE-edit/local/cake-qwen25-author-trace-20261012/sink-r1/flucon/runs/qwen25-cake-authortrace-sink-63736/generation/native-executions/ee672b1e60beed00a5e56f3fa6bef6148a85d9b5f441596b79b3b8d97bcf1b90.json",
+   "bytes": 147720,
+   "sha256": "92d720f75730bab4a2871617b4d7cb6201818a68797b8881e103b2ea9ba2db5f"
+  },
+  "invariants": {
+   "weights_unchanged": true,
+   "RNG_unchanged": true,
+   "checkpoint_unchanged": true,
+   "edits": 0,
+   "requests": 2000
+  },
+  "stdout": {
+   "host": "server3",
+   "path": "/data/janghj/ODE-edit/local/cake-qwen25-author-trace-20261012/sink-r1/logs/s3-flucon-qwen25-cake-sink-63738.out",
+   "bytes": 441,
+   "sha256": "a729f2dcc4075206ebc556195cce3678d426646997ab6a4268c37b91155dbea4",
+   "content": "FLUCON_PREPARED (config_sha256 7438d8a3…)"
+  },
+  "stderr": {
+   "host": "server3",
+   "path": "/data/janghj/ODE-edit/local/cake-qwen25-author-trace-20261012/sink-r1/logs/s3-flucon-qwen25-cake-sink-63738.err",
+   "bytes": 503,
+   "sha256": "a40ba5f109f1dc9895eee61ee81aeb5607c5c61bdcded75e670ff85e6c258731",
+   "content": "HF checkpoint shard 로딩 진행 표시만 있음"
+  }
+ },
+ "W20_identity": {
+  "edit_job": "63736 (CAKE CF 2K, server3, code aa4b3a12, official tree 24e47d7c)",
+  "checkpoint": {
+   "host": "server3",
+   "path": "/data/janghj/ODE-edit/local/cake-qwen25-author-trace-20261012/sink-r1/runs/qwen25-cf/checkpoint/batch-20-6040edc618c1fbbf.pt",
+   "bytes": 8535426841,
+   "sha256": "6040edc618c1fbbff5793f54aa64303a927070eb8becef367d3dec6ce5d017d8",
+   "rehash_2026_10_12": "6040edc618c1fbbff5793f54aa64303a927070eb8becef367d3dec6ce5d017d8",
+   "schema": "official-baseline-checkpoint-v1",
+   "method": "CAKE",
+   "stored_dtype": "float32",
+   "cast": "none: FP32 copied exactly",
+   "checkpoint_meta": {
+    "batch": 20,
+    "identity_code_commit": "aa4b3a125e16387c263a26c30c11a0313768716e",
+    "identity_config_sha256": "2e4d0713d8a7066699876c473d26b51269e167d56cc0cead2aae107d5d46468a",
+    "method": "CAKE",
+    "schema": "official-baseline-checkpoint-v1"
+   }
+  },
+  "pointer": {
+   "host": "server3",
+   "path": "/data/janghj/ODE-edit/local/cake-qwen25-author-trace-20261012/sink-r1/runs/qwen25-cf/checkpoint/latest.json",
+   "bytes": 237,
+   "sha256": "3fd5a91cfa19cffb3446c4fbf94aef43857bf45e3d9e8121bbaf16b6dc343f11",
+   "fields": {
+    "batch": 20,
+    "file": "batch-20-6040edc618c1fbbf.pt",
+    "final_W20": true,
+    "identity_sha256": "b96946973fefb09d769db07d7f8f72c0902d5380a0cf2f76630f6b5c42eec0ee",
+    "sha256": "6040edc618c1fbbff5793f54aa64303a927070eb8becef367d3dec6ce5d017d8"
+   }
+  },
+  "commit_batch20": {
+   "host": "server3",
+   "path": "/data/janghj/ODE-edit/local/cake-qwen25-author-trace-20261012/sink-r1/runs/qwen25-cf/commits/batch-20.json",
+   "bytes": 1867,
+   "sha256": "f94bf40e7ab86e6d112c1bb678c8800b8640e15555b4993009ad17f6e8d41433",
+   "checkpoint_latest": {
+    "batch": 20,
+    "file": "batch-20-6040edc618c1fbbf.pt",
+    "final_W20": true,
+    "identity_sha256": "b96946973fefb09d769db07d7f8f72c0902d5380a0cf2f76630f6b5c42eec0ee",
+    "sha256": "6040edc618c1fbbff5793f54aa64303a927070eb8becef367d3dec6ce5d017d8"
+   },
+   "all_seen_W20": {
+    "bytes": 63083261,
+    "path": "/data/janghj/ODE-edit/local/cake-qwen25-author-trace-20261012/sink-r1/runs/qwen25-cf/factual/all-seen-20.json",
+    "sha256": "5e68e5c48e64fc2df0efebb78e4f8a77a8e3780b1f06590c52a799334e4e7ac9"
+   }
+  },
+  "edit_run_COMPLETE": {
+   "host": "server3",
+   "path": "/data/janghj/ODE-edit/local/cake-qwen25-author-trace-20261012/sink-r1/runs/qwen25-cf/COMPLETE.json",
+   "bytes": 3227,
+   "sha256": "8393f02d7718a761aabd43c1bbf4c5caf2b3d293c3faa1e0881ad8d964df61dd",
+   "final_cursor_equals_commit_batch20": true,
+   "identity_config_sha256": "2e4d0713d8a7066699876c473d26b51269e167d56cc0cead2aae107d5d46468a"
+  },
+  "CF_row_raw": "commit batch-20의 all_seen W20 = factual/all-seen-20.json sha256 5e68e5c4… = README Qwen CAKE CF 칸 원자료",
+  "restored_selected_weights_fp32_sha256": {
+   "model.layers.4.mlp.down_proj.weight": "4110817df090c58a2a7cf348dfb550380d0d5bd5836c7650ff5717a0be7e3a42",
+   "model.layers.5.mlp.down_proj.weight": "cc5af36628d6e75c28f045161f6088318a28036eeddf8ffbdf684ebc97833eba",
+   "model.layers.6.mlp.down_proj.weight": "de21f43fcb05055630b4c5550e0982a64be85d857a3469505ba99e0330b6320c",
+   "model.layers.7.mlp.down_proj.weight": "61ed8f6cba40772b2e210468e1cc0ecab1784c1c7042b5c5524b0c285f6157e7",
+   "model.layers.8.mlp.down_proj.weight": "a93ccf1c9bbeb3b9bc82e6e44e914190506e535207df144d1a5a28aef83e760f"
+  },
+  "recorded_W20_hash_match_in_run": "NO_TENSOR_RECORD_IN_RUN",
+  "tensor_rehash_2026_10_12": {
+   "tensors": {
+    "model.layers.4.mlp.down_proj.weight": {
+     "dtype": "float32",
+     "shape": [
+      3584,
+      18944
+     ],
+     "sha256": "4110817df090c58a2a7cf348dfb550380d0d5bd5836c7650ff5717a0be7e3a42",
+     "finite": true,
+     "max_abs": 0.6780481338500977
+    },
+    "model.layers.5.mlp.down_proj.weight": {
+     "dtype": "float32",
+     "shape": [
+      3584,
+      18944
+     ],
+     "sha256": "cc5af36628d6e75c28f045161f6088318a28036eeddf8ffbdf684ebc97833eba",
+     "finite": true,
+     "max_abs": 0.770802915096283
+    },
+    "model.layers.6.mlp.down_proj.weight": {
+     "dtype": "float32",
+     "shape": [
+      3584,
+      18944
+     ],
+     "sha256": "de21f43fcb05055630b4c5550e0982a64be85d857a3469505ba99e0330b6320c",
+     "finite": true,
+     "max_abs": 0.8455337882041931
+    },
+    "model.layers.7.mlp.down_proj.weight": {
+     "dtype": "float32",
+     "shape": [
+      3584,
+      18944
+     ],
+     "sha256": "61ed8f6cba40772b2e210468e1cc0ecab1784c1c7042b5c5524b0c285f6157e7",
+     "finite": true,
+     "max_abs": 0.8636592626571655
+    },
+    "model.layers.8.mlp.down_proj.weight": {
+     "dtype": "float32",
+     "shape": [
+      3584,
+      18944
+     ],
+     "sha256": "a93ccf1c9bbeb3b9bc82e6e44e914190506e535207df144d1a5a28aef83e760f",
+     "finite": true,
+     "max_abs": 0.7863321900367737
+    }
+   },
+   "equals_payload_and_restored_sha256": true
+  },
+  "match": "복원한 checkpoint(sha256 6040edc6…)가 63736 자신의 W20 pointer(final_W20)·commit batch-20·COMPLETE final_cursor와 같고, 그 commit의 all-seen W20이 README CAKE CF 칸 원자료(5e68e5c4…)다. CAKE run은 텐서별 W20 SHA를 기록하지 않아(NO_TENSOR_RECORD_IN_RUN) checkpoint에서 L4–L8 FP32 텐서 SHA를 다시 계산해 restore.json과 같음을 확인했다."
+ },
+ "raw": {
+  "endpoint": {
+   "bytes": 2865190,
+   "path": "/data/janghj/ODE-edit/local/cake-qwen25-author-trace-20261012/sink-r1/flucon/runs/qwen25-cake-authortrace-sink-63736/generation/endpoints/ee672b1e60beed00a5e56f3fa6bef6148a85d9b5f441596b79b3b8d97bcf1b90.json",
+   "sha256": "57f7b96f988f953a9c4049b99423c9bcb3829c88d5c58ead593265c6c2cab4f5",
+   "host": "server3"
+  },
+  "observations": {
+   "dir": "/data/janghj/ODE-edit/local/cake-qwen25-author-trace-20261012/sink-r1/flucon/runs/qwen25-cake-authortrace-sink-63736/generation/observations",
+   "each_file_sha256_equals_endpoint_raw_member": true,
+   "files": 2000,
+   "sorted_sha256sum_manifest_sha256": "9bb5e388d670d6fc9367adfe57933e14118edc959c9291d6a1e7297e435d291f",
+   "total_bytes": 65104206,
+   "host": "server3"
+  },
+  "cases": 2000,
+  "prompts": 20000,
+  "generated_tokens": 1815707,
+  "case_order_equals_cf_stream_first2000": true,
+  "copy_for_recount": "server3 원자료(COMPLETE/restore/endpoint/native-execution/observer-identity, observations 2,000개)를 rsync로 읽기 전용 복사해 server1에서 재집계했다. 복사 전후 sha256과 정렬 observation sha256 목록 digest가 server3 원본과 같다."
+ },
+ "recount": {
+  "method": "독립 CPU 재집계(2026-10-12): 2,000개 raw 관측 파일의 생성 원문 10개/case를 직접 다시 채점했다(entropy·TF-IDF cosine, 고정 MEMIT reference). run 요약은 쓰지 않았고 raw 파일의 case별 지표 평균도 따로 대조했다. 표시는 반올림 전 평균 ×100 후 소수 둘째 자리 decimal half-up.",
+  "reference": {
+   "manifest": {
+    "bytes": 6769,
+    "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-generation-eval-assets/20261007/reference-ready-r1/manifest.json",
+    "sha256": "6d9a713ab7eaa10871f277e10a3974e0bd5b140c265be80052c279f258876ca8"
+   },
+   "assets": {
+    "attribute_snippets.json": {
+     "bytes": 926285719,
+     "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-generation-eval-assets/20261007/download-r1/attribute_snippets.json",
+     "sha256": "10b5c1cd105e54d5983c72de1b45bfc88bc7af786f7b99def2557886ff23385b"
+    },
+    "idf.npy": {
+     "bytes": 11042168,
+     "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-generation-eval-assets/20261007/download-r1/idf.npy",
+     "sha256": "c073d642589d4ac6432f467230329b36364a01e72de63a77a3624b745b923dda"
+    },
+    "tfidf_vocab.json": {
+     "bytes": 31639072,
+     "path": "/mnt/raid5/janghj/ODE-edit/local/baseline-generation-eval-assets/20261007/download-r1/tfidf_vocab.json",
+     "sha256": "8a78c4f20d8d85dadfd14e283d71af255482ff18aa0eb8a81716024c05ff888b"
+    }
+   },
+   "punkt": {
+    "path": "/mnt/raid5/janghj/nltk_data/tokenizers/punkt/PY3/english.pickle",
+    "sha256": "5cad3758596392364e3be9803dbd7ebeda384b68937b488a01365f5551bb942c"
+   },
+   "nltk": "3.6.5",
+   "sklearn": "1.7.2",
+   "numpy": "2.2.6"
+  },
+  "rescored_from_texts": {
+   "Con_cosine": 0.34429542882307906,
+   "Flu_bits": 6.224418245341282
+  },
+  "stored_per_case_mean": {
+   "Con_cosine": 0.3442954288230792,
+   "Flu_bits": 6.2244182453412815
+  },
+  "max_abs_per_case_diff_stored_vs_rescored": {
+   "Con_cosine": 2.042810365310288e-14,
+   "Flu_bits": 2.6645352591003757e-15
+  },
+  "run_summary": {
+   "Con_cosine": 0.3442954288230792,
+   "Flu_bits": 6.2244182453412815,
+   "consistency_count": 2000,
+   "fluency_count": 2000,
+   "generated_token_count": 1815707,
+   "generation_prompt_count": 20000
+  },
+  "abs_diff_vs_run_summary": {
+   "Con": 1.1102230246251565e-16,
+   "Flu": 8.881784197001252e-16
+  },
+  "display_x100": {
+   "Con": "34.43",
+   "Flu": "622.44"
+  },
+  "run_display_x100": {
+   "Con": "34.43",
+   "Flu": "622.44"
+  },
+  "matches_run_summary": true
+ },
+ "generation_sanity": {
+  "nonfinite_metric_values": 0,
+  "missing_reason_counts": {
+   "asset_not_available": 0,
+   "length_cap_no_continuation": 0,
+   "missing_generation_prompts": 0,
+   "missing_reference": 0,
+   "nonfinite_score": 0,
+   "tokenizer_not_available": 0,
+   "zero_generated_vector": 0,
+   "zero_reference_vector": 0
+  },
+  "empty_continuations": 0,
+  "whitespace_only_continuations": 0,
+  "stop_reasons": {
+   "length_cap": 20000
+  },
+  "continuation_tokens": {
+   "total": 1815707,
+   "min": 75,
+   "median": 91,
+   "max": 96
+  },
+  "distinct_token_ratio": {
+   "p10": 0.4945054945054945,
+   "median": 0.6071428571428571,
+   "p90": 0.7032967032967034
+  },
+  "top_continuation_tokens_id_count_share": [
+   [
+    279,
+    96697,
+    0.0533
+   ],
+   [
+    11,
+    69553,
+    0.0383
+   ],
+   [
+    13,
+    67944,
+    0.0374
+   ],
+   [
+    315,
+    49429,
+    0.0272
+   ],
+   [
+    264,
+    40821,
+    0.0225
+   ]
+  ],
+  "continuations_single_token_share_ge_90pct": 4,
+  "per_case_entropy_bits": {
+   "min": 4.657360261493247,
+   "p10": 6.0925234586747505,
+   "median": 6.237331243379814,
+   "max": 6.514416982686463,
+   "cases_below_2_bits": 0
+  },
+  "per_case_cosine": {
+   "min": 0.032233630556097806,
+   "median": 0.3333205586883336,
+   "max": 0.7921450504879967,
+   "cases_zero": 0,
+   "cases_below_0_01": 0
+  },
+  "note": "NaN·빈 생성·퇴화 출력이 없다(20,000개 중 한 token이 90% 이상인 반복 생성 4개). 상위 token은 일반 기능어이고 distinct-token 비율 중앙값 0.61이다."
+ },
+ "README_cells": {
+  "CF Flu ×100": "622.44",
+  "CF Con ×100": "34.43"
+ },
+ "note": "FP32로 저장된 편집 가중치(L4–L8)를 그대로 복사했다."
+}
