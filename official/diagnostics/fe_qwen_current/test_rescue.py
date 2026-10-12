@@ -17,6 +17,15 @@ from official.tests.test_fe_native import config,tokenize
 
 
 class RescueTests(unittest.TestCase):
+    def test_actual_prepare_lock_expression_uses_active_spec(self):
+        import ast
+        tree=ast.parse(Path(prepare.__file__).read_text())
+        expressions=[n.value for n in ast.walk(tree) if isinstance(n,ast.keyword) and n.arg=='promotion_candidates']
+        self.assertEqual(len(expressions),1)
+        code=compile(ast.Expression(expressions[0]),'<actual-prepare-lock-expression>','eval')
+        self.assertEqual(eval(code,{'SPEC':contract.SPEC}),[.1,1,10])
+        self.assertEqual(eval(code,{'SPEC':r.SPEC}),[100])
+
     def test_prospective_single_candidate_and_old_contract_unchanged(self):
         old=copy.deepcopy(contract.SPEC)
         with r.bindings():

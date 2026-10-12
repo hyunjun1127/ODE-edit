@@ -63,7 +63,7 @@ def prepare(out,bindings):
         fixed10k=member(fixed),main_stream=member(main),stream=member(common),native_data=member(native),
         prior_alternative=alt_member,results_observed_before_lock=final,
         stage='final_benchmark' if final else 'heldout_selection',
-        prior_selected_result=b['selected_result'] if final else None,promotion_candidates=[.1,1,10]))
+        prior_selected_result=b['selected_result'] if final else None,promotion_candidates=SPEC['promotable_L2']))
     final_streams={};parity=None
     if final:
         from official.diagnostics.fe_qwen_current.benchmark import native_records
