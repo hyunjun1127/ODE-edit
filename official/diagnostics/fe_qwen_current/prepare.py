@@ -151,7 +151,7 @@ def prepare(out,bindings):
     configs=[]
     conditions=[(l,'cf') for l in SPEC['L2_arms']] if not final else [(selected['selection']['selected_L2'],d) for d in ('cf','zsre')]
     for l2,dataset in conditions:
-        arm=('final-'+dataset+'-' if final else '')+'L2-'+str(l2).replace('.','p');output=out/'runs'/arm
+        arm=('final-'+dataset+'-' if final else '')+'L2-'+str(l2).replace('.','p')+SPEC.get('arm_suffix','');output=out/'runs'/arm
         c=dict(instruction=SPEC['instruction'],server=b['server'],attempt='r1',L2=l2,model='qwen25',dataset='cf',
             selection_contract_sha256=digest(SPEC),stream=member(common),native_data=member(native),
             output=str(output),tracking_env_file=b['tracking_env_file'],
@@ -165,6 +165,8 @@ def prepare(out,bindings):
                 selected_result=b['selected_result'],split='original_'+dataset+'_first2000',
                 cold_start=True,selection_source=selected['source'])
             if dataset=='zsre':c['query_parity']=member(out/'zsre-query-parity.json')
+        if SPEC.get('arm_suffix'):
+            c.update(clamp_norm_factor=SPEC['clamp'],author_hparam_profile=SPEC['protocol'])
         c['config_sha256']=digest(c);validate_tracking(tracking_config(c,source))
         config=out/'configs'/f'{arm}.json';write_new(config,c);configs.append(member(config))
     write_new(out/'lock.json',dict(source_commit=source,source_directory=str(source_dir),

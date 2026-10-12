@@ -57,6 +57,10 @@ def launch(config,lockfile):
         f'zs_cache_dir={out}/unused-target-cache','save_name=not-exported','load_name=not-loaded',
         '+diagnostic_z_reference=batch_entry',f'+working_config={Path(config).resolve()}',
         f'hydra.run.dir={out}/hydra','hydra.job.chdir=False']
+    if SPEC.get('arm_suffix'):
+        if c.get('clamp_norm_factor')!=SPEC['clamp'] or c.get('author_hparam_profile')!=SPEC['protocol']:
+            raise ValueError('RESOLVED_CLAMP_PROFILE_BINDING')
+        args.append(f"llms.clamp_norm_factor={c['clamp_norm_factor']}")
     os.chdir(lock['author_path']);os.execve(lock['python'],args,env)
 
 if __name__=='__main__':

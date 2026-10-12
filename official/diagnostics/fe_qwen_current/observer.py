@@ -74,7 +74,7 @@ def _state(cfg,model,tok,requests):
     if c['selection_contract_sha256']!=digest(SPEC) or c['L2'] not in SPEC['L2_arms']:
         raise ValueError('SELECTION_CONTRACT')
     if cfg.get('diagnostic_z_reference','batch_entry')!='batch_entry':raise ValueError('W0_FALLBACK_FORBIDDEN')
-    expected=dict(clamp_norm_factor=1,v_num_grad_steps=35,v_lr=.5,v_weight_decay=.001,
+    expected=dict(clamp_norm_factor=SPEC['clamp'],v_num_grad_steps=35,v_lr=.5,v_weight_decay=.001,
                   kl_factor=.0625,v_loss_layer=27)
     if (any(cfg.llms[k]!=v for k,v in expected.items()) or list(cfg.llms.layers)!=SPEC['layers']
         or list(cfg.llms.mom2_update_weight)!=[15000]*5 or cfg.algs.L2!=c['L2']
@@ -99,6 +99,10 @@ def _state(cfg,model,tok,requests):
         z_reference='batch_entry',L2=c['L2'],dtype='bfloat16',job_id=job['job_id'],job_identity=job)
     if c.get('stage')=='final_benchmark':
         identity.update(dataset=c['dataset'],stage='final_benchmark',selected_result=c['selected_result'])
+    if SPEC.get('arm_suffix'):
+        if c.get('clamp_norm_factor')!=SPEC['clamp'] or c.get('author_hparam_profile')!=SPEC['protocol']:
+            raise ValueError('RESOLVED_CLAMP_PROFILE_BINDING')
+        identity.update(clamp_norm_factor=float(cfg.llms.clamp_norm_factor),author_hparam_profile=SPEC['protocol'])
     names={cfg.llms.rewrite_module_tmp.format(l)+'.weight' for l in cfg.llms.layers}
     _STATE=dict(c=c,rows=rows,out=out,tracker=tracker,identity=identity,values=values,
                 model=model,tok=tok,excluded=names,nonedited=versions(model,names),last_batch=-1,finished=False)
